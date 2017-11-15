@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 
 if (!isSet($_SESSION['pgID'])){echo "Errore di Login. Ritorna alla homepage ed effettua il login correttamente!"; exit;}

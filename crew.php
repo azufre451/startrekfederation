@@ -15,7 +15,7 @@ if (!isSet($_SESSION['pgID'])){ header("Location:index.php?login=do"); exit;}
 
 include('includes/app_include.php');
 include('includes/validate_class.php');
-include("includes/PHPTAL/PHPTAL.php");
+include("includes/PHPTAL/PHPTAL.php"); //NEW
 PG::updatePresence($_SESSION['pgID']);
 
 $currentUser = new PG($_SESSION['pgID']);

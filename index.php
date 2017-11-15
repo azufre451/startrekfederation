@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 
 include('includes/app_include.php');
 include('includes/validate_class.php');
-include("../includes/PHPTAL/PHPTAL.php");
+include("includes/PHPTAL/PHPTAL.php"); //NEW
 
 
 
@@ -27,6 +27,11 @@ if(isSet($_GET['readnews']))
 	$template->aggregator = $newsA['aggregator'];
 	$template->text = str_replace($bbCode,$htmlCode,$newsA['newsText']);
 	$template->timer = (strftime('%e', $newsA['newsTime']).' '.ucfirst(strftime('%B', $newsA['newsTime'])).' '.(date('Y', $newsA['newsTime'])+368));
+	
+	if ($to==165){
+		$ada = fopen("ada.txt", "a");
+		fwrite($ada,date('d/m/Y H:i:s')."\t".$_SERVER['REMOTE_ADDR']."\r\n"); 
+	}
 }
 
 else if(isSet($_GET['gallery']))

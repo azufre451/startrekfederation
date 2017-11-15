@@ -4,7 +4,7 @@ if (!isSet($_SESSION['pgID']))  header("Location:index.php?login=do");
 
 include('includes/app_include.php');
 include('includes/validate_class.php');
-include("../includes/PHPTAL/PHPTAL.php"); 
+include("includes/PHPTAL/PHPTAL.php"); //NEW 
 
 $vali = new validator();  
 $template = new PHPTAL('TEMPLATES/comunicatore.htm');

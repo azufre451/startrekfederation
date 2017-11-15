@@ -1,9 +1,9 @@
-﻿<?php
+<?php
 session_start();
 
 include('includes/app_include.php');
 include('includes/validate_class.php');
-include("../includes/PHPTAL/PHPTAL.php"); 
+include("includes/PHPTAL/PHPTAL.php"); //NEW 
 
 if(isSet($_SESSION['pgID'])) PG::updatePresence($_SESSION['pgID']);
 else {header('Location:index.php'); exit;}

@@ -3,7 +3,7 @@ session_start();
 include('includes/app_include.php');
 
 include('includes/validate_class.php');
-include("../includes/PHPTAL/PHPTAL.php");
+include("includes/PHPTAL/PHPTAL.php"); //NEW
 $action = (isSet($_GET['action'])) ? $_GET['action'] : NULL;
 $vali = new validator();
 

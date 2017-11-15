@@ -2,7 +2,7 @@
 
 include('includes/app_include.php');
 include('includes/validate_class.php');
-include("includes/PHPTAL/PHPTAL.php");
+include("includes/PHPTAL/PHPTAL.php"); //NEW
 //if (!PG::mapPermissions('A',PG::getOMA($_SESSION['pgID']))) {echo "AUTORIZZAZIONI NON SUFFICIENTI2! TRASSONE!"; exit;}
 
 $newsAct = mysql_query("SELECT * FROM fed_news ORDER BY newsTime DESC");

@@ -4,7 +4,7 @@ if (!isSet($_SESSION['pgID'])){header("Location:login.php"); exit;}
 
 include('includes/app_include.php');
 include('includes/validate_class.php');
-include("../includes/PHPTAL/PHPTAL.php"); 
+include("includes/PHPTAL/PHPTAL.php"); //NEW 
 include('includes/markerClass.php');
 
 if(isSet($_SESSION['pgID'])) PG::updatePresence($_SESSION['pgID']);

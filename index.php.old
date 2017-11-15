@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 
 include('includes/app_include.php');
 include('includes/validate_class.php');
-include("includes/PHPTAL/PHPTAL.php");
+include("includes/PHPTAL/PHPTAL.php"); //NEW
 
 
 

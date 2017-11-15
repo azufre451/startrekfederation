@@ -5,7 +5,7 @@ if (!isSet($_SESSION['pgID']))  header("Location:index.php");
     
 include('includes/app_include.php');
 include('includes/validate_class.php');
-include("../includes/PHPTAL/PHPTAL.php");
+include("includes/PHPTAL/PHPTAL.php"); //NEW
 
 $template = new PHPTAL('TEMPLATES/main.htm'); 
 $currentUser = new PG($_SESSION['pgID']);

@@ -5,12 +5,12 @@ if (!isSet($_SESSION['pgID'])){ header("Location:index.php?login=do"); exit;}
 include('includes/app_include.php');
 include('includes/validate_class.php');
 include('includes/cdbClass.php');
-include("../includes/PHPTAL/PHPTAL.php"); 
+include("includes/PHPTAL/PHPTAL.php"); //NEW 
 
 PG::updatePresence($_SESSION['pgID']);
 $currentUser = new PG($_SESSION['pgID']);
 
-if($currentUser->pgAssign != 'USS2'){ header("Location:main.php"); exit;}
+////if($currentUser->pgAssign != 'USS2'){ header("Location:main.php"); exit;}
 
 if ($currentUser->pgAuthOMA == 'BAN'){header("Location:http://images1.wikia.nocookie.net/__cb20111112213451/naruto/images/f/f0/Sasuke.jpeg"); exit;}
 $vali = new validator();

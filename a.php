@@ -1,6 +1,6 @@
 <?php
 include('includes/app_include.php');
-include("includes/PHPTAL/PHPTAL.php");
+include("includes/PHPTAL/PHPTAL.php"); //NEW
 
 $res = mysql_query("SELECT * FROM db_pathways WHERE pathID > 29 ORDER BY identifier");
 

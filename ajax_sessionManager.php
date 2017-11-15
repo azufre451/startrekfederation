@@ -157,6 +157,7 @@ include('includes/validate_class.php');
 			
 			
 			Ambient::closeSession($ambientID);
+			Ambient::closePrivate($ambientID);
 		 
 		}
  

@@ -4,9 +4,11 @@
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<meta name="google" value="notranslate" />
+
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/personnel.css?v=1.6" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/personnel.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" /> 
 	
 	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" /> 
@@ -55,12 +57,12 @@
 
 <div metal:use-macro="TEMPLATES/metal.htm/schedaIntro" />
 
-<div id="mainContainer" style="margin:-10px; height:560px; width:100%;">
+<div id="mainContainer" style="margin:-10px; height:590px; width:100%;">
  
 
 <div id="mainSchedaOn" class="onRelated" tal:attributes="style php:(OFFSubi) ? 'display:none' : 'display:block'">
 
-<table cellspacing="0px" id="incaricoTop" class="onRelated"><tbody><tr><td class="bdr" style="border-right:0px; width:200px;"><img tal:attributes="src string:TEMPLATES/img/logo/${unit}" /></td><td class="bdr" tal:content="structure userData/pgIncarico" /></tr>
+<table cellspacing="0px" id="incaricoTop" class="onRelated"><tbody><tr><td class="bdr" style="border-right:0px; width:200px;"><img tal:attributes="src string:TEMPLATES/img/logo/${unit}" /></td><td class="bdr" ><span tal:content="userData/pgIncarico" /> <img tal:condition="exists:userData/metapgIncarico" style="vertical-align:middle" class="tooltip" src="TEMPLATES/img/interface/personnelInterface/info.png"  tal:attributes="title userData/metapgIncarico" /> </td></tr>
 </tbody></table>
 
 
@@ -95,14 +97,14 @@
 				</tbody>
 			</table> 
 	
-			<div tal:attributes="class php:(count(commendations['MEDAL']) > 9) ? 'accessoryDiv_e' : 'accessoryDiv'" tal:condition="php:(count(commendations['MEDAL']))">
+			<div class="accessoryDiv_e " tal:condition="php:(count(commendations['MEDAL']))">
 				<img tal:repeat="op commendations/MEDAL" tal:attributes="src string:TEMPLATES/img/ruolini/medaglie/${op/icon} ; title op/alt" class="tooltip" style="margin-left:2px; margin-top:2px;" />
 				
 			</div>
 			
-			<div tal:condition="php:(count(commendations['LAUR']) > 0)" tal:attributes="class php:(count(commendations['MEDAL']) > 9) ? 'accessoryDiv_e' : 'accessoryDiv'" >  
+			<div tal:condition="php:(count(commendations['LAUR']) > 0)" class="accessoryDiv_e ">  
 				<!-- LAUREE  -->
-			<img tal:repeat="lau commendations/LAUR" tal:attributes="src string:TEMPLATES/img/ruolini/${lau/icon} ; title lau/alt ; ondblclick php:(masterPanel== true) ? 'javascript:removeDotazione(' . lau['recID'] . ',' . selectedUser . ')':''" class="tooltip" style="margin-left:4px;"/>
+			<img tal:repeat="lau commendations/LAUR" tal:attributes="src string:TEMPLATES/img/ruolini/lauree/${lau/icon} ; title lau/alt ; ondblclick php:(masterPanel== true) ? 'javascript:removeDotazione(' . lau['recID'] . ',' . selectedUser . ')':''" class="tooltip" style="margin-left:4px;"/>
 			
 			<div style="position:absolute; top:0px; right:0px; width:50px;"><img tal:repeat="bre commendations/NOTA" class="tooltip" tal:attributes="src string:TEMPLATES/img/ruolini/${bre/icon} ; title bre/alt" style="margin-top:5px;" /></div>
 			</div>
@@ -124,7 +126,7 @@
 
 <div id="mainSchedaOff" tal:condition="php:(!userData.png)" tal:attributes="style php:(OFFSubi) ? 'display:block' : 'display:none'">
 		<div id="bandaOff" tal:condition="php:(!userData.png)">
-		<div id="avatarBand" tal:attributes="style string:border:1px solid #999;; float:left;; width:80px;; height:80px;; margin-left:auto;; margin-right:auto;; background-size: 80px 80px;; background-image:url('${userData/pgAvatar}');; background-repeat:no-repeat;; border-radius:10px 0px 0px 10px;;">
+		<div id="avatarBand" tal:attributes="style string:border:1px solid #999;; float:left;; width:80px;; height:80px;; margin-left:auto;; margin-right:auto;; background-size: 80px 80px;; background-image:url('${userData/pgAvatarSquare}');; background-repeat:no-repeat;; border-radius:10px 0px 0px 10px;;">
 		</div>
 		<div id="band" class="radiusBordered" tal:attributes="style string:border:1px solid #999;; border-left:0px;; border-radius:0px 10px 10px 0px;; float:left;; position:relative;; width:510px;; height:80px;; background-image:url('TEMPLATES/img/interface/personnelInterface/${bandaUser}');; background-repeat:no-repeat;;">
 			<div style="font-size:50px; position:absolute; top:0px; left:40px; opacity:0.7; font-weight:bold;  color:white;"><span style="margin:0px;" tal:content="structure pgPointsSaldo"/> <span style="vertical-align:middle; font-size:30px; font-variant:small-caps;">Federation Points</span><p style="margin:0px; position: absolute; font-variant:small-caps;font-variant:small-caps; left:260px; top:50px; font-size:20px;" tal:content="subText"/></div>
@@ -135,7 +137,7 @@
 		</div>
 		<div style="clear:both;" />
 		</div>
-
+ 
 		<div id="subBandaOff">
 		<p style="float:left;margin-right:10px;"><a onclick="showOn();" href="javascript:void(0);" class="interfaceLink">(- Indietro -)</a>
 		<a onclick="window.open ('shadow_scheda.php?s=stor','prestav', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=490,height=605');" href="javascript:void(0);" class="interfaceLink" tal:condition="php:(masterPanel)">(- TuttiPunti -)</a></p>
@@ -159,7 +161,7 @@
 	<div id="schedaOffLateralR">
 		<table style="font-size:11px;">
 		<tr><td class="bdr" style="width:40px; text-align:center;"><img src="TEMPLATES/img/interface/personnelInterface/punteggio.png" alt="Punteggio"/></td><td style="width:60px; text-align:center;" class="bdr"><img src="TEMPLATES/img/interface/personnelInterface/data.jpg" alt="data"/></td><td colspan="2" class="bdr" style="text-align:center;"><img src="TEMPLATES/img/interface/personnelInterface/descrizione.png" alt="descrizione"/></td></tr>
-		<tr tal:repeat="point pointss" tal:attributes="title string:Assegnato da ${point/pgUser}"><td style="width:50px;" class="bdr" tal:content="php:(point['points'] LT 0) ? '-' . abs(point['points']) : '+' . point['points']" /><td style="width:60px;" class="bdr" tal:content="php:(date('d/m/Y',point['timer']))" /><td class="bdr" style="width:30px;" tal:content="point/cause"  tal:attributes="title point/causeM"/><td class="bdr"><span tal:content="point/causeE" /> <a tal:attributes="onclick php:'cdbOpenToTopic(\'' . explode('Rap:',point['causeM'])[1] . '\')'" href="javascript:void(0);" tal:condition="php:(strpos(point['causeM'], 'Rap:') !== false)"><img src="TEMPLATES/img/interface/personnelInterface/external_link.png" style="height:11px;" /></a></td></tr>
+		<tr tal:repeat="point pointss" tal:attributes="title string:Assegnato da ${point/pgUser}"><td style="width:50px;" class="bdr" tal:content="php:(point['points'] LT 0) ? '-' . abs(point['points']) : '+' . point['points']" /><td style="width:60px;" class="bdr" tal:content="php:(date('d/m/Y',point['timer']))" /><td class="bdr" style="width:30px;" tal:content="point/cause"  tal:attributes="title point/causeM"/><td class="bdr"><span tal:content="point/causeE" /> <a tal:attributes="onclick php:'cdbOpenToTopic(\'' . explode('Rap:',point['causeM'])[1] . '\')'" href="javascript:void(0);" tal:condition="php:(strpos(point['causeM'], 'Rap:') !== false)"><img src="TEMPLATES/img/interface/personnelInterface/external_link.png" style="height:11px; margin-left:10px;" /></a> <a tal:attributes="onclick php:'window.open(\'getLog.php?session=' . explode('Log:',point['causeM'])[1] . '\')'" href="javascript:void(0);" tal:condition="php:(strpos(point['causeM'], 'Log:') !== false)"><img src="TEMPLATES/img/interface/personnelInterface/external_link.png" style="height:11px;  margin-left:10px;" /></a> </td></tr>
 		
 		</table>
 		

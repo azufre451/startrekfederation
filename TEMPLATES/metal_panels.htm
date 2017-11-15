@@ -227,6 +227,19 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 		<input type="text" class="neon" style="width:90%" id="sessionLabel" placeholder="Titolo della sessione" /><br/>
 		<p style="text-align:left; margin-left:10px;" tal:condition="exists:isMasteringJuniorMasterOrMod"><input type="checkbox" id="masterCheck" /> Sessione Master</p>
 		<p style="text-align:left; margin-left:35px;" tal:condition="exists:isMasteringJuniorMasterOrMod" > accesso riservato a: <input type="text" placeholder="Tutti" id="tusers" class="neon" name="tusers" onfocus="this.select();" /> </p>
+		<p style="text-align:left; margin-left:35px;" tal:condition="exists:isMasteringJuniorMasterOrMod" > attesa max in turno: <select  placeholder="Tutti" id="maxturner" class="neon" name="maxturner">
+			<option value="0"> Infinita </option>
+			<option value="3"> 3 Minuti </option>
+			<option value="4"> 4 Minuti </option>
+			<option value="5"> 5 Minuti </option>
+			<option value="6"> 6 Minuti </option>
+			<option value="7"> 7 Minuti </option>
+			<option value="8" selected="selected"> 8 Minuti </option>
+			<option value="9"> 9 Minuti </option>
+			<option value="10"> 10 Minuti </option>
+		</select>
+
+		</p>
 		
 		<a class="interfaceLinkBlue" href="javascript:void(0);" onclick="javascript:openSession()">[ - Apri la sessione - ]</a>
 		
@@ -235,7 +248,7 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 	<div id="YesSessions" style="display:none;">
 		<div style="width:85%; margin:auto;">
 			<div class="sessionMark" id="sessionDivLabel" />
-			<div class="sessionMark viewQuest" id="sessionQuest">Sessione Master</div>
+			<div class="sessionMark viewQuest" id="sessionQuest">Sessione Master <span id="sessionDivTimer" /></div>
 			<div style="margin-top:5px;"><div class="sessionMark" id="sessionDivOwner"><span id="sessionDivOwnerPlace"/></div><div class="sessionMark" id="sessionDivDate" /></div>
 			
 		</div>
@@ -247,7 +260,7 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 		
 		<hr/>
 		<p id="PtablePG"></p>
-		<a class="interfaceLinkBlue"   href="javascript:void(0);"  onclick="javascript:closeSession()">[ - Chiudi questa sessione - ]</a> <a class="interfaceLinkBlue" href="javascript:void(0);" onclick="javascript:getLog()">[ - Salva un log - ]</a><p class="viewQuest" style="display:none;"> (Solo un master può chiudere una sessione di quest)</p>
+		<a class="interfaceLinkBlue"   href="javascript:void(0);"  onclick="javascript:closeSession()">[ - Chiudi questa sessione - ]</a><p class="viewQuest" style="display:none;"> (Solo un master può chiudere una sessione di quest)</p>
 	</div> 
 	
 	

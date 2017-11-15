@@ -6,8 +6,8 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
 	
-	<link href="TEMPLATES/css/cdb.css?v=1.4" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/interface.css?v=1.8" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" type="text/css" />
 	
 	<link href="TEMPLATES/css/anythingslider_green.css" rel="stylesheet" type="text/css" />
@@ -111,10 +111,10 @@
 			<!--<p style="margin-top:5px;"><a onclick="searcher();" href="javascript:void(0);" style="vertical-align:middle;" ><img style="vertical-align:middle;" src="TEMPLATES/img/interface/cdbInterface/ricerca.png" alt="Ricerca" title="Ricerca"/></a></p>-->
 
 		</div>
-		<div style="float:left; margin-left:10px; margin-top: 25px; width:120px; padding:5px;">
+		<div style="float:left; margin-left:10px; margin-top: 45px; width:120px; padding:5px;">
 			<p style="margin-top:5px;"><a tal:attributes="href string:cdb.php?cat=${positionSelector/catGDB}"><img src="TEMPLATES/img/interface/tdisposizioni.png" /></a></p>
 			<p style="margin-top:5px;"><a tal:attributes="href string:cdb.php?cat=${positionSelector/catDISP}"><img src="TEMPLATES/img/interface/tgiornale.png" /></a></p>
-			<p style="margin-top:5px;"><a tal:attributes="href string:cdb.php?cat=${positionSelector/catRAP}"><img src="TEMPLATES/img/interface/trapporti.png" /></a></p>
+			<!--<p style="margin-top:5px;"><a tal:attributes="href string:cdb.php?cat=${positionSelector/catRAP}"><img src="TEMPLATES/img/interface/trapporti.png" /></a></p>-->
 
 			<p style="margin-top:5px;"><a class="interfaceLink" href="javascript:void(0);" onclick="searcher();"><img src="TEMPLATES/img/interface/tricerca.png" /></a></p>
 		</div>

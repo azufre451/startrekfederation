@@ -1,0 +1,115 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/whisper.css?v=1.2" rel="stylesheet" type="text/css" />
+	 
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+
+	<title>FEDERATION - KGB</title>	
+	<style>
+		#padderList div {cursor:pointer; border:1px solid #222; margin-top:3px; font-size:13px;}
+		#padderList div.active, #padderList div:hover {background-color:#dbc113; color:black;}
+		#connDiv table td {padding:4px; font-size:13px;   border-bottom:1px solid #FC0;} 
+		#connDiv table tr.head td {font-weight:bold; background-color:#555;} 
+
+	</style>
+</head>
+
+<script type="text/javascript">
+	
+</script>
+
+<body>
+
+<audio id="mainAu" autoplay="autoplay">
+<source id="" src="http://miki.startrekfederation.it/audioBase/evil_laugh.ogg" type="audio/ogg" />
+</audio>
+<div id="onlineList">
+<img src="/TEMPLATES/img/interface/whisperInterface/very_evil.jpg" width="140px;" style="margin-left:20px;"/>
+<p style="margin:5px; text-align:center;" class="title">I felt<br />evil...</p>
+
+<p style="text-align:center">
+	Record OFF di:<br/>
+	<img tal:attributes="src focus/pgAvatarSquare" width="100px;" /><br />
+	<span tal:content="focus/pgUser"/>
+</p>
+
+</div> 
+
+<div id="leftContainer">
+	<div id="achatDiv" style="padding:10px;">
+		<a href="javascript:void(0)" onclick="jQuery('#chatDiv').toggle();" class="interfaceLink"> LOG SUSSURRI PRIVATI </a> - 
+	<a href="javascript:void(0)" onclick="jQuery('#connDiv').toggle();" class="interfaceLink"> LOG CONNESSIONI </a> - 	<a href="javascript:void(0)" onclick="jQuery('#padDiv').toggle();" class="interfaceLink"> PADD INVIATI E RICEVUTI </a>
+	
+		<div id="chatDiv" style="display:none; max-height:480px; border: 1px solid #333;">
+			<p style="margin:0px;" tal:content="structure sux/chat" tal:repeat="sux sussurri" />
+		</div>
+
+
+ 	
+ 	<div id="connDiv" style="display:none; padding:10px; max-height:480px; overflow-y: auto;  " >
+ 		<table>
+ 			<tr class="head">
+ 				<td> Timestamp</td>
+ 				<td> IP </td>
+ 				<td> Host </td>
+ 			</tr>
+ 			<tr tal:repeat="conn conns">
+ 				<td tal:content="php: date('d-m-y H:i:s',conn['time'])"> Timestamp</td>
+ 				<td tal:content="conn/IP"> IP </td>
+ 				<td tal:content="conn/notes"> Host </td>
+ 			</tr>
+ 		</table>
+ 	</div> 
+ 	<div id="padDiv" style="display:none; padding:10px; max-height:480px; overflow-y: auto; " > 
+
+	 	<div tal:repeat="padd padds">
+		
+		<div id="padder" class="paddMain radiusBordered">
+			<div class="innerPadd">
+				
+				<div id="padderList">
+				<div tal:attributes="onclick string:jQuery('#padd_${padd/padID}').toggle();; jQuery(this).toggleClass('active');">
+					<a tal:attributes="onclick string:schedaPOpen(${padd/FromPGID})" class="interfaceLink" href="#" tal:content="padd/FromPG" /> <span style="color:#0077c3; font-weight:bold;">></span> <a tal:attributes="onclick string:schedaPOpen(${padd/ToPGID})" class="interfaceLink" href="#" tal:content="padd/ToPG" /> <span tal:content="padd/paddTitle" />
+				</div>
+				</div>
+
+			<div tal:attributes="id string:padd_${padd/padID}" style="display: none;">
+				<div style="width:135px; float:left; margin-top:10px;">
+				
+					<div>
+						<img style="width:120px; height:120px; padding:7px; border:1px solid #222;" tal:attributes="src padd/pgAvatarSquare" class="radiusBordered" />
+					</div>
+					<div style="margin-top:5px; text-align:center;"><img tal:attributes="src string:TEMPLATES/img/ranks/${padd/ordinaryUniform}.png" style="vertical-align:middle;" /> <img style="vertical-align:middle; vertical-align:middle;" tal:attributes="src php:(padd['pgSesso'] == 'M') ? 'TEMPLATES/img/specie/' . padd['pgSpecie'] . '_m.png' : ((padd['pgSesso'] == 'F') ? 'TEMPLATES/img/specie/' . padd['pgSpecie'] . '_f.png' : 'TEMPLATES/img/specie/' . padd['pgSpecie'] . '_t.png' ) ; title php:(padd['pgSesso'] == 'M') ? padd['pgSpecie'] . ' - Maschio' : ((padd['pgSesso'] == 'F') ? padd['pgSpecie'] . ' - Femmina' : padd['pgSpecie'] . ' - Terzo Genere' )"  /> </div>
+					
+					<div style="text-align:center; font-family:century gothic, arial; color:#0077c3;">
+						<span style="font-size:25px;" tal:content="padd/phour" /> : <span style="font-size:25px; color:#0077c3;" tal:content="padd/pmin" /><br />
+					<span tal:content="padd/pday" style="font-size:14px;" />
+					</div>
+				
+				</div>
+				
+				<div style="width:395px; overflow-x:hidden; overflow:y:auto; margin-top:10px; margin-left:15px; padding:10px; float:left; border:1px solid #999; height:218px;" class="radiusBordered">
+				
+						 <span tal:content="structure padd/pcontent" />
+				
+				</div><div style="clear:both;" />
+				</div>
+				</div>
+			</div>
+
+	 	</div>
+	 </div>
+
+	</div>
+</div>
+
+
+</body>
+</html>

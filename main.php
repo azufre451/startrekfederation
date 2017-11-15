@@ -18,7 +18,7 @@ if(isSet($_GET['message']) && $_GET['message'] == 'no_auth') $template->noauth=t
 
 // location Per sbarco imbarco
 
-$currentLocationQ = mysql_query("SELECT placeID,placeAlert,weather, placeRotationTime,placeRotationOffset, placeName,placeLogo, placeMap1, placeMap2, placeMap3, placeMapSupport1,placeMapSupport2,placeMapSupport3, catGDB, catDISP, catRAP, placeType, warp,note, attracco, pointerL  FROM pg_places WHERE placeID = '$toLocation'");
+$currentLocationQ = mysql_query("SELECT placeID,placeAlert,weather,overridePlanetMap, placeRotationTime,placeRotationOffset, placeName,placeLogo, placeMap1, placeMap2, placeMap3, placeMapSupport1,placeMapSupport2,placeMapSupport3, catGDB, catDISP, catRAP, placeType, warp,note, attracco, pointerL  FROM pg_places WHERE placeID = '$toLocation'");
 if(mysql_affected_rows()) $currentLocation = mysql_fetch_array($currentLocationQ);
 
 $pointerL = ($currentLocation['pointerL']);
@@ -53,7 +53,7 @@ if($currentLocation['placeType'] == 'Pianeta')
 	$template->locationsPlanet = $locationsPlanet;
 }
 	
-// NAVE ATTRACCATA
+// NAVE ATTRACCATA 
 
 //$sba = mysql_query("SELECT count(*) FROM pg_places WHERE sector = ");
 
@@ -70,7 +70,7 @@ $template->incomingSuss = (mysql_affected_rows() > 0) ? true : false;
 
 $acurTime = $curTime-3600;
 $nexTime = $curTime+43200;
-$res = mysql_query("SELECT evID,event,date,sender,place,pgUser,placeName  FROM calendar_events,pg_places,pg_users WHERE pgID = sender AND placeID = place AND date BETWEEN $acurTime AND $nexTime AND place = '$toLocation' ORDER BY date");
+$res = mysql_query("SELECT evID,event,date,sender,place,pgUser,placeName FROM calendar_events,pg_places,pg_users WHERE pgID = sender AND placeID = place AND date BETWEEN $acurTime AND $nexTime AND place = '$toLocation' ORDER BY date");
 $events = array();
 while($ra = mysql_fetch_assoc($res)) $events[] = $ra;
 
@@ -81,7 +81,9 @@ $template->placeID = $currentLocation['placeID'];
 $template->placeName = strtoupper($currentLocation['placeName']);
 $template->placeType = $currentLocation['placeType'];
 $template->placeMap1 = ($currentLocation['placeMap1']);
+$template->overridePlanetMap = ($currentLocation['overridePlanetMap']) ? true : false;
 $template->Map1 = ($currentLocation['placeMapSupport1']);
+
 $template->Map2 = ($currentLocation['placeMapSupport2']);
 $template->Map3 = ($currentLocation['placeMapSupport3']);
 $template->placeMap2 = ($currentLocation['placeMap2']);
@@ -96,6 +98,7 @@ if (PG::mapPermissions('JM',$currentUser->pgAuthOMA)) $template->mapAdd2 = true;
  
 if(strpos($_SERVER['HTTP_USER_AGENT'],'iPad') != 0) $template->isIpad = true;
 
+$template->gameOptions = $gameOptions;
 $template->currentStarDate = $currentStarDate;
 $template->gameName = $gameName;
 $template->gameVersion = $gameVersion;

@@ -104,6 +104,7 @@
 			<span class="cdbPostBlue cdbPostLittleSize" tal:condition="php:(nave['status'] == 'LOST')"> (DISPERSA)  </span>
 			<span class="cdbPostGreen cdbPostLittleSize" tal:condition="php:(nave['status'] == 'REFIT')"> (IN REFIT)  </span>
 			<span class="cdbPostWhite cdbPostLittleSize" tal:condition="php:(nave['status'] == 'INACTIVE')"> (DECOMMISSIONATA)  </span>
+			<span class="cdbPostWhite cdbPostLittleSize" tal:condition="php:(nave['status'] == 'HEAVY_DAMAGED')"> (GRAVEMENTE DANNEGGIATA)  </span>
 		</p>
 		<a href="javascript:void(0);" onclick="jQuery('#fleetContainer').fadeOut();" class="interfaceLink"> Chiudi</a>
 	</div>

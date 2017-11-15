@@ -104,11 +104,11 @@ if ($_GET['action'] == 'roll'){
 	{
 		$userSpecific = $sessionOngoing['session']['openerID']; 
 
-		$string = '<div style="position:relative;" class="specificMasterAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Esito del lancio di un dado" /> Dado Abilità</div>'.$currentUser->pgUser.' lancia un dado su '.$a->abilDict[$focus]['abName'].' | Esito: '.$outcome['v'] .'/20, soglia: '.$outcome['threshold'].'</div>'; 
+		$string = '<div style="position:relative;" class="specificMasterAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Esito del lancio di un dado" /> Dado Abilità</div>'.addslashes($currentUser->pgUser).' lancia un dado su '.$a->abilDict[$focus]['abName'].' | Esito: '.$outcome['v'] .'/20, soglia: '.$outcome['threshold'].'</div>'; 
 		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,specReceiver,privateAction,dicerOutcome,dicerAbil) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'DICERSPEC',$userSpecific,IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0),'".$outcome['v']."','".$a->abilDict[$focus]['abID']."')"); 
 	}
 	else{
-		$string = '<div style="position:relative;" class="auxAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Esito del lancio di un dado" /> Dado Abilità</div> <img style="width:30px; vertical-align:middle;" src="TEMPLATES/img/interface/personnelInterface/abilita/'.$a->abilDict[$focus]['abImage'].'" title="'.$a->abilDict[$focus]['abName'].'" />  '.$currentUser->pgUser.' lancia un dado su '.$a->abilDict[$focus]['abName'].' | Esito: '.$locale[$outcome['outcome']].' ('.$outcome['v'] .'/20, soglia: '.$outcome['threshold'].') </div>'; 
+		$string = '<div style="position:relative;" class="auxAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Esito del lancio di un dado" /> Dado Abilità</div> <img style="width:30px; vertical-align:middle;" src="TEMPLATES/img/interface/personnelInterface/abilita/'.$a->abilDict[$focus]['abImage'].'" title="'.$a->abilDict[$focus]['abName'].'" />  '.addslashes($currentUser->pgUser).' lancia un dado su '.$a->abilDict[$focus]['abName'].' | Esito: '.$locale[$outcome['outcome']].' ('.$outcome['v'] .'/20, soglia: '.$outcome['threshold'].') </div>'; 
 		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'NORMAL',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
  	}
 	

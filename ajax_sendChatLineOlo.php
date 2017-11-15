@@ -5,7 +5,8 @@ if (!isSet($_SESSION['pgID'])){exit;}
 include('includes/app_include.php');
 include('includes/validate_class.php');
  		
-		$string= trim(preg_replace('/[\n\r]/','',htmlentities(addslashes(($_POST['chatLine'])),ENT_COMPAT, 'UTF-8')));
+		$string= str_replace("\xE2\x80\x8B", "", trim(preg_replace('/[\n\r]/','',htmlentities(addslashes(($_POST['chatLine'])),ENT_COMPAT, 'UTF-8'))));
+		
 		if ($string == '' || $string == '+' || $string == '-' || $string == '@' || $string == '#') exit;
 		$user = new PG($_SESSION['pgID']);
 		if($user->pgLock || $user->pgAuthOMA == 'BAN') exit;

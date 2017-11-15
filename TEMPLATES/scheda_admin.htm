@@ -116,10 +116,10 @@
 <form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setAutoma" method="POST">
 	<select name="aut">
 	<option tal:attributes="selected php:(userData.pgAuthOMA=='N') ? 'selected': false" value="N">Utente Normale</option>
+	<option tal:attributes="selected php:(userData.pgAuthOMA=='G') ? 'selected': false" value="G">Guida x tt Anlfbt Fnznl</option>
 	<option tal:attributes="selected php:(userData.pgAuthOMA=='N') ? 'selected': false" value="O">Olomaster</option>
 	<option tal:attributes="selected php:(userData.pgAuthOMA=='M') ? 'selected': false" value="M">Master</option>
 	<option tal:attributes="selected php:(userData.pgAuthOMA=='JM') ? 'selected': false" value="JM">Junior Master</option>
-	<option tal:attributes="selected php:(userData.pgAuthOMA=='MM') ? 'selected': false" value="MM">Moderatore</option>
 	<option tal:attributes="selected php:(userData.pgAuthOMA=='SM') ? 'selected': false" value="SM">Global Master</option>
 	<option tal:condition="php:(adminOstePanel == 'yes')" tal:attributes="selected php:(userData.pgAuthOMA=='A') ? 'selected': false" value="A">Admin</option>
 	</select>
@@ -202,9 +202,15 @@
 			<div style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;">Padd Benvenuto</div>
 			</a>
 
+	
+
 		<a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=curse">
 
 			<div  style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;" tal:content="php:(cursed ? 'SMMALEDICI PG' : 'MALEDICI PG')"></div>
+			</a>
+
+			<a tal:attributes="href string:kgb.php?target=${selectedUser}" target="_blank">
+			<div style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:280px;">RIVELA I TUOI SEGRETI</div>
 			</a>
 	</div>
 	

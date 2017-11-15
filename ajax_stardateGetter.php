@@ -5,8 +5,7 @@ ini_set('error_display',1);
 if (!isSet($_SESSION['pgID'])){header("Location:login.php"); exit;}
 
 include('includes/app_include.php');
-include('includes/validate_class.php');
-include("../includes/PHPTAL/PHPTAL.php"); 
+include('includes/validate_class.php'); 
 
 $curTime = mktime($_POST['hou'],0,$_POST['min'],$_POST['mon'],$_POST['day'],$_POST['yea']);		
 

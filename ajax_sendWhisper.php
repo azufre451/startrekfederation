@@ -5,7 +5,9 @@ if (!isSet($_SESSION['pgID'])){exit;}
 include('includes/app_include.php');
 include('includes/validate_class.php');
 
-		$string = (htmlentities(addslashes(($_POST['chatLine'])),ENT_COMPAT, 'UTF-8'));
+		
+		$string= str_replace("\xE2\x80\x8B", "", htmlentities(addslashes(($_POST['chatLine'])),ENT_COMPAT, 'UTF-8'));
+
 		if (!is_numeric($_POST['chatTo'])) exit;
 		else $chatTo = $_POST['chatTo'];
 		
@@ -61,7 +63,9 @@ include('includes/validate_class.php');
 		}
 		else 
 		{		$fromUser = addslashes($user->pgUser);
-				$string = '<p class="susChat">'.date('H:i',$time)." <span class=\"susChatMPUser\">$fromUser:</span> $string</p>";
+
+				$classer = (PG::mapPermissions('M',$user->pgAuthOMA)) ? 'susChatMPUserA' : ((PG::mapPermissions('G',$user->pgAuthOMA)) ? 'susChatMPUserG' : 'susChatMPUser');
+				$string = '<p class="susChat">'.date('H:i',$time)." <span class=\"$classer\">$fromUser:</span> $string</p>";
 		}
 		
 		mysql_query('INSERT INTO fed_sussurri (susFrom,susTo,time,chat,reade) VALUES('.$_SESSION['pgID'].",'$chatTo',$time,'$string',0)");

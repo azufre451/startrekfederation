@@ -8,6 +8,8 @@ include('includes/validate_class.php');
 include("includes/PHPTAL/PHPTAL.php");
 PG::updatePresence($_SESSION['pgID']);
 
+
+
 ini_set("display_errors", 1);
 error_reporting(E_ALL ^ E_DEPRECATED);
 
@@ -18,6 +20,26 @@ $currentUser = new PG($_SESSION['pgID']);
 
 $mode = (isSet($_GET['s'])) ? $_GET['s'] : '';
 
+if($mode == 'closeSession'){
+
+	
+
+
+
+	$vali = new validator();
+	$rec = $vali->numberOnly($_GET['ida']); 
+
+	$ree  = mysql_fetch_assoc(mysql_query("SELECT sessionOwner,sessionLabel,sessionStart FROM federation_sessions WHERE sessionID = '$rec'"));
+	$pig = new PG($ree['sessionOwner']);
+	$seTitle = addslashes($ree['sessionLabel']);
+	$seNow = addslashes( ((time()-(int)($ree['sessionStart']))/3600) );
+	$pig->sendPadd('OFF: Chiusura Sessione',"Un admin ha chiuso la tua sessione: $seTitle dopo <b>$seNow ore</b> di inattività. Non sono stati assegnati punti per questa sessione.");
+	
+	mysql_query("UPDATE federation_sessions SET sessionEnd = $curTime, sessionStatus = 'CLOSED' WHERE sessionID = '$rec'");
+	if(mysql_affected_rows())
+		echo json_encode("OK");
+	exit;
+}
 if($mode == 'deletePoints')
 {
 	if (!PG::mapPermissions('A',$currentUser->pgAuthOMA)) exit;
@@ -35,7 +57,7 @@ if($mode == 'deletePoints')
 		$braker= false;
 		for($i = $pgPoints-$points; $i < $pgPoints; $i++)
 		{
-			if($i % 100 == 0) $braker = true;
+			if($i % 12 == 0) $braker = true;
 		}
 		
 		if(!$braker)
@@ -52,6 +74,62 @@ if($mode == 'deletePoints')
 	
 }
 
+
+if($mode == "achiAssignBackground")
+{
+
+
+	if (!PG::mapPermissions('SM',$currentUser->pgAuthOMA)) exit;
+
+	$vat =  $vali->numberOnly($_GET['what']);
+	$pgID = $vali->numberOnly($_GET['pgID']);
+
+	$tp = new PG($pgID);
+	
+	mysql_query("INSERT INTO pg_achievement_assign (owner,achi,timer) VALUES ($pgID,'$vat',".time().")");
+	
+	$res = mysql_query("SELECT aText,aImage FROM pg_achievements WHERE aID = '$vat'");
+	if(mysql_error()) {echo mysql_error();exit;}
+	$resA = mysql_fetch_array($res);
+	$Descri =$resA['aText'];
+	$ima =$resA['aImage'];
+	
+	$cString = addslashes("Congratulazioni!!<br />Hai sbloccato un nuovo achievement!<br /><br /><p style='text-align:center'><img src='TEMPLATES/img/interface/personnelInterface/$ima' /><br /><span style='font-weight:bold'>$Descri</span></p><br />Il Team di Star Trek: Federation");
+	$eString = addslashes("Hai un nuovo achievement!::$Descri");
+	
+	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead) VALUES (".$_SESSION['pgID'].",$pgID,'OFF: Nuovo Achievement!','$cString',".time().",0)");
+	if(mysql_error()) {echo mysql_error();exit;}
+	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",$pgID,'::special::achiev','$eString',".time().",0,'TEMPLATES/img/interface/personnelInterface/$ima')");
+	if(mysql_error()) {echo mysql_error();exit;}
+
+	header("Location:shadow_scheda.php?viewApprovals=true");
+
+}
+
+
+
+if($mode == "remindBackground")
+{
+
+	if (!PG::mapPermissions('SM',$currentUser->pgAuthOMA)) exit;
+
+	$pgID = $vali->numberOnly($_GET['pgID']);
+
+
+	$tp = new PG($pgID);
+	$usera = $tp->pgUser;
+	$tp->sendPadd('Attesa per approvazione BG',"Ciao $usera<br /><br />Ti comunichiamo che abbiamo visionato i dati relativi alla registrazione del PG ed il Background.<br /><br />Non abbiamo potuto procedere all'approvazione del BG, che è ancora privo di alcuni elementi molto importanti. Per questo ti chiederei di provvedere a completare le parti mancanti del Background non appena avrai un momento di tempo.<br /><br />
+Di seguito trovi alcune risorse utili per scrivere il BG. Lo staff è a tua disposizione qualora avessi delle domande sulla compilazione!<br /><br />
+&raquo; <a href=\"javascript:dbOpenToTopic(242)\" class=\"interfaceLink\"> Lauree, Medaglie e Stato di Servizio </a>
+&raquo; <a href=\"javascript:dbOpenToTopic(241)\" class=\"interfaceLink\"> Il Background del PG </a>
+
+	 Intanto buon gioco, <br /><br /><br />Lo staff",$_SESSION['pgID']);
+
+	mysql_query("UPDATE pg_users_bios SET lastReminder = ".time().", supervision = ".$_SESSION['pgID']." WHERE pgID = $pgID");
+
+	header("Location:shadow_scheda.php?viewApprovals=true");
+
+}
 if($mode == "approveBackground")
 {
 	
@@ -59,8 +137,21 @@ if($mode == "approveBackground")
 
 	$pgID = $vali->numberOnly($_GET['pgID']);
 
-	mysql_query("DELETE FROM pg_users_bios WHERE pgID = $pgID AND valid = 1");
+
+	$lar = mysql_fetch_assoc(mysql_query("SELECT COUNT(*) as TLP FROM pg_users_bios WHERE pgID = $pgID AND valid = 1"));
+
+	mysql_query("UPDATE pg_users_bios SET pgID = 6, valid = 0 WHERE pgID = $pgID AND valid = 1");
 	mysql_query("UPDATE pg_users_bios SET valid = 1 WHERE pgID = $pgID");
+
+	$tp = new PG($pgID);
+	$usera = $tp->pgUser;
+	
+	
+
+	if((int)$lar['TLP'] == 0) $tp->sendPadd('Approvazione BG',"Ciao $usera<br />Ti comunichiamo che abbiamo visionato i dati relativi alla registrazione del PG ed il Background. Tutto risulta in ordine ed il BG e' ora approvato! Ricorda che le eventuali aggiunte e modifiche (comunque sempre incoraggiate) dovranno essere approvate: se modificherai la scheda rimarrà sempre visibile (agli altri) il BG approvato, fino ad approvazione di quello nuovo.<br /><br /> Ricorda anche che da ora non è più possibile chiedere il reset delle abilità / caratteristiche: qualora volessi modificarle per l'ultima volta, ti invitiamo a chiedere immediatamente allo Staff!<br /><br />Ti auguriamo buon gioco in land,<br />Lo staff",'518');
+
+	$tp->addNote('Approvazione BG e scheda',$currentUser->ID);
+
 	header("Location:shadow_scheda.php?viewApprovals=true");
 
 }
@@ -120,58 +211,85 @@ if($mode == "insmaster")
 	}	*/
 }
 
+if($mode == 'delete' || $mode == 'bavosize')
+{
+	if (!PG::mapPermissions('A',$currentUser->pgAuthOMA)) exit;
+	$sel=explode(',',$_POST['listof']);
+	
+
+	foreach ($sel as $auth)
+		{
+			$auth = addslashes(trim($auth));
+			if($auth!='')
+			{
+				$myco =  mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$auth' LIMIT 1"));
+				$pgID=$myco['pgID'];	
+				$pigo = new PG($pgID);
+				
+				if($mode == 'bavosize'){
+					$pigo->bavosize();
+					$pigo->addNote("Bavosizzato",$currentUser->ID);
+				}
+				elseif($mode == 'delete') $pigo->delete();
+			}
+		}
+	 
+	echo json_encode(array('stat'=>true)); exit;
+
+
+}
+
 if($mode == "setIncarico")
 {
 	if (!PG::mapPermissions('SM',$currentUser->pgAuthOMA)) exit;
 	$sel=explode(',',$_POST['listof']);
 	$assegnazione = addslashes($_POST['assegnazione']);
 	$incarico = addslashes($_POST['incarico']);
-	
-	$lisOuser="";
-	foreach ($sel as $auth)
-		if($auth!='') $lisOuser .= "'".trim(addslashes($auth))."',";
-	
-	$lisOuser = substr(trim($lisOuser),0,-1);
-	mysql_query("UPDATE pg_users SET pgAssign = '$assegnazione', pgIncarico = '$incarico' WHERE pgUser IN ($lisOuser)");
-
-	echo json_encode(array('stat'=>true)); exit;
-	
-	//echo "UPDATE pg_users SET pgLock=1 WHERE pgUser IN ($lisOuser)"; exit;
-}
-
-if($mode == "setDipartimento")
-{
-	if (!PG::mapPermissions('SM',$currentUser->pgAuthOMA)) exit;
-	$sel=explode(',',$_POST['listof']);
 	$dipartimento = addslashes($_POST['dipartimento']);
-	
+	$divisione = addslashes($_POST['divisione']);
+
+
 	$lisOuser="";
 	foreach ($sel as $auth)
-		if($auth!='') $lisOuser .= "'".trim(addslashes($auth))."',";
-	
-	$lisOuser = substr(trim($lisOuser),0,-1);
-	mysql_query("UPDATE pg_users SET pgDipartimento = '$dipartimento' WHERE pgUser IN ($lisOuser)");
+		{
+			$auth = addslashes(trim($auth));
+			if($auth!='')
+			{	
+				$auth=addslashes($auth);
+				$adNote = 'Piallatura Incarico e Assegnazione: '.$incarico;
+				$myco =  mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$auth' LIMIT 1"));
+				$pgID=$myco['pgID'];
+				$pigo = new PG($pgID);
 
+				mysql_query("DELETE FROM pg_incarichi WHERE pgID = $pgID");				
+				mysql_query("INSERT INTO pg_incarichi (pgID,incIncarico,incSezione,incDivisione,incDipartimento,pgPlace,incMain) VALUES((SELECT pgID FROM pg_users WHERE pgUser = '$auth' LIMIT 1),'$incarico',$pgID,'$divisione','$dipartimento','$assegnazione','1')");
+				$pigo->addNote($adNote,$currentUser->ID);
+			}
+		}
+	 
 	echo json_encode(array('stat'=>true)); exit;
+	
 	//echo "UPDATE pg_users SET pgLock=1 WHERE pgUser IN ($lisOuser)"; exit;
 }
+
 
 if($mode == "addNote")
 {
 	if (!PG::mapPermissions('SL',$currentUser->pgAuthOMA)) exit;
-	$sel=explode(',',$_POST['listof']);
-	$addNote = '\n'.addslashes($_POST['note']);
+	$sel=explode(',',$_POST['listof']); 
 	
 	$lisOuser="";
-	foreach ($sel as $auth)
-		if($auth!='') $lisOuser .= "'".trim(addslashes($auth))."',";
-	
-	$lisOuser = substr(trim($lisOuser),0,-1);
-	mysql_query("UPDATE pg_users SET pgNote=CONCAT(pgNote,'$addNote') WHERE pgUser IN ($lisOuser)");
 
-	echo json_encode(array('stat'=>true)); exit;
-	
-	//echo "UPDATE pg_users SET pgLock=1 WHERE pgUser IN ($lisOuser)"; exit;
+	foreach ($sel as $auth)
+	{
+		$auth = addslashes(trim($auth));
+		if($auth!=''){
+			$myco =  mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$auth' LIMIT 1"));
+			$pgID=$myco['pgID'];
+			$pigo = new PG($pgID);
+			$pigo->addNote($_POST['note'],$currentUser->ID);
+		} 
+	}
 }
 
 if($mode== "stor")
@@ -306,7 +424,7 @@ elseif($code == "aa11"){$p=$vali->numberOnly($_POST['points']);$little="Q00";$me
 							$rea = mysql_fetch_array(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$tUser'"));
 							$pgID = $vali->numberOnly($rea['pgID']);
 							$selectedDUser = new PG($pgID);
-							$selectedDUser->addPoints($p,$little,$mex,$detail,$assigner);
+							$selectedDUser->addPoints($p,$little,$mex,$detail,$currentUser->ID);
 						}
 			}
 		
@@ -365,7 +483,7 @@ else
 	$template->images=array_diff($images,array('.','..'));
 
 	if (isSet($_GET['viewApprovals'])) $template->viewApprovals = 1;
-
+  
 	$template->ranks = $ranks;
 	$template->locations = $locArray;
 	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA)) $template->bonusSM = 'show';
@@ -375,16 +493,67 @@ else
 
 
 
+
+
 	$r=array();
-	$rea = mysql_query("SELECT pg_users_bios.*,pg_users.pgUser,ordinaryUniform FROM pg_users_bios,pg_users,pg_ranks WHERE pg_users.pgID = pg_users_bios.pgID AND prio=rankCode AND valid = 0");
+
+	$oneMonthAgo=time()-2592000;
+
+	$rea = mysql_query("SELECT pg_users_bios.*,pg_users.pgUser,pg_users.pgBavo,pg_users.pgLock,ordinaryUniform,iscriDate FROM pg_users_bios,pg_users,pg_ranks WHERE pg_users.pgID = pg_users_bios.pgID AND prio=rankCode AND pgLastAct > $oneMonthAgo AND pgRoom <> 'BAVO' AND png=0 AND valid = 0 ORDER BY pgLastACT DESC");
+
+	echo mysql_error();
+
 	while($re = mysql_fetch_assoc(($rea)))
 	{
-		$r[] = $re;
+		
+		$curBG = PG::getSomething($re['pgID'],'BG'); 
+
+		if($curBG){
+			$re['approdiff'] = array(
+				'pgBiometrics' => htmlDiff($curBG['pgBiometrics'],$re['pgBiometrics']),
+				'pgBackground' => htmlDiff($curBG['pgBackground'],$re['pgBackground']),
+				'pgCarattere' => htmlDiff($curBG['pgCarattere'],$re['pgCarattere']),
+				'pgFamily' => htmlDiff($curBG['pgFamily'],$re['pgFamily']),
+				'pgVarie' => htmlDiff($curBG['pgVarie'],$re['pgVarie']),
+				'pgIlSegreto' => htmlDiff($curBG['pgIlSegreto'],$re['pgIlSegreto']));
+
+			$c1 = 'SOLO_REVISIONE';
+		}
+		else{
+			$re['approdiff'] = array(
+				'pgBiometrics' => htmlDiff("",$re['pgBiometrics']),
+				'pgBackground' => htmlDiff("",$re['pgBackground']),
+				'pgCarattere' => htmlDiff("",$re['pgCarattere']),
+				'pgFamily' => htmlDiff("",$re['pgFamily']),
+				'pgVarie' => htmlDiff("",$re['pgVarie']),
+				'pgIlSegreto' => htmlDiff("",$re['pgIlSegreto']));
+
+			if ($re['pgLock'] || $re['pgBavo'])
+				$c1 = 'BLOCCATI_BANNATI_VERMI_BAVOSI';
+			elseif ($re['iscriDate'] > (time()-604800))
+				$c1 = 'QUESTA_SETTIMANA';
+			elseif ($re['iscriDate'] > (time()-(604800*2)))
+				$c1 = 'QUESTE_2_SETTIMANE';
+			elseif ($re['iscriDate'] > (time()-(604800*4)))
+				$c1 = 'QUESTO_MESE';
+
+			else $c1 = 'MATUSALEMME';
+		}
+
+
+		$r[$c1][] = $re;
 	}
+ 
 	$template->pendingBGS = $r;
 
-}
 
+	$rea = mysql_query("SELECT federation_sessions.*,pg_users.pgUser,pg_users.pgID,locName FROM federation_sessions,pg_users,fed_ambient WHERE pgID = sessionOwner AND sessionPlace = locID ORDER BY sessionStatus, sessionID DESC LIMIT 250");
+	$sessions=array();
+	while($rel = mysql_fetch_assoc($rea)) $sessions[] = $rel;
+
+	$template->sessions = $sessions;
+
+}
 
 
 
@@ -397,4 +566,38 @@ else
 	}
 include('includes/app_declude.php');	
 
+
+
+function diff($old, $new){
+    $matrix = array();
+    $maxlen = 0;
+    foreach($old as $oindex => $ovalue){
+        $nkeys = array_keys($new, $ovalue);
+        foreach($nkeys as $nindex){
+            $matrix[$oindex][$nindex] = isset($matrix[$oindex - 1][$nindex - 1]) ?
+                $matrix[$oindex - 1][$nindex - 1] + 1 : 1;
+            if($matrix[$oindex][$nindex] > $maxlen){
+                $maxlen = $matrix[$oindex][$nindex];
+                $omax = $oindex + 1 - $maxlen;
+                $nmax = $nindex + 1 - $maxlen;
+            }
+        }   
+    }
+    if($maxlen == 0) return array(array('d'=>$old, 'i'=>$new));
+    return array_merge(
+        diff(array_slice($old, 0, $omax), array_slice($new, 0, $nmax)),
+        array_slice($new, $nmax, $maxlen),
+        diff(array_slice($old, $omax + $maxlen), array_slice($new, $nmax + $maxlen)));
+}
+function htmlDiff($old, $new){
+    $ret = '';
+    $diff = diff(preg_split("/[\s]+/", $old), preg_split("/[\s]+/", $new));
+    foreach($diff as $k){
+        if(is_array($k))
+            $ret .= (!empty($k['d'])?"<del>".implode(' ',$k['d'])."</del> ":'').
+                (!empty($k['i'])?"<ins>".implode(' ',$k['i'])."</ins> ":'');
+        else $ret .= $k . ' ';
+    }
+    return $ret;
+}
 ?>

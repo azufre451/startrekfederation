@@ -7,8 +7,10 @@
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/personnel.css?v=1.6" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" type="text/css" />
+
 	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" /> 
-	
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
 
 	<title>STAR TREK FEDERATION - SCHEDA</title>				
@@ -19,7 +21,21 @@
 		jQuery('#brever').css('background-image','url(\'TEMPLATES/img/ruolini/'+vara+'\')');
 	}
 	function paddOpen(who){window.open ('padd.php?s=seR&to='+who+'&sub=','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
+	
+
+		jQuery(function(){
+			jQuery('#sectionWhat').autocomplete({source: "ajax_gradiGedder.php?sezioni=do",	minLength: 2});
+			jQuery('#departmentWhat').autocomplete({source: "ajax_gradiGedder.php?dipartimenti=do",	minLength: 2});
+			jQuery('#divisionWhat').autocomplete({source: "ajax_gradiGedder.php?divisioni=do",	minLength: 2});
+
+		});
+	
 	</script>	
+
+	<style>
+			.ui-autocomplete {max-height: 135px;overflow-y: auto;overflow-x: hidden;padding-right: 1px;}
+		.ui-autocomplete li {padding:2px;font-size:12px;}
+		</style>
 	<link href="TEMPLATES/css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" type="text/css"/>
 	 
 	
@@ -125,16 +141,43 @@ Ponte: <input type="text" name="alloDeck" onfocus="this.select()" style="width:3
 </div>
 
 <div tal:condition="exists:bonusSM" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
-<form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setIncarico">Assegnazione e Incarico<br />
+
+<a name="setIncarichi"/>
+<form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setIncarico"><span style="font-weight:bold;">Aggiungi Assegnazione e Incarico</span><br /><br />
 	<select name="assegnazione">
-	<option tal:repeat="location locations" tal:attributes="value repeat/location/key ; selected php:(repeat.location.key == userData.pgAssign) ? 'selected' : false" tal:content="location"/></select>&nbsp;&nbsp;
-	<input type="text" name="incarico" style="width:260px;" tal:attributes="value userData/pgIncarico" onfocus="this.select()" />&nbsp;&nbsp;
-	<input type="submit" value="VAI" /></form>
+	<option tal:repeat="location locations" tal:attributes="value repeat/location/key ; selected php:(repeat.location.key == userData.pgAssign) ? 'selected' : false" tal:content="location"/></select><br/>
+	
+	<input class="neon" id="sectionWhat" placeholder="Sezione" tal:attributes="value userData/pgSezione" type="text" name="incSezione"  style="width:400px;" /><br/>
+	<input class="neon" id="divisionWhat" placeholder="Divisione" type="text" name="incDivisione"  style="width:400px;" /><br/>
+	<input class="neon" id="departmentWhat" placeholder="Dipartimento" type="text" name="incDipartimento"  style="width:400px;" /><br/>
+	<input class="neon" placeholder="Incarico" type="text" name="incIncarico" style="width:400px;"  /><br/>
+	<input type="checkbox" name="incMain" />Principale <input type="submit" value="VAI" /></form>
+
+	<hr />
+
+	Assegnazioni correnti:
+	<table>
+		<tr style="text-align:center; font-weight:bold; color:orange;" >
+			<td>Assegnazione</td>
+			<td>Sezione</td>
+			<td>Divisione</td>
+			<td>Dipartimento</td>
+			<td>Incarico</td>
+		</tr>
+		<tr tal:repeat="inca userData/pgIncarichi" tal:attributes="style php:(inca['incMain']) ? 'background-color:#3674c8' : ''">
+			<td tal:content="userData/pgAssign">Assegnazione</td>
+			<td tal:content="inca/incSezione">Sezione</td>
+			<td tal:content="inca/incDivisione">Divisione</td>
+			<td tal:content="inca/incDipartimento">Dipartimento</td>
+			<td tal:content="inca/incIncarico">Incarico</td>
+			<td> <a tal:attributes="href string:scheda.php?s=delIncarico&pgID=${userData/ID}&recID=${inca/recID}" style="color:red;">X</a> </td>
+		</tr>
+	</table>
 </div>
 
 <div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-left:20px; margin-right:20px;  margin-top:10px; padding:5px; text-align:center;">
 <form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setGrado">
-Grado: <input type="text" name="grado" style="width:180px;" tal:attributes="value userData/pgGrado" onfocus="this.select()" />&nbsp;&nbsp;Sezione: <input type="text" name="sezione" style="width:180px;" tal:attributes="value userData/pgSezione" onfocus="this.select()" /><br />Dipartimento: <input type="text" name="dipartimento" style="width:180px;" tal:attributes="value userData/pgDipartimento" onfocus="this.select()" />&nbsp;&nbsp;<input type="submit" value="VAI" /></form>
+Grado: <input type="text" name="grado" style="width:180px;" tal:attributes="value userData/pgGrado" onfocus="this.select()" />&nbsp;&nbsp;Sezione: <input type="text" name="sezione" style="width:180px;" tal:attributes="value userData/pgSezione" onfocus="this.select()" /><br /><input type="submit" value="VAI" /></form>
 </div>
 
 <div tal:condition="exists:bonusSM" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
@@ -151,10 +194,22 @@ Grado: <input type="text" name="grado" style="width:180px;" tal:attributes="valu
 
 <div style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
 		Note dello Staff
-		<form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setNote" method="POST">
-		<textarea style="width:90%; height:70px;" name="note" tal:content="note" /><br /><br />
-		<input type="submit" value="VAI" />
+		
+
+		<form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=addNote">
+			<input type="text" name="note" style="width:300px;" class="neon" placeholder="Aggiungi nota..." />
+			<input type="submit" value="VAI" />
 		</form>
+
+		<table>
+		<tr tal:repeat="not note">
+			<td tal:content="php:date('d-m-Y',not['timeCode'])" style="width:55px; font-size:10px; color:#FFCC00;" />
+			
+			<td tal:content="string:(${not/pgUser})" style="width:55px; font-size:10px; color:#888;"/>
+			<td style="width:300px; text-align:left;" tal:content="not/what" />
+		</tr>
+		</table>
+		
 </div>
 <p tal:condition="isLorenzo" style="margin:0px; color:orange;font-size:20px;font-weight:bold;text-align:center;"><iframe width="560" height="315" src="http://www.youtube.com/embed/qwD5r6xCxiM" frameborder="0"></iframe></p>
 </div>

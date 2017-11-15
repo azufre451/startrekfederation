@@ -1,51 +1,98 @@
-﻿<!DOCTYPE html>
+﻿<!DOCTYPE html> 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="it">
 	<head>
-		
-		<title>STAR TREK: FEDERATION - Directory</title>
-		<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
-		
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+		<title>Star Trek: Federation GDR - Be The Future!</title>
+
 		<link rel="shortcut icon" href="favicon.ico" />
 		
 		<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+		<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 		<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
-		<script type="text/javascript" src="TEMPLATES/js/index.js?v=0.6" />
-		<script type="text/javascript" src="TEMPLATES/js/google.js"></script>
+		<!--<script type="text/javascript" src="TEMPLATES/js/index.js?v=0.6" />-->
+		<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=0.6" />
+		
+	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/home/reset.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/clearfix.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/style.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/fonts.css"  />
+	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/jquery.dualSlider.0.2b.css?v=2.1" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/index.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet" />
+	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" /> 
+	
+	<script src="TEMPLATES/carousel/js/jquery.easing.1.3.js" type="text/javascript"></script>
+	<script src="TEMPLATES/carousel/js/jquery.timers-1.2.js" type="text/javascript"></script>
+	<script src="TEMPLATES/carousel/js/jquery.dualSlider.0.3.min.js" type="text/javascript"></script> 
+	
+	<!--<script src="TEMPLATES/js/easyAccordion.js" type="text/javascript"></script>-->
+	<script type="text/javascript" src="TEMPLATES/js/google.js"></script>	
+
 
 		<meta charset="UTF-8" />
 		<meta http-equiv="content-language" content="IT" />
 		<meta name="keywords" content="Star Trek, Voyager, Enterprise, The Next Generation, Tricorder, Phaser, Borg. Gioco di Ruolo, Federazione, Klingon, Romulani"/>
 		<meta name="description" content="GDR online che unisce l'interpretazione di un eroe del serial televisivo alla scrittura creativa via chat. Crea il tuo personaggio, illumina il tuo destino!" />
-
-		<script type="text/javascript">
-			jQuery(document).ready(function(){
-				
-			jQuery(".carousel").dualSlider({
-				auto:true,
-				easingCarousel: "swing",
-				easingDetails: "easeOutBack",
-				durationCarousel: 1000,
-				durationDetails: 600
-			});	
 		
-			});
-		</script>
-	</head>
-	
+		
+		<script type="text/javascript">
 
 
-<body>
-	<div id="fb-root"></div>
+			jQuery(document).ready(function(){
+			 
+
+			jQuery('.tooltip').tooltip({
+          	  content: function () {
+              return jQuery(this).prop('title');
+          }
+      	  });
+ 
+		
+			}); 
+			
+	function setViewer(vare)
+	{
+		if(jQuery('#'+vare).length)
+			jQuery('.sliding').fadeOut(120,function(){jQuery('#'+vare).fadeIn(120);});
+		else window.location.href = 'index.php?mod='+vare;
+	}
+
+	function fullScreen(){
+		var larg_schermo = screen.availWidth - 10;
+		var altez_schermo = screen.availHeight - 30;
+		window.open("login.php", "fed_main", "width=" + larg_schermo + ",height=" + altez_schermo + ",top=0,left=0,location=no,menubar=n,resizable=yes,scrollbar=yes");
+	}
+
+ 
+				</script>
+
+		<style>@font-face{font-family:'federationFont';src: url('TEMPLATES/Roddenberry.eot');src: url('TEMPLATES/Roddenberry.ttf') format('truetype');}
+			@font-face{font-family:'federationFontI';src: url('TEMPLATES/Roddenberry Oblique.eot');src: url('TEMPLATES/Roddenberry Oblique.ttf') format('truetype');}
+			  .ui-tooltip {
+  font-family:Lato;
+  width:200px;
+  font-size:14px;
+  }
+
+		</style>
 		<script>(function(d, s, id) {var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) return;js = d.createElement(s); js.id = id; js.src = "//connect.facebook.net/it_IT/all.js#xfbml=1"; fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'));</script>
 
+	</head>
+	
+<body style="background-image:url('TEMPLATES/img/interface/index/menu_b2.jpg')  no-repeat center center fixed; margin-left:40px; margin-right:40px; background-image:url('TEMPLATES/img/interface/index/menu_b2.jpg'); margin-left:40px; margin-right:40px;  -webkit-background-size: cover;  -moz-background-size: cover;
+  -o-background-size: cover;  background-size: cover;">
+		  
+		
 		<div id="indi_mainContainer">
 			<div id="indi_header"  onclick="window.location.href = 'index.php';" />
 		<div id="indi_central">
 				<div metal:use-macro="TEMPLATES/metal_index.htm/indexMenu" />
-			<div id="principale" class="sliding" style="display:block">
-				
-				<p class="title" style="margin-top:20px; float:left; text-align:left; width:30%;">Credits & Partners</p>
+
+			 
+<p class="title" style="margin-top:20px; float:left; text-align:left; width:30%;">Credits & Partners</p>
 					<div style="margin-right:60px; text-align:center; width:500px; padding:5px; float:right">
 					
 					
@@ -55,11 +102,7 @@
 						
 						<br />
 						<br />
-						
-						<a href="http://digilander.libero.it/murby/database.htm" target="_blank" alt="LCARS Database" title="Gallerie di foto, immagini e files di Star Trek e Stargate"><img src="http://digilander.libero.it/murby/images/banner.gif" alt="LCARS PICTURES DATABASE" /></a><br />
-						
-						
-						<a href="https://www.facebook.com/StarTrekHub" target="_blank" title="Star Trek GDR Italian Hub" alt="Star Trek GDR Italian Hub" style="height:60px;"><img src="https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-snc6/251931_548727255152134_554493823_n.png"  style="height:51px;" alt="" /></a> <a href="http://starfleetitaly.it/" target="_blank" alt="StarFleet Italy - Simulazioni PBEM di Star Trek" title="StarFleet Italy - Simulazioni PBEM di Star Trek"><img src="http://starfleetitaly.it/starfleetitaly/img/banner_1.gif" alt="StarFleet Italy" /></a><br />
+						  
 						
 						<a href="http://commvoyager.altervista.org/" target="_blank" title="Commissione Voyager" alt="Commissione Voyager"><img height="35px" src="http://commvoyager.altervista.org/links/CVbanner.jpg" /></a>	<a href="http://www.sititrek.it/" target="_blank" title="Siti Trek" alt="siti_trek"><img height="35px" src="http://www.sititrek.it/images/scritte/scritta_1.jpg" alt="" /></a> <a href="http://www.terrediconfine.eu" target="_blank" title="Terre di Confine" alt="Terre di Confine" style="height:35px;"><img src="http://www.terrediconfine.eu/grafica/banner/tdcban100-02.jpg" alt="" /></a>			
 				
@@ -86,7 +129,7 @@
 					</div>
 					</div>
 					
-					<div style="margin-left:20px; text-align:center; width:387px; padding:5px; float:left">
+					<div style="margin-left:20px; text-align:center; width:430px; padding:5px; float:left">
 					
 					
 					<div style="text-align:center; margin-top:20px; padding-left:30px;">
@@ -98,12 +141,12 @@
 					<img src="TEMPLATES/img/interface/index/icons/jQueryLogo.png" style="height:35px" title="JQuery Plugin" alt="jQuery"/> 
 					</div>
 					
-					<div style="font-size:11px; color:#999; text-align:justify; margin-left:40px;">
+					<div style="font-size:11px; color:#999; text-align:justify; margin-left:40px; padding:20px; border:1px solid #AAA; border-radius:10px;  background-image:url('TEMPLATES/img/pattern_banded_50.png'); ">
 					Tutte le immagini in uso da Star Trek Federation sono state impiegate nel rispetto delle vigenti leggi in materia di Copyright e Diritto d'Autore. Star Trek Federation non impiega immagini specificatamente coperte da diritti d'autore che ne impediscano l'utilizzo, preferendo le fonti di immagini rilasciate sotto pubblico dominio, o licenza Creative Commons. Star Trek Federation si impegna altresì a collaborare con i rispettivi autori qualora si riscontrassero situazioni di violazione del Diritto d'Autore, eliminando od integrando, su richiesta dei legittimi proprietari, o dei loro delegati autorizzati, ogni contenuto.
 					
 					<b>Le immagini per la realizzazione di Star Trek Federation</b>, del suo materiale informativo e di gioco, nonché per la realizzazione degli elementi dell'interfaccia utente sono accreditate ai seguenti soggetti (o nicknames).<br /><br />
 					
-					<b>Igor Sontacchi, Giuseppe Buffa, Moreno Zolfo, Geoffrey Mandel, Doug Drexler, Jokuckuk333, metlesitsfleetyards, Hatvoc, Sukosu, Animaniacarts, jestr, Lnx991, jmdollan, guilpan, bloknayrb, buzzkilled, Thobewill, sbowers, fungun, Chance Ragen, Neethis, zhar2, bdfd, Rob Sanders, Gileryd, Mr. Frenzy, vanderghast, estauffer, Irrilinvention, Zeleni, Medjai di Scifi-Meshes, Steve Mallory</b>
+					<b>Igor Sontacchi, Giuseppe Buffa, Moreno Zolfo, Geoffrey Mandel, Doug Drexler, Jokuckuk333, metlesitsfleetyards, Hatvoc, Sukosu, Animaniacarts, jestr, Lnx991, jmdollan, guilpan, bloknayrb, buzzkilled, Thobewill, sbowers, fungun, Chance Ragen, Neethis, zhar2, bdfd, Rob Sanders, Gileryd, Mr. Frenzy, vanderghast, estauffer, Irrilinvention, Zeleni, Medjai di Scifi-Meshes, Steve Mallory, <a href="https://haphazartgeek.deviantart.com" target="_blank">HaphazArtGeek</a>.</b>
 					<br />
 					<br />Si ringrazia lo Staff de <a class="interfaceLink" href="http://www.ilgrandeinverno.net" target="_blank">"Il Grande Inverno"</a> per averci permesso di utilizzare il Regolamento di Gioco da esso sviluppato
 					</div>
@@ -111,20 +154,22 @@
 					<div style="padding:5px; border:1px solid white; margin-left:30px;"><div class="fb-like" data-href="https://www.facebook.com/federation.pbc" data-send="true" data-width="355" style="color:#999;" data-show-faces="true" data-font="tahoma"></div></div>
 
 					</div>
-		
-		
-				
 
-			</div>
+
+
+		</div> 
+			 
+			 
 			
-			</div>
-			<div metal:use-macro="TEMPLATES/metal.htm/footer" />
+			  
+			
+
+
 
 		</div><!-- indi_mainContainer -->
 		
 		<!-- FOOTER -->
 		
-		
-		
+<div metal:use-macro="TEMPLATES/metal.htm/footer" />
 </body>
 </html>

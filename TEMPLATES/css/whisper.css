@@ -56,8 +56,12 @@ img{
 	font-weight:bold;
 }
 
-.susChatMPUser,.susChatMPUserO,.susChatMPSeparator{font-weight:bold;font-size:13px;}
+.susChatMPUser,.susChatMPUserO,.susChatMPSeparator,.susChatMPUserA,.susChatMPUserG{font-weight:bold;font-size:13px;}
 .susChatMPUser{color:#3188F3;}
+
+.susChatMPUserA{color:#f33131;}
+.susChatMPUserG{color:#31F367;}
+
 .susChatMPUserO{color:#22ac7a;}
 .susChatMPSeparator{color:#de0a0a;}
 .susPrivate{color:#888; font-style:italic;}

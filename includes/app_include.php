@@ -16,27 +16,33 @@ mysql_query('SET NAMES utf8');
 //$formats = array(".jpg",".png",".gif",".bmp");
 //$baseSite = "http://genesis.digital-destiny.org/SigmaSys/";
 
-$gameName = "v. 0.9.9 - Appetizing Amethyst";
-$gameVersion = "0.9.9 - Appetizing Amethyst";
-$debug=false;
+$gameName = "v. 1.6 - Prandial Seagull";
+$gameVersion = "1.6 - Prandial Seagull";
+
+
+$gameOptions = array('numericVersion' => "1.7.62");
+
+$debug=true;
 $tips=true;
+
+$thisYear = 2017;
+$bounceYear = 377;
 
 
 $gameServiceInfo = "
 	Star Trek: Federation<br /> 
-		Codename Appetizing Amethyst<br />
-		BETA<br />";
+		Codename Prandial Seagull<br />
+		ALPHA TEST<br />";
 
 $curTime = time();		
 $lapConstant = ((date("Y",$curTime) % 4) == 0) ? 0.00003162315 : 0.00003170979; 
 //$currentDate = date("d/m",$curTime)."/".(date("Y",$curTime)+368);
-$currentDate = utf8_encode(ucfirst(strftime('%A %e %B %Y',mktime(date("H"),date("i"),date("s"),date("n",$curTime),date("j",$curTime),(368+date("Y",$curTime))))));	
+$currentDate = utf8_encode(ucfirst(strftime('%A %e %B %Y',mktime(date("H"),date("i"),date("s"),date("n",$curTime),date("j",$curTime),($bounceYear+date("Y",$curTime))))));	
 
 //<span class="calendarActDate" tal:content="php:utf8_encode(ucfirst(strftime('%A %e %B %Y',eventE[0]['Tevent']['date'])))" /> 
-$currentStarDate = number_format((((date("Y",$curTime)+368)-2323) + (date("z",$curTime)/365.2425))*1000 + ((date("H",$curTime)*3600 + date("i",$curTime)*60 + date("s",$curTime)) * $lapConstant),2,".","");
+$currentStarDate = number_format((((date("Y",$curTime)+$bounceYear)-2323) + (date("z",$curTime)/365.2425))*1000 + ((date("H",$curTime)*3600 + date("i",$curTime)*60 + date("s",$curTime)) * $lapConstant),2,".","");
 
-$thisYear = 2014;
-$bounceYear = 368;
+
 
 //$assignTOSHIP='USS2';
 

@@ -12,6 +12,21 @@
 		$(window).resize(function() {
 			resizeBar();
 		});
+
+
+		function notifyDesktop(txt,icon,func,title){
+			
+			 jQuery("#easyNotify").easyNotify( {
+	    		title: title,
+	    		options: {
+	      			body: txt,
+	      			icon: icon,
+	      			lang: 'it-IT',
+	      			onClick: func
+	    		}
+	  		}); 
+	  	}
+
 		
 		function resizeBar(){jQuery("#chatMainBar").css('width',(jQuery('#chatBar').width()-340)+'px');}
 		// nota Moreno. Funzione SETTER dei parametri di configurazione della ghiera esterna.
@@ -82,13 +97,22 @@
 			var classer = '';
 			if(indexer[index] == currentUsername) classer = ' style="color:#3188F3;" '; 
 			
+
+
 			if(index == 0 && indexer[index] == currentUsername)
 			{			
-				
+				  	
+
 				stringer+= '<p class="turnElement myTurnElement lamp" '+classer+'>'+indexer[index]+'</p>'; 
 				if(!parseInt(jQuery('#turnIndicatorNotified').val())){
+
+				notifyDesktop('Tocca a te azionare','TEMPLATES/img/logo_fed_fb.jpg',paddOpen,'Notifica');  
+				
 				timerLLL = setInterval(function(){var title = document.title;document.title = (title == "STAR TREK FEDERATION" ? "TUO TURNO - STAR TREK FEDERATION" : "STAR TREK FEDERATION");}, 1000);
-				jQuery('#turnIndicatorNotified').prop('value',1)}
+				jQuery('#turnIndicatorNotified').prop('value',1)
+
+				}
+
 			}
 			else
 			{
@@ -100,6 +124,9 @@
 		//clearInterval(timerLLL);
 		if(indexer.indexOf(currentUsername) != -1) stringer+="<hr/><p style=\"margin:0px;\"><a href=\"javascript:void(0);\" class=\"interfaceLinkRed\" style=\"font-size:11px; text-align:lefft;\" onclick=\"javascript:removeTurner('')\"> [ ESCI ] </a> <img style=\"vertical-align:middle;\" src=\"TEMPLATES/img/interface/personnelInterface/info.png\" title=\"Uscita dalla turnazione. Premendo questo tasto segnali a tutti i giocatori l'uscita (oppure l'inattività, del tuo PG). Puoi farlo anche scrivendo la parola \"exit\" in un'azione di chat (deve contenere solo exit).\" /></p>";
 		jQuery('#reminderBrevs').html(stringer);
+
+
+
 		}
 		
 		/* function getAbilities(vargani)		{				if(jQuery('#whoAbilities').val() != vargani)				{				timerAbil = setTimeout(function(){				jQuery.post('ajax_getAbilities.php', {term: vargani}, function(data){				var stringer = '';				for (var abil in data)				{				//Luca: se hai bisogno di una mano per il codice, non esitare a chiedere. Ti rispondo volentieri! M.						 stringer+= "<img class=\"littleBrevImage\"  title=\""+data[abil]['descript']+"\" src=\"TEMPLATES/img/ruolini/brevetti/"+data[abil]['image']+"\" /> ";				}				jQuery('#reminderBrevs').html(stringer);				jQuery('#whoAbilities').val(vargani);				}, 'json');				}, 500)				}		} */
@@ -122,11 +149,15 @@
 			
 			if(data['NP'] == 1)
 			{
+				
+
 				if(jQuery('#federation_montUL').prop('class')=='paddOFF')
 				{
-				if (document.getElementById('audioNotify')) document.getElementById('audioNotify').play();
-				jQuery('#federation_montUL').prop('class','paddON');
-				jQuery('#federation_montUL').prop('title','Nuovi messaggi');
+					notifyDesktop(data['NPtitle'],data['NPavatar'],paddOpen,'Nuovo DPADD');
+
+					if (document.getElementById('audioNotify')) document.getElementById('audioNotify').play();	
+					jQuery('#federation_montUL').prop('class','paddON');
+					jQuery('#federation_montUL').prop('title','Nuovi messaggi');
 				}
 			}
 			else
@@ -134,24 +165,20 @@
 			
 			if(data['NOTIFY'])
 			{
-				jQuery('#alertTitle').html(data['NOTIFY']['TITLE']);
-				jQuery('#alertMessage').html(data['NOTIFY']['TEXT']);
-				jQuery('#messageAlert img.imager').prop('src',data['NOTIFY']['IMG']);
+				notifyDesktop(data['NOTIFY']['TEXT'],data['NOTIFY']['IMG'],function(){},data['NOTIFY']['TITLE']);
+
 				
-				jQuery('#messageAlert').fadeIn(600,function(){
 				jQuery.post('ajax_delete_specific.php?A=b');
+
 				if (document.getElementById('audioNotify')) document.getElementById('audioNotify').play();
-				setTimeout(function(){
-				jQuery('#messageAlert').fadeOut(600);
-				},10000);
-				});
+
 			}
 			
 			if(data['SU']){
 				if(jQuery('#federation_rightBottomSussurro').prop('class')=='sussOFF')
 				{
 					jQuery('#federation_rightBottomSussurro').prop('class','sussON');
-					if (document.getElementById('audioNotify')) document.getElementById('audioNotify').play();
+					notifyDesktop('Hai un nuovo sussurro','TEMPLATES/img/logo_fed_fb.jpg',whisperOpen,'Notifica');
 				}
 			} 
 			else jQuery('#federation_rightBottomSussurro').prop('class','sussOFF'); 
@@ -234,6 +261,22 @@
 				jQuery('#lightBar').css('background-color',data['COLOR']);
 				jQuery('#lightBar').css('box-shadow','0 0 5px '+data['COLOR']);
 			}
+
+			if("DICER" in data && data['DICER'].length > 0){
+				
+
+				data['DICER'].forEach(function(v,k){
+					
+
+					jQuery('#adler').append('<tr class="diceEvent r_'+v['recID']+'"><td>'+v['pgUser']+'</td><td><img src="TEMPLATES/img/interface/personnelInterface/abilita/'+v['abImage']+'" style="width:50px;" /></td><td><span class="valDice">'+v['outcome']+'</span>  <input class="abiDice" type="hidden" value="'+v['abID']+'" /> <input class="recID" type="hidden" value="'+v['recID']+'" /> <input class="pgID" type="hidden" value="'+v['pgID']+'" />  </td>  <td>'+v['threshold']+' + <select class="abMod" onchange="recompute(this);"><option value="-6">-6</option> <option value="-3">-3</option> <option value="0" selected="selected">0</option> <option value="3">+3</option> <option value="6">+6</option> </select></td> <td class="abiOutcome">'+v['outcomeW']+'</td> </tr>');
+
+
+				});
+
+				//$diceOutcomes[] = array('pgID'=>$chatLi['sender'],'pgUser' => PG::getSomething($chatLi['sender'],'username'),'outcome' => $chatLi['dicerOutcome'], 'abID' => $chatLi['dicerAbil'], 'abName' => $abi['abName'], 'abImage' => $abi['abImage'] );
+			}
+
+
 			showTurni();
 		}
 		
@@ -269,7 +312,8 @@
 		}
 		
 		function dlindlon(ambient){jQuery.post('ajax_sendChatLine.php', {amb: ambient, chatLine: '*mst::sounder**'}, noti);}
-				
+		
+
 		function doRedirectToMona(ida) {
 			
 			jQuery.post('ajax_delete_specific.php?A=a');
@@ -291,6 +335,7 @@
 			
 		}
 		
+
 		function doRedirectTotal(ida) {
 			
 			jQuery.post('ajax_delete_specific.php?A=a');
@@ -324,4 +369,91 @@
 		{
 			if(ida == '') ida = jQuery('#pgID').val();
 			jQuery.post('ajax_sendChatEvents.php', {amb: jQuery('#locID').prop('value'),chatLine: ida, mode:90}, noti);
+		}
+
+		function initDice(){
+		
+			jQuery('#dicePanel').fadeIn(100);
+
+		}
+
+		function rollDice(){jQuery.post('ajax_manipulateAbilities.php?action=roll', {amb: jQuery('#ambientID').prop('value'), abID: jQuery('#selectedDiceSkill').val()}, function(e){jQuery('#dicePanel').fadeOut(100); 
+
+			jQuery.ajax(
+			{
+			url: jQuery('#getterURL').prop('value')+'?ts='+new Date().getMilliseconds(),
+			data:{ambient: jQuery('#ambientID').prop('value'), lastID: jQuery('#lastID').prop('value')},
+			success: selfUpdater, 
+			type: 'POST',
+			dataType : 'json',
+			}); 
+		});}
+
+		function diceChanger(){
+
+			at=jQuery('#selectedDiceSkill').val();
+
+			jQuery('#aSK0,#aSK1,#aAB1').hide();
+
+			jQuery.ajax(
+			{
+			url: 'ajax_manipulateAbilities.php?action=getAbil',
+			data:{abID: at},
+			type: 'POST',
+			dataType : 'json',
+			timeout:4500,
+			success: function(e){
+
+				prebox='<p><span class="col_FC">F. Critico</span>&nbsp;|&nbsp;<span class="col_F">Fallimento</span>&nbsp;|&nbsp;<span class="col_S">Successo</span>&nbsp;|&nbsp;<span class="col_SC">S. Critico</span></p>';
+				jQuery('#strDicer').attr('title',e['STAT']['string']+prebox);
+
+
+				for (i = 1; i <= 20; i++){
+					jQuery('#dicer_'+i).removeClass().addClass('dicer_'+e['STAT']['ara'][String(i)]);
+				}
+
+				jQuery('#exDicer').fadeIn(100);
+
+				jQuery('#aAB1').removeClass().addClass(e['AB']['abClass'])
+
+				jQuery('#aAB1 .abImage').attr('src','TEMPLATES/img/interface/personnelInterface/abilita/'+e['AB']['abImage']);
+				if (e['AB']['value']  == null){
+					jQuery('#aAB1 .abText').html('--');
+					jQuery('#aAB1 .abImage').addClass('grayScale');
+				}
+				else{
+					jQuery('#aAB1 .abText').html(e['AB']['value']);
+					jQuery('#aAB1 .abImage').removeClass('grayScale');
+				}
+
+				jQuery('#aAB1 .abGauge').removeClass(
+							function (index, className) {
+    							return (className.match (/p[0-9]{1,3}/g) || []).join(' ');
+							}
+						).addClass('p'+e['AB']['levelperc']).attr('title',"<span style='color:#5d85a6; font-weight:bold;'>"+e['AB']['abName']+"</span> - Liv. "+(e['AB']['value'] != null ? e['AB']['value'] : '-')+"<hr/>"+e['AB']['leveldesc']);
+
+
+				jQuery('#aAB1').fadeIn(100);
+
+				jQuery('#aSK0,#aSK1').hide();
+
+				for (key in e['DEP']){
+					ab=e['DEP'][key][0];
+					jQuery('#aSK'+key+' .abImage').attr('src','TEMPLATES/img/interface/personnelInterface/abilita/'+ab['abImage']);
+					jQuery('#aSK'+key+' .abText').html(ab['value']);
+					jQuery('#aSK'+key+' .abGauge').removeClass(
+							function (index, className) {
+    							return (className.match (/p[0-9]{1,3}/g) || []).join(' ');
+							}
+						).addClass('p'+ab['levelperc']).attr('title',"<span style='color:#5d85a6; font-weight:bold;'>"+ab['abName']+"</span> - Liv. "+(ab['value'] != null ? ab['value'] : '-')+"<hr/>"+ab['leveldesc']);
+
+
+					jQuery('#aSK'+key).fadeIn(100);
+
+				}
+				
+
+			}
+			}); 
+
 		}

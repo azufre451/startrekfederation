@@ -1,20 +1,28 @@
-ï»¿<?php
+<?php
 session_start();
 include('includes/app_include.php');
 include('includes/validate_class.php');
 
-
+ 
 
 
 if(isSet($_GET['registerUser']))
-{	header('Location:index.php');
+{	
+	 $pgTarget= explode('_',$_POST['select_grado']);
+
+
 	exit;
-	$pgName= ucfirst(addslashes(($_POST['pgName'])));
-	$emai= (htmlentities(addslashes(($_POST['pgEmail'])),ENT_COMPAT, 'UTF-8'));
-	$pgSpecie= (htmlentities(addslashes(($_POST['pgSpecie'])),ENT_COMPAT, 'UTF-8'));
+	
+	$pgName= ucfirst(addslashes(($_POST['select_cognome'])));
+	$pgNameFirst= ucfirst(addslashes(($_POST['select_nome'])));
+	
+	$emai= (htmlentities(addslashes(($_POST['select_email'])),ENT_COMPAT, 'UTF-8'));
+	
+	$pgSpecie= (htmlentities(addslashes(($_POST['select_razza'])),ENT_COMPAT, 'UTF-8'));
+	
 	if(!in_array($pgSpecie,array('Andoriana','Bajoriana','Benzita','Betazoide','Boliana','Caitiana','Deltana','Denobulana','Risiana','Tellarita','Trill','Umana','Vulcaniana','Zakdorn','Zaldan'))){header('Location:http://www.youtube.com/watch?v=SGFz5v_P2ug'); exit;}
 	
-	$pgSesso= (htmlentities(addslashes(($_POST['pgSesso'])),ENT_COMPAT, 'UTF-8'));
+	$pgSesso= strtoupper(htmlentities(addslashes(($_POST['select_sesso'])),ENT_COMPAT, 'UTF-8'));
 	$pgAuth= (htmlentities(addslashes(($_POST['pgAuth'])),ENT_COMPAT, 'UTF-8'));
 	
 	if ($pgName =='' || $emai == '' || $pgSpecie == '' || $pgSesso == '') 
@@ -24,10 +32,17 @@ if(isSet($_GET['registerUser']))
 	}
 	
 	
+		 mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead) VALUES (518,1,'
+	 Nuova Richiesta di Registrazione!
+	
+	 indirizzo email: ".$emai.",<br/>
+	 User : ".$pgName.",<br/> 
+	 Rank : ".$pgTarget.",<br/>',".time().",0)"); 
+	
 	$passer = createRandomPassword();
 	$matri = createRandomMatricola();
 	$pwd = md5($passer);
-	$assignTOSHIP = ($pgSpecie == 'Romulana') ? 'IRW2' : 'USS2';
+	$assignTOSHIP = 'USS2';
 	
 	$re1=mysql_query("SELECT 1 FROM pg_users WHERE email = '$emai'");
 	if (mysql_affected_rows() && $emai != 'png@startrekfederation.it'){header("Location:index.php?error=95"); exit;}
@@ -37,7 +52,7 @@ if(isSet($_GET['registerUser']))
 	
 	$curTimeLL = $curTime - 1801;
 	
-	mysql_query("INSERT INTO pg_users(pgUser, pgPass, pgGrado, pgSezione, pgAssign, pgSeclar, pgAuth, pgLocation, pgRoom, pgAuthOMA, pgSpecie, pgSesso, pgMostrina, rankCode, email,pgLock,pgFirst,iscriDate,pgPoints,audioEnable,pgMatricola,pgIncarico,pgLastAct,pgUpgradePoints, pgSocialPoints) VALUES ('$pgName','$pwd','Civile','Nessuna','$assignTOSHIP',1,'$pgAuth','$assignTOSHIP','$assignTOSHIP','N','$pgSpecie','$pgSesso','CIV',1,'$emai',1,2,$curTime,5,1,'$matri','In attesa di assegnazione',$curTimeLL,14,7)");
+	mysql_query("INSERT INTO pg_users(pgUser,pgNomeC, pgPass, pgGrado, pgSezione, pgAssign, pgSeclar, pgAuth, pgLocation, pgRoom, pgAuthOMA, pgSpecie, pgSesso, pgMostrina, rankCode, email,pgLock,pgFirst,iscriDate,pgPoints,audioEnable,pgMatricola,pgIncarico,pgLastAct,pgUpgradePoints, pgSocialPoints) VALUES ('$pgName','$pgNameFirst','$pwd','Civile','Nessuna','$assignTOSHIP',1,'$pgAuth','$assignTOSHIP','$assignTOSHIP','N','$pgSpecie','$pgSesso','CIV',1,'$emai',1,0,$curTime,0,1,'$matri','In attesa di assegnazione',$curTimeLL,60,20)");
 	
 	mysql_query("INSERT INTO pg_users_bios (pgID) VALUES ((SELECT pgID FROM pg_users WHERE pgUser = '".$pgName."'))");
 	
@@ -45,10 +60,10 @@ if(isSet($_GET['registerUser']))
 	
 	/*Aggiungo achi iniziale */
 	mysql_query("INSERT INTO pg_achievement_assign (owner,achi,timer) VALUES ((SELECT pgID FROM pg_users WHERE pgUser = '".$pgName."'),33,".time().")");
-	mysql_query("INSERT INTO pg_users_pointStory (owner,points,cause,causeM,causeE,timer,assigner) VALUES ((SELECT pgID FROM pg_users WHERE pgUser = '".$pgName."'),5,'ISCR','Bonus iscrizione a STF','Bonus iscrizione a STF',".time().",1)");
+	
+	//mysql_query("INSERT INTO pg_users_pointStory (owner,points,cause,causeM,causeE,timer,assigner) VALUES ((SELECT pgID FROM pg_users WHERE pgUser = '".$pgName."'),5,'ISCR','Bonus iscrizione a STF','Bonus iscrizione a STF',".time().",1)");
 	
 	
-	$cString = addslashes("<br />Hai ottenuto 14 Upgrade Points (punti abilit&agrave;), quale accredito per l'iscrizione di un nuovo personaggio!<br />Puoi usarli per aumentare le caratteristiche del tuo personaggio, e definire in questo modo le sue abilit&agrave;!<br /><br />Clicca su Scheda, a lato nella interfaccia di gioco, quindi sulla zona dei brevetti (simbolo dell'Accademia della Flotta Stellare nella barra alta) per assegnare le caratteristiche.<br /> In caso di problemi, non esitare a contattare lo Staff!<br /> Buon gioco su Star Trek: Federation!<br /><br />Il Team di Star Trek: Federation");
 	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead) VALUES (518,(SELECT pgID FROM pg_users WHERE pgUser = '".$pgName."'),'Benvenuto!','<div style=\"text-align:center\"><img src=\"http://miki.startrekfederation.it/SigmaSys/logo/little_logo.png\" /><br /><b>Benvenuto in Star Trek: Federation!</b></div><br />Ti inviamo questo padd come riassunto del materiale informativo presente presso i vari canali di gioco. In caso di perplessita\', non esitare a contattare i master e gli admin di Star Trek: Federation!<br />
 	
 	&raquo; <a href=\"index.php?guide=true\" target=\"_blank\" class=\"interfaceLink\">Guida al Gioco</a>
@@ -86,25 +101,31 @@ if(isSet($_GET['registerUser']))
 	&raquo; <a href=\"javascript:dbOpen()\" class=\"interfaceLink\"> Documentazione Completa </a>
 	
 	
-	Buon gioco,<br />Il team di Star Trek Federation',".time().",0),(518,(SELECT pgID FROM pg_users WHERE pgUser = '".$pgName."'),'OFF: Upgrade Points!','$cString',$curTime,0)");
+	Buon gioco,<br />Il team di Star Trek Federation',".time().",0)");
 
-	mysql_query("INSERT INTO connlog (user,time,ip) VALUES ((SELECT pgID FROM pg_users WHERE pgUser = '$pgName'),$curTime,'".$_SERVER['REMOTE_ADDR']."')");
 	
-	
-	$pgName=stripslashes($pgName);
-	
-	// mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddTest,paddTime,paddRead) VALUES (1,,'Benvenuto!','Ciao<br />Benvenuto in Star Trek Federation. Ti invitiamo a consultare la guida al gioco ed il regolamento e a porre qualunque domanda ai master o agli admin loggati. Buon gioco,<br />Il team di Star Trek Federation',".time().",0)");
-	
-	if(!mysql_error()){
-	mail($emai,"Star Trek Federation - Benvenuto!","Star Trek Federation - Benvenuto:\n\nCiao, $pgName,\n\nTu, o qualcuno per te, ha provveduto ad eseguire la registrazione del tuo indirizzo email a Star Trek Federation. L'operazione ha avuto esito positivo.\n\nUSERNAME: $pgName\nPASSWORD: $passer\n\nPotrai cambiare la password loggandoti in Star Trek Federation al link http://www.startrekfederation.it\n\nCi auguriamo di vederti presto tra noi!\nIl team di Star Trek: Federation","From:staff@startrekfederation.it");
-	header('Location:index.php?success=true');
-	exit;
+	$rasa=mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$pgName'"));
+	if (mysql_affected_rows())
+	{
+		$pgneoID = $rasa['pgID'];
+		mysql_query("INSERT INTO connlog (user,time,ip) VALUES ($pgneoID,$curTime,'".$_SERVER['REMOTE_ADDR']."')");
+		$pgName=stripslashes($pgName);
+		mail($emai,"Star Trek Federation - Benvenuto!","Star Trek Federation - Benvenuto:\n\nCiao, $pgName,\n\nTu, o qualcuno per te, ha provveduto ad eseguire la registrazione del tuo indirizzo email a Star Trek Federation. L'operazione ha avuto esito positivo.\n\nUSERNAME: $pgName\nPASSWORD: $passer\n\nPotrai cambiare la password loggandoti in Star Trek Federation al link http://www.startrekfederation.it\n\nCi auguriamo di vederti presto tra noi!\nIl team di Star Trek: Federation\n\n E il Tenente Ostevik è reintegrato nell'equipaggio della USS Endeavour.","From:staff@startrekfederation.it");
+		
+		
+		$vali = new validator();
+		$pgTarget= explode('_',$_POST['select_grado']);
+		$pgRealTarget= $vali->numberOnly($pgTarget[0]);
+		PG::setMostrina($pgneoID,$pgRealTarget);
+		header('Location:index.php?success=true');
 	}
+	
 	else
 	{
 		if (mysql_affected_rows()){header("Location:index.php?error=99"); exit;}
 		exit;
 	}
+	 
 }
 
 if(isSet($_GET['createPNG']))
@@ -229,7 +250,7 @@ else if (isSet($_GET['bavosize']))
 	
 	$pg = new PG($to);
 	$pgName = $pg->pgUser;
-	//mail(PG::getSomething($to,'email'),"Star Trek Federation - Ti abbiamo perso di vista!","Ciao $pgName,\n\nSono passati due mesi dal tuo ultimo login in Star Trek: Federation. Per garantire uno sviluppo funzionale degli organigrammi di bordo, il tuo personaggio verrÃ  spostato in altra locazione a partire da oggi. Ci auguriamo di rivederti presto fra noi, e ti assicuriamo che, in caso volessi tornare, il tuo PG sarÃ  mantenuto attivo per altri 30 giorni. Al termine dei 30 giorni, il PG sarÃ  eliminato dai nostri server.\n\n A presto\n\nIl team di Star Trek: Federation\n\nhttp://www.startrekfederation.it","From:staff@startrekfederation.it");
+	//mail(PG::getSomething($to,'email'),"Star Trek Federation - Ti abbiamo perso di vista!","Ciao $pgName,\n\nSono passati due mesi dal tuo ultimo login in Star Trek: Federation. Per garantire uno sviluppo funzionale degli organigrammi di bordo, il tuo personaggio verrà spostato in altra locazione a partire da oggi. Ci auguriamo di rivederti presto fra noi, e ti assicuriamo che, in caso volessi tornare, il tuo PG sarà mantenuto attivo per altri 30 giorni. Al termine dei 30 giorni, il PG sarà eliminato dai nostri server.\n\n A presto\n\nIl team di Star Trek: Federation\n\nhttp://www.startrekfederation.it","From:staff@startrekfederation.it");
 	}
 	header("Location:crew.php?equi=$dest");
 	exit;
@@ -349,12 +370,12 @@ else if(isSet($_GET['comm']))
 	
 	else if ($type=='sendCommDeck')
 	{
-		$to = $_POST['deckTo'];
-		if(!is_numeric($to)) exit;
+		$to = addslashes($_POST['deckTo']);
+		
 		
 		$row = (htmlentities(addslashes(($_POST['rowSend'])),ENT_COMPAT, 'UTF-8'));
 		
-		$allAmb = mysql_query('SELECT locID FROM fed_ambient WHERE ambientLocation = \''.$currentUser->pgLocation.'\' AND ambientLevel_deck = '.$to.' AND locID <> \''.$currentUser->pgLocation.'\'');
+		$allAmb = mysql_query('SELECT locID FROM fed_ambient WHERE ambientLocation = \''.$currentUser->pgLocation.'\' AND ambientLevel_deck = \''.$to.'\' AND locID <> \''.$currentUser->pgLocation.'\'');
 			
 			$string = '<p class="commMessage">'.date('H:i').' <span class="commPreamble">'.addslashes($currentUser->pgUser)." a PONTE $to:</span> ".$row.'</p>';
 			//mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'".$currentUser->pgRoom."','$string',".time().",'ACTION')");

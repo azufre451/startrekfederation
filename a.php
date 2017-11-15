@@ -2,13 +2,15 @@
 include('includes/app_include.php');
 include("includes/PHPTAL/PHPTAL.php"); //NEW
 
-$res = mysql_query("SELECT * FROM db_pathways WHERE pathID > 29 ORDER BY identifier");
+$res = mysql_query("SELECT * FROM db_pathways WHERE pathID > 29 ORDER BY pathID");
 
 $template = new PHPTAL('TEMPLATES/test2.htm');
 $things= array();
 while($rea = mysql_fetch_array($res))
 {
+$rea['text'] = str_replace($bbCode,$htmlCode,$rea['text']);
 $things[] = $rea;
+
 }
 
 $template->things = $things;

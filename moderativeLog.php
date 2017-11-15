@@ -56,9 +56,9 @@ $template->places = $places;
 
 $masterCondition = (PG::mapPermissions("M",$currentUser->pgAuthOMA)) ? '' : "AND (type <> 'APM' OR sender = ".$_SESSION['pgID'].')';
 
-$chatLines = mysql_query("SELECT chat,time,ambient,locName FROM federation_chat,fed_ambient WHERE type <> 'AUDIO' AND ambient=locID AND ambientLocation = '$Sambient' AND time BETWEEN $from AND $toe ORDER BY time");
+$chatLines = mysql_query("SELECT chat,time,ambient,locName,privateAction FROM federation_chat,fed_ambient WHERE type NOT IN ('SERVICE','AUDIO') AND ambient=locID AND ambientLocation = '$Sambient' AND time BETWEEN $from AND $toe ORDER BY time");
 
-$chatControl = mysql_query("SELECT ambient FROM `federation_chat` WHERE type IN ('DIRECT','ACTION') AND chat NOT LIKE '%a tutto il personale%' AND time BETWEEN $from AND $toe GROUP BY ambient HAVING count( * ) >5");
+$chatControl = mysql_query("SELECT ambient FROM `federation_chat` WHERE type IN ('DIRECT','ACTION') AND chat NOT LIKE '%a tutto il personale%' AND time BETWEEN $from AND $toe GROUP BY ambient HAVING count( * ) >4");
 $chatArrayControl=array();
 while($rea=mysql_fetch_array($chatControl)) $chatArrayControl[]= str_replace(',','_',$rea['ambient']);
 
@@ -68,8 +68,10 @@ while($chatLi = mysql_fetch_array($chatLines))
 $chatAmbient = str_replace(',','_',$chatLi['ambient']);
 if(in_array($chatAmbient,$chatArrayControl))
 {
-	if(isSet($htmlLiner[$chatAmbient])) $htmlLiner[$chatAmbient].=$chatLi['chat'];
-	else $htmlLiner[$chatAmbient]=$chatLi['chat'];
+	$cline = ($chatLi['privateAction']) ? '<div style="background-color:#0b3553; border:1px solid #333; !important;">'.$chatLi['chat'].'</div>': $chatLi['chat'];
+	
+	if(isSet($htmlLiner[$chatAmbient])) $htmlLiner[$chatAmbient].=$cline;
+	else $htmlLiner[$chatAmbient]=$cline;
 }
 }
 

@@ -171,7 +171,7 @@ elseif(isSet($_GET['approval']))
 		mysql_query("INSERT INTO fed_pad (paddFrom, paddTo, paddTitle, paddText, paddTime, paddRead) VALUES (".$_SESSION['pgID'].", $to, 'Approvazione Proposta','$cString',$curTime,0)"); 
 		
 		$approvedUser = new PG($to);
-		$approvedUser->addPoints(1,'FOOD','Proposta cibo Replicatore','Proposta cibo Replicatore',$assigner=518);
+		$approvedUser->addPoints(3,'FOOD','Proposta cibo Replicatore','Proposta cibo Replicatore',$assigner=518);
 		
 		header('location:replicator.php?admin=true'); exit;
 	}

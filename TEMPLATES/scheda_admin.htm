@@ -42,9 +42,8 @@
 			</a> 
 			<br />
 			<br />
-			<a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=resetUP">
-			<div style="border:1px solid #2e7ec8; float:left; width:120px;">RESET UP</div>
-			</a>
+			
+			
 			
 			<div style="clear:both" />
 		</div>
@@ -146,12 +145,26 @@
 
 <div style="border:1px solid #2e7ec8; margin-top:10px; padding:4px;"><span style="font-weight:bold;">IMPOSTA UP</span>
 <form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setUPPoints" method="POST">
-	<input type="hidden" value="aa11" name="addPoints"/>
-	<input type="text" placeholder="Punti" name="points" style="width:40px;" /> 
-	<select name="type" style="width:120px;"><option value="skills">UP Abilità</option><option value="specials">UP Speciali</option><option value="social">UP Sociali</option></select>
+	<input type="text" placeholder="Punti" tal:attributes="value pgUpgradePoints" name="points" style="width:40px;" /> 
+
+	<!--<select name="type" style="width:120px;"><option value="skills">UP Abilità</option><option value="specials">UP Speciali</option><option value="social">UP Sociali</option></select>-->
 	<input type="submit" value="VAI" />
 </form>
 </div>
+<div style="border:1px margin-top:10px; background-color: 1px solid #2e7ec8;">
+	<form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=editCar" method="POST">
+		<p tal:repeat="c caratt"> 
+			<span tal:content="repeat/c/key" />: <select tal:attributes="name string:edi_${repeat/c/key}"><option tal:repeat="k php:range(0,15)" tal:attributes="value k; selected php:(k EQ c) ? 'selected' : ''" tal:content="k"></option></select>
+		</p>
+		<div style="clear:both" />
+		<input type="submit" value="VAI" />
+	</form>					
+</div>
+
+<a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=resetAbilToRace" onclick="javascript: return confirm('Sicuro? Contatta Moreno prima di usare questo comando!');"><div style="border:1px solid #2e7ec8; margin-top:10px;">Carica Profilo Abilità di Razza</div></a> 
+
+<a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=resetAbilTotal" onclick="javascript: return confirm('Sicuro?');"><div style="border:1px solid #2e7ec8; margin-top:10px;" >Reset Totale Abilità</div></a> 
+
 </div>
 
 
@@ -178,8 +191,20 @@
 		<a tal:attributes="href string:scheda.php?s=kavanagh&pgID=${selectedUser}">
 			<div style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;">Kavanagh</div>
 			</a>
+<a tal:attributes="href string:scheda.php?s=matto&pgID=${selectedUser}" tal:condition="php:(adminOstePanel == 'yes')">
+			<div style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;">Matto</div>
+			</a>
+		<a tal:attributes="href string:scheda.php?s=reminder&pgID=${selectedUser}">
+			<div style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;">Ricorda di azionare</div>
+		</a>
+
 		<a tal:attributes="href string:scheda.php?s=document&pgID=${selectedUser}">
 			<div style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;">Padd Benvenuto</div>
+			</a>
+
+		<a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=curse">
+
+			<div  style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;" tal:content="php:(cursed ? 'SMMALEDICI PG' : 'MALEDICI PG')"></div>
 			</a>
 	</div>
 	

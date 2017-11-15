@@ -47,10 +47,10 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 	else if(ida == 'holo') window.open ('coLocation.php?get=holodeck','fed_main', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0');
 	}
 	function postOpener(ida){window.open ('chat.php?amb='+ida,'fed_main', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0');}
-	function cdbOpen(){window.open ('cdb.php','cdb', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1000,height=660');}
-	function cdbOpenToTopic(ida){window.open ('cdb.php?topic='+ida,'cdb', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1000,height=660');}
-	function dbOpen(){window.open ('db.php','db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=617');}
-	function dbOpenToTopic(ida){window.open ('db.php?element='+ida,'db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=617');}
+	function cdbOpen(){window.open ('cdb.php','cdb', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1000,height=670');}
+	function cdbOpenToTopic(ida){window.open ('cdb.php?topic='+ida,'cdb', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1000,height=670');}
+	function dbOpen(){window.open ('db.php','db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=670');}
+	function dbOpenToTopic(ida){window.open ('db.php?element='+ida,'db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=670');}
 	function locOpen(){window.open ('localize.php','localize', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=505,height=605');}
 	function paddOpen(){window.open ('padd.php','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
 	function statusOpen(){window.open ('padd.php?s=sh','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}

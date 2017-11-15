@@ -3,11 +3,12 @@
 <img src="TEMPLATES/img/interface/mainInterface/risorse.png"/>
 <p style="margin:15px 0px 0px 15px;"><a href="javascript:void(0);" onclick="jQuery('#regDocu').toggle('fade');" class="interfaceLink">Regolamento e Documentazione</a></p>
 <div id="regDocu" style=" display:none; margin-left:40px; margin-top:5px;">
-<p style="margin:0px;"> &raquo; <a href="index.php?guide=true" target="_blank" class="interfaceLinkBlue">Guida al Gioco</a></p>
+<!--<p style="margin:0px;"> &raquo; <a href="index.php?guide=true" target="_blank" class="interfaceLinkBlue">Guida al Gioco</a></p>-->
 <p style="margin:0px;"> &raquo;  <a href="javascript:dbOpenToTopic(186)" class="interfaceLinkBlue"> La Federazione Unita dei Pianeti </a></p>
 <p style="margin:0px;"> &raquo;  <a href="javascript:dbOpenToTopic(150)" class="interfaceLinkBlue"> Regolamento di Gioco </a></p>
 <p style="margin:0px;"> &raquo;  <a href="javascript:dbOpenToTopic(151)" class="interfaceLinkBlue"> Frequently Asked Questions </a></p>
 <p style="margin:0px;"> &raquo;  <a href="javascript:dbOpenToTopic(262)" class="interfaceLinkBlue"> Il Gioco di Ruolo </a></p>
+
 <p style="margin:0px;"> &raquo; <a href="javascript:dbOpenToTopic(265)" class="interfaceLinkBlue"> Il sistema dei Federation Points </a></p>
 <p style="margin:0px;"> &raquo; <a href="javascript:dbOpenToTopic(259)" class="interfaceLinkBlue"> Turnazione</a></p>
 <p style="margin:0px;"> &raquo; <a href="javascript:dbOpenToTopic(248)" class="interfaceLinkBlue"> Piccolo Glossario Trek </a></p>
@@ -16,9 +17,7 @@
 <p style="margin:5px 0px 0px 15px;"><a href="javascript:void(0);" onclick="jQuery('#regGuid').toggle('slide');" class="interfaceLink">Il tuo PG</a></p> 
 <div id="regGuid" style="display:none; margin-left:40px; margin-top:5px;"> 
 <p style="margin:0px;"> &raquo; <a href="javascript:dbOpenToTopic(241)" class="interfaceLinkGreen"> La stesura del Background </a></p>
-<p style="margin:0px;"> &raquo; <a href="javascript:cdbOpenToTopic(58)" class="interfaceLinkGreen"> Ti serve un avatar? </a></p>
-<p style="margin:0px;"> &raquo; <a href="javascript:dbOpenToTopic(242)" class="interfaceLinkGreen"> Lauree </a></p>
-<p style="margin:0px;"> &raquo; <a href="javascript:dbOpenToTopic(243)" class="interfaceLinkGreen"> Brevetti e Abilità</a></p>
+<p style="margin:0px;"> &raquo; <a href="javascript:dbOpenToTopic(243)" class="interfaceLinkGreen"> Dadi, Abilità e Caratteristiche</a></p>
 
 <p style="margin:0px;" tal:condition="php:user.pgSpecie == 'Umana' || user.pgSpecie == 'Umana-Vulcaniana' || user.pgSpecie == 'Umana-Betazoide'"> &raquo; <a href="javascript:dbOpenToTopic(252)"  class="interfaceLinkGreen"> Umani e Terra del XXIV secolo </a></p>
 <p style="margin:0px;" tal:condition="php:user.pgSpecie == 'Trill'"> &raquo; <a href="javascript:dbOpenToTopic(218)"  class="interfaceLinkGreen">I Trill </a></p>

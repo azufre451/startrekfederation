@@ -13,9 +13,24 @@
 	
 	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
-	<script type="text/javascript" src="TEMPLATES/js/mapCore.js?v=1.4.5"/>
+	<script type="text/javascript" src="TEMPLATES/js/mapCore.js?v=1.5.1"/>
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+
+	<script type="text/javascript" src="TEMPLATES/js/easyNotify.js"></script>
+
+
+	<script tal:condition="exists:noauth">alert("Attenzione: in questa chat si sta svolgendo una giocata privata ad invito e l'accesso è riservato!");</script>
 	
+	
+
+	<script>
+
+var myImg = "https://unsplash.it/600/600?image=777";
+
+
+</script>
+
+
 	<title>STAR TREK FEDERATION</title>
 	
 	<style>@font-face{font-family:'federationFont';src: url('TEMPLATES/Roddenberry.eot');src: url('TEMPLATES/Roddenberry.ttf') format('truetype');} .hourCol{font-family:federationFont, Impact; vertical-align:middle; font-size:18px; color:#0077c3; width:40px;} .expiring{color:#FC0;}</style>
@@ -88,7 +103,10 @@
 	<div id="federation_interfaceCenterTitle">
 		<div style="text-align:center; font-family:helvetica; font-weight:bold; margin-top:10px; font-size:14px;"><span tal:content="placeName" /><br />
 		<a href="portataLister.php" class="interfaceLinkBlue" tal:condition="php:(showSbarcoImbarco == 'true')"> > SBARCO < </a>
-		<a class="interfaceLinkBlue" tal:condition="exists:toHangar" tal:attributes="href string:chat.php?amb=${toHangar}"> > SBARCO IN HANGAR < </a></div>
+		<a class="interfaceLinkBlue" tal:condition="exists:toHangar" tal:attributes="href string:chat.php?amb=${toHangar}"> > SBARCO IN HANGAR < </a>
+
+
+		</div>
 	</div>
 	<a href="#" onClick="javascript:cdbOpen();"><div tal:condition="php:(setDBOn==false)" id="btnComputer" /><div tal:condition="php:(setDBOn==true)" id="btnComputer_a" /></a>
 	<a href="#" onClick="javascript:dbOpen();"><div id="btnDatabase" /></a>

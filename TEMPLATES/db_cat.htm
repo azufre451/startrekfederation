@@ -1,14 +1,17 @@
 ﻿<html xmlns="http://www.w3.org/1999/xhtml">
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <head>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<meta charset="UTF-8" />
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/db.css?v=1.3" rel="stylesheet" type="text/css" /> 
+	
+	<link tal:attributes="href string:TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link tal:attributes="href string:TEMPLATES/css/db.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" /> 
+
 	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
 	
+	<link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet" />
+
 	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
@@ -19,8 +22,6 @@
 		});
 	</script>
 
-	<title>FEDERATION - DATABASE</title>	
-	<script type="text/javascript" src="TEMPLATES/js/google.js"></script>
 	<style>
 	.interfaceLinkRed, .interfaceLinkTeal, .interfaceLinkOrange, .interfaceLinkYellow, .interfaceLinkViolet
 	{font-size:12px; font-weight:bold; font-family:verdana;}
@@ -37,6 +38,11 @@
 	.interfaceLinkYellow:hover{color:yellow;}
 	.interfaceLinkViolet{color:violet;}
 	.interfaceLinkViolet:hover{color:violet;}</style>
+
+	<title>STF - DATABASE</title>	
+	<meta name="description" tal:content="description" />
+	<meta name="keywords" tal:content="metaKeywords" />
+
 </head>
 
 <body style="background-repeat:no-repeat; background-color:black;">

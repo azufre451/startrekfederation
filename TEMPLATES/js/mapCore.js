@@ -25,6 +25,20 @@
 			timeout:1000
 			}); 
 		}
+
+
+		function notifyDesktop(txt,icon,func,title){
+
+			 jQuery("#easyNotify").easyNotify( {
+	    		title: title,
+	    		options: {
+	      			body: txt,
+	      			icon: icon,
+	      			lang: 'it-IT',
+	      			onClick: func
+	    		}
+	  		}); 
+	  	}
 		
 		function setterCA(data)
 		{
@@ -35,11 +49,14 @@
 			
 			if(data['NP'] == 1)
 			{
+				
+
 				if(jQuery('#federation_montUL').prop('class')=='paddOFF')
 				{
-				if (document.getElementById('audioNotify')) document.getElementById('audioNotify').play();
-				jQuery('#federation_montUL').prop('class','paddON');
-				jQuery('#federation_montUL').prop('title',data['NP']+' nuovi messaggi');
+					notifyDesktop(data['NPtitle'],data['NPavatar'],paddOpen,'Nuovo DPADD');
+					if (document.getElementById('audioNotify')) document.getElementById('audioNotify').play();
+					jQuery('#federation_montUL').prop('class','paddON');
+					jQuery('#federation_montUL').prop('title',data['NP']+' nuovi messaggi');
 				}
 			}
 			else
@@ -47,24 +64,21 @@
 			
 			if(data['NOTIFY'])
 			{
-				jQuery('#alertTitle').html(data['NOTIFY']['TITLE']);
-				jQuery('#alertMessage').html(data['NOTIFY']['TEXT']);
-				jQuery('#messageAlert img.imager').prop('src',data['NOTIFY']['IMG']);
+				notifyDesktop(data['NOTIFY']['TEXT'],data['NOTIFY']['IMG'],function(){},data['NOTIFY']['TITLE']);
 				
-				jQuery('#messageAlert').fadeIn(600,function(){
 				jQuery.post('ajax_delete_specific.php?A=b');
+
 				if (document.getElementById('audioNotify')) document.getElementById('audioNotify').play();
-				setTimeout(function(){
-				jQuery('#messageAlert').fadeOut(600);
-				},10000); 
-				});
+				
 			}
 			
 			if(data['SU']){
 				if(jQuery('#federation_rightBottomSussurro').prop('class')=='sussOFF')
 				{
 					jQuery('#federation_rightBottomSussurro').prop('class','sussON');
+
 					if (document.getElementById('audioNotify')) document.getElementById('audioNotify').play();
+					notifyDesktop('Hai un nuovo sussurro','TEMPLATES/img/logo_fed_fb.jpg',whisperOpen,'Notifica');
 				}
 			} 
 			else jQuery('#federation_rightBottomSussurro').prop('class','sussOFF'); 

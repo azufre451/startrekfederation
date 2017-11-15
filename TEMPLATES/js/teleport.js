@@ -1,8 +1,6 @@
 /*
 * Original Author: Moreno Zolfo, Star Trek Federation GdR. All rights reserved.
-*/
-		
-		
+*/ 
 		function selectTeleportable(ider)
 		{
 			if(!jQuery('#'+ider).hasClass('littleUserSign_active')) jQuery('#'+ider).addClass('littleUserSign_active');

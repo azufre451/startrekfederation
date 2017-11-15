@@ -5,22 +5,36 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" /> 
-	<link id="alerter" tal:attributes="href string:TEMPLATES/css/${alertCSS}.css" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=1.8" rel="stylesheet" type="text/css" /> 
+	<link href="TEMPLATES/css/circle.css?v=1.7" rel="stylesheet" type="text/css" />
+	<link id="alerter" tal:attributes="href string:TEMPLATES/css/${alertCSS}.css" tal:condition="php:alertCSS != ''" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
 	
-	
-	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" /> 
-	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />  
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
-	<script type="text/javascript" src="TEMPLATES/js/chatCore.js?v=1.5"/>
-	
+	<script type="text/javascript" src="TEMPLATES/js/chatCore.js?v=1.5.5"/>
+	<script type="text/javascript" src="TEMPLATES/js/easyNotify.js"></script>
 	<script type="text/javascript" src="TEMPLATES/js/highlight.js"></script>
 
 	<title>STAR TREK: FEDERATION</title>
 	
 	<style tal:content="user/customCSS" tal:condition="php:(user.customCSS != '')" />
 	
+
+	<script> jQuery(function() { jQuery('.tooltip').tooltip({
+          content: function () {
+              return jQuery(this).prop('title');
+          }
+      });});
+     </script>
+
+     <style>.ui-tooltip-content {
+    font-family:Helvetica;
+	font-size:13px;
+	font-variant:small-caps;
+  	}</style>
 </head>
 
 <body style="background-color:black; background-image:url('TEMPLATES/img/main_login.jpg')">
@@ -91,10 +105,10 @@
 	<div id="federation_interfaceTop">
 	<div id="federation_interfaceTopLeft" />
 	<div id="federation_topRightPre" />
-	</div>
-	
+	</div> 
+
 	<div id="federation_interfaceCenterTitle">
-		<div style="text-align:center; font-family:helvetica; font-weight:bold; margin-top:10px; font-size:14px;"><span tal:content="placeName" id="placeName" /><br /><span tal:content="ambient/locName" style="font-variant:small-caps;" id="ambientName" /> <a href="javascript:void(0);" onclick="javascript:jQuery('#locationMap').fadeIn(150);" tal:condition="php:(ambient['locationable'] == 1)" class="interfaceLink">(POS)</a></div>
+		<div style="text-align:center; font-family:helvetica; font-weight:bold; margin-top:10px; font-size:14px;"><span tal:content="placeName" id="placeName" /><br /><span tal:content="ambient/locName" style="font-variant:small-caps;" id="ambientName" /><a href="javascript:void(0);" onclick="javascript:jQuery('#locationInfo').fadeIn(150);" class="interfaceLink"> <img style="vertical-align:middle;" src="http://startrekfederation.it/TEMPLATES/img/interface/personnelInterface/info.png"></img> </a>  <!--<a href="javascript:void(0);" onclick="javascript:jQuery('#locationMap').fadeIn(150);" tal:condition="php:(ambient['locationable'] == 1)" class="interfaceLink">(POS)</a>--> <a onclick="javascript:jQuery('#masterDicePanel').fadeIn(150);" tal:condition="exists:isMaster"> T </a> </div>
 	</div>
 	<a href="#" onClick="javascript:cdbOpen();"><div tal:condition="php:(setDBOn==false)" id="btnComputer" /><div tal:condition="php:(setDBOn==true)" id="btnComputer_a" /></a>
 	<a href="#" onClick="javascript:dbOpen();"><div id="btnDatabase" /></a>
@@ -128,10 +142,11 @@
 				<input type="hidden" id="pgID" tal:attributes="value user/ID"/> 
 				</div>
 				
-				<div id="buttonst" style="float: right; width: 120px; text-align:center; margin-top:-10px;">
+				<div id="buttonst" style="float: right; width: 180px; text-align:center; margin-top:-10px;">
 				<a href='javascript:void(0);' onclick="javascript:window.location.reload()"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_ref.png" style="vertical-align:middle;"/></a>
-				<a href='javascript:void(0);' onclick="javascript:jQuery('#locationInfo').fadeIn(200);"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_desc.png" style="vertical-align:middle;"/></a>
-				<a id="loggerbtn" href='javascript:void(0);'  onclick="getLog()" tal:attributes="style php:(minID == 0) ? 'display:none' : ''" ><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_ent.png" title="Salva un Log della giocata" style="vertical-align:middle; cursor:pointer"/></a>
+
+				<!--<a href='javascript:void(0);' onclick="javascript:jQuery('#locationInfo').fadeIn(200);"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_desc.png" style="vertical-align:middle;"/></a>-->
+			
 				<a tal:condition="php:(ambient['ambientType']=='ALLOGGIO')" href='javascript:void(0);' onclick="javascript:dlindlon(jQuery('#locID').prop('value'));"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_ring.png" title="Suona il Campanello" style="vertical-align:middle;"/></a>
 				<a tal:condition="php:(ambient['ambientType']=='ALLOGGIO' || ambient['ambientType']=='REPLICATORE')" href='javascript:void(0);'  tal:attributes="onclick string:javascript:repliOpen('${ambient/locID}')"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_repl.png" title="Replicatore" style="vertical-align:middle;"/></a>
 				<a tal:condition="php:(ambient['ambientType']=='ALLOGGIO')" href='javascript:void(0);'  onclick="javascript:jQuery('#climate').fadeIn(200);"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_clima.png" title="Controllo Ambientale" style="vertical-align:middle;"/></a>
@@ -141,14 +156,23 @@
 				<a tal:condition="php:(ambient['ambientAudio']) != ''" href='javascript:void(0);' onclick="javascript:toggleAudio();"><img id="audioControl" class="imaLer" tal:attributes="src php:(user.audioEnvEnable) ? 'TEMPLATES/img/interface/mainInterface/icon_audio.png' : 'TEMPLATES/img/interface/mainInterface/icon_audio_off.png' ; title php:(user.audioEnvEnable) ? 'Disabilita Audio' : 'Abilita Audio'" style="vertical-align:middle;"/></a>
 				<a tal:condition="php:(ambient['ambientType']) == 'SALA_OLO' && leastOlo" href='javascript:void(0);' onclick="javascript:showRanker();"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_mostrine.png" title="Olomostrine" style="vertical-align:middle;"/></a>
 				<a tal:condition="php:(ambient['ambientType']) == 'INFERMERIA'" href='javascript:void(0);' onclick="javascript:toggleBiobed();"><img id="biobedControlImage" class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_med.png" title="Avvia la Scansione con il Bioletto" style="vertical-align:middle;"/></a> <input type="hidden" id="biobedMode" value="0" />
+
+				<a href='javascript:void(0);' onclick="javascript:initSessionsPanel();" id="sessionSwitch"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_session.png" title="Sessioni e Log" style="vertical-align:middle;"/></a>
+				
+				<!--<a href='javascript:void(0);' onclick="javascript:initPrivatePanel();"  id="privateSwitch"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_private.png" title="Giocata Privata" style="vertical-align:middle;"/></a>-->
+				
+				<a href='javascript:void(0);' onclick="javascript:initDice();"  id="diceSwitch"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_dice.png" title="Usa Abilità" style="vertical-align:middle;"/></a>
+				
+				<p id="counter" class="imaLer" title="Caratteri inseriti" style="color:#333; font-weight:bold; font-family:Helvetica; border:1px solod #333; padding:3px; width:80px; text-align:center; display:inline-block; background-color:#111; margin:0;">0</p>
+				
+				
+				
 				<select tal:condition="php:(ambient['ambientType']) == 'DECKMAP'" onchange="javascript:window.location.href=this.value" style="width:80px;"><option tal:attributes="value string:chat.php?amb=${ambient/locID}"> -- </option><option style="margin:0px; text-align:center;" tal:repeat="place connectedPlaces" tal:attributes="value string:chat.php?amb=${repeat/place/key}" tal:content="place"/></select>
 				
 				
 				
 				</div>
-				<div style="float:right; text-align:center; margin-left:10px; width:70px; margin-right:10px;">
-				<button type="submit" style="border-radius:10px;vertical-align:middle; width:55px; margin-left:5px;" onclick="javascript:sendChat();">INVIA</button><p id="counter" style="margin:0px; margin-top:5px; color:#333; font-weight:bold; font-family:Helvetica">0</p>
-				</div>
+				  
 				
 		</div>
 	</div>
@@ -170,15 +194,87 @@
 <button style="position:absolute; bottom:7px; right:7px;" onclick="javascript:jQuery('#locationInfo').fadeOut(150);">X</button>
 </div>
 
+<div id="dicePanel" class="popup blackOpacity">
+
+	<p class="clockTitle blackOpacity" style="text-align:center;  margin:0px; margin-bottom:20px; font-size:22px;">Lancia un dado</p>
+
+	<select onchange="javascript:diceChanger()" id="selectedDiceSkill" ><optgroup tal:repeat="cat php:abilDescriptor::getAllAbil()" tal:attributes="label php:abilDescriptor::translate(repeat.cat.key)"><option tal:repeat="ab cat" tal:attributes="value ab/abID" tal:content="ab/abName"></option></optgroup></select>
+
+	<div style="clear:both"></div>
+	<div class="abilDiceBox">
+
+		<div id="aAB1" class="GEN">
+			<div class="abGauge c100 p40 small tooltip" title="Abilita X" style="z-index:0">
+				<img class="abImage" />
+				<span class="abText">1</span>
+				<div class="slice"> 
+					<div class="bar"></div>
+					<div class="fill"></div>
+				</div>
+			</div>					
+		</div>  
+
+		<div id="aSK0" class="ABIL">
+			<div class="hline"></div>
+			<div class="abGauge c100 p40 small tooltip" title="Abilita X" style="z-index:0">
+				<img class="abImage" />
+				<span class="abText">1</span>
+				<div class="slice">
+					<div class="bar"></div>
+					<div class="fill"></div>
+				</div>
+			</div>				
+		</div>
+
+		<div id="aSK1" class="ABIL"  style="clear:both">
+			<div class="vline"></div>
+			<div class="abGauge c100 p40 small tooltip aux" title="Abilita X" style="z-index:0">
+				<img class="abImage" />
+				<span class="abText">1</span>
+				<div class="slice">
+					<div class="bar"></div>
+					<div class="fill"></div>
+				</div>
+			</div>				
+		</div>
+
+		
+	</div>
+
+	<div style="float:left; margin-top:20px; margin-left:20px; width:352px; display:none;" id="exDicer">
+	<div class="table">
+			<p style="font-weight:bold;"> <img id="strDicer" class="tooltip" style="cursor:pointer; vertical-align:middle;" src="http://startrekfederation.it/TEMPLATES/img/interface/personnelInterface/info.png"></img> Previsione sul lancio del d20:  </p>
+			<div tal:repeat="t php:range(1,10)" tal:attributes="id string:dicer_${t}"><p tal:content="t"></p>  </div>	
+			<div tal:repeat="t php:range(11,20)" tal:attributes="id string:dicer_${t}"><p tal:content="t"></p>  </div>
+
+	</div>
+	<div style="clear: both" />
+	<div style="margin-top:20px">
+			<input onclick="javascript:rollDice();" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:#1e7597;" value="Lancia il Dado!" class="ui-button ui-widget ui-state-default ui-corner-all" />
+	</div>
+	</div>
+
+
+
+
+
+	<button style="position:absolute; top:7px; right:7px;" onclick="javascript:jQuery('#dicePanel').fadeOut(150);">X</button>
+
+</div>
+
+
 <div metal:use-macro="TEMPLATES/metal_panels.htm/locationMapPanel" tal:condition="php:(ambient['locationable'])"/>
 <div metal:use-macro="TEMPLATES/metal_panels.htm/replicatorPanel" tal:condition="php:(ambient['ambientType']=='ALLOGGIO' || ambient['ambientType']=='REPLICATORE')"/>
 <div metal:use-macro="TEMPLATES/metal_panels.htm/teleporterPanel" tal:condition="php:(ambient['ambientType']=='SALA_TEL' || ambient['ambientType']=='PLANCIA' || ambient['ambientType']=='INFERMERIA')"/>
 <div metal:use-macro="TEMPLATES/metal_panels.htm/olorankerPanel" tal:condition="php:(ambient['ambientType']=='SALA_OLO') && leastOlo" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/climatePanel" tal:condition="php:(ambient['ambientType']=='ALLOGGIO')" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/commPanel" tal:condition="php:(ambient['ambientType']=='PLANCIA')" />
+<!--<div metal:use-macro="TEMPLATES/metal_panels.htm/privatePanel" />-->
+<div metal:use-macro="TEMPLATES/metal_panels.htm/sessionsPanel" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/alertPanelChat" />
 
 <div metal:use-macro="TEMPLATES/metal_panels.htm/wordrobePanel" />
+<div metal:use-macro="TEMPLATES/metal_panels.htm/masterDicePanel" tal:condition="exists:isMaster" />
 
 
 <div metal:use-macro="TEMPLATES/guidar.htm/guidePanel" />

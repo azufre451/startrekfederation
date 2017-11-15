@@ -8,124 +8,125 @@ include('includes/validate_class.php');
 
 if(isSet($_GET['registerUser']))
 {	
-	 $pgTarget= explode('_',$_POST['select_grado']);
+	$pgTarget= explode('_',$_POST['select_grado']);
 
-
-	exit;
+	$vali = new validator();
+	
 	
 	$pgName= ucfirst(addslashes(($_POST['select_cognome'])));
 	$pgNameFirst= ucfirst(addslashes(($_POST['select_nome'])));
-	
+
 	$emai= (htmlentities(addslashes(($_POST['select_email'])),ENT_COMPAT, 'UTF-8'));
 	
 	$pgSpecie= (htmlentities(addslashes(($_POST['select_razza'])),ENT_COMPAT, 'UTF-8'));
+
+	$abil = array(
+		'HT'=>$vali->numberOnly($_POST['select_ht']),
+		'PE'=>$vali->numberOnly($_POST['select_pe']),
+		'WP'=>$vali->numberOnly($_POST['select_wp']),
+		'IQ'=>$vali->numberOnly($_POST['select_iq']),
+		'DX'=>$vali->numberOnly($_POST['select_dx'])
+		);
 	
-	if(!in_array($pgSpecie,array('Andoriana','Bajoriana','Benzita','Betazoide','Boliana','Caitiana','Deltana','Denobulana','Risiana','Tellarita','Trill','Umana','Vulcaniana','Zakdorn','Zaldan'))){header('Location:http://www.youtube.com/watch?v=SGFz5v_P2ug'); exit;}
+	$abM8=0;
+	foreach($abil as $ra => $sa){if ($sa > 8) $abM8 = 1;}
+
+	$pgTarget= explode('_',$_POST['select_grado']);
+	$pgRealTarget= $vali->numberOnly($pgTarget[0]);
 	
 	$pgSesso= strtoupper(htmlentities(addslashes(($_POST['select_sesso'])),ENT_COMPAT, 'UTF-8'));
 	$pgAuth= (htmlentities(addslashes(($_POST['pgAuth'])),ENT_COMPAT, 'UTF-8'));
 	
-	if ($pgName =='' || $emai == '' || $pgSpecie == '' || $pgSesso == '') 
+	if ($pgName =='' || !filter_var($emai, FILTER_VALIDATE_EMAIL) || $pgSpecie == '' || $pgSesso == '' || array_sum($abil) != 23 || $abM8 || !in_array($pgSpecie,array('Andoriana','Betazoide','Trill','Umana','Vulcaniana','Bajoriana')) || !in_array($pgRealTarget,array(837,832,827,836,831,826,813,809,834,829,824,811,833,828,823,810,806,835,830,825,812,808,101,119,137,155,173,125,143,161,179,103,121,139,157,175,135,153,171,191,127,145,1))) 
 	{	
-		header('Location:index.php?error=insertion_error');
+		echo json_encode(array('err'=>'IE'));
 		exit;
 	}
 	
-	
-		 mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead) VALUES (518,1,'
-	 Nuova Richiesta di Registrazione!
-	
-	 indirizzo email: ".$emai.",<br/>
-	 User : ".$pgName.",<br/> 
-	 Rank : ".$pgTarget.",<br/>',".time().",0)"); 
-	
+
 	$passer = createRandomPassword();
-	$matri = createRandomMatricola();
+	$matri = createRandomMatricola(); 
 	$pwd = md5($passer);
-	$assignTOSHIP = 'USS2';
-	
+	$assignTOSHIP = 'USS5';
+
 	$re1=mysql_query("SELECT 1 FROM pg_users WHERE email = '$emai'");
-	if (mysql_affected_rows() && $emai != 'png@startrekfederation.it'){header("Location:index.php?error=95"); exit;}
+	if (mysql_affected_rows() && $emai != 'png@startrekfederation.it'){echo json_encode(array('err'=>'ME')); exit;}
 	
 	$re1=mysql_query("SELECT 1 FROM pg_users WHERE pgUser = '$pgName'");
-	if (mysql_affected_rows()){header("Location:index.php?error=96"); exit;}
+	if (mysql_affected_rows()){echo json_encode(array('err'=>'UE')); exit;}
 	
-	$curTimeLL = $curTime - 1801;
+	$curTimeLL = $curTime - 1801;	  
+	 
+	mysql_query("INSERT INTO pg_users(pgUser,pgNomeC, pgPass, pgGrado, pgSezione, pgAssign, pgSeclar, pgAuth, pgLocation, pgRoom, pgAuthOMA, pgSpecie, pgSesso, pgMostrina, rankCode, email,pgLock,pgFirst,iscriDate,pgPoints,audioEnable,pgMatricola,pgIncarico,pgLastAct,pgUpgradePoints,paddMail) VALUES ('$pgName','$pgNameFirst','$pwd','Civile','Nessuna','$assignTOSHIP',1,'$pgAuth','$assignTOSHIP','$assignTOSHIP','N','$pgSpecie','$pgSesso','CIV',1,'$emai',1,1,$curTime,10,1,'$matri','In attesa di assegnazione',$curTimeLL,700,0)");
 	
-	mysql_query("INSERT INTO pg_users(pgUser,pgNomeC, pgPass, pgGrado, pgSezione, pgAssign, pgSeclar, pgAuth, pgLocation, pgRoom, pgAuthOMA, pgSpecie, pgSesso, pgMostrina, rankCode, email,pgLock,pgFirst,iscriDate,pgPoints,audioEnable,pgMatricola,pgIncarico,pgLastAct,pgUpgradePoints, pgSocialPoints) VALUES ('$pgName','$pgNameFirst','$pwd','Civile','Nessuna','$assignTOSHIP',1,'$pgAuth','$assignTOSHIP','$assignTOSHIP','N','$pgSpecie','$pgSesso','CIV',1,'$emai',1,0,$curTime,0,1,'$matri','In attesa di assegnazione',$curTimeLL,60,20)");
+
+	$pipo = mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '".$pgName."'"));
+	$pgNew = new PG($pipo['pgID'],2);
+	$pgNewID = $pgNew->ID;
+
+	mysql_query("INSERT INTO pg_users_bios (pgID) VALUES ($pgNewID)");
 	
-	mysql_query("INSERT INTO pg_users_bios (pgID) VALUES ((SELECT pgID FROM pg_users WHERE pgUser = '".$pgName."'))");
-	
-	mysql_query("INSERT INTO pg_imbarchi (pgID,dateInsert,toAppear) VALUES ((SELECT pgID FROM pg_users WHERE pgUser = '".$pgName."'),".time().",1)");
+	mysql_query("INSERT INTO pg_imbarchi (pgID,dateInsert,toAppear) VALUES ($pgNewID,".time().",1)");
 	
 	/*Aggiungo achi iniziale */
-	mysql_query("INSERT INTO pg_achievement_assign (owner,achi,timer) VALUES ((SELECT pgID FROM pg_users WHERE pgUser = '".$pgName."'),33,".time().")");
+	mysql_query("INSERT INTO pg_achievement_assign (owner,achi,timer) VALUES ($pgNewID,33,".time().")");
 	
-	//mysql_query("INSERT INTO pg_users_pointStory (owner,points,cause,causeM,causeE,timer,assigner) VALUES ((SELECT pgID FROM pg_users WHERE pgUser = '".$pgName."'),5,'ISCR','Bonus iscrizione a STF','Bonus iscrizione a STF',".time().",1)");
+	mysql_query("INSERT INTO pg_users_pointStory (owner,points,cause,causeM,causeE,timer,assigner) VALUES ($pgNewID,10,'ISCR','Bonus iscrizione a STF','Bonus iscrizione a STF',".time().",1)");
 	
 	
-	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead) VALUES (518,(SELECT pgID FROM pg_users WHERE pgUser = '".$pgName."'),'Benvenuto!','<div style=\"text-align:center\"><img src=\"http://miki.startrekfederation.it/SigmaSys/logo/little_logo.png\" /><br /><b>Benvenuto in Star Trek: Federation!</b></div><br />Ti inviamo questo padd come riassunto del materiale informativo presente presso i vari canali di gioco. In caso di perplessita\', non esitare a contattare i master e gli admin di Star Trek: Federation!<br />
-	
-	&raquo; <a href=\"index.php?guide=true\" target=\"_blank\" class=\"interfaceLink\">Guida al Gioco</a>
-	<p style=\"margin:0px; margin-left:30px; \"> Qui puoi trovare tutte le informazioni sulla dinamica di gioco </p>
-	
-	&raquo; <a href=\"javascript:dbOpenToTopic(186)\" class=\"interfaceLink\"> Ambientazione - La Federazione Unita dei Pianeti </a>
-	<p style=\"margin:0px; margin-left:30px; \"> Nuovo all\'ambientazione di Star Trek? Qualche info la trovi qui! </p>
+$pgNew->sendPadd('Benvenuto!','<div style="text-align:center"><img src="http://miki.startrekfederation.it/SigmaSys/logo/little_logo.png" /><br /><b>Benvenuto in Star Trek: Federation!</b></div><br />Ti inviamo questo padd come riassunto del materiale informativo presente presso i vari canali di gioco. In caso di perplessita\', non esitare a contattare le Guide o lo Staff di Star Trek: Federation!<br />
+		
+	&raquo; <a href="javascript:dbOpenToTopic(186)" class="interfaceLink"> Ambientazione - La Federazione Unita dei Pianeti </a>
+	<p style="margin:0px; margin-left:30px; "> Nuovo all\'ambientazione di Star Trek? Qualche info la trovi qui! </p>
 
-	&raquo; <a href=\"javascript:dbOpenToTopic(150)\" class=\"interfaceLink\"> Regolamento di Gioco </a>
-	<p style=\"margin:0px; margin-left:30px; \"> Contiene il regolamento di gioco, dacci un\'occhiata! </p>
+	&raquo; <a href="javascript:dbOpenToTopic(150)" class="interfaceLink"> Regolamento di Gioco </a>
+	<p style="margin:0px; margin-left:30px; "> Contiene il regolamento di gioco, dacci un\'occhiata! </p>
 	
-	&raquo; <a href=\"javascript:dbOpenToTopic(151)\" class=\"interfaceLink\"> Frequently Asked Questions </a>
-	<p style=\"margin:0px; margin-left:30px; \"> Domande e Risposte frequenti. Hai un dubbio? Probabilmente troverai risposta qui </p>
+	&raquo; <a href="javascript:dbOpenToTopic(151)" class="interfaceLink"> Frequently Asked Questions </a>
+	<p style="margin:0px; margin-left:30px; "> Domande e Risposte frequenti. Hai un dubbio? Probabilmente troverai risposta qui </p>
 	
-	&raquo; <a href=\"javascript:dbOpenToTopic(262)\" class=\"interfaceLink\"> Il Gioco di Ruolo</a>
-	<p style=\"margin:0px; margin-left:30px; \"> Guida al gioco di ruolo e ai principi da seguire per giocare al meglio</p>
+	&raquo; <a href="getLog.php?session=322" class="interfaceLink" target="_blank"> Giocata di Esempio </a>
+	<p style="margin:0px; margin-left:30px; "> Ecco una Giocata di esempio di Star Trek: Federation </p>
 	
-	&raquo; <a href=\"javascript:dbOpenToTopic(241)\" class=\"interfaceLink\"> La stesura del Background </a>
-	<p style=\"margin:0px; margin-left:30px; \">Chi e\' il tuo PG? Come descriverlo al meglio? Creare un buon Background e\' fondamentale!</p>
+	&raquo; <a href="javascript:dbOpenToTopic(262)" class="interfaceLink"> Il Gioco di Ruolo</a>
+	<p style="margin:0px; margin-left:30px; "> Guida al gioco di ruolo e ai principi da seguire per giocare al meglio</p>
 	
-	&raquo; <a href=\"javascript:cdbOpenToTopic(58)\" class=\"interfaceLink\"> Ti serve un avatar? </a>
-	<p style=\"margin:0px; margin-left:30px; \">Chiedi qui un fotomontaggio per il tuo PG!</p>
+	&raquo; <a href="javascript:dbOpenToTopic(241)" class="interfaceLink"> La stesura del Background </a>
+	<p style="margin:0px; margin-left:30px; ">Chi e\' il tuo PG? Come descriverlo al meglio? Creare un buon Background e\' fondamentale!</p>
 	
 	<b>Sezione Aiuto: qualche consiglio utile</b>
 	
-	&raquo; <a href=\"javascript:cdbOpenToTopic(64)\" class=\"interfaceLink\"> Lo Staff: Admin e Master di STF </a>
-	&raquo; <a href=\"javascript:dbOpenToTopic(265)\" class=\"interfaceLink\"> Il sistema dei Federation Points </a>
-	&raquo; <a href=\"javascript:dbOpenToTopic(245)\" class=\"interfaceLink\"> Empatia e Telepatia: Betazoidi, Vulcaniani... </a>
-	&raquo; <a href=\"javascript:dbOpenToTopic(249)\" class=\"interfaceLink\"> Stesura dei Rapporti di gioco </a>
-	&raquo; <a href=\"javascript:dbOpenToTopic(259)\" class=\"interfaceLink\"> Turnazione</a>
-	&raquo; <a href=\"javascript:dbOpenToTopic(248)\" class=\"interfaceLink\"> Piccolo Glossario Trek </a>
-	&raquo; <a href=\"javascript:dbOpenToTopic(242)\" class=\"interfaceLink\"> Lauree </a>
-	&raquo; <a href=\"javascript:dbOpenToTopic(243)\" class=\"interfaceLink\"> Brevetti </a>
+	&raquo; <a href="javascript:cdbOpenToTopic(64)" class="interfaceLink"> Lo Staff: Admin e Master di STF </a>
+	&raquo; <a href="javascript:dbOpenToTopic(265)" class="interfaceLink"> Il sistema dei Federation Points </a>
+	&raquo; <a href="javascript:dbOpenToTopic(245)" class="interfaceLink"> Empatia e Telepatia: Betazoidi, Vulcaniani... </a>
+	&raquo; <a href="javascript:dbOpenToTopic(249)" class="interfaceLink"> Stesura dei Rapporti di gioco </a>
+	&raquo; <a href="javascript:dbOpenToTopic(259)" class="interfaceLink"> Turnazione</a>
+	&raquo; <a href="javascript:dbOpenToTopic(248)" class="interfaceLink"> Piccolo Glossario Trek </a>
+	&raquo; <a href="javascript:dbOpenToTopic(242)" class="interfaceLink"> Lauree, Medaglie e Stato di Servizio </a>
 	
-	&raquo; <a href=\"javascript:dbOpen()\" class=\"interfaceLink\"> Documentazione Completa </a>
+	&raquo; <a href="javascript:dbOpen()" class="interfaceLink"> Documentazione Completa </a>
+	
+	Buon gioco,<br />Il team di Star Trek Federation');
+ 
 	
 	
-	Buon gioco,<br />Il team di Star Trek Federation',".time().",0)");
+	mysql_query("INSERT INTO connlog (user,time,ip) VALUES ($pgNewID,$curTime,'".$_SERVER['REMOTE_ADDR']."')");
+	$pgName=stripslashes($pgName);
+	mail($emai,"Star Trek Federation - Benvenuto!","Star Trek Federation - Benvenuto:\n\nCiao, $pgName,\n\nTu, o qualcuno per te, ha provveduto ad eseguire la registrazione del tuo indirizzo email a Star Trek Federation. L'operazione ha avuto esito positivo.\n\nUSERNAME: $pgName\nPASSWORD: $passer\n\nPotrai cambiare la password loggandoti in Star Trek Federation al link http://www.startrekfederation.it\n\nCi auguriamo di vederti presto tra noi!\nIl team di Star Trek: Federation.","From:staff@startrekfederation.it");
+		
+	PG::setMostrina($pgNewID,$pgRealTarget);
 
+	foreach($abil as $keller => $valler)
+		mysql_query("INSERT INTO pg_abilita_levels (pgID,abID,value) VALUES ((SELECT pgID FROM pg_users WHERE pgUser = '".$pgName."'),'$keller','$valler')");
 	
-	$rasa=mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$pgName'"));
-	if (mysql_affected_rows())
-	{
-		$pgneoID = $rasa['pgID'];
-		mysql_query("INSERT INTO connlog (user,time,ip) VALUES ($pgneoID,$curTime,'".$_SERVER['REMOTE_ADDR']."')");
-		$pgName=stripslashes($pgName);
-		mail($emai,"Star Trek Federation - Benvenuto!","Star Trek Federation - Benvenuto:\n\nCiao, $pgName,\n\nTu, o qualcuno per te, ha provveduto ad eseguire la registrazione del tuo indirizzo email a Star Trek Federation. L'operazione ha avuto esito positivo.\n\nUSERNAME: $pgName\nPASSWORD: $passer\n\nPotrai cambiare la password loggandoti in Star Trek Federation al link http://www.startrekfederation.it\n\nCi auguriamo di vederti presto tra noi!\nIl team di Star Trek: Federation\n\n E il Tenente Ostevik è reintegrato nell'equipaggio della USS Endeavour.","From:staff@startrekfederation.it");
-		
-		
-		$vali = new validator();
-		$pgTarget= explode('_',$_POST['select_grado']);
-		$pgRealTarget= $vali->numberOnly($pgTarget[0]);
-		PG::setMostrina($pgneoID,$pgRealTarget);
-		header('Location:index.php?success=true');
-	}
+	$abio = new abilDescriptor($pgNew->ID);
+	$abio->superImposeRace($pgSpecie);
+
+ 
+
+	echo json_encode('OK');
+	exit;
 	
-	else
-	{
-		if (mysql_affected_rows()){header("Location:index.php?error=99"); exit;}
-		exit;
-	}
-	 
 }
 
 if(isSet($_GET['createPNG']))
@@ -287,21 +288,46 @@ else if (isSet($_GET['mostrina']))
 else if (isSet($_GET['delete']))
 {
 	$to = $vali->numberOnly($_GET['delete']);
+	$pgID = $to;
 	$dest = ($_GET['place']);
 	$timeString =substr(time(),4,4).'_';
 	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
 	{
 	//mysql_query("UPDATE cdb_posts SET owner = 6 WHERE owner = $to");
-	mysql_query("DELETE FROM pg_alloggi WHERE pgID = $to");
-	mysql_query("DELETE FROM pgDotazioni WHERE pgID = $to");
-	mysql_query("DELETE FROM pg_brevetti_assign WHERE owner = $to");
-	mysql_query("DELETE FROM pg_notes WHERE owner = $to");
-	mysql_query("DELETE FROM pgMedica WHERE pgID = $to");
-	mysql_query("DELETE FROM fed_pad WHERE paddFrom = $to");
-	mysql_query("DELETE FROM pg_user_stories WHERE pgID = $to");
-	mysql_query("UPDATE pg_users SET pgUser = CONCAT('$timeString',pgUser), pgLocation = 'BAVO',pgAssign='BAVO', email = CONCAT('$timeString',email), pgRoom ='BAVO', pgAuthOMA='BAN', pgOffAvatarC = '', pgOffAvatarN='' WHERE pgID = $to");
-	mysql_query("UPDATE pg_users SET pgIncarico = '-' WHERE pgAssign ='BAVO'");
-	//mysql_query("DELETE FROM pg_users WHERE pgID = $to");
+
+mysql_query("UPDATE calendar_events SET 'sender' = 6 WHERE sender = '$pgID';");
+mysql_query("UPDATE cdb_calls_comments SET 'owner' = 6 WHERE owner = '$pgID';");
+mysql_query("UPDATE cdb_calls_results SET 'pgUser' = 6 WHERE pgUser = '$pgID';");
+mysql_query("UPDATE cdb_posts SET 'owner' = 6 WHERE owner = '$pgID';");
+mysql_query("UPDATE cdb_posts SET 'coOwner' = 6 WHERE coOwner = '$pgID';");
+mysql_query("UPDATE cdb_topics SET 'topicLastUser' = 6 WHERE topicLastUser = '$pgID';");
+mysql_query("UPDATE db_elements SET 'lvisit' = 6 WHERE lvisit = '$pgID';");
+mysql_query("UPDATE federation_chat SET 'sender' = 6 WHERE sender = '$pgID';");
+mysql_query("UPDATE federation_sessions SET 'sessionOwner' = 6 WHERE sessionOwner = '$pgID';");
+mysql_query("UPDATE fed_pad SET 'paddFrom' = 6 WHERE paddFrom = '$pgID';");
+mysql_query("UPDATE fed_pad SET 'paddTo' = 6 WHERE paddTo = '$pgID';");
+mysql_query("UPDATE fed_sussurri SET 'susFrom' = 6 WHERE susFrom = '$pgID';");
+mysql_query("UPDATE fed_sussurri SET 'susTo' = 6 WHERE susTo = '$pgID';");
+mysql_query("UPDATE pg_notes SET 'owner' = 6 WHERE owner = '$pgID';");
+mysql_query("DELETE FROM cdb_posts_seclarExceptions WHERE pgID = '$pgID';");
+#mysql_query("DELETE FROM connlog WHERE user = '$pgID';");
+mysql_query("DELETE FROM fed_ambient_auth WHERE pgID = '$pgID';");
+mysql_query("DELETE FROM fed_food_replications WHERE user = '$pgID';");
+mysql_query("DELETE FROM pgDotazioni WHERE pgID = '$pgID';");
+mysql_query("DELETE FROM pgMedica WHERE pgID = '$pgID';");
+mysql_query("DELETE FROM pg_abilita_levels WHERE pgID = '$pgID';");
+mysql_query("DELETE FROM pg_achievement_assign WHERE owner = '$pgID';");
+mysql_query("DELETE FROM pg_alloggi WHERE pgID = '$pgID';");
+mysql_query("DELETE FROM pg_brevetti_assign WHERE owner = '$pgID';");
+mysql_query("DELETE FROM pg_groups_ppl WHERE pgID = '$pgID';");
+mysql_query("DELETE FROM pg_objects WHERE owner = '$pgID';");
+mysql_query("DELETE FROM pg_service_stories WHERE owner = '$pgID';");
+mysql_query("DELETE FROM pg_users_bios WHERE pgID = '$pgID';");
+mysql_query("DELETE FROM pg_users_pointStory WHERE owner = '$pgID';");
+mysql_query("DELETE FROM pg_users_tutorial WHERE pgID = '$pgID';");
+mysql_query("DELETE FROM pg_user_stories WHERE pgID = '$pgID';");
+mysql_query("UPDATE pg_users SET pgUser = CONCAT('$timeString',pgUser), pgLocation = 'BAVO',pgAssign='BAVO', email = CONCAT('$timeString',email), pgRoom ='BAVO',pgIncarico = '-', pgAuthOMA='BAN', pgOffAvatarC = '', pgOffAvatarN='' WHERE pgID = $to");
+
 	}
 	header("Location:crew.php?equi=$dest");
 	exit;

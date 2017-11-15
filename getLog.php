@@ -9,9 +9,9 @@ $vali = new validator();
 $user=new PG($_SESSION['pgID']);
 $userName = $user->pgUser;
 
-$ambient = $vali->killchars(htmlentities(addslashes($_GET['amb'])));
-$fromID = $vali->killchars(htmlentities(addslashes($_GET['lastID'])));
 
+
+$sessionID = $vali->numberOnly(($_GET['session']));
 
 $htmlLiner = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -39,17 +39,17 @@ img{border:0px;}
 .chatAction,.subspaceCom,.commMessage,.chatQuotation,.chatQuotationAction,.chatUser{font-style:italic;}
 .chatAction,.subspaceCom,.commMessage,.chatTag,.masterAction, .globalAction,.offAction,.auxAction, .tempMasterAction,.specificMasterAction,.oloMasterAction{font-weight:bold;}
 .chatAction,.subspaceCom,.commMessage,.chatDirect{margin:0px;margin-top:4px;}
-.chatAction,.subspaceCom,.commMessage{font-size:12px;}
+.chatAction,.subspaceCom,.commMessage{font-size:14px;}
 
 .chatAction{color:#3188F3; line-height:1.3em;}
 .subspaceCom,.commMessage{color:#ffefcc;}
-.subspaceComPre,.commPreamble{font-size:11px;color:#e8a30e;}
-.chatDirect{font-size:13px;color:#EEE;}
+.subspaceComPre,.commPreamble{font-size:12px;color:#e8a30e;}
+.chatDirect{font-size:15px;color:#EEE;}
 .chatInvisi{height:0px;}
 .chatQuotation{color:#d7a436;}
 .chatQuotationAction,.chatUser{color:#999;}
 
-.chatTag{font-size:11px;color:#d7a436;}
+.chatTag{font-size:12px;color:#d7a436;}
 .chatUser{margin-right:5px;}
 .highlight{
 text-shadow: 0 0 2px #47cd35;
@@ -59,7 +59,7 @@ color:#47cd35;
 .turnElement{
 	margin:0px;
 	margin-top:2px;
-	font-size:11px;
+	font-size:13px;
 	font-weight:bold;
 	text-align:left;
 	margin-left:3px;
@@ -81,7 +81,7 @@ color:#47cd35;
 }
 .globalAction > div:first-child , .masterAction > div:first-child, .oloMasterAction > div:first-child, .offAction > div:first-child, .auxAction > div:first-child, .specificMasterAction   > div:first-child, .diceAction  > div:first-child, .oloMasterAction  > div:first-child {
 float:left;
-font-size: 10px;
+font-size: 12px;
 margin-top:-8px;
 margin-left:-8px;
 padding: 3px 10px; 
@@ -233,7 +233,7 @@ cursor:pointer;
 .repliLine{width:630px; margin:auto; height:auto;}
 .repliLeft, .repliRight{margin:0px; font-weight:normal; text-align:center;  font-size:15px; font-weight:bold; display: inline-block; vertical-align:middle;}
 .repliLeft img{vertical-align:middle; float:left; width:150px; display: table-cell; vertical-align:middle;}
-.repliRight span{font-style:italic; color:white; font-weight:normal; font-size:11px;}
+.repliRight span{font-style:italic; color:white; font-weight:normal; font-size:13px;}
 .repliLeft{width:150px;}
 .repliRight{width:455px; margin-left:5px;}
 
@@ -245,11 +245,11 @@ input, select, textarea, button
 	border:1px solid #999;
 	background-color:black;
     font-family: Helvetica;
-    font-size: 12px;
+    font-size: 13px;
     padding: 1px;
 }
 
-textarea {font-size:12px;}
+textarea {font-size:13px;}
 input:focus, select:focus, textarea:focus, button:focus
 {
 	color:white;
@@ -270,14 +270,25 @@ input:hover, select:hover, textarea:hover, button:hover
 <div style="float:left; width:40%; border:1px solid #333; margin-left:30px; padding:20px;"><p style="text-align:center;color:orange; font-weight:bold;">Presenti alla giocata:</p><br /><table><tr style="padding:20px; font-size:12px; text-align:center;"><td style="width:180px;">PG</td><td>Prima Azione</td><td>Ultima Azione</td><td>Azioni</td></tr>
 ';
 
-if ($fromID > 0)
+if ($sessionID > 0)
 {
-	$currentAmbient = Ambient::getAmbient($ambient);
-	$currentLocation = PG::getLocation($currentAmbient['ambientLocation']);
-	$currentLocationName = $currentLocation['placeName'];
-		$placeLogo=$currentLocation['placeLogo'];
+	$sesser = mysql_fetch_assoc(mysql_query("SELECT * from federation_sessions,pg_places,fed_ambient WHERE placeID = ambientLocation AND locID = sessionPlace AND sessionID = $sessionID"));
+ 
 	
-	$presents = mysql_query("SELECT DISTINCT pgUser,ordinaryUniform,pgGrado,pgSezione,MIN(time) as minner, MAX(time)  as maxer,COUNT(chat) as chatter FROM pg_users,federation_chat,pg_ranks WHERE sender=pgID AND prio=rankCode AND ambient = '$ambient' AND IDE >= $fromID AND type IN ('DIRECT','ACTION') AND privateAction = 0 GROUP BY pgUser,ordinaryUniform,pgGrado,pgSezione ORDER BY minner ASC");
+	$placeName=$sesser['placeName'];
+	$locName=$sesser['locName'];
+	$placeLogo=$sesser['placeLogo']; 
+	$locID = $sesser['locID'];
+	$sessionIniTime = $sesser['sessionStart']; 
+	$sessionStopTime = $sesser['sessionEnd']; 
+	$sessionPrivate = ($sesser['sessionPrivate']) ? '<p style="font-size:15; color:red; font-weight:bold;"> Giocata Privata </p>' : ''; 
+	if ($sesser['sessionPrivate']){
+		$adminCondition = (PG::mapPermissions("SM",$user->pgAuthOMA)) ? '' : 'AND privateAction = 0';
+	}
+	else $adminCondition = '';
+
+	
+	$presents = mysql_query("SELECT DISTINCT pgUser,ordinaryUniform,pgGrado,pgSezione,MIN(time) as minner, MAX(time)  as maxer,COUNT(chat) as chatter FROM pg_users,federation_chat,pg_ranks WHERE sender=pgID AND prio=rankCode AND ambient = '$locID' AND (time BETWEEN $sessionIniTime AND $sessionStopTime) AND type IN ('DIRECT','ACTION') $adminCondition GROUP BY pgUser,ordinaryUniform,pgGrado,pgSezione ORDER BY minner ASC");
 	$userLister='';
 	while($resa=mysql_fetch_array($presents))
 	{
@@ -291,18 +302,18 @@ if ($fromID > 0)
 		$userLister.="$person, ";
 	}
 	
-	$locName=$currentAmbient['locName'];
+	
 
 	$htmlLiner.="</table></div><div style=\"float:right; text-align:center; width:30%; margin-left:30px;\"><div style=\"border:1px solid #666; padding:20px;\"><b>Codice Auto-Mostrine per CDB:</b> <i>Copia questa lista e incollala nel tool \"Avanzate\" del CDB per ottenere la lista dei presenti con mostrine e incarichi.</i><br /><br />
 	
 	<input value=\"$userLister\" onclick=\"javascript:this.select();\" style=\"width:97%\"/></div>
 	
-	<p style=\"font-family:Arial; font-weight:bold; font-size:22px;\"><img src=\"TEMPLATES/img/logo/$placeLogo\" height=\"100px\" align=\"left\">$locName<br />$currentLocationName</p>
+	<p style=\"font-family:Arial; font-weight:bold; font-size:22px;\"><img src=\"TEMPLATES/img/logo/$placeLogo\" height=\"100px\" align=\"left\">$placeName<br />$locName</p> $sessionPrivate
 	
-	</div><div style=\"clear:both\" /><br /><hr /><div style=\"padding:20px; border:1px solid #666; margin-top:20px;\">
+	</div><div style=\"clear:both\" /><br /><div style=\"clear:both;\"></div><div style=\"text-align:center;\"> Scarica una copia della giocata in <a style=\"color:#FFCC00\" href=\"getLog.php?session=$sessionID&toFile=do\">formato HTML</a> </div> <br/><hr /><div style=\"padding:20px; border:1px solid #666; margin-top:20px;\">
 	";
 	
-	$chatLines = mysql_query("SELECT chat,time FROM federation_chat WHERE ambient = '$ambient' AND IDE >= $fromID AND type NOT IN ('APM','AUDIO','AUDIOE','SPECIFIC','SERVICE') AND privateAction = 0 ORDER BY time");
+	$chatLines = mysql_query("SELECT chat,time FROM federation_chat WHERE ambient = '$locID' AND (time BETWEEN $sessionIniTime AND $sessionStopTime) AND type NOT IN ('APM','AUDIO','AUDIOE','SPECIFIC','SERVICE') $adminCondition ORDER BY time");
 	
 	
 	while($chatLi = mysql_fetch_array($chatLines))
@@ -321,6 +332,7 @@ if ($fromID > 0)
 	$fh = fopen($fileName, 'w');
 	
 	
+	if (isSet($_GET['toFile'])){
 	fwrite($fh, str_replace('TEMPLATES/img/','http://www.startrekfederation.it/TEMPLATES/img/',$htmlLiner));
 	$size = filesize($fileName);//calcola dimensione del file 
 	header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
@@ -331,9 +343,14 @@ if ($fromID > 0)
 	header("Content-Transfer-Encoding: binary");
 	header("Content-length: {$size}");
 	header("Content-type: text/html");
-	$tit = date('d-m-Y').' - '.$currentAmbient['locName'].' - '.date('H.i').'.html';
+	$tit = date('d-m-Y').' - '.$locName.' - '.date('H.i').'.html';
 	header("Content-disposition: attachment; filename=\"{$tit}\"");
 	readfile($fileName);
+	}
+	else{
+
+		echo $htmlLiner;
+	}
 }
 
 	

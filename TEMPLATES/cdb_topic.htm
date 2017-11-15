@@ -5,8 +5,10 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/cdb.css?v=1.2.1" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
+
+	<link href="TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+
 	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
@@ -219,32 +221,36 @@
 		<option value="00">- Nessun Template Rapporti (Solo lista PG) -</option>
 		<option value="Q1">Rapporti Quest / Extraquest</option>
 		</optgroup>
-		<optgroup label="Comando e Navigazione">
-			<option value="Q2">Generico Sezione Comando e Navigazione</option>
+		<optgroup label="Comando e Strategia">
+			<option value="Q2">Generico Sezione Comando e Strategia</option>
 			<option value="Q16">Ufficio del Capitano</option>
 			<option value="Q16b">Ufficio del Primo Ufficiale</option>
-			<option value="Q3">Disposizioni Dipartimento Comunicazioni</option>
-			<option value="Q11">Entry del Registro di Navigazione - Partenza</option>
-			<option value="Q12">Entry del Registro di Navigazione - Arrivo</option>
 		</optgroup>
-		<optgroup label="Tattica e Sicurezza">
-			<option value="Q15">Ufficio CTO</option>
-			<option value="Q4">Generico Sezione Tattica e Sicurezza</option>
-			<option value="Q5">Disposizioni Dipartimento Tattica</option>
+		<optgroup label="Difesa Sicurezza"> 
+			<option value="Q4">Generico Sezione Difesa e Sicurezza</option>
+			<option value="Q15">Ufficio del Capo della Sicurezza</option>
 			<option value="Q6">Disposizioni Dipartimento Sicurezza</option>
 		</optgroup>
-		<optgroup label="Ingegneria">
-		<option value="Q14">Ufficio CEO</option>
-		<option value="Q7">Generico Sezione Ingegneria</option>
-		<option value="Q8">Disposizioni Dipartimento Operazioni</option>
+
+		<optgroup label="Navigazione">
+		<option value="QN1">Ufficio del C.A.G.</option>
+		<option value="QN2">Ufficio Gestione e Controllo Hangar Navette</option>
+		<option value="QN3">Coordinamento Controllo Volo</option>
+
+		<option value="QN4">Entry del Registro di Navigazione - Partenza</option>
+		<option value="QN5">Entry del Registro di Navigazione - Arrivo</option>
 		</optgroup>
 		
-		<optgroup label="Scientifica">
+
+		<optgroup label="Ingegneria">
+		<option value="Q14">Ufficio del CEO</option>
+		<option value="Q7">Generico Sezione Ingegneria</option>
+		<option value="Q8">Disposizioni Dipartimento Operazioni</option> 
+		</optgroup>
+		
+		<optgroup label="Scientifica e Medica">
 		<option value="Q13">Ufficio CSO</option>
 		<option value="Q9">Generico Sezione Scientifica</option>
-		</optgroup>
-		
-		<optgroup label="Medica">
 		<option value="Q17">UFFICIO CMO</option>
 		<option value="Q18">UFFICIO CNS</option>
 		<option value="Q10">Generico Sezione Medica</option>
@@ -297,6 +303,7 @@
 		
 		<input type="button" value="IMG" style="width:50px; margin-left:10px;" href="" onclick="bbstyle(12)" />
 		<input type="button" value="URL" style="width:50px; margin-left:10px;" href="" onclick="bbstyle(32)" /><br /><br />
+		<input type="button" value="QUOTE" style="width:50px; margin-left:10px;" href="" onclick="bbstyle(34)" /><br /><br />
 
 		<input type="button" value="A" style="width:30px; margin-left:10px; font-size:9px;" href="" onclick="bbstyle(26)">SINISTRA</input> 
 		<input type="button" value="A" style="width:30px; margin-left:10px; font-size:12px;" href="" onclick="bbstyle(28)">CENTER</input> 

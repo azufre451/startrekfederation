@@ -78,6 +78,7 @@ $template->places = $placeArray;
 
 $template->online = timeHandler::getOnline(NULL);
  $template->user = $currentUser;
+ $template->gameOptions = $gameOptions;
 // $template->debug = $debug;
 // $template->gameServiceInfo = $gameServiceInfo;
 

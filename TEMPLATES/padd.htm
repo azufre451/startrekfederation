@@ -40,7 +40,7 @@
 			})
 			.autocomplete({
 				source: function( request, response ) {
-					$.getJSON( "ajax_userGetter.php", {
+					$.getJSON( "ajax_userGetter.php?extGropus=do", {
 						term: extractLast( request.term )
 					}, response );
 				},

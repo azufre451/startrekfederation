@@ -5,7 +5,8 @@ if (!isSet($_SESSION['pgID'])){exit;}
 include('includes/app_include.php');
 include('includes/validate_class.php');
  		
-		$string= trim(preg_replace('/[\n\r]/','',htmlentities(addslashes(($_POST['chatLine'])),ENT_COMPAT, 'UTF-8')));
+		$string= str_replace("\xE2\x80\x8B", "", trim(preg_replace('/[\n\r]/','',htmlentities(addslashes(($_POST['chatLine'])),ENT_COMPAT, 'UTF-8'))));
+		
 		$amb= addslashes($_POST['amb']);
 		$user = new PG($_SESSION['pgID']);
 		$performExit = false;
@@ -148,7 +149,7 @@ include('includes/validate_class.php');
 			// exit;
 		// }
 		
-		else if ($string[0] == '$' && PG::mapPermissions('SM',PG::getOMA($_SESSION['pgID'])))
+		else if ($string[0] == '$' && PG::mapPermissions('G',PG::getOMA($_SESSION['pgID'])))
 		{
 			$stringc = "<p class=\"directiveRemove\">".str_replace('$','',$string)."</p>";
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$stringc',".time().",'NORMAL',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
@@ -170,11 +171,13 @@ include('includes/validate_class.php');
 		$stringe = strtolower($string); 
 		$realLen = strlen($string); 
  		
- 		//$string = '<p class="chatDirect">'.date('H:i')." $ima1 ".addslashes($ima2)." <span onclick=\"javascript:schedaPOpen($pgID);\" onmouseover=\"javascript:selectOccur(\'$userN\');\" onmouseout=\"deselectOccur();\" class=\"chatUser\">$userN</span> $tag ".ucfirst(str_replace(array('&lt;','&gt;'),array(' <span class="chatQuotation">&laquo;','&raquo;</span> '),$string))."</p>";	
+ 		$string = '<p class="chatDirect">'.date('H:i')." $ima1 ".addslashes($ima2)." <span onclick=\"javascript:schedaPOpen($pgID);\" onmouseover=\"javascript:selectOccur(\'$userN\');\" onmouseout=\"deselectOccur();\" class=\"chatUser\">$userN</span> $tag ".ucfirst(str_replace(array('&lt;','&gt;'),array(' <span class="chatQuotation">&laquo;','&raquo;</span> '),$string))."</p>";	
 
- 		$stringu = " $ima1 ".addslashes($ima2)." <span onclick=\"javascript:schedaPOpen($pgID);\" onmouseover=\"javascript:selectOccur(\'$userN\');\" onmouseout=\"deselectOccur();\" class=\"chatUser\">$userN</span> $tag ".ucfirst(str_replace(array('&lt;','&gt;'),array(' <span class="chatQuotation">&laquo;','&raquo;</span> '),$string))."</p>";
+ 		//$stringu = " $ima1 ".addslashes($ima2)." <span onclick=\"javascript:schedaPOpen($pgID);\" onmouseover=\"javascript:selectOccur(\'$userN\');\" onmouseout=\"deselectOccur();\" class=\"chatUser\">$userN</span> $tag ".ucfirst(str_replace(array('&lt;','&gt;'),array(' <span class="chatQuotation">&laquo;','&raquo;</span> '),$string))."</p>";
 
-		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,realLen,privateAction) VALUES($pgID,'$amb',CONCAT(CONCAT('<p class=\"chatDirect\">',DATE_FORMAT(FROM_UNIXTIME( IF(EXISTS( (SELECT 1 FROM federation_sessions WHERE sessionPlace = '$amb' AND sessionStatus = 'ONGOING' AND sessionOverrideTime <> 0) ),((SELECT sessionOverrideTime FROM federation_sessions WHERE sessionPlace = '$amb' AND sessionStatus = 'ONGOING')),".time().") ), '%H %i')),'$stringu'),".time().",'DIRECT',$realLen,IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
+		//mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,realLen,privateAction) VALUES($pgID,'$amb',CONCAT(CONCAT('<p class=\"chatDirect\">',DATE_FORMAT(FROM_UNIXTIME( IF(EXISTS( (SELECT 1 FROM federation_sessions WHERE sessionPlace = '$amb' AND sessionStatus = 'ONGOING' AND sessionOverrideTime <> 0) ),((SELECT sessionOverrideTime FROM federation_sessions WHERE sessionPlace = '$amb' AND sessionStatus = 'ONGOING')),".time().") ), '%H %i')),'$stringu'),".time().",'DIRECT',$realLen,IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
+ 
+		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,realLen,privateAction) VALUES($pgID,'$amb','$string',".time().",'DIRECT',$realLen,IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 		
 			if(strpos($stringe,'capo master con incarichi speciali kavanagh') !== false)
 			{

@@ -35,7 +35,7 @@ bbcode = new Array();
 form_name = 'formContent';
 text_name = 'postContent';
 
-bbtags = new Array('[B]','[/B]','[I]','[/I]','[U]','[/U]','[CENTER]','[/CENTER]','[LEFT]','[/LEFT]','[RIGHT]','[/RIGHT]','[IMG]','[/IMG]','[COLOR=RED]','[/COLOR]','[COLOR=YELLOW]','[/COLOR]','[COLOR=BLUE]','[/COLOR]','[COLOR=GRAY]','[/COLOR]','[COLOR=WHITE]','[/COLOR]','[COLOR=GREEN]','[/COLOR]','[SIZE=1]','[/SIZE]','[SIZE=2]','[/SIZE]','[SIZE=3]','[/SIZE]','[URL]','[/URL]');
+bbtags = new Array('[B]','[/B]','[I]','[/I]','[U]','[/U]','[CENTER]','[/CENTER]','[LEFT]','[/LEFT]','[RIGHT]','[/RIGHT]','[IMG]','[/IMG]','[COLOR=RED]','[/COLOR]','[COLOR=YELLOW]','[/COLOR]','[COLOR=BLUE]','[/COLOR]','[COLOR=GRAY]','[/COLOR]','[COLOR=WHITE]','[/COLOR]','[COLOR=GREEN]','[/COLOR]','[SIZE=1]','[/SIZE]','[SIZE=2]','[/SIZE]','[SIZE=3]','[/SIZE]','[URL]','[/URL]','[QUOTE]','[/QUOTE]');
      
     /**
     * bbstyle

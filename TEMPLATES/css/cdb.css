@@ -298,8 +298,32 @@ input[type=text].neon:hover, input[type=text].neon:active, input[type=text].neon
 
 }
 
-.postContent p{margin:0px;
+.postContent p{margin:0px;}
+.postContent p.quoter{
+	margin:5px 25px;
+
+
+	border-left:2px solid #666;
+	padding-left:10px;
+	padding-top: 15px;
+	padding-bottom:15px;
 }
+.postContent p.quoter:before{
+	content:'"'; 
+	text-decoration: italic;
+	position: relative;
+	top:-10px;
+	left:0px;
+}
+
+.postContent p.quoter:after{
+	content:'"'; 
+	text-decoration: italic;
+	position: relative;
+	bottom:-15px;
+	right:0px;
+}
+
 .signature
 {
 	color:#0077c3;
@@ -352,6 +376,8 @@ input[type=text].neon:hover, input[type=text].neon:active, input[type=text].neon
 }
 .cdbPostBigSize{font-size:16px;
 }
+
+
 
 .paginatore, .activePaginatore
 {

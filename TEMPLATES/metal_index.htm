@@ -1,14 +1,13 @@
 <html>
 <div metal:define-macro="indexMenu">
-	
+					<script> function reg(){ if (jQuery('#REG').length) setViewer('REG'); else window.location.href = 'index.php?mod=REG'; }</script>
 					<ul class="mainmenu" style="padding-left:92px; padding-top:7px; margin-top:0px;">
 						<li class="elementButtonSprite" id="login" onclick="javascript:fullScreen();" />
-						<li class="elementButtonSprite" id="registrati" onclick="javascript:setViewer('REG')"  />
-						
-						<li class="elementButtonSprite" id="documentazione" onclick="window.open ('db.php?cat=8','db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=617');" />
-						<li class="elementButtonSprite" id="guida" onclick="window.location.href = 'index.php?guide=true'"/>
+						<li class="elementButtonSprite" id="registrati" onclick="javascript:reg();" />
+						<li class="elementButtonSprite" id="documentazione" onclick="dbOpenToTopicLit('AMB1')" />
+						<li class="elementButtonSprite" id="guida" onclick="window.open ('db.php?cat=8','db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=617');" />
 						<li class="elementButtonSprite" id="gallery" onclick="window.location.href = 'index.php?gallery=true';" />
-						<li class="elementButtonSprite" id="contatti" onclick="javascript:setViewer('CON')" />
+						<li class="elementButtonSprite" id="contatti" onclick="window.location.href = 'index.php?contacts=true'" />
 						<li class="elementButtonSprite" id="directory" onclick="window.location.href = 'index.php?directory=true'"/>
 					</ul><br /><br />
 </div>

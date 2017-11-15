@@ -6,7 +6,7 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/whisper.css?v=1.3.6" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/whisper.css?v=1.5" rel="stylesheet" type="text/css" />
 	 
 	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
@@ -80,11 +80,13 @@
 <p style="margin:0px;" class="titleFS">Utenti</p>
 <p style="margin:0px; margin-top:3px; font-size:12px; margin-left:10px; font-weight:bold;">Clicca per selezionare l'utente</p>
 <select tal:attributes="size coPeople" style="margin-left:10px; margin-right:10px; margin-top:10px; width:170px; height:480px; overflow-y:hidden;" id="chatTo">
-<option value="0" selected="selected">PUBBLICO</option>
+<option value="0" selected="selected">TUTTI</option>
+<option value="0" disabled="disabled">-- Staff / Guide --</option>
+<option tal:repeat="person people/S" tal:attributes="value repeat/person/key ; title person/role" tal:content="structure person/label" />
 <option value="0" disabled="disabled">----------</option>
-<option tal:repeat="person people" tal:attributes="value repeat/person/key" tal:content="person" />
+<option tal:repeat="person people/N" tal:attributes="value repeat/person/key" tal:content="structure person/label" />
 </select>
-<p style="text-align:center; margin:0px;"><a href="whisper.php?recruitment=R" class="interfaceLink">ACCOGLIENZA</a></p>
+<p style="text-align:center; margin:10px; margin-top:5px; border:1px solid #3188F3; padding:5px;"><a href="whisper.php?recruitment=R" class="interfaceLink">ACCOGLIENZA</a></p>
 </div>
 
 <div id="leftContainer">

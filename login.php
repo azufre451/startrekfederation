@@ -8,7 +8,9 @@ $action = (isSet($_GET['action'])) ? $_GET['action'] : NULL;
 $vali = new validator();
 
 if ($action == "doLogin")
-{	 
+{
+	if($_SERVER['REMOTE_ADDR'] == '95.243.35.21' || $_SERVER['REMOTE_ADDR'] == '188.218.197.221') {header('Location:http://google.it'); exit;}
+
 	$user = ucfirst(addslashes($_POST['loginUser']));
 	$pass = md5($_POST['loginPass']); 
 	$res = mysql_query("SELECT * FROM pg_users WHERE pgUser = '$user' AND pgPass = '$pass' AND pgAuthOMA <> 'BAN'"); 

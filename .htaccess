@@ -1,0 +1,37 @@
+IndexIgnore .htaccess */.??* *~ *# */HEADER* */README* */_vti*
+
+  
+<Limit GET POST>
+order allow,deny
+allow from all
+</Limit>
+
+<Limit PUT DELETE>
+order deny,allow
+deny from all
+</Limit>
+AuthName startrekfederation.it
+
+#vi .htaccess
+
+<IfModule mod_security.c>
+SecRuleEngine Off
+SecFilterEngine Off
+SecFilterScanPOST Off
+</IfModule> 
+ 
+
+
+Options -Indexes
+ 
+php_flag magic_quotes_gpc Off
+<Files 403.shtml>
+order allow,deny
+allow from all
+</Files>
+
+<FilesMatch "\.(ttf|otf|eot)$">
+<IfModule mod_headers.c>
+Header set Access-Control-Allow-Origin "*"
+</IfModule>
+</FilesMatch>

@@ -54,10 +54,43 @@ $template->maxVIS = $MAX;
 }
 
 
-	$resPgPresenti = mysql_query('SELECT pgID, pgAvatar, pgUser FROM pg_users WHERE pgID <> '.$_SESSION['pgID'].' AND pgLastAct >= '.($curTime-1800).' ORDER BY pgUser ASC');
-	$pgArray=array();
+	$resPgPresenti = mysql_query('SELECT pgID, pgAvatar, pgUser,pgAuthOMA FROM pg_users WHERE pgID <> '.$_SESSION['pgID'].' AND pgLastAct >= '.($curTime-1800).' ORDER BY pgUser ASC');
+	$pgArray=array('S' => array(), 'N' => array());
+	
 	while($resPG = mysql_fetch_array($resPgPresenti))
-	$pgArray[$resPG['pgID']] = $resPG['pgUser'];
+		{
+			if (PG::mapPermissions('A',$resPG['pgAuthOMA']))
+			{	
+				$ptcl = '[A]';
+				$atcl = 'Admin';
+				$kp='S';
+			}
+
+			else if (PG::mapPermissions('M',$resPG['pgAuthOMA']))
+			{	
+				$ptcl = '[M]';
+				$atcl = 'Master';
+				$kp='S';
+
+			}
+
+			elseif (PG::mapPermissions('G',$resPG['pgAuthOMA']))
+			{
+				$ptcl = '[G]';
+				$atcl = 'Guida';
+				$kp='S';
+			}
+
+			else
+				{
+					$ptcl='';
+					$atcl = '';
+					$kp='N';
+				}
+						
+			$pgArray[$kp][$resPG['pgID']] = array('label' => $ptcl.' '.$resPG['pgUser'],'role' => $atcl);
+		}
+
 	$template->people = $pgArray;
 	$template->coPeople = count($pgArray)+2;
 

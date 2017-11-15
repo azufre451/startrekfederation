@@ -5,16 +5,16 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	
 	<link id="alerter" tal:attributes="href string:TEMPLATES/css/${alertCSS}.css" rel="stylesheet" type="text/css" />
 	 
 	
 	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
-	<script type="text/javascript" src="TEMPLATES/js/mapCore.js?v=1.5.1"/>
-	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+	<script type="text/javascript" src="TEMPLATES/js/mapCore.js?v=${gameOptions/numericVersion}"/>
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 
 	<script type="text/javascript" src="TEMPLATES/js/easyNotify.js"></script>
 
@@ -114,7 +114,7 @@ var myImg = "https://unsplash.it/600/600?image=777";
 </div>
 
 
-<div id="mapCntl" tal:condition="php:(placeType=='Pianeta')">
+<div id="mapCntl" tal:condition="php:(placeType=='Pianeta' && placeType =='Pianeta' && !overridePlanetMap)">
 
 <div id="adder" class="popup" tal:condition="exists:mapAdd2">
 	<p class="clockTitle" style="margin:0px; margin-bottom:10px; margin-right:10px;">Aggiungi Location</p><hr />
@@ -171,7 +171,7 @@ var myImg = "https://unsplash.it/600/600?image=777";
 
 </div>
 
-<div tal:condition="php:(placeType=='Stazione' || placeType=='Nave' || placeType=='Navetta' || placeType=='Accademia')">
+<div tal:condition="php:(placeType=='Stazione' || placeType=='Nave' || placeType=='Navetta' || placeType=='Accademia' || (placeType =='Pianeta' && overridePlanetMap))">
 <div id="mapDiv1" style="z-index:2;"><img usemap="#mapDiv1" tal:attributes="src string:TEMPLATES/img/maps/${placeMap1}" /></div>
 <div id="mapDiv2" style="z-index:2;"><img usemap="#mapDiv2" tal:attributes="src string:TEMPLATES/img/maps/${placeMap2}" /></div>
 <div id="mapDiv3" style="z-index:2;"><img usemap="#mapDiv3" tal:attributes="src string:TEMPLATES/img/maps/${placeMap3}"/></div>

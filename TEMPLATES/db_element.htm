@@ -40,7 +40,7 @@
 	<div id="supCol">
 		<div id="supLeft" />
 		<div id="supRight" />
-
+   
 	</div>
 	
 	<div id="fillerBax">
@@ -55,9 +55,9 @@
 
 <div id="cdbContainer">
 
-<a tal:attributes="href string:db.php?dopdf=${ID}" tal:condition="php:(searchable)" style="margin-left:20px;" class="interfaceLink"><img src="TEMPLATES/img/interface/pdficon.jpg" /> Versione Stampabile</a>
+<!--<a tal:attributes="href string:db.php?dopdf=${ID}" tal:condition="php:(searchable)" style="margin-left:20px;" class="interfaceLink"><img src="TEMPLATES/img/interface/pdficon.jpg" /> Versione Stampabile</a> --> <a tal:attributes="href string:db.php?edielement=${ID}" title="MODIFICA" tal:condition="exists:isAdmin" ><img src="TEMPLATES/img/interface/cdbInterface/forum_edit.png" /></a> <a tal:attributes="href string:db.php?delelement=${ID}" title="ELIMINA" tal:condition="exists:isAdmin" ><img src="TEMPLATES/img/interface/cdbInterface/forum_delete.png" /></a> 
 
-<div style="padding:10px; padding-left:40px; padding-right:60px; text-align:justify; font-size:15px;  margin-right:20px;" tal:content="structure content" />
+<div id="mdmacontent" tal:content="structure content" />
 
 <p style="float:right; text-align:center; font-size:11px; width:280px; margin-right:30px; margin-top:10px;"><a class="interfaceLink" rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Licenza Creative Commons" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /> <a class="interfaceLink" href="index.php?directory=true" target="_blank"> Licenza dei Contenuti </a></p>
 

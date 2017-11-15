@@ -42,19 +42,21 @@
 <div id="local" class="topicDiv">
 <table tal:repeat="personaleIn personale" cellspacing="3px" style="width:96%; margin-left:auto; text-align:center; margin-right:auto; font-family:Helvetica; font-size:14px;" align="center">
 <tr><td style="border:1px solid #555; padding:4px; text-align:center; font-weight:bold;" colspan="10" tal:content="string:ULTIMI ISCRITTI SU: ${repeat/personaleIn/key}"></td></tr>
-	<tr style="height:10px; font-size:11px;"><td/><td /><td style="font-weight:bold; width:60px;">OFF</td><td style="font-weight:bold; width:60px;">ON</td><td style="font-weight:bold; width:60px;">Visita</td><td style="font-weight:bold; width:60px;">Divisa</td><td style="font-weight:bold; width:80px;">Alloggio</td><td style="font-weight:bold; width:60px;">Admin Check</td></tr>	
+	<tr style="height:10px; font-size:11px;"><td/><td /><td style="font-weight:bold; width:60px;">BLOCCO ON</td><td style="font-weight:bold; width:60px;">BLOCCO OFF</td><td style="font-weight:bold; width:60px;">-</td><td style="font-weight:bold; width:60px;">-</td><td style="font-weight:bold; width:80px;">Alloggio</td><td style="font-weight:bold; width:60px;">Admin Check</td></tr>	
 	
 	<tr tal:repeat="person personaleIn">
 		<td style="width:100px; border:1px solid #111;"><img style="vertical-align:middle;" tal:attributes="src string:TEMPLATES/img/ranks/${person/pgMostrina}.png ; title string:${person/pgGrado} - Sezione ${person/pgSezione}" /> <img style="vertical-align:middle; vertical-align:middle;" tal:attributes="src php:(person['pgSesso'] == 'M') ? 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_m.png' : ((person['pgSesso'] == 'F') ? 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_f.png' : 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_t.png' ) ; title php:(person['pgSesso'] == 'M') ? person['pgSpecie'] . ' - Maschio' : ((person['pgSesso'] == 'F') ? person['pgSpecie'] . ' - Femmina' : person['pgSpecie'] . ' - Terzo Genere' )"  /></td>
-		<td style="width:80px; text-align:left; padding-left:5px;"><a class="interfaceLink" tal:attributes="href string:javascript:schedaPOpen(${person/pgID}) ; title php:(date('d/m/Y',person['dateInsert'])) ; style php:(person['pgLock']) ? 'color:red' : ''" tal:content="person/pgUser"/></td>
+		<td style="width:80px; text-align:left; padding-left:5px;"><a class="interfaceLink" tal:attributes="href string:javascript:schedaPOpen(${person/pgID}) ; title php:( 'Iscritto il: ' . date('d/m/Y',person['iscriDate']) . 'Last Act: ' . date('d/m/Y',person['pgLastAct']) ) ; style php:(person['pgLock']) ? 'color:red' : ''" tal:content="person/pgUser"/></td>
 		
 		
-		<td style="border:1px solid #111;"><a tal:omit-tag="php:(person['pgOFF'] || OM == 'no')" tal:attributes="href string:people.php?setOFF=${person/pgID}"><img tal:attributes="src php:(person['pgOFF']) ? 'TEMPLATES/img/interface/green_dot_icon.png' : 'TEMPLATES/img/interface/red_dot_icon.png'" /></a></td>
-		<td style="border:1px solid #111;"><a tal:omit-tag="php:(person['pgON'] || OM == 'no' || (person['pgOFF'] == 0))" tal:attributes="href string:people.php?setON=${person/pgID}"><img tal:attributes="src php:(person['pgON']) ? 'TEMPLATES/img/interface/green_dot_icon.png' : 'TEMPLATES/img/interface/red_dot_icon.png'" /></a></td>
-		<td style="border:1px solid #111;"><a tal:omit-tag="php:(OM == 'no')" tal:attributes="href string:people.php?setVisita=${person/pgID}"><img tal:attributes="src php:(person['pgVisitaMedica']) ? ((person['pgMedica']) ? 'TEMPLATES/img/interface/green_dot_icon.png' : 'TEMPLATES/img/interface/yellow_dot_icon.png') : 'TEMPLATES/img/interface/red_dot_icon.png' ; title php:(person['pgVisitaMedica']) ? ((person['pgMedica']) ? 'Visita e Scheda Medica OK' : 'Manca la Cartella Clinica in CDB, possono crearla i medici e i master') : 'Visita Medica non eseguita'" /></a></td>
-		<td style="border:1px solid #111;"><img tal:attributes="src php:(person['pgMostrina'] != 'CIV') ? 'TEMPLATES/img/interface/green_dot_icon.png' : 'TEMPLATES/img/interface/red_dot_icon.png'" /></td>
+		<td style="border:1px solid #111;"><a tal:attributes="href string:people.php?setLock=${person/pgID}"><img tal:attributes="src php:(person['pgLock']) ? 'TEMPLATES/img/interface/red_dot_icon.png' : 'TEMPLATES/img/interface/green_dot_icon.png'" /></a></td>
+
+		<td style="border:1px solid #111;"><a tal:attributes="href string:people.php?setLockOff=${person/pgID}"><img tal:attributes="src php:(person['pgLockOff']) ? 'TEMPLATES/img/interface/red_dot_icon.png' : 'TEMPLATES/img/interface/green_dot_icon.png'" /></a></td>
+
 		<td style="border:1px solid #111;"><img tal:attributes="src php:(person['pgAlloggio'] != '') ? 'TEMPLATES/img/interface/green_dot_icon.png' : 'TEMPLATES/img/interface/red_dot_icon.png' ; title php:(person['pgAlloggio'] != '') ? 'Alloggio assegnato' : 'Alloggio non ancora assegnato, i Masters possono assegnare gli alloggi.'" /></td>
-		<td style="border:1px solid #111;"><a tal:omit-tag="not:exists:SM" tal:attributes="href string:people.php?adminCheck=${person/pgID}"><img tal:attributes="src php:(person['bcheck']) ? 'TEMPLATES/img/interface/green_dot_icon.png' : 'TEMPLATES/img/interface/red_dot_icon.png' ; title php:(person['bcheck']) ? 'Background e IP check superato' : 'Background e IP check non ancora superato'" /></a></td>
+
+		<!--<td style="border:1px solid #111;"><a tal:omit-tag="not:exists:SM" tal:attributes="href string:people.php?adminCheck=${person/pgID}"><img tal:attributes="src php:(person['bcheck']) ? 'TEMPLATES/img/interface/green_dot_icon.png' : 'TEMPLATES/img/interface/red_dot_icon.png' ; title php:(person['bcheck']) ? 'Background e IP check superato' : 'Background e IP check non ancora superato'" /></a></td>-->
+
 	
 	</tr>
 	

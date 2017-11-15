@@ -11,7 +11,8 @@
 		<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
 		<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 		<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
-		<script type="text/javascript" src="TEMPLATES/js/index.js?v=0.6" />
+		<!--<script type="text/javascript" src="TEMPLATES/js/index.js?v=0.6" />-->
+		<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=0.6" />
 		
 	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/home/reset.css" />
 	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/clearfix.css" />
@@ -20,11 +21,14 @@
 	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/jquery.dualSlider.0.2b.css?v=2.1" />
 	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/index.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet" />
+	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" /> 
 	
 	<script src="TEMPLATES/carousel/js/jquery.easing.1.3.js" type="text/javascript"></script>
 	<script src="TEMPLATES/carousel/js/jquery.timers-1.2.js" type="text/javascript"></script>
-	<script src="TEMPLATES/carousel/js/jquery.dualSlider.0.3.min.js" type="text/javascript"></script>
-	<script src="TEMPLATES/js/easyAccordion.js" type="text/javascript"></script>
+	<script src="TEMPLATES/carousel/js/jquery.dualSlider.0.3.min.js" type="text/javascript"></script> 
+	
+	<!--<script src="TEMPLATES/js/easyAccordion.js" type="text/javascript"></script>-->
 	<script type="text/javascript" src="TEMPLATES/js/google.js"></script>	
 
 
@@ -35,21 +39,36 @@
 		
 		
 		<script type="text/javascript">
+
+
 			jQuery(document).ready(function(){
 			
 			jQuery('#regform')[0].reset();
-				
-			jQuery(".carousel").dualSlider({
-				auto:true,
-				autoDelay:6000,
-				easingCarousel: "swing",
-				easingDetails: "easeOutBack",
-				durationCarousel: 1000,
-				durationDetails: 600
-			});	
+
+			jQuery('.tooltip').tooltip({
+          	  content: function () {
+              return jQuery(this).prop('title');
+          }
+      	  });
+ 
 		
-			});
+			}); 
 			
+	function setViewer(vare)
+	{ 
+		if(jQuery('#'+vare).length)
+			jQuery('.sliding').fadeOut(120).promise().done( function(){jQuery('#'+vare).fadeIn(120);});
+		else window.location.href = 'index.php?mod='+vare;
+		
+	}
+
+	function fullScreen(){
+		var larg_schermo = screen.availWidth - 10;
+		var altez_schermo = screen.availHeight - 30;
+		window.open("login.php", "fed_main", "width=" + larg_schermo + ",height=" + altez_schermo + ",top=0,left=0,location=no,menubar=n,resizable=yes,scrollbar=yes");
+	}
+
+
 	function toggleVisit(ida)
 	{
 		var tit = ''; 
@@ -61,68 +80,7 @@
 		jQuery('#visi_'+ida).toggle('fade',{},100,function(){jQuery('#toggle_'+ida).html(tit);});
 		
 	}
-		</script>
-	</head>
-	
 
-
-<body>
-		<div id="error" tal:condition="php:(error==95)">Errore! L'email risulta gi&agrave; registrata!</div>
-		<div id="error" tal:condition="php:(error==96)">Errore! Lo username risulta gi&agrave; registrato!</div>
-		<div id="error" tal:condition="php:(error==99)">Errore! Inserimento non andato a buon fine. Contatta la gestione.</div>
-		<script type="text/javascript" tal:condition="php:(error!=NULL)">jQuery('#error').fadeIn(400); setTimeout(function(){jQuery('#error').fadeOut(20);},6000);</script>
-		<div id="success">Operazione completata con successo.<br />Riceverai una mail di conferma. </div>
-		<script type="text/javascript" tal:condition="php:(success!=NULL)">jQuery('#success').fadeIn(400); setTimeout(function(){jQuery('#success').fadeOut(20);},6000) </script>
-		
-		<div id="indi_mainContainer">
-			<div id="indi_header"  onclick="window.location.href = 'index.php';" />
-		<div id="indi_central">
-				<div metal:use-macro="TEMPLATES/metal_index.htm/indexMenu" />
-				
-			<div id="principale" class="sliding" tal:attributes="style php:(mod == '') ? 'display:block' : 'display:none';">
-				
-					<div id="quotation">
-					<p  style="margin:0px;">L'ambizione mi guida non solo più lontano di ogni altro uomo prima di me,<br />ma anche tanto lontano quanto io credo sia possibile per l'uomo arrivare</p>
-					<p style="text-align:right; margin:0px; margin-right:100px;">James Cook (1728-1779)</p>
-					</div><!-- quotation -->
-				
-			<div style="width:570px; margin:auto; border:1px solid #333; background-color:#111; padding:10px; margin-top:20px;">
-				<p style="font-size:17px; font-weight:bold; color:red; text-align:center;"> Attenzione: </p>
-				<p style="font-size:14px; line-height:1.5em;">Il progetto Star Trek: Federation al momento è alla ricerca di staff per modifiche maggiori all'architettura di gioco. Ulteriori informazioni sono disponibili nel <a href="http://startrekfederation.it/index.php?readnews=165" class="interfaceLink"> messaggio di Ricerca Staff</a>.</p>
-				
-				<p style="font-size:14px; line-height:1.2em;">Rimangono attive le pagine di promozione su <a href="https://www.facebook.com/federation.pbc" target="_blank" class="interfaceLinkBlue"> Facebook </a> e  <a href="http://www.gdr-online.com/star_trek_federation.asp" target="_blank" class="interfaceLinkGreen"> GDR-Online </a>.</p>
-			</div>
-			  
-			<!--<div style="text-align:center; border:1px solid white; border-radius:15px; padding:10px; padding-bottom:0px; width:750px; margin-left:auto;margin-right:auto;"><img style="border-radius:0 0 15px 15px;" src="TEMPLATES/img/interface/index/banner1.png" /></div>-->
-			<div id="newsS" style="height:320px; clear:both; overflow-y:scroll; text-align:justify; padding-right:10px; margin-left:80px; font-size:13px; margin-right:80px;"><div tal:repeat="news resNews" style="margin-bottom:10px; font-family:Helvetica; margin-top:0px;">
-				<img tal:attributes="src string:TEMPLATES/img/interface/index/${news/aggregator}.png" style="padding-right:5px; float:left;" alt=""/>
-				<div style="float:left; width:80px; text-align:center;">
-					<span style="font-weight:bold; color:orange;" tal:content="news/data"/><br />
-					<a href="javascript:void(0)" class="interfaceLink" style="font-size:10px;" tal:attributes="onclick string:javascript:toggleVisit('${news/newsID}') ; id string:toggle_${news/newsID}">[ESPANDI]</a>
-					
-				</div>
-				<div style="float:left; width:640px;">
-				
-				<a tal:attributes="href news/toLink" class="interfaceLink" style="text-decoration:underline" tal:omit-tag="php:(news['toLink'] == '')" target="_blank"><span style="" tal:content="structure news/title"/></a>
-				<span style="color:white; font-weight:bold;"> - </span> <span tal:content=" structure news/text" tal:attributes="id string:navisi_${news/newsID}" style="color:#AAA" />
-				
-				<span tal:attributes="id string:visi_${news/newsID}" style="display:none;" tal:content="structure news/rtext"/> 
-				</div>
-				 <div style="clear:both" />
-			</div>
-			</div>
-			
-			</div>
-			
-			<!--<div id="REG" class="sliding" tal:attributes="style php:(mod == 'REG') ? 'display:block;; font-size:22px;; width:500px;; margin-left:auto;; margin-right:auto;;' : 'display:none'; font-size:22px;; width:500px;; margin-left:auto;; margin-right:auto;;">
-			<p style="font-size:22px; width:550px; line-height:25px; margin-left:auto; margin-right:auto;">Le iscrizioni sono temporaneamente chiuse. Nel caso puoi contattare lo staff a <a href="mailto:staff@startrekfederation.it" class="interfaceLink">staff@startrekfederation.it</a> per ottenere un account. La fase di riorganizzazione terminerà al pi&ugrave; tardi il 15 Novembre 2012. Siamo a disposizione per chiarimenti!</p>
-			</div>-->
-			
-			<style>
-			
-				
-			 </style>
-				<script>
 					function selectSex(ida,sexo)
 					{
 						jQuery('.selectable.sex').removeClass('active');
@@ -140,7 +98,7 @@
 						jQuery('.divihandler').hide();
 						jQuery('#divi_'+divi).show();
 						
-						var ari = { "sfC":'dutyr', "sfT":'dutyy', "sfI":'dutyy', "sfS":'dutyt', "sfM":'dutyt', "bar":'civbar',  "ing":'civing',  "sci":'civsci',  "com":'civcom','civ':'civpol'};
+						var ari = { "sfC":'nfCduty_small', "sfT":'nfTduty_small', "sfI":'nfOduty_small', "sfS":'nfSduty_small', "sfN":'nfNduty_small', "bar":'civbarm',  "ing":'civingm',  "sci":'civscim',  "com":'nfFLY_small','civ':'civpolm','jou':'civgiom'};
 						 
 						jQuery('#select_grado').val(jQuery('#divi_'+divi).val());
 						jQuery('#select_gradoimage').val(jQuery('#divi_'+divi).val().split('_')[1]);
@@ -168,54 +126,191 @@
 						if(ida=="2") {   
 						
 						
+						if(jQuery('#select_email').val().length > 0  && jQuery('#select_nome').val().length > 0 && jQuery('#select_cognome').val().length > 0 && jQuery('.selectable.sex.active').length > 0 && jQuery('.selectable.division.active').length > 0)
+						{
+
+						
+
 						jQuery('.species_spec').hide();
 						jQuery('.sections_spec').hide();
 						jQuery('#sp_'+jQuery('#select_razza').val()).show();
 						jQuery('#se_'+jQuery('#select_sezione').val()).show();
 						jQuery('#mirror_name').html(jQuery('#select_nome').val()+' '+jQuery('#select_cognome').val())
-						jQuery('#mirror_uniform').attr('src','TEMPLATES/img/uniformi/'+jQuery('#select_uniform').val()+jQuery('#select_sesso').val()+'.png');
+						jQuery('#mirror_uniform').attr('src','TEMPLATES/img/uniformi/'+jQuery('#select_uniform').val()+'.png');
 						jQuery('#mirror_razza').attr('src','TEMPLATES/img/specie/'+jQuery('#select_razza').val()+'_'+jQuery('#select_sesso').val()+'.png');
 						jQuery('#mirror_razza_t').html(jQuery('#select_razza').val());
-						if (jQuery('#select_gradoimage').val() != '') jQuery('#mirror_grado').attr('src','http://miki.startrekfederation.it/SigmaSys/PIPS/'+jQuery('#select_gradoimage').val()+'.png');
+						if (jQuery('#select_gradoimage').val() != '') jQuery('#mirror_grado').attr('src','http://miki.startrekfederation.it/SigmaSys/PIPSN/'+jQuery('#select_gradoimage').val()+'.png');
 						else jQuery('#mirror_grado').hide();
 						
-						jQuery('#REG #page1, #REG #page3').fadeOut(200,function(){ setTimeout(function(){jQuery('#REG #page2').fadeIn(100)},300);});
+						jQuery('#REG #page1, #REG #page3').fadeOut(200).promise().done( function(){jQuery('#REG #page2, #REG #bpage2').fadeIn(100);});
+						
 						
 						}
-						if(ida=="1") {jQuery('#REG #page2, #REG #page3').fadeOut(200,function(){jQuery('#REG #page1').fadeIn(100);});}
-						if(ida=="3") {jQuery('#REG #page1, #REG #page2').fadeOut(200,function(){jQuery('#REG #page3').fadeIn(100);});}
+						else {
+
+							alert("Compila tutti i campi prima di passare al passo successivo");
+						}
+						}
+						else if(ida=="1") {jQuery('#REG #page2, #REG #page3').fadeOut(200).promise().done( function(){jQuery('#REG #page1, #REG #bpage2').fadeIn(100);});}
+						else if(ida=="3") {jQuery('#REG #page1, #REG #bpage2').fadeOut(200).promise().done( function(){jQuery('#REG #page3').fadeIn(100);});}
 						
 						
 					}
 					
+					function verify_consistency_car(){
+						tplo=0; 
+						jQuery(".valer").each(function(i) {  k=parseInt(jQuery(this).val()); tplo+=k;});
+
+						if(tplo >= 23){alert('Attenzione: i valori delle caratteristiche non possono superare un totale di 23, e la singola caratteristica non può superare il valore di 8!'); return false;}
+						return true;
+	
+					}
+
+
 					function char_addNextLVL(ida)
 					{
-						
-						target_20 = Number(jQuery('#val_'+ida).val()) + 1;
-						target = Number((target_20 / 20 *100) | 0); 
-						 
-						jQuery.post('ajax_skillmgr.php?action=get-step',{'what':ida,'to':target_20},function(e){alert('CC'); alert(e['cost']); });
-						
-						
-						jQuery('#val_'+ida).attr('value',target_20);
-						jQuery('#'+ida+'_marker_current').html('['+String(target_20)+']');
-						 
-						
+						if (verify_consistency_car()){
+
+						curVal = Number(jQuery('#val_'+ida).val());
+						if (curVal < 15)
+						{ 
+						target_15 = curVal + 1;
+						target = Number((target_15 / 15 *100) | 0); 
+						if(target_15 > 8){
+							alert('Attenzione: La singola caratteristica non può superare il valore di 8!'); 
+							return false;
+						}
+
+						jQuery('#val_'+ida).attr('value',target_15);
+						jQuery('#'+ida+'_marker_current').html('['+String(target_15)+']');
 						jQuery('#bar_'+ida+' span').css('width',target+'%');
+						}
+
+						}
+
 						return false;
 					}
 					
 					function char_subPrevLVL(ida)
 					{
-						target = Number(((parseInt(jQuery('#val_'+ida).val()) - 1 ) / 20 *100) | 0);
+						curVal = Number(jQuery('#val_'+ida).val());
+						if (curVal > 0)
+						{
+						target_15 = curVal - 1;
+						target = Number((target_15 / 15 *100) | 0); 
+
 						
-						jQuery('#val_'+ida).attr('value',(parseInt(jQuery('#val_'+ida).val()) - 1));
-						
+						jQuery('#val_'+ida).attr('value',target_15);
+						jQuery('#'+ida+'_marker_current').html('['+String(target_15)+']');
 						jQuery('#bar_'+ida+' span').css('width',target+'%');
+						}
 						return false;
 					}
+
+					function doRegister(){
+ 
+						if (parseInt(jQuery('#val_ht').val())+parseInt(jQuery('#val_dx').val())+parseInt(jQuery('#val_iq').val())+parseInt(jQuery('#val_pe').val())+parseInt(jQuery('#val_wp').val()) != 23){
+
+								alert("Attenzione: la somma delle caratteristiche deve essere pari a 23!");
+						}
+						else{
+							
+							jQuery.ajax({ type: "POST",async:false, url: 'service.php?registerUser=do',data: 
+								{
+
+								select_nome:jQuery('#select_nome').val(),
+								select_cognome:jQuery('#select_cognome').val(),
+								select_razza:jQuery('#select_razza').val(),
+								select_email:jQuery('#select_email').val(),
+								select_sesso : jQuery('#select_sesso').val(),
+								pgAuth: jQuery('#pgAuth').val(),
+								select_grado: jQuery('#select_grado').val(),
+								select_ht: jQuery('#val_ht').val(),
+								select_dx: jQuery('#val_dx').val(),
+								select_iq: jQuery('#val_iq').val(),
+								select_pe: jQuery('#val_pe').val(),
+								select_wp: jQuery('#val_wp').val()
+								},
+							success: regNoti,
+							dataType : 'json'
+							});
+						}
+					}
+
+					function regNoti(eer){ 
+								if (eer['err'])
+								{
+									if (eer['err'] == "IE") 
+									alert("Attenzione: si è verificato un errore di inserimento. Controlla di aver inserito i parametri in modo corretto, e ricorda che la somma dei singoli punteggi delle abilità deve essere pari a 23. In caso di problemi contattaci a staff@startrekfederation.it");
+									if (eer['err'] == "UE") alert("Attenzione: si è verificato un errore di inserimento. Questo cognome personaggio risulta essere già in uso");
+									if (eer['err'] == "ME") alert("Attenzione: si è verificato un errore di inserimento. Questo indirizzo email risulta essere già in uso");
+								}
+								else{
+									alert("Congratulazioni! Il Personaggio è stato registrato. Riceverai una mail di conferma con le credenziali di accesso!");
+									window.location.href='index.php';
+									
+
+								}
+
+								
+							}
 				</script>
-			<div id="REG" class="sliding" tal:attributes="style php:(mod == 'REG') ? 'display:block' : 'display:none';">
+
+		<style>@font-face{font-family:'federationFont';src: url('TEMPLATES/Roddenberry.eot');src: url('TEMPLATES/Roddenberry.ttf') format('truetype');}
+			@font-face{font-family:'federationFontI';src: url('TEMPLATES/Roddenberry Oblique.eot');src: url('TEMPLATES/Roddenberry Oblique.ttf') format('truetype');}
+			  .ui-tooltip {
+  font-family:Lato;
+  width:200px;
+  font-size:14px;
+  }
+
+		</style>
+
+	</head>
+	
+<body style="background-image:url('TEMPLATES/img/interface/index/menu_b2.jpg')  no-repeat center center fixed; margin-left:40px; margin-right:40px; background-image:url('TEMPLATES/img/interface/index/menu_b2.jpg'); margin-left:40px; margin-right:40px;  -webkit-background-size: cover;  -moz-background-size: cover;
+  -o-background-size: cover;  background-size: cover;">
+		  
+		
+		<div id="indi_mainContainer">
+			<div id="indi_header"  onclick="window.location.href = 'index.php';" />
+		<div id="indi_central">
+				<div metal:use-macro="TEMPLATES/metal_index.htm/indexMenu" />
+
+			<div id="principale" tal:attributes="class php:(mod == '') ? 'sliding vis' : 'sliding hid'">
+				<div >
+					<div id="quotation">
+						<p  style="margin:0px;">L'ambizione mi guida non solo più lontano di ogni altro uomo prima di me,<br />ma anche tanto lontano quanto io credo sia possibile per l'uomo arrivare</p>
+						<p style="text-align:right; margin:0px; margin-right:100px;">James Cook (1728-1779)</p>
+					</div>
+					<!-- quotation -->
+
+					<div style="width:80%; margin-left:80px;">
+				<p style=" font-family:federationFontI; text-align:left; font-size:26px; line-height:26px; letter-spacing:3px; color:#BBB; margin-top:0px; ">&ldquo;Spazio, ultima frontiera.<br /><span style="margin-left:60px; ">Questi sono i viaggi della nave stellare Enterprise...&rdquo;</span> </p>
+				
+				<p class="content" style="text-align:center; width:100%; font-family:Lato; font-size:25px; line-height:1.3em;">Star Trek: Federation è un Gioco di Ruolo online<br />via chat ambientato nell' <a style="text-decoration: underline;" href="landing.php?mod=trk1&flavour=0">anno 2396</a></p></div>
+
+				<p style="font-family:federationFontI; font-size:22px; text-align:left; margin-left:60px;"> Che cosa succede in gioco: </p>				 
+					<div id="newsS">
+						<div tal:repeat="news resNews">
+						<img tal:attributes="src string:TEMPLATES/img/interface/index/${news/aggregator}.png" style="padding-right:5px; float:left;" alt=""/>
+							<div style="float:left; width:80px; text-align:center;">
+								<span style="font-weight:bold; color:orange;" tal:content="news/data"/><br />
+								<a href="javascript:void(0)" class="interfaceLink" tal:attributes="onclick string:javascript:toggleVisit('${news/newsID}') ; id string:toggle_${news/newsID}">[ESPANDI]</a>
+							</div>
+							<div style="float:left; width:690px;">
+								<a tal:attributes="href news/toLink" class="interfaceLink" style="text-decoration:underline" tal:omit-tag="php:(news['toLink'] == '')" target="_blank"><span style="" tal:content="structure news/title"/></a>
+								<span style="color:white; font-weight:bold;"> - </span> <span tal:content=" structure news/text" tal:attributes="id string:navisi_${news/newsID}" style="color:#AAA" />
+							
+								<span tal:attributes="id string:visi_${news/newsID}" style="display:none; font-size:14px;" tal:content="structure news/rtext"/>
+							</div>
+						 <div style="clear:both" />
+					</div>
+				</div>
+			</div>
+		</div> 
+			 
+			<div id="REG" tal:attributes="class php:(mod == 'REG') ? 'sliding vis' : 'sliding hid';">
 				<form method="POST" id="regform" action="service.php?registerUser=true">  
 					<input type="hidden" id="select_razza" name="select_razza" />
 					<input type="hidden" id="select_grado" name="select_grado" />
@@ -226,17 +321,18 @@
 					<input type="hidden" tal:attributes="value aut" name="pgAuth" id="pgAuth"/>
 			
 				<div style="padding-left:50px;padding-right:50px;" id="page1">
-					<p class="title" style="margin:auto; text-align:center; margin-bottom:20px;">Registra un nuovo account</p> 
+					<p class="title" style="margin:auto; text-align:center; margin-bottom:20px;">Registra un nuovo personaggio</p> 
 					
-					<p style="text-align:justify; font-size:15px; margin:0px; font-family:Verdana; font-weight:bold;">Star Trek: Federation ti offre l'opportunità di giocare da subito un personaggio dell'ambientazione a tua scelta: personalizza il tuo personaggio utilizzando il menu sottostante</p>
-				 
-						
+					<p class="t1_content">Star Trek: Federation ti offre l'opportunità di giocare da subito un personaggio dell'ambientazione a tua scelta: personalizza il tuo personaggio utilizzando il menu sottostante.</p>
+					<p class="t1_content">Non sei sicuro? Non preoccuparti: potrai effettuare modifiche anche in seguito!</p>
+				 		
 						<div class="menureg head" style="float:left;">Inserici il tuo indirizzo E-mail</div> 
-						<input class="menureg" style="float:left; margin-left:10px;" id="select_email" type="email" name="select_email" />
+						<input class="menureg" style="float:left; margin-left:10px; width:55%;" id="select_email" type="email" placeholder="mario.rossi@sito.it" name="select_email" />
 						<div style="clear:both"/>
 						
 						<hr />
-						<p><span class="title" style="font-size:1.8em;">Scegli il tuo Personaggio Primario</span><span  style="font-size:1.5em;">: Un equipaggio distante da casa su una Base Stellare nel profondo dello spazio. Scegli il destino del tuo personaggio fra le sequenti opzioni:</span></p>
+
+						<p class="t1_content">In Star Trek: Federation impersonerai un personaggio distante da casa su una Base Stellare nel profondo dello spazio. Scegli il destino del tuo <span class="enf">Personaggio Primario</span> fra le sequenti opzioni:</p>
 						
 						   
 						<div class="container" style="width:45%; float:left;">
@@ -256,149 +352,146 @@
 						<div class="container" style="width:45%; float:left;">
 							 	 
 							<div class="menureg top head">Ruolo del Personaggio</div> 
-								<p  style="font-size:1.3em; text-align:justify">Quale personaggio ti piacerebbe interpretare? Scegli un ruolo specifico, oppure seleziona "Privato Cittadino" per ottenere un generico personaggio civile da personalizzare più avanti. Se dovessi cambiare idea più avanti, potrai rivedere queste impostazioni contattando la gestione!</p>
-							 
-							 
-							<div class="rectChoice division selectable" onclick="selectDivision(this,'sfC')"><p>Flotta Stellare<br/>Sezione Comando</p></div>   
-							<div class="rectChoice division selectable" onclick="selectDivision(this,'sfT')"><p>Flotta Stellare<br/>Sezione Tattica</p></div>   
-							<div class="rectChoice division selectable" onclick="selectDivision(this,'sfI')"><p>Flotta Stellare<br/>Sezione Ingegneria</p></div>   
-							<div class="rectChoice division selectable" onclick="selectDivision(this,'sfS')"><p>Flotta Stellare<br/>Sezione Scientifica</p></div>   
-							<div class="rectChoice division selectable" onclick="selectDivision(this,'sfM')"><p>Flotta Stellare<br/>Sezione Medica</p></div>   
-							
-							<div class="rectChoice division selectable" onclick="selectDivision(this,'bar')"><p>Commercianti e Baristi</p></div>  
-							<div class="rectChoice division selectable" onclick="selectDivision(this,'ing')"><p>Ingegneri</p></div>  
-							<div class="rectChoice division selectable" onclick="selectDivision(this,'sci')"><p>Scienziati<br/>Civili</p></div>  
-							<div class="rectChoice division selectable" onclick="selectDivision(this,'com')"><p>Piloti commerciali</p></div>  
-							<div class="rectChoice division selectable" onclick="selectDivision(this,'civ')"><p>Privato Cittadino</p></div>  
+											 
+							<div class="rectChoice division selectable d1" onclick="selectDivision(this,'sfC')"><p>Militare<br/>Sez. Comando / Strategia</p></div>   
+							<div class="rectChoice division selectable d2" onclick="selectDivision(this,'sfT')"><p>Militare<br/>Sez. Difesa / Sicurezza </p></div>  
+							<div class="rectChoice division selectable d3" onclick="selectDivision(this,'sfI')"><p>Militare<br/>Sez. Ingegneria</p></div>   
+							<div class="rectChoice division selectable d4" onclick="selectDivision(this,'sfS')"><p>Militare<br/>Sez. Scientifica / Medica </p></div>
+							<div class="rectChoice division selectable d5" onclick="selectDivision(this,'sfN')"><p>Militare<br/>Sez. Navigazione</p></div>   
+							<div class="rectChoice division selectable d6" onclick="selectDivision(this,'bar')"><p>Commerciante<br />o Barista</p></div>
+							<div class="rectChoice division selectable d7" onclick="selectDivision(this,'ing')"><p style="line-height: 30px;">Ingegnere Civile</p></div>
+							<div class="rectChoice division selectable d8" onclick="selectDivision(this,'sci')"><p style="line-height: 30px;">Scienziato Civile</p></div>
+							<div class="rectChoice division selectable d9" onclick="selectDivision(this,'com')"><p style="line-height: 30px;">Pilota commerciale</p></div>  
+							<div class="rectChoice division selectable d9" onclick="selectDivision(this,'jou')"><p style="line-height: 30px;">Giornalista</p></div>  
+							<div class="rectChoice division selectable d10" onclick="selectDivision(this,'civ')"><p style="line-height: 30px;">Altro</p></div>  
 							 
 						</div>
 						
-						<div class="container" style="width:45%; float:right;">
-							<div class="menureg top head">Razza del Personaggio</div>
+						<div class="container opaque" style="width:45%; float:right;">
+							<div class="menureg top head">Razza del Personaggio <a title="Guida alle Specie" href="javascript:void(0);" onclick="dbOpenToTopicLit('SPE1')"><img src="TEMPLATES/img/interface/personnelInterface/info.png" style="vertical-align:middle" /></a></div>
 							<div style="margin-top:10px;"> 
-								<div class="squareChoice race selectable" onclick="selectRace(this,'Umana')"> <img src="TEMPLATES/img/specie/Umana_m.png" class="race_place grayScale"/><img src="TEMPLATES/img/specie/Umana_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/Umana_f.png" class="race_fem"/><p>Umani</p></div>    
+								<div class="squareChoice race selectable" onclick="selectRace(this,'Umana')"> <img src="TEMPLATES/img/specie/tUmana_m.png" class="race_place grayScale"/><img src="TEMPLATES/img/specie/tUmana_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/tUmana_f.png" class="race_fem"/><p>Umani</p></div>    
 								<div class="squareChoice race selectable" onclick="selectRace(this,'Vulcaniana')"> <img src="TEMPLATES/img/specie/Vulcaniana_m.png" class="race_place grayScale"/> <img src="TEMPLATES/img/specie/Vulcaniana_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/Vulcaniana_f.png" class="race_fem"/><p>Vulcaniani</p></div>    
 								<div class="squareChoice race selectable" onclick="selectRace(this,'Trill')"> <img src="TEMPLATES/img/specie/Trill_m.png" class="race_place grayScale"/> <img src="TEMPLATES/img/specie/Trill_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/Trill_f.png" class="race_fem"/><p>Trill</p></div>    
 								<div class="squareChoice race selectable" onclick="selectRace(this,'Betazoide')"> <img src="TEMPLATES/img/specie/Betazoide_m.png" class="race_place grayScale"/> <img src="TEMPLATES/img/specie/Betazoide_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/Betazoide_f.png" class="race_fem"/><p>Betazoidi</p></div>    
-								<div class="squareChoice race selectable" onclick="selectRace(this,'Andoriana')"> <img src="TEMPLATES/img/specie/Andoriana_m.png" class="race_place grayScale"/> <img src="TEMPLATES/img/specie/Ferengi_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/Andoriana_f.png" class="race_fem"/><p>Andoriani</p></div>    
+								<div class="squareChoice race selectable" onclick="selectRace(this,'Andoriana')"> <img src="TEMPLATES/img/specie/Andoriana_m.png" class="race_place grayScale"/> <img src="TEMPLATES/img/specie/Andoriana_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/Andoriana_f.png" class="race_fem"/><p>Andoriani</p></div>    
 								<div class="squareChoice race selectable" onclick="selectRace(this,'Bajoriana')"> <img src="TEMPLATES/img/specie/Bajoriana_m.png" class="race_place grayScale"/> <img src="TEMPLATES/img/specie/Bajoriana_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/Bajoriana_f.png" class="race_fem"/><p>Bajoriani</p></div>  
 								</div><div style="clear:both" />
 								
 								
 							<div class="menureg top head" style="margin-top:20px;" >Grado / Posizione</div>
-							<p  style="font-size:1.3em; text-align:justify;">La lista delle posizioni disponibili dipende dalle disponibilità di gioco: scegli con attenzione il grado del tuo PG. Un grado elevato equivale a maggiori responsabilità.<br/>
-							Prima di ottenere il grado selezionato ti verrà chiesto di rimanere in gioco per un <strong>periodo di prova</strong> (con un grado più basso di quello scelto)</p>
+							<p  style="font-size:1.3em; margin:10px; text-align:justify;">La lista delle posizioni disponibili dipende dalle disponibilità di gioco. Ricorda che un grado elevato equivale a maggiori responsabilità.<br/>
+							Prima di ottenere il grado selezionato ti potrebbe essere chiesto di effettuare un <strong>periodo di prova</strong></p>
 							
 							<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_sfC" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
 									 
 								<optgroup label="Ufficiali">
-									<option value="470_o4">Tenente Comandante, Sezione Comando (Flotta Stellare)</option>
-									<option value="460_o3">Tenente, Sezione Comando (Flotta Stellare)</option>
-									<option value="448_o2">Sottotenente, Sezione Comando (Flotta Stellare)</option>
-									<option value="428_o1">Guardiamarina, Sezione Comando (Flotta Stellare)</option>
+									<!--<option value="842_o4">Tenente Comandante, Sezione Comando e Strategia (Flotta Stellare)</option>-->
+									<option value="837_o3">Tenente, Sezione Comando e Strategia (Flotta Stellare)</option>
+									<option value="832_o2">Sottotenente, Sezione Comando e Strategia (Flotta Stellare)</option>
+									<option value="827_o1">Guardiamarina, Sezione Comando e Strategia (Flotta Stellare)</option>
 								</optgroup>
 								
-								<optgroup label="Sottufficiali">
-									<option value="390_e8">Capo Senior, Sezione Comando (Flotta Stellare)</option>
-									<option value="380_e7" selected="selected">Capo Specialista, Sezione Comando (Flotta Stellare)</option>
-								</optgroup>
 							</select> 
 							
 							<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_sfT" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
 									 
 								<optgroup label="Ufficiali">
-									<option value="468_o4">Tenente Comandante, Sezione Tattica e Sicurezza (Flotta Stellare)</option>
-									<option value="458_o3">Tenente, Sezione  Tattica e Sicurezza  (Flotta Stellare)</option>
-									<option value="446_o2">Sottotenente, Sezione  Tattica e Sicurezza  (Flotta Stellare)</option>
-									<option value="426_o1">Guardiamarina, Sezione  Tattica e Sicurezza  (Flotta Stellare)</option>
+									<!--<option value="841_o4">Tenente Comandante, Sezione Difesa e Sicurezza (Flotta Stellare)</option>-->
+									<option value="836_o3">Tenente, Sezione  Difesa e Sicurezza  (Flotta Stellare)</option>
+									<option value="831_o2">Sottotenente, Sezione  Difesa e Sicurezza  (Flotta Stellare)</option>
+									<option value="826_o1">Guardiamarina, Sezione  Difesa e Sicurezza  (Flotta Stellare)</option>
 								</optgroup>
 								
 								<optgroup label="Sottufficiali" >
-									<option value="388_e8">Capo Senior, Sezione  Tattica e Sicurezza  (Flotta Stellare)</option>
-									<option value="378_e7">Capo Specialista, Sezione  Tattica e Sicurezza  (Flotta Stellare)</option>
-									<option value="368_e6" selected="selected">Capo di Prima Classe, Sezione  Tattica e Sicurezza  (Flotta Stellare)</option>
+									<option value="813_e8">Capo Senior, Sezione  Difesa e Sicurezza  (Flotta Stellare)</option>
+									<option value="809_e7">Capo Specialista, Sezione  Difesa e Sicurezza  (Flotta Stellare)</option>
 								</optgroup>
 							</select> 
-							
+
+
 							<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_sfI" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
 									 
 								<optgroup label="Ufficiali">
-									<option value="466_o4">Tenente Comandante, Sezione Ingegneria (Flotta Stellare)</option>
-									<option value="454_o3">Tenente, Sezione  Ingegneria  (Flotta Stellare)</option>
-									<option value="444_o2">Sottotenente, Sezione  Ingegneria  (Flotta Stellare)</option>
-									<option value="424_o1">Guardiamarina, Sezione  Ingegneria  (Flotta Stellare)</option>
+									<!--<option value="839_o4">Tenente Comandante, Sezione Operazioni (Flotta Stellare)</option>-->
+									<option value="834_o3">Tenente, Sezione  Operazioni  (Flotta Stellare)</option>
+									<option value="829_o2">Sottotenente, Sezione  Operazioni  (Flotta Stellare)</option>
+									<option value="824_o1">Guardiamarina, Sezione  Operazioni  (Flotta Stellare)</option>
 								</optgroup>
 								
 								<optgroup label="Sottufficiali">
-									<option value="386_e8">Capo Senior, Sezione  Ingegneria  (Flotta Stellare)</option>
-									<option value="376_e7">Capo Specialista, Sezione  Ingegneria  (Flotta Stellare)</option>
-									<option value="366_e6" selected="selected">Capo di Prima Classe, Sezione  Ingegneria  (Flotta Stellare)</option>
+									<option value="811_e8">Capo Senior, Sezione Operazioni  (Flotta Stellare)</option>
+									<option value="807_e7" selected="selected">Capo Specialista, Sezione Operazioni  (Flotta Stellare)</option>
 								</optgroup>
 							</select> 
 							
 							<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_sfS" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
 									 
 								<optgroup label="Ufficiali">
-									<option value="464_o4">Tenente Comandante, Sezione Scientifica (Flotta Stellare)</option>
-									<option value="452_o3">Tenente, Sezione  Scientifica  (Flotta Stellare)</option>
-									<option value="442_o2">Sottotenente, Sezione  Scientifica  (Flotta Stellare)</option>
-									<option value="422_o1">Guardiamarina, Sezione  Scientifica  (Flotta Stellare)</option>
+									<!--<option value="838_o4">Tenente Comandante, Sezione Scientifica e Medica (Flotta Stellare)</option>-->
+									<option value="833_o3">Tenente, Sezione Scientifica e Medica (Flotta Stellare)</option>
+									<option value="828_o2" selected="selected" >Sottotenente, Sezione Scientifica e Medica (Flotta Stellare)</option>
+									<option value="823_o1">Guardiamarina, Sezione Scientifica e Medica (Flotta Stellare)</option>
 								</optgroup>
 								
 								<optgroup label="Sottufficiali">
-									<option value="384_e8">Capo Senior, Sezione  Scientifica  (Flotta Stellare)</option>
-									<option value="374_e7">Capo Specialista, Sezione  Scientifica  (Flotta Stellare)</option>
-									<option value="364_e6" selected="selected">Capo di Prima Classe, Sezione  Scientifica  (Flotta Stellare)</option>
+									<option value="810_e8">Capo Senior, Sezione Scientifica e Medica (Flotta Stellare)</option>
+									<option value="806_e7" selected="selected">Capo Specialista, Sezione Scientifica e Medica (Flotta Stellare)</option>
 								</optgroup>
 							</select> 
-							
-							<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_sfM" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
+
+							<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_sfN" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
 									 
 								<optgroup label="Ufficiali">
-									<option value="462_o4">Tenente Comandante, Sezione Medica (Flotta Stellare)</option>
-									<option value="450_o3">Tenente, Sezione  Medica  (Flotta Stellare)</option>
-									<option value="440_o2">Sottotenente, Sezione  Medica  (Flotta Stellare)</option>
-									<option value="420_o1">Guardiamarina, Sezione  Medica  (Flotta Stellare)</option>
+									<!--<option value="840_o4">Tenente Comandante, Sezione Navigazione (Flotta Stellare)</option>-->
+									<option value="835_o3">Tenente, Sezione  Navigazione  (Flotta Stellare)</option>
+									<option value="830_o2">Sottotenente, Sezione  Navigazione  (Flotta Stellare)</option>
+									<option value="825_o1">Guardiamarina, Sezione  Navigazione  (Flotta Stellare)</option>
 								</optgroup>
 								
 								<optgroup label="Sottufficiali">
-									<option value="382_e8">Capo Senior, Sezione  Medica  (Flotta Stellare)</option>
-									<option value="372_e7">Capo Specialista, Sezione  Medica  (Flotta Stellare)</option>
-									<option value="362_e6" selected="selected">Capo di Prima Classe, Sezione  Medica  (Flotta Stellare)</option>
+									<option value="812_e8">Capo Senior, Sezione  Navigazione  (Flotta Stellare)</option>
+									<option value="808_e7" selected="selected">Capo Specialista, Sezione  Navigazione  (Flotta Stellare)</option>
+									
 								</optgroup>
 							</select> 
 							
 							<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_bar" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
 									 <option value="101">Apprendista  (Ristorazione)</option>
 									 <option value="119">Addetto di Ruolo (Ristorazione)</option>
-									 <option value="137">Capo di Rango (Ristorazione)</option>
+									 <option value="137" selected="selected">Capo di Rango (Ristorazione)</option>
 									 <option value="155">Responsabile di Ruolo (Ristorazione)</option>
 									 <option value="173">Direttore (Ristorazione)</option>
 							</select>
 						<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_ing" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
-									 <option value="107">Studente  (Ingegneria Civile)</option>
+									 <!--<option value="107">Studente  (Ingegneria Civile)</option><-->
 									 <option value="125">Manutentore (Ingegneria Civile)</option>
-									 <option value="143">Ingegnere (Ingegneria Civile)</option>
+									 <option value="143" selected="selected">Ingegnere (Ingegneria Civile)</option>
 									 <option value="161">Ingegnere Specialista (Ingegneria Civile)</option>
 									 <option value="179">Direttore (Ingegneria Civile)</option>
 							</select>
 						<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_com" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
 									 <option value="103">Allievo Ufficiale  (Flotta Civile)</option>
 									 <option value="121">Ufficiale Junior (Flotta Civile)</option>
-									 <option value="139">Ufficiale (Flotta Civile)</option>
+									 <option value="139" selected="selected">Ufficiale (Flotta Civile)</option>
 									 <option value="157">Vice Comandante (Flotta Civile)</option>
 									 <option value="175">Comandante (Flotta Civile)</option>
 							</select>
 						<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_sci" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
-									 <option value="117">Studente  (Scienze)</option>
+									 <!--<option value="117">Studente  (Scienze)</option>-->
 									 <option value="135">Ricercatore(Scienze)</option>
-									 <option value="153">Ricercatore Specialista (Scienze)</option>
+									 <option value="153" selected="selected">Ricercatore Specialista (Scienze)</option>
 									 <option value="171">Vice Direttore (Scienze)</option>
 									 <option value="191">Direttore (Scienze)</option>
 							</select>
+						<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_jou" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
+									 <!--<option value="117">Studente  (Scienze)</option>-->
+									 <option value="127" selected="selected">Giornalista</option>
+									 <option value="145">Redattore</option> 
+							</select>
 							
 							<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_civ" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
-									 <option value="1">Privato CIttadino</option> 
+									 <option value="1">Privato Cittadino</option> 
 							</select>
 
 
@@ -418,52 +511,118 @@
 					<p class="title" style="margin:auto; text-align:center; margin-bottom:20px;">Dettagli del Personaggio: <span id="mirror_name" /></p> 
 					
 					  
-						<div class="container" style="width:25%; float:left;">
+						<div class="container banded" style="width:25%; float:left;  border:1px solid #EEE; border-radius:10px;" >
 							 
 							<img id="mirror_uniform"/><br />
 							
-							<img id="mirror_grado" style="height:15px;" /> <img id="mirror_razza" />
+							<img id="mirror_grado"  /> <img id="mirror_razza" />
 						</div>
 						
-						<div class="container" style="width:70%; float:right;">
+						<div id="bpage2" style="width:70%; font-size:14px; float:right; overflow-y:auto; overflow-x:hidden; padding-right:40px; height:540px;">
+						<div class="container">
+						
 						 
 							<div class="menureg top head">La razza che hai scelto: <span id="mirror_razza_t" /></div>
 							
-								<div class="species_spec" id="sp_Umana">Gli umani sono la razza con la maggiore espansione nella Federazione Unita dei Pianeti. Originari del pianeta Terra nel sistema Sol gli esseri umani sono stati la spinta iniziale alla fondazione della Federazione Unita dei Pianeti e si sono diffusi in tutti i quadranti con migliaia di colonie maggiori, molte delle quali divenute a loro volta indipendenti e membri della Federazione. Gli esseri umani sono poliedrici ed è impossibile definire un carattere comune, le loro più grandi forze sono la versatilità, la capacità di adattamento e la capacità di lavorare in gruppo. Per questo motivo gli esseri umani sono la spina dorsale della Flotta Stellare i cui membri umani superano di gran lunga il numero di altre specie.</div>
+								<div class="species_spec" id="sp_Umana">Gli umani sono la razza con la maggiore espansione nella Federazione Unita dei Pianeti. Originari del pianeta Terra nel sistema Sol gli esseri umani sono stati la spinta iniziale alla fondazione della Federazione Unita dei Pianeti e si sono diffusi in tutti i quadranti con migliaia di colonie maggiori, molte delle quali divenute a loro volta indipendenti e membri della Federazione. Gli esseri umani sono poliedrici ed è impossibile definire un carattere comune, le loro più grandi forze sono la versatilità, la capacità di adattamento e la capacità di lavorare in gruppo. Per questo motivo gli esseri umani sono la spina dorsale della Flotta Stellare i cui membri umani superano di gran lunga il numero di altre specie.
+								<p class="bonus">
+									<span> Bonus di Razza: </span> 
+								<img src="TEMPLATES/img/interface/personnelInterface/abilita/leadership.png" class="tooltip" title="Gli umani ottengono un bonus alle capacità leadership" /><span>+1</span> 
+								<img src="TEMPLATES/img/interface/personnelInterface/abilita/culturealiene.png" class="tooltip"  title="Gli umani ottengono un bonus alle capacità di dialogare e confrontarsi con le culture aliene"/><span>+2</span> 
+								</p>
+								</div>
 								
-								<div class="species_spec" id="sp_Vulcaniana">Logica. La logica muove i fili della vita di tutti i giorni di un vulcaniano ed i vulcaniani amano ricordare quanto la logica della ragione sia più importante delle emozioni. Razza umanoide del tutto simile ad un essere umano esteriormente se non per le orecchie leggermente allungate ed appuntite. Vivono secondo un rigido codice comportamentale che prevede l'estraniazione delle emozioni dalla loro esistenza, sviluppato in tempi antichi dopo grandi tumulti a causa della natura aggressiva e violenta degli antichi vulcaniani. I vulcaniani sono dotati di capacità telepatiche al contatto. Per le loro caratteristiche ed i metodi utilizzati i vulcaniani si inseriscono perfettamente in tutte le discipline civili e militari. I vulcaniani sono tra i più grandi promotori e partecipanti dello sviluppo tecnologico e culturale della Federazione Unita dei Pianeti. I vulcaniani sono dotati di una forza fisica che ha pochi uguali nei quadranti Alpha e Beta. </div>
+								<div class="species_spec" id="sp_Vulcaniana">Logica. La logica muove i fili della vita di tutti i giorni di un vulcaniano ed i vulcaniani amano ricordare quanto la logica della ragione sia più importante delle emozioni. Razza umanoide del tutto simile ad un essere umano esteriormente se non per le orecchie leggermente allungate ed appuntite. Vivono secondo un rigido codice comportamentale che prevede l'estraniazione delle emozioni dalla loro esistenza, sviluppato in tempi antichi dopo grandi tumulti a causa della natura aggressiva e violenta degli antichi vulcaniani. I vulcaniani sono dotati di capacità telepatiche al contatto. Per le loro caratteristiche ed i metodi utilizzati i vulcaniani si inseriscono perfettamente in tutte le discipline civili e militari. I vulcaniani sono tra i più grandi promotori e partecipanti dello sviluppo tecnologico e culturale della Federazione Unita dei Pianeti. I vulcaniani sono dotati di una forza fisica che ha pochi uguali nei quadranti Alpha e Beta.
 								
-								<div class="species_spec" id="sp_Trill">I trill sono una razza umanoide del quadrante Alpha membro della federazione. Trill mantiene molto del proprio pianeta in una sorta di segretezza a cui hanno accesso solo i membri del Consiglio Federale di Sicurezza ed il presidente. La scelta di questi segreti è collegata alla natura molto intima delle leggi sui simbionti. Trill infatti è un mondo che ospita due specie dominanti. Una di queste, i trill ospiti, è divisa in due sottospecie ed ha una cultura ed una civiltà del tutto simile a quella di molte altre specie umanoidi. La seconda è un simbionte alieno dall'aspetto di una grossa larva che vive in caverne e bacini di proliferazione. Ospite e simbionte possono essere uniti, il simbionte trasferisce nell'ospite tutti i propri ricordi e quelli dei precedenti ospiti, in cambio l'ospite permette al simbionte di "vivere" al di fuori del suo stato larvale muovendosi con il corpo umanoide. I due individui comunque coesistono, l'ospite continua la propria normale esistenza, assume il nome del simbionte come proprio cognome. [Alla registrazione ogni trill è da considerarsi NON unito. L'unione potrà essere richiesta durante il gioco in una fase avanzata e sottoposto ad approvazione o reinvio] </div>
+								<p class="bonus">
+									<span> Bonus di Razza: </span> 
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/telepatia.png" title="La Telepatia vulcaniana è in grado di operare solo a brevi distanze o per contatto. La razza ottiene un bonus di +3 come abilità congenita." /><span>+3</span>
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/costituzione.png" title="I Vulcaniani hanno una costituzione più forte rispetto alle altre razze" /><span>+2</span> 
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/willpower.png" title="I Vulganiani godono di una forza di volontà più sviluppata rispetto alle altre razze, e per questo ottengono un bonus nella caratteristica corrispondente"/><span>+2</span>
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/arti_marziali.png" title="Essendo addestrati fin da bambini alle arti marziali come tecnica di difesa, i Vulcaniani godono di un bonus in tutte le discipline relative"/><span>+1</span>
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/scuto_mentale.png" title="In quanto razza telepate, i Vulcaniani sono particolarmente abili nel bloccare i tentativi altrui di esercitare la telepatia." /><span>+2</span>
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/autoipnosi.png" title="Come risultato delle intense sedute di meditazione cui i Vulcaniani si sottopongono giornalmente, la capacità di autoipnosi e di regressione dei vulcaniani gode di un bonus di +2" /><span>+2</span>
+								</p>	
+
+								</div>
 								
-								<div class="species_spec" id="sp_Ferengi">I ferengi sono una razza non federale membri fondatori dell'Alleanza Ferengi, nonostante questo molti ferengi mettono in discussione la struttura sociale dell'Alleanza che prevede una continua e quasi ossessiva corsa al guadagno, spesso questi individui lasciano le aree dell'alleanza e si uniscono alla Flotta Stellare, diventando cittadini federali. I ferengi sono abili mercanti e truffatori. Possiedono una tecnologia avanzata, anche militarmente, sviluppata molto spesso in associazione alle necessità di difesa dei mercantili dai pirati. Ogni aspetto della vita ferengi è orientato secondo leggi sul commercio o intorno ad esse. </div>
+								<div class="species_spec" id="sp_Trill">I trill sono una razza umanoide del quadrante Alpha membro della federazione. Trill mantiene molto del proprio pianeta in una sorta di segretezza a cui hanno accesso solo i membri del Consiglio Federale di Sicurezza ed il presidente. La scelta di questi segreti è collegata alla natura molto intima delle leggi sui simbionti. Trill infatti è un mondo che ospita due specie dominanti. Una di queste, i trill ospiti, è divisa in due sottospecie ed ha una cultura ed una civiltà del tutto simile a quella di molte altre specie umanoidi. La seconda è un simbionte alieno dall'aspetto di una grossa larva che vive in caverne e bacini di proliferazione. Ospite e simbionte possono essere uniti, il simbionte trasferisce nell'ospite tutti i propri ricordi e quelli dei precedenti ospiti, in cambio l'ospite permette al simbionte di "vivere" al di fuori del suo stato larvale muovendosi con il corpo umanoide. I due individui comunque coesistono, l'ospite continua la propria normale esistenza, assume il nome del simbionte come proprio cognome. [Alla registrazione ogni trill è da considerarsi NON unito. L'unione potrà essere richiesta durante il gioco in una fase avanzata e sottoposto ad approvazione o reinvio]
+
+								<p class="bonus">
+								<span> Bonus di Razza: </span> 
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/costituzione.png" title="In quanto capaci di sopportare ferite e veleni meglio delle altre razze, I Trill ottengono un bonus alla Costituzione" /><span>+2</span>
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/intelletto.png" title="I Trill posseggono un intelletto estremamente versatile, e sono generalmente molto istruiti. Ottengono pertanto un bonus all'intelletto" /><span>+1</span>
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/diplomazia.png" title="Per la loro capacità di dialogare con le altre culture, e per i mille segreti diplomatici di cui il popolo Trill è custode, i membri della Razza Trill ottengono un bonus in Diplomazia" /><span>+3</span>
+								<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/percepire_intenzione.png" title="I Trill non sono un popolo losco... ma sono abili osservatori: è più difficile mentigli ed ingannarli" /><span>+2</span>
+								<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/storia_letteratura.png" title="I Trill sono un popolo di artisti con una lunghissima tradizione pittorica e letteraria, proprio grazie ai Simbionti che trasmettono i ricordi alle generazioni successive" /><span>+1</span>
+								<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/sopravvivenza.png" title="Abili conoscitori della natura e dei suoi pericoli, I Trill godono di un piccolo bonus nella sopravvivenza" /><span>+2</span>
+								</p>
+								</div>
 								
-								<div class="species_spec" id="sp_Betazoide">Attenti, sensibili, onesti. I betazoidi sono una razza di telepati ed empatici dall'aspetto del tutto simile a quello di un essere umano se non per la costante e regolare caratteristica di possedere oggi dalle iridi completamente nere. Le loro doti sociali e psioniche ne fanno ottimo personale medico, sia chirurgico che psicologico. Ogni betazoide viene educato all'uso delle proprie capacità telepatiche che possono raggiungere grandi distanze ma che sono più solitamente usate come mezzo di comunicazione ordinario tra betazoidi. Allo stesso modo la proprie capacità empatiche gli permettono di sentire le emozioni, e farle riflette su se stessi, delle persone intorno a loro quindi ogni giovane betazoide è addestrato alla gestione di simili situazioni. Ogni betazoide addestrato segue un codice comportamentale che gli vieta di abusare del proprio potere per entrare coattamente nelle menti altrui.</div>
+								<div class="species_spec" id="sp_Andoriana">Fieri, sicuri, precisi. Gli andoriani, membri fondatori della Federazione Unita dei Pianeti, sono una razza aliena dalla pelle di colore azzurro dotati di ricettori uditivi accessori nella forma di due antenne sulla fronte. Gli andoriani sono una razza che presenta quattro distinti sessi, due con connotazioni prettamente maschili e due con connotazioni femminili, per procreare gli andoriani devono essere un gruppo di quattro individui che partecipano in momenti differenti al concepimento. Gli andoriani tendono ad assumere comportamenti scontrosi quando nervosi, sono una razza pronta all'azione prima ancora che alla parola questo fa di loro un nervo importante dei sottodipartimenti di Comando, Tattica e Sicurezza. 
+
+								<p class="bonus">
+								<span> Bonus di Razza: </span> 
+								<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/costituzione.png" title="Gli Andoriani sono abituati ai climi estremamente rigidi del loro pianeta natale, Andoria. Godono quindi di un bonus alla Costituzione" /><span>+1</span>
+								<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/destrezza.png" title="Abituati a maneggiare temibili armi bianche e a tenersi in equilibrio sul ghiaccio, gli Andoriani godono di un bonus alla Destrezza" /><span>+1</span>
+								<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/interrogatorio.png" title="Alti e temibili, gli Andoriani godono inevitabilmente di un bonus nella persuasione e nell'interrogatorio" /><span>+2</span>
+								<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/armibianche.png" title="Maestri indiscussi delle armi bianche, gli Andoriani sono addestrati fin da bambini e godono quindi di un bonus sostanziale" /><span>+3</span>
+								<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/musica.png" title="Andoria, nonostante la freddezza del clima, è una delle scene musicali più calde della galassia. E' molto probabile che un andoriano abbia buone nozioni musicali." /><span>+4</span>
+								<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/mischia.png" title="Le abilità nella mischia degli andoriani sono note... in parte grazie alle storie che di loro circolano, in parte per la loro stazza e imponenza" /><span>+3</span>
+								<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/sopravvivenza.png" title="Abituati ai freddi ghiacci di Andoria, gli Andoriani ricevono un addestramento di base alla sopravvivenza" /><span>+1</span>
+							</p>
+							</div>
 								
-								<div class="species_spec" id="sp_Bajoriana">Religiosi, testardi, orgogliosi. I Bajoriani sono una delle ultime specie ad essersi unite alla Federazione Unita dei Pianeti, dopo la Guerra con il Dominio e dopo anni di occupazione del loro pianeta e delle loro colonie da parte della vicina Unione Cardassiana. La fede religiosa è radicata nei bajoriani più di molte altre razze, vedono ai loro dei, i Profeti, delle guide che prestabiliscono gli eventi perché seguano un preciso percorso per il bene comune. I Vedek ed il Kai sono guide spirituali con una forte influenza anche sulla vita politica bajoriana e per anni sono stati uno dei freni per l'annessione di Bajor nello spazio federale, testardi ed orgogliosi i bajoriani si dimostrano spesso adatti ad incarichi nei sottodipartimenti di Tattica e Sicurezza. Esteriormente sono del tutto simili ad un essere umano, a parte per la caratteristica forma delle creste nasali. </div>
+								<div class="species_spec" id="sp_Betazoide">Attenti, sensibili, onesti. I betazoidi sono una razza di telepati ed empatici dall'aspetto del tutto simile a quello di un essere umano se non per la costante e regolare caratteristica di possedere oggi dalle iridi completamente nere. Le loro doti sociali e psioniche ne fanno ottimo personale medico, sia chirurgico che psicologico. Ogni betazoide viene educato all'uso delle proprie capacità telepatiche che possono raggiungere grandi distanze ma che sono più solitamente usate come mezzo di comunicazione ordinario tra betazoidi. Allo stesso modo la proprie capacità empatiche gli permettono di sentire le emozioni, e farle riflette su se stessi, delle persone intorno a loro quindi ogni giovane betazoide è addestrato alla gestione di simili situazioni. Ogni betazoide addestrato segue un codice comportamentale che gli vieta di abusare del proprio potere per entrare coattamente nelle menti altrui.
+
+								<p class="bonus">
+									<span> Bonus di Razza: </span> 
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/willpower.png" title="La predisposizione alla grande empatia propria dei Betazoidi si traduce in una maggiore temperanza mentale. I personaggi di questa razza ottengono un bonus alla forza di volontà." /><span>+3</span>
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/costituzione.png" title="I betazoidi hanno una salute più cagionevole rispetto alle altre razze. Soffrono quindi di un malus alla Costituzione" /><span>-1</span>
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/percepire_intenzione.png" title="I Betazoidi sono una razza empatica e possono percepire le emozioni altrui. Di conseguenza, l'abilità relativa gode di un bonus di +1" /><span>+1</span>
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/telepatia.png" title="I Betazoidi sono una razza telepatica: godono quindi di un grosso bonus alla telepatia." /><span>+3</span>
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/scuto_mentale.png" title="Grazie all'addestramento intensivo che i Betazoidi ricevono sin da bambini, i Betazoidi posseggono particolari barriere mentali che impediscono agli altri di leggere la loro mente con facilità." /><span>+3</span>
+									</p>
+								</div>
+								
+								<div class="species_spec" id="sp_Bajoriana">Religiosi, testardi, orgogliosi. I Bajoriani sono una delle ultime specie ad essersi unite alla Federazione Unita dei Pianeti, dopo la Guerra con il Dominio e dopo anni di occupazione del loro pianeta e delle loro colonie da parte della vicina Unione Cardassiana. La fede religiosa è radicata nei bajoriani più di molte altre razze, vedono ai loro dei, i Profeti, delle guide che prestabiliscono gli eventi perché seguano un preciso percorso per il bene comune. I Vedek ed il Kai sono guide spirituali con una forte influenza anche sulla vita politica bajoriana e per anni sono stati uno dei freni per l'annessione di Bajor nello spazio federale, testardi ed orgogliosi i bajoriani si dimostrano spesso adatti ad incarichi nei sottodipartimenti di Tattica e Sicurezza. Esteriormente sono del tutto simili ad un essere umano, a parte per la caratteristica forma delle creste nasali. 
+
+								<p class="bonus">
+									<span> Bonus di Razza: </span> 
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/willpower.png" title="Le sofferenze patite dai Bajoriani durante i lunghi anni dell'occupazione Cardassiana valgono alla razza un bonus in Forza di Volontà. I lussi di una vita agiata e l'idea di poter essere felici ogni giorno sono stati un miraggio per troppo tempo" /><span>+3</span>
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/percezione.png" title="I Bajoriani hanno una percezione più marcata rispetto alle altre razze" /><span>+2</span>
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/arte.png" title="I Bajoriani erano noti per essere grandi e apprezzati artisti in tutto il quadrante, prima della guerra" /><span>+2</span>
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/sopravvivenza.png" title="I tempi duri dell'occupazione hanno lasciato poco scampo a parecchi Bajoriani. I sopravvissuti sono decisamente abili nell'arte di arrangiarsi e di sopravvivere" /><span>+3</span>
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/acrobatica.png" title="I Bajoriani sono in grado di compiere salti e gesti particolarmente scenografici... una qualità anche questa acquisita dalla Guerra di Occupazione" /><span>+2</span>
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/furtivita.png" title="Grazie all'addestramento ottenuto nella Resistenza Bajoriana, moltissimi bajoriani sono in grado di avvicinarsi furtivamente al nemico" /><span>+4</span>
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/contraffazione.png" title="La contraffazione di valuta e di altri beni di valore è una qualità nota dei Bajoriani nati sotto la Resistenza" /><span>+1</span>
+									</p>
+								</div>
 								
 						<div class="menureg top head">Il Ruolo che hai scelto: </div>
 							 
 								<div class="sections_spec" id="se_sfC">
-									La sezione Comando e Navigazione è la suddivisione operativa che si occupa dell'organizzazione, della gestione burocratica, logistica, amministrativa della Flotta. Ne fanno parte: <ul><li>Timonieri;</li>
-									<li>Addetti alle comunicazioni</li>
-									<li>Controllori di Volo;</li>
+									La sezione Comando e Strategia è la suddivisione operativa che si occupa dell'organizzazione, della gestione burocratica, amministrativa della Flotta. Ne fanno parte: <ul>
+									<li>Ufficiali Comandanti di Vascello e di Stazione</li>
 									<li>Diplomatici militari;</li>
+									<li>Strateghi e Ufficiali Tattici;</li>
 									<li>Personale giuridico e membri della magistratura militare;</li></ul>
 									L'uniforme del personale di questa area dipartimentale è di colore rosso.<br/>
-									I membri della sezione Comando e Navgiazione sono addestrati alla leadership, oltre che ad un certo numero di conoscenze tattiche e operative che gli permettono di organizzare e guidare il lavoro dei sottoposti. L'ammiragliato e tutti gli ufficiali in comando fanno parte di questa sezione. Per acquisire il ruolo di primo ufficiale, o di capitano è necessario il passaggio alla sezione Comando e Navigazione: il che implica che l'arruolamento iniziale nella sezione Comando e Navigazione non è condizione necessaria per diventare capitano, o per assumere il comando.  
+									I membri della sezione Comando e Strategia sono addestrati alla leadership, oltre che ad un elevato numero di conoscenze tattiche e operative che gli permettono di organizzare e guidare il lavoro dei sottoposti. L'ammiragliato e tutti gli ufficiali in comando fanno parte di questa sezione. Per acquisire il ruolo di primo ufficiale, o di capitano è necessario il passaggio alla sezione Comando e Strategia: il che implica che l'arruolamento iniziale nella sezione Comando e Strategia non è condizione necessaria per diventare capitano, o per assumere il comando.  
 								</div>
 								<div class="sections_spec" id="se_sfT">
-								La sezione Tattica e Sicurezza è la suddivisione operativa che si occupa del servizio di indagine, sicurezza e pianificazione strategica della Flotta. Ne fanno parte:<ul>
+								La sezione Difesa e Sicurezza è la suddivisione operativa che si occupa del servizio di difesa, indagine, sicurezza e pianificazione strategica della Flotta. Ne fanno parte:<ul>
 								<li>Addetti della Sicurezza;</li>
-								<li>Operatori Tattici;</li>
+								<li>Addetti dei Corpi Speciali;</li>
 								<li>Agenti e Analisti dell'Intelligence;</li>
-								<li>Armieri;</li></ul>
+								<li>Armieri;</li>
+								</ul>
 
-								L'uniforme del personale di questa area dipartimentale è di colore giallo. I membri della sezione Tattica e Sicurezza sono addestrati alle operazioni di sicurezza a bordo di vascelli ed installazioni orbitali o nello spazio profondo; operazioni di strategia e tattica militare e navale, procedure di indagine ed operazioni di intelligence secondo la specializzazione dipartimentale che viene da loro scelta o per la quale ottengono diretta assegnazione. I due principali dipartimenti, cui solitamente si suddivide l'organizzazione di un vascello, sono nel nome stesso della sezione; il Dipartimento Tattico si occupa della pianificazione tattica e strategica delle unità cui prestano servizio, sono responsabili dei sistemi di armamento e difesa di un vascello; il Dipartimento di Sicurezza si occupa invece delle operazioni che riguardano strettamente la difesa dei membri dell'equipaggio e della sicurezza, per l'appunto, del vascello stesso da pericoli a bordo dell'unità.   
+								L'uniforme del personale di questa area dipartimentale è di colore verde. I membri della sezione Difesa e Sicurezza sono addestrati alle operazioni di sicurezza a bordo di vascelli ed installazioni orbitali o nello spazio profondo; operazioni di strategia e tattica militare e navale, procedure di indagine ed operazioni di intelligence secondo la specializzazione dipartimentale che viene da loro scelta o per la quale ottengono diretta assegnazione. I due principali dipartimenti, cui solitamente si suddivide l'organizzazione di un vascello, sono nel nome stesso della sezione; il Dipartimento Difesa si occupa delle operazioni in cui è richiesto l'uso della forza, sia sul campo che sul vascello. La sottosezione Difesa è responsabili dei sistemi di armamento e difesa di un vascello; il Dipartimento di Sicurezza, invece, si occupa delle operazioni che riguardano strettamente la difesa dei membri dell'equipaggio e della sicurezza, per l'appunto, del vascello stesso da pericoli a bordo dell'unità.   
 								</div>
 								
 								<div class="sections_spec" id="se_sfI">
-									La sezione Ingegneria è la suddivisione operativa che si occupa del controllo, manutezione e messa in operatività dei sistemi elettronici, meccanici e più genericamente ingegneristici di un unità operativa dell Flotta Stellare. Ne fanno parte:<ul>
+									La sezione Operazioni è la suddivisione operativa che si occupa dell'ingegneria, del controllo, manutezione e messa in operatività dei sistemi elettronici, meccanici e più genericamente ingegneristici di un unità operativa dell Flotta Stellare. Ne fanno parte:<ul>
 									<li>Addetti della Propulsione;</li>
 									<li>Addetti delle Operazioni;</li>
 									<li>Ingegneri navali;</li>
@@ -477,29 +636,29 @@
 									
 									
 								</div>
-								<div class="sections_spec" id="se_sfS">La sezione scientifica è la suddivisione operativa che si occupa delle analisi, della manutenzione ordinaria degli strumenti, dei filoni di ricerca. Ne fanno parte:<ul>
-								<li>Addetti della Rilevazione - Astrometristi, Astrofisici;</li>
-								<li>Addetti ai laboratori Chimici e Biologici;</li>
-								<li>Addetti ai laboratori Fisici;</li>
-								<li>Ingegneri scientifici;</li>
-								<li>Programmatori informatici e olografici;</li>
-								<li>Crittologi</li></ul>
+								<div class="sections_spec" id="se_sfS">La sezione scientifica e la sezione e medica sono le due suddivisione operative che si occupano delle analisi, della manutenzione ordinaria degli strumenti, dei filoni di ricerca. Il dipartimento medico si occupa di fornire assistenza medica al personale di tutta la Flotta Stellare, sia essa continuata nel tempo (cronica) che immediata. La sezione è responsabile anche del proseguimento delle attività di ricerca intimamente connesse alla medicina e alla terapia. Ne fanno parte:<ul>
+								<li>Addetti della Rilevazione, Astrometristi, Astrofisici;</li>
+								<li>Addetti ai laboratori Chimici e Biologici e Fisici;</li>
+								<li>Medici, Infermieri e Paramedici;</li>
+								<li>Psicologi e Consiglieri</li>
+								<li>Programmatori informatici e olografici, ingegneri scientifici;</li></ul> 
 								L'uniforme del personale di questa area dipartimentale è di colore verde teal.
 
 								I membri della sezione scientifica sono addestrati in relazione alla loro area di specializzazione, e sono in generale provvisti di un folto background scientifico. Sono personalità dotate di un forte know-how specialistico, che si occupano della prosecuzione di ben determinati filoni di ricerca, pianificati dalla missione o necessari nell'immediatezza. Gestiscono e affinano i sensori interni ed esterni, i laboratori di bordo, il nucleo del computer e le ottimizzazioni informatiche da esso derivanti. Alcuni sono attivi in settori a stretto contatto con le sezioni ingegneristica e medica. 
 
 								La Sezione solitamente si organizza in dipartimenti secondo aree di specifica competenza per i propri operatori; dalla chimica alle operazioni di rilevamento. </div>
-								<div class="sections_spec" id="se_sfM">
-									La sezione MEDICA è la suddivisione scientifica che si occupa di fornire assistenza medica al personale di tutta la Flotta Stellare, sia essa continuata nel tempo (cronica) che immediata. E' responsabile anche del proseguimento delle attività di ricerca intimamente connesse alla medicina e alla terapia. Ne fanno parte:<ul>
-									<li>Medici;</li>
-									<li>Infermieri e Paramedici;</li>
-									<li>Addetti di laboratorio;</li>
-									<li>Ingegneri biomedici;</li>
-									<li>Soccorritori;</li>
-									<li>Psicologi e Consiglieri</li></ul>
-									L'uniforme del personale di questa area dipartimentale è di colore verde teal. 
+								<div class="sections_spec" id="se_sfN">
+									La sezione Navigazione è la suddivisione operativa che si occupa della conduzione di tutti i veicoli stellari della Flotta. Ne fanno parte:<ul>
+									
+									<li>Piloti di navi stellari;</li>
+									<li>Piloti di caccia e navette;</li>
+									<li>Hangaristi;</li>
+									<li>Addetti al Controllo Volo;</li>
 
-									I membri della sezione medica sono addestrati in materie mediche più o meno specifiche in relazione alla loro area. Si tratta di personale esperto nel trattamento di patologie e stati medici di varia natura, che presta servizio nelle infermerie e nei presidi medici. Gestiscono l'infermeria e gli ambienti ad essa direttamente collegati.  
+									</ul>
+									L'uniforme del personale di questa area dipartimentale è di colore blu. 
+
+									I membri della sezione Navigazione sono addestrati alla conduzione in situazione di rischio delle navi e delle navette della Flotta Stellare. Oltre alla conduzione materiale dei veicoli, i membri della sezione gestiscono anche la logistica e la manutenzione di base degli hangar, e supervisionano il controllo dello spazio aereo limitrofo a basi e stazioni.  
 								</div>
 								
 								
@@ -507,69 +666,141 @@
 								<div class="sections_spec" id="se_ing">  Comprende il personale civile di supporto alla gestione ingegneristica di bordo. Gli ingegneri civili possono operare anche indipendentemente in realtà civli (private o meno). Sui vascelli esterni alla giurisdizione della Flotta Stellare operano di norma come freelance. Il personale civile si organizza indipendentemente (liberi professionisti) o mediante la formazione di associazioni e corporazioni. </div>
 								<div class="sections_spec" id="se_sci">Scienziati e Medici che operano sui vascelli civili, o nelle installazioni non esclusivamente militari. Possono essere impiegati a supporto di missioni scientifiche militari, qualora se ne ravvisasse la necessità. Dipendono di norma dall'autorità sanitaria locale.</div>
 								<div class="sections_spec" id="se_com">Piloti civili commerciali: si occupano di trasporti di cose e persone al di là dell'ambito prettamente militare.</div>
+								<div class="sections_spec" id="se_jou">Giornalisti, inviati sulle navi e installazioni della Flotta per documentare quanto avviene ai confini della Federazione. Il giornale più letto (il Federation Tribune) ha una tiratura di diverse milioni di copie.</div>
 								<div class="sections_spec" id="se_civ">Privato cittadino: un personaggio senza un'assegnazione specifica. Puoi usare questo ruolo come punto di partenza per qualsiasi altro ruolo, qualora non fossi ancora sicuro della strada da far intraprendere al tuo PG</div>
-						</div><div style="clear:both;"/>	 
-						 
+						</div>
+
 						 <div class="rectChoice buttonBack selectable" onclick="regPage('1');"><p>Indietro</p></div> 
 						 <div class="rectChoice buttonGo selectable" onclick="regPage('3');"><p>Prosegui...</p></div> 
-				
-				 </div>
-				<div style="padding-left:50px;padding-right:50px; display:none;" id="page3">
-					<p class="title" style="margin:auto; text-align:center; margin-bottom:20px;">Dettagli del Personaggio: <span id="mirror_name" /></p> 
-					
-					  
-						 <div>
-							<div class="container" style="width:45%; float:left;">
-								<div class="menureg top head">Caratteristiche</div> 
+
+						</div>
+
+						<div class="container" id="page3" style="width:70%; display:none; float:right;">
+								<div class="menureg top head" style="margin-top:20px;">Caratteristiche del Personaggio</div> 
 								
-								<input type="hidden" class="rezero-onupdate" id="val_dx" value="10" />
+								<input type="hidden" class="rezero-onupdate valer" id="val_dx" value="5" />
+								<input type="hidden" class="rezero-onupdate valer" id="val_ht" value="5" />
+								<input type="hidden" class="rezero-onupdate valer" id="val_iq" value="5" />
+								<input type="hidden" class="rezero-onupdate valer" id="val_wp" value="4" />
+								<input type="hidden" class="rezero-onupdate valer" id="val_pe" value="4" />
+
 								
-								<div style=" height:40px; margin-top:5px; width:100%; ">
+								<div style=" height:40px; margin: 5px auto; width:70%; ">
 									 
-									<div class="creation-char-indicator"> DX </div>
+									<div class="creation-char-indicator"> <img src="TEMPLATES/img/interface/personnelInterface/abilita/costituzione.png" class="tooltip" title="Costituzione<hr/>Questa caratteristica esprime la costituzione del personaggio, se gracile, forte o nella media, ne determina la resistenza al dolore, alle malattie e la resistenza ad urti più o meno gravi."></img></div>
+									<div class="creation-char-main">
+											
+											<div class="creation-char-intermediate1"> 
+												<button class="minusButton selectable" onclick="return char_subPrevLVL('ht')"><img src="TEMPLATES/img/interface/personnelInterface/minusicon.png" style="width:20px;" /></button>
+											</div>
+											<div class="creation-char-intermediate2" style="position:relative; font-weight:bold;"> COSTITUZIONE [HT] <span id="ht_marker_current">[5]</span> <br />
+												<div class="progress-bar" id="bar_ht"><span style="width:33.34%;"></span>
+											</div>
+											</div>
+											
+											<div class="creation-char-intermediate1"> <button class="plusButton selectable" onclick="return char_addNextLVL('ht')"><img src="TEMPLATES/img/interface/personnelInterface/plusicon.png" style="width:20px;" /></button>
+											
+											</div>
+								
+									</div>
+								</div><div style="clear:both" />
+
+
+								<div style=" height:40px; margin: 5px auto; width:70%; ">
+									 
+									<div class="creation-char-indicator"> <img src="TEMPLATES/img/interface/personnelInterface/abilita/destrezza.png" class="tooltip" title="Destrezza<hr/>Questa caratteristica esprime la velocità e le capacità motorie del personaggio, la sua coordinazione acrobatica e i suoi riflessi."/></div>
 									<div class="creation-char-main">
 											
 											<div class="creation-char-intermediate1"> 
 												<button class="minusButton selectable" onclick="return char_subPrevLVL('dx')"><img src="TEMPLATES/img/interface/personnelInterface/minusicon.png" style="width:20px;" /></button>
 											</div>
-											<div class="creation-char-intermediate2" style="position:relative; font-weight:bold;"> DESTREZZA <span id="dx_marker_current">[10]</span> <br />
-												<span style="display:block; position:absolute; top:0px; left:5px;"><span style="color:#86949d">1</span> FP </span>
-												<span style="display:block; position:absolute; top:0px; right:5px;"><span style="color:#367bab ">3</span> FP </span>
-												<div class="progress-bar" id="bar_dx"><span style="width:50%;"></span>
+											<div class="creation-char-intermediate2" style="position:relative; font-weight:bold;"> DESTREZZA [DX] <span id="dx_marker_current">[5]</span> <br />
+												<div class="progress-bar" id="bar_dx"><span style="width:33.34%;"></span>
 											</div>
 											</div>
 											
 											<div class="creation-char-intermediate1"> <button class="plusButton selectable" onclick="return char_addNextLVL('dx')"><img src="TEMPLATES/img/interface/personnelInterface/plusicon.png" style="width:20px;" /></button>
 											
 											</div>
-											
-											
-									</div>
-								</div>
 								
-							</div> 
-							
-							<div class="container" style="width:45%; float:right;">
-								<div class="menureg top head">Abilità</div>
-								 [WIP]
-							</div>
-						</div><div style="clear:both;"/>
-						
-						
-						<p style="font-size:1.5em;"> Il resto dei parametri della Scheda Personaggio potranno essere modificati direttamente in gioco </p>
-						<div class="rectChoice" style="width:200px; font-size:1.6em; font-weight:bold; text-align:center; background-color:#243985 float:left;" onclick="regPage('2');"><p>Indietro</p></div> <br/><br/>
-						 <div class="rectChoice buttonGo selectable" onclick="jQuery('#regform').submit();"><p>Prosegui...</p></div> 
+									</div>
+								</div><div style="clear:both" />
+								
+								<div style=" height:40px; margin: 5px auto; width:70%; ">
+									 
+									<div class="creation-char-indicator"> <img src="TEMPLATES/img/interface/personnelInterface/abilita/willpower.png" class="tooltip" title="Forza di Volontà<hr/>Questa caratteristica rappresenta la determinazione del personaggio, ne definisce l'abilità di perseguire uno scopo o un'ambizione, di resistere agli influssi esterni e alle manipolazioni." ></img></div>
+									<div class="creation-char-main">
+											
+											<div class="creation-char-intermediate1"> 
+												<button class="minusButton selectable" onclick="return char_subPrevLVL('wp')"><img src="TEMPLATES/img/interface/personnelInterface/minusicon.png" style="width:20px;" /></button>
+											</div>
+											<div class="creation-char-intermediate2" style="position:relative; font-weight:bold;"> FORZA DI VOLONTA' [WP] <span id="wp_marker_current">[4]</span> <br />
+												<div class="progress-bar" id="bar_wp"><span style="width:25%;"></span>
+											</div>
+											</div>
+											
+											<div class="creation-char-intermediate1"> <button class="plusButton selectable" onclick="return char_addNextLVL('wp')"><img src="TEMPLATES/img/interface/personnelInterface/plusicon.png" style="width:20px;" /></button>
+											
+											</div>
+								
+									</div>
+								</div><div style="clear:both" />
+
+								<div style=" height:40px; margin: 5px auto; width:70%; ">
+									 
+									<div class="creation-char-indicator"> <img src="TEMPLATES/img/interface/personnelInterface/abilita/intelletto.png"  class="tooltip" title="Intelletto<hr/>Questa caratteristica esprime le capacità intellettive del personaggio, determinandone la capacità di ragionamento, deduzione, logica e l'abilità di concentrarsi. Ne facilità inoltre gli studi e l'apprendimento." ></img></div>
+									<div class="creation-char-main">
+											
+											<div class="creation-char-intermediate1"> 
+												<button class="minusButton selectable" onclick="return char_subPrevLVL('iq')"><img src="TEMPLATES/img/interface/personnelInterface/minusicon.png" style="width:20px;" /></button>
+											</div>
+											<div class="creation-char-intermediate2" style="position:relative; font-weight:bold;"> INTELLETTO [IQ] <span id="iq_marker_current">[5]</span> <br />
+												<div class="progress-bar" id="bar_iq"><span style="width:33.34%;"></span>
+											</div>
+											</div>
+											
+											<div class="creation-char-intermediate1"> <button class="plusButton selectable" onclick="return char_addNextLVL('iq')"><img src="TEMPLATES/img/interface/personnelInterface/plusicon.png" style="width:20px;" /></button>
+											
+											</div>
+								
+									</div>
+								</div><div style="clear:both" />
+								<div style=" height:40px; margin: 5px auto; width:70%; ">
+									 
+									<div class="creation-char-indicator"> <img src="TEMPLATES/img/interface/personnelInterface/abilita/percezione.png" class="tooltip" title="Percezione<hr/>Questa caratteristica è legata ai cinque sensi e all'intuizione del personaggio che, sfruttandola, può avvedersi di dettagli e sensazioni che sfuggono ai più."></img></div>
+									<div class="creation-char-main">
+											
+											<div class="creation-char-intermediate1"> 
+												<button class="minusButton selectable" onclick="return char_subPrevLVL('pe')"><img src="TEMPLATES/img/interface/personnelInterface/minusicon.png" style="width:20px;" /></button>
+											</div>
+											<div class="creation-char-intermediate2" style="position:relative; font-weight:bold;"> PERCEZIONE [PE] <span id="pe_marker_current">[4]</span> <br />
+												<div class="progress-bar" id="bar_pe"><span style="width:25%;"></span>
+											</div>
+											</div>
+											
+											<div class="creation-char-intermediate1"> <button class="plusButton selectable" onclick="return char_addNextLVL('pe')"><img src="TEMPLATES/img/interface/personnelInterface/plusicon.png" style="width:20px;" /></button>
+											</div>
+									</div>
+								</div><div style="clear:both" />
+						<hr />
+						<p style="font-size:15px;"> Premendo il tasto "Registra il PG" dichiari di essere maggiorenne, di aver letto e di accettare il <a style="font-size:16px; color:#FFCC00" title="Regolamento" href="javascript:void(0);" onclick="dbOpenToTopicLit('REG2')" class="interfaceLink"> REGOLAMENTO </a> di gioco e la  <a style="font-size:16px; color:#FFCC00" class="interfaceLink" href="informativa.htm" target="_blank">NORMATIVA</a> sul trattamento dei dati personali</p>
+
+						 <div class="rectChoice buttonBack selectable" onclick="regPage('1');"><p style="line-height:32px;">Indietro</p></div> 
+						 <div class="rectChoice buttonGo selectable" onclick="return doRegister();"><p style="line-height:32px;">Registra il PG</p></div><br /> 
+						</div> 
+						<div style="clear:both;"/>	 
 						 
-						  
+						
 				
 				 </div>
+				 
 				</form>
 			</div> 
 			
 			 
 			
 			</div>
-			<div metal:use-macro="TEMPLATES/metal.htm/footer" />
+			
 
 
 
@@ -577,7 +808,6 @@
 		
 		<!-- FOOTER -->
 		
-		
-<!--<form target="fed_main" id="aleph" action="login.php" method="POST"><input type="hidden" value="ALE" name="A" /></form>-->
+<div metal:use-macro="TEMPLATES/metal.htm/footer" />
 </body>
 </html>

@@ -83,12 +83,14 @@
 <div id="onlineList">
 <p style="margin:0px;" class="titleFS">Benvenuto!</p>
 <p style="margin:0px; margin-top:3px; font-size:12px; margin-left:10px; font-weight:bold;">Clicca per selezionare l'utente</p>
-<select tal:attributes="size coPeople" style="margin-left:10px; margin-right:10px; margin-top:10px; width:170px; height:490px; overflow-y:hidden;" id="chatTo">
-<option value="7" selected="selected">ACCOGLIENZA</option>
-<option value="7" disabled="disabled">----------</option>
-<option tal:repeat="person people" tal:attributes="value repeat/person/key" tal:content="person" />
+<select tal:attributes="size coPeople" style="margin-left:10px; margin-right:10px; margin-top:10px; width:170px; height:480px; overflow-y:hidden;" id="chatTo">
+<option value="7" selected="selected">TUTTI</option>
+<option value="0" disabled="disabled">-- Staff / Guide --</option>
+<option tal:repeat="person people/S" tal:attributes="value repeat/person/key ; title person/role" tal:content="structure person/label" />
+<option value="0" disabled="disabled">----------</option>
+<option tal:repeat="person people/N" tal:attributes="value repeat/person/key" tal:content="structure person/label" />
 </select>
-<p style="text-align:center; margin:0px;"><a href="whisper.php" class="interfaceLink">TORNA INDIETRO</a></p>
+<p style="text-align:center; margin:10px; margin-top:5px; border:1px solid #3188F3; padding:5px;"><a href="whisper.php" class="interfaceLink">TORNA INDIETRO</a></p> 
 </div>
 
 <div id="leftContainer">

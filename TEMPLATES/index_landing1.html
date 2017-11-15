@@ -1,0 +1,123 @@
+<!DOCTYPE html> 
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="it">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+		<title>Star Trek: Federation GDR - Be The Future!</title>
+
+		<link rel="shortcut icon" href="favicon.ico" />
+		
+		<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+		<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+		<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+		<!--<script type="text/javascript" src="TEMPLATES/js/index.js?v=0.6" />-->
+		<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=0.6" />
+		
+	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/home/reset.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/clearfix.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/style.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/fonts.css"  />
+	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/jquery.dualSlider.0.2b.css?v=2.1" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/index.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet" />
+	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" /> 
+	
+	<script src="TEMPLATES/carousel/js/jquery.easing.1.3.js" type="text/javascript"></script>
+	<script src="TEMPLATES/carousel/js/jquery.timers-1.2.js" type="text/javascript"></script>
+	<script src="TEMPLATES/carousel/js/jquery.dualSlider.0.3.min.js" type="text/javascript"></script> 
+	
+	<!--<script src="TEMPLATES/js/easyAccordion.js" type="text/javascript"></script>-->
+	<script type="text/javascript" src="TEMPLATES/js/google.js"></script>	
+
+
+		<meta charset="UTF-8" />
+		<meta http-equiv="content-language" content="IT" />
+		<meta name="keywords" content="Star Trek, Voyager, Enterprise, The Next Generation, Tricorder, Phaser, Borg. Gioco di Ruolo, Federazione, Klingon, Romulani"/>
+		<meta name="description" content="GDR online che unisce l'interpretazione di un eroe del serial televisivo alla scrittura creativa via chat. Crea il tuo personaggio, illumina il tuo destino!" />
+		
+		
+		<script type="text/javascript">
+
+
+			jQuery(document).ready(function(){
+			 
+
+			jQuery('.tooltip').tooltip({
+          	  content: function () {
+              return jQuery(this).prop('title');
+          }
+      	  });
+ 
+		
+			}); 
+			
+	function setViewer(vare)
+	{
+		if(jQuery('#'+vare).length)
+			jQuery('.sliding').fadeOut(120,function(){jQuery('#'+vare).fadeIn(120);});
+		else window.location.href = 'index.php?mod='+vare;
+	}
+
+	function fullScreen(){
+		var larg_schermo = screen.availWidth - 10;
+		var altez_schermo = screen.availHeight - 30;
+		window.open("login.php", "fed_main", "width=" + larg_schermo + ",height=" + altez_schermo + ",top=0,left=0,location=no,menubar=n,resizable=yes,scrollbar=yes");
+	}
+
+ 
+				</script>
+
+		<style>p{margin:0px;} .content{font-size:15px; line-height:22px;text-align:justify; font-family:Source Sans Pro, Helvetica, Arial, sans-serif; padding-left:12px;padding-right:12px;}.leftBorder img{padding-right:12px;}.rightBorder img{padding-left:12px;}.particular{ font-size:16px; letter-spacing:1.5px; font-family:federationFont;}.yelo{color:#FC0;}.magenta{color:magenta;}.bblue{color:#0077c3;}.green{color:#009966;}.reed{color:darkcyan;}#landingContent{padding:60px; padding-top:0px;}@font-face{font-family:'federationFont';src: url('TEMPLATES/Roddenberry.eot');src: url('TEMPLATES/Roddenberry.ttf') format('truetype');}@font-face{font-family:'federationFontI';src: url('TEMPLATES/Roddenberry Oblique.eot');src: url('TEMPLATES/Roddenberry Oblique.ttf') format('truetype');}.quoterBoxL{height:80px; width:77%; border:1px solid #333; text-align:justify; background-position:280px 0px; background-repeat:no-repeat; margin-bottom:5px; margin-left:10px;}.quoterBoxR{height:80px; width:77%; border:1px solid #333; float:right; margin-right:10px; text-align:justify; background-position:0px 0px; background-repeat:no-repeat;  margin-top:5px;}.quoterBoxL .quoter{float: left; margin-right: 10px;}  .quoterBoxR .quoter{float: right; margin-left: 10px;}.quoter{  font-family: Helvetica;font-style: italic; color: #AAA;width: 350px; font-size: 13px;padding: 6px; }.quoteMark{color:#0077c3;  font-size:20px; line-height: 14px;}.imaLanding{ }#indi_central{ height:auto;}</style>
+
+	</head>
+	
+<body style="background-image:url('TEMPLATES/img/interface/index/menu_b2.jpg')  no-repeat center center fixed; margin-left:40px; margin-right:40px; background-image:url('TEMPLATES/img/interface/index/menu_b2.jpg'); margin-left:40px; margin-right:40px;  -webkit-background-size: cover;  -moz-background-size: cover;
+  -o-background-size: cover;  background-size: cover;">
+		  
+		
+		<div id="indi_mainContainer">
+			<div id="indi_header"  onclick="window.location.href = 'index.php';" />
+		<div id="indi_central">
+				<div metal:use-macro="TEMPLATES/metal_index.htm/indexMenu" />
+
+			  	<div id="landingContent">
+				<p style=" font-family:federationFontI; text-align:left; font-size:26px; line-height:26px; letter-spacing:3px; color:#BBB; margin-top:0px; ">&ldquo;Spazio, ultima frontiera.<br /><span style="margin-left:60px; ">Questi sono i viaggi della nave stellare Enterprise...&rdquo;</span> </p>
+				<p class="content">
+
+Parole che per un appassionato di Star Trek sono un brivido lungo la schiena... Da cinquant'anni Star Trek ci ha portato tra le stelle, ci ha fatto sognare "strani, nuovi mondi" ed incontrare nuove specie aliene.
+"Ci ha portato", "ci ha fatto sognare"... Ma se ci fosse un modo per vivere Star Trek che non hai ancora provato?</p>
+
+<p class="content leftBorder"><img src="TEMPLATES/img/interface/index/landing_1.png" align="left" class="imaLanding" /><span class="particular yelo">Star Trek: Federation</span> è un gioco di ruolo via chat, un gioco online completamente gratuito che mescola l'interpretazione di un eroe del serial televisivo alla scrittura creativa via chat. Attraverso il gioco potrete diventare voi i membri della Flotta Stellare intenti a vivere quelle avventure che avete visto in tv e poi sognato oppure interpretare un alieno dell'ambiguo e appena conosciuto popolo Terosiano.</p>
+
+<p class="content rightBorder"><img src="TEMPLATES/img/interface/index/landing_2.png" align="right" class="imaLanding" style="width:200px;" /><span class="particular green">Guidati</span> da uno staff attento e competente, nonché da un database ricco di informazioni in continua espansione e curiosità, questo gioco cerca di realizzare il sogno di chi almeno una volta ha detto "che diavolo sta facendo? Se ci fossi stato io li al suo posto..." <br/><br/> E' per questo che nasce il nostro gioco ed è questo che vi offriamo di viverlo insieme a noi...</p>
+<p class="content rightBorder" style="text-align:right;">Star Trek: Federation:<br /><span class="particular" style="font-size:23px;">Solo tu conosci tutta la storia...<br /><span class="bblue">Fanne parte!</span></span></p>
+
+<div  class="quoterBoxR" tal:condition="php:(ida == 0)" style=" background-color:black; background-image:url('TEMPLATES/img/interface/index/landing_e4.png');"> 
+	<p class="quoter" style="width:450px;"><span class="quoteMark">&ldquo;</span>  L'universo fantascientifico di Roddenberry entra nell'immaginario collettivo nella veste rinnovata di un gioco di ruolo on-line che garantisce divertimento, azione e suspance. <span class="quoteMark">&rdquo;</span><br/><span style="text-align:right; display:block; font-style:normal; color:teal;"><a href="http://www.terrediconfine.eu/star-trek-federation-be-future.html" target="_blank">Ymore</a> @ Terre di Confine</span></p>
+</div>  <div style="clear:both"/> 
+ 
+ 
+<div  class="quoterBoxL" tal:condition="php:(ida == 1)" style="background-color:black;  margin-top:10px; background-image:url('TEMPLATES/img/interface/index/landing_e2.png');"> 
+	<p class="quoter"><span class="quoteMark">&ldquo;</span> Professionalità e gentilezza: una direzione oculata e sapiente è oltremodo necessaria, e la gestione di STF sembra proprio avere tutte le carte in regola.<span class="quoteMark">&rdquo;</span><br/><span style="text-align:right; display:block; font-style:normal; color:teal;"><a href="http://www.gdr-online.com/commento_al_gdr.asp?id=42828" target="_blank">eowang</a> @ GDR-Online.com</span></p>
+</div> <div style="clear:both"/>
+
+
+
+			</div>
+			</div>
+			 
+			
+			  
+			
+
+
+
+		</div><!-- indi_mainContainer -->
+		
+		<!-- FOOTER -->
+		<div style="margin-top:10px;" />
+<div metal:use-macro="TEMPLATES/metal.htm/footer" />
+</body>
+</html>

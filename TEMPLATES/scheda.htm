@@ -5,8 +5,8 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/personnel.css?v=1.6" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/personnel.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" /> 
 	
 	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" /> 
@@ -117,7 +117,7 @@
 
 <div id="mainSchedaOff" tal:condition="php:(!userData.png)" tal:attributes="style php:(OFFSubi) ? 'display:block' : 'display:none'">
 		<div id="bandaOff" tal:condition="php:(!userData.png)">
-		<div id="avatarBand" tal:attributes="style string:border:1px solid #999;; float:left;; width:80px;; height:80px;; margin-left:auto;; margin-right:auto;; background-size: 80px 80px;; background-image:url('${userData/pgAvatar}');; background-repeat:no-repeat;; border-radius:10px 0px 0px 10px;;">
+		<div id="avatarBand" tal:attributes="style string:border:1px solid #999;; float:left;; width:80px;; height:80px;; margin-left:auto;; margin-right:auto;; background-size: 80px 80px;; background-image:url('${userData/pgAvatarSquare}');; background-repeat:no-repeat;; border-radius:10px 0px 0px 10px;;">
 		</div>
 		<div id="band" class="radiusBordered" tal:attributes="style string:border:1px solid #999;; border-left:0px;; border-radius:0px 10px 10px 0px;; float:left;; position:relative;; width:510px;; height:80px;; background-image:url('TEMPLATES/img/interface/personnelInterface/${bandaUser}');; background-repeat:no-repeat;;">
 			<div style="font-size:50px; position:absolute; top:0px; left:40px; opacity:0.7; font-weight:bold;  color:white;"><span style="margin:0px;" tal:content="structure pgPointsSaldo"/> <span style="vertical-align:middle; font-size:30px; font-variant:small-caps;">Federation Points</span><p style="margin:0px; position: absolute; font-variant:small-caps;font-variant:small-caps; left:260px; top:50px; font-size:20px;" tal:content="subText"/></div>

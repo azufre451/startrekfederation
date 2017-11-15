@@ -4,17 +4,17 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/interface.css?v=1.8" rel="stylesheet" type="text/css" /> 
-	<link href="TEMPLATES/css/circle.css?v=1.7" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" /> 
+	<link href="TEMPLATES/css/circle.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link id="alerter" tal:attributes="href string:TEMPLATES/css/${alertCSS}.css" tal:condition="php:alertCSS != ''" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
 	
 	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />  
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	
-	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
-	<script type="text/javascript" src="TEMPLATES/js/chatCore.js?v=1.5.5"/>
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
+	<script type="text/javascript" src="TEMPLATES/js/chatCore.js?v=${gameOptions/numericVersion}"/>
 	<script type="text/javascript" src="TEMPLATES/js/easyNotify.js"></script>
 	<script type="text/javascript" src="TEMPLATES/js/highlight.js"></script>
 
@@ -157,7 +157,7 @@
 				<a tal:condition="php:(ambient['ambientType']) == 'SALA_OLO' && leastOlo" href='javascript:void(0);' onclick="javascript:showRanker();"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_mostrine.png" title="Olomostrine" style="vertical-align:middle;"/></a>
 				<a tal:condition="php:(ambient['ambientType']) == 'INFERMERIA'" href='javascript:void(0);' onclick="javascript:toggleBiobed();"><img id="biobedControlImage" class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_med.png" title="Avvia la Scansione con il Bioletto" style="vertical-align:middle;"/></a> <input type="hidden" id="biobedMode" value="0" />
 
-				<a href='javascript:void(0);' onclick="javascript:initSessionsPanel();" id="sessionSwitch"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_session.png" title="Sessioni e Log" style="vertical-align:middle;"/></a>
+				<a href='javascript:void(0);' onclick="javascript:initSessionsPanel();" id="sessionSwitch"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_session.png" title="Sessioni" style="vertical-align:middle;"/></a>
 				
 				<!--<a href='javascript:void(0);' onclick="javascript:initPrivatePanel();"  id="privateSwitch"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_private.png" title="Giocata Privata" style="vertical-align:middle;"/></a>-->
 				
@@ -179,9 +179,9 @@
 </div>
 
 <div id="locationInfo" tal:attributes="style string:background-image:url('${ambient/image}')" class="popup blackOpacity">
-<p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:22px;;" tal:content="ambient/locName" />
-<div id="locationDesc" class="blackOpacity radiusBordered12" style="text-align:justify; margin:0px; padding:8px; margin-top:20px; height:195px; overflow-y:auto; ">
-<p style="margin:0px; text-align:center;"><a href="#" onclick="javascript:jQuery('#locationDesc').fadeOut(150); jQuery('#textShower').fadeIn(150); " class="interfaceLink">( Nascondi )</a> <a tal:attributes="href string:chatlog.php?amb=${ambient/locID}" target="_blank" class="interfaceLink">( LOG )</a> <a tal:condition="php:ambient['ambientType']=='SALA_OLO'" href="javascript:showRanker();" class="interfaceLink">( OLOMOSTRINE )</a></p>
+<p class="clockTitle blackOpacity" tal:content="ambient/locName" />
+<div id="locationDesc" class="blackOpacity radiusBordered12">
+<p style="margin:0px; text-align:center;"><a href="#" onclick="javascript:jQuery('#locationDesc').fadeOut(150); jQuery('#textShower').fadeIn(150); " class="interfaceLink">( Nascondi )</a> <a tal:condition="php:ambient['ambientType']=='SALA_OLO'" href="javascript:showRanker();" class="interfaceLink">( OLOMOSTRINE )</a></p>
 <p style="margin:0px;" tal:content="structure string:${ambient/descrizione}" tal:condition="php:(ambient['ambientType']!='DECKMAP')"/>
 
 <p tal:condition="php:(ambient['ambientType']=='DECKMAP')" style="margin:0px; margin-bottom:10px;">

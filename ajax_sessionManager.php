@@ -44,13 +44,25 @@ include('includes/validate_class.php');
 			Ambient::closeSession($ambientID); 
 			$master = ((int)($_POST['master'] && PG::mapPermissions('M',$user->pgAuthOMA)))  ? 1 : 0; 
 			$label = addslashes($_POST['label']);
-			Ambient::openSession($ambientID,$user->ID,$label,$master); 
-			if (isSet($_POST['lister']) && $master)
+			
+			
+			if($master)
 			{
+				$vali = new validator();
+				$timer = $vali->numberOnly($_POST['maxturner']);
 
-				Ambient::openPrivate($ambientID,$user->ID,$_POST['lister']); 
-				echo "DATADA";
 			}
+			else $timer = 8;
+
+
+			$listerOne = ($master && isSet($_POST['lister'])) ? $_POST['lister'] : '';
+			$pvtIndex = ($listerOne != '') ? 1 : 0;
+			Ambient::openSession($ambientID,$user->ID,$label,$master,$pvtIndex,$timer); 
+			
+			if($pvtIndex){
+				Ambient::openPrivate($ambientID,$user->ID,$listerOne); 
+			}
+			
 		}
 
 		if ($action == 'close-active')
@@ -68,35 +80,48 @@ include('includes/validate_class.php');
 			$person = array(); 
 			$ltime = 0;
 			foreach($allacts as $var)
-			{
-				if ($ltime != 0 && $var['time'] > $ltime + 600){$ltime = $var['time']; continue;}
+			{	  
+
+				if ( (int)($sectionsOngoing['session']['sessionIntervalTime']) > 0 && ($ltime != 0 && $var['time'] > $ltime + ((int)($sectionsOngoing['session']['sessionIntervalTime'])*60))){
+					
+					echo "Action ".$var['IDE']."for person".$var['sender'].' was deleted T';
+
+					$ltime = $var['time']; continue;
+				}
 
 				$ppl = (string)$var['sender'];
 				
 				if(!array_key_exists($ppl,$person))	$person[$ppl] = array();
 				
-				$person[$ppl][] = $var['realLen'];
+				
 				$ltime = $var['time'];
+
+				if($var['type'] == 'DIRECT')
+					$person[$ppl][] = $var['realLen'];
 			}
-			
 			$pointarray=array();
 			
 			foreach($person as $playerID => $player)
-			{
+			{	
+
 				foreach ($player as $action)
 				{
+					
+
 					if(!array_key_exists($playerID,$pointarray))	$pointarray[$playerID] = 0.0;
 					if($action > 500)
 					{
 						if($action >= 500 && $action <= $avig*1.3)
 						{
 							$pointarray[$playerID] += $action / (($avig*1.3) - 500) - (500 / (($avig*1.3) - 500));
+							
+							//echo 'Action('.$playerID.',' . $action . ') : ' . ($action / (($avig*1.3) - 500) - (500 / (($avig*1.3) - 500))) . 'pt MS: '.($avig*1.3).';;;';
 						}
-						else if ($action > $avig*1.3) { $pointarray[$playerID]+=1;}
+						else if ($action > $avig*1.3) { $pointarray[$playerID]+=1; }
 					}
 				}
-			}
-			
+			} 
+
 			if($sectionsOngoing['session']['sessionMaster']){
 				
 				$totalPta=0;	
@@ -145,9 +170,9 @@ include('includes/validate_class.php');
 				echo $playerID."--".$playerResult.'>>'.round($playerResult);
 				$pta = round($playerResult);
 				$sessionLabel = addslashes($sectionsOngoing['session']['sessionLabel']);
-				if ($pta > 0){
+				if ($pta > -1){
 					$pgg = new PG($playerID);  
-					$pgg->addPoints($pta,'QS',"Punti per sessione di gioco $sessionLabel","Punti per sessione di gioco: $sessionLabel",$_SESSION['pgID']);
+					$pgg->addPoints($pta,'QS',"Log:".$sectionsOngoing['session']['sessionID'],"Punti per sessione di gioco $sessionLabel",$_SESSION['pgID']);
 					 
 					
 					unset($pgg);	

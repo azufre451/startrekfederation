@@ -10,8 +10,18 @@ include('includes/markerClass.php');
 $vali = new validator();  
 $template = new PHPTAL('TEMPLATES/mainChat.htm');
 $currentUser = new PG($_SESSION['pgID'],1);
-if ($currentUser->pgAuthOMA == 'BAN'){header("Location:http://www.youtube.com/watch?v=wZZ7oFKsKzY"); exit;}
-$ambient = (isSet($_GET['amb'])) ? $vali->killchars(htmlentities(addslashes($_GET['amb']))) : NULL;
+
+if ($currentUser->pgLocation =='BAVO')
+{
+	$ambient = 'BAVO';
+}
+
+else{
+
+	if ($currentUser->pgAuthOMA == 'BAN'){header("Location:http://www.youtube.com/watch?v=wZZ7oFKsKzY"); exit;}
+	$ambient = (isSet($_GET['amb'])) ? $vali->killchars(htmlentities(addslashes($_GET['amb']))) : NULL;
+}
+
 $currentUser->setPresenceIntoChat($ambient);
 
 $currentLocation = PG::getLocation($currentUser->pgLocation);
@@ -105,7 +115,7 @@ elseif($currentAmbient['ambientType'] == 'SALA_TEL' || $currentAmbient['ambientT
 	if($currentAmbient['ambientType']=='PLANCIA')
 	{
 
-	$resLocations = mysql_query("SELECT placeID,placeName FROM pg_places WHERE placePlancia <> ''");
+	$resLocations = mysql_query("SELECT placeID,placeName FROM pg_places WHERE placePlancia <> '' ORDER BY placeName");
 	$locArray=array();
 	while($resLoc = mysql_fetch_array($resLocations))
 	$locArray[$resLoc['placeID']] = $resLoc['placeName'];
@@ -182,6 +192,7 @@ while($chatLi = mysql_fetch_array($chatLines))
 
 }
 
+$template->gameOptions = $gameOptions;
 $template->diceEvents = $diceOutcomes; 
 $template->htmlLiner = $htmlLiner;
 //echo $htmlLiner;exit;

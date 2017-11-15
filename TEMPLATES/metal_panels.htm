@@ -226,7 +226,7 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 		<p style="font-size:1.3em"> Apri una nuova sessione...</p>
 		<input type="text" class="neon" style="width:90%" id="sessionLabel" placeholder="Titolo della sessione" /><br/>
 		<p style="text-align:left; margin-left:10px;" tal:condition="exists:isMasteringJuniorMasterOrMod"><input type="checkbox" id="masterCheck" /> Sessione Master</p>
-		<p style="text-align:left; margin-left:35px;" tal:condition="exists:isMasteringJuniorMasterOrMod" > accesso riservato a: <input type="text" id="tusers" class="neon" name="tusers" onfocus="this.select();" placeholder="" /> </p>
+		<p style="text-align:left; margin-left:35px;" tal:condition="exists:isMasteringJuniorMasterOrMod" > accesso riservato a: <input type="text" placeholder="Tutti" id="tusers" class="neon" name="tusers" onfocus="this.select();" /> </p>
 		
 		<a class="interfaceLinkBlue" href="javascript:void(0);" onclick="javascript:openSession()">[ - Apri la sessione - ]</a>
 		

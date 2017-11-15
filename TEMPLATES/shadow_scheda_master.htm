@@ -18,6 +18,10 @@
 	<title>STAR TREK FEDERATION - SCHEDA</title>				
 	<script>
 	jQuery(function(){
+			
+			jQuery('#dipartimento').autocomplete({source: "ajax_gradiGedder.php?dipartimenti=do",	minLength: 2});
+			jQuery('#divisione').autocomplete({source: "ajax_gradiGedder.php?divisioni=do",	minLength: 2});
+
 			jQuery( "#users")
 			// don't navigate away from the field on tab when selecting an item
 
@@ -53,13 +57,29 @@
 			});
 			 
 			});
-			
+	
+
+
+
 	function split( val ) {
 			return val.split( /,\s*/ );
 	}
 	
 	function extractLast( term ) {
 		return split( term ).pop();
+	}
+	
+	function closeSession(ida){ 
+		jQuery.post('shadow_scheda.php?s=closeSession&ida='+ida,
+			function e(data){
+				
+				if(data=="OK")
+					alert(ida);
+					jQuery('#session_'+ida+' .statuser span').html('FORCED');
+					jQuery('#session_'+ida+' .statuser span').removeClass().addClass('forced');
+					jQuery('#session_'+ida+' .commander').html('');
+			}
+		);		
 	}
 
 	function upd(vara)
@@ -71,6 +91,16 @@
 	function blockList()
 	{
 		if(jQuery('#users').val() != '' && confirm('Sei sicuro di Bloccare tutti i PG selezionati?')) jQuery.post('shadow_scheda.php?s=blockBulk', {listof: jQuery('#users').prop('value')}, confirmer, 'json');
+	}
+
+
+	function delList()
+	{
+		if(jQuery('#users').val() != '' && confirm('Sei sicuro di Cancellare tutti i PG selezionati?')) jQuery.post('shadow_scheda.php?s=delete', {listof: jQuery('#users').prop('value')}, confirmer, 'json');
+	}
+	function bavoList()
+	{
+		if(jQuery('#users').val() != '' && confirm('Saranno tutti dei vermi verminosi e bavosi! Confermi?')) jQuery.post('shadow_scheda.php?s=bavosize', {listof: jQuery('#users').prop('value')}, confirmer, 'json');
 	}
 	
 	function setSeclar(ida)
@@ -97,14 +127,11 @@
 	{
 		var ida = jQuery('#incarico').val();
 		var eda = jQuery('#assegnazione').val();
-		if(jQuery('#users').val() != '' && confirm('Sei sicuro di modificare incarico e assegnazione di tutti i PG selezionati?')) jQuery.post('shadow_scheda.php?s=setIncarico', {listof: jQuery('#users').prop('value'), incarico: ida, assegnazione: eda}, confirmer, 'json');
+		var oda = jQuery('#dipartimento').val();
+		var uda = jQuery('#divisione').val();
+		if(jQuery('#users').val() != '' && confirm('Sei sicuro di modificare incarico e assegnazione di tutti i PG selezionati?')) jQuery.post('shadow_scheda.php?s=setIncarico', {listof: jQuery('#users').prop('value'), incarico: ida, assegnazione: eda, dipartimento: oda, divisione: uda}, confirmer, 'json');
 	}
 	
-	function setDipartimento()
-	{
-		var ida = jQuery('#dipartimento').val();
-		if(jQuery('#users').val() != '' && confirm('Sei sicuro di modificare il Dipartimento di tutti i PG selezionati?')) jQuery.post('shadow_scheda.php?s=setDipartimento', {listof: jQuery('#users').prop('value'), dipartimento: ida}, confirmer, 'json');
-	}
 	
 	function noteAdd()
 	{
@@ -122,37 +149,83 @@
 	
 	
 	</script>	
+	<style>
+		
+		.ongoing{display:block; background-color: #945416; color: white; padding:2px; border: 1px solid white;}
+		.closed{display:block; background-color: black; color: white; padding:2px; border: 1px solid white;}
+		.forced{display:block; background-color: #961c1c; color: white; padding:2px; border: 1px solid white;}
+		.masterPriv{display:block; background-color: #73279f; color: white; padding:2px; border: 1px solid white;}
+		.master{display:block; background-color: #960101; color: white; padding:2px; border: 1px solid white;}
+		.nomaster{display:block; background-color: #0c4580; color: white; padding:2px; border: 1px solid white;}
+
+		.approvalDiv{background-color:#333; border:1px solid #333; padding:5px;}
+		.approvalDiv:hover{background-color:#945416; cursor: pointer;}
+
+		#approvals ins {text-decoration: none; background-color:green !important;}
+		#approvals del {text-decoration: none; background-color:#960101 !important;}
+
+	</style>
 </head>
 <body style="background-color:black; overflow:hidden;  padding:-5px;">
+
 <div id="schedaContainer" style="background-image:url('TEMPLATES/img/interface/personnelInterface/sfondo_shadow_scheda.png');">
 
  
 <div id="mainContainer" style="height:535px; width:610px; overflow:auto; margin:7px; padding:4px; padding-left:7px; font-size:13px;">
 
 
-<p style="font-size:14px;"><a href="javascript:void(0;)" class="interfaceLink" onclick="jQuery('#multiedit').toggle();" >&raquo; TOOL EDIT SCHEDE MULTIPLE </a></p>
+<p style="font-size:14px;"><a href="javascript:void(0);" class="interfaceLink" onclick="jQuery('#multiedit').toggle();" >&raquo; TOOL EDIT SCHEDE MULTIPLE </a></p>
 
 <p style="font-size:14px;"><a onclick="window.open ('shadow_scheda.php?s=stor','prestav', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=490,height=605');" href="javascript:void(0);" class="interfaceLink">&raquo; TOOL TUTTI I PUNTI</a></p>
 
-<p style="font-size:14px;"  tal:condition="exists:bonusSM"><a href="javascript:void(0;)" class="interfaceLink" onclick="jQuery('#approvals').toggle();" >&raquo; TOOL APPROVAZIONE BG </a></p>
 
-<p style="font-size:14px;"  tal:condition="exists:bonusM"><a href="javascript:void(0;)" class="interfaceLink" onclick="jQuery('#masterEvents').toggle();" >&raquo; TOOL EVENTI MASTER </a></p>    
+<p style="font-size:14px;"  tal:condition="exists:bonusM"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#masterEvents').toggle();" >&raquo; TOOL EVENTI MASTER </a></p>    
+
+<p style="font-size:14px;"  tal:condition="exists:bonusSM"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#closingTool').toggle();" >&raquo; IL TOOL CHE CHIUDEVA LE SESSIONI </a></p>  
 
 <!-- _________________________- -->
+<p style="font-size:14px;"  tal:condition="exists:bonusSM"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#approvals').toggle();" >&raquo; TOOL APPROVAZIONE BG </a></p>
 
 <div id="approvals" tal:condition="exists:bonusSM" tal:attributes="style php:((isSet(viewApprovals)) ? 'display:block' : 'display:none' )"> 
-	<table>
-		<tr>
-			<td>PG</td>
-		</tr>
-		<tr tal:repeat="approval pendingBGS">
-			<td><img tal:attributes="src string:TEMPLATES/img/ranks/${approval/ordinaryUniform}.png" /> <a tal:attributes="onclick string:javascript:schedaPOpen(${approval/pgID})" class="interfaceLink" href="javascript:void(0);" tal:content="approval/pgUser"></a></td>
+	
+	<div tal:repeat="approBG pendingBGS" >
+	<a tal:content="repeat/approBG/key" style="margin-left:20px; border-left:2px solid #333; padding-left:5px; " class="interfaceLink" tal:attributes="onclick string:jQuery('#tyl_${repeat/approBG/key}').toggle();" />
+		<div tal:attributes="id string:tyl_${repeat/approBG/key}" style="display:none;">
+			<div tal:repeat="approval approBG">
+				<p class="approvalDiv" tal:attributes="onclick string:jQuery('#modi_${approval/pgID}').toggle();">
+					<img tal:attributes="src string:TEMPLATES/img/ranks/${approval/ordinaryUniform}.png" style="vertical-align:middle;" />
+					<a tal:attributes="onclick string:javascript:schedaPOpen(${approval/pgID})" class="interfaceLink" href="javascript:void(0);" tal:content="approval/pgUser"></a> Ultima Modifica: <span tal:content="php:date('d-m-y H:i',approval['tim'])">  </span>
+					[ <span tal:content="php: ((approval['supervision']) ? ((approval['supervision'] == 3) ? 'Jean' : 'Moreno') : '') " style="font-weight:bold;"> </span> ]
+				</p>
 
-			<td><a tal:attributes="href string:shadow_scheda.php?s=approveBackground&pgID=${approval/pgID}" class="interfaceLinkGreen"> [ - APPROVA - ] </a></td>
-		</tr>
-	</table>
+				<div style="display:none;" tal:attributes="id string:modi_${approval/pgID}" tal:condition="exists:approval/approdiff" >
+
+				<p><img src="TEMPLATES/img/interface/personnelInterface/div_aspetto.png" /></p>
+				<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure approval/approdiff/pgBiometrics" />
+
+				<p><img src="TEMPLATES/img/interface/personnelInterface/div_biografia.png" /></p>
+				<div style="margin-right:5px; font-size:13px; text-align:justify" class="backkander" tal:content="structure approval/approdiff/pgBackground" />
+
+				<p><img src="TEMPLATES/img/interface/personnelInterface/div_psicologia.png" /></p>
+				<div style="margin-right:5px; font-size:13px; text-align:justify" class="backkander" tal:content="structure approval/approdiff/pgCarattere" />
+
+				<p><img src="TEMPLATES/img/interface/personnelInterface/div_famiglia.png" /></p>
+				<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure approval/approdiff/pgFamily" />
+
+				<p><img src="TEMPLATES/img/interface/personnelInterface/div_seclar7.png" /></p>
+				<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure approval/approdiff/pgIlSegreto" />
+
+				<p><img src="TEMPLATES/img/interface/personnelInterface/div_altro.png" /></p>
+				<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure approval/approdiff/pgVarie" />
+				
+				</div>
+				<div style="clear:both" />
+				<a tal:attributes="href string:shadow_scheda.php?s=approveBackground&pgID=${approval/pgID}" class="interfaceLinkGreen"> [ - APPROVA - ] </a> <a tal:attributes="title php:((approval['lastReminder']) ? 'Ultimo Reminder in data: '.date('d/m/y H:i',approval['lastReminder']) : '') ; onclick php:((approval['lastReminder']) ? 'return confirm(\'Sicuro di voler inviare un nuovo reminder?\');;' : 'return true;;') ; href string:shadow_scheda.php?s=remindBackground&pgID=${approval/pgID}" class="interfaceLinkBlue"> [ - INVIA REMINDER - ] </a>  <a tal:attributes="href string:shadow_scheda.php?s=achiAssignBackground&pgID=${approval/pgID}&what=14" class="interfaceLink"> [ - ACH. BG - ] </a>  <a tal:attributes="href string:shadow_scheda.php?s=achiAssignBackground&pgID=${approval/pgID}&what=44" class="interfaceLink"> [ - ACH. RUOL - ] </a>
+			</div>
+		</div>
+	</div>
 </div>
-
+ 
 
 <div style="display:none;" id="multiedit"> 
 
@@ -163,7 +236,7 @@
 
 	<hr />
 
-	<!--<div style="border:1px solid #888; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+	<div style="border:1px solid #888; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;" tal:condition="exists:bonusSM">
 	Assegna Punteggi a Tutti: &nbsp;&nbsp;<select id="addPoints">
 		<optgroup label="Punti Ordinari QUEST">
 		<option value="a1">1 pt - Insufficiente</option>
@@ -195,15 +268,19 @@
 		<option value="r2">2 pt R - Stesura Rapporto [Usare se possibile il comando in CDB!]</option>
 		</optgroup>
 		
-		<optgroup label="[SM] Integrazioni Dispense" tal:condition="exists:bonusSM"  >
+		<optgroup label="[SM] Integrazioni Dispense">
 		<option value="kz1">20 pt DISP - Piccola Integrazione</option>
 		<option value="kz2">50 pt DISP+ - Dispensa Completa</option>
 		</optgroup>
 		
 	</select><br /><input id="pointDetail" placeholder="Descrizione (Esempio: nome della quest, o della simulazione)" style="width:400px; margin-top:7px;" />&nbsp;&nbsp;<input type="submit" value="VAI" onclick="addPoints();" />
-	</div>-->
+	</div>
 
 	<a href="#" onclick="blockList()" class="interfaceLinks"><div style="border:1px solid #2e7ec8; margin-top:20px; margin-left:20px; margin-right:20px; padding:7px; text-align:center;">BLOCCA QUESTI PG</div></a>
+
+	<a href="#" tal:condition="exists:bonusSM" onclick="bavoList()" class="interfaceLinks"><div style="border:1px solid #2e7ec8; margin-top:20px; margin-left:20px; margin-right:20px; padding:7px; text-align:center;">BAVOSIZZA QUESTI PG</div></a>
+
+	<a href="#" tal:condition="exists:bonusSM" onclick="delList()" class="interfaceLinks"><div style="border:1px solid #2e7ec8; margin-top:20px; margin-left:20px; margin-right:20px; padding:7px; text-align:center;">CANCELLA QUESTI PG</div></a>
 
 	<div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-top:20px; margin-right:20px;  margin-left:20px; padding:5px; text-align:center;">
 	Assegna a tutti: <select id="setSecl">
@@ -226,18 +303,15 @@
 	</div>
 
 	<div tal:condition="exists:bonusSM" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
-	Imposta Assegnazione e Incarico a Tutti<br />
+	Pialla Incarichi & Imposta Assegnazione e Incarico a Tutti<br />
 		<select id="assegnazione">
-		<option tal:repeat="location locations" tal:attributes="value repeat/location/key" tal:content="location"/></select>&nbsp;&nbsp;
-		<input type="text" id="incarico" style="width:260px;" placeholder="Incarico" onfocus="this.select()" />&nbsp;&nbsp;
-		<input type="submit" value="VAI" onclick="setIncarico();" />
+		<option tal:repeat="location locations" tal:attributes="value repeat/location/key" tal:content="location"/></select><br />
+		<input class="neon" style="width:300px;" type="text" id="incarico" placeholder="Incarico" onfocus="this.select()" /><br />
+		<input class="neon" style="width:300px;" type="text" id="divisione" placeholder="Divisione" onfocus="this.select()" /><br />
+		<input class="neon" style="width:300px;" type="text" id="dipartimento" placeholder="Dipartimento" onfocus="this.select()" /><br/>
+		<input  type="submit" value="VAI" onclick="setIncarico();" />
 	</div>
 
-	<div tal:condition="exists:bonusSM" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
-	Imposta Dipartimento a Tutti<br />
-		<input type="text" id="dipartimento" style="width:260px;" placeholder="Dipartimento" />&nbsp;&nbsp;
-		<input type="submit" value="VAI" onclick="setDipartimento();" />
-	</div>
 
 	<div style="border:1px solid #888; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
 			Aggiungi alle note master di tutti:
@@ -258,6 +332,24 @@ Inserisci Evento Master Globale per il Vascello
 </form>
 </div>
 
+
+<div tal:condition="exists:bonusM" id="closingTool" style="display:none; border:1px solid orange; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+	
+<table>
+	<tr style="background-color:#444; font-weight:bold;"> <td style="width:30px;"> ID </td> <td> Luogo </td> <td> Owner </td> <td>Data Inizio </td> <td> Stato </td> </tr>
+	<tr style="margin-top:15px; border:1px solid white;" tal:attributes="id string:session_${session/sessionID}" tal:repeat="session sessions"> 
+
+	<td><span tal:attributes="class php:((session['sessionMaster'] == '1') ? ((session['sessionPrivate'] == '1') ? 'masterPriv': 'master') : 'nomaster')" tal:content="session/sessionID" /></td>
+
+	<td><span tal:content="session/sessionLabel" style="margin:0" /> <span style="font-color:#20527c; font-weight:bold;">@</span> <span tal:content="session/locName" style="margin:0;" /> <a href="javascript:void(0);" tal:attributes="onclick string:closeSession('${session/sessionID}')" class=" commander interfaceLink" style="color:red;" tal:condition="php:(session['sessionStatus'] == 'ONGOING')"> [Chiudi] </a> <a href="javascript:void(0);" tal:attributes="href string:getLog.php?session=${session/sessionID}" target="_blank" style="color:#FFCC00;" tal:condition="php:(session['sessionStatus'] == 'CLOSED')"> [Log] </a> </td>
+	<td tal:content="session/pgUser" />
+	<td><span tal:content="php:(date('d/m/y',session['sessionStart']))" /><br /><span tal:content="php:(date('H:i',session['sessionStart']))" /></td>
+	<td class="statuser"><span tal:attributes="class php:((session['sessionStatus'] == 'ONGOING') ? 'ongoing' : ((session['sessionStatus'] == 'CLOSED') ? 'closed' : '' ) )" tal:content="session/sessionStatus" /></td>
+	
+	
+	</tr>
+</table>
+</div>
 
 
 

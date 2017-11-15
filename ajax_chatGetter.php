@@ -18,6 +18,7 @@ if(mysql_affected_rows()){ $aar['NP'] = 1; $aar['NPtitle'] = $res['paddTitle']; 
 
 
 $resNotify = mysql_query('SELECT paddText,extraField FROM fed_pad WHERE paddTo = '.($_SESSION['pgID']).' AND paddRead = 0 AND paddTitle LIKE "::special::%" LIMIT 1');
+
 if(mysql_affected_rows()){$aal = mysql_fetch_array($resNotify); $etm = explode('::',$aal['paddText']); $aar['NOTIFY']['TEXT'] = ($etm[1]); $aar['NOTIFY']['TITLE'] = ($etm[0]);  $aar['NOTIFY']['IMG'] = $aal['extraField'];}
 
 $res = mysql_query('SELECT 1 FROM fed_sussurri WHERE susTo = '.$_SESSION['pgID'].' AND reade = 0 LIMIT 1');

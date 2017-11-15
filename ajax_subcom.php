@@ -25,8 +25,8 @@ include('includes/validate_class.php');
 		
 		
 		$string = '<p class="subspaceCom">'.date('H:i')." <span class=\'subspaceComPre\'>$placeFrom a $placeTo</span> - $string</p>";
-		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$ambientTo','$string',".time().",'DIRECT')");
-		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$ambientFrom','$string',".time().",'DIRECT')");
+		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$ambientTo','$string',".time().",'MASTER')");
+		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$ambientFrom','$string',".time().",'MASTER')");
 		
 
 ?>						

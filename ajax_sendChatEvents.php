@@ -80,6 +80,13 @@ include('includes/validate_class.php');
 			
 			if($food == 34) mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','tasson',".time().",'AUDIO')");
 			else if($food == 321) mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','malkoth',".time().",'AUDIO')");
+			else if($food == 342) mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','mazurk',".time().",'AUDIO')");
+			else if($food == 343) mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','sandiego',".time().",'AUDIO')");
+			else if($food == 334) mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','ballor',".time().",'AUDIO')");
+
+
+
+			
 
 			else mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','voy_replicator',".time().",'AUDIO')");
 		}

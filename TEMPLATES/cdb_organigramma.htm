@@ -12,7 +12,24 @@
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
 
 	<title>STAR TREK FEDERATION - CDB</title>
-	
+	<style>
+		.sbtn{
+			border:1px solid #FFCC00;
+			border-radius:6px;
+			color:#FFCC00;
+			font-size:12px;
+			height:15px;
+			line-height: 15px;
+			width:80px;
+			padding:2px 5px; 
+
+			margin-left:5px;
+			text-align:center;
+			text-transform: uppercase;
+
+		}
+		.sbtn:hover{background-color:#FFF; color:black !important;}
+	</style>
 </head>
 
 <body style="background-repeat:no-repeat; background-color:black; background-position:top center;">
@@ -62,16 +79,16 @@
 <table cellspacing="3px" style="width:96%; margin-left:auto; text-align:center; margin-right:auto; font-family:Helvetica; font-size:14px;" align="center">
 <tr><td style="border:1px solid #555; padding:4px; text-align:center" colspan="3" tal:content="string:PERSONALE ASSEGNATO A: ${place/placeName}"></td></tr>
 <tr><td style="border:1px solid #555; v-align:middle; padding:4px; text-align:center" colspan="3">
-<a class="interfaceLink" tal:attributes="href string:crew.php?equi=${equi}&section=CN" style="border:1px solid red; border-radius:6px; color:red; font-size:11px; width:80px; padding:2px; margin-left:5px; text-align:center;">COM/NAV</a>
-<a class="interfaceLink" tal:attributes="href string:crew.php?equi=${equi}&section=TS" style="border:1px solid #FFCC00; border-radius:6px; color:#FFCC00; font-size:11px; width:80px; padding:2px; margin-left:5px; text-align:center;">TAT/SIC</a>
-<a class="interfaceLink" tal:attributes="href string:crew.php?equi=${equi}&section=IN" style="border:1px solid #FFCC00; border-radius:6px; color:#FFCC00; font-size:11px; width:80px; padding:2px; margin-left:5px; text-align:center;">ING</a>
-<a class="interfaceLink" tal:attributes="href string:crew.php?equi=${equi}&section=SC" style="border:1px solid teal; border-radius:6px; width:80px; color:teal; font-size:11px; width:80px; padding:2px; margin-left:5px; text-align:center;">SCI</a>
-<a class="interfaceLink" tal:attributes="href string:crew.php?equi=${equi}&section=ME" style="border:1px solid teal; border-radius:6px; width:80px; color:teal; font-size:11px; width:80px; padding:2px; margin-left:5px; text-align:center;">MED</a> <span style="margin-left:10px;">|</span>
-<a class="interfaceLink" tal:attributes="href string:crew.php?equi=${equi}&ranks=OFplus" style="border:1px solid white; border-radius:6px; width:80px; color:white; font-size:11px; width:80px; padding:2px; margin-left:5px; text-align:center;">Ufficiali Superiori</a>
-<a class="interfaceLink" tal:attributes="href string:crew.php?equi=${equi}&ranks=OF" style="border:1px solid white; border-radius:6px; width:80px; color:white; font-size:11px; width:80px; padding:2px; margin-left:5px; text-align:center;">Ufficiali</a>
-<a class="interfaceLink" tal:attributes="href string:crew.php?equi=${equi}&ranks=sOF" style="border:1px solid white; border-radius:6px; width:80px; color:white; font-size:11px; width:80px; padding:2px; margin-left:5px; text-align:center;">Sottufficiali</a>
+<a class="interfaceLink sbtn" tal:attributes="href string:crew.php?equi=${equi}&section=CS" style="border-color:red; color:red;">COM</a>
+<a class="interfaceLink sbtn" tal:attributes="href string:crew.php?equi=${equi}&section=DS" style="border:1px solid #6fbf22; color:#6fbf22;">DIF</a>
+<a class="interfaceLink sbtn " tal:attributes="href string:crew.php?equi=${equi}&section=OP" style="">OPS</a>
+<a class="interfaceLink sbtn" tal:attributes="href string:crew.php?equi=${equi}&section=SC" style="border:1px solid teal; color:teal;">SCI</a>
+<a class="interfaceLink sbtn" tal:attributes="href string:crew.php?equi=${equi}&section=NA" style="border:1px solid #2264bf; color:#2264bf;">NAV</a> <span style="margin-left:10px;">|</span>
+<a class="interfaceLink sbtn" tal:attributes="href string:crew.php?equi=${equi}&ranks=OFplus" style="border:1px solid white; color:white;">Ufficiali Superiori</a>
+<a class="interfaceLink sbtn" tal:attributes="href string:crew.php?equi=${equi}&ranks=OF" style="border:1px solid white; color:white;">Ufficiali</a>
+<a class="interfaceLink sbtn" tal:attributes="href string:crew.php?equi=${equi}&ranks=sOF" style="border:1px solid white; color:white;">Sottufficiali</a>
 <p style="margin-top:5px;">
-<a class="interfaceLink" tal:attributes="href string:crew.php?equi=${equi}&ranks=ENT" title="Entertainer"><img src="TEMPLATES/img/interface/personnelInterface/i_entertainer.png" /></a> <a class="interfaceLink" tal:attributes="href string:crew.php?equi=${equi}&ranks=JM" title="Junior Master"><img src="TEMPLATES/img/interface/personnelInterface/i_juniormaster.png" /></a> <a class="interfaceLink" tal:attributes="href string:crew.php?equi=${equi}&ranks=M" title="Master Ordinario"><img src="TEMPLATES/img/interface/personnelInterface/i_imaster.png" /></a> <a class="interfaceLink" tal:attributes="href string:crew.php?equi=${equi}&ranks=GM"><img src="TEMPLATES/img/interface/personnelInterface/iglobal_master.png" title="Master Globale" /></a></p>
+<a class="interfaceLink" tal:attributes="href string:crew.php?equi=${equi}&ranks=ENT" title="Entertainer"><img src="TEMPLATES/img/interface/personnelInterface/i_entertainer.png" /></a> <a class="interfaceLink" tal:attributes="href string:crew.php?equi=${equi}&ranks=GUI" title="Guide"><img src="TEMPLATES/img/interface/personnelInterface/i_guide.png" /></a>  <a class="interfaceLink" tal:attributes="href string:crew.php?equi=${equi}&ranks=JM" title="Junior Master"><img src="TEMPLATES/img/interface/personnelInterface/i_juniormaster.png" /></a> <a class="interfaceLink" tal:attributes="href string:crew.php?equi=${equi}&ranks=M" title="Master Ordinario"><img src="TEMPLATES/img/interface/personnelInterface/i_imaster.png" /></a> <a class="interfaceLink" tal:attributes="href string:crew.php?equi=${equi}&ranks=GM"><img src="TEMPLATES/img/interface/personnelInterface/iglobal_master.png" title="Master Globale" /></a></p>
 </td></tr>
 <tr><td style="border:1px solid #555; padding:4px; text-align:center" colspan="3" tal:condition="php:(user.pgAuthOMA == 'M' || user.pgAuthOMA == 'A' || user.pgAuthOMA == 'SM')" ><a onclick="jQuery('.morer').fadeIn(200);" href="#" class="interfaceLink">Comandi di Servizio</a></td></tr>
 	<tr style="height:10px;"><td></td></tr>

@@ -24,7 +24,8 @@ $lisOuser = substr(trim($lisOuser),0,-1);
 
 
 
-$colr = array('Comando e Navigazione' => 'RED', 'Tattica e Sicurezza' => 'YELLOW', 'Ingegneria' => 'YELLOW', 'Scientifica' => 'GREEN', 'Medica' => 'GREEN', 'Medicina Civile' => 'GREEN', 'Scienze' => 'GREEN', 'Comando' => 'RED', 'Ricerca e Terapia' => 'WHITE', 'Navigazione' => 'BLUE', 'Tecnica' => 'GREEN', 'Strategica' => 'YELLOW');
+$colr = array('Comando e Strategia' => 'RED', 'Difesa e Sicurezza' => 'GREEN', 'Operazioni' => 'YELLOW', 'Scientifica e Medica' => 'GREEN', 'Medica' => 'GREEN', 'Medicina Civile' => 'GREEN', 'Scienze' => 'GREEN', 'Navigazione' => 'BLUE');
+
 $actDate=timeHandler::timestampToGiulian($curTime);
 $curUser = new PG($_SESSION['pgID']);
 $pgSezione = $curUser->pgSezione;
@@ -39,15 +40,14 @@ $usersString="";
 
 if($lisOuser != '')
 {
-	$res = mysql_query("SELECT UCASE(pgUser) as pgUser, UCASE(pgNomeC) as pgNomeC, UCASE(pgNomeSuff) as pgNomeSuff, pgSezione,pgIncarico,pgGrado,ordinaryUniform,placeName,rankerprio FROM pg_users,pg_places,pg_ranks WHERE prio = rankCode AND pgAssign = placeID AND pgUser IN ($lisOuser) ORDER BY rankerprio DESC"); 
+	$res = mysql_query("SELECT UCASE(pgUser) as pgUser, UCASE(pgNomeC) as pgNomeC, UCASE(pgNomeSuff) as pgNomeSuff, pgSezione,incIncarico,pgGrado,ordinaryUniform,placeName,rankerprio FROM pg_users,pg_incarichi,pg_places,pg_ranks WHERE prio = rankCode AND pgPlace = placeID AND pg_users.pgID = pg_incarichi.pgID AND incMain = 1 AND pgUser IN ($lisOuser) ORDER BY rankerprio DESC"); 
 	if(!mysql_error()){
 	while($resA = mysql_fetch_array($res))
 	{
 		$pgUser = $resA['pgUser'];
 		$pgNomeC = $resA['pgNomeC'];
 		$pgNomeSuff = $resA['pgNomeSuff'];
-		$pgIncarico = explode('<br />',$resA['pgIncarico']);
-		$pgIncarico = $pgIncarico[0];
+		$pgIncarico = $resA['incIncarico']; 
 		$pgGrado = strtoupper($resA['pgGrado']);
 		$placeName = $resA['placeName'];
 		$pgListSezione = $resA['pgSezione'];
@@ -96,9 +96,9 @@ Rapporto";
 }
 	
 elseif ($rapType=="Q2"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE COMANDO E NAVIGAZIONE $curLocationNameU -[/SIZE][/COLOR][/CENTER]
+$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE COMANDO E STRATEGIA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/starfleet.png[/IMG][/CENTER]
+[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- UFFICIO __Ufficio__ -[/SIZE][/CENTER][/COLOR]
 
@@ -110,35 +110,12 @@ $usersString
 
 <blockquote> __Disposizione__ </blockquote>";
 }
-
-elseif ($rapType=="Q2r1" || $rapType=="Q2r2" || $rapType=="Q2r3" || $rapType=="Q2r4" || $rapType=="Q2r5")
-{
-
-	if($rapType=="Q2r1"){ $office = 'COMANDO'; $logol = 'romulan_com_logo.png';}
-	if($rapType=="Q2r2"){ $office = 'NAVIGAZIONE'; $logol = 'romulan_nav_logo.png';}
-	if($rapType=="Q2r3"){ $office = 'STRATEGICA'; $logol = 'romulan_tat_logo.png';}
-	if($rapType=="Q2r4"){ $office = 'TECNICA'; $logol = 'romulan_tec_logo.png';}
-	if($rapType=="Q2r5"){ $office = 'RICERCA E TERAPIA'; $logol = 'romulan_ric_logo.png';}
-	$logoI = '[IMG]http://miki.startrekfederation.it/SigmaSys/logo/'.$logol.'[/IMG]';
-	
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE $office $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/".($curLocation['placeLogo'])."[/IMG] $logoI [/CENTER] 
-
-[COLOR=BLUE][CENTER][SIZE=1]- UFFICIO __Ufficio__ -[/SIZE][/CENTER][/COLOR]
  
-[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
-$usersString
-
-[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
-
-<blockquote> __Disposizione__ </blockquote>";
-}
 
 elseif ($rapType=="Q16"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE COMANDO E NAVIGAZIONE $curLocationNameU -[/SIZE][/COLOR][/CENTER]
+$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE COMANDO E STRATEGIA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/starfleet.png[/IMG][/CENTER]
+[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- UFFICIO DEL CAPITANO -[/SIZE][/CENTER][/COLOR]
 
@@ -151,42 +128,11 @@ $usersString
 <blockquote> __Disposizione__ </blockquote>";
 }
 
-elseif ($rapType=="Q16r"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE COMANDO $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/little_".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/romulan_com_logo.png[/IMG][/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- UFFICIO DEL RIOV -[/SIZE][/CENTER][/COLOR]
-
-
-[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
-$usersString
-
-[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
-
-<blockquote> __Disposizione__ </blockquote>";
-}
 
 elseif ($rapType=="Q16b"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE COMANDO E NAVIGAZIONE $curLocationNameU -[/SIZE][/COLOR][/CENTER]
+$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE COMANDO E STRATEGIA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/starfleet.png[/IMG][/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- UFFICIO DEL PRIMO UFFICIALE -[/SIZE][/CENTER][/COLOR]
-
-
-[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
-$usersString
-
-[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
-
-<blockquote> __Disposizione__ </blockquote>";
-}
-
-elseif ($rapType=="Q16br"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE COMANDO $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/little_".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/romulan_com_logo.png[/IMG][/CENTER]
+[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- UFFICIO DEL PRIMO UFFICIALE -[/SIZE][/CENTER][/COLOR]
 
@@ -199,25 +145,11 @@ $usersString
 <blockquote> __Disposizione__ </blockquote>";
 }
 
-elseif ($rapType=="Q3"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE COMANDO E NAVIGAZIONE $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/comm.png[/IMG][/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- DIPARTIMENTO COMUNICAZIONI -[/SIZE][/CENTER][/COLOR]
-
-[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
-$usersString
-
-[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
-
-<blockquote> __Disposizione__ </blockquote>";
-}
 
 elseif ($rapType=="Q4"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE TATTICA E SICUREZZA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
+$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE DIFESA E SICUREZZA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/logo_tattica.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/security.png[/IMG][/CENTER]
+[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_sec.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG][/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- UFFICIO __Ufficio__ -[/SIZE][/CENTER][/COLOR]
 
@@ -229,27 +161,13 @@ $usersString
 <blockquote> __Disposizione__ </blockquote>";
 } 
 
-elseif ($rapType=="Q5"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE TATTICA E SICUREZZA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/logo_tattica.png[/IMG] [/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- DIPARTIMENTO TATTICO -[/SIZE][/CENTER][/COLOR]
-
-[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
-$usersString
-
-[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
-
-<blockquote> __Disposizione__ </blockquote>";
-}
 
 elseif ($rapType=="Q15"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE TATTICA E SICUREZZA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
+$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE DIFESA E SICUREZZA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/logo_tattica.png[/IMG] [/CENTER]
+[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_sec.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG]  [/CENTER]
 
-[COLOR=BLUE][CENTER][SIZE=1]- UFFICIO DEL CTO -[/SIZE][/CENTER][/COLOR]
+[COLOR=BLUE][CENTER][SIZE=1]- UFFICIO DEL CAPO DELLA SICUREZZA -[/SIZE][/CENTER][/COLOR]
 
 [SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
 $usersString
@@ -260,9 +178,9 @@ $usersString
 }
 
 elseif ($rapType=="Q6"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE TATTICA E SICUREZZA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
+$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE DIFESA E SICUREZZA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/security.png[/IMG][/CENTER]
+[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_sec.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG]  [/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- DIPARTIMENTO SICUREZZA -[/SIZE][/CENTER][/COLOR]
 
@@ -275,9 +193,9 @@ $usersString
 }
 
 elseif ($rapType=="Q7"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE INGEGNERIA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
+$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE INGEGNERIA E OPERAZIONI $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/logo_ops.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/logo_eng.png[/IMG][/CENTER]
+[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/logo_ops.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_ops.r.png[/IMG][/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- UFFICIO: __Ufficio__ -[/SIZE][/CENTER][/COLOR]
 
@@ -290,9 +208,9 @@ $usersString
 }
 
 elseif ($rapType=="Q8"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE INGEGNERIA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
+$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE INGEGNERIA E OPERAZIONI $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG]  [IMG]http://miki.startrekfederation.it/SigmaSys/logo/logo_ops.png[/IMG][/CENTER]
+[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/logo_ops.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_ops.r.png[/IMG][/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- DIPARTIMENTO OPERAZIONI -[/SIZE][/CENTER][/COLOR]
 
@@ -305,9 +223,9 @@ $usersString
 }
 
 elseif ($rapType=="Q14"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE INGEGNERIA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
+$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE INGEGNERIA E OPERAZIONI $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG]  [IMG]http://miki.startrekfederation.it/SigmaSys/logo/logo_eng.png[/IMG][/CENTER]
+[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/logo_ops.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_ops.r.png[/IMG][/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- UFFICIO DEL CAPO INGEGNERE -[/SIZE][/CENTER][/COLOR]
 
@@ -320,9 +238,9 @@ $usersString
 }
 
 elseif ($rapType=="Q9"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE SCIENTIFICA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
+$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE SCIENTIFICA E MEDICA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG]  [IMG]http://miki.startrekfederation.it/SigmaSys/logo/scientific.png[/IMG][/CENTER]
+[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_med.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG]  [IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_sci.r.png[/IMG][/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- UFFICIO __Ufficio__ -[/SIZE][/CENTER][/COLOR]
 
@@ -335,9 +253,9 @@ $usersString
 }
 
 elseif ($rapType=="Q13"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE SCIENTIFICA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
+$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE SCIENTIFICA E MEDICA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG]  [IMG]http://miki.startrekfederation.it/SigmaSys/logo/scientific.png[/IMG][/CENTER]
+[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_sci.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- UFFICIO CSO -[/SIZE][/CENTER][/COLOR]
 
@@ -349,25 +267,11 @@ $usersString
 <blockquote> __Disposizione__ </blockquote>";
 }
 
-elseif ($rapType=="Q10"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE MEDICA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG]  [IMG]http://miki.startrekfederation.it/SigmaSys/logo/medical.png[/IMG][/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- UFFICIO __Ufficio__ -[/SIZE][/CENTER][/COLOR]
-
-[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
-$usersString
-
-[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
-
-<blockquote> __Disposizione__ </blockquote>";
-}
 
 elseif ($rapType=="Q17"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE MEDICA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
+$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE SCIENTIFICA E MEDICA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG]  [IMG]http://miki.startrekfederation.it/SigmaSys/logo/medical.png[/IMG][/CENTER]
+[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_med.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- UFFICIO DEL CMO -[/SIZE][/CENTER][/COLOR]
 
@@ -380,9 +284,9 @@ $usersString
 }
 
 elseif ($rapType=="Q18"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE MEDICA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
+$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE SCIENTIFICA E  MEDICA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG]  [IMG]http://miki.startrekfederation.it/SigmaSys/logo/medical.png[/IMG][/CENTER]
+[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_med.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- UFFICIO DEL CONSIGLIERE DI BORDO -[/SIZE][/CENTER][/COLOR]
 
@@ -394,8 +298,62 @@ $usersString
 <blockquote> __Disposizione__ </blockquote>";
 }
 
-elseif ($rapType=="Q11"){
-$outString = "<blockquote><blockquote>
+elseif ($rapType=="QN1"){
+$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE NAVIGAZIONE $curLocationNameU -[/SIZE][/COLOR][/CENTER]
+
+[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_nav.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
+
+[COLOR=BLUE][CENTER][SIZE=1]- COMANDO DELLE FORZE AEREE -[/SIZE][/CENTER][/COLOR]
+
+[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
+$usersString
+
+[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
+
+<blockquote> __Disposizione__ </blockquote>";
+} 
+
+elseif ($rapType=="QN2"){
+$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE NAVIGAZIONE $curLocationNameU -[/SIZE][/COLOR][/CENTER]
+
+[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_nav.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [/CENTER]
+
+[COLOR=BLUE][CENTER][SIZE=1]- DIPARTIMENTO GESTIONE E CONTROLLO HANGAR NAVETTE -[/SIZE][/CENTER][/COLOR]
+
+[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
+$usersString
+
+[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
+
+<blockquote> __Disposizione__ </blockquote>";
+} 
+
+
+elseif ($rapType=="QN3"){
+$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE NAVIGAZIONE $curLocationNameU -[/SIZE][/COLOR][/CENTER]
+
+[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_nav.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [/CENTER]
+
+[COLOR=BLUE][CENTER][SIZE=1]- COORDINAMENTO DEL CONTROLLO VOLO -[/SIZE][/CENTER][/COLOR]
+
+[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
+$usersString
+
+[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
+
+<blockquote> __Disposizione__ </blockquote>";
+} 
+
+elseif ($rapType=="QN4"){
+$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE NAVIGAZIONE $curLocationNameU -[/SIZE][/COLOR][/CENTER]
+
+[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_nav.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
+
+[COLOR=BLUE][CENTER][SIZE=1]- COMANDO DELLE FORZE AEREE -[/SIZE][/CENTER][/COLOR]
+
+[SIZE=1][COLOR=BLUE]ENTRY DEL REGISTRO DI NAVIGAZIONE[/COLOR][/SIZE]
+
+<blockquote><blockquote>
 [B][COLOR=BLUE]DA:[/COLOR] __Partenza__
 [COLOR=BLUE]A:[/COLOR] __Arrivo__ [/B]
 
@@ -409,10 +367,18 @@ $outString = "<blockquote><blockquote>
 [COLOR=YELLOW][B]ETA[/B][/COLOR] - [COLOR=GRAY][I]Scheduled time of Arrival[/I][/COLOR]: __Data_e_Ora_Previsti_per_arrivo__
 [COLOR=YELLOW][B]EFT[/B][/COLOR] - [COLOR=GRAY][I]Estimated Flight Time[/I][/COLOR]: __Tempo_di_volo__
 </blockquote></blockquote>";
-}
- 
-elseif ($rapType=="Q12"){
-$outString = "<blockquote><blockquote>
+} 
+
+elseif ($rapType=="QN4"){
+$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE NAVIGAZIONE $curLocationNameU -[/SIZE][/COLOR][/CENTER]
+
+[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_nav.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
+
+[COLOR=BLUE][CENTER][SIZE=1]- COMANDO DELLE FORZE AEREE -[/SIZE][/CENTER][/COLOR]
+
+[SIZE=1][COLOR=BLUE]ENTRY DEL REGISTRO DI NAVIGAZIONE[/COLOR][/SIZE]
+
+<blockquote><blockquote>
 [B][COLOR=BLUE]DA:[/COLOR] __Partenza__  
 [COLOR=BLUE]A:[/COLOR] __Arrivo__ [/B]
 
@@ -423,7 +389,8 @@ $outString = "<blockquote><blockquote>
 [COLOR=RED][B]ATA[/B][/COLOR] - [COLOR=GRAY][I]Actual time of Arrival[/I][/COLOR]: __Data_e_Ora_Effettivi_arrivo__
 [COLOR=BLUE][B]DLA[/B][/COLOR] - [COLOR=GRAY][I]Delay[/I][/COLOR]: __Ritardo__
 </blockquote></blockquote>";
-}
+} 
+
 
 
 echo json_encode($outString);

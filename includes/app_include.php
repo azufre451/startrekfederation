@@ -16,23 +16,23 @@ mysql_query('SET NAMES utf8');
 //$formats = array(".jpg",".png",".gif",".bmp");
 //$baseSite = "http://genesis.digital-destiny.org/SigmaSys/";
 
-$gameName = "v. 1.6 - Prandial Seagull";
-$gameVersion = "1.6 - Prandial Seagull";
+$gameName = "v. 1.7.1 - Quiescent Tortoise";
+$gameVersion = "1.7.1 - Quiescent Tortoise";
 
 
-$gameOptions = array('numericVersion' => "1.7.62");
+$gameOptions = array('numericVersion' => "1.7.1.2");
 
 $debug=true;
 $tips=true;
 
 $thisYear = 2017;
-$bounceYear = 377;
+$bounceYear = 379;
 
 
 $gameServiceInfo = "
 	Star Trek: Federation<br /> 
-		Codename Prandial Seagull<br />
-		ALPHA TEST<br />";
+		Codename Quiescent Tortoise<br />
+		BETA TEST<br />";
 
 $curTime = time();		
 $lapConstant = ((date("Y",$curTime) % 4) == 0) ? 0.00003162315 : 0.00003170979; 
@@ -58,7 +58,7 @@ $bbCode = array(
 "[COLOR=YELLOW]","[COLOR=WHITE]",
 "[COLOR=GREEN]","[COLOR=GRAY]",
 "[SIZE=1]","[SIZE=2]",
-"[SIZE=3]","[/SIZE]","[/COLOR]","\n","[IMG]","[/IMG]",'[URL]','[/URL]','<script','</script>','<adminOsteScript14215','</adminOsteScript14215>');
+"[SIZE=3]","[/SIZE]","[/COLOR]","\n","[IMG]","[/IMG]",'[URL]','[/URL]','<script','</script>','<adminOsteScript14215','</adminOsteScript14215>','[QUOTE]','[/QUOTE]');
 
 
 $htmlCode = array(
@@ -72,7 +72,7 @@ $htmlCode = array(
 "<span class=\"cdbPostYellow\">","<span class=\"cdbPostWhite\">",
 "<span class=\"cdbPostGreen\">","<span class=\"cdbPostGray\">",
 "<span class=\"cdbPostLittleSize\">","<span class=\"cdbPostNormalSize\">",
-"<span class=\"cdbPostBigSize\">","</span>","</span>","<br />","<img src=\"","\"/>","<a target=\"_blank\" class=\"interfaceLink\" href=\"","\">LINK</a>",'script','script','<script','</script>');
+"<span class=\"cdbPostBigSize\">","</span>","</span>","<br />","<img src=\"","\"/>","<a target=\"_blank\" class=\"interfaceLink\" href=\"","\">LINK</a>",'script','script','<script','</script>','<p class="quoter">','</p>');
 
 function reduced_bbCode($str){ 
 

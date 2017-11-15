@@ -15,6 +15,13 @@ $vali = new validator();
 $currentUser = new PG($_SESSION['pgID']);
 $mode = (isSet($_GET['s'])) ? $_GET['s'] : NULL;
  
+
+function startsWith($haystack, $needle)
+{
+     $length = strlen($needle);
+     return (substr($haystack, 0, $length) === $needle);
+}
+
  
 if($mode == 'newP')
 {
@@ -36,44 +43,46 @@ if($mode == 'newP')
 		} 
 	}
 	else
-	{
-		$toString = explode(',',$_POST['users']);
+	{	 
+		$toString = array_filter(explode(',',$_POST['users']));
+
 		$curID = $_SESSION['pgID'];
-		$titolo = addslashes($_POST['titolo']);
-		$testo = htmlentities(addslashes(($_POST['testo'])),ENT_COMPAT, 'UTF-8');
-		$testoL = nl2br(htmlentities(addslashes(($_POST['testo'])),ENT_COMPAT, 'UTF-8'));
+		
+		$titolo = htmlentities($_POST['titolo'],ENT_COMPAT, 'UTF-8');
+		$testo = htmlentities($_POST['testo'],ENT_COMPAT, 'UTF-8');
 		
 		if(trim($titolo=="")) $titolo= "NESSUN OGGETTO";
 		
 		foreach($toString as $to)
 		{
+			
+			if (empty($to) || $to == " " || $to == NULL) continue;
+			
+
 			$to = addslashes(trim($to)); 
-			if ($to==NULL) continue;
-			$idR = mysql_query("SELECT pgID,paddMail,email FROM pg_users WHERE pgUser = '$to'");
-			$idsA = mysql_fetch_array($idR);
+
 			
-			$idA = $idsA['pgID'];
-			
-			mysql_query("INSERT INTO fed_pad (paddFrom, paddTo, paddTitle, paddText, paddTime, paddRead) VALUES ($curID, $idA, '$titolo', '$testo',$curTime,0)");
-			
-			if($idsA['paddMail'])
-			{
-				$sendTo = $idsA['email'];
-				$senderName = PG::getSomething($curID,'username');
-				$receiverName = PG::getSomething($idA,'username');
-				$subject = "[STF] $senderName >> ".$titolo;
-				
-				$message = "<div style=\"text-align:center;\"><img src=\"http://miki.startrekfederation.it/SigmaSys/logo/little_logo.png\" /></div><p>$senderName ti ha inviato un dpadd<br /><b>Testo:</b> $testoL<br /><br />Accedi a <a href=\"http://www.startrekfederation.it\" target=\"_blank\">Star Trek: Federation</a> per consultare il padd!";
-				
-				
-				$header = "From: $senderName <messaggistica@startrekfederation.it>\n";
-				$header .= "MIME-Version: 1.0\n";
-				$header .= "Content-Type: text/html; charset=\"iso-8859-1\"\n";
-				$header .= "Content-Transfer-Encoding: 7bit\n\n";
-		
-				mail($sendTo, $subject, $message, $header);
+			if (startsWith($to,"Gruppo")){
+				$idR = mysql_query("SELECT pgID FROM pg_groups_ppl,pg_groups WHERE pg_groups_ppl.groupID = pg_groups.groupID AND groupLabel = '$to'");
+
+				$testo = '<p>Messaggio collettivo inviato a: <span style="color:#FC0; font-weight:bold;">'.$to.'</span></p>'.$testo;
+					
+				while($res = mysql_fetch_assoc($idR))
+				{	
+					$toP = new PG($res['pgID'],2);
+					$toP->sendPadd($titolo,$testo,$_SESSION['pgID']);
+				}
+
 
 			}
+			else{
+
+			$idsA = mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$to'"));
+			$toP = new PG($idsA['pgID'],2);
+			$toP->sendPadd($titolo,$testo,$_SESSION['pgID']);
+			}
+			
+			
 		} 
 	}
 	header('Location:padd.php?ps=1'); 
@@ -201,7 +210,7 @@ else if($mode == 'seR')
 	$template = new  PHPTAL('TEMPLATES/padd_send_custom.htm');
 	
 	$template->to = $_GET['to'];
-	$template->sub = ($_GET['sub'] != "") ? 'Re: '.addslashes($_GET['sub']) : addslashes($_GET['sub']) ;
+	$template->sub = ($_GET['sub'] != "") ? (strstr($_GET['sub'],'Re: ') ? $_GET['sub'] : 'Re: '.addslashes($_GET['sub']) ) : addslashes($_GET['sub']) ;
 }
 
 else if($mode == 'ds')
@@ -235,7 +244,7 @@ else if($mode == 'tr' || $mode == 'ta')
 	$particle = ($currentUser->pgSpecie == 'Romulana') ? 'ROM' : 'FED';
 	
 	setlocale(LC_TIME, 'it_IT');
-	$template->datae = strftime('%e').' '.ucfirst(strftime('%B')).' '.(date('Y')+377);
+	$template->datae = strftime('%e').' '.ucfirst(strftime('%B')).' '.(date('Y')+379);
 	$news = mysql_query("SELECT * FROM fed_news WHERE aggregator = '$particle' ORDER BY newsTime DESC $limit");
 	$newsArr=array();
 	while($newsA = mysql_fetch_array($news))
@@ -439,6 +448,7 @@ $template->user = $currentUser;
 // $template->debug = $debug;
 // $template->gameServiceInfo = $gameServiceInfo;
 $template->dateFormat = "d/m/Y H:i:s";
+$template->gameOptions = $gameOptions;
 
 	try 
 	{

@@ -1,0 +1,111 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta charset="UTF-8" />
+	<link rel="shortcut icon" href="favicon.ico" />
+	
+	<link tal:attributes="href string:TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link tal:attributes="href string:TEMPLATES/css/db.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" /> 
+
+	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
+	
+	<link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet" />
+
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<script type="text/javascript" src="TEMPLATES/js/google.js"></script>
+	<script type="text/javascript">
+		jQuery(function(){
+			jQuery('button').button();
+		});
+	</script>
+	<title> Nuova Dispensa Star Trek: Federation GDR</title>	
+	<meta name="description" tal:content="description" />
+	<meta name="keywords" tal:content="metaKeywords" />
+
+	<style>
+	.interfaceLinkRed, .interfaceLinkTeal, .interfaceLinkOrange, .interfaceLinkYellow, .interfaceLinkViolet
+	{font-size:12px; font-weight:bold; font-family:verdana;}
+	
+	.interfaceLinkRed{color:red;}
+	.interfaceLinkRed:hover{color:red;}
+	.interfaceLinkTeal{color:teal;}
+	.interfaceLinkTeal:hover{color:teal;}
+	.interfaceLinkGreen{color:yellowgreen;}
+	.interfaceLinkGreen:hover{color:yellowgreen;}
+	.interfaceLinkOrange{color:orange;}
+	.interfaceLinkOrange:hover{color:orange;}
+	.interfaceLinkYellow{color:yellow;}
+	.interfaceLinkYellow:hover{color:yellow;}
+	.interfaceLinkViolet{color:violet;}
+	.interfaceLinkViolet:hover{color:violet;}
+	</style>
+
+
+</head>
+
+<body style="background-repeat:no-repeat; background-color:black;">
+
+<div id="federation_interfaceContainer">
+	<div id="leftCol" style="width:123px;">
+		<div id="leftC1" />
+		<div id="leftC3" />
+	</div>
+	
+	<div id="supCol">
+		<div id="supLeft" />
+		<div id="supRight" />
+
+	</div>
+	
+	<div id="fillerBax">
+		<div id="barbot1" />
+		<div id="barbot2" />
+	</div>
+	
+</div>
+
+<div id="cdbHeader"><div style="position:absolute; height:50px; width:202px; top:35px; left:55px;" />
+
+<p style="text-align:right; margin-right:20px; margin-bottom:3px; padding-bottom:6px; border-bottom:1px dotted #FCFCFC" class="titleFS">Aggiungi Dispensa</p> <p style="position:absolute; top:55px; left:260px; font-size:14px;"><a class="interfaceLink" href="db.php">Torna Indietro</a></p></div>
+
+<div id="cdbContainer">
+
+<div id="mdmacontent">
+	<form method="POST" action="db.php?adiDo=true"> 
+
+		<input type="text" class="neon" style="width:100px;" name="IDF" placeholder="Codice Letterale"> </input> [<input name="tag" type="text" class="neon" placeholder="TAG" style="width:200px;"> </input>] <input name="title" style="width:500px;" type="text" class="neon" placeholder="Titolo"> I </input><br /><hr/>
+
+		<textarea name="content" placeholder="Contenuto" style="width:100%; height:380px; margin-top:20px;"></textarea><br /><hr />	
+
+		<select name="entryType">
+			<option value="IMPORTANT">Disp. Maggiore / Importante</option>
+			<option selected="selected" value="NORMAL">Disp. Minore / Tomo</option>
+		</select> 
+
+		<select name="formatType">
+			<option value="1"> Standard (parsa BBcode)</option>
+			<option value="2">Speciale: Evita BBCode</option>
+			<option selected="selected" value="3">Speciale: Markdown</option>
+		</select>
+
+		<select name="catID">
+			<option tal:repeat="cat cats" tal:attributes="value cat/catID" tal:content="cat/catName"> - </option>
+		</select>
+
+		<input type="text" class="neon" style="width:100px;" name="crossLink" placeholder="ID Disp. CrossLink"> </input>
+
+		<div style="text-align:center"><input type="submit" value="Invia"> I  </input>
+
+		</div>
+	</form>
+</div>
+
+</div>
+
+</body>
+</html>

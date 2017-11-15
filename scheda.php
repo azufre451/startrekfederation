@@ -22,14 +22,33 @@ if(!mysql_affected_rows()) $selectedUser = $_SESSION['pgID'];
 
 $mode = (isSet($_GET['s'])) ? $_GET['s'] : '';
 
-$selectedDUser = new PG($selectedUser);
+$selectedDUser = new PG($selectedUser,2);
+
 
 if($mode == 'bg')
 { 
 	$template = new PHPTAL('TEMPLATES/scheda_bkg.htm');
-	$template->background = str_replace('<embed','&lt;embed',str_replace($bbCode,$htmlCode,PG::getSomething($selectedUser,"lastBG")));
+	$backgrounder = PG::getSomething($selectedUser,"BG");
+	$revBackgrounder = PG::getSomething($selectedUser,"lastBG");
 	if($selectedUser == $_SESSION['pgID'] || PG::mapPermissions('SM',$currentUser->pgAuthOMA)){ $template->showIlSegreto = True;}
-}
+
+	if($backgrounder)
+		{
+			$template->showBackground = True;
+			$template->background = str_replace('<embed','&lt;embed',str_replace($bbCode,$htmlCode,$backgrounder));
+		}
+
+
+	if($revBackgrounder)
+	{
+		$template->revBackground = str_replace('<embed','&lt;embed',str_replace($bbCode,$htmlCode,$revBackgrounder));
+		if($selectedUser == $_SESSION['pgID'] || PG::mapPermissions('G',$currentUser->pgAuthOMA))
+		{
+			$template->showRevBackground = True;
+		}
+	}
+
+} 
 
 elseif($mode == 'bvadd')
 {
@@ -96,7 +115,6 @@ elseif($mode == 'bvadd')
 			$abilSet = abilDescriptor::getAbil(addslashes($_GET['absel']));
 			$template->openedCategory = $abilSet['abClass'];
 			$template->openedAbil = $abilSet['abID'];
-			echo $abilSet['abID'];
 
 		}
 		$template->labeler = array('GEN'=>'Ab. Generali','COMB'=>'Ab. Combattimento','ATT'=>'Ab. Attitudinali','SPE'=>'Ab. Speciali','TEC'=>'Ab. Tecniche','SCI'=>'Ab. Scientifiche','ABIL'=>'Caratteristiche');
@@ -125,7 +143,7 @@ elseif($mode == 'bv')
 	
 	$template = new PHPTAL('TEMPLATES/N_scheda_ruolino.htm');
 	
-	$resQ = mysql_query("SELECT pg_abilita.abID,abName, abImage, abClass, value as level, abLevelDescription_1,abLevelDescription_2,abLevelDescription_3,abLevelDescription_4,abLevelDescription_5 FROM pg_abilita_levels, pg_abilita WHERE pgID = $selectedUser AND pg_abilita_levels.abID = pg_abilita.abID ORDER BY abDiff");
+	$resQ = mysql_query("SELECT pg_abilita.abID,abName, abImage, abClass, value as level, abLevelDescription_1,abLevelDescription_2,abLevelDescription_3,abLevelDescription_4,abLevelDescription_5 FROM pg_abilita_levels, pg_abilita WHERE pgID = $selectedUser AND pg_abilita_levels.abID = pg_abilita.abID ORDER BY abDiff,abName");
 	// $i=0;
 	echo mysql_error();
 	// $k=0;
@@ -200,7 +218,10 @@ elseif($mode == 'ssto')
 	$res = mysql_query("SELECT recID,timer,text,placeName,postLink,type,extra,image FROM pg_service_stories,pg_places WHERE placeID = placer AND owner = $selectedUser ORDER BY timer DESC");
 	
 	$stories = array('SERVICE' => array(),'EXAM' => array());
-	while($resA = mysql_fetch_array($res)) $stories[$resA['type']][] = $resA;
+	while($resA = mysql_fetch_array($res)){
+		$resA['text'] = str_replace($bbCode,$htmlCode,$resA['text']);
+		$stories[$resA['type']][] = $resA;
+	}
 
 	$res = mysql_query("SELECT * FROM pg_user_stories WHERE pgID = $selectedUser ORDER BY dater");
 	$storiesRuol = array();
@@ -213,12 +234,22 @@ elseif($mode == 'ssto')
 	while($myA = mysql_fetch_array($my))
 	$ranks[$myA['aggregation']][$myA['prio']] = array('rankImage' => $myA['ordinaryUniform'],'note' => $myA['Note']);
 	$template->ranks = $ranks;
-	$template->assigned = PG::getSomething($selectedUser,'pgUnit');
 	$template->monty = array('1' => 'GEN', '2' => 'FEB','3' => 'MAR','4' => 'APR','5' => 'MAG','6' => 'GIU','7' => 'LUG','8' => 'AGO','9' => 'SET','10' => 'OTT','11' => 'NOV','12' => 'DIC');
 	}
 	 
+
+	$resLocations = mysql_query("SELECT placeID,placeName FROM pg_places ORDER BY placeName");
+	$resA = mysql_fetch_array($res);
+	
+	$locArray=array();
+	while($resLoc = mysql_fetch_array($resLocations))
+	$locArray[$resLoc['placeID']] = $resLoc['placeName'];
+
+	$template->locations = $locArray;
 	$template->storiesRuol = $storiesRuol; 
 	$template->stories = $stories;
+	
+	$template->rankCode = PG::getSomething($selectedUser,'rankCode');
 } 
 
 elseif($mode == 'addssto' || $mode == 'addexam')
@@ -233,7 +264,8 @@ elseif($mode == 'addssto' || $mode == 'addexam')
 	if($mode == 'addssto')
 	{
 		$cross = addslashes(($_POST['cross']));
-		$query = "INSERT INTO pg_service_stories (owner,timer,text,placer,postLink,type) VALUES ($selectedUser,'$dateDef','$what',(SELECT pgAssign FROM pg_users WHERE pgID = $selectedUser),'$cross','SERVICE')";
+		$placer = addslashes(($_POST['placer']));
+		$query = "INSERT INTO pg_service_stories (owner,timer,text,placer,postLink,type) VALUES ($selectedUser,'$dateDef','$what','$placer','$cross','SERVICE')";
 		$padTit = 'OFF: NUOVO STATO SERVIZIO';
 		$paddTex = "È stato aggiunto nella tua scheda PG un nuovo elemento allo stato di servizio:<br /> \"$what\"";
 	}
@@ -291,8 +323,8 @@ elseif($mode == 'me')
 	$template->currentUserSignature = $currentUser->pgGrado.' '.$currentUser->pgUser;
 	//$mEG = ;
 	
-	if (PG::mapPermissions('M',$currentUser->pgAuthOMA) || $currentUser->hasBrevetto(array(10))){$template->showPsiEdit = true; $template->SHT = true; }
-	if (PG::mapPermissions('M',$currentUser->pgAuthOMA) || $currentUser->hasBrevetto(array(15))){$template->showMedEdit = true; $template->SHT = true;}
+	if (PG::mapPermissions('M',$currentUser->pgAuthOMA) || $currentUser->hasBrevetto(array(15))){$template->showPsiEdit = true; $template->SHT = true; }
+	if (PG::mapPermissions('M',$currentUser->pgAuthOMA) || $currentUser->hasBrevetto(array(10))){$template->showMedEdit = true; $template->SHT = true;}
 	
 	$template->thisYear = $thisYear+$bounceYear;
  
@@ -576,7 +608,9 @@ elseif($mode == 'edit')
 	{
 	$template = new PHPTAL('TEMPLATES/scheda_edit.htm');
 	
-	$template->background = PG::getSomething($selectedUser,"lastBG");
+	if(PG::getSomething($selectedUser,"lastBG"))
+		$template->background = PG::getSomething($selectedUser,"lastBG");
+	else $template->background = PG::getSomething($selectedUser,"BG");
 	
 	$template->prestavolto = PG::getSomething($selectedUser,"prestavolto");
 	$allo = PG::getSomething($selectedUser,"pgAlloggio");
@@ -611,9 +645,9 @@ elseif($mode == 'master')
 	if (!PG::mapPermissions('SL',$currentUser->pgAuthOMA)){Mailer::emergencyMailer("Tentativo di accesso a scheda master del pg $pgID",$currentUser); header('Location:scheda.php');} 
 	
 	$template = new PHPTAL('TEMPLATES/scheda_master.htm');
-	$res = mysql_query("SELECT pgLock, pgSalute,pgNote,pgPointTREK,pgPointPBC,rankCode FROM pg_users WHERE pgID = $pgID");
+	$res = mysql_query("SELECT pgLock, pgSalute,pgPointTREK,pgPointPBC,rankCode FROM pg_users WHERE pgID = $pgID");
 	
-	$resLocations = mysql_query("SELECT placeID,placeName FROM pg_places");
+	$resLocations = mysql_query("SELECT placeID,placeName FROM pg_places ORDER BY placeName");
 	$resA = mysql_fetch_array($res);
 	
 	$locArray=array();
@@ -688,7 +722,12 @@ elseif($mode == 'master')
 	// $resBrevetti = mysql_query("SELECT image,brevID,descript FROM pg_brevetti ORDER BY image ASC");
 	// $availBrevetti = array();
 	// while($resEbrev=mysql_fetch_array($resBrevetti)) $availBrevetti[] = array('image' => $resEbrev['image'].' - '.substr($resEbrev['descript'],0,60), 'brevID' => $resEbrev['brevID']);
+	$selectedDUser->getIncarichi();
+
 	
+
+	
+
 	$template->stringDoppi = $stringDoppi;
 	$template->stringPNGDoppi = $stringPNGDoppi;
 	$template->stringPGPartial = $stringPGPartial; 
@@ -698,14 +737,21 @@ elseif($mode == 'master')
 	$template->email = $resB['email'];
 	}
 	
-	$images = scandir('TEMPLATES/img/ruolini/');
+	$resNote = mysql_query("SELECT pg_notestaff.*,pgUser FROM pg_notestaff,pg_users WHERE pgID = pgFrom AND pgTo = $pgID");
+	$resNoteA = array();
+	while ($til = mysql_fetch_assoc($resNote))
+		$resNoteA[] = $til;
+
+
+	
+	$images = scandir('TEMPLATES/img/ruolini/lauree');
 	$template->images=array_diff($images,array('.','..'));
 	// $template->availBrevetti=$availBrevetti;
 	
 	
 	$template->alloggi = $alloggi;
 	$template->lock = $resA['pgLock'];
-	$template->note = $resA['pgNote'];
+	$template->note = $resNoteA;
 	$template->pgTrek = $resA['pgPointTREK'];
 	$template->pgPBC = $resA['pgPointPBC'];
 	$template->ranks = $ranks;
@@ -862,32 +908,16 @@ elseif ($mode == 'editS')
 
 	$otherCSS = $vali->numberOnly($_POST['otherCSSSizeUser']).';'.$vali->numberOnly($_POST['otherCSSSizeMaster']).';'.$vali->numberOnly($_POST['otherCSSSizeComm']).';'.addslashes($_POST['otherCSSColorUser']).';'.addslashes($_POST['otherCSSColorCommUser']).';'.addslashes($_POST['otherCSSColorCommText']).';'.$vali->numberOnly($_POST['otherCSSSizeTag']).';'.addslashes($_POST['otherCSSColorTag']);
 	
-	
-	if ($currentUser->pgAuthOMA == 'A')
-	{
-		
-	mysql_query("UPDATE pg_users SET pgNomeC = '$ediName', paddMail=$paddMail,audioEnvEnable = $audioEnvEnableSet, audioEnable = $audioEnableSet, pgNomeSuff = '$ediSuff', pgLuoN = '$ediLuoN', pgDataN = '$ediDataN', pgAvatar = '$ediAvatar', pgAvatarSquare = '$ediAvatarSquare' ,pgOffAvatarN = '$pgOffAvatarN',pgOffAvatarC = '$pgOffAvatarC', pgStatoCiv = '$ediStaCiv', actionCSS = '$actionCSS', parlatCSS = '$parlatCSS', otherCSS = '$otherCSS' WHERE pgID = $ediID");
-	
 
-	mysql_query("DELETE FROM pg_users_bios WHERE pgID = '$ediID'");
-	mysql_query("INSERT INTO pg_users_bios (pgID,pgBiometrics,pgIlSegreto,pgBackground,pgCarattere,pgFamily,pgVarie,valid) VALUES ($ediID,'$ediFis','$ediIlSegreto','$ediBack','$ediCarat','$ediFamil','$ediVarie','1')");
-
-		
-	if(isSet($_POST['ediAllo'])) mysql_query("UPDATE fed_ambient SET descrizione = '$ediAllo' WHERE locID = '$alloID'");
-	}
-
-	elseif ($ediID == $_SESSION['pgID'] )
-	{
-		
 	mysql_query("UPDATE pg_users SET pgNomeC = '$ediName', paddMail=$paddMail,audioEnvEnable = $audioEnvEnableSet, audioEnable = $audioEnableSet, pgNomeSuff = '$ediSuff', pgLuoN = '$ediLuoN', pgDataN = '$ediDataN', pgAvatar = '$ediAvatar', pgAvatarSquare = '$ediAvatarSquare' ,pgOffAvatarN = '$pgOffAvatarN',pgOffAvatarC = '$pgOffAvatarC', pgStatoCiv = '$ediStaCiv', actionCSS = '$actionCSS', parlatCSS = '$parlatCSS', otherCSS = '$otherCSS' WHERE pgID = $ediID");
 	
 
 	mysql_query("DELETE FROM pg_users_bios WHERE valid = '0' AND pgID = '$ediID'");
-	mysql_query("INSERT INTO pg_users_bios (pgID,pgBiometrics,pgIlSegreto,pgBackground,pgCarattere,pgFamily,pgVarie,valid) VALUES ($ediID,'$ediFis','$ediIlSegreto','$ediBack','$ediCarat','$ediFamil','$ediVarie','0')");
+	mysql_query("INSERT INTO pg_users_bios (pgID,pgBiometrics,pgIlSegreto,pgBackground,pgCarattere,pgFamily,pgVarie,valid,tim) VALUES ($ediID,'$ediFis','$ediIlSegreto','$ediBack','$ediCarat','$ediFamil','$ediVarie',(SELECT png FROM pg_users WHERE pgID = $ediID),$curTime)");
 
-		
+
 	if(isSet($_POST['ediAllo'])) mysql_query("UPDATE fed_ambient SET descrizione = '$ediAllo' WHERE locID = '$alloID'");
-	}
+	
 	
 
 	//echo "UPDATE pg_users SET pgNomeC = '$ediName', pgNomeSuff = '$ediSuff', pgLuoN = '$ediLuoN', pgDataN = '$ediDataN', pgAvatar = '$ediAvatar', pgAuth ='$ediAuth', pgScheda = '$ediBack'<br />".mysql_error();
@@ -954,41 +984,43 @@ elseif ($mode == 'document')
 {
 
 	$pgID = $vali->numberOnly($_GET['pgID']);
-	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead) VALUES (".$_SESSION['pgID'].",$pgID,'Benvenuto!','<div style=\"text-align:center\"><img src=\"http://miki.startrekfederation.it/SigmaSys/logo/little_logo.png\" /><br /><b>Benvenuto in Star Trek: Federation!</b></div><br />Ti inviamo questo padd come riassunto del materiale informativo presente presso i vari canali di gioco. In caso di perplessita\', non esitare a contattare i master e gli admin di Star Trek: Federation!<br />
+	$pgNew = new PG($pgID);
+
 	
-	&raquo; <a href=\"index.php?guide=true\" target=\"_blank\" class=\"interfaceLink\">Guida al Gioco</a>
-	<p style=\"margin:0px; margin-left:30px; \"> Qui puoi trovare tutte le informazioni sulla dinamica di gioco </p>
+$pgNew->sendPadd('Benvenuto!','<div style="text-align:center"><img src="http://miki.startrekfederation.it/SigmaSys/logo/little_logo.png" /><br /><b>Benvenuto in Star Trek: Federation!</b></div><br />Ti inviamo questo padd come riassunto del materiale informativo presente presso i vari canali di gioco. In caso di perplessita\', non esitare a contattare le Guide o lo Staff di Star Trek: Federation!<br />
+		
+	&raquo; <a href="javascript:dbOpenToTopic(186)" class="interfaceLink"> Ambientazione - La Federazione Unita dei Pianeti </a>
+	<p style="margin:0px; margin-left:30px; "> Nuovo all\'ambientazione di Star Trek? Qualche info la trovi qui! </p>
+
+	&raquo; <a href="javascript:dbOpenToTopic(150)" class="interfaceLink"> Regolamento di Gioco </a>
+	<p style="margin:0px; margin-left:30px; "> Contiene il regolamento di gioco, dacci un\'occhiata! </p>
 	
-	&raquo; <a href=\"javascript:dbOpenToTopic(150)\" class=\"interfaceLink\"> Regolamento di Gioco </a>
-	<p style=\"margin:0px; margin-left:30px; \"> Contiene il regolamento di gioco, dacci un\'occhiata! </p>
+	&raquo; <a href="javascript:dbOpenToTopic(151)" class="interfaceLink"> Frequently Asked Questions </a>
+	<p style="margin:0px; margin-left:30px; "> Domande e Risposte frequenti. Hai un dubbio? Probabilmente troverai risposta qui </p>
 	
-	&raquo; <a href=\"javascript:dbOpenToTopic(151)\" class=\"interfaceLink\"> Frequently Asked Questions </a>
-	<p style=\"margin:0px; margin-left:30px; \"> Domande e Risposte frequenti. Hai un dubbio? Probabilmente troverai risposta qui </p>
+	&raquo; <a href="getLog.php?session=322" class="interfaceLink" target="_blank"> Giocata di Esempio </a>
+	<p style="margin:0px; margin-left:30px; "> Ecco una Giocata di esempio di Star Trek: Federation </p>
 	
-	&raquo; <a href=\"javascript:dbOpenToTopic(250)\" class=\"interfaceLink\"> I primi passi in gioco: l\'arruolamento</a>
-	<p style=\"margin:0px; margin-left:30px; \"> Come funzionano i primi istanti di gioco: cosa ti aspetta. </p>
+	&raquo; <a href="javascript:dbOpenToTopic(262)" class="interfaceLink"> Il Gioco di Ruolo</a>
+	<p style="margin:0px; margin-left:30px; "> Guida al gioco di ruolo e ai principi da seguire per giocare al meglio</p>
 	
-	&raquo; <a href=\"javascript:dbOpenToTopic(241)\" class=\"interfaceLink\"> La stesura del Background </a>
-	<p style=\"margin:0px; margin-left:30px; \">Chi e\' il tuo PG? Come descriverlo al meglio? Creare un buon Background e\' fondamentale!</p>
-	
-	&raquo; <a href=\"javascript:cdbOpenToTopic(58)\" class=\"interfaceLink\"> Ti serve un avatar? </a>
-	<p style=\"margin:0px; margin-left:30px; \">Chiedi qui un fotomontaggio per il tuo PG!</p>
+	&raquo; <a href="javascript:dbOpenToTopic(241)" class="interfaceLink"> La stesura del Background </a>
+	<p style="margin:0px; margin-left:30px; ">Chi e\' il tuo PG? Come descriverlo al meglio? Creare un buon Background e\' fondamentale!</p>
 	
 	<b>Sezione Aiuto: qualche consiglio utile</b>
 	
-	&raquo; <a href=\"javascript:cdbOpenToTopic(64)\" class=\"interfaceLink\"> Lo Staff: Admin e Master di STF </a>
-	&raquo; <a href=\"javascript:dbOpenToTopic(246)\" class=\"interfaceLink\"> Il sistema dei Federation Points </a>
-	&raquo; <a href=\"javascript:dbOpenToTopic(244)\" class=\"interfaceLink\"> Entrare in ON: Azioni di entrata e di uscita </a>
-	&raquo; <a href=\"javascript:dbOpenToTopic(245)\" class=\"interfaceLink\"> Empatia e Telepatia: Betazoidi, Vulcaniani... </a>
-	&raquo; <a href=\"javascript:dbOpenToTopic(249)\" class=\"interfaceLink\"> Stesura dei Rapporti di gioco </a>
-	&raquo; <a href=\"javascript:dbOpenToTopic(248)\" class=\"interfaceLink\"> Piccolo Glossario Trek </a>
-	&raquo; <a href=\"javascript:dbOpenToTopic(242)\" class=\"interfaceLink\"> Lauree </a>
-	&raquo; <a href=\"javascript:dbOpenToTopic(243)\" class=\"interfaceLink\"> Brevetti </a>
+	&raquo; <a href="javascript:cdbOpenToTopic(64)" class="interfaceLink"> Lo Staff: Admin e Master di STF </a>
+	&raquo; <a href="javascript:dbOpenToTopic(265)" class="interfaceLink"> Il sistema dei Federation Points </a>
+	&raquo; <a href="javascript:dbOpenToTopic(245)" class="interfaceLink"> Empatia e Telepatia: Betazoidi, Vulcaniani... </a>
+	&raquo; <a href="javascript:dbOpenToTopic(249)" class="interfaceLink"> Stesura dei Rapporti di gioco </a>
+	&raquo; <a href="javascript:dbOpenToTopic(259)" class="interfaceLink"> Turnazione</a>
+	&raquo; <a href="javascript:dbOpenToTopic(248)" class="interfaceLink"> Piccolo Glossario Trek </a>
+	&raquo; <a href="javascript:dbOpenToTopic(242)" class="interfaceLink"> Lauree, Medaglie e Stato di Servizio </a>
 	
-	&raquo; <a href=\"javascript:dbOpen()\" class=\"interfaceLink\"> Documentazione Completa </a>
+	&raquo; <a href="javascript:dbOpen()" class="interfaceLink"> Documentazione Completa </a>
 	
-	
-	Buon gioco,<br />Il team di Star Trek Federation',".time().",0)");
+	Buon gioco,<br />Il team di Star Trek Federation');
+
 	header("Location:scheda.php?pgID=$pgID");
 }
 
@@ -1031,7 +1063,7 @@ elseif ($mode == 'creAllo')
 Riservati agli ufficiali o sottufficiali anziani, sono alloggi finestrati singoli, costituiti da una zona giorno ed una zona notte. Nel complesso sono piccoli appartamenti completi. L'arredamento standard comprende un tavolo con sedie, un divano a tre posti (il rivestimento di default &egrave; una ecopelle color blu notte),un tavolino basso in materiale plastico, un replicatore alimentare ed un mobile-mensola per riporre oggetti personali. La zona notte &egrave; costituita da un letto da una piazza e mezza, un comodino ed un armadio-cassettiera. La toilette &egrave; accessibile da una porticina a destra della camera da letto e contiene un piccolo lavandino, la doccia sonica e qualche mensola per riporre gli oggetti personali, oltre al WC.
 Le vetrate sono poste (sempre nell'arredamento normale) una dietro al divanetto ed una sul lato della testiera del letto.");
 
-	$descriPoli="CATEGORIA D - Alloggi Doppi per due persone <br />Questi alloggi sono composti da un piccolo soggiorno con un tavolo rettangolare, due sedie, un divanetto a due posti e un piccolo tavolino basso. A lato del divano &egrave; presente il replicatore, mentre le due stanze da letto sono separate, una sul lato destro ed una lato sinistro. Sono munite di un letto ad una piazza, un piccolo armadio per gli oggeti personali ed un comodino. La toilette &egrave; accessibile da una porticina nella stanza di destra e contiene un piccolo lavandino, la doccia sonica e qualche mensola per riporre gli oggetti personali, oltre al WC. Non vi sono finetre (l\'alloggio &egrave; interno)";
+	$descriPoli="CATEGORIA D - Alloggi Doppi per due persone <br />Questi alloggi sono composti da un piccolo soggiorno con un tavolo rettangolare, due sedie, un divanetto a due posti e un piccolo tavolino basso. A lato del divano &egrave; presente il replicatore, mentre le due stanze da letto sono separate, una sul lato destro ed una lato sinistro. Sono munite di un letto ad una piazza, un piccolo armadio per gli oggeti personali ed un comodino. La toilette &egrave; accessibile da una porticina nella stanza di destra e contiene un piccolo lavandino, la doccia sonica e qualche mensola per riporre gli oggetti personali, oltre al WC. Non vi sono finestre (l\'alloggio &egrave; interno)";
 	
 	if (PG::mapPermissions('SL',$currentUser->pgAuthOMA))
 	{
@@ -1052,15 +1084,36 @@ Le vetrate sono poste (sempre nell'arredamento normale) una dietro al divanetto 
 	header("Location:scheda.php?pgID=$pgID&s=master");
 }
 
+elseif ($mode == 'delIncarico'){
+
+	$recID = $vali->numberOnly($_GET['recID']);
+	$pgID = $vali->numberOnly($_GET['pgID']);
+	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
+		mysql_query("DELETE FROM pg_incarichi WHERE recID = '$recID'");
+	header("Location:scheda.php?pgID=$pgID&s=master#setIncarichi");
+
+}
 elseif ($mode == 'setIncarico')
 {
 	$pgID = $vali->numberOnly($_GET['pgID']);
+	$incMain = (isSet($_POST['incMain'])) ? 1 : 0; 
 	$assegnazione = addslashes($_POST['assegnazione']);
-	$incarico = addslashes($_POST['incarico']);
+	$incIncarico = addslashes($_POST['incIncarico']);
+	$incDivisione = addslashes($_POST['incDivisione']);
+	$incSezione = addslashes($_POST['incSezione']);
+	$incDipartimento = addslashes($_POST['incDipartimento']);
+
 	
 	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
-		mysql_query("UPDATE pg_users SET pgAssign = '$assegnazione', pgIncarico = '$incarico' WHERE pgID ='$pgID'");
-	header("Location:scheda.php?pgID=$pgID");
+	{	
+		mysql_query("UPDATE pg_users SET pgAssign = '$assegnazione' WHERE pgID ='$pgID'");
+		if($incMain)
+			mysql_query("UPDATE pg_incarichi SET incMain = 0 WHERE pgID = '$pgID' AND pgPlace = '$assegnazione'");
+		
+		mysql_query("INSERT INTO pg_incarichi (pgID,incIncarico,incSezione,incDivisione,incDipartimento,pgPlace,incMain) VALUES('$pgID','$incIncarico','$incSezione','$incDivisione','$incDipartimento','$assegnazione','$incMain')");
+		
+	}
+	header("Location:scheda.php?pgID=$pgID&s=master#setIncarichi");
 }
 
 elseif ($mode == 'spesex')
@@ -1133,26 +1186,28 @@ elseif ($mode == 'editCar')
 
 
 elseif ($mode == 'resetAbilTotal')
-{
-	$pgID = $vali->numberOnly($_GET['pgID']);
+{ 
 	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
 	{
-		$a = new abilDescriptor($pgID);
+		$a = new abilDescriptor($selectedDUser->ID);
+		$selectedDUser->addNote('Reset Totale Abilità',$currentUser->ID);
+
 		$a->reset();
 	}
-	header("Location:scheda.php?pgID=$pgID&s=admin");
+	header("Location:scheda.php?pgID=".$selectedDUser->ID."&s=admin");
 }
 
 elseif ($mode == 'resetAbilToRace')
 {
 	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
 	{
-		$pg = new PG($vali->numberOnly($_GET['pgID']));
+		$pg = $selectedDUser;
 		$pgID = $pg->ID;
 
 		$a = new abilDescriptor($pg->ID);
 
 		$a->superImposeRace($pg->pgSpecie);
+		$selectedDUser->addNote("Caricamento Profilo di Razza: ".$pg->pgSpecie,$currentUser->ID);
 		
 
 	}
@@ -1206,7 +1261,11 @@ elseif ($mode == 'setUsername')
 	$pgID = $vali->numberOnly($_GET['pgID']);
 	$user = addslashes($_POST['username']);
 	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
-		mysql_query("UPDATE pg_users SET pgUser = '$user' WHERE pgID ='$pgID'");
+		{
+			mysql_query("UPDATE pg_users SET pgUser = '$user' WHERE pgID ='$pgID'");
+			$selectedDUser->addNote("Modifica Username in $user",$currentUser->ID);
+		}
+
 	header("Location:scheda.php?pgID=$pgID");
 }
 
@@ -1220,6 +1279,7 @@ elseif ($mode == 'setSeclar')
 			mysql_query("UPDATE pg_users SET pgSeclar = $setSeclar WHERE pgID ='$pgID'");
 				$pgIDU = PG::getSomething($pgID,'username');
 				Mailer::notificationMail("Il PG $pgIDU e' stato seclarizzato a $setSeclar",$currentUser);
+				$selectedDUser->addNote("Assegnazione di SECLAR $setSeclar",$currentUser->ID);
 
 		}
 	header("Location:scheda.php?pgID=$pgID");
@@ -1229,15 +1289,12 @@ elseif ($mode == 'setGrado')
 	$pgID = $vali->numberOnly($_GET['pgID']);
 	$grado = addslashes($_POST['grado']);
 	$sezione = addslashes($_POST['sezione']);
-	$dipartimento = addslashes($_POST['dipartimento']);
 	
 	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
 	{
-		mysql_query("UPDATE pg_users SET pgGrado = '$grado', pgSezione = '$sezione', pgDipartimento = '$dipartimento' WHERE pgID ='$pgID'");
+		mysql_query("UPDATE pg_users SET pgGrado = '$grado', pgSezione = '$sezione' WHERE pgID ='$pgID'");
 		//Mailer::notificationMail("Il PG $pgID e' stato passato a $grado - $sezione",$currentUser);
-
 	}
-
 		
 	header("Location:scheda.php?pgID=$pgID");
 }
@@ -1251,6 +1308,7 @@ elseif ($mode == 'setRanker')
 	PG::setMostrina($pgID,$grado);
 	$pgIDU = PG::getSomething($pgID,'username');
 	Mailer::notificationMail("Il PG $pgIDU e' stato promosso o degradato a $grado",$currentUser);
+	$selectedDUser->addNote("Modifica del RankCode ($grado)",$currentUser->ID);
 	
 	header("Location:scheda.php?pgID=$pgID");
 }
@@ -1261,23 +1319,26 @@ $pgID = $vali->numberOnly($_GET['pgID']);
 $nastrini = $vali->numberOnly($_POST['nastrini']);
 
 	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
+	{	
 		mysql_query("INSERT INTO pgDotazioni (pgID,dotazioneIcon,doatazioneType) VALUES ($pgID,'$nastrini','MEDAL')");
+		$selectedDUser->addNote("Aggiunta metaglia $nastrini",$currentUser->ID);
+	}
 		
 	header("Location:scheda.php?pgID=$pgID");
 }
 
-elseif ($mode == 'setNote')
-{
-$pgID = $vali->numberOnly($_GET['pgID']);
-$note = $vali->killChars($_POST['note']);
+elseif ($mode == 'addNote')
+{ 
+	$note = $vali->killChars($_POST['note']);
 //$note = str_replace('FOL/','TEMPLATES/img/ruolini/medaglie/',$nastrini);
 
 	if (PG::mapPermissions('SL',$currentUser->pgAuthOMA))
-		mysql_query("UPDATE pg_users SET pgNote = '$note' WHERE pgID = $pgID");
-	header("Location:scheda.php?pgID=$pgID&s=master");
+		$selectedDUser->addNote($note,$currentUser->ID);
+
+	header("Location:scheda.php?pgID=".$selectedDUser->ID."&s=master");
 }
 
-elseif ($mode == 'toggleMasCap')
+/*elseif ($mode == 'toggleMasCap')
 {
 $pgID = $vali->numberOnly($_GET['pgID']);
 //$note = str_replace('FOL/','TEMPLATES/img/ruolini/medaglie/',$nastrini);
@@ -1285,14 +1346,17 @@ $pgID = $vali->numberOnly($_GET['pgID']);
 	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
 		mysql_query("UPDATE pg_users SET isMasCapable = !isMasCapable WHERE pgID = $pgID");
 	header("Location:scheda.php?pgID=$pgID&s=admin");
-}
+}*/
 
 elseif ($mode == 'setUPPoints')
 {
 $pgID = $vali->numberOnly($_GET['pgID']);
 $points = $vali->numberOnly($_POST['points']);
 if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
-	mysql_query("UPDATE pg_users SET pgUpgradePoints = $points WHERE pgID = $pgID");
+	{
+		mysql_query("UPDATE pg_users SET pgUpgradePoints = $points WHERE pgID = $pgID");
+		$selectedDUser->addNote("Assegnazione di $points UP",$currentUser->ID);	
+	}
 header("Location:scheda.php?pgID=$pgID&s=admin");
 }
 
@@ -1361,26 +1425,6 @@ elseif($code == "aa11")
 		
 
 		$selectedDUser->addPoints($p,$little,$mex,$pointDetail,$currentUser->ID);
-
-
-		/*for($i = 0; $i < $p; $i++)
-		{
-			if(($pointsPre+$i) % 200 == 0)
-			{
-				mysql_query("UPDATE pg_users SET pgUpgradePoints = pgUpgradePoints+2, pgSpecialistPoints=pgSpecialistPoints+1, pgSocialPoints = pgSocialPoints+1 WHERE pgID = $pgID");
-				
-				$cString = addslashes("Congratulazioni!!<br />Hai ottenuto 4 Upgrade Points!<br /><br /><p style='text-align:center'><span style='font-weight:bold'>Puoi usarli per aumentare le tue caratteristiche nella Scheda PG!</span></p><br />Il Team di Star Trek: Federation");
-				$eString = addslashes("Upgrade Points!::Hai ottenuto quattro UP!");
-				mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (518,$pgID,'OFF: Upgrade Points!','$cString',$curTime,0,''),(518,$pgID,'::special::achiev','$eString',$curTime,0,'TEMPLATES/img/interface/personnelInterface/starIcon.png')");
-			}
-			elseif(($pointsPre+$i) % 100 == 0)
-			{
-				mysql_query("UPDATE pg_users SET pgUpgradePoints = pgUpgradePoints+2, pgSocialPoints = pgSocialPoints+1 WHERE pgID = $pgID");
-				$cString = addslashes("Congratulazioni!!<br />Hai ottenuto 3 Upgrade Points!<br /><br /><p style='text-align:center'><span style='font-weight:bold'>Puoi usarli per aumentare le tue caratteristiche nella Scheda PG!</span></p><br />Il Team di Star Trek: Federation");
-				$eString = addslashes("Upgrade Points!::Hai ottenuto tre UP!");
-				mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (518,$pgID,'OFF: Upgrade Points!','$cString',$curTime,0,''),(518,$pgID,'::special::achiev','$eString',$curTime,0,'TEMPLATES/img/interface/personnelInterface/starIcon.png')");
-			}
-		}*/
 	}
 	header("Location:scheda.php?pgID=$pgID&sOff=off");
 }
@@ -1391,13 +1435,14 @@ $template = new PHPTAL('TEMPLATES/N_scheda.htm');
 $pgPoints = PG::getSomething($selectedUser,'pgPoints');
 $pgPointsSaldo = PG::getSomething($selectedUser,'totalPoints');
 $prestavolto = PG::getSomething($selectedUser,"prestavolto");
-//$pgPointsSaldo = PG::getSomething($selectedUser,'totalPoints');
+
+$selectedDUser->getIncarichi();
 
 
-$band = ($prestavolto['iscriDiff'] >= '24') ? 'b0sw.png' : (($prestavolto['iscriDiff'] >= '18') ? 'b0s.png' : (($prestavolto['iscriDiff'] >= '12') ? 'b0k.png' : (($prestavolto['iscriDiff'] >= '9') ? 'b02.png' : (($prestavolto['iscriDiff'] >= '6') ? 'b003.png' : (($prestavolto['iscriDiff'] >= '3') ? 'b002.png' : 'b01.png')))));
-$subText = ($prestavolto['iscriDiff'] >= '24') ? 'Platinum' : (($prestavolto['iscriDiff'] >= '18') ? 'Gold' : (($prestavolto['iscriDiff'] >= '12') ? 'Silver' : (($prestavolto['iscriDiff'] >= '9') ? 'Bronze' : (($prestavolto['iscriDiff'] >= '6') ? 'Copper' : (($prestavolto['iscriDiff'] >= '3') ? 'Iron' : '')))));
+$band = ($prestavolto['iscriDiff'] >= '48') ? 'b0sw.png' : (($prestavolto['iscriDiff'] >= '36') ? 'b0s.png' : (($prestavolto['iscriDiff'] >= '24') ? 'b0k.png' : (($prestavolto['iscriDiff'] >= '12') ? 'b02.png' : (($prestavolto['iscriDiff'] >= '6') ? 'b003.png' : (($prestavolto['iscriDiff'] >= '3') ? 'b002.png' : 'b01.png')))));
+$subText = ($prestavolto['iscriDiff'] >= '48') ? 'Platinum' : (($prestavolto['iscriDiff'] >= '36') ? 'Gold' : (($prestavolto['iscriDiff'] >= '24') ? 'Silver' : (($prestavolto['iscriDiff'] >= '12') ? 'Bronze' : (($prestavolto['iscriDiff'] >= '6') ? 'Copper' : (($prestavolto['iscriDiff'] >= '3') ? 'Iron' : '')))));
 
-$resAchi = mysql_query("SELECT owner,aID,aImage,aText,aHidden,timer FROM pg_achievements LEFT JOIN pg_achievement_assign ON aID = achi AND owner = $selectedUser ORDER BY owner DESC,timer DESC,aHidden ASC,aText ASC");
+$resAchi = mysql_query("SELECT owner,aID,aImage,aText,aHidden,timer FROM pg_achievements LEFT JOIN pg_achievement_assign ON aID = achi AND owner = $selectedUser ORDER BY owner DESC,timer DESC,aHidden ASC,aImage ASC");
 
 $achi=array();
 while($reseAchi = mysql_fetch_array($resAchi))
@@ -1478,9 +1523,11 @@ $template->isMaster = (PG::mapPermissions("M",$selectedOMA)) ? true : false;
 $template->isMMaster = (PG::mapPermissions("MM",$selectedOMA)) ? true : false;
 $template->isSuperMaster = (PG::mapPermissions("SM",$selectedOMA)) ? true : false;
 $template->isLorenzo = false;
+$template->isGuide = (PG::mapPermissions("G",$selectedOMA)) ? true : false;
 $template->isAdmin = (PG::mapPermissions("A",$selectedOMA)) ? true : false;
 
 $template->selectedUser = $selectedUser;
+$template->gameOptions = $gameOptions;
 // $template->gameName = $gameName;
 // $template->gameVersion = $gameVersion;
 // $template->debug = $debug;

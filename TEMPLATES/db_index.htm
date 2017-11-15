@@ -1,6 +1,8 @@
 ﻿<html xmlns="http://www.w3.org/1999/xhtml">
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+
+
 <head>
 	<meta charset="UTF-8" />
 	<link rel="shortcut icon" href="favicon.ico" />
@@ -22,17 +24,40 @@
 		});
 	</script>
 
-	<style>
-	ul{  list-style: none; margin-left: 0; padding-left: 0;}
-	li.liu:before{content: "»"; font-size:14px; color:red; padding-right: 5px;}
-	li.lib:before{content: "»"; font-size:14px; color:#2147c4; padding-right: 5px;}
+	<style> 
+
+div.lib{
+	background-image:url('TEMPLATES/img/interface/dbInterface/angle1.svg');
+	background-size:100%;
+	padding:5px;
+	text-align:center;
+	width:200px;
+	height:30px;
+	background-repeat:no-repeat;
+	float:left;
+	cursor: pointer;
+
+}
+
+div.lib p { 
+	font-family:federationFont;
+	line-height:30px;
+	margin-top:2px;
+}
+
+div.lib:hover{
+	background-image:url('TEMPLATES/img/interface/dbInterface/angle2.svg');
+}
+div.lib:hover p { 
+	color:white;
+}
+
+
+
 	</style>
-
-
 	<title>STF - DATABASE</title>	
 	<meta name="description" tal:content="description" />
 	<meta name="keywords" tal:content="metaKeywords" />
-
 </head>
 
 <body style="background-repeat:no-repeat; background-color:black;">
@@ -56,50 +81,68 @@
 	
 </div>
 
-<div id="cdbContainer" style="top:15px;">
-<p style="text-align:center; margin:10px; margin-top:15px;" class="titleFS">COMANDO DELLA FLOTTA STELLARE<br />DATABASE FEDERALE UNIFICATO</p>
+<div id="cdbContainer" style="top:15px;  overflow-y:hidden;">
+<p style="text-align:center; margin:10px; margin-top:15px;" class="titleFS">Database Federale Unificato</p>
 
 
-<div style="margin-left:auto; margin-right:20px;">
-<div style="float:left; width:65%;">
-<div style="text-align:center;">
 <form method="post" action="db.php?searcher=true">
 
-<div style="clear:both; width:100%; margin-left:auto; margin-right:auto; width:600px;"><div style="float:left;"><input type="text" name="key" class="searchField" style="height:17px; border-radius:9px;" autofocus="autofocus" tal:attributes="disabled php:(searchable == true) ? false : 'true' ; value php:(searchable == true) ? '' : 'La ricerca è possibile solo per gli utenti iscritti :)' "/><br />
-<input tal:attributes="disabled php:(searchable == true) ? false : 'disabled'" type="radio" value="0" name="mode" /> Almeno una parola 
-	<input tal:attributes="disabled php:(searchable == true) ? false : 'disabled'" type="radio" value="1" name="mode" checked="checked" /> Tutte le parole 
-	<input tal:attributes="disabled php:(searchable == true) ? false : 'disabled'" type="radio" value="2" name="mode" /> Intera frase
-</div><div style="float:left"><button tal:attributes="disabled php:(searchable == true) ? false : 'disabled'" style="margin-left:10px; width:120px; height: 33px; font-size:16px; letter-spacing:2px;">CERCA </button></div></div>
-</form>
-</div>
+<div style="clear:both; width:100%; margin-left:auto; margin-right:auto; width:700px;">
+	
+		<div><input type="text" name="key" class="neon" style="height:17px; width:90%;" autofocus="autofocus" placeholder="Ricerca..." tal:attributes="disabled php:(searchable == true) ? false : 'true' ; value php:(searchable == true) ? '' : 'La ricerca è possibile solo per gli utenti iscritti :)' "/></div>
 
-<div style="clear:both;">
+		<div style="margin-top:5px; text-align:center;">
+			<select name="mode" tal:attributes="disabled php:(searchable == true) ? false : 'disabled'">
+				<option value="0">Almeno una parola</option>
+				<option value="1">Tutte le parole</option>
+				<option value="2">Intera frase</option>
+			</select>
+			<button tal:attributes="disabled php:(searchable == true) ? false : 'disabled'" style="margin-left:10px; width:120px; height: 33px; font-size:16px; letter-spacing:2px; font-family: federationFont;">Cerca</button> <a href="db.php?neuelement=do" tal:condition="exists:isAdmin" class="interfaceLink"> Aggiungi </a> 
+		</div>
+</div>
+</form>
+
+
+<div style="display:block; width:625px; margin:auto; position:relative; left:-45px;">
 	<a tal:attributes="href string:db.php?cat=${dis/catID}" class="interfaceLink"  tal:repeat="dis categories">
 		<div tal:attributes="style string:float:left;; margin-left:45px;; background-size:162px;; margin-top:20px;; width:162px;; height:110px;;  background-repeat:no-repeat;; background-image:url('TEMPLATES/img/tips/${dis/catImage}');;" />
 	</a>
-</div>
+
 </div>
 
-<div style="float:right; margin-top:0px; width:35%;">
-	<div style="border-radius:9px; border:1px solid magenta; padding-bottom:0px;">
-		 <p style="font-size:13px; margin:3px; margin-bottom:5px;"><img style="margin:3px;" src="TEMPLATES/img/interface/dbInterface/pen_icon.png" align="left"/><span style="font-weight:bold; color:magenta;"> Avviso: </span> Il materiale è in continua espansione! Se vuoi contribuire alla stesura della documentazione, tieni d'occhio <a href="javascript:void(0);" onclick="cdbOpenToTopic(1128)" class="interfaceLink">il post</a> in CDB, oppure contatta lo Staff!</p>
+
+
+<div style="clear:both"> </div>
+<div style="border-top:1px solid #16429a; width:auto;  height:40px; bottom:0px; position :absolute; margin-left:10px; background-image:url('TEMPLATES/img/pattern_banded_50.png')">
+	
+	<div style="float:left;  ">
+		<p style="font-family:federationFont; margin-top:10px; margin-left:20px; font-size:1.4em; border-bottom:1px solid #16429a; padding-bottom:3px;"> Ultimi aggiornamenti </p>
 	</div>
 
-	<div style="border-radius:9px; margin-top:15px; border:1px solid #FFCC00; padding:10px; padding-bottom:0px;">
-		<p style="margin:0px; text-align:right; font-variant:small-caps; color:#FFCC00;">Le più consultate</p>
-		
-		<ul><li class="liu" tal:attributes="title element/rtitle" tal:repeat="element topper" style="margin:0px; margin-top:4px; font-size:11px;"><a class="interfaceLink" tal:attributes="href string:db.php?element=${element/ID}"><span tal:content="string:${element/tag} -" tal:condition="php:element['tag'] != ''"/> <span tal:content="element/title" /></a></li></ul>
-		
-	</div>
-	<div style="border-radius:9px; margin-top:15px; border:1px solid #2190c4; padding:10px; padding-bottom:0px;">
-		<p style="margin:0px; text-align:right; font-variant:small-caps; color:#2190c4;">Le ultime caricate</p>
-		
-		<ul><li class="lib" tal:attributes="title element/rtitle" tal:repeat="element laster" style="margin:0px; margin-top:4px; font-size:11px;"><a class="interfaceLink" tal:attributes="href string:db.php?element=${element/ID}"> <span tal:content="string:${element/tag} -" tal:condition="php:element['tag'] != ''"/> <span tal:content="element/title" /></a></li></ul>
+
+
+	<div style="margin-left:30px; float:left; width:840px;" >
+		<a tal:attributes="title string:{element/title}; href string:db.php?element=${element/ID}" tal:repeat="element laster"> 
+			<div class="lib" tal:attributes="title element/rtitle" > <p tal:content="element/title" /></div>
+		</a>
 	</div>
 </div>
+
+
+<!--
+	 <span tal:content="element/brief" /> 
+<div>
+	<p style="margin:0px; text-align:right; font-variant:small-caps; color:#FFCC00;">Le più consultate</p>
+		
+	<ul><li class="liu" tal:attributes="title element/rtitle" tal:repeat="element topper" style="margin:0px; margin-top:4px; font-size:11px;"><a class="interfaceLink" tal:attributes="href string:db.php?element=${element/ID}"><span tal:content="string:${element/tag} -" tal:condition="php:element['tag'] != ''"/> <span tal:content="element/title" /></a></li></ul>
+		
 </div>
 
-</div>
+<div>
+	<p style="margin:0px; text-align:right; font-variant:small-caps; color:#2190c4;">Le ultime caricate</p>
+	
+</div><-->
 
+</div>
 </body>
 </html>

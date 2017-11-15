@@ -102,7 +102,7 @@
 	<a tal:attributes="href string:main.php?l=${pla/placeID}" class="interfaceLink"  tal:repeat="pla places">
 		<div class="overNaviLimitrElement radiusBordered35" tal:attributes="onmouseover string:javascript:setIco('${pla/placeMap1}')">
 			<img tal:attributes="src string:TEMPLATES/img/logo/${pla/place_littleLogo1}" /><br />
-			<span style="font-weight:bold;" tal:content="pla/placeName" />
+			<span tal:content="pla/placeName" />
 		</div>
 	</a>
 	

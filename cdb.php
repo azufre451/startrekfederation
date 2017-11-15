@@ -57,7 +57,7 @@ else if(isSet($_GET['topicEe']))
 		$type = $vali->killChars((addslashes($_POST['cdbType'])));
 		$topicID = $vali->numberOnly($_POST['cdbID']);
 		
-	mysql_query("UPDATE cdb_topics SET lastTopicEvent='CREATE',topicTitle = '$title', topicType = '$type', topicSeclar = $seclar, topicColorExt = '$colorExtension', topicLastTime = (SELECT GREATEST(time,lastEdit) FROM cdb_posts WHERE topicID = $nan ORDER BY time DESC LIMIT 1), topicLastUser = (SELECT owner FROM cdb_posts WHERE topicID = $nan ORDER BY time DESC LIMIT 1) WHERE topicID = $topicID");
+	mysql_query("UPDATE cdb_topics SET lastTopicEvent='CREATE',topicTitle = '$title', topicType = '$type', topicSeclar = $seclar, topicColorExt = '$colorExtension', topicLastTime = (SELECT GREATEST(time,lastEdit) FROM cdb_posts WHERE topicID = $nan ORDER BY time DESC LIMIT 1), topicLastUser = IFNULL((SELECT owner FROM cdb_posts WHERE topicID = $nan ORDER BY time DESC LIMIT 1), ".$_SESSION['pgID'].") WHERE topicID = $topicID");
 	mysql_query("UPDATE cdb_posts SET postSeclar = $seclar WHERE topicID = $topicID AND postSeclar < $seclar");
 	header("Location:cdb.php?topic=$topicID");
 	}
@@ -327,6 +327,7 @@ else if (isSet($_GET['addPost']))
 	if(mysql_affected_rows())
 	{ $ider = mysql_fetch_array($usersMasterID);
 		  $masterPnG = new PG($ider['pgID']);
+		  $masterPnG->getIncarichi();
 		
 		$departmentString = ($masterPnG->pgDipartimento != '') ? '<br />Dipartimento '.$masterPnG->pgDipartimento : '';
 		
@@ -339,6 +340,7 @@ else if (isSet($_GET['addPost']))
 	}
 	}
 	
+	$currentUser->getIncarichi();
 	$departmentString = ($currentUser->pgDipartimento != '') ? '<br />Dipartimento '.$currentUser->pgDipartimento : '';
 	$tipoFirma = ($_POST['postFirma'] == "corta") ? "<hr align=\"center\" size=\"1\" width=\"230\" color=\"#999\" />".$currentUser->pgGrado." ".$currentUser->pgUser : "<hr align=\"center\" size=\"1\" width=\"230\" color=\"#999\" />".$currentUser->pgGrado." ".$currentUser->pgNomeC." ".$currentUser->pgUser ." ".$currentUser->pgNomeSuff."<br />".$currentUser->pgIncarico."$departmentString<br />".(PG::getLocationName($currentUser->pgAssign));
 	$firma=addslashes($tipoFirma);
@@ -634,8 +636,19 @@ else if(isSet($_GET['topic']))
 {
 	$template = new PHPTAL('TEMPLATES/cdb_topic.htm');
 	$topic = $vali->numberOnly($_GET['topic']); 
+
 	
-	$counterres = mysql_query("SELECT count(*) as contatore FROM cdb_posts WHERE topicID = $topic");
+
+	
+	$res = mysql_query("SELECT topicSeclar,topicLink,topicID,topicTitle,topicType,topicColorExt,catCode,catName,restrictions,topicLock,specialo,trackUsers FROM cdb_topics,cdb_cats WHERE topicID = $topic AND cdb_topics.topicCat = catCode");
+	if(!mysql_affected_rows()){ header('Location:cdb.php'); exit;}
+	$resA = mysql_fetch_array($res);
+	
+	if($resA['topicLink'] <> 0){ $topic = $resA['topicLink'];
+	 //echo "YOU ARE REDIRECTED"; exit; 
+	 } //REDIRECTION
+
+	 	$counterres = mysql_query("SELECT count(*) as contatore FROM cdb_posts WHERE topicID = $topic");
 	$counterresa = mysql_fetch_array($counterres);
 	$postNo = ($counterresa['contatore'] != 0) ? $counterresa['contatore'] : 1;
 	
@@ -645,16 +658,10 @@ else if(isSet($_GET['topic']))
 		$lower = $elementsPerPage * ($page - 1);
 		$upper = $elementsPerPage;
 	
-	$res = mysql_query("SELECT topicSeclar,topicLink,topicID,topicTitle,topicType,topicColorExt,catCode,catName,restrictions,topicLock,specialo,trackUsers FROM cdb_topics,cdb_cats WHERE topicID = $topic AND cdb_topics.topicCat = catCode");
-	if(!mysql_affected_rows()){ header('Location:cdb.php'); exit;}
-	$resA = mysql_fetch_array($res);
-	
-	if($resA['topicLink'] <> 0) $topic = $resA['topicLink']; //REDIRECTION
-	
 	$topicSeclar = $resA['topicSeclar'];
 	$template->pageNo = $pageNo;
-	$template->currentPage = $page;
-	
+	$template->currentPage = $page; 
+
 	$template->topicID = $resA['topicID']; // Effective (link)
 	$template->topicIDE = $topic; // Identity
 	
@@ -714,6 +721,8 @@ else if(isSet($_GET['topic']))
 			'coOwner' => ($resE['coOwner'] && PG::mapPermissions('JM',$currentUser->pgAuthOMA)) ? PG::getSomething($resE['coOwner'],'username') : NULL
 			);
 		}
+
+
 		if(mysql_affected_rows()) 
 		{	while($resA = mysql_fetch_array($reso))
 			{
@@ -740,6 +749,7 @@ else if(isSet($_GET['topic']))
 			);
 			}
 		}
+
 		$template->posts = $posts;
 		$template->lastPost = end($posts);
 		$template->postCounter = count($posts);
@@ -918,8 +928,7 @@ elseif(isSet($_GET['insertMasterEvent']))
 	$time = time();
 	
 	mysql_query("INSERT INTO fed_master_news (title,content,time,place) VALUES ('$eventTitle','$eventText',$time,'$place')");
-	echo "INSERT INTO fed_master_news (title,content,time,place) VALUES ('$eventTitle','$eventText',$time,'$place')";
- 	echo mysql_error();
+	 
 	$curID = $_SESSION['pgID'];
 	$oneMonth = $curTime - 2505600; 
 	$idR = mysql_query("SELECT pgID,pgUser FROM pg_users WHERE pgLock=0 AND png=0 AND pgAssign = '$place' AND pgLastAct >= $oneMonth");
@@ -1039,7 +1048,7 @@ $template->gameName = $gameName;
 $template->gameVersion = $gameVersion;
 $template->debug = $debug;
 $template->gameServiceInfo = $gameServiceInfo;
-
+$template->gameOptions = $gameOptions;
 	try 
 	{
 		echo $template->execute();

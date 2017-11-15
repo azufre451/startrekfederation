@@ -1,0 +1,329 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" type="text/css" />
+
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
+
+	<title>STAR TREK FEDERATION - CDB</title>
+
+	<script>
+		function orgaView(ida){
+			jQuery('.sliding').fadeOut(120).promise().done( function(){jQuery('#orga_'+ida).fadeIn(120);});
+
+		}
+
+		function opng(ide){
+			if (jQuery(ide).attr('checked'))
+				jQuery('.pngLine, .fpngLine').fadeIn(120);
+			else jQuery('.pngLine, .fpngLine').fadeOut(120);
+		}
+			
+		jQuery(function(){
+			jQuery('#sectionWhat').autocomplete({source: "ajax_gradiGedder.php?sezioni=do",	minLength: 2});
+			jQuery('#departmentWhat').autocomplete({source: "ajax_gradiGedder.php?dipartimenti=do",	minLength: 2});
+			jQuery('#divisionWhat').autocomplete({source: "ajax_gradiGedder.php?divisioni=do",	minLength: 2});
+
+		});
+	
+	</script>
+	<style>
+		.sbtn{
+			border:1px solid #777;
+			border-radius:6px;
+			color:#666;
+			font-size:12px;
+			height:15px;
+			line-height: 15px;
+			width:80px;
+			padding:2px 5px;
+			font-weight:bold; 
+			padding:5px;
+			margin-left:5px;
+			text-align:center;
+			text-transform: uppercase;
+
+		}
+		.sbtn:hover{background-color:#FFF; color:black !important;}
+
+		.ccolRed{ color:red; }
+		.ccolGre{ color:#6fbf22; }
+		.ccolYelo{ color:#FFCC00; }
+		.ccolBlue{ color:#2264bf; }
+		.ccolTeal{ color:teal; }
+
+		.topicDiv.ccolRed{  border-color:red; }
+		.topicDiv.ccolGre{  border-color:#6fbf22; }
+		.topicDiv.ccolYelo{ border-color:#FFCC00; }
+		.topicDiv.ccolBlue{ border-color:#2264bf; }
+		.topicDiv.ccolTeal{ border-color:teal; }
+
+		.sanik:hover{ color:red; }
+
+		.pngLine,.fpngLine{display:block;}
+		.pgLine,.pngLine,.fpngLine {text-transform: uppercase; font-size:11px;}
+		
+		.fpngLine .itu, .pngLine .itu{color:#777;}
+		.pngLine .itu{text-decoration: underline;}
+
+		.pgLineCommand{border-top: 1px solid #333; border-bottom: 1px solid #333; padding:10px 5px;}
+		.pgLineCommand.ccolRed{  border-color:red; }
+		.pgLineCommand.ccolGre{  border-color:#6fbf22; }
+		.pgLineCommand.ccolYelo{ border-color:#FFCC00; }
+		.pgLineCommand.ccolBlue{ border-color:#2264bf; }
+		.pgLineCommand.ccolTeal{ border-color:teal; }
+
+		.ui-autocomplete {max-height: 135px;overflow-y: auto;overflow-x: hidden;padding-right: 1px;}
+		.ui-autocomplete li {padding:2px;font-size:12px;} 
+	</style>
+</head>
+
+<body style="background-repeat:no-repeat; background-color:black; background-position:top center;">
+
+
+<div id="federation_interfaceContainer">
+	<div id="leftCol" style="width:123px;">
+		<div id="leftC1" />
+		<div id="leftC3" />
+	</div>
+	
+	<div id="supCol">
+		
+		<div metal:use-macro="TEMPLATES/metal.htm/cdbHeading" />
+
+	</div>
+	
+	<div id="fillerBax">
+		<div id="barbot1" />
+	</div>
+	<div id="cdbContainer" >
+	<div metal:use-macro="TEMPLATES/metal.htm/cdbIntro" />
+
+	<div style="font-size:12px;  margin-left:5px; text-transform:uppercase; "><a href="cdb.php" class="interfaceLink">CDB</a> <span style="color:red; font-size:11px;">></span> <a class="interfaceLink" tal:attributes="href string:crew.php">EQUIPAGGI</a> <span style="color:red; font-size:11px;">></span> <span style="text-transform:uppercase;" class="interfaceLink" tal:content="place/placeName" /></div>
+
+<div style="width:auto; border:1px solid white; margin-top:10px; height:120px;">
+		<div style="float:left; width:200px; height:100%;"><img src="TEMPLATES/img/logo/${place/placeLittle}" /></div>
+		<div style="margin-right:20px;  text-align:center; font-family:Arial; font-variant:small-caps; font-width:bold; margin-left:210px; height:100%;">
+			<p style="font-size:28px;" tal:content="place/placeName"/>
+			<p style="font-size:18px; font-style:italic;" tal:content="place/placeMotto"/> 
+			<p style="font-size:14px; text-align:right; position:relative; font-style:italic;" tal:content="structure place/placeClass"/>
+			<p style="font-size:14px; text-align:right;  font-style:italic;">
+				<img tal:attributes="src string:TEMPLATES/img/ranks/${place/uniform}.png" style="vertical-align:middle;" />
+				<span tal:content="structure place/commander" />
+			</p>
+		</div>	
+		
+		<div id='cdber' style="position:absolute; top:90px; left:210px; text-align:right;">
+			<p style="margin:0px; margin-top:5px;"><a tal:attributes="href string:cdb.php?cat=${place/catGDB}"><img src="TEMPLATES/img/interface/tdisposizioni_2.png" /></a></p>		
+			<p style="margin:0px; margin-top:5px;"><a tal:attributes="href string:cdb.php?cat=${place/catDISP}"><img src="TEMPLATES/img/interface/tgiornale_2.png" /></a></p>
+			<!--<p style="margin:0px; margin-top:5px;"><a tal:attributes="href string:cdb.php?cat=${place/catRAP}"><img src="TEMPLATES/img/interface/trapporti_2.png"  /></a></p>-->
+		</div>
+</div>
+ 
+
+<div >
+
+ 
+
+ 
+ 
+		<div tal:repeat="sezione personale" id="local" tal:attributes="class php:(array_key_exists(repeat.sezione.key,ccol) ? ccol[repeat.sezione.key] . ' topicDiv': 'topicDiv')" >
+				<p tal:attributes="class php:(array_key_exists(repeat.sezione.key,ccol) ? ccol[repeat.sezione.key] : '')" tal:content="string:  » Sez. ${repeat/sezione/key} «" style="font-variant: small-caps; margin-bottom:5px; font-size:20px; font-family:'federationFont'; text-align:center;" tal:condition="php:(repeat.sezione.key != '')"/>
+
+			<table tal:repeat="divisione sezione"  cellspacing="3px" style="width:96%; margin-left:auto; text-align:center; margin-right:auto; font-family:Helvetica; font-size:14px;" align="center">
+				<tbody tal:repeat="dipa divisione">
+					<tr tal:repeat="person dipa">
+						<td style="width:100px; border:1px solid #111;"><img style="vertical-align:middle;" tal:attributes="src string:TEMPLATES/img/ranks/${person/ordinaryUniform}.png ; title string:${person/pgGrado} - Sezione ${person/pgSezione}" /> <img style="vertical-align:middle; vertical-align:middle;" tal:attributes="src php:(person['pgSesso'] == 'M') ? 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_m.png' : ((person['pgSesso'] == 'F') ? 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_f.png' : 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_t.png' ) ; title php:(person['pgSesso'] == 'M') ? person['pgSpecie'] . ' - Maschio' : ((person['pgSesso'] == 'F') ? person['pgSpecie'] . ' - Femmina' : person['pgSpecie'] . ' - Terzo Genere' )"  /></td>
+						<td style="width:150px; text-align:left; padding-left:5px;"><a class="interfaceLink" tal:attributes="href string:javascript:schedaPOpen(${person/pgID}) ; style php:(person['png']) ? 'color:#555' : '' ; title php:(userSL) ? 'ULTIMO LOGIN: ' . date('d-m-Y H:i:s',person['pgLastAct']) : ''" tal:content="person/pgUser" /> 
+						
+						 </td>
+			
+			<td style="border:1px solid #111;" tal:content="structure person/incIncarico">INCARICO</td>
+			</tr>
+</tbody>
+			</table>
+		</div>
+		
+ 
+	<!--<div tal:repeat="sezione personale" style="margin-top:10px; font-family: Helvetica; display:none;" class='sliding' tal:attributes="id php:'orga_' .  str_replace(' ','_',repeat.sezione.key)">
+		
+		<div style="text-align:center;" class="pgLine" >
+			
+
+				<img tal:attributes="src php:(array_key_exists(repeat.sezione.key,cclogos) ? 'TEMPLATES/img/logo/divisions/'.cclogos[repeat.sezione.key] : '')" style="width:130px;" />
+
+		
+				<p tal:attributes="class php:(array_key_exists(repeat.sezione.key,ccol) ? ccol[repeat.sezione.key] : '')" tal:content="string: Sezione ${repeat/sezione/key}" style="margin-top:20px; font-size:14px;"/>
+		</div>
+		<div style="clear:both" />
+
+
+
+		
+		<div tal:repeat="divisione sezione" style="margin:10px 10px; border-bottom:1px solid #444;">
+			
+			<p tal:attributes="class php:(array_key_exists(repeat.sezione.key,ccol) ? ccol[repeat.sezione.key] : '')" tal:content="string:  » Divisione ${repeat/divisione/key} «" style="margin-bottom:5px; text-align:center;" tal:condition="php:(repeat.divisione.key != '')"/>
+
+			<div tal:repeat="dipartimento divisione" style="margin:40px;" tal:attributes="class php:(strstr(repeat.dipartimento.key,'Comando')) ? 'pgLine pgLineCommand ' . (array_key_exists(repeat.sezione.key,ccol) ? ccol[repeat.sezione.key] : '') : 'pgLine'">
+				
+
+				<p tal:content="php:(strstr(repeat.dipartimento.key,'Comando')) ? repeat.dipartimento.key : 'DIP. ' . repeat.dipartimento.key" tal:condition="php:(repeat.dipartimento.key != '')" tal:attributes="class php:(array_key_exists(repeat.sezione.key,ccol) ? ccol[repeat.sezione.key] : '')" style="margin-bottom:5px;"  />
+
+				<p tal:repeat="person dipartimento" tal:attributes="class php:((person['png'] && person['pgID'] == 0) ? 'fpngLine' : ((person['png'] ? 'pngLine' : 'rpgLine')))" >
+
+					<span style="display:inline-block; width:10px;" >
+						<a tal:attributes="href string:crew.php?delAssign=${person/recID}&equia=${equi} " tal:condition="php:(userM == 'yes' && person['png'] && person['pgID'] == 0)"><img src="TEMPLATES/img/interface/delete.png" style="vertical-align:middle;"/></a>
+
+					</span>
+					
+
+					<img style="vertical-align:middle;" tal:attributes="src string:TEMPLATES/img/ranks/${person/ordinaryUniform}.png ; title string:${person/pgGrado} - Sezione ${person/pgSezione}" />
+					<img style="vertical-align:middle; vertical-align:middle;" tal:attributes="src php:(person['pgSesso'] == 'M') ? 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_m.png' : ((person['pgSesso'] == 'F') ? 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_f.png' : 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_t.png' ) ; title php:(person['pgSesso'] == 'M') ? person['pgSpecie'] . ' - Maschio' : ((person['pgSesso'] == 'F') ? person['pgSpecie'] . ' - Femmina' : person['pgSpecie'] . ' - Terzo Genere' )"  />
+					<a tal:omit-tag="php:(person['pgID'] == 0)" tal:attributes="href string:javascript:schedaPOpen(${person/pgID}) ; title php:(userSL) ? 'ULTIMO LOGIN: ' . date('d-m-Y H:i:s',person['pgLastAct']) : ''"><span class="itu" tal:content="string: ${person/pgNomeSuff} ${person/pgUser}, ${person/pgNomeC}" /></a> 
+		
+
+				<span  tal:attributes="class php:(array_key_exists(repeat.sezione.key,ccol) ? ccol[repeat.sezione.key] : '')" style=" font-weight:bold;">></span> <span tal:content="structure person/incIncarico">INCARICO</span>
+
+
+ 
+				</p>
+			</div>
+		</div>
+	</div>
+
+	-->
+</div>
+	
+	<p style="color:white;"><a class="interfaceLink" href="javascript:void(0);" onclick="javascript:jQuery('#newPNG').fadeIn();" tal:condition="php:(userM == 'yes')"> Aggiungi PnG</a></p>
+
+
+
+<div id="newPNG" tal:condition="php:(userM == 'yes')" style="display:none; padding:10px; border:1px solid #444;">
+	
+	<form method="POST" tal:attributes="action string:crew.php?createPNG=true&equia=${equi}">
+	<table><tbody>
+	<tr><td class="neon" style="width:130px; font-weight:bold;">Cognome PnG</td><td><input id="pgName" name="pgSurname" style="width:340px;" /></td></tr>
+	<tr><td class="neon" style="width:130px; font-weight:bold;">Nome PnG</td><td><input id="pgName" name="pgName" style="width:340px;" /></td></tr>
+	<tr>
+		<td style="width:130px; font-weight:bold;">Specie PnG</td>
+		<td>
+		<select name="pgSpecie">
+			<option value="Andoriana">Andoriana</option>
+			<option value="Bajoriana">Bajoriana</option>
+			<option value="Benzita">Benzita</option>
+			<option value="Betazoide">Betazoide</option>
+			<option value="Boliana">Boliana</option>
+			<option value="Borg">Borg</option>
+			<option value="Breen">Breen</option>
+			<option value="Caitiana">Caitiana</option>
+			<option value="Capelliana">Capellana</option>
+			<option value="Cardassiana">Cardassiana</option>
+			<option value="Deltana">Deltana</option>
+			<option value="Denobulana">Denobulana</option>
+			<option value="El-Auriana">El-Auriana</option>
+			<option value="Elaysiana">Elaysiana</option>
+			<option value="Ferengi">Ferengi</option>
+			<option value="Fondatore">Fondatore</option>
+			<option value="Gorn">Gorn</option>
+			<option value="Grazerita">Grazerita</option>
+			<option value="Jem'Hadar">Jem'Hadar</option>
+			<option value="Klingon">Klingon</option>
+			<option value="Nausicaana">Nausicaana</option>
+			<option value="Ocampa">Ocampa</option>
+			<option value="Orioniana">Orioniana</option>
+			<option value="Risiana">Risiana</option>
+			<option value="Romulana">Romulana</option>
+			<option value="Sauriana">Sauriana</option>
+			<option value="Sconosciuta">Sconosciuta</option>
+			<option value="Talariana">Talariana</option>
+			<option value="Talassiana">Talassiana</option>
+			<option value="Tellarita">Tellarita</option>
+			<option value="Tholiana">Tholiana</option>
+			<option value="Trill">Trill</option>
+			<option value="Tzenkethi">Tzenkethi</option>
+			<option value="Umana">Umana</option>
+			<option value="Umana-Betazoide">Umana-Betazoide</option>
+			<option value="Umana-Vulcaniana">Umana-Vulcaniana</option>
+			<option value="Umana-Klingon">Umana-Klingon</option>
+			<option value="Vorta">Vorta</option>
+			<option value="Vulcaniana">Vulcaniana</option>
+			<option value="Xenita">Xenita</option>
+			<option value="Zakdorn">Zakdorn</option>
+			<option value="Zaldan">Zaldan</option>
+		</select>		
+	</td></tr>
+	
+	<tr><td style="width:130px; font-weight:bold;">Sesso</td><td>
+			<select name="pgSesso" id="pgSesso" style="width:130px;">
+							<option value="M">Maschio</option>
+							<option value="F">Femmina</option>
+			</select>
+	</td></tr>
+	
+
+	<tr><td style="width:130px; font-weight:bold;">Unità</td><td>
+			<select name="assegnazione">
+			<option tal:repeat="location locations" tal:attributes="value repeat/location/key ; selected php:(repeat.location.key == equi) ? 'selected' : false" tal:content="location"/>
+			</select>
+
+
+	</td></tr>
+<tr><td style="width:130px; font-weight:bold;">Grado / Sezione</td><td>
+<select name="rankCode">
+	<optgroup tal:repeat="ranker ranks" tal:attributes="label repeat/ranker/key">
+	<option tal:repeat="rnk ranker" tal:attributes="value repeat/rnk/key" tal:content="rnk/note"/>
+	</optgroup>
+</select>
+</td></tr>
+
+<tr><td style="width:130px; font-weight:bold;">Sezione</td><td>
+<input id="sectionWhat" style="width:340px;" class="neon" placeholder="Sezione" type="text" name="pgSezione" />
+</td></tr>
+
+
+
+	<tr><td style="width:130px; font-weight:bold;">Incarico</td><td>
+						
+			
+
+			<input style="width:340px;" id="divisionWhat" class="neon" placeholder="Divisione" type="text" name="pgDivisione" /> [ Opzionale ]<br/> 
+			<input style="width:340px;" id="departmentWhat" class="neon" placeholder="Dipartimento" type="text" name="pgDipartimento" /><br/>
+			<input style="width:340px;" class="neon" placeholder="Incarico" type="text" name="pgIncarico" />
+	</td></tr>
+	
+
+	<tr tal:condition="php:(userSM == 'yes')"><td style="width:130px; font-weight:bold;">Crea Scheda PNG</td><td>
+						
+			Crea Scheda PnG <input type="checkbox" name="creaScheda" /> <br />
+			Password: <input type="password" style="width:300px;" name="passScheda" />  <br />
+	</td></tr>
+	
+
+	</tbody></table>
+	<input type="submit" style="margin-top:10px; margin-left:30px; font-size:13px; padding:4px;" value="Invia">INVIA</input>
+	</form>
+	<button style="position:absolute; bottom:7px; right:7px;" onclick="javascript:jQuery('#newPNG').fadeOut(150);">X</button>
+</div>
+
+
+
+	</div>
+
+</div>
+
+
+
+
+
+
+</body>
+</html>

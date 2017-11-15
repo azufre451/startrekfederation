@@ -7,6 +7,9 @@ if (!isSet($_SESSION['pgID'])){header('Location:login.php');
 $whatter = array('1'=>'main','2'=>'scheda','3'=>'cdb','4'=>'db','5'=>'padd');
 $what = $whatter[$_POST['what']]; 
 
+$currentUser = new PG($_SESSION['pgID']);
+
+
 $realK = isSet($_POST['realK']) ? true : false;
 
 if($what == 'main')
@@ -20,7 +23,11 @@ if($realK){
 	
 	mysql_query("UPDATE pg_users_tutorial SET $what = 1 WHERE pgID = ".$_SESSION['pgID']); 
 	$dat=date('d.m.Y');
-	mysql_query("UPDATE pg_users SET pgNote = CONCAT(pgNote,'\n$dat --> Completato Tutorial $what') WHERE pgID = ".$_SESSION['pgID']);
+
+	$currentUser->addNote("Completato Tutorial $what",518);
+
+ 
+	//mysql_query("UPDATE pg_users SET pgNote = CONCAT(pgNote,'\n$dat --> Completato Tutorial $what') WHERE pgID = ".$_SESSION['pgID']);
 	
 }
 
@@ -43,7 +50,7 @@ if (mysql_affected_rows())
 		$eString = addslashes("Hai un nuovo achievement!::$Descri"); 
 		mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead) VALUES (518,$pgID,'OFF: Nuovo Achievement!','$cString',".time().",0)");
 		mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (518,$pgID,'::special::achiev','$eString',".time().",0,'TEMPLATES/img/interface/personnelInterface/$ima')"); 
-		$currentUser = new PG($_SESSION['pgID']);
+		
 		$currentUser->addPoints(10,'TUTOR','Completamento Tutorial di Gioco','Completamento Tutorial di Gioco');
 	}
 }

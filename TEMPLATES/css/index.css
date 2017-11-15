@@ -1,3 +1,47 @@
+@font-face{font-family:'federationFont';
+src: url('TEMPLATES/Roddenberry.eot');
+src: url('TEMPLATES/Roddenberry.ttf') format('truetype');
+}
+@font-face{font-family:'federationFontI';
+src: url('TEMPLATES/Roddenberry Oblique.eot');
+src: url('TEMPLATES/Roddenberry Oblique.ttf') format('truetype');
+}
+
+#newsS{
+height:350px;
+padding-top:10px;
+width:90%;
+clear:both;
+overflow-y:scroll;
+text-align:justify;
+padding-right:10px;
+margin-left:40px;
+font-size:14px;
+margin-right:80px;
+border:1px dashed #333;
+background-color:rgba(0,0,0,0.2);
+font-family: Lato;
+}
+
+.banded{background-image:url('../img/pattern_banded_50.png');}
+
+.container{background-color:rgba(0,0,0,0.3); border:1px solid #222; border-radius:6px; } 
+
+#REG{
+
+  padding:10px;
+}
+
+p.bonus{margin-top:1px dashed #333; margin-top:5px;}
+p.bonus img{
+  width:35px; vertical-align:middle;
+}
+p.bonus span {
+  font-family:federationFont; font-size:18px; letter-spacing: 0.1sem;
+}
+
+#newsS > div {margin-bottom:10px; font-family:Helvetica; margin-top:0px;}
+
 .menureg{
 font-size:2em;
 font-weight:bold;
@@ -6,18 +50,25 @@ border-radius:6px;
 width:40%; 
 line-height:1.2em;
 margin-top:5px;
+padding-left:5px;
 }
- 
 
+ 
 .menureg.top
 {
 clear:both;
 width:100%;
-
+margin-left:auto;
+margin-right:auto;
+margin-top:0px;
+padding-left:0px;
+border-radius:6px 6px 0px 0px;
 float:none;
 }
 
-.head{background-color:#222;}
+
+.head{background-color:rgba(0,0,0,0.5)}
+
 
 .menureg.bottom.little.left
 {
@@ -25,12 +76,14 @@ float:left;
 width:47%; 
 margin-left:0px; margin-right:0px; 
 }
+
 .menureg.bottom.little.right
 {
 float:right;
 width:47%; 
 margin-left:0px; margin-right:0px; 
 }
+
 
  .squareChoice{
 	float:left; 
@@ -40,8 +93,8 @@ margin-left:0px; margin-right:0px;
 	border-radius:5px;
 	padding:5px;
 	margin-left:5px;
-	
 }
+
 
 .rectChoice{ 
 	float:left;
@@ -57,6 +110,7 @@ margin-left:0px; margin-right:0px;
 	font-size:1.2em; 
 }
 
+
 .selectable{-o-transition:.5s;
   -ms-transition:.5s;
   -moz-transition:.5s;
@@ -65,17 +119,38 @@ margin-left:0px; margin-right:0px;
   cursor:pointer;
 }
 
+
 .sex_male:hover,.sex_male.active{background-color:#274693; border-color:#277393;}
+
 .sex_female:hover,.sex_female.active{background-color:#cba299; border-color:#f1d2ca;}
 
+
 .race:hover,.race.active{background-color:#184746; border-color:#DDD;}
+
 .race p{font-size:1.2em;}
 
-.division:hover,.division.active{background-color:#184746; border-color:#DDD;}
-.division p{font-size:1.2em;}
+
+.division:hover,.division.active{border-color:#DDD;}
+
+.division.active.d1,.division.d1:hover{ background-color:rgba(255,0,0,0.7);}
+.division.active.d2,.division.d2:hover{ background-color:rgba(45,130,19,0.7);}
+.division.active.d3,.division.d3:hover{ background-color:rgba(213,206,28,0.7);}
+.division.active.d4,.division.d4:hover{ background-color:rgba(28,213,180,0.7);}
+.division.active.d5,.division.d5:hover{ background-color:rgba(28,54,213,0.7);}
+.division.active.d6,.division.d6:hover{ background-color:rgba(158,28,213,0.7);}
+.division.active.d7,.division.d7:hover{ background-color:rgba(213,115,28,0.7);}
+.division.active.d8,.division.d8:hover{ background-color:rgba(255,0,0,0.7);}
+.division.active.d9,.division.d9:hover{ background-color:rgba(255,0,0,0.7);}
+.division.active.d10,.division.d10:hover{ background-color:rgba(0,0,0,0.7);}
+
+.division p{font-size:1.2em; line-height:1.2em}
+
+
 
 .species_spec{text-align:justify; font-size:1.3em; display:none; border-left:1px solid #848fa9; margin-top:15px; padding-left:20px; margin-left:10px;}
+
 .sections_spec{text-align:justify; font-size:1.3em; display:none; border-left:1px solid #854a42; margin-top:15px; padding-left:20px; margin-left:10px;}
+
  
 
 .grayScale{
@@ -88,26 +163,32 @@ margin-left:0px; margin-right:0px;
 	filter: gray; /* IE */
 	-webkit-filter: grayscale(1); /* Old WebKit */ 
 	   margin-top: 10px;
-} 
+}
+ 
 .race_mas, .race_fem{display:none;   margin-top: 10px;}
 
+
 .buttonGo{width:200px;  font-size:1.6em; font-weight:bold; text-align:center; background-color:#471818;  float:right; cursor:pointer;}
+
 .buttonGo:hover{background-color:#882626;  }
 
+
 .buttonBack{width:200px; font-size:1.6em; font-weight:bold; text-align:center; background-color:#243985 float:left;  cursor:pointer;}
+
 .buttonBack:hover{background-color:#5a6fbf;  }
+
 
   
 .creation-char-indicator{
-	border:1px solid #333;
 	float:left;
-	border-radius:50px;  
-	height:40px;
-	width:40px; 
-	line-height:40px;
-	font-size:23px;
-	margin-left:5px;
+	height:60px;
+	width:60px;  
 }
+.creation-char-indicator img{ width:100%;}
+
+.sliding.vis{display:block;}
+
+.sliding.hid{display:none;}
 
 
 .plusButton,.minusButton{
@@ -122,8 +203,6 @@ margin-left:0px; margin-right:0px;
    width:30px;
    padding:4px;
    padding-top: 3px;
-   
-   
    border-radius:0px 25px 25px 0px;
    
    
@@ -145,6 +224,7 @@ margin-left:0px; margin-right:0px;
   -webkit-transition:.5s;
   transition:.5s; 
    }
+
    
  .minusButton{
    background: #4f0000; 
@@ -156,15 +236,19 @@ margin-left:0px; margin-right:0px;
    
    border-radius:25px 0px 0px 25px;
    }
+
 .plusButton:hover{border-color:#144f00; background-color: rgba(0, 0, 0, 0.6);}
+
 .minusButton:hover{border-color:#4f0000; bbackground-color: rgba(0, 0, 0, 0.6);}
+
  
 
 .creation-char-main{
 	float:left;
-	width:86%;
+	width:300px;
 	margin-left:10px; 
 }
+
 
 
 .creation-char-intermediate1{
@@ -172,11 +256,13 @@ margin-left:0px; margin-right:0px;
 	width:40px;
 }
 
+
 .creation-char-intermediate2{ 
 	float:left;
-	width:77%; 
+	width:200px; 
 	border:1px solid #333;
 }
+
 
 .progress-bar {
     background-color: #1a1a1a;
@@ -193,6 +279,7 @@ margin-left:0px; margin-right:0px;
     -webkit-box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
     box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
 }
+
 
 .progress-bar span {
     display: inline-block;
@@ -222,3 +309,15 @@ margin-left:0px; margin-right:0px;
     -o-transition: width .4s ease-in-out;
     transition: width .4s ease-in-out;
 }
+
+
+
+.content{font-size:15px;
+ line-height:22px;
+text-align:justify;
+margin-top:10px;
+font-family:Source Sans Pro, Helvetica, Arial, sans-serif;
+ padding-left:12px;
+padding-right:12px;
+}
+ 

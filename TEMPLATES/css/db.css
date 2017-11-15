@@ -50,6 +50,222 @@ overflow:auto;
 z-index:10;
 }
 
+#mdmacontent
+{
+padding:10px;
+padding-left:40px;
+padding-right:60px;
+text-align:justify;
+margin-right:20px;
+}
+
+#mdmacontent img.alignRight{
+	display: inline-block;
+	float:right;
+	margin:15px;
+	border:1px solid #333;
+}
+
+#mdmacontent img.alignLeft{
+	display: inline-block;
+	float:left;
+	margin:15px;
+	border:1px solid #333;
+}
+
+#mdmacontent p.quote{
+	text-align:right;
+	font-style: italic;
+	
+}
+   
+#mdmacontent a.tomo{
+	color:#2d90c8;
+	padding-bottom:5px;
+	border-bottom:1px dashed #EEE; 
+	display:inline-block;
+}
+
+#mdmacontent a.tomo:hover{color:#abd2e8;}
+
+#mdmacontent pre {    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    background-color:#666;
+    border: 2px solid #EEE;
+    color:#FFF;
+    padding:8px;
+}
+
+#mdmacontent a.tomo::after{
+content:'';
+background: url('../img/interface/personnelInterface/abilita/storia_letteratura.png');/*url of image*/
+height: 30px;/*height of image*/
+width: 30px;/*width of image*/
+background-size:100%;
+display:inline-block;
+vertical-align: middle;
+margin-left:10px;
+}
+
+
+#mdmacontent .breakMe{display:block;clear:both;}
+
+#mdmacontent dt.jeanus{color: red; display:inline; font-size:12px;  text-transform: uppercase;}
+
+#mdmacontent dt{color: #0077c3; display:inline; font-size:12px;  text-transform: uppercase;}
+#mdmacontent dt:after{content:':';} 
+
+#mdmacontent dd{display:inline; margin:2px;} 
+#mdmacontent dd:after{content:'';display:block;clear:right;} 
+
+
+
+#mdmacontent .tbl{
+	border-left:1px solid #EEE;
+	border-right:1px solid #EEE;
+ 
+	border-radius:9px;
+	padding:10px;
+	width:250px;
+}
+
+
+#mdmacontent .tbl ul{margin-left:-20px;}
+#mdmacontent .tbl ul:before{
+
+	content:'Indice';
+	display:block;
+	border-bottom:1px dotted #333;
+	margin-bottom:10px;
+	font-variant:small-caps;
+	
+	font-weight:bold;
+	color:#FFCC00;
+	padding-bottom:4px;
+	font-size:1.1em;
+}
+
+#mdmacontent .tbl li{
+	list-style: none;
+	padding-left: 1em;
+	text-indent: -1em;
+}
+#mdmacontent .tbl li:before{
+	
+	content: "\00BB";
+	padding-right: 5px;
+
+}
+
+
+#mdmacontent .tbl a{
+	font-size:12px;
+	font-weight:bold;
+	font-family:verdana;
+}
+
+#mdmacontent .tbl a.externalLink{
+	color:red;
+}
+
+#mdmacontent .tbl a.externalLink::after{
+	content: url('http://startrekfederation.it/TEMPLATES/img/interface/personnelInterface/external_link.png');
+	margin-left:10px;
+}
+
+#mdmacontent .tbl a.externalLink{
+	color: #0077c3;
+}
+
+#mdmacontent .tbl a.externalLink:hover{
+	color: #649ec3;
+}
+ 
+#mdmacontent a.backToIndex:before{
+		content:'[ ▲ ]';
+		display:block;
+		border-bottom:1px dotted #333;
+		margin-bottom:10px;  
+		color:#0071e5;
+		font-variant:small-caps;
+		font-weight:bold;
+		position:absolute;
+		right:80px;
+	}
+@media (min-width:400px) and (max-device-width: 400px)  {
+	#mdmacontent a.backToIndex:before{
+		content:'[ ▲ ]';
+	}
+}
+
+@media (min-width:400px) {
+	#mdmacontent a.backToIndex:before{
+		content:'[ ▲ ]';
+	}
+}
+
+@media (min-width:700px) and (min-device-width: 700px)  {
+	#mdmacontent a.backToIndex:before{
+		content:'[ - Torna all\'indice - ]';
+	} 
+}
+
+#mdmacontent a.backToIndex{clear:both;}
+
+#mdmacontent a.backToIndex:hover:before{
+	color:#84a7cb;
+}
+
+
+#mdmacontent h1{text-align: center;}
+#mdmacontent h1.centered,#mdmacontent h2.centered,#mdmacontent h3.centered {text-align:center;}
+
+#mdmacontent h2
+{
+	color:#FFCC00;
+	border-top:1px dotted #BBB;
+	border-bottom:1px dotted #BBB;
+	padding-top:15px; padding-bottom:15px;
+	text-align:center;
+	font-family:Verdana;
+	font-size:1.3em;
+	width:300px;
+	margin-left:auto;
+	margin-right:auto;
+	font-weight:bold;
+	font-variant:small-caps;
+}
+
+
+#mdmacontent h3
+{
+	color:#FFCC00; 
+	font-weight:bold;
+	font-variant:small-caps;
+}
+
+#mdmacontent h3.label
+{
+text-align:center;
+padding:2px;
+font-weight:bold;
+border-radius:7px;
+width:160px;
+color:black;
+text-transform:uppercase;
+}
+
+#mdmacontent h3.label.red{background-color:#e51616;border:1px solid red;}
+#mdmacontent h3.label.yellow{border:1px solid #fffc00; background-color:#dedb08;}
+#mdmacontent h3.label.green{border:1px solid #0be82a; background-color:#24ab40; color:white;}
+#mdmacontent h3.label.black{border:1px solid white; background-color:black; color:white;}
+#mdmacontent h3.label.white{border:1px solid #444; background-color:white;}
+#mdmacontent h3.label.blue{border:1px solid #0090ff; background-color:#2e4aa4;}
+#mdmacontent h3.label.orange{border:1px solid #ffce0c; background-color:orange;}
+
 #cdbHeader
 {
 position:absolute;

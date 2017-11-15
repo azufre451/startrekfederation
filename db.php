@@ -4,6 +4,8 @@ session_start();
 include('includes/app_include.php');
 include('includes/validate_class.php');
 include("includes/PHPTAL/PHPTAL.php"); //NEW 
+include("includes/md/Parsedown.php"); //NEW 
+include("includes/md/ParsedownExtra.php"); //NEW 
 
 
 
@@ -14,6 +16,8 @@ $vali = new validator();
 
 if(isSet($_GET['dopdf']))
 {	
+	exit;
+
 	if(!isSet($_SESSION['pgID'])) header('Location:index.php');
 	require('includes/tcpdf/tcpdf.php');
 	
@@ -31,7 +35,7 @@ if(isSet($_GET['dopdf']))
 		
 		$htmldCode = array(
 "<b>","</b>",
-"<i>","</i>",
+"<i>","</i>", 
 "<u>","</u>",
 "<div style=\"text-align:center;\" align=\"center\">","</div>",
 "<p style=\"text-align:left\">","</p>",
@@ -133,29 +137,160 @@ if ($resA = mysql_fetch_array($cat))
 else {header('Location:db.php'); exit;}
 }
 
-else if(isSet($_GET['element']))
+
+else if (isSet($_GET['adiDo']))
 {
-	$id = $vali->numberOnly($_GET['element']);
-	$cat = mysql_query("SELECT db_cats.catID,catName,ID,catImage,title,content,skipBB,crosslink,totallink FROM db_cats,db_elements WHERE db_cats.catID = db_elements.catID AND ID = $id");
+	if(!PG::verifyOMA($_SESSION['pgID'],'A')){header('Location:db.php'); exit;}	
 	
+	$IDF = addslashes($_POST['IDF']);
+	$tag = addslashes($_POST['tag']);
+	$title = addslashes($_POST['title']);
+	$content = addslashes($_POST['content']);
+	$entryType = addslashes($_POST['entryType']);
+	$formatType = addslashes($_POST['formatType']);
+	$crossLink = $vali->numberOnly(addslashes($_POST['crossLink']));
+	$catID = $vali->numberOnly(addslashes($_POST['catID']));
+
+
+	$sBB = '0'; $eMD = '0';
+	if($formatType == "2"){$sBB = '1'; $eMD = '0';}
+	if($formatType == "3"){$sBB = '0'; $eMD = '1';}
+
 	
-	if(isSet($_SESSION['pgID'])){
-		
-		mysql_query("SELECT 1 FROM db_elements WHERE ID = $id AND lvisit = ".$_SESSION['pgID']);
-		echo mysql_error();
-		if(!mysql_affected_rows()) mysql_query("UPDATE db_elements SET visits = visits+1, lvisit = ".$_SESSION['pgID']." WHERE ID = $id");
+	mysql_query("INSERT INTO db_elements (IDF,catID,title,content,crosslink,type,tag,skipBB,enableMD) VALUES ('$IDF','$catID','$title','$content','$crossLink','$entryType','$tag','$sBB','$eMD')");
+
+
+	if (mysql_error()){
+		echo mysql_error();exit;
 	}
+
+	$resa = mysql_fetch_assoc(mysql_query("SELECT ID FROM db_elements ORDER BY ID DESC LIMIT 1"));
+
+	if (mysql_error()){
+		echo mysql_error();exit;
+	}
+	
+
+	header('Location:db.php?element='.$resa['ID']);
+}
+
+else if (isSet($_GET['ediDo']))
+{
+	if(!PG::verifyOMA($_SESSION['pgID'],'A')){header('Location:db.php'); exit;}	
+	$ID = $vali->numberOnly(addslashes($_GET['ediDo']));
+	$IDF = addslashes($_POST['IDF']);
+	$tag = addslashes($_POST['tag']);
+	$title = addslashes($_POST['title']);
+	$content = addslashes($_POST['content']);
+	$entryType = addslashes($_POST['entryType']);
+	$formatType = addslashes($_POST['formatType']);
+	$crossLink = $vali->numberOnly(addslashes($_POST['crossLink']));
+	$catID = $vali->numberOnly(addslashes($_POST['catID']));
+
+
+	$ft = 'skipBB = 0, enableMD = 0';
+	if($formatType == "2") $ft = 'skipBB = 1, enableMD = 0';
+	if($formatType == "3") $ft = 'skipBB = 0, enableMD = 1';
+
+	
+	mysql_query("UPDATE db_elements SET IDF = '$IDF', catID = '$catID', title = '$title', content = '$content', crosslink = '$crossLink', type = '$entryType', tag = '$tag', $ft WHERE ID = '$ID'");
+if (mysql_error()){
+		echo mysql_error();exit;
+	}
+	header('Location:db.php?element='.$ID);
+}
+
+else if(isSet($_GET['delelement'])){
+
+
+	if(!isSet($_SESSION['pgID']) || !PG::verifyOMA($_SESSION['pgID'],'A')){header('Location:db.php'); exit;}	
+	$ID = $vali->numberOnly(addslashes($_GET['delelement']));
+
+	mysql_query("UPDATE db_elements SET IDF = '', catID = '9999' WHERE ID = '$ID'");
+
+	header('Location:db.php');
+
+
+}
+
+
+else if(isSet($_GET['neuelement'])){
+	
+	
+
+	if(!PG::verifyOMA($_SESSION['pgID'],'A')){header('Location:db.php'); exit;}	
+
+	$cats = mysql_query("SELECT catID,catName FROM db_cats");
+		 
+	$Rcats= array();
+	while($resA = mysql_fetch_assoc($cats)) $Rcats[] = $resA;
+	
+	$template = new PHPTAL('TEMPLATES/db_element_add.html');
+	$template->cats = $Rcats; 
+}
+
+
+else if(isSet($_GET['edielement'])){
+	
+	$id = addslashes($_GET['edielement']);
+
+
+
+	if(!PG::verifyOMA($_SESSION['pgID'],'A')){header('Location:db.php'); exit;}	
+
+
+	$cats = mysql_query("SELECT catID,catName FROM db_cats");
+	$Rcats= array();
+	while($resA = mysql_fetch_assoc($cats)) $Rcats[] = $resA;
+
+
+	$cat = mysql_query("SELECT db_cats.catID,catName,ID,tag,IDF,catImage,coloring,title,content,skipBB,crosslink,totallink,enableMD FROM db_cats,db_elements WHERE db_cats.catID = db_elements.catID AND ID = '$id'");
+		 
 	if ($resA = mysql_fetch_array($cat))
 	{
-		if($resA['crosslink'] != NULL) header("Location:db.php?element=".$resA['crosslink']);
-		elseif($resA['totallink'] != NULL) header("Location:".$resA['totallink']);
+		$template = new PHPTAL('TEMPLATES/db_element_edit.html');
+		$template->resA = $resA; 
+		$template->cats = $Rcats; 
+
+	}
+	else {header('Location:db.php'); exit;}
+
+}
+
+else if(isSet($_GET['element']) || isSet($_GET['litref']))
+{
+
+	$id = (isSet($_GET['element'])) ? $_GET['element'] : ( isSet($_GET['litref']) ? $_GET['litref'] : '');
+	$idf = (isSet($_GET['element'])) ? 'ID' : ( isSet($_GET['litref']) ? 'IDF' : '');
+
+	$id = addslashes($id);
+
+	$cat = mysql_query("SELECT db_cats.catID,catName,ID,catImage,title,content,skipBB,crosslink,totallink,enableMD FROM db_cats,db_elements WHERE db_cats.catID = db_elements.catID AND $idf = '$id'");
+		
+	$Parsedown = new ParsedownExtra();
+	
+
+	if(isSet($_SESSION['pgID'])){
+		
+		mysql_query("SELECT 1 FROM db_elements WHERE $idf = '$id' AND lvisit = ".$_SESSION['pgID']);
+		echo mysql_error();
+		if(!mysql_affected_rows()) mysql_query("UPDATE db_elements SET visits = visits+1, lvisit = ".$_SESSION['pgID']." WHERE $idf = '$id'");
+	}
+
+	if ($resA = mysql_fetch_array($cat))
+	{
+		if($resA['crosslink'] != NULL) 
+			if($resA['crosslink'] != '0')
+				header("Location:db.php?element=".$resA['crosslink']);
+
+		if($resA['totallink'] != NULL) header("Location:".$resA['totallink']);
 		$template = new PHPTAL('TEMPLATES/db_element.htm');
 		$template->ID = $resA['ID'];
 		$template->catID = $resA['catID'];
 		$template->catName = $resA['catName'];
 		$template->catImage = $resA['catImage'];
 		$template->title = $resA['title'];
-		$template->content = ($resA['skipBB']) ? $resA['content'] : str_replace($bbCode,$htmlCode,$resA['content']);
+		$template->content = ($resA['skipBB']) ? $resA['content'] : (($resA['enableMD']) ? $Parsedown->text($resA['content']) : str_replace($bbCode,$htmlCode,$resA['content'])) ; 
 		$template->searchable = (isSet($_SESSION['pgID'])) ? true : false;
 
 	}
@@ -221,7 +356,8 @@ else if(isSet($_GET['shipRegister']))
 	$cat = mysql_query("SELECT * FROM fed_ships,fed_ships_classes,fed_ships_fleets WHERE fleetno = fleet AND fed_ships_classes.class = fed_ships.class  ORDER BY name");
 	$shipsLetters = array();
 	while($res = mysql_fetch_array($cat)){
-		$namae = explode('U.S.S. ',$res['name']);
+		if(strstr($res['name'],'U.S.S.')) $namae = explode('U.S.S. ',$res['name']);
+		elseif(strstr($res['name'],'R.T.S.')) $namae = explode('R.T.S. ',$res['name']);
 		
 		if (!isSet($shipsLetters[strtoupper(substr($namae[1],0,1))])) $shipsFleet[strtoupper(substr($namae[1],0,1))] = array();
 		$shipsLetters[strtoupper(substr($namae[1],0,1))][] = $res; 
@@ -246,7 +382,7 @@ else if(isSet($_GET['shipRegister']))
 else
 {
 $template = new PHPTAL('TEMPLATES/db_index.htm');
-$cat = mysql_query("SELECT catID,catName,catImage FROM db_cats ORDER BY catID");
+$cat = mysql_query("SELECT catID,catName,catImage FROM db_cats WHERE catID < 1000 ORDER BY catID");
 $categories = array();
 
 while ($c = mysql_fetch_array($cat))
@@ -262,14 +398,14 @@ while ($c = mysql_fetch_array($topVis))
 	$tasser = array('ID' => $c['ID'], 'title'=>	$titler,'rtitle' => $title,'tag' => $c['tag']);
 	$topper[] = $tasser;
 }	
-$lasts = mysql_query("SELECT ID,title,tag FROM db_elements WHERE crosslink IS NULL ORDER BY ID DESC LIMIT 5");
+$lasts = mysql_query("SELECT ID,title,tag,brief FROM db_elements WHERE (crosslink IS NULL OR crossLink = 0) ORDER BY ID DESC LIMIT 4");
 $laster = array();
 
 while ($c = mysql_fetch_array($lasts))
 {	
-	$titler = (strlen($c['title']) > 35) ? substr($c['title'],0,35).'...' : $c['title'];
+	$titler = (strlen($c['title']) > 25) ? substr($c['title'],0,25).'...' : $c['title'];
 	$title = $c['title'];
-	$tasser = array('ID' => $c['ID'], 'title'=>	$titler,'rtitle' => $title,'tag' => $c['tag']);
+	$tasser = array('ID' => $c['ID'], 'title'=>	$titler,'rtitle' => $title,'tag' => $c['tag'],'brief'=>$c['brief']);
 	$laster[] = $tasser;
 }
 	
@@ -277,6 +413,8 @@ $template->topper = $topper;
 $template->laster = $laster;
 $template->categories = $categories;
 }
+
+if (isSet($_SESSION['pgID']) && PG::verifyOMA($_SESSION['pgID'],'A')){$template->isAdmin = true;}
 
 $template->searchable = (isSet($_SESSION['pgID'])) ? true : false;
 //$template->user = $currentUser;
@@ -288,7 +426,7 @@ $template->searchable = (isSet($_SESSION['pgID'])) ? true : false;
 //$template->gameServiceInfo = $gameServiceInfo;
 
 
-$template->description = "Star Trek: Federation è un GDR Play By Chat, ambientato nell'anno 2381 e immerso nell'ambientazione dell'universo di Star Trek. Vivi l'avventura di creare, costruire e giocare il tuo personaggio: sali a bordo e... Via! Si parte verso nuove avventure!";
+$template->description = "Star Trek: Federation è un GDR Play By Chat di fantascienza, ambientato nell'anno 2396 e ispirato all'ambientazione di Star Trek. Vivi l'avventura di creare, costruire e giocare il tuo personaggio: sali a bordo e... Via! Si parte verso nuove avventure!";
 $template->metaKeywords = "Star Trek, PBC, Gioco di Ruolo,Star Trek: Federation, Flotta Stellare, Federazione, Classe Intrepid, USS Endeavour, GDR, Play By Chat, Navi stellari, Borg";
 $template->gameOptions = $gameOptions;
 

@@ -19,6 +19,7 @@
 	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/fonts.css"  />
 	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/jquery.dualSlider.0.2b.css?v=2.1" />
 	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/index.css?v=1.2" rel="stylesheet" type="text/css" />
 	
 	<script src="TEMPLATES/carousel/js/jquery.easing.1.3.js" type="text/javascript"></script>
 	<script src="TEMPLATES/carousel/js/jquery.timers-1.2.js" type="text/javascript"></script>
@@ -35,6 +36,8 @@
 		
 		<script type="text/javascript">
 			jQuery(document).ready(function(){
+			
+			jQuery('#regform')[0].reset();
 				
 			jQuery(".carousel").dualSlider({
 				auto:true,
@@ -89,13 +92,9 @@
 				
 				<p style="font-size:14px; line-height:1.2em;">Rimangono attive le pagine di promozione su <a href="https://www.facebook.com/federation.pbc" target="_blank" class="interfaceLinkBlue"> Facebook </a> e  <a href="http://www.gdr-online.com/star_trek_federation.asp" target="_blank" class="interfaceLinkGreen"> GDR-Online </a>.</p>
 			</div>
-			
-			<div id="fb-root" style="margin-top:20px;"></div> <script>(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = "//connect.facebook.net/en_US/all.js#xfbml=1"; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));</script>
-<div class="fb-post" data-href="https://www.facebook.com/federation.pbc/posts/717518694992523" data-width="466"><div class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/federation.pbc/posts/717518694992523">Post</a> by <a href="https://www.facebook.com/federation.pbc">Star Trek: Federation</a>.</div></div>
-
 			  
 			<!--<div style="text-align:center; border:1px solid white; border-radius:15px; padding:10px; padding-bottom:0px; width:750px; margin-left:auto;margin-right:auto;"><img style="border-radius:0 0 15px 15px;" src="TEMPLATES/img/interface/index/banner1.png" /></div>-->
-			<!--<div id="newsS" style="height:320px; clear:both; overflow-y:scroll; text-align:justify; padding-right:10px; margin-left:80px; font-size:13px; margin-right:80px;"><div tal:repeat="news resNews" style="margin-bottom:10px; font-family:Helvetica; margin-top:0px;">
+			<div id="newsS" style="height:320px; clear:both; overflow-y:scroll; text-align:justify; padding-right:10px; margin-left:80px; font-size:13px; margin-right:80px;"><div tal:repeat="news resNews" style="margin-bottom:10px; font-family:Helvetica; margin-top:0px;">
 				<img tal:attributes="src string:TEMPLATES/img/interface/index/${news/aggregator}.png" style="padding-right:5px; float:left;" alt=""/>
 				<div style="float:left; width:80px; text-align:center;">
 					<span style="font-weight:bold; color:orange;" tal:content="news/data"/><br />
@@ -111,7 +110,7 @@
 				</div>
 				 <div style="clear:both" />
 			</div>
-			</div>-->
+			</div>
 			
 			</div>
 			
@@ -119,151 +118,455 @@
 			<p style="font-size:22px; width:550px; line-height:25px; margin-left:auto; margin-right:auto;">Le iscrizioni sono temporaneamente chiuse. Nel caso puoi contattare lo staff a <a href="mailto:staff@startrekfederation.it" class="interfaceLink">staff@startrekfederation.it</a> per ottenere un account. La fase di riorganizzazione terminerà al pi&ugrave; tardi il 15 Novembre 2012. Siamo a disposizione per chiarimenti!</p>
 			</div>-->
 			
+			<style>
 			
-			<!--<div id="REG" class="sliding" tal:attributes="style php:(mod == 'REG') ? 'display:block' : 'display:none';">
-				<p class="title">Registrazione</p>
-				<div id="rg2" style="background-image:url('TEMPLATES/img/interface/index/scheda_Ex.png'); background-repeat:no-repeat; width:600px; margin-left:60px; float:left; text-align:left; display:none; height:350px">
-				<div style="position:relative; width:200px; top:80px; left:310px; height:15px; font-size:12px;" id="schedaName" />
-				<div style="position:relative; width:200px; top:85px; left:310px; height:15px; font-size:12px;" id="specieName">Umana</div>
-				<div style="position:relative; width:200px; top:90px; left:310px; height:15px; font-size:12px;" id="sessoName">Maschio</div>
-				<div style="position:relative; width:200px; top:225px; left:310px; height:15px; font-size:12px;" id="autName" tal:content="aut" />
-				<div style="position:relative; width:100px; top:215px; left:90px; height:20px; font-size:12px;"><img alt="" style="vertical-align:middle;" id="imaSpecie" src="TEMPLATES/img/specie/Umana_m.png" /> <span id="imaUser" /></div>
-
-				</div>
 				
-				<div id="rg1" style="background-image:url('TEMPLATES/img/intros/intro_13c.png');background-repeat:no-repeat; width:600px; margin-left:60px; float:left; text-align:left; display:block; height:350px">
-					<p style="margin-top:20px; margin-left:-30px; text-align:center; "><img src="TEMPLATES/img/interface/index/destiny_q.png" alt="" /></p>
-					<div class="opacityBack innerMargins" style="width:470px; height:270px;">
-						<p style="text-align:justify; font-size:15px; margin:0px; font-family:Verdana; font-weight:bold;">Star Trek: Federation ti offre l'opportunità di giocare da subito un personaggio della Flotta Stellare con un grado fra <span style="color:orange; font-size:12px;">MARINAIO SCELTO</span> e  <span style="color:orange; font-size:12px;">CAPO SPECIALISTA</span> rispondendo ad un breve questionario che ti orienterà nell'impostazione del tuo PG! Hai quindi due alternative!</p>
-					<div style="margin-top:10px;">
-					<div style="float:left; width:215px; border-radius:10px; border:2px solid white; height:170px; background-image:url('TEMPLATES/img/interface/index/banner_7.png'); background-repeat:no-repeat; background-position:right top">
-						<p style="margin:5px 38px 10px 10px; text-align:justify; font-size:13px; font-family:Verdana"><span style="text-align:center; font-size:15px; font-weight:bold; margin-left:20px; color:orange;">Imbarco Diretto</span><br />Giocatori alle prime armi o poco esperti dell' ambientazione.<br /><br />Il tuo PG (civile) potrà arruolarsi nella Flotta Stellare, ove inizierà a fare carriera.</p>
-					</div>
-					
-					<div style="float:right; width:215px; border-radius:10px; border:2px solid white; height:170px; background-image:url('TEMPLATES/img/interface/index/banner_6.png'); background-repeat:no-repeat; background-position:left top">
-						<p style="margin:5px 10px 10px 38px; text-align:justify; font-size:13px; font-family:Verdana"><span style="color:orange; text-align:center; font-size:15px; font-weight:bold; margin-left:20px;">Questionario</span><br />Ti verrà sottoposta qualche domanda orientativa, il cui esito determinerà un <span style="color:#BBB">grado ed una sezione</span>, che potrai accettare o rifiutare (rientrando nell'imbarco diretto)</p>
-					</div>
-					<div style="height:1px; width:33px; border-top:1px solid #CCC; position:relative; top:35px; left:218px;" />
-					<div style="height:1px; width:33px; border-top:1px solid #CCC; position:relative; top:145px; left:218px;">
-					
-					</div>
-					</div><div style="clear:both;"/>
-				</div>
-				</div>
-				
-				
-				<div class="transpBkg radiusBordered12" style="font-size:15px;">
-					<p style="text-align:center; font-size:16px;">Dati del Personaggio</p>
-					<div><form method="post" action="service.php?registerUser=1" onsubmit="return checkIscri();">
-						<input type="hidden" tal:attributes="value aut" name="pgAuth" id="pgAuth"/>
-						<table style="font-family:Verdana"> 
-						<tr><td style="width:130px; font-weight:bold;">E-mail</td><td><input id="pgEmail" name="pgEmail" type="email" style="width:140px;" /></td></tr>
-						<tr><td style="width:130px; font-weight:bold;">Cognome PG</td><td><input onfocus="foc1();" onblur="foc2(this)" id="pgName" name="pgName" style="width:140px;" onkeyup="setNamae(this.value);" /></td></tr>
-						<tr><td style="width:130px; font-weight:bold;">Specie PG</td><td>
+			 </style>
+				<script>
+					function selectSex(ida,sexo)
+					{
+						jQuery('.selectable.sex').removeClass('active');
+						jQuery(ida).addClass('active');
 						
-						<select name="pgSpecie" id="pgSpecie" style="width:130px;" onchange="setSpecie(this.value);">
-						<optgroup label="Federazione">
-						<option value="Andoriana">Andoriana</option>
-						<option value="Bajoriana">Bajoriana</option>
-						<option value="Benzita">Benzita</option>
-						<option value="Betazoide">Betazoide</option>
-						<option value="Boliana">Boliana</option>
-						<option value="Caitiana">Caitiana</option>
-						<option value="Deltana">Deltana</option>
-						<option value="Denobulana">Denobulana</option>
-						<option value="Risiana">Risiana</option>
-						<option value="Tellarita">Tellarita</option>
-						<option value="Trill">Trill</option>
-						<option value="Umana" selected="selected">Umana</option>
-						<option value="Vulcaniana">Vulcaniana</option>
-						<option value="Zakdorn">Zakdorn</option>
-						<option value="Zaldan">Zaldan</option>
-						</optgroup>
-						</select>
+						if (sexo == 'm'){ jQuery('.race_fem, .race_place').hide(); jQuery('.race_mas').show();}
+						if (sexo == 'f'){jQuery('.race_mas, .race_place').hide(); jQuery('.race_fem').show();}  
 						
-						</td></tr>
+						jQuery('#select_sesso').val(sexo);
+					}
+					
+					function selectDivision(ida,divi){
+						jQuery('.selectable.division').removeClass('active');
+						jQuery(ida).addClass('active'); 
+						jQuery('.divihandler').hide();
+						jQuery('#divi_'+divi).show();
 						
-						<tr><td style="width:130px; font-weight:bold;">Sesso</td><td>
-						<select name="pgSesso" id="pgSesso" style="width:130px;" onchange="setSesso(this.value);">
-							<option value="M">Maschio</option>
-							<option value="F">Femmina</option>
-						</select></td></tr>
-						<tr><td colspan="2" style="text-align:center;"><a href="db.php?element=181" class="interfaceLink" onclick="window.open ('db.php?element=181','db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=617'); return false;">(Guida alle Specie)</a></td></tr>
-						<tr><td colspan="2" style="text-align:center;"><a href="index.php?guide=true" target="_blank" class="interfaceLink">(Guida)</a> - <a href="#" onclick="window.open ('db.php?element=150','db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=617'); return false;" class="interfaceLink">(Regolamento)</a></td></tr>
-						<tr><td colspan="2" style="text-align:center;">
-						<p style="font-size:12px; text-align:justify">Cliccando dichiari di accettare i <a href="#" onclick="window.open('condizioni.htm','info',config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=490,height=605')" class="interfaceLink">Termini e Condizioni del servizio</a>, di accettare l'<a href="#" onclick="window.open('informativa.htm','info',config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=490,height=605')" class="interfaceLink">Informativa sulla Privacy</a> <span style="color:red; font-weight:bold;">e di avere pi&ugrave; di 16 anni</span></p><input type="submit" value="[ - ACCETTO E MI ISCRIVO - ]" /></td></tr>
-						</table>
-					</form><br /><br /></div>
+						var ari = { "sfC":'dutyr', "sfT":'dutyy', "sfI":'dutyy', "sfS":'dutyt', "sfM":'dutyt', "bar":'civbar',  "ing":'civing',  "sci":'civsci',  "com":'civcom','civ':'civpol'};
+						 
+						jQuery('#select_grado').val(jQuery('#divi_'+divi).val());
+						jQuery('#select_gradoimage').val(jQuery('#divi_'+divi).val().split('_')[1]);
+						
+						jQuery('#select_uniform').val(ari[divi]);
+						jQuery('#select_sezione').val(divi);
+					}
 					
+					function selectRace(ida,race)
+					{
+						jQuery('.selectable.race').removeClass('active');
+						jQuery(ida).addClass('active');
+						jQuery('#select_razza').val(race);
+						
+					}
 					
-				</div>
-				<img style="border-radius:0 0 15px 15px; margin-top:20px;" src="TEMPLATES/img/interface/index/banner3.png" alt="" />
+					function setRole(ida){
+						jQuery('#select_grado').val(ida);
+						 
+						 jQuery('#select_gradoimage').val(ida.split('_')[1]);
+					}
+					 
+					function regPage(ida){
+						
+						if(ida=="2") {   
+						
+						
+						jQuery('.species_spec').hide();
+						jQuery('.sections_spec').hide();
+						jQuery('#sp_'+jQuery('#select_razza').val()).show();
+						jQuery('#se_'+jQuery('#select_sezione').val()).show();
+						jQuery('#mirror_name').html(jQuery('#select_nome').val()+' '+jQuery('#select_cognome').val())
+						jQuery('#mirror_uniform').attr('src','TEMPLATES/img/uniformi/'+jQuery('#select_uniform').val()+jQuery('#select_sesso').val()+'.png');
+						jQuery('#mirror_razza').attr('src','TEMPLATES/img/specie/'+jQuery('#select_razza').val()+'_'+jQuery('#select_sesso').val()+'.png');
+						jQuery('#mirror_razza_t').html(jQuery('#select_razza').val());
+						if (jQuery('#select_gradoimage').val() != '') jQuery('#mirror_grado').attr('src','http://miki.startrekfederation.it/SigmaSys/PIPS/'+jQuery('#select_gradoimage').val()+'.png');
+						else jQuery('#mirror_grado').hide();
+						
+						jQuery('#REG #page1, #REG #page3').fadeOut(200,function(){ setTimeout(function(){jQuery('#REG #page2').fadeIn(100)},300);});
+						
+						}
+						if(ida=="1") {jQuery('#REG #page2, #REG #page3').fadeOut(200,function(){jQuery('#REG #page1').fadeIn(100);});}
+						if(ida=="3") {jQuery('#REG #page1, #REG #page2').fadeOut(200,function(){jQuery('#REG #page3').fadeIn(100);});}
+						
+						
+					}
+					
+					function char_addNextLVL(ida)
+					{
+						
+						target_20 = Number(jQuery('#val_'+ida).val()) + 1;
+						target = Number((target_20 / 20 *100) | 0); 
+						 
+						jQuery.post('ajax_skillmgr.php?action=get-step',{'what':ida,'to':target_20},function(e){alert('CC'); alert(e['cost']); });
+						
+						
+						jQuery('#val_'+ida).attr('value',target_20);
+						jQuery('#'+ida+'_marker_current').html('['+String(target_20)+']');
+						 
+						
+						jQuery('#bar_'+ida+' span').css('width',target+'%');
+						return false;
+					}
+					
+					function char_subPrevLVL(ida)
+					{
+						target = Number(((parseInt(jQuery('#val_'+ida).val()) - 1 ) / 20 *100) | 0);
+						
+						jQuery('#val_'+ida).attr('value',(parseInt(jQuery('#val_'+ida).val()) - 1));
+						
+						jQuery('#bar_'+ida+' span').css('width',target+'%');
+						return false;
+					}
+				</script>
+			<div id="REG" class="sliding" tal:attributes="style php:(mod == 'REG') ? 'display:block' : 'display:none';">
+				<form method="POST" id="regform" action="service.php?registerUser=true">  
+					<input type="hidden" id="select_razza" name="select_razza" />
+					<input type="hidden" id="select_grado" name="select_grado" />
+					<input type="hidden" id="select_gradoimage" name="select_gradoimage" value="" />
+					<input type="hidden" id="select_sezione" name="select_sezione" />
+					<input type="hidden" id="select_uniform" name="select_uniform" />
+					<input type="hidden" id="select_sesso" name="select_sesso" />
+					<input type="hidden" tal:attributes="value aut" name="pgAuth" id="pgAuth"/>
 			
-			</div>-->
+				<div style="padding-left:50px;padding-right:50px;" id="page1">
+					<p class="title" style="margin:auto; text-align:center; margin-bottom:20px;">Registra un nuovo account</p> 
+					
+					<p style="text-align:justify; font-size:15px; margin:0px; font-family:Verdana; font-weight:bold;">Star Trek: Federation ti offre l'opportunità di giocare da subito un personaggio dell'ambientazione a tua scelta: personalizza il tuo personaggio utilizzando il menu sottostante</p>
+				 
+						
+						<div class="menureg head" style="float:left;">Inserici il tuo indirizzo E-mail</div> 
+						<input class="menureg" style="float:left; margin-left:10px;" id="select_email" type="email" name="select_email" />
+						<div style="clear:both"/>
+						
+						<hr />
+						<p><span class="title" style="font-size:1.8em;">Scegli il tuo Personaggio Primario</span><span  style="font-size:1.5em;">: Un equipaggio distante da casa su una Base Stellare nel profondo dello spazio. Scegli il destino del tuo personaggio fra le sequenti opzioni:</span></p>
+						
+						   
+						<div class="container" style="width:45%; float:left;">
+						<div class="menureg top head">Nome del Personaggio</div>
+						<input class="menureg bottom little left" placeholder="Nome" id="select_nome" name="select_nome" />
+						<input class="menureg bottom little right" placeholder="Cognome"  id="select_cognome" name="select_cognome" />
+						</div>
+						
+						<div class="container" style="width:45%; float:right;">
+						<div class="menureg top head">Sesso del Personaggio</div>
+						<div class="menureg bottom little left sex sex_male selectable" onclick="javascript:selectSex(this,'m');">Maschio</div>
+						<div class="menureg bottom little right sex sex_female selectable" onclick="javascript:selectSex(this,'f');">Femmina</div> 
+						</div><div style="clear:both;"/>
+						
+						<div style="margin-top:20px;">
+						
+						<div class="container" style="width:45%; float:left;">
+							 	 
+							<div class="menureg top head">Ruolo del Personaggio</div> 
+								<p  style="font-size:1.3em; text-align:justify">Quale personaggio ti piacerebbe interpretare? Scegli un ruolo specifico, oppure seleziona "Privato Cittadino" per ottenere un generico personaggio civile da personalizzare più avanti. Se dovessi cambiare idea più avanti, potrai rivedere queste impostazioni contattando la gestione!</p>
+							 
+							 
+							<div class="rectChoice division selectable" onclick="selectDivision(this,'sfC')"><p>Flotta Stellare<br/>Sezione Comando</p></div>   
+							<div class="rectChoice division selectable" onclick="selectDivision(this,'sfT')"><p>Flotta Stellare<br/>Sezione Tattica</p></div>   
+							<div class="rectChoice division selectable" onclick="selectDivision(this,'sfI')"><p>Flotta Stellare<br/>Sezione Ingegneria</p></div>   
+							<div class="rectChoice division selectable" onclick="selectDivision(this,'sfS')"><p>Flotta Stellare<br/>Sezione Scientifica</p></div>   
+							<div class="rectChoice division selectable" onclick="selectDivision(this,'sfM')"><p>Flotta Stellare<br/>Sezione Medica</p></div>   
+							
+							<div class="rectChoice division selectable" onclick="selectDivision(this,'bar')"><p>Commercianti e Baristi</p></div>  
+							<div class="rectChoice division selectable" onclick="selectDivision(this,'ing')"><p>Ingegneri</p></div>  
+							<div class="rectChoice division selectable" onclick="selectDivision(this,'sci')"><p>Scienziati<br/>Civili</p></div>  
+							<div class="rectChoice division selectable" onclick="selectDivision(this,'com')"><p>Piloti commerciali</p></div>  
+							<div class="rectChoice division selectable" onclick="selectDivision(this,'civ')"><p>Privato Cittadino</p></div>  
+							 
+						</div>
+						
+						<div class="container" style="width:45%; float:right;">
+							<div class="menureg top head">Razza del Personaggio</div>
+							<div style="margin-top:10px;"> 
+								<div class="squareChoice race selectable" onclick="selectRace(this,'Umana')"> <img src="TEMPLATES/img/specie/Umana_m.png" class="race_place grayScale"/><img src="TEMPLATES/img/specie/Umana_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/Umana_f.png" class="race_fem"/><p>Umani</p></div>    
+								<div class="squareChoice race selectable" onclick="selectRace(this,'Vulcaniana')"> <img src="TEMPLATES/img/specie/Vulcaniana_m.png" class="race_place grayScale"/> <img src="TEMPLATES/img/specie/Vulcaniana_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/Vulcaniana_f.png" class="race_fem"/><p>Vulcaniani</p></div>    
+								<div class="squareChoice race selectable" onclick="selectRace(this,'Trill')"> <img src="TEMPLATES/img/specie/Trill_m.png" class="race_place grayScale"/> <img src="TEMPLATES/img/specie/Trill_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/Trill_f.png" class="race_fem"/><p>Trill</p></div>    
+								<div class="squareChoice race selectable" onclick="selectRace(this,'Betazoide')"> <img src="TEMPLATES/img/specie/Betazoide_m.png" class="race_place grayScale"/> <img src="TEMPLATES/img/specie/Betazoide_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/Betazoide_f.png" class="race_fem"/><p>Betazoidi</p></div>    
+								<div class="squareChoice race selectable" onclick="selectRace(this,'Andoriana')"> <img src="TEMPLATES/img/specie/Andoriana_m.png" class="race_place grayScale"/> <img src="TEMPLATES/img/specie/Ferengi_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/Andoriana_f.png" class="race_fem"/><p>Andoriani</p></div>    
+								<div class="squareChoice race selectable" onclick="selectRace(this,'Bajoriana')"> <img src="TEMPLATES/img/specie/Bajoriana_m.png" class="race_place grayScale"/> <img src="TEMPLATES/img/specie/Bajoriana_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/Bajoriana_f.png" class="race_fem"/><p>Bajoriani</p></div>  
+								</div><div style="clear:both" />
+								
+								
+							<div class="menureg top head" style="margin-top:20px;" >Grado / Posizione</div>
+							<p  style="font-size:1.3em; text-align:justify;">La lista delle posizioni disponibili dipende dalle disponibilità di gioco: scegli con attenzione il grado del tuo PG. Un grado elevato equivale a maggiori responsabilità.<br/>
+							Prima di ottenere il grado selezionato ti verrà chiesto di rimanere in gioco per un <strong>periodo di prova</strong> (con un grado più basso di quello scelto)</p>
+							
+							<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_sfC" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
+									 
+								<optgroup label="Ufficiali">
+									<option value="470_o4">Tenente Comandante, Sezione Comando (Flotta Stellare)</option>
+									<option value="460_o3">Tenente, Sezione Comando (Flotta Stellare)</option>
+									<option value="448_o2">Sottotenente, Sezione Comando (Flotta Stellare)</option>
+									<option value="428_o1">Guardiamarina, Sezione Comando (Flotta Stellare)</option>
+								</optgroup>
+								
+								<optgroup label="Sottufficiali">
+									<option value="390_e8">Capo Senior, Sezione Comando (Flotta Stellare)</option>
+									<option value="380_e7" selected="selected">Capo Specialista, Sezione Comando (Flotta Stellare)</option>
+								</optgroup>
+							</select> 
+							
+							<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_sfT" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
+									 
+								<optgroup label="Ufficiali">
+									<option value="468_o4">Tenente Comandante, Sezione Tattica e Sicurezza (Flotta Stellare)</option>
+									<option value="458_o3">Tenente, Sezione  Tattica e Sicurezza  (Flotta Stellare)</option>
+									<option value="446_o2">Sottotenente, Sezione  Tattica e Sicurezza  (Flotta Stellare)</option>
+									<option value="426_o1">Guardiamarina, Sezione  Tattica e Sicurezza  (Flotta Stellare)</option>
+								</optgroup>
+								
+								<optgroup label="Sottufficiali" >
+									<option value="388_e8">Capo Senior, Sezione  Tattica e Sicurezza  (Flotta Stellare)</option>
+									<option value="378_e7">Capo Specialista, Sezione  Tattica e Sicurezza  (Flotta Stellare)</option>
+									<option value="368_e6" selected="selected">Capo di Prima Classe, Sezione  Tattica e Sicurezza  (Flotta Stellare)</option>
+								</optgroup>
+							</select> 
+							
+							<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_sfI" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
+									 
+								<optgroup label="Ufficiali">
+									<option value="466_o4">Tenente Comandante, Sezione Ingegneria (Flotta Stellare)</option>
+									<option value="454_o3">Tenente, Sezione  Ingegneria  (Flotta Stellare)</option>
+									<option value="444_o2">Sottotenente, Sezione  Ingegneria  (Flotta Stellare)</option>
+									<option value="424_o1">Guardiamarina, Sezione  Ingegneria  (Flotta Stellare)</option>
+								</optgroup>
+								
+								<optgroup label="Sottufficiali">
+									<option value="386_e8">Capo Senior, Sezione  Ingegneria  (Flotta Stellare)</option>
+									<option value="376_e7">Capo Specialista, Sezione  Ingegneria  (Flotta Stellare)</option>
+									<option value="366_e6" selected="selected">Capo di Prima Classe, Sezione  Ingegneria  (Flotta Stellare)</option>
+								</optgroup>
+							</select> 
+							
+							<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_sfS" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
+									 
+								<optgroup label="Ufficiali">
+									<option value="464_o4">Tenente Comandante, Sezione Scientifica (Flotta Stellare)</option>
+									<option value="452_o3">Tenente, Sezione  Scientifica  (Flotta Stellare)</option>
+									<option value="442_o2">Sottotenente, Sezione  Scientifica  (Flotta Stellare)</option>
+									<option value="422_o1">Guardiamarina, Sezione  Scientifica  (Flotta Stellare)</option>
+								</optgroup>
+								
+								<optgroup label="Sottufficiali">
+									<option value="384_e8">Capo Senior, Sezione  Scientifica  (Flotta Stellare)</option>
+									<option value="374_e7">Capo Specialista, Sezione  Scientifica  (Flotta Stellare)</option>
+									<option value="364_e6" selected="selected">Capo di Prima Classe, Sezione  Scientifica  (Flotta Stellare)</option>
+								</optgroup>
+							</select> 
+							
+							<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_sfM" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
+									 
+								<optgroup label="Ufficiali">
+									<option value="462_o4">Tenente Comandante, Sezione Medica (Flotta Stellare)</option>
+									<option value="450_o3">Tenente, Sezione  Medica  (Flotta Stellare)</option>
+									<option value="440_o2">Sottotenente, Sezione  Medica  (Flotta Stellare)</option>
+									<option value="420_o1">Guardiamarina, Sezione  Medica  (Flotta Stellare)</option>
+								</optgroup>
+								
+								<optgroup label="Sottufficiali">
+									<option value="382_e8">Capo Senior, Sezione  Medica  (Flotta Stellare)</option>
+									<option value="372_e7">Capo Specialista, Sezione  Medica  (Flotta Stellare)</option>
+									<option value="362_e6" selected="selected">Capo di Prima Classe, Sezione  Medica  (Flotta Stellare)</option>
+								</optgroup>
+							</select> 
+							
+							<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_bar" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
+									 <option value="101">Apprendista  (Ristorazione)</option>
+									 <option value="119">Addetto di Ruolo (Ristorazione)</option>
+									 <option value="137">Capo di Rango (Ristorazione)</option>
+									 <option value="155">Responsabile di Ruolo (Ristorazione)</option>
+									 <option value="173">Direttore (Ristorazione)</option>
+							</select>
+						<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_ing" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
+									 <option value="107">Studente  (Ingegneria Civile)</option>
+									 <option value="125">Manutentore (Ingegneria Civile)</option>
+									 <option value="143">Ingegnere (Ingegneria Civile)</option>
+									 <option value="161">Ingegnere Specialista (Ingegneria Civile)</option>
+									 <option value="179">Direttore (Ingegneria Civile)</option>
+							</select>
+						<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_com" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
+									 <option value="103">Allievo Ufficiale  (Flotta Civile)</option>
+									 <option value="121">Ufficiale Junior (Flotta Civile)</option>
+									 <option value="139">Ufficiale (Flotta Civile)</option>
+									 <option value="157">Vice Comandante (Flotta Civile)</option>
+									 <option value="175">Comandante (Flotta Civile)</option>
+							</select>
+						<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_sci" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
+									 <option value="117">Studente  (Scienze)</option>
+									 <option value="135">Ricercatore(Scienze)</option>
+									 <option value="153">Ricercatore Specialista (Scienze)</option>
+									 <option value="171">Vice Direttore (Scienze)</option>
+									 <option value="191">Direttore (Scienze)</option>
+							</select>
+							
+							<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_civ" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
+									 <option value="1">Privato CIttadino</option> 
+							</select>
+
+
+							<div class="rectChoice buttonGo selectable" onclick="regPage('2');"><p>Prosegui...</p></div>   
+							
+						</div> 
+						
+						</div>
+						
+						 <div style="clear:both;" />
+						
+						  
+				
+				 </div>
+				 
+				 <div style="padding-left:50px;padding-right:50px; display:none;" id="page2">
+					<p class="title" style="margin:auto; text-align:center; margin-bottom:20px;">Dettagli del Personaggio: <span id="mirror_name" /></p> 
+					
+					  
+						<div class="container" style="width:25%; float:left;">
+							 
+							<img id="mirror_uniform"/><br />
+							
+							<img id="mirror_grado" style="height:15px;" /> <img id="mirror_razza" />
+						</div>
+						
+						<div class="container" style="width:70%; float:right;">
+						 
+							<div class="menureg top head">La razza che hai scelto: <span id="mirror_razza_t" /></div>
+							
+								<div class="species_spec" id="sp_Umana">Gli umani sono la razza con la maggiore espansione nella Federazione Unita dei Pianeti. Originari del pianeta Terra nel sistema Sol gli esseri umani sono stati la spinta iniziale alla fondazione della Federazione Unita dei Pianeti e si sono diffusi in tutti i quadranti con migliaia di colonie maggiori, molte delle quali divenute a loro volta indipendenti e membri della Federazione. Gli esseri umani sono poliedrici ed è impossibile definire un carattere comune, le loro più grandi forze sono la versatilità, la capacità di adattamento e la capacità di lavorare in gruppo. Per questo motivo gli esseri umani sono la spina dorsale della Flotta Stellare i cui membri umani superano di gran lunga il numero di altre specie.</div>
+								
+								<div class="species_spec" id="sp_Vulcaniana">Logica. La logica muove i fili della vita di tutti i giorni di un vulcaniano ed i vulcaniani amano ricordare quanto la logica della ragione sia più importante delle emozioni. Razza umanoide del tutto simile ad un essere umano esteriormente se non per le orecchie leggermente allungate ed appuntite. Vivono secondo un rigido codice comportamentale che prevede l'estraniazione delle emozioni dalla loro esistenza, sviluppato in tempi antichi dopo grandi tumulti a causa della natura aggressiva e violenta degli antichi vulcaniani. I vulcaniani sono dotati di capacità telepatiche al contatto. Per le loro caratteristiche ed i metodi utilizzati i vulcaniani si inseriscono perfettamente in tutte le discipline civili e militari. I vulcaniani sono tra i più grandi promotori e partecipanti dello sviluppo tecnologico e culturale della Federazione Unita dei Pianeti. I vulcaniani sono dotati di una forza fisica che ha pochi uguali nei quadranti Alpha e Beta. </div>
+								
+								<div class="species_spec" id="sp_Trill">I trill sono una razza umanoide del quadrante Alpha membro della federazione. Trill mantiene molto del proprio pianeta in una sorta di segretezza a cui hanno accesso solo i membri del Consiglio Federale di Sicurezza ed il presidente. La scelta di questi segreti è collegata alla natura molto intima delle leggi sui simbionti. Trill infatti è un mondo che ospita due specie dominanti. Una di queste, i trill ospiti, è divisa in due sottospecie ed ha una cultura ed una civiltà del tutto simile a quella di molte altre specie umanoidi. La seconda è un simbionte alieno dall'aspetto di una grossa larva che vive in caverne e bacini di proliferazione. Ospite e simbionte possono essere uniti, il simbionte trasferisce nell'ospite tutti i propri ricordi e quelli dei precedenti ospiti, in cambio l'ospite permette al simbionte di "vivere" al di fuori del suo stato larvale muovendosi con il corpo umanoide. I due individui comunque coesistono, l'ospite continua la propria normale esistenza, assume il nome del simbionte come proprio cognome. [Alla registrazione ogni trill è da considerarsi NON unito. L'unione potrà essere richiesta durante il gioco in una fase avanzata e sottoposto ad approvazione o reinvio] </div>
+								
+								<div class="species_spec" id="sp_Ferengi">I ferengi sono una razza non federale membri fondatori dell'Alleanza Ferengi, nonostante questo molti ferengi mettono in discussione la struttura sociale dell'Alleanza che prevede una continua e quasi ossessiva corsa al guadagno, spesso questi individui lasciano le aree dell'alleanza e si uniscono alla Flotta Stellare, diventando cittadini federali. I ferengi sono abili mercanti e truffatori. Possiedono una tecnologia avanzata, anche militarmente, sviluppata molto spesso in associazione alle necessità di difesa dei mercantili dai pirati. Ogni aspetto della vita ferengi è orientato secondo leggi sul commercio o intorno ad esse. </div>
+								
+								<div class="species_spec" id="sp_Betazoide">Attenti, sensibili, onesti. I betazoidi sono una razza di telepati ed empatici dall'aspetto del tutto simile a quello di un essere umano se non per la costante e regolare caratteristica di possedere oggi dalle iridi completamente nere. Le loro doti sociali e psioniche ne fanno ottimo personale medico, sia chirurgico che psicologico. Ogni betazoide viene educato all'uso delle proprie capacità telepatiche che possono raggiungere grandi distanze ma che sono più solitamente usate come mezzo di comunicazione ordinario tra betazoidi. Allo stesso modo la proprie capacità empatiche gli permettono di sentire le emozioni, e farle riflette su se stessi, delle persone intorno a loro quindi ogni giovane betazoide è addestrato alla gestione di simili situazioni. Ogni betazoide addestrato segue un codice comportamentale che gli vieta di abusare del proprio potere per entrare coattamente nelle menti altrui.</div>
+								
+								<div class="species_spec" id="sp_Bajoriana">Religiosi, testardi, orgogliosi. I Bajoriani sono una delle ultime specie ad essersi unite alla Federazione Unita dei Pianeti, dopo la Guerra con il Dominio e dopo anni di occupazione del loro pianeta e delle loro colonie da parte della vicina Unione Cardassiana. La fede religiosa è radicata nei bajoriani più di molte altre razze, vedono ai loro dei, i Profeti, delle guide che prestabiliscono gli eventi perché seguano un preciso percorso per il bene comune. I Vedek ed il Kai sono guide spirituali con una forte influenza anche sulla vita politica bajoriana e per anni sono stati uno dei freni per l'annessione di Bajor nello spazio federale, testardi ed orgogliosi i bajoriani si dimostrano spesso adatti ad incarichi nei sottodipartimenti di Tattica e Sicurezza. Esteriormente sono del tutto simili ad un essere umano, a parte per la caratteristica forma delle creste nasali. </div>
+								
+						<div class="menureg top head">Il Ruolo che hai scelto: </div>
+							 
+								<div class="sections_spec" id="se_sfC">
+									La sezione Comando e Navigazione è la suddivisione operativa che si occupa dell'organizzazione, della gestione burocratica, logistica, amministrativa della Flotta. Ne fanno parte: <ul><li>Timonieri;</li>
+									<li>Addetti alle comunicazioni</li>
+									<li>Controllori di Volo;</li>
+									<li>Diplomatici militari;</li>
+									<li>Personale giuridico e membri della magistratura militare;</li></ul>
+									L'uniforme del personale di questa area dipartimentale è di colore rosso.<br/>
+									I membri della sezione Comando e Navgiazione sono addestrati alla leadership, oltre che ad un certo numero di conoscenze tattiche e operative che gli permettono di organizzare e guidare il lavoro dei sottoposti. L'ammiragliato e tutti gli ufficiali in comando fanno parte di questa sezione. Per acquisire il ruolo di primo ufficiale, o di capitano è necessario il passaggio alla sezione Comando e Navigazione: il che implica che l'arruolamento iniziale nella sezione Comando e Navigazione non è condizione necessaria per diventare capitano, o per assumere il comando.  
+								</div>
+								<div class="sections_spec" id="se_sfT">
+								La sezione Tattica e Sicurezza è la suddivisione operativa che si occupa del servizio di indagine, sicurezza e pianificazione strategica della Flotta. Ne fanno parte:<ul>
+								<li>Addetti della Sicurezza;</li>
+								<li>Operatori Tattici;</li>
+								<li>Agenti e Analisti dell'Intelligence;</li>
+								<li>Armieri;</li></ul>
+
+								L'uniforme del personale di questa area dipartimentale è di colore giallo. I membri della sezione Tattica e Sicurezza sono addestrati alle operazioni di sicurezza a bordo di vascelli ed installazioni orbitali o nello spazio profondo; operazioni di strategia e tattica militare e navale, procedure di indagine ed operazioni di intelligence secondo la specializzazione dipartimentale che viene da loro scelta o per la quale ottengono diretta assegnazione. I due principali dipartimenti, cui solitamente si suddivide l'organizzazione di un vascello, sono nel nome stesso della sezione; il Dipartimento Tattico si occupa della pianificazione tattica e strategica delle unità cui prestano servizio, sono responsabili dei sistemi di armamento e difesa di un vascello; il Dipartimento di Sicurezza si occupa invece delle operazioni che riguardano strettamente la difesa dei membri dell'equipaggio e della sicurezza, per l'appunto, del vascello stesso da pericoli a bordo dell'unità.   
+								</div>
+								
+								<div class="sections_spec" id="se_sfI">
+									La sezione Ingegneria è la suddivisione operativa che si occupa del controllo, manutezione e messa in operatività dei sistemi elettronici, meccanici e più genericamente ingegneristici di un unità operativa dell Flotta Stellare. Ne fanno parte:<ul>
+									<li>Addetti della Propulsione;</li>
+									<li>Addetti delle Operazioni;</li>
+									<li>Ingegneri navali;</li>
+									<li>Ingegneri militari;</li>
+									<li>Addetti alla manutenzione;</li></ul>
+									L'uniforme del personale di questa area dipartimentale è di colore giallo. 
+
+									I membri della sezione Ingegneria sono addestrati alle operazioni di manutenzione e controllo dei sistemi di bordo. Si occupano della progettazione di nuovi strumenti elettronici e meccanici per conto della Flotta Stellare, gestiscono e verificano il corretto funzionamento dei sistemi di distribuzioen energetica e di trasmissione dati, progettano e costruiscono dalle armi ai vascelli e le starbase insieme a personale civile esperto affiancato dal Comando di FLotta. Sono il nucleo operativo per tutto quello che riguarda la costruzione, la riparazione ed il corretto funzionamento dei sistemi. 
+
+									L'ingegneria solitamente si organizza in dipartimenti secondo aree di specifica competenza per i propri operatori; dalla propulsione alle operazioni, ovvero il controllo dei sistemi energetici e trasmissione dati, dalla manutenzione strutturale alla ricerca e sviluppo.
+									
+									
+								</div>
+								<div class="sections_spec" id="se_sfS">La sezione scientifica è la suddivisione operativa che si occupa delle analisi, della manutenzione ordinaria degli strumenti, dei filoni di ricerca. Ne fanno parte:<ul>
+								<li>Addetti della Rilevazione - Astrometristi, Astrofisici;</li>
+								<li>Addetti ai laboratori Chimici e Biologici;</li>
+								<li>Addetti ai laboratori Fisici;</li>
+								<li>Ingegneri scientifici;</li>
+								<li>Programmatori informatici e olografici;</li>
+								<li>Crittologi</li></ul>
+								L'uniforme del personale di questa area dipartimentale è di colore verde teal.
+
+								I membri della sezione scientifica sono addestrati in relazione alla loro area di specializzazione, e sono in generale provvisti di un folto background scientifico. Sono personalità dotate di un forte know-how specialistico, che si occupano della prosecuzione di ben determinati filoni di ricerca, pianificati dalla missione o necessari nell'immediatezza. Gestiscono e affinano i sensori interni ed esterni, i laboratori di bordo, il nucleo del computer e le ottimizzazioni informatiche da esso derivanti. Alcuni sono attivi in settori a stretto contatto con le sezioni ingegneristica e medica. 
+
+								La Sezione solitamente si organizza in dipartimenti secondo aree di specifica competenza per i propri operatori; dalla chimica alle operazioni di rilevamento. </div>
+								<div class="sections_spec" id="se_sfM">
+									La sezione MEDICA è la suddivisione scientifica che si occupa di fornire assistenza medica al personale di tutta la Flotta Stellare, sia essa continuata nel tempo (cronica) che immediata. E' responsabile anche del proseguimento delle attività di ricerca intimamente connesse alla medicina e alla terapia. Ne fanno parte:<ul>
+									<li>Medici;</li>
+									<li>Infermieri e Paramedici;</li>
+									<li>Addetti di laboratorio;</li>
+									<li>Ingegneri biomedici;</li>
+									<li>Soccorritori;</li>
+									<li>Psicologi e Consiglieri</li></ul>
+									L'uniforme del personale di questa area dipartimentale è di colore verde teal. 
+
+									I membri della sezione medica sono addestrati in materie mediche più o meno specifiche in relazione alla loro area. Si tratta di personale esperto nel trattamento di patologie e stati medici di varia natura, che presta servizio nelle infermerie e nei presidi medici. Gestiscono l'infermeria e gli ambienti ad essa direttamente collegati.  
+								</div>
+								
+								
+								<div class="sections_spec" id="se_bar"> Comprende il personale civile in servizio nelle aree deputate alla ristorazione, all'intrattenimento e al commercio. Il personale civile si organizza indipendentemente (liberi professionisti) o mediante la formazione di associazioni e corporazioni.</div>
+								<div class="sections_spec" id="se_ing">  Comprende il personale civile di supporto alla gestione ingegneristica di bordo. Gli ingegneri civili possono operare anche indipendentemente in realtà civli (private o meno). Sui vascelli esterni alla giurisdizione della Flotta Stellare operano di norma come freelance. Il personale civile si organizza indipendentemente (liberi professionisti) o mediante la formazione di associazioni e corporazioni. </div>
+								<div class="sections_spec" id="se_sci">Scienziati e Medici che operano sui vascelli civili, o nelle installazioni non esclusivamente militari. Possono essere impiegati a supporto di missioni scientifiche militari, qualora se ne ravvisasse la necessità. Dipendono di norma dall'autorità sanitaria locale.</div>
+								<div class="sections_spec" id="se_com">Piloti civili commerciali: si occupano di trasporti di cose e persone al di là dell'ambito prettamente militare.</div>
+								<div class="sections_spec" id="se_civ">Privato cittadino: un personaggio senza un'assegnazione specifica. Puoi usare questo ruolo come punto di partenza per qualsiasi altro ruolo, qualora non fossi ancora sicuro della strada da far intraprendere al tuo PG</div>
+						</div><div style="clear:both;"/>	 
+						 
+						 <div class="rectChoice buttonBack selectable" onclick="regPage('1');"><p>Indietro</p></div> 
+						 <div class="rectChoice buttonGo selectable" onclick="regPage('3');"><p>Prosegui...</p></div> 
+				
+				 </div>
+				<div style="padding-left:50px;padding-right:50px; display:none;" id="page3">
+					<p class="title" style="margin:auto; text-align:center; margin-bottom:20px;">Dettagli del Personaggio: <span id="mirror_name" /></p> 
+					
+					  
+						 <div>
+							<div class="container" style="width:45%; float:left;">
+								<div class="menureg top head">Caratteristiche</div> 
+								
+								<input type="hidden" class="rezero-onupdate" id="val_dx" value="10" />
+								
+								<div style=" height:40px; margin-top:5px; width:100%; ">
+									 
+									<div class="creation-char-indicator"> DX </div>
+									<div class="creation-char-main">
+											
+											<div class="creation-char-intermediate1"> 
+												<button class="minusButton selectable" onclick="return char_subPrevLVL('dx')"><img src="TEMPLATES/img/interface/personnelInterface/minusicon.png" style="width:20px;" /></button>
+											</div>
+											<div class="creation-char-intermediate2" style="position:relative; font-weight:bold;"> DESTREZZA <span id="dx_marker_current">[10]</span> <br />
+												<span style="display:block; position:absolute; top:0px; left:5px;"><span style="color:#86949d">1</span> FP </span>
+												<span style="display:block; position:absolute; top:0px; right:5px;"><span style="color:#367bab ">3</span> FP </span>
+												<div class="progress-bar" id="bar_dx"><span style="width:50%;"></span>
+											</div>
+											</div>
+											
+											<div class="creation-char-intermediate1"> <button class="plusButton selectable" onclick="return char_addNextLVL('dx')"><img src="TEMPLATES/img/interface/personnelInterface/plusicon.png" style="width:20px;" /></button>
+											
+											</div>
+											
+											
+									</div>
+								</div>
+								
+							</div> 
+							
+							<div class="container" style="width:45%; float:right;">
+								<div class="menureg top head">Abilità</div>
+								 [WIP]
+							</div>
+						</div><div style="clear:both;"/>
+						
+						
+						<p style="font-size:1.5em;"> Il resto dei parametri della Scheda Personaggio potranno essere modificati direttamente in gioco </p>
+						<div class="rectChoice" style="width:200px; font-size:1.6em; font-weight:bold; text-align:center; background-color:#243985 float:left;" onclick="regPage('2');"><p>Indietro</p></div> <br/><br/>
+						 <div class="rectChoice buttonGo selectable" onclick="jQuery('#regform').submit();"><p>Prosegui...</p></div> 
+						 
+						  
+				
+				 </div>
+				</form>
+			</div> 
 			
-			
-			<div id="CON" class="sliding"  tal:attributes="style php:(mod == 'CON') ? 'display:block' : 'display:none';">
-			<div style="clear:both;" /><br />
-			<p class="title">Contatti</p>
-				
-			<div style="margin-top:20px;">
-				
-				<div style="text-align:left;  border:1px solid #999; width:400px; height:120px; float:left; margin-left:60px;  font-size:14px; padding:10px;" class="radiusBordered12">
-					<div style="float:left;"><img tal:attributes="src admT/1/pgAvatar" style="width:100px;" alt="Avatar1" class="radiusBordered12" /></div>
-					<div style="float:right; width:280px; text-align:right;">
-					<p style="font-size:25px; margin:0px;letter-spacing:2px;" class="title">Moreno Zolfo</p>
-					<p style="font-size:15px; font-variant:small-caps; margin:0px; margin-top:5px;letter-spacing:2px;" class="title">Gestore</p>
-					<p style="font-size:15px; margin:0px; margin-top:10px; letter-spacing:2px;" class="title">moreno@startrekfederation.it</p>
-					</div><div style="clear:both;" />
-					
-					<img style="vertical-align: middle;" tal:attributes="src string:TEMPLATES/img/ranks/${admT/1/ordinaryUniform}.png; title string:${admT/1/pgGrado} - Sezione ${admT/1/pgSezione}" alt=""/> <span style="font-weight:bold;" tal:content="admT/1/pgUser" />
-					<div style="float:right;"><a href="skype:destiny-one?add"><img src="TEMPLATES/img/interface/index/icons/Skype24.png" style="border: none;"  alt="Skype:destiny-one" title="Skype:destiny-one"/></a> <a target="_blank" href="http://www.facebook.com/digital-destiny"><img src="TEMPLATES/img/interface/index/icons/Facebook24.png" alt="" /></a> <a href="mailto:moreno@startrekfederation.it"><img src="TEMPLATES/img/interface/index/icons/Email24.png" alt=""/></a></div>
-
-				</div>
-				<div style="position:relative; border-top:1px solid #999; top:25px; left:482px; width:74px;" />
-				<div style="position:relative; border-top:1px solid #999; top:117px; left:482px; width:74px;" />
-
-				<div style="text-align:left;  border:1px solid #999; width:400px; height:120px; float:right; margin-right:60px; font-size:14px; padding:10px;" class="radiusBordered12">
-					<div style="float:left;"><img tal:attributes="src admT/5/pgAvatar" alt="" style="width:100px;" class="radiusBordered12" /></div>
-					<div style="float:right; width:280px; text-align:right;">
-					<p style="font-size:25px; margin:0px;letter-spacing:2px;" class="title">Igor Sontacchi</p>
-					<p style="font-size:15px; font-variant:small-caps; margin:0px; margin-top:5px;letter-spacing:2px;" class="title">Gestore</p>
-					<p style="font-size:15px; margin:0px; margin-top:10px; letter-spacing:2px;" class="title">igor@startrekfederation.it</p>
-					</div><div style="clear:both;" />
-					
-					<img style="vertical-align: middle;" tal:attributes="src string:TEMPLATES/img/ranks/${admT/5/ordinaryUniform}.png; title string:${admT/5/pgGrado} - Sezione ${admT/5/pgSezione} " alt=""/> <span style="font-weight:bold;" tal:content="admT/5/pgUser" />
-					<div style="float:right;"><a href="skype:ipnoseledil?chat"><img src="TEMPLATES/img/interface/index/icons/Skype24.png" style="border: none;"  alt="Skype:ipnoseledil" title="Skype:ipnoseledil"/></a> <a target="_blank" href="http://www.facebook.com/igor.sontacchi"><img src="TEMPLATES/img/interface/index/icons/Facebook24.png" alt="" /></a> <a href="mailto:igor.sontacchi@gmail.com"><img src="TEMPLATES/img/interface/index/icons/Email24.png" alt="" /></a></div>
-				</div><div style="clear:both" />
-				
-				<div style="width:920px;  margin-right:auto; margin-top:60px; margin-left:auto; ">
-				<div style="text-align:left;  height:120px; width:400px; border:1px solid #999; float:left; font-size:14px; padding:10px;" class="radiusBordered12">
-					<div style="float:left;"><img tal:attributes="src admT/796/pgAvatar" alt="" style="width:100px;" class="radiusBordered12" /></div>
-					<div style="float:right; width:280px; text-align:right;">
-					<p style="font-size:25px; margin:0px;letter-spacing:2px;" class="title">Claudio F.</p>
-					<p style="font-size:15px; font-variant:small-caps; margin:0px; margin-top:5px;letter-spacing:2px;" class="title">Master Globale</p>
-					<p style="font-size:15px; margin:0px; margin-top:10px; letter-spacing:2px;" class="title">claudio@startrekfederation.it</p>
-					</div><div style="clear:both;" />
-					
-					<img style="vertical-align: middle;" tal:attributes="src string:TEMPLATES/img/ranks/${admT/796/ordinaryUniform}.png; title string:${admT/796/pgGrado} - Sezione ${admT/796/pgSezione} " alt=""/> <span style="font-weight:bold;" tal:content="admT/796/pgUser" />
-					<div style="float:right;"><a href="skype:galen1978?chat"><img src="TEMPLATES/img/interface/index/icons/Skype24.png" style="border: none;"  alt="Skype:galen1978" title="Skype:galen1978"/></a> <a href="mailto:claudio@startrekfederation.it"><img src="TEMPLATES/img/interface/index/icons/Email24.png" alt="" /></a></div>
-				</div>
-				
-					<div style="text-align:center; height:120px; border:1px solid #999; width:300px; float:right; font-size:14px; padding:10px;" class="radiusBordered12">
-					
-					<p style="font-size:25px; margin:0px;letter-spacing:2px; width:100px; float:left;" class="title">Social</p>
-					<a href="http://www.facebook.com/federation.pbc" title="Seguici su Facebook!" target="_blank"><img src="TEMPLATES/img/interface/index/icons/Facebook.png" alt="" /></a>
-					<a href="http://twitter.com/STFederation" target="_blank"><img src="TEMPLATES/img/interface/index/icons/Twitter.png" alt="" /></a>
-					<!--<img src="TEMPLATES/img/interface/index/icons/gplus.png" alt="" />-->
-					<br/>
-					<b>Contatta lo Staff:</b> <a href="skype:destiny-one?chat"><img src="http://mystatus.skype.com/smallclassic/destiny-one" style="border: none;" width="114" height="20" alt="Il mio stato" /></a><p style="font-size:15px; margin:0px; margin-top:10px; letter-spacing:2px; text-align:center;" class="title">staff@startrekfederation.it</p>
-				</div>
-				</div>
-
-				
-				
-			</div>
-				
-			</div>
+			 
 			
 			</div>
 			<div metal:use-macro="TEMPLATES/metal.htm/footer" />

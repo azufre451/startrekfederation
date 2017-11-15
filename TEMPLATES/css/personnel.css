@@ -10,12 +10,18 @@ src: url('../Roddenberry.eot');
 src: url('../Roddenberry.ttf') format('truetype');
 }
 
+
 @font-face{
 font-family:'federationFontI';
 src: url('../Roddenberry Oblique.eot');
 src: url('../Roddenberry Oblique.ttf') format('truetype');
 }
 
+
+@font-face{
+font-family:'enterpriseFont';
+src: url('../Enterprise_Bold.ttf') format('truetype');
+}
 td.tds,td.tdsa{text-align:center;font-size:10.5px; padding:3px; margin-top:3px;margin-left:4px;}
 td.tdsa{color:#52b4e1;text-align:left; font-size:10px; font-family:Verdana;}
  
@@ -113,8 +119,16 @@ height:530px; width:610px; overflow:auto; margin:15px; padding:4px; padding-left
 #tabEredit{width:365px; font-size:14px;}
 .bdr
 {
-	border:1px solid #333; width:250px;
+	border:1px solid #222; width:250px;
+	background:rgba(0,0,0,0.3)
+	
 }
+
+@keyframes example {
+    from {width:0}
+    to {width:100%;}
+}
+
 .borderOne{border:1px dotted #111; border-right:0px; width:100px;}
 
 #subBandaOff
@@ -265,6 +279,41 @@ margin-right: auto;
 text-align:center;
 background-image:url('../img/interface/personnelInterface/uniform_bkg.png');
 position:relative;
+}
+
+#backUniformDiv
+{
+	width: 200px;
+    height: 510px;
+    position: absolute;
+    top: 0px;
+    right: -15px;
+	
+}
+
+.accessoryDiv
+{
+	margin-top:15px;
+	border-radius:10px;
+	padding:10px;
+	border:1px solid #333;
+	width:55%;
+	text-align:center;
+	position:relative;
+	background-image:url('../img/interface/personnelInterface/b_uniform_bkg.png');
+}
+
+.accessoryDiv_e
+{
+	margin-top:5px;
+	padding:10px;
+	width:93%;
+	text-align:center;
+	border:1px solid #222;
+	border-radius:10px;
+	position:relative;
+	background:rgba(0,0,0,0.3)
+	
 }
 
 .boxLink:hover{box-shadow:white;}

@@ -22,6 +22,7 @@
 	jQuery(function(){
 			jQuery('#mirko').button();
 			jQuery('#toOff').button();
+			jQuery('.cambiaPWD').button();
 			jQuery('#toOn').button();
 			jQuery('#updateOff').button();
 			jQuery('.afw').minicolors();
@@ -69,27 +70,12 @@
 	
 	function setter(ida){
 			jQuery('.modifier:visible').fadeOut(0);
+			jQuery('#imago').css('height','200px').css('width','200px').css('background-image',"url('"+jQuery('#ediAvatarSquare').val()+"')");
 			jQuery('#'+ida).fadeIn(200);
 		}
 
 	</script>
-	<style>
-	
-	.interfaceLink_g,.interfaceLink_r{
-	font-size:12px;
-	font-weight:bold;
-	font-family:verdana;
-	}
-	
-	.interfaceLink_g{color:#0f0;}
-	.interfaceLink_r{color:#f00;}
-
-	a.interfaceLink_g:hover,a.interfaceLink_r:hover
-	{
-	color:orange;
-	}
-	
-	</style>
+	 
 </head>
 
 <body style="background-color:black; overflow:hidden; height:385px; padding:-5px;">
@@ -100,16 +86,17 @@
 <div id="mainContainer" style="height:530px; width:630px; overflow:auto; overflow-x:hidden; margin:15px; margin-left:0px;">
 <form action="scheda.php?s=editS" method="POST">
 <div id="schedaLeft" style="height:220px;">
-	<div id="imago" tal:attributes="style string:border:1px solid #999;; width:200px;; height:200px;; margin-left:auto;; margin-right:auto;; background-size: 200px 200px;; background-image:url('${userData/pgAvatar}');;">
+	<div id="imago" tal:attributes="style string:border:1px solid #999;; width:210px;; height:480px;; margin-left:auto;; margin-right:auto;; background-position:center;; background-size: auto 100%;; background-image:url('${userData/pgAvatar}');;">
 		<img  tal:attributes="src php:(userData.png == 1) ? 'TEMPLATES/img/interface/PNGmarker.png' : 'TEMPLATES/img/interface/NOmarker.png'" />
 	</div>
-	<div style="border:1px solid red; margin-left:10px; width:200px; text-align:center; margin-top:10px;" class="radiusBordered12"><a href="#" class="interfaceLink" style="font-size:13px; color:red;" onclick="javascript:window.open ('cambiaPWD.htm','pwd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=350,height=220');">Cambia la Password</a>
-</div>
+	
+		
+
 </div>
 <div id="schedaRight" style="margin-left:3px; margin-top:0px; width:360px; height:275px;">
 	<table cellspacing="2px" id="tabEredit">
 		<tbody>
-			<tr><td class="borderOne" colspan="2" style="text-align:right; height:30px; vertical-align:top; " ><input type="submit" onclick="return gotoOff();" id="toOff" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:#851818;" value="Scheda OFF" /> <input type="submit" id="mirko" value="MODIFICA" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:green;"/></td></tr>
+			<tr><td class="borderOne" colspan="2" style="text-align:right; height:30px; vertical-align:top; " > <input type="submit" onclick="return gotoOff();" id="toOff" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:#851818;" value="Scheda OFF" /> <input type="submit" onclick="javascript:window.open ('cambiaPWD.htm','pwd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=350,height=220'); return false;" class="cambiaPWD" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:#848518;" value="Cambia la Password" />  <input type="submit" id="mirko" value="MODIFICA" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:green;"/></td></tr>
 			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/nome.png" alt="Nome"/></td><td class="bdr"><input name="ediNome" tal:attributes="value string:${userData/pgNomeC}" style="width:80px;"/> <span tal:content="userData/pgUser" /> <input name="ediSuff" tal:attributes="value string:${userData/pgNomeSuff}" style="width:80px;" /></td></tr>
 			<tr><td class="borderOne"><img tal:attributes="src php:(userData.pgSesso == 'F') ? 'TEMPLATES/img/interface/personnelInterface/nata_luogo.png' : 'TEMPLATES/img/interface/personnelInterface/nato_luogo.png'" alt="Luogo di Nascita"/></td><td class="bdr"><input name="ediLuoN" tal:attributes="value string:${userData/pgLuoN}" style="width:98%;" /></td></tr>
 			<tr><td class="borderOne"><img tal:attributes="src php:(userData.pgSesso == 'F') ? 'TEMPLATES/img/interface/personnelInterface/nata_data.png' : 'TEMPLATES/img/interface/personnelInterface/nato_data.png'" alt="Data di Nascita"/></td><td class="bdr"><input name="ediDataN" tal:attributes="value string:${userData/pgDataN}" style="width:98%;" /></td></tr>
@@ -123,8 +110,10 @@
 			<option tal:condition="php:(userData.pgSesso == 'F' || userData.pgSesso == 'T')" tal:attributes="selected php:(userData.pgStatoCiv == 'Divorziata') ? 'selected' : false" value="Divorziata">Divorziata</option>
 			<option tal:condition="php:(userData.pgSesso == 'F' || userData.pgSesso == 'T')" tal:attributes="selected php:(userData.pgStatoCiv == 'Vedova') ? 'selected' : false" value="Vedova">Vedova</option>
 			</select></td></tr>
-			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/avatar.png" alt="Avatar"/></td><td class="bdr"><input name="ediAvatar" onchange="javascript:jQuery('#imago').css('background-image','url('+this.value+')')" tal:attributes="value string:${userData/pgAvatar}" style="width:98%;" /></td></tr>
-			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/modifica_dat.png" alt="Stato Civile"/></td><td class="bdr" style="font-size:11px; position:relative;">
+			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/avatar.png" alt="Avatar"/></td><td class="bdr"><input name="ediAvatar" onchange="javascript:jQuery('#imago').css('background-image','url('+this.value+')')" tal:attributes="value string:${userData/pgAvatar}" placeholder="Avatar rettangolare 210px x 480px" style="width:98%;" /></td></tr>
+			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/mini_avatar.png" alt="Mini Avatar"/> </td><td class="bdr"><input name="ediAvatarSquare" id="ediAvatarSquare" placeholder="Avatar quadrato 100px x 100px" tal:attributes="value string:${userData/pgAvatarSquare}" style="width:98%;" /></td></tr>
+			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/modifica_dat.png" alt="Modifica"/>				
+			</td><td class="bdr" style="font-size:11px; position:relative;">
 			
 			<p style="position:absolute; bottom:0px; right:0px;"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title='Ricorda che è possibile usare la sintassi HTML nelle sezioni delle schede ad esempio:
 			
@@ -134,13 +123,21 @@
 <b> TESTO </b> - Per inserire testo in grassetto
 <i> TESTO </i> - Per inserire testo in corsivo'/></p>
 			
-			<a href="javascript:void(0)" onclick="javascript:setter('biometrics')" tal:attributes="class php:(strlen(background['pgBiometrics']) > 1) ? 'interfaceLink_g' : 'interfaceLink_r'"><p style="margin:2px"> &raquo; Caratteristiche Fisiche</p></a>
-			<a href="javascript:void(0);" onclick="javascript:setter('backgrounder')" tal:attributes="class php:(strlen(background['pgBackground']) > 1) ? 'interfaceLink_g' : 'interfaceLink_r'"><p style="margin:2px;"> &raquo; Biografia</p></a>
-			<a href="javascript:void(0);" onclick="javascript:setter('personali')" tal:attributes="class php:(strlen(background['pgCarattere']) > 1) ? 'interfaceLink_g' : 'interfaceLink_r'"><p style="margin:2px;"> &raquo; Carattere e Indole</p></a>
-			<a href="javascript:void(0);" onclick="javascript:setter('family')" tal:attributes="class php:(strlen(background['pgFamily']) > 1) ? 'interfaceLink_g' : 'interfaceLink_r'"><p style="margin:2px;"> &raquo; Famiglia</p></a>
-			<a href="javascript:void(0);" onclick="javascript:setter('vars')" tal:attributes="class php:(strlen(background['pgVarie']) > 1) ? 'interfaceLink_g' : 'interfaceLink_r'"><p style="margin:2px;"> &raquo; Varie</p></a>
+			<a href="javascript:void(0)" onclick="javascript:setter('biometrics')" tal:attributes="class php:(strlen(background['pgBiometrics']) > 1) ? 'interfaceLinkGreen' : 'interfaceLinkRed'"><p style="margin:2px"> &raquo; Caratteristiche Fisiche</p></a>
+			<a href="javascript:void(0);" onclick="javascript:setter('backgrounder')" tal:attributes="class php:(strlen(background['pgBackground']) > 1) ? 'interfaceLinkGreen' : 'interfaceLinkRed'"><p style="margin:2px;"> &raquo; Biografia</p></a>
+			<a href="javascript:void(0);" onclick="javascript:setter('personali')" tal:attributes="class php:(strlen(background['pgCarattere']) > 1) ? 'interfaceLinkGreen' : 'interfaceLinkRed'"><p style="margin:2px;"> &raquo; Carattere e Indole</p></a>
+			<a href="javascript:void(0);" onclick="javascript:setter('family')" tal:attributes="class php:(strlen(background['pgFamily']) > 1) ? 'interfaceLinkGreen' : 'interfaceLinkRed'"><p style="margin:2px;"> &raquo; Famiglia</p></a>
+			<a href="javascript:void(0);" onclick="javascript:setter('ilsegreto')" tal:attributes="class php:(strlen(background['pgIlSegreto']) > 1) ? 'interfaceLinkGreen' : 'interfaceLinkRed'"><p style="margin:2px;"> &raquo; Il Segreto <span style="color:white">[Visibile Solo allo Staff]</span></p></a>
+			<a href="javascript:void(0);" onclick="javascript:setter('vars')" tal:attributes="class php:(strlen(background['pgVarie']) > 1) ? 'interfaceLinkGreen' : 'interfaceLinkRed'"><p style="margin:2px;"> &raquo; Varie</p></a>
 			<a href="javascript:void(0);" onclick="javascript:setter('quarters')" class="interfaceLink"><p style="margin:2px;" tal:condition="php:(showAllo == 'SI')">&raquo; Alloggio Personale</p></a>
 			</td></tr>
+
+			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/background_status.png" alt="Stato"/></td><td class="bdr">
+				<p style="color:white; padding:5px; border-radius:5px; text-align:center; width:110px; font-weight:bold; font-size:11px; margin:auto; background-color:#0a9100" tal:condition="php:(background['valid'])">APPROVATO</p>
+				<p style="color:white; padding:5px; border-radius:5px; text-align:center;  width:110px; font-weight:bold; font-size:11px; margin:auto; background-color:#910000" tal:condition="php:(!background['valid'])">IN APPROVAZIONE</p>
+			</td>
+
+			 </tr>
 		</tbody></table>
 </div>
 
@@ -148,7 +145,9 @@
 <div id="schedaRightOff" style="margin-left:3px; display:none; margin-top:0px; width:355px; float:left; height:220px;">
 	<table cellspacing="2px" id="tabEredit">
 			<tbody>
-			<tr><td class="borderOne" colspan="2" style="text-align:right; height:30px; vertical-align:top; " ><input type="submit" onclick="return gotoOn();" id="toOn" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:#334282;" value="Scheda ON" /> <input type="submit" id="updateOff" value="AGGIORNA" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px;"/></td></tr>
+			<tr><td class="borderOne" colspan="2" style="text-align:right; height:30px; vertical-align:top; " ><input type="submit" onclick="return gotoOn();" id="toOn" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:#334282;" value="Scheda ON" /> <input type="submit" onclick="javascript:window.open ('cambiaPWD.htm','pwd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=350,height=220'); return false;" class="cambiaPWD" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:#848518;" value="Cambia la Password" />   <input type="submit" id="updateOff" value="MODIFICA" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:green;"/>      
+
+			</td></tr>
 			
 			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/prestavolto.png" alt="Prestavolto"/></td><td class="bdr"><input onchange="checkPrestavolto();" onkeyup="checkPrestavolto();" id="prestCheckN" name="pgOffAvatarN" tal:attributes="value string:${prestavolto/pgOffAvatarN}" placeholder="Nome" style="width:45%;" /> <input placeholder="Cognome" id="prestCheck" name="pgOffAvatarC" onkeyup="checkPrestavolto();" onchange="checkPrestavolto();" tal:attributes="value string:${prestavolto/pgOffAvatarC}" style="width:45%;" /></td></tr>
 			<tr><td class="borderOne"></td><td class="bdr" style="font-size:11px;">In questo campo ti chiediamo di inserire il prestavolto del tuo personaggio: l'attore, cantante o "volto" che avrà il tuo PG. In caso puoi consultare la lista<br /><hr/><p style="margin:0px; text-align:center;"><a href="javascript:void(0);" onclick="return openPrestavolto();" style="color:red;" target="_blank" class="interfaceLink">Lista Prestavolto in Uso</a> <img src="TEMPLATES/img/interface/personnelInterface/info.png" title="- Non sono ammessi Nomi e Cognomi né volti di personaggi Canon provenienti da serie e film di Star Trek. Per esempio: non potete è possibile dare al personaggio vulcaniano il volto di Leronard Nimoy anche se avete scelto un nome diverso da Spock. Analogamente,non potete chiamare il vostro personaggio James Tiberius Kirk indipendentemente dal volto che gli avete assegnato. Così come non ci potranno essere Jeordie LaForge nè Chakotay nè B'elanna Torres, nè potrete scegliere come avatar gli attori che li interpretano.
@@ -159,14 +158,15 @@
 			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/email.png" alt="Email Registrata"/></td><td class="bdr"><span tal:content="email" /></td></tr>
 			<tr><td class="borderOne" style="vertical-align:top;"><img src="TEMPLATES/img/interface/personnelInterface/opzioni.png" alt="Opzioni"/></td><td class="bdr"><input type="checkbox" name="ediMailVali" tal:attributes="checked php:(paddMail) ? 'checked' : NULL" value="1" /> Inviami i Padd via Mail<br /><input type="checkbox" id="audioEnableSet" name="audioEnableSet" tal:attributes="checked php:(audioEnable) ? 'checked' : NULL" value="1" onclick="setChecker21()" /> Attiva Effetti Audio<br /><p style="margin:0px; margin-left:25px;"><input type="checkbox" id="audioextEnableSet" name="audioextEnableSet" tal:attributes="checked php:(audioextEnable) ? 'checked' : NULL ; disabled php:(audioEnable) ? NULL : 'disabled'" value="1" />Notifiche di cambio di pagina</p><input type="checkbox" id="audioEnvEnableSet" name="audioEnvEnableSet" tal:attributes="checked php:(audioEnvEnable) ? 'checked' : NULL" value="1" />Audio di sottofondo ambienti<br />
 			
-			<p>Personalizzazione Chat: <a class="interfaceLinkRed" href="scheda.php?s=resetCSS">[ RESET ]</a></p>
+			<p>Personalizzazione CSS Chat: <a class="interfaceLinkRed" href="scheda.php?s=resetCSS">[ RESET ]</a></p>
 			<div style="margin-left:15px;">
-			<p style="margin:0px;"><a href="javascript:void(0);" onclick="jQuery('#setterAzioni').toggle()" class="interfaceLinkBlue">&raquo; Azioni</a></p> 
+			<!-- <p style="margin:0px;"><a href="javascript:void(0);" onclick="jQuery('#setterAzioni').toggle()" class="interfaceLinkBlue">&raquo; Azioni</a></p> 
 			<div id="setterAzioni" style="display:none; font-size:11px;">
 				<table><tr><td style="text-align:right;"><input name="actionCSSFontSize" type="number" tal:attributes="value actionCSS/0" style="width:55px;"/></td><td style="text-align:left;;">&laquo; Dimensione font</td></tr>
 				<tr><td><input name="actionCSSFontColor" class="afw" tal:attributes="value actionCSS/1" style="width:55px;"/> </td><td style="text-align:left;;">&laquo; Colore testo</td></tr>
 				<tr><td><input name="actionCSSFontColorEscape" class="afw" tal:attributes="value actionCSS/2" style="width:55px;"/></td><td style="text-align:left;;">&laquo; Colore testo &laquo; &raquo; </td></tr></table>
 			</div>
+			-->
 			
 			<p style="margin:0px;"><a href="javascript:void(0);" onclick="jQuery('#setterParlat').toggle()" class="interfaceLinkBlue">&raquo; Parlato</a></p>
 			
@@ -205,31 +205,37 @@
 </div>
 
 <div style="clear:both" />
-<div id="files" style="margin-left:20px;"><input type="hidden" tal:attributes="value selectedUser" name="ediID" />
+<div id="files" style="margin-left:20px; margin-top:60px;"><input type="hidden" tal:attributes="value selectedUser" name="ediID" />
 
-<p id="biometrics"  class="modifier" style="display:none">
+<p id="biometrics"  class="modifier" style="background-color:black; display:none">
 <img src="TEMPLATES/img/interface/personnelInterface/div_aspetto.png" />
 <textarea tal:content="background/pgBiometrics" name="ediFis" style="width:580px; height:280px; margin-top:5px;"></textarea></p>
 
-<p id="backgrounder" class="modifier" style="display:none">
+<p id="backgrounder" class="modifier" style="background-color:black; display:none">
 <img src="TEMPLATES/img/interface/personnelInterface/div_biografia.png" />
 <textarea tal:content="background/pgBackground" name="ediBack" style="width:580px; height:280px; margin-top:5px;"></textarea></p>
 
-<p id="personali" class="modifier" style="display:none">
+<p id="personali" class="modifier" style="background-color:black; display:none">
 <img src="TEMPLATES/img/interface/personnelInterface/div_psicologia.png" />
 <textarea tal:content="background/pgCarattere" name="ediCarat" style="width:580px; height:280px; margin-top:5px;"></textarea></p>
 
-<p id="family" class="modifier"  style="display:none">
+<p id="family" class="modifier"  style="background-color:black; display:none">
 <img src="TEMPLATES/img/interface/personnelInterface/div_famiglia.png" />
 <textarea tal:content="background/pgFamily" name="ediFamil" style="width:580px; height:280px; margin-top:5px;"></textarea></p>
 
-<p id="vars" class="modifier" style="display:none">
+<p id="vars" class="modifier" style="background-color:black; display:none">
 <img src="TEMPLATES/img/interface/personnelInterface/div_altro.png" />
 <textarea tal:content="background/pgVarie" name="ediVarie" style="width:580px; height:280px; margin-top:5px;"></textarea></p>
 
-<p id="quarters" class="modifier" style="display:none" tal:condition="php:(showAllo == 'SI')" >
+<p id="ilsegreto" class="modifier" style="background-color:black; display:none">
+<img src="TEMPLATES/img/interface/personnelInterface/div_seclar7.png" />
+<textarea tal:content="background/pgIlSegreto" name="ediIlSegreto" placeholder="Queste informazioni sono visibili solamente allo Staff (Admin e Global Master). Lo Staff potrà usare queste informazioni per far vivere eventi modellati sui segreti più reconditi dei background del personaggio. Salvo diversamente specificato, queste informazioni sono classificate some SECLAR 7." style="width:580px; height:280px; margin-top:5px;"></textarea></p>
+
+
+<p id="quarters" class="modifier" style="background-color:black; display:none" tal:condition="php:(showAllo == 'SI')" >
 <img src="TEMPLATES/img/interface/personnelInterface/div_alloggio.png" />
 <textarea tal:content="alloggio/descrizione" name="ediAllo" style="width:580px; height:280px; margin-top:5px;"></textarea></p>
+
 
 </div>
 </form>

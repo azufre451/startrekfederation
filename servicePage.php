@@ -15,9 +15,9 @@ $vali = new validator();
 if(isSet($_GET['wordrobe']))
 {
 	 $template = new PHPTAL('TEMPLATES/service_wordrobe.htm');
-	 $re = mysql_fetch_array(mysql_query("SELECT uniform,pgSesso,descript FROM pg_uniforms,pg_users WHERE pgID = ".$_SESSION['pgID']." AND pgMostrina = mostrina"));
+	 $re = mysql_fetch_array(mysql_query("SELECT uniform,descript FROM pg_uniforms,pg_users WHERE pgID = ".$_SESSION['pgID']." AND pgMostrina = mostrina"));
 	 
-	 $template->uniform = $re['uniform'].strtolower($re['pgSesso']); 
+	 $template->uniform = $re['uniform']; 
 	 $template->descript = $re['descript'];
 	 $template->user = $currentUser;
 } 
@@ -33,19 +33,21 @@ elseif(isSet($_GET['prevMos']))
 	if ($emo == "SER") 		$sqlt ="ordinaryUniform";
 	else if ($emo == "HIG") $sqlt ="dressUniform";
 	else if ($emo == "TAT") $sqlt ="tacticalUniform";
+	else if ($emo == "COA") $sqlt ="cappottoUniform";
+	else if ($emo == "JKT") $sqlt ="ordinaryUniformNoJackect";
 	else if ($emo == "DES") $sqlt ="desertUniform";
-	else if ($emo == "FAT") $sqlt ="faticaUniform";
+	else if ($emo == "POL") $sqlt ="polarUniform";
+	else if ($emo == "LAB") $sqlt ="camiceUniform";
 	
 	if(isSet($sqlt)){
 		$rpl = mysql_fetch_assoc(mysql_query("SELECT $sqlt FROM pg_ranks WHERE prio = '$parameter'"));
 		$query = $rpl[$sqlt];
 	} 
 	
-	elseif ($emo == "EVA") $query ="EVA";
-	else if ($emo == "POL") $query ="POL";
-	else if ($emo == "NBC") $query ="NBC";
-	else if ($emo == "VOL") $query ="VOL";
-	else if ($emo == "CAM") $query ="CAM";
+	else if ($emo == "EVA") $query ="nfEVA";
+	else if ($emo == "FLY") $query ="nfFLY";
+	else if ($emo == "MED") $query ="nfMED";
+	else if ($emo == "ENG") $query ="nfENG";
 	else if ($emo == "CIV") $query ="CIV"; 
 	 
 	
@@ -77,12 +79,15 @@ elseif(isSet($_GET['setMos']))
 	else if ($emo == "HIG") $query ="UPDATE pg_users SET pgMostrina = (SELECT dressUniform FROM pg_ranks WHERE prio = '$parameter' ) WHERE pgID = $id";
 	else if ($emo == "TAT") $query ="UPDATE pg_users SET pgMostrina = (SELECT tacticalUniform FROM pg_ranks WHERE prio = '$parameter' ) WHERE pgID = $id";
 	else if ($emo == "DES") $query ="UPDATE pg_users SET pgMostrina = (SELECT desertUniform FROM pg_ranks WHERE prio = '$parameter' ) WHERE pgID = $id";
-	else if ($emo == "POL") $query ="UPDATE pg_users SET pgMostrina = 'POL' WHERE pgID = $id";
-	else if ($emo == "FAT") $query ="UPDATE pg_users SET pgMostrina = (SELECT faticaUniform FROM pg_ranks WHERE prio = '$parameter' ) WHERE pgID = $id";
-	else if ($emo == "EVA") $query ="UPDATE pg_users SET pgMostrina = 'EVA' WHERE pgID = $id";
-	else if ($emo == "NBC") $query ="UPDATE pg_users SET pgMostrina = 'NBC' WHERE pgID = $id";
-	else if ($emo == "VOL") $query ="UPDATE pg_users SET pgMostrina = 'VOL' WHERE pgID = $id";
-	else if ($emo == "CAM") $query ="UPDATE pg_users SET pgMostrina = 'CAM' WHERE pgID = $id";
+	else if ($emo == "POL") $query ="UPDATE pg_users SET pgMostrina = (SELECT polarUniform FROM pg_ranks WHERE prio = '$parameter' ) WHERE pgID = $id";
+	else if ($emo == "COA") $query ="UPDATE pg_users SET pgMostrina = (SELECT cappottoUniform FROM pg_ranks WHERE prio = '$parameter' ) WHERE pgID = $id";
+	else if ($emo == "LAB") $query ="UPDATE pg_users SET pgMostrina = (SELECT camiceUniform FROM pg_ranks WHERE prio = '$parameter' ) WHERE pgID = $id";
+	else if ($emo == "JKT") $query ="UPDATE pg_users SET pgMostrina = (SELECT ordinaryUniformNoJackect FROM pg_ranks WHERE prio = '$parameter' ) WHERE pgID = $id";
+	
+	else if ($emo == "EVA") $query ="UPDATE pg_users SET pgMostrina = 'nfEVA' WHERE pgID = $id";
+	else if ($emo == "FLY") $query ="UPDATE pg_users SET pgMostrina = 'nfFLY' WHERE pgID = $id";
+	else if ($emo == "ENG") $query ="UPDATE pg_users SET pgMostrina = 'nfENG' WHERE pgID = $id";
+	else if ($emo == "MED") $query ="UPDATE pg_users SET pgMostrina = 'nfMED' WHERE pgID = $id";
 	else $query ="UPDATE pg_users SET pgMostrina = 'CIV' WHERE pgID = $id";
 	
 	mysql_query($query);

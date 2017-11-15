@@ -2,8 +2,8 @@
 <div metal:define-macro="indexMenu">
 	
 					<ul class="mainmenu" style="padding-left:92px; padding-top:7px; margin-top:0px;">
-						<li class="elementButtonSprite" id="login" />
-						<li class="elementButtonSprite" id="registrati" />
+						<li class="elementButtonSprite" id="login" onclick="javascript:fullScreen();" />
+						<li class="elementButtonSprite" id="registrati" onclick="javascript:setViewer('REG')"  />
 						
 						<li class="elementButtonSprite" id="documentazione" onclick="window.open ('db.php?cat=8','db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=617');" />
 						<li class="elementButtonSprite" id="guida" onclick="window.location.href = 'index.php?guide=true'"/>

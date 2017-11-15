@@ -42,7 +42,7 @@ if($mode == 'deletePoints')
 		{
 			mysql_query("DELETE FROM pg_users_pointStory WHERE recID = $rec");
 			$ok = mysql_affected_rows();
-			mysql_query("UPDATE pg_users SET pgPoints = (SELECT SUM(points) FROM pg_users_pointStory WHERE owner = $pgID) WHERE pgID = $pgID");
+			mysql_query("UPDATE pg_users SET pgPoints = (SELECT SUM(points) FROM pg_users_pointStory WHERE owner = $pgID) WHERE pgID = $pgID ORDER BY recID ASC");
 			
 			if($ok) echo json_encode(array('OK' => 'Ok'));	 
 		}
@@ -50,6 +50,19 @@ if($mode == 'deletePoints')
 	}
 	exit;
 	
+}
+
+if($mode == "approveBackground")
+{
+	
+	if (!PG::mapPermissions('SM',$currentUser->pgAuthOMA)) exit;
+
+	$pgID = $vali->numberOnly($_GET['pgID']);
+
+	mysql_query("DELETE FROM pg_users_bios WHERE pgID = $pgID AND valid = 1");
+	mysql_query("UPDATE pg_users_bios SET valid = 1 WHERE pgID = $pgID");
+	header("Location:shadow_scheda.php?viewApprovals=true");
+
 }
 
 if($mode == "blockBulk")
@@ -88,7 +101,7 @@ if($mode == "setSeclar")
 
 if($mode == "insmaster")
 {
-	if (!PG::mapPermissions('M',$currentUser->pgAuthOMA)) exit;
+/*	if (!PG::mapPermissions('M',$currentUser->pgAuthOMA)) exit;
 	$eventTitle = addslashes($_POST['eventTitle']);
 	$eventText = addslashes($_POST['eventText']);
 	$place = $currentUser->pgAssign;
@@ -104,8 +117,7 @@ if($mode == "insmaster")
 	{ 
 			$idA = $res['pgID']; 
 			mysql_query("INSERT INTO fed_pad (paddFrom, paddTo, paddTitle, paddText, paddTime, paddRead) VALUES (518, $idA, 'NUOVO EVENTO MASTER', 'È stato inserito un nuovo evento master ($eventTitle) nel Computer di Bordo. Controlla la sezione Eventi Master del computer per visualizzarlo!',$curTime,0)");
-	}
-	
+	}	*/
 }
 
 if($mode == "setIncarico")
@@ -291,35 +303,10 @@ elseif($code == "aa11"){$p=$vali->numberOnly($_POST['points']);$little="Q00";$me
 						$tUser = trim(addslashes($auth));
 						if($tUser != $currentUser->pgUser || $currentUser->pgAuthOMA != 'A')
 						{
-							$rea = mysql_fetch_array(mysql_query("SELECT pgID,pgPoints FROM pg_users WHERE pgUser = '$tUser'"));
-							$pointsPre = $rea['pgPoints'];
-							$pgID = $rea['pgID'];
-		
-							mysql_query("INSERT INTO pg_users_pointStory(owner,points,cause,causeM,timer,assigner,causeE) VALUES ((SELECT pgID FROM pg_users WHERE pgUser = '$tUser'),$p,'$little','$mex',$curTime,".$_SESSION['pgID'].",'$detail')");
-							mysql_query("UPDATE pg_users SET pgPoints = pgPoints+$p WHERE pgUser='$tUser' AND pgID <> ".$_SESSION['pgID']);
-					
-							for($i = 0; $i < $p; $i++)
-							{
-						
-							if(($pointsPre+$i) % 200 == 0)
-							{
-								mysql_query("UPDATE pg_users SET pgUpgradePoints = pgUpgradePoints+2,pgSpecialistPoints=pgSpecialistPoints+1, pgSocialPoints = pgSocialPoints+1 WHERE pgID = $pgID");
-				
-								$cString = addslashes("Congratulazioni!!<br />Hai ottenuto 4 Upgrade Points!<br /><br /><p style='text-align:center'><span style='font-weight:bold'>Puoi usarli per aumentare le tue caratteristiche nella Scheda PG!</span></p><br />Il Team di Star Trek: Federation");
-								$eString = addslashes("Upgrade Points!::Hai ottenuto quattro UP!");
-	
-								mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (518,$pgID,'OFF: Upgrade Points!','$cString',$curTime,0,''),(518,$pgID,'::special::achiev','$eString',$curTime,0,'TEMPLATES/img/interface/personnelInterface/starIcon.png')");
-							}
-							elseif(($pointsPre+$i) % 100 == 0)
-							{
-								mysql_query("UPDATE pg_users SET pgUpgradePoints = pgUpgradePoints+2, pgSocialPoints = pgSocialPoints+1 WHERE pgID = $pgID");
-				
-								$cString = addslashes("Congratulazioni!!<br />Hai ottenuto 3 Upgrade Points!<br /><br /><p style='text-align:center'><span style='font-weight:bold'>Puoi usarli per aumentare le tue caratteristiche nella Scheda PG!</span></p><br />Il Team di Star Trek: Federation");
-								$eString = addslashes("Upgrade Points!::Hai ottenuto tre UP!");
-	
-								mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (518,$pgID,'OFF: Upgrade Points!','$cString',$curTime,0,''),(518,$pgID,'::special::achiev','$eString',$curTime,0,'TEMPLATES/img/interface/personnelInterface/starIcon.png')");
-							}
-							}
+							$rea = mysql_fetch_array(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$tUser'"));
+							$pgID = $vali->numberOnly($rea['pgID']);
+							$selectedDUser = new PG($pgID);
+							$selectedDUser->addPoints($p,$little,$mex,$detail,$assigner);
 						}
 			}
 		
@@ -333,6 +320,27 @@ elseif($code == "aa11"){$p=$vali->numberOnly($_POST['points']);$little="Q00";$me
 if($mode == "insertionForm")
 {
 	$template = new PHPTAL('TEMPLATES/shadow_scheda_master_insert.htm');
+}
+
+if($mode == "diffpg")
+{
+	include('includes/Finediff.php');
+
+	$rea=mysql_fetch_assoc(mysql_query("SELECT * FROM pg_users_bios WHERE pgID = 1 AND valid = 1"));
+	$lines1 = (mysql_affected_rows()) ? $rea['pgBackground'] : '';
+	$rea=mysql_fetch_assoc(mysql_query("SELECT * FROM pg_users_bios WHERE pgID = 1 AND valid = 0 ORDER BY recID DESC LIMIT 1"));
+	$lines2 = (mysql_affected_rows()) ? $rea['pgBackground'] : '';
+
+	echo $lines1;
+	echo $lines2;
+
+
+	echo "<hr />";
+	
+	echo FineDiff::getDiffOpcodes($lines1, $lines2 /* , default granularity is set to character */);
+
+
+	exit;
 }
 
 else 
@@ -356,12 +364,25 @@ else
 	$images = scandir('TEMPLATES/img/ruolini/');
 	$template->images=array_diff($images,array('.','..'));
 
+	if (isSet($_GET['viewApprovals'])) $template->viewApprovals = 1;
+
 	$template->ranks = $ranks;
 	$template->locations = $locArray;
 	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA)) $template->bonusSM = 'show';
 	if (PG::mapPermissions('M',$currentUser->pgAuthOMA)) $template->bonusM = 'show';
 	if (PG::mapPermissions('MM',$currentUser->pgAuthOMA)) $template->bonusMM = 'show';
 	if (PG::mapPermissions('A',$currentUser->pgAuthOMA)) $template->bonusA = 'show';
+
+
+
+	$r=array();
+	$rea = mysql_query("SELECT pg_users_bios.*,pg_users.pgUser,ordinaryUniform FROM pg_users_bios,pg_users,pg_ranks WHERE pg_users.pgID = pg_users_bios.pgID AND prio=rankCode AND valid = 0");
+	while($re = mysql_fetch_assoc(($rea)))
+	{
+		$r[] = $re;
+	}
+	$template->pendingBGS = $r;
+
 }
 
 

@@ -28,7 +28,7 @@ PG::updatePresence($_SESSION['pgID']);
 	if (!mysql_affected_rows()) $template->peoplePresent = false;
 	else { $template->people = $pgArray; $template->peoplePresent = true;}
 	
-	$resPontiPresenti = mysql_query('SELECT DISTINCT ambientLevel_deck FROM fed_ambient WHERE ambientLevel_deck <> 0 AND ambientLocation = \''.$locat.'\' ORDER BY ambientLevel_deck + 0 ASC');
+	$resPontiPresenti = mysql_query('SELECT DISTINCT ambientLevel_deck FROM fed_ambient WHERE ambientLevel_deck <> \'0\' AND ambientLocation = \''.$locat.'\' ORDER BY ambientLevel_deck + 0 ASC');
 	$pontiArray=array();
 	while($resPo = mysql_fetch_array($resPontiPresenti))
 	$pontiArray[] = $resPo['ambientLevel_deck'];

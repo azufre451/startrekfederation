@@ -5,8 +5,10 @@ include('includes/app_include.php');
 include('includes/validate_class.php');
 include("includes/PHPTAL/PHPTAL.php"); //NEW 
 
+
+
 if(isSet($_SESSION['pgID'])) PG::updatePresence($_SESSION['pgID']);
-else {header('Location:index.php'); exit;}
+//else {header('Location:index.php'); exit;}
 $vali = new validator();
 
 
@@ -17,7 +19,7 @@ if(isSet($_GET['dopdf']))
 	
 	$elementID = $vali->numberOnly($_GET['dopdf']);
 
-	$fileName='temp/dbDispensa_'.$elementID.".pdf";
+	$fileName='tmp_dbDispensa_'.$elementID.".pdf";
 	
 	$cat = mysql_query("SELECT db_cats.catID,catName,catImage,title,content FROM db_cats,db_elements WHERE db_cats.catID = db_elements.catID AND ID = $elementID");
 	if ($resA = mysql_fetch_array($cat))
@@ -89,10 +91,10 @@ $pdf->writeHTML($content, true, false, true, false, '');
 	
 	
 	if(is_file($fileName)) unlink($fileName);
-	$pdf->Output($fileName,"F");
+	$pdf->Output(__DIR__.$fileName,"F");
 	unset($pdf);
 	
-	$size = filesize($fileName);//calcola dimensione del file 
+	$size = filesize(__DIR__ .$fileName);//calcola dimensione del file 
 header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 header('Cache-Control: no-store, no-cache, must-revalidate');
 header('Cache-Control: post-check=0, pre-check=0', false);
@@ -103,7 +105,7 @@ header("Content-length: {$size}");
 header("Content-type: application/pdf");
 $tit = $title.'.pdf';
 header("Content-disposition: attachment; filename=\"{$tit}\"");
-readfile($fileName);
+readfile(__DIR__.$fileName);
 
 header("Location: db.php?element=$elementID");
 }
@@ -284,6 +286,12 @@ $template->searchable = (isSet($_SESSION['pgID'])) ? true : false;
 //$template->gameVersion = $gameVersion;
 //$template->debug = $debug;
 //$template->gameServiceInfo = $gameServiceInfo;
+
+
+$template->description = "Star Trek: Federation è un GDR Play By Chat, ambientato nell'anno 2381 e immerso nell'ambientazione dell'universo di Star Trek. Vivi l'avventura di creare, costruire e giocare il tuo personaggio: sali a bordo e... Via! Si parte verso nuove avventure!";
+$template->metaKeywords = "Star Trek, PBC, Gioco di Ruolo,Star Trek: Federation, Flotta Stellare, Federazione, Classe Intrepid, USS Endeavour, GDR, Play By Chat, Navi stellari, Borg";
+$template->gameOptions = $gameOptions;
+
 
 	try 
 	{

@@ -50,7 +50,7 @@ $template->ambient = $currentAmbient;
 
 $masterCondition = (PG::mapPermissions("M",$currentUser->pgAuthOMA)) ? '' : "AND (type <> 'APM' OR sender = ".$_SESSION['pgID'].')';
 
-$chatLines = mysql_query("SELECT IDE,chat,time FROM federation_chat WHERE ambient = '$ambient' AND time BETWEEN $from AND $toe AND type <> 'AUDIO' AND type <> 'SPECIFIC' $masterCondition ORDER BY time");
+$chatLines = mysql_query("SELECT IDE,chat,time FROM federation_chat WHERE ambient = '$ambient' AND time BETWEEN $from AND $toe AND type NOT IN('AUDIO','SPECIFIC','SERVICE') AND privateAction = 0 $masterCondition ORDER BY time");
 $htmlLiner='';
 $ide=0;
 while($chatLi = mysql_fetch_array($chatLines))

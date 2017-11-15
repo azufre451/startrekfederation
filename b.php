@@ -15,7 +15,7 @@
 // $re9 = mysql_query("(SELECT time FROM federation_chat WHERE sender = 598) UNION (SELECT time FROM fed_sussurri WHERE susFrom = 598)"); 
 // $re10 = mysql_query("(SELECT time FROM federation_chat WHERE sender = 796) UNION (SELECT time FROM fed_sussurri WHERE susFrom = 796)"); 
 // $re11 = mysql_query("(SELECT time FROM federation_chat WHERE sender = 814) UNION (SELECT time FROM fed_sussurri WHERE susFrom = 814)"); 
- 
+/*
 
 $res = mysql_query("SELECT * FROM pg_brevetti_levels WHERE sector IN (25,26)");
 $cumVal = array();
@@ -25,7 +25,7 @@ while ($ra = mysql_fetch_assoc($res))
 	else $cumVal[$ra['owner']] = $cumVal + (int)($ra['value']);
 	
 	echo var_dump($ra);
-} 
+} */
 
 
 // $l=array();
@@ -103,5 +103,15 @@ while ($ra = mysql_fetch_assoc($res))
 // $l=array(); for($i=0;$i<7;$i++) $l[$i] = 0; 
 // while($res = mysql_fetch_array($re11)) $l[date('w',$res['time'])]++; 
 // for($i=0;$i<7;$i++) echo $l[$i]."<br />";
- 
+
+
+$rea = mysql_query("SELECT * FROM fed_master_news"); 
+$a=array();
+while ($res = mysql_fetch_assoc($rea)){
+	$a[] = $res;
+	echo "A";
+}
+
+print_r($a);
+
 ?>						

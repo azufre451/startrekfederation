@@ -33,7 +33,7 @@
 }
 /* slider window - top & bottom borders, default state */
 .anythingSlider-default .anythingWindow {
-	border-top: 3px solid #777;
+	border-top: 0px solid #777;
 	border-bottom: 3px solid #777;
 }
 /* Navigation buttons + start/stop button, default state */
@@ -81,18 +81,18 @@
 */
 /* slider window - top & bottom borders, active state */
 .anythingSlider-default.activeSlider .anythingWindow {
-	border-color: #3acb3a;
+	border-color: #cba73a;
 }
 /* Navigation buttons, active state */
 .anythingSlider-default.activeSlider .anythingControls a {
 	/* background image = top shadow */
-	background-color: #3acb3a;
+	background-color: #cba73a;
 }
 /* Navigation current & hovered button, active state */
 .anythingSlider-default.activeSlider .anythingControls a.cur,
 .anythingSlider-default.activeSlider .anythingControls a:hover {
 	/* background image removed */
-	background: #3acb3a;
+	background: #cba73a;
 }
 
 /* start-stop button, stopped, active state */

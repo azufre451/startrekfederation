@@ -11,6 +11,8 @@ $userName = $user->pgUser;
 
 $ambient = $vali->killchars(htmlentities(addslashes($_GET['amb'])));
 $fromID = $vali->killchars(htmlentities(addslashes($_GET['lastID'])));
+
+
 $htmlLiner = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -33,12 +35,13 @@ body
 	font-family:Verdana, Helvetica, Arial;
 }
 img{border:0px;}
+
 .chatAction,.subspaceCom,.commMessage,.chatQuotation,.chatQuotationAction,.chatUser{font-style:italic;}
 .chatAction,.subspaceCom,.commMessage,.chatTag,.masterAction, .globalAction,.offAction,.auxAction, .tempMasterAction,.specificMasterAction,.oloMasterAction{font-weight:bold;}
 .chatAction,.subspaceCom,.commMessage,.chatDirect{margin:0px;margin-top:4px;}
 .chatAction,.subspaceCom,.commMessage{font-size:12px;}
 
-.chatAction{color:#3188F3; line-height:16px;}
+.chatAction{color:#3188F3; line-height:1.3em;}
 .subspaceCom,.commMessage{color:#ffefcc;}
 .subspaceComPre,.commPreamble{font-size:11px;color:#e8a30e;}
 .chatDirect{font-size:13px;color:#EEE;}
@@ -48,7 +51,27 @@ img{border:0px;}
 
 .chatTag{font-size:11px;color:#d7a436;}
 .chatUser{margin-right:5px;}
-.masterAction, .globalAction,.offAction,.auxAction,.specificMasterAction,.oloMasterAction
+.highlight{
+text-shadow: 0 0 2px #47cd35;
+color:#47cd35;
+}
+
+.turnElement{
+	margin:0px;
+	margin-top:2px;
+	font-size:11px;
+	font-weight:bold;
+	text-align:left;
+	margin-left:3px;
+	font-family:Helvetica;
+}
+
+.myTurnElement
+{
+	text-transform:uppercase;
+}
+
+.masterAction, .globalAction,.offAction,.auxAction,.specificMasterAction,.oloMasterAction,.diceAction
 {
 	padding:8px;
 	border:1px solid;
@@ -56,7 +79,7 @@ img{border:0px;}
 	margin:5px;
 	text-align:center;
 }
-.globalAction  div , .masterAction  div, .offAction  div, .auxAction  div:first-of-type, .specificMasterAction  div, .oloMasterAction div {
+.globalAction > div:first-child , .masterAction > div:first-child, .oloMasterAction > div:first-child, .offAction > div:first-child, .auxAction > div:first-child, .specificMasterAction   > div:first-child, .diceAction  > div:first-child, .oloMasterAction  > div:first-child {
 float:left;
 font-size: 10px;
 margin-top:-8px;
@@ -68,29 +91,139 @@ border-bottom-style:solid;
 border-right-style:solid;
 }
 .globalAction{border-color:#3188F3; color:#3188F3;}
-.globalAction  div {background-color: #14335a; border-color:#3188F3; color:white;}
+.globalAction > div:first-child {background-color: #14335a; border-color:#3188F3; color:white;}
 
 /*Master*/
 .masterAction{border-color:red; color:red;}
-.masterAction   div {background-color: #850000; border-color:red; color:white;} 
+.masterAction > div:first-child {background-color: #850000; border-color:red; color:white;} 
 
 /*OFF*/
-.auxAction{border-color:#b3b3b3; color:#b3b3b3;}
-.auxAction  div:first-of-type {background-color: #333; border-color:#b3b3b3; color:white;} 
+.auxAction, .oloMasterAction{border-color:#b3b3b3; color:#b3b3b3;}
+.auxAction > div:first-of-type, .oloMasterAction > div:first-child {background-color: #333; border-color:#b3b3b3; color:white;} 
  
 .offAction{border-color:#1db716; color:#1db716;}  
-.offAction  div {background-color: #175a14; border-color: #1db716; color:white;}
+.offAction > div:first-child {background-color: #175a14; border-color: #1db716; color:white;}
  
+.diceAction{border-color:#ff8a00; color:#ff8a00;}
+.diceAction > div:first-child {background-color: #a95b00; border-color:#ff8a00; color:white;} 
+
 .specificMasterAction{border-color:#c67729; color:#c67729;}  
-.specificMasterAction  div {background-color: #8a5e09; border-color: #c67729; color:white;}
- 
-.oloMasterAction{border-color:#feff84; color:#feff84;} 
-.oloMasterAction  div {background-color: #6e6f1f; border-color: #feff84; color:white;}
+.specificMasterAction > div:first-child {background-color: #8a5e09; border-color: #c67729; color:white;}
+  
 
 .imageAction{text-align:center; margin:5px;}
 .imageAction img {border:0px; max-height:250px; border:1px solid #3188F3; padding:5px;}
 .imaLer:hover{border:1px solid #ff9900;}
 .imaLer{border:1px solid black;}
+.blackOpacity img {vertical-align:middle;}
+
+.directiveRemove{display:none;}
+
+
+.diceOutcomeBox{
+
+	clear:both;
+	font-size: :15px;
+    display: inline-block;
+    /* for ie6/7: */
+    *display: inline;
+    text-align: left;
+	background-color:black;
+	color:white;
+	border:0px;
+}
+
+
+.diceOutcomeBox div{
+
+	background-color:black;
+	margin-top:5px;
+	margin-left:10px;
+	float:left; 
+	border-right:1px solid #333;
+padding:5px;
+
+	padding-right:10px;
+	width:140px;
+	
+}
+
+.diceOutcomeBox img{
+	width:30px;
+	vertical-align: middle;
+}
+
+.diceOutcomeBox p.bar
+{
+	width:100%;
+	height: 4px;
+	margin:0;
+	margin-bottom:5px;
+
+}
+.diceOutcomeBox div.S p.bar{
+	background-color:#35971e;
+}
+
+.diceOutcomeBox div.F p.bar{
+	
+	background-color:#d72b2b;
+	
+}
+
+.diceOutcomeBox div.FC p.bar{
+	background-color:#971e1e;
+	
+}
+
+.diceOutcomeBox div.SC p.bar{
+	background-color:#1e7597;	
+}
+
+.diceOutcomeBox p.label{text-align:right; margin:0px; margin-top:4px; font-size:12px;}
+
+.diceOutcomeBox div.FC p.label::after{color:#971e1e; content:"[ Fall. Critico ]";}
+.diceOutcomeBox div.F p.label::after{color:#d72b2b; content:"[ Fallimento ]";}
+.diceOutcomeBox div.S p.label::after{color:#35971e; content:"[ Successo ]";}
+.diceOutcomeBox div.SC p.label::after{color:#1e7597; content:"[ Succ. Critico ]";}
+
+
+
+.diceOutcomeBox span.bmal::before{content:"[";}
+.diceOutcomeBox span.bmal::after{content:"]";}
+
+.diceOutcomeBox div.S span.bmal::before, .diceOutcomeBox div.S span.bmal::after{
+	color:#35971e;
+}
+
+.diceOutcomeBox div.F span.bmal::before, .diceOutcomeBox  div.F span.bmal::after{
+	
+	color:#d72b2b;
+	
+}
+
+.diceOutcomeBox div.FC span.bmal::before, .diceOutcomeBox div.FC span.bmal::after{
+	color:#971e1e;
+	
+}
+
+.diceOutcomeBox div.SC span.bmal::before, .diceOutcomeBox  div.SC span.bmal::after{
+	color:#1e7597;	
+}
+
+
+
+
+
+.blackOpacity
+{
+	background-color:rgba(0,0,0);
+	background-color:rgba(0,0,0,0.9);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#B2000000,endColorstr=#B2000000);
+}  
+
+
+ 
 .blackOpacity img {vertical-align:middle;}
 .chatUser
 {
@@ -144,7 +277,7 @@ if ($fromID > 0)
 	$currentLocationName = $currentLocation['placeName'];
 		$placeLogo=$currentLocation['placeLogo'];
 	
-	$presents = mysql_query("SELECT DISTINCT pgUser,ordinaryUniform,pgGrado,pgSezione,MIN(time) as minner, MAX(time)  as maxer,COUNT(chat) as chatter FROM pg_users,federation_chat,pg_ranks WHERE sender=pgID AND prio=rankCode AND ambient = '$ambient' AND IDE >= $fromID AND type IN ('DIRECT','ACTION') GROUP BY pgUser,ordinaryUniform,pgGrado,pgSezione ORDER BY minner ASC");
+	$presents = mysql_query("SELECT DISTINCT pgUser,ordinaryUniform,pgGrado,pgSezione,MIN(time) as minner, MAX(time)  as maxer,COUNT(chat) as chatter FROM pg_users,federation_chat,pg_ranks WHERE sender=pgID AND prio=rankCode AND ambient = '$ambient' AND IDE >= $fromID AND type IN ('DIRECT','ACTION') AND privateAction = 0 GROUP BY pgUser,ordinaryUniform,pgGrado,pgSezione ORDER BY minner ASC");
 	$userLister='';
 	while($resa=mysql_fetch_array($presents))
 	{
@@ -169,7 +302,7 @@ if ($fromID > 0)
 	</div><div style=\"clear:both\" /><br /><hr /><div style=\"padding:20px; border:1px solid #666; margin-top:20px;\">
 	";
 	
-	$chatLines = mysql_query("SELECT chat,time FROM federation_chat WHERE ambient = '$ambient' AND IDE >= $fromID AND type NOT IN ('APM','AUDIO','AUDIOE','SPECIFIC') ORDER BY time");
+	$chatLines = mysql_query("SELECT chat,time FROM federation_chat WHERE ambient = '$ambient' AND IDE >= $fromID AND type NOT IN ('APM','AUDIO','AUDIOE','SPECIFIC','SERVICE') AND privateAction = 0 ORDER BY time");
 	
 	
 	while($chatLi = mysql_fetch_array($chatLines))

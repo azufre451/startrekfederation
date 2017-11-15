@@ -1,8 +1,8 @@
 body{
 	width:1140px;
 	overflow:hidden;
-	/*background-image:url('../img/interface/dbInterface/cornice_database.png');*/
-	font-family:Arial;
+  
+	font-family:Helvetica, sans-serif;
 	background-repeat:no-repeat;
 }
 
@@ -10,7 +10,7 @@ body{
 {
 	margin-left:35px;
 	margin-top:23px;
-	height:575px;
+	height:600px;
 }
 
 .titleFS

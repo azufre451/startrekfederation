@@ -10,7 +10,7 @@
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
 	<title>FEDERATION - PADD</title>
 </head>
-
+ 
 <body style="background-color:black; overflow:hidden;">
 	<div id="paddContainer">
 		<div id="intestLeft"><a title="Principale" href="padd.php"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/padd.png" /></a><a title="Federation Tribune" href="padd.php?s=tr"><img class="iconelement" tal:attributes="src php:(tribuneNews == true) ? 'TEMPLATES/img/interface/paddInterface/tribune_news.png' : 'TEMPLATES/img/interface/paddInterface/tribune.png'" /></a><a title="Status Nave" href="padd.php?s=sh"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/nave.png" /></a><a title="Note" href="padd.php?s=no"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/note.png" /></a></div>
@@ -30,7 +30,7 @@
 			<div style="width:135px; float:left; margin-top:10px;">
 			
 			<div>
-				<img style="width:120px; height:120px; padding:7px; border:1px solid #222;" tal:attributes="src padd/pgAvatar" class="radiusBordered" />
+				<img style="width:120px; height:120px; padding:7px; border:1px solid #222;" tal:attributes="src padd/pgAvatarSquare" class="radiusBordered" />
 			</div>
 			<div style="margin-top:5px; text-align:center;"><img tal:attributes="src string:TEMPLATES/img/ranks/${padd/ordinaryUniform}.png" style="vertical-align:middle;" /> <img style="vertical-align:middle; vertical-align:middle;" tal:attributes="src php:(padd['pgSesso'] == 'M') ? 'TEMPLATES/img/specie/' . padd['pgSpecie'] . '_m.png' : ((padd['pgSesso'] == 'F') ? 'TEMPLATES/img/specie/' . padd['pgSpecie'] . '_f.png' : 'TEMPLATES/img/specie/' . padd['pgSpecie'] . '_t.png' ) ; title php:(padd['pgSesso'] == 'M') ? padd['pgSpecie'] . ' - Maschio' : ((padd['pgSesso'] == 'F') ? padd['pgSpecie'] . ' - Femmina' : padd['pgSpecie'] . ' - Terzo Genere' )"  /> </div>
 			

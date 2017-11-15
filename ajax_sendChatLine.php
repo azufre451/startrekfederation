@@ -168,9 +168,13 @@ include('includes/validate_class.php');
 		$tag = ($_POST['chatTag'] == '') ? '' : '<span class="chatTag">['.strtoupper(addslashes($_POST['chatTag'])).']</span>';
 		
 		$stringe = strtolower($string); 
-		$realLen = strlen($string);
-		$string = '<p class="chatDirect">'.date('H:i')." $ima1 ".addslashes($ima2)." <span onclick=\"javascript:schedaPOpen($pgID);\" onmouseover=\"javascript:selectOccur(\'$userN\');\" onmouseout=\"deselectOccur();\" class=\"chatUser\">$userN</span> $tag ".ucfirst(str_replace(array('&lt;','&gt;'),array(' <span class="chatQuotation">&laquo;','&raquo;</span> '),$string))."</p>";	
-		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,realLen,privateAction) VALUES($pgID,'$amb','$string',".time().",'DIRECT',$realLen,IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
+		$realLen = strlen($string); 
+ 		
+ 		//$string = '<p class="chatDirect">'.date('H:i')." $ima1 ".addslashes($ima2)." <span onclick=\"javascript:schedaPOpen($pgID);\" onmouseover=\"javascript:selectOccur(\'$userN\');\" onmouseout=\"deselectOccur();\" class=\"chatUser\">$userN</span> $tag ".ucfirst(str_replace(array('&lt;','&gt;'),array(' <span class="chatQuotation">&laquo;','&raquo;</span> '),$string))."</p>";	
+
+ 		$stringu = " $ima1 ".addslashes($ima2)." <span onclick=\"javascript:schedaPOpen($pgID);\" onmouseover=\"javascript:selectOccur(\'$userN\');\" onmouseout=\"deselectOccur();\" class=\"chatUser\">$userN</span> $tag ".ucfirst(str_replace(array('&lt;','&gt;'),array(' <span class="chatQuotation">&laquo;','&raquo;</span> '),$string))."</p>";
+
+		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,realLen,privateAction) VALUES($pgID,'$amb',CONCAT(CONCAT('<p class=\"chatDirect\">',DATE_FORMAT(FROM_UNIXTIME( IF(EXISTS( (SELECT 1 FROM federation_sessions WHERE sessionPlace = '$amb' AND sessionStatus = 'ONGOING' AND sessionOverrideTime <> 0) ),((SELECT sessionOverrideTime FROM federation_sessions WHERE sessionPlace = '$amb' AND sessionStatus = 'ONGOING')),".time().") ), '%H %i')),'$stringu'),".time().",'DIRECT',$realLen,IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 		
 			if(strpos($stringe,'capo master con incarichi speciali kavanagh') !== false)
 			{
@@ -178,7 +182,7 @@ include('includes/validate_class.php');
 			}
 		
 			if($stringe == 'computer, che ore sono?')
-			{
+			{ 
 				$stringe = '<div style="position:relative;" class="auxAction"><div class="blackOpacity">Comando Utente</div>Voce del Computer: &lt;Sono le ore '.date('H').', '.date('i').' minuti e '.date('s').' secondi&gt;</div>';  
 				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$stringe',".(time()+1).",'MASTER',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 			}

@@ -1,0 +1,190 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
+	
+	<link id="alerter" tal:attributes="href string:TEMPLATES/css/${alertCSS}.css" rel="stylesheet" type="text/css" />
+	 
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/mapCore.js?v=1.4.5"/>
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+	
+	<title>STAR TREK FEDERATION</title>
+	
+	<style>@font-face{font-family:'federationFont';src: url('TEMPLATES/Roddenberry.eot');src: url('TEMPLATES/Roddenberry.ttf') format('truetype');} .hourCol{font-family:federationFont, Impact; vertical-align:middle; font-size:18px; color:#0077c3; width:40px;} .expiring{color:#FC0;}</style>
+</head>
+
+<body style="background-color:black; background-image:url('TEMPLATES/img/main_login.jpg')"  onkeyup="swish(event)">
+
+<div id="federation_interfaceContainer">
+	<div id="federation_interfaceColumnLeft">
+		<div id="federation_leftTop">
+			<div id="federation_cornerUL" />
+			<div id="federation_montUL" tal:attributes="class php:(incomingPadd == true) ? 'paddON' : 'paddOFF'" />
+			<div id="federation_montULint2" />
+			
+			<!-- LINKS ALL'INTERFACCIA -->
+			<a href="main.php"><div style="position:absolute; top:46px; left:9px; width:72px; height:27px;" title="Mappa Principale"/></a>
+			<a href="javascript:locOpen();"><div style="position:absolute; top:75px; left:9px; width:72px; height:27px;" title="Localizzatore"/></a>
+			<a href="javascript:paddOpen();"><div style="position:absolute; top:181px; left:9px; width:72px; height:27px;" title="Dpadd"/></a>
+			<a href="javascript:commOpen();"><div style="position:absolute; top:215px; left:9px; width:72px; height:24px;" title="Comunicatori"/></a>
+			<a href="javascript:schedaOpen();"><div style="position:absolute; top:247px; left:9px; width:72px; height:26px;" title="Scheda"/></a>
+			<!-- FINE DEI LINK ALL'INTERFACCIA -->
+		</div>
+		
+		<div id="federation_alertLeft">
+			<div id="leftAlert" />
+		</div>
+		<div id="federation_leftBottom">
+			<div id="federation_montDL4" />
+			<a href="javascript:chartOpen();"><div style="position:absolute; bottom:160px; left:8px; width:76px; height:26px;" title="Charts"/></a>
+			<a href="javascript:masterShadow();" tal:condition="exists:mapAdd"><div id="federation_shadowMasterButton" title="Master"/></a>
+	
+			<a href="javascript:void(0);" onclick="javascript:doLogout();"><div style="position:absolute; bottom:13px; left:5px; width:76px; height:30px;" title="Effettua il Logout"/></a>
+		</div>
+	</div>
+	
+	<div id="federation_interfaceBottom">
+		
+		<div id="federation_interfaceBottomLeft"/>
+		<div id="federation_interfaceBottomCenter"/>
+		<div id="federation_interfaceBottomRight" />
+	
+	</div> 
+	
+	<div id="federation_interfaceColumnRight">
+		<div id="federation_rightTop" />
+
+		<div metal:use-macro="TEMPLATES/metal_panels.htm/reminderST" />
+		<div metal:use-macro="TEMPLATES/metal_panels.htm/reminderAvatar" />
+		
+		<div id="federation_alertRight">
+			<div id="rightAlert" />
+		</div>
+		
+		<div id="federation_rightBottom">
+			<div id="federation_rightBottomSuperSs">
+			
+			<a href="javascript:void(0);" title="Guida" onclick="jQuery('#guidePanel').load('tutorial.php',function(){jQuery('#guidePanel').fadeIn();});"><div id="federation_rightBottomGuide" /></a>
+			</div>
+			
+			<a href="javascript:whisperOpen();"><div id="federation_rightBottomSussurro" tal:attributes="class php:(incomingSuss == true) ? 'sussON' : 'sussOFF'" /></a>
+			<div id="federation_rightBottomAngolo" />
+		</div>
+	</div>
+	
+	<div id="federation_interfaceTop">
+	<div id="federation_interfaceTopLeft" />
+	<div id="federation_topRightPre" />
+	</div>
+	
+	<div id="federation_interfaceCenterTitle">
+		<div style="text-align:center; font-family:helvetica; font-weight:bold; margin-top:10px; font-size:14px;"><span tal:content="placeName" /><br />
+		<a href="portataLister.php" class="interfaceLinkBlue" tal:condition="php:(showSbarcoImbarco == 'true')"> > SBARCO < </a>
+		<a class="interfaceLinkBlue" tal:condition="exists:toHangar" tal:attributes="href string:chat.php?amb=${toHangar}"> > SBARCO IN HANGAR < </a></div>
+	</div>
+	<a href="#" onClick="javascript:cdbOpen();"><div tal:condition="php:(setDBOn==false)" id="btnComputer" /><div tal:condition="php:(setDBOn==true)" id="btnComputer_a" /></a>
+	<a href="#" onClick="javascript:dbOpen();"><div id="btnDatabase" /></a>
+	<a href="javascript:statusOpen();"><div id="btnStatus" /></a>
+</div>
+
+
+<div id="mapCntl" tal:condition="php:(placeType=='Pianeta')">
+
+<div id="adder" class="popup" tal:condition="exists:mapAdd2">
+	<p class="clockTitle" style="margin:0px; margin-bottom:10px; margin-right:10px;">Aggiungi Location</p><hr />
+	<form method="POST" tal:attributes="action string:service.php?addMapLocation=${placeID}">
+		<table>
+			<tr><td>Nome Localit&agrave;</td><td><input  maxlength="35" name="name" style="width:220px;" type="text" value="" /></td></tr>
+			<tr><td>Descrizione <span style="font-size:11px;">(HTML+BBCODE)</span></td><td><textarea name="descript" style="width:220px; height:40px;" /></td></tr>
+			<tr><td>Mappa</td><td><select style="width:220px;" name="mappNo"><option tal:repeat="x php:range(1,3)" tal:attributes="value x" tal:content="string: MAPPA ${x}" /></select></td></tr>
+			<tr><td>URL Icona (http://)</td><td><input  name="icon" style="width:220px;" type="text" value="" /></td></tr>
+			<tr><td>URL Immagine Interna (http://)</td><td><input  name="internalImage" style="width:220px;" type="text" value="http://miki.startrekfederation.it/imaLocation/c_generic.png" /></td></tr>
+			<tr><td><input type="submit" value="INVIA" style="width:60px;" /></td><td><span style="color:#FF0006; font-weight:bold;">ATTENZIONE</span> controlla i dati prima di inviare. Per rimuovere una location inserita rivolgiti ad un admin.</td></tr>
+		</table>
+	</form>
+	<p style="text-align:center; margin:0px;" class="font-size:13px;">DIMENSIONE URL Icona: <b>100x67 px</b><br />DIMENSIONE URL Immagine: <b>420x280 px</b></p>
+	<button style="position:absolute;top:2px;right:3px; height:20px; width:20px;" onclick="javascript:jQuery('#adder').fadeOut(300);">X</button>
+</div>
+
+<div id="mapDiv1" tal:attributes="style string:width:1150;;height:625;; background-image:url('TEMPLATES/img/maps/${placeMap1}')">
+	<div style="position:relative; width:460px; height:465px; top:65px; left:670px;">
+		<a class="interfaceLink" tal:repeat="loc locationsPlanet/1" tal:attributes="href string:chat.php?amb=${loc/locID}"><div tal:attributes="class php:(loc['counterPG'] > 0) ? 'planetLocationElement_a radiusBordered ' : 'planetLocationElement radiusBordered' ; style  php:(loc['icon'] == '') ? 'background-image:url()': 'background-image:url(' . loc['icon'] . ')' ; onmouseover string:javascript:jQuery('#elementTitle1').html('${loc/locName}')"  onmouseout="jQuery('#elementTitle1').html('');" style="width:100px;" /></a>
+	</div>
+	<div style="position:absolute; width:20px; height:20px; bottom:0px; bottom:28px; left:370px; text-align:center;"><a href="javascript:void(0);" onclick="javascript:jQuery('#adder').fadeIn(300);" tal:condition="exists:mapAdd2" class="interfaceLink">Aggiungi<br />Location</a></div>
+	
+	<div style="position:absolute; width:100px; height:20px; bottom:0px; bottom:28px; left:160px; text-align:center;"><a href="main.php?l=SFA" tal:condition="php:(placeID == 'SOL')" class="interfaceLink">Starfleet<br />Academy</a></div>
+	<div id="elementTitle1" class="radiusBordered12 clockTitle subTitleContainer"></div> 
+	<div style="position:absolute; width:30px; height:30px; cursor:pointer; top:573px; left:265px; text-align:center;" onclick="javascript:tomap(1);"/>
+	<div style="position:absolute; width:30px; height:30px; cursor:pointer; top:573px; left:299px; text-align:center;" onclick="javascript:tomap(2);"/>
+	<div style="position:absolute; width:30px; height:30px; cursor:pointer; top:573px; left:333px; text-align:center;" onclick="javascript:tomap(3);"/>
+	
+	
+</div>
+<div id="mapDiv2" tal:attributes="style string:width:1150;;height:625;; background-image:url('TEMPLATES/img/maps/${placeMap2}')">
+	<div style="position:relative; width:460px; height:465px; top:65px; left:670px;">
+		<a class="interfaceLink" tal:repeat="loc locationsPlanet/2" tal:attributes="href string:chat.php?amb=${loc/locID}"><div tal:attributes="class php:(loc['counterPG'] > 0) ? 'planetLocationElement_a radiusBordered ' : 'planetLocationElement radiusBordered' ; style  php:(loc['icon'] == '') ? 'background-image:url()': 'background-image:url(' . loc['icon'] . ')' ; onmouseover string:javascript:jQuery('#elementTitle2').html('${loc/locName}')"  onmouseout="jQuery('#elementTitle2').html('');" style="width:100px;" /></a>
+	</div>
+	<div id="elementTitle2" class="radiusBordered12 clockTitle subTitleContainer"></div> 
+	<div style="position:absolute; width:30px; height:30px; cursor:pointer; top:573px; left:265px; text-align:center;" onclick="javascript:tomap(1);"/>
+	<div style="position:absolute; width:30px; height:30px; cursor:pointer; top:573px; left:299px; text-align:center;" onclick="javascript:tomap(2);"/>
+	<div style="position:absolute; width:30px; height:30px; cursor:pointer; top:573px; left:333px; text-align:center;" onclick="javascript:tomap(3);"/>
+</div>
+<div id="mapDiv3" tal:attributes="style string:width:1150;;height:625;; background-image:url('TEMPLATES/img/maps/${placeMap3}')">
+	<div style="position:relative; width:460px; height:465px; top:65px; left:670px;">
+		<a class="interfaceLink" tal:repeat="loc locationsPlanet/3" tal:attributes="href string:chat.php?amb=${loc/locID}"><div tal:attributes="class php:(loc['counterPG'] > 0) ? 'planetLocationElement_a radiusBordered ' : 'planetLocationElement radiusBordered' ; style  php:(loc['icon'] == '') ? 'background-image:url()': 'background-image:url(' . loc['icon'] . ')' ; onmouseover string:javascript:jQuery('#elementTitle3').html('${loc/locName}')"  onmouseout="jQuery('#elementTitle3').html('');" style="width:100px;" /></a>
+	</div>
+	<div id="elementTitle3" class="radiusBordered12 clockTitle subTitleContainer"></div>
+	<div style="position:absolute; width:30px; height:30px; cursor:pointer; top:573px; left:265px; text-align:center;" onclick="javascript:tomap(1);"/>
+	<div style="position:absolute; width:30px; height:30px; cursor:pointer; top:573px; left:299px; text-align:center;" onclick="javascript:tomap(2);"/>
+	<div style="position:absolute; width:30px; height:30px; cursor:pointer; top:573px; left:333px; text-align:center;" onclick="javascript:tomap(3);"/>
+</div>
+<!-- OROLOGIO -->
+<div id="clock" tal:condition="php:(placeType=='Pianeta')" style="z-index:10; padding:3px; text-align:center; position:relative; width:300px; top:40px; left:50%; margin-left:-153px; border:1px solid #FCFCFC;" class="radiusBordered12">
+	<span class="clockTitle" style="font-size:15px;" tal:content="structure string:Ore ${clock} - ${weather}"/>
+</div>
+
+</div>
+
+<div tal:condition="php:(placeType=='Stazione' || placeType=='Nave' || placeType=='Navetta' || placeType=='Accademia')">
+<div id="mapDiv1" style="z-index:2;"><img usemap="#mapDiv1" tal:attributes="src string:TEMPLATES/img/maps/${placeMap1}" /></div>
+<div id="mapDiv2" style="z-index:2;"><img usemap="#mapDiv2" tal:attributes="src string:TEMPLATES/img/maps/${placeMap2}" /></div>
+<div id="mapDiv3" style="z-index:2;"><img usemap="#mapDiv3" tal:attributes="src string:TEMPLATES/img/maps/${placeMap3}"/></div>
+<map name="mapDiv1" id="mapDiv1" tal:content="structure Map1" /> 
+<map name="mapDiv2" id="mapDiv2" tal:content="structure Map2" /> 
+<map name="mapDiv3" id="mapDiv3" tal:content="structure Map3" /> 
+</div>
+
+<div metal:use-macro="TEMPLATES/metal.htm/versionBox" />
+
+
+<div id="messageOfStatus" tal:condition="php:(note != '' && user.pgFirst==0)" tal:attributes="class php:(user.pgSpecie=='Romulana') ? 'popup radiusBordered12 planetLocationElement_a_rom': 'popup radiusBordered12 planetLocationElement_a'">
+	<p class="clockTitle">INFORMAZIONI DI SERVIZIO</p><hr /><br />
+	<p tal:condition="exists:isIpad"><a href="javascript:tomap(1)" class="interfaceLink" alt=""> Mappa 1 </a> - <a href="javascript:tomap(2)" class="interfaceLink" alt=""> Mappa 2 </a> </p>
+	<div style="font-size:13px; text-align:justify;" tal:content="structure note" />
+	
+	<div style="font-size:13px; text-align:left; position:absolute; bottom:5px; margin-top:5px;" tal:condition="php:count(events) GE 1">
+		<img src="TEMPLATES/img/interface/mainInterface/calendario.png"/><table style="width:100%;"><tr tal:repeat="event events"><td tal:attributes="class php:(event['date'] LE curTime) ? 'hourCol expiring' : 'hourCol'" tal:content="php:date('H:i',event['date'])" /><td>
+		<span tal:content="structure event/event" style="font-size:13px; vertical-align:middle;" /> <span tal:content="string:[${event/pgUser}]" style="font-size:11px; color:#AAA;" /></td></tr></table>
+	</div>
+	<button class="closingButton" onclick="javascript:jQuery('#messageOfStatus').fadeOut(300);">X</button>
+</div>
+
+<div metal:use-macro="TEMPLATES/metal_panels.htm/alertPanel" />
+<div metal:use-macro="TEMPLATES/questionar.htm/sondaggio" />
+<div metal:use-macro="TEMPLATES/metal_panels.htm/wordrobePanel" />
+
+<div metal:use-macro="TEMPLATES/guidar.htm/guida" />
+<div metal:use-macro="TEMPLATES/guidar.htm/guidePanel" /> 
+<div metal:use-macro="TEMPLATES/audioSegments.htm/audioNotifier" />
+<div metal:use-macro="TEMPLATES/audioSegments.htm/whisperPaddAlert" />
+
+</body>
+</html>

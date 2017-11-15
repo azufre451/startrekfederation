@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" /> 
+	<link id="alerter" tal:attributes="href string:TEMPLATES/css/${alertCSS}.css" rel="stylesheet" type="text/css" />
+	
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" /> 
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+	<script type="text/javascript" src="TEMPLATES/js/chatCore.js?v=1.5"/>
+	
+	<script type="text/javascript" src="TEMPLATES/js/highlight.js"></script>
+
+	<title>STAR TREK: FEDERATION</title>
+	
+	<style tal:content="user/customCSS" tal:condition="php:(user.customCSS != '')" />
+	
+</head>
+
+<body style="background-color:black; background-image:url('TEMPLATES/img/main_login.jpg')">
+<div id="federation_interfaceContainer">
+	<div id="federation_interfaceColumnLeft">
+		<div id="federation_leftTop">
+			<div id="federation_cornerUL" />
+			<div id="federation_montUL" tal:attributes="class php:(incomingPadd == true) ? 'paddON' : 'paddOFF'" />
+			<div id="federation_montULint2" />
+			
+			<!-- LINKS ALL'INTERFACCIA -->
+			<a href="main.php"><div style="position:absolute; top:46px; left:9px; width:72px; height:27px;" title="Mappa Principale"/></a>
+			<a href="javascript:locOpen();"><div style="position:absolute; top:75px; left:9px; width:72px; height:27px;" title="Localizzatore"/></a>
+			<a href="javascript:paddOpen();"><div style="position:absolute; top:181px; left:9px; width:72px; height:27px;" title="Dpadd"/></a>
+			<a href="javascript:commOpen();"><div style="position:absolute; top:215px; left:9px; width:72px; height:24px;" title="Comunicatori"/></a>
+			<a href="javascript:schedaOpen();"><div style="position:absolute; top:247px; left:9px; width:72px; height:26px;" title="Scheda"/></a>
+			<!-- FINE DEI LINK ALL'INTERFACCIA -->
+		</div>
+		
+		<div id="federation_alertLeft">
+			<div id="leftAlert" />
+		</div>
+		<div id="federation_leftBottom">
+			<div id="federation_montDL4" />
+			<a href="javascript:chartOpen();"><div style="position:absolute; bottom:160px; left:8px; width:76px; height:26px;" title="Charts"/></a>
+			<a href="javascript:masterShadow();" tal:condition="exists:isStaff"><div id="federation_shadowMasterButton" title="Master"/></a>
+			<a href="javascript:void(0);" onclick="javascript:doLogout();"><div style="position:absolute; bottom:13px; left:5px; width:76px; height:30px;" title="Effettua il Logout"/></a>
+		</div>
+	</div>
+	
+	<div id="federation_interfaceBottom">
+		
+		<div id="federation_interfaceBottomLeft"/>
+		<div id="federation_interfaceBottomCenter"/>
+		<div id="federation_interfaceBottomRight" />
+	
+	</div> 
+	
+	<div id="federation_interfaceColumnRight">
+		<div id="federation_rightTop" />
+
+		
+		<div metal:use-macro="TEMPLATES/metal_panels.htm/reminderST" />
+		<div metal:use-macro="TEMPLATES/metal_panels.htm/reminderAvatar" />
+		
+		<div id="reminderClima" tal:condition="php:(ambient['ambientType']=='ALLOGGIO')" class="reminder" style="margin-top:20px; text-align:center;">
+			<a href="javascript:void(0);" onclick="toggleIllumino();" ><img id="reminderLight" tal:attributes="src string:TEMPLATES/img/interface/mainInterface/l${ambient/ambientLight}.png" title="Livello Illuminazione"  /></a>
+			<div style="float:right; margin-top:10px; font-weight:bold; font-size:20px; font-family:Arial; text-shadow: 2px 2px 0px black"><div id="lightBar" class="lightBar" title="Colore delle luci" tal:attributes="style string:background-color:${ambient/ambientLightColor};; box-shadow: 0 0 5px ${ambient/ambientLightColor};;" /><span id="reminderTemp" tal:content="string:${ambient/ambientTemperature}°C"/></div>
+		</div>
+					
+		<div id="federation_alertRight">
+			<div id="rightAlert" />
+		</div>
+		
+		<div id="reminderBrevs" class="reminder"><p style="text-align:right; margin:0px; height:auto;"></p></div>
+		 
+		<div id="federation_rightBottom">
+		
+			<div id="federation_rightBottomSuperSs">
+			<a href="javascript:void(0);" title="Guida" onclick="jQuery('#guidePanel').load('tutorial.php',function(){jQuery('#guidePanel').fadeIn();});"><div id="federation_rightBottomGuide" /></a>
+			</div>
+			
+			<a href="javascript:whisperOpen();"><div id="federation_rightBottomSussurro" tal:attributes="class php:(incomingSuss == true) ? 'sussON' : 'sussOFF'" /></a>
+			<div id="federation_rightBottomAngolo" />
+		</div>
+	</div>
+	
+	<div id="federation_interfaceTop">
+	<div id="federation_interfaceTopLeft" />
+	<div id="federation_topRightPre" />
+	</div>
+	
+	<div id="federation_interfaceCenterTitle">
+		<div style="text-align:center; font-family:helvetica; font-weight:bold; margin-top:10px; font-size:14px;"><span tal:content="placeName" id="placeName" /><br /><span tal:content="ambient/locName" style="font-variant:small-caps;" id="ambientName" /> <a href="javascript:void(0);" onclick="javascript:jQuery('#locationMap').fadeIn(150);" tal:condition="php:(ambient['locationable'] == 1)" class="interfaceLink">(POS)</a></div>
+	</div>
+	<a href="#" onClick="javascript:cdbOpen();"><div tal:condition="php:(setDBOn==false)" id="btnComputer" /><div tal:condition="php:(setDBOn==true)" id="btnComputer_a" /></a>
+	<a href="#" onClick="javascript:dbOpen();"><div id="btnDatabase" /></a>
+	<a href="javascript:statusOpen();"><div id="btnStatus" /></a>
+
+	<div id="federation_chatDiv" style="padding:10px;" tal:content="structure htmlLiner">
+		<div style="margin-left:10px; width:100%; height:20px; border:1px solid #333;"></div>
+	</div>
+	<div id="chatBar"> 
+	
+		<div style="margin-top:10px;">
+				 
+				<div style="float:left; width:90px; text-align:center;"><input id="chatTag" title="Inserisci qui il TAG. Il TAG indica la posizione del tuo PG nella chat di gioco, ma può anche indicare quale consolle stai usando in questo momento: CONN, OPS, TAT etc..." style="width:100%; vertical-align:middle; background-color:#001b2e; 
+    text-transform: uppercase; color='#0a172a'; height:20px; font-size:14px; font-weight:bold; text-align:center;" type="text" onkeyup="javascript:sX(event);" placeholder="TAG"/>
+				<select tal:condition="exists:isMasteringJuniorMasterOrMod" id="chatUser" title="Inserisci il TAG" style="margin-top:5px; width:100%; vertical-align:middle; background-color:#333; color='white'; height:20px; font-size:12px; text-align:center;">
+					<option value="0">[ - Tutti - ]</option>
+					<option tal:repeat="us userPresent" tal:content="us/pgUser" tal:attributes="value us/pgID" />
+				</select>
+				</div>
+				<div style="float:left; margin-left:20px;" id="chatMainBar">
+				<textarea id="chatInput" style="width:100%; vertical-align:middle; height:40px;"  onkeyup="javascript:sX(event);"/> <script>resizeBar();</script>
+				<input type="hidden" id="ambientID" tal:attributes="value ambient/locID" />
+				<input type="hidden" id="initialID" tal:attributes="value minID" />
+				<input type="hidden" id="lastID" tal:attributes="value maxVIS" />
+				<input type="hidden" id="locID" tal:attributes="value ambient/locID" />
+				<input type="hidden" id="listenerURL" tal:attributes="value listenerURL" />
+				<input type="hidden" id="getAudio" tal:attributes="value getAudio" />
+				<input type="hidden" id="getterURL" tal:attributes="value getterURL" />
+				<input type="hidden" id="turnIndicatorNotified" value="0"/>
+				<input type="hidden" id="pgUser" tal:attributes="value user/pgUser"/> 
+				<input type="hidden" id="pgID" tal:attributes="value user/ID"/> 
+				</div>
+				
+				<div id="buttonst" style="float: right; width: 120px; text-align:center; margin-top:-10px;">
+				<a href='javascript:void(0);' onclick="javascript:window.location.reload()"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_ref.png" style="vertical-align:middle;"/></a>
+				<a href='javascript:void(0);' onclick="javascript:jQuery('#locationInfo').fadeIn(200);"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_desc.png" style="vertical-align:middle;"/></a>
+				<a id="loggerbtn" href='javascript:void(0);'  onclick="getLog()" tal:attributes="style php:(minID == 0) ? 'display:none' : ''" ><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_ent.png" title="Salva un Log della giocata" style="vertical-align:middle; cursor:pointer"/></a>
+				<a tal:condition="php:(ambient['ambientType']=='ALLOGGIO')" href='javascript:void(0);' onclick="javascript:dlindlon(jQuery('#locID').prop('value'));"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_ring.png" title="Suona il Campanello" style="vertical-align:middle;"/></a>
+				<a tal:condition="php:(ambient['ambientType']=='ALLOGGIO' || ambient['ambientType']=='REPLICATORE')" href='javascript:void(0);'  tal:attributes="onclick string:javascript:repliOpen('${ambient/locID}')"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_repl.png" title="Replicatore" style="vertical-align:middle;"/></a>
+				<a tal:condition="php:(ambient['ambientType']=='ALLOGGIO')" href='javascript:void(0);'  onclick="javascript:jQuery('#climate').fadeIn(200);"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_clima.png" title="Controllo Ambientale" style="vertical-align:middle;"/></a>
+				<a tal:condition="php:(ambient['ambientType']=='PLANCIA')" href='javascript:void(0);'  onclick="javascript:jQuery('#commsub').fadeIn(200);"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_comm.png" title="Comunicazioni Subspaziali" style="vertical-align:middle;"/></a>
+				<a tal:condition="php:(ambient['ambientType']=='HANGAR')" tal:attributes="href string:hangar.php?of=${ambient/ambientLocation}"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_shut.png" title="Accedi alle navette" style="vertical-align:middle;"/></a>
+				<a tal:condition="php:(ambient['ambientType']=='SALA_TEL' || ambient['ambientType']=='INFERMERIA' || ambient['ambientType']=='PLANCIA')" href='javascript:void(0);'  onclick="javascript:jQuery('#teleportPanel').fadeIn(200);"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_tt.png" title="Teletrasporto" style="vertical-align:middle;"/></a>
+				<a tal:condition="php:(ambient['ambientAudio']) != ''" href='javascript:void(0);' onclick="javascript:toggleAudio();"><img id="audioControl" class="imaLer" tal:attributes="src php:(user.audioEnvEnable) ? 'TEMPLATES/img/interface/mainInterface/icon_audio.png' : 'TEMPLATES/img/interface/mainInterface/icon_audio_off.png' ; title php:(user.audioEnvEnable) ? 'Disabilita Audio' : 'Abilita Audio'" style="vertical-align:middle;"/></a>
+				<a tal:condition="php:(ambient['ambientType']) == 'SALA_OLO' && leastOlo" href='javascript:void(0);' onclick="javascript:showRanker();"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_mostrine.png" title="Olomostrine" style="vertical-align:middle;"/></a>
+				<a tal:condition="php:(ambient['ambientType']) == 'INFERMERIA'" href='javascript:void(0);' onclick="javascript:toggleBiobed();"><img id="biobedControlImage" class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_med.png" title="Avvia la Scansione con il Bioletto" style="vertical-align:middle;"/></a> <input type="hidden" id="biobedMode" value="0" />
+				<select tal:condition="php:(ambient['ambientType']) == 'DECKMAP'" onchange="javascript:window.location.href=this.value" style="width:80px;"><option tal:attributes="value string:chat.php?amb=${ambient/locID}"> -- </option><option style="margin:0px; text-align:center;" tal:repeat="place connectedPlaces" tal:attributes="value string:chat.php?amb=${repeat/place/key}" tal:content="place"/></select>
+				
+				
+				
+				</div>
+				<div style="float:right; text-align:center; margin-left:10px; width:70px; margin-right:10px;">
+				<button type="submit" style="border-radius:10px;vertical-align:middle; width:55px; margin-left:5px;" onclick="javascript:sendChat();">INVIA</button><p id="counter" style="margin:0px; margin-top:5px; color:#333; font-weight:bold; font-family:Helvetica">0</p>
+				</div>
+				
+		</div>
+	</div>
+</div>
+
+<div id="locationInfo" tal:attributes="style string:background-image:url('${ambient/image}')" class="popup blackOpacity">
+<p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:22px;;" tal:content="ambient/locName" />
+<div id="locationDesc" class="blackOpacity radiusBordered12" style="text-align:justify; margin:0px; padding:8px; margin-top:20px; height:195px; overflow-y:auto; ">
+<p style="margin:0px; text-align:center;"><a href="#" onclick="javascript:jQuery('#locationDesc').fadeOut(150); jQuery('#textShower').fadeIn(150); " class="interfaceLink">( Nascondi )</a> <a tal:attributes="href string:chatlog.php?amb=${ambient/locID}" target="_blank" class="interfaceLink">( LOG )</a> <a tal:condition="php:ambient['ambientType']=='SALA_OLO'" href="javascript:showRanker();" class="interfaceLink">( OLOMOSTRINE )</a></p>
+<p style="margin:0px;" tal:content="structure string:${ambient/descrizione}" tal:condition="php:(ambient['ambientType']!='DECKMAP')"/>
+
+<p tal:condition="php:(ambient['ambientType']=='DECKMAP')" style="margin:0px; margin-bottom:10px;">
+	<p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:18px;;">Accedi a:</p>
+	<p style="margin:0px; text-align:center;" tal:repeat="place connectedPlaces"><a tal:content="place" tal:attributes="href string:chat.php?amb=${repeat/place/key}" class="interfaceLink"/></p>
+</p>
+</div>
+
+<button style="position:absolute; bottom:7px; right:30px; display:none;" id="textShower" onclick="javascript:jQuery('#locationDesc').fadeIn(150); jQuery('#textShower').fadeOut(150);">TESTO</button>
+<button style="position:absolute; bottom:7px; right:7px;" onclick="javascript:jQuery('#locationInfo').fadeOut(150);">X</button>
+</div>
+
+<div metal:use-macro="TEMPLATES/metal_panels.htm/locationMapPanel" tal:condition="php:(ambient['locationable'])"/>
+<div metal:use-macro="TEMPLATES/metal_panels.htm/replicatorPanel" tal:condition="php:(ambient['ambientType']=='ALLOGGIO' || ambient['ambientType']=='REPLICATORE')"/>
+<div metal:use-macro="TEMPLATES/metal_panels.htm/teleporterPanel" tal:condition="php:(ambient['ambientType']=='SALA_TEL' || ambient['ambientType']=='PLANCIA' || ambient['ambientType']=='INFERMERIA')"/>
+<div metal:use-macro="TEMPLATES/metal_panels.htm/olorankerPanel" tal:condition="php:(ambient['ambientType']=='SALA_OLO') && leastOlo" />
+<div metal:use-macro="TEMPLATES/metal_panels.htm/climatePanel" tal:condition="php:(ambient['ambientType']=='ALLOGGIO')" />
+<div metal:use-macro="TEMPLATES/metal_panels.htm/commPanel" tal:condition="php:(ambient['ambientType']=='PLANCIA')" />
+<div metal:use-macro="TEMPLATES/metal_panels.htm/alertPanelChat" />
+
+<div metal:use-macro="TEMPLATES/metal_panels.htm/wordrobePanel" />
+
+
+<div metal:use-macro="TEMPLATES/guidar.htm/guidePanel" />
+<div metal:use-macro="TEMPLATES/audioSegments.htm/audioNotifier" /> 
+<div metal:use-macro="TEMPLATES/audioSegments.htm/whisperPaddAlert" />
+
+<audio id="mainAu">
+<source id="au1" src="" type="audio/ogg" />
+<source id="au2" src="" type="audio/mpeg" />
+</audio>
+
+<audio id="loopAu" loop="loop" preload="none" tal:condition="php:(ambient['ambientAudio']) != ''" tal:attributes="autoplay php:(user.audioEnvEnable) ? 'autoplay' : NULL">
+<source tal:attributes="src string:http://miki.startrekfederation.it/audioBase/${ambient/ambientAudio}.ogg" type="audio/ogg" />
+<source tal:attributes="src string:http://miki.startrekfederation.it/audioBase/${ambient/ambientAudio}.mp3" type="audio/mpeg" />
+</audio>
+
+</body>
+</html>
+
+
+

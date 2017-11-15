@@ -1,0 +1,95 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/personnel.css?v=1.6" rel="stylesheet" type="text/css" />
+	 
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+
+	<title>STAR TREK FEDERATION - SCHEDA</title>
+	<script type="text/javascript">
+	function paddOpen(who){window.open ('padd.php?s=seR&to='+who+'&sub=','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
+	
+	function toggleVisit(ida)
+	{
+		var tit = ''; 
+		var hti = jQuery('#toggle_'+ida).html();  
+		if(hti.indexOf('ESPANDI') > 0) tit = '[ RIDUCI ]';
+		if(hti.indexOf('RIDUCI') > 0) tit = '[ ESPANDI ]';  
+		
+		jQuery('#visi_'+ida).toggle('slide',{},100,function(){jQuery('#toggle_'+ida).html(tit); jQuery('#visi_'+ida).css('background-color','rgba(0,0,0,0.5)');});
+	}
+	</script>	
+	
+ 
+</head>
+
+<body style="background-color:black; overflow:hidden; padding:-5px;">
+
+<div id="schedaContainer">
+
+<div metal:use-macro="TEMPLATES/metal.htm/schedaIntro" />
+
+<div id="mainContainer" style="margin-left:5px; margin-top:15px; width:620px;">
+<div class="popup" style="display:block;">
+	<form tal:attributes="action string:scheda.php?s=meEdiE" method="POST">
+		<input tal:condition="php:(omasterPanel)" name="medicName" required="required" tal:attributes="value ediRecord/medico" class="radiusBordered5"></input><br/>
+			
+			<select tal:condition="php:(ediRecord['medCode'] != NULL)" name="medicCode" style="width:150px;" class="radiusBordered5">
+			<optgroup label="Codici Triage Normali">
+				<option value="BIANCO" tal:attributes="selected php:(ediRecord['medCode'] == 'BIANCO') ? 'selected' : false">Codice Bianco</option>
+				<option value="VERDE" tal:attributes="selected php:(ediRecord['medCode'] == 'VERDE') ? 'selected' : false">Codice Verde</option>
+				<option value="GIALLO" tal:attributes="selected php:(ediRecord['medCode'] == 'GIALLO') ? 'selected' : false">Codice Giallo</option>
+				<option value="ROSSO" tal:attributes="selected php:(ediRecord['medCode'] == 'ROSSO') ? 'selected' : false">Codice Rosso</option>
+			</optgroup>
+			<optgroup label="Codici Triage Speciali">
+				<option value="ARANCIONE" tal:attributes="selected php:(ediRecord['medCode'] == 'ARANCIONE') ? 'selected' : false">Codice Arancione</option>
+				<option value="BLU" tal:attributes="selected php:(ediRecord['medCode'] == 'BLU') ? 'selected' : false">Codice Blu</option>
+				<option value="NERO" tal:attributes="selected php:(ediRecord['medCode'] == 'NERO') ? 'selected' : false">Codice Nero</option>
+			</optgroup>
+			</select>
+			
+			Data: <select name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day ; selected php:(day == substr(ediRecord['tdate'],8,2) ? 'selected' : false)" tal:content="day" /></select> / <select name="dataM"><option tal:repeat="day php:range(1,12)" tal:attributes="value day ;  selected php:(day == substr(ediRecord['tdate'],5,2) ? 'selected' : false)" tal:content="day" /></select> / <select name="dataA"><option tal:repeat="day php:range(2290,thisYear)" tal:attributes="value day ; selected php:(day==substr(ediRecord['tdate'],0,4)) ? 'selected': false" tal:content="day" /></select> 
+			
+			<p style="margin:0px;" tal:condition="exists:mediRec">Anamnesi: <br/>
+				<textarea name="medicAnamnesi"  tal:content="ediRecord/medAnamnesi" class="radiusBordered5"/></p>	
+				
+			<p style="margin:0px;" tal:condition="exists:mediRec">Analisi Visiva: <br/>
+				<textarea name="medicVisi" tal:content="ediRecord/medVisiv" class="radiusBordered5"/></p>
+			<p style="margin:0px;" tal:condition="exists:mediRec">Analisi Strumentale: <br/>
+				<textarea name="medicStrum" tal:content="ediRecord/medStrument" class="radiusBordered5"/></p>
+			<p style="margin:0px;" tal:condition="exists:mediRec">Diagnosi: <br/>
+				<textarea name="medicDiagnos" tal:content="ediRecord/medDiagnosi" class="radiusBordered5"/></p>
+			<p style="margin:0px;"  tal:condition="exists:mediRec">Terapia: <br/>
+				<textarea name="medicTerap"  tal:condition="exists:mediRec" tal:content="ediRecord/medTerapia" class="radiusBordered5"/></p>
+			<p style="margin:0px;" tal:condition="exists:mediRec">Decorso: <br/>
+				<textarea name="medicDecorso"  tal:content="ediRecord/medDecorso" class="radiusBordered5"/></p>
+			
+			<p style="margin:0px;" tal:condition="not:exists:mediRec">Rapporto: <br/>
+				<textarea name="medicAnamnesi"  tal:content="ediRecord/medAnamnesi" style="height:220px;" class="radiusBordered5"/></p>
+			<p style="margin:0px;" tal:condition="not:exists:mediRec">Idoneità: <br/>
+				<textarea name="medicDiagnos" tal:content="ediRecord/medDiagnosi" class="radiusBordered5"/></p>
+			<p style="margin:0px;"  tal:condition="not:exists:mediRec">Terapia: <br/>
+				<textarea name="medicTerap"  tal:content="ediRecord/medTerapia" class="radiusBordered5"/></p>
+				
+			<input type="hidden" tal:attributes="value ediRecord/recID" name="ediRecID"/>
+			<input type="hidden" tal:attributes="value ediRecord/pgID" name="pgID"/>
+			<p style="text-align:center;">  <input type="submit" value="[ - INVIA - ]">Invia!</input></p> 
+	</form>
+
+</div>
+</div>
+
+	
+
+</div>
+
+</body>
+</html>

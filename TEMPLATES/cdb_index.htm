@@ -1,0 +1,305 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	
+	<link href="TEMPLATES/css/cdb.css?v=1.2.1" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" type="text/css" />
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<script type="text/javascript" src="TEMPLATES/js/jquery-scroller-v1.min.js"></script>
+
+	<title>STAR TREK FEDERATION - CDB</title>
+
+
+	<script type="text/javascript">
+		jQuery(function(){
+			jQuery('.interButton').button();
+			
+			$( "#searchKey" ).autocomplete({
+			source: "ajax_UserSearch.php",
+			minLength: 2,
+			});
+			
+			$('.vertical_scroller').SetScroller({	velocity: 80, direction: 'vertical'  });
+		});
+		
+		function alle(){
+		alert('Attenzione! La funzione cambio uniforme è stata spostata! Prova a cliccare sul tasto "modifica" a lato della mostrina nel reminder a destra nell\'interfaccia principale di gioco!');
+		/*jQuery('#search').fadeOut(100);
+		if(jQuery('#dressing').css('display')=='none')
+		{
+		jQuery('#newsFeed').hide();
+		jQuery('#dressing').stop().animate({width: "188px",queue: 'false;'},300).fadeIn();
+		jQuery('#local').stop().animate({width: "720px",queue: 'false;'},300);
+		}
+		else
+		{
+		jQuery('#dressing').stop().hide().animate({width: "0px",queue: 'false;'},300);
+		jQuery('#local').stop().animate({width: "900px",queue: 'false;'},300,'swing',function(){jQuery('#newsFeed').show();});
+		}*/
+		}
+		
+		function searcher(){
+		jQuery('#dressing').fadeOut(100);
+		if(jQuery('#search').css('display')=='none')
+		{
+		jQuery('#newsFeed').hide();
+		jQuery('#search').stop().animate({width: "188px",queue: 'false;'},300).fadeIn();
+		jQuery('#local').stop().animate({width: "720px",queue: 'false;'},300);
+		}
+		else
+		{
+		jQuery('#search').stop().hide().animate({width: "0px",queue: 'false;'},300);
+		jQuery('#local').stop().animate({width: "900px",queue: 'false;'},300,'swing',function(){jQuery('#newsFeed').show();});
+		
+		}
+		}
+		
+		function setMostrina(ida)
+		{
+			jQuery.post('ajax_getUniform.php',{term: ida}, function(e){jQuery('#uniformSelected').prop('src',e['unif']); jQuery('#divisaSelected').prop('src',e['divis']);},'json');
+		}
+	</script>
+	
+
+</head>
+
+<body>
+<div id="federation_interfaceContainer">
+	<div id="leftCol" style="width:123px;">
+		<div id="leftC1" />
+		<div id="leftC3" />
+	</div>
+	
+	<div id="supCol">
+		
+		<div metal:use-macro="TEMPLATES/metal.htm/cdbHeading" />
+		
+		
+	</div>
+	
+	<div id="fillerBax">
+		<div id="barbot1" />
+	</div>
+
+	
+	<div id="cdbContainer" style="overflow:hidden;">
+	<div metal:use-macro="TEMPLATES/metal.htm/cdbIntro" />
+	
+	<div><div id="local" style="border:1px solid #666; position:relative; float:left; width:900px; min-width:300px; overflow:hidden; height:210px;" class="radiusBordered_f">
+	<div style="position:absolute; top:5px; right:5px; width:20px; height:20px;"><img src="TEMPLATES/img/interface/personnelInterface/info.png" tal:attributes="title structure string:Questa sezione del Computer dipende dalla&#013; nave / stazione / pianeta su cui sei attivo in questo momento.&#013;I topic mostrati qui sono specifici della locazione: ${positionSelector/placeName}" /></div> 
+	<div style="float:left; text-align:center; width:120px; padding:5px;">
+		<img width="120px;" tal:attributes="src string:TEMPLATES/img/logo/${positionSelector/placeLogo}" /><br />
+		<p style="margin-top:5px;"><a tal:attributes="href string:crew.php?equi=${positionSelector/placeID}"><img src="TEMPLATES/img/interface/cdbInterface/equipaggio.png" alt="Equipaggio" title="Lista Equipaggio"/></a></p>
+		<p style="margin-top:5px; "><a onclick="alle();" href="javascript:void(0);"><img src="TEMPLATES/img/interface/cdbInterface/abbigliamento_b.png" alt="Abbigliamento" title="Abbigliamento"/></a></p>
+		<p style="margin-top:5px;"><a onclick="searcher();" href="javascript:void(0);" style="vertical-align:middle;" ><img style="vertical-align:middle;" src="TEMPLATES/img/interface/cdbInterface/ricerca.png" alt="Ricerca" title="Ricerca"/></a></p>
+	</div>
+	
+	<div id="newsFeed" style="float:left; width:190px; height:150px; margin-left:20px; margin-top:20px; padding:5px;">
+		<p style="text-align:center; font-size:11px; color:#2f82b7"> EVENTI MASTER GLOBALI <img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Quì vengono inseriti dai master gli eventi master che coinvolgono tutto l'equipaggio, o una buona parte di esso." /></p>
+		
+		<marquee height="150px" direction="up" scrollamount= "1" scrolldelay= "1" onmouseover='this.stop()' onmouseout='this.start()'>
+		<p tal:repeat="news newsMas" style="margin-top:5px; font-size:12px; text-align:justify; font-family:Helvetica; line-height:18px;"><span style="font-weight:bold; color:#666" tal:content="php:date('d-m',news['time']) . '-' . (date('Y',news['time'])+368)"/> <span style="font-weight:bold;  color:#2f82b7" tal:content="news/title"/> - <span style="font-style:italic;" tal:content="news/content" /></p>
+		</marquee>
+	</div>
+	
+	<div style="float:right; width:530px; margin-right:10px; padding-top:10px; overflow:hidden;">
+		<p style="font-style:italic; margin-top:4px; text-align:center;"><a tal:attributes="href string:cdb.php?aggregator=${positionSelector/placeID}" class="interfaceLink" style="font-size:17px; font-family:Arial; text-decoration:underline;" tal:content="string:${positionSelector/placeName} - Computer di Bordo"></a>
+		
+			</p><p style="margin-top:4px; text-align:center;"><a style="margin-left:10px;" tal:attributes="href string:cdb.php?cat=${positionSelector/catGDB}"><img src="TEMPLATES/img/interface/tdisposizioni.png" /></a>	
+			<a tal:attributes="href string:cdb.php?cat=${positionSelector/catDISP}"  style="margin-left:10px;"><img src="TEMPLATES/img/interface/tgiornale.png" /></a>
+			<a tal:attributes="href string:cdb.php?cat=${positionSelector/catRAP}"  style="margin-left:10px;"><img src="TEMPLATES/img/interface/trapporti.png" /></a></p>
+			
+			<div  style="margin-top:5px; padding:5px; padding-left:7px; border:0px solid #111;" class="radiusBordered_f">
+			<table id="longLocTable" style="width:100%;">
+			<tr tal:repeat="topic lastTopicsLOC" class="topicline">
+				<td style="width:20px;"><img tal:attributes="src php:(user.pgLastVisit GE topic['lastTstamp']) ? 'TEMPLATES/img/interface/indicator_off.gif' : (topic['lastTopicEvent'] == 'EDIT' ? 'TEMPLATES/img/interface/indicator_blue_on.gif' : 'TEMPLATES/img/interface/indicator_on.gif') ; title php:(user.pgLastVisit GE topic['lastTstamp']) ? 'Nessun Aggiornamento' : (topic['lastTopicEvent'] == 'EDIT' ? 'Uno o più post modificati' : 'Uno o più post inseriti')" /></td>
+				<td class="topicTitle">
+					<a tal:condition="php:topic['topicType'] == 'I'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicImportant ${topic/classExt}" tal:content="topic/titleL" style="font-size:11px;"></a>
+					<a tal:condition="php:topic['topicType'] == 'A'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicAnnounce ${topic/classExt}" tal:content="topic/titleL" style="font-size:11px;"></a>
+					<a tal:condition="php:topic['topicType'] == 'N'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicNormal ${topic/classExt}" tal:content="topic/titleL" style="font-size:11px;"></a>
+				</td>
+				<td class="topic" style="width:180px; text-align:right;"><span style="font-size:11px;" tal:content="topic/lastU"/>, <span style="font-size:10px;" tal:content="topic/lastT"/></td>
+			</tr>
+			</table>
+			
+			<table id="shortLocTable" style="width:100%; display:none;">
+			<tr tal:repeat="topic lastTopicsLOC" class="topicline">
+				<td style="width:20px;"><img tal:attributes="src php:(user.pgLastVisit GE topic['lastTstamp']) ? 'TEMPLATES/img/interface/indicator_off.gif' : (topic['lastTopicEvent'] == 'EDIT' ? 'TEMPLATES/img/interface/indicator_blue_on.gif' : 'TEMPLATES/img/interface/indicator_on.gif') ; title php:(user.pgLastVisit GE topic['lastTstamp']) ? 'Nessun Aggiornamento' : (topic['lastTopicEvent'] == 'EDIT' ? 'Uno o più post modificati' : 'Uno o più post inseriti')" /></td>
+				<td class="topicTitle">
+					<a tal:condition="php:topic['topicType'] == 'I'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicImportant ${topic/classExt}" tal:content="topic/title" style="font-size:11px;"></a>
+					<a tal:condition="php:topic['topicType'] == 'A'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicAnnounce ${topic/classExt}" tal:content="topic/title" style="font-size:11px;"></a>
+					<a tal:condition="php:topic['topicType'] == 'N'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicNormal ${topic/classExt}" tal:content="topic/title" style="font-size:11px;"></a>
+				</td>
+				<td class="topic" style="width:180px; text-align:right;"><span style="font-size:11px;" tal:content="topic/lastU"/>, <span style="font-size:10px;" tal:content="topic/lastT"/></td>
+			</tr>
+			</table>
+			</div>
+	</div>
+	<div style="clear:both;" />
+	
+	</div>
+
+<!--<div id="dressing" style="border:1px solid #666; float:left; margin-left:5px; right:10px; display:none; padding-top:13px; padding:5px;" class="radiusBordered_f"> 
+<p style="text-align:center;"><img src="TEMPLATES/img/interface/abbigliamento.png" /></p>
+
+<form action="cdb.php" method="POST" style="margin-top:10px;">
+	<select name="emoSel" onchange="javascript:setMostrina(this.value)">
+		<option value="SER">Uniforme di Servizio</option>
+		<option value="HIG">Alta Uniforme</option>
+		<option value="TAT" tal:condition="php:(user.pgSpecie != 'Romulana')">Sbarco - Operativa</option>
+		<option value="DES" tal:condition="php:(user.pgSpecie != 'Romulana')">Sbarco - Desertica</option>
+		<option value="POL" tal:condition="php:(user.pgSpecie != 'Romulana')">Sbarco - Polare</option>
+		<option value="FAT" tal:condition="php:(user.pgSpecie != 'Romulana')">Fatica e Allenamento</option>
+		<option value="EVA" tal:condition="php:(user.pgSpecie != 'Romulana')">Tuta E.V.A.</option>
+		<option value="NBC" tal:condition="php:(user.pgSpecie != 'Romulana')">Tuta Ambientale</option>
+		<option value="VOL" tal:condition="php:(user.pgSpecie != 'Romulana')">Uniforme di Volo</option> 
+		<option value="CAM" tal:condition="php:(user.pgSpecie != 'Romulana')">Camice chirurgico</option> 
+		 <option value="CAM">Camice da Laboratorio</option> 
+		<option value="CIV">Abiti Civili</option>
+	</select>
+	<input type="submit" class="interButton" style="height:23px; padding:2px; font-size:12px; letter-spacing:2px; " value="VAI" />
+</form>
+<p style="text-align:center;">
+<img tal:attributes="src string:TEMPLATES/img/interface/inuso.png" /><br />
+<img id="divisaSelected" style="height:115px; vertical-align:middle" tal:attributes="src uniform"/> 
+<img id="uniformSelected" style="vertical-align:middle" tal:attributes="src string:TEMPLATES/img/ranks/${user/pgMostrina}.png"/></p>
+</div>
+-->
+
+<div id="search" style="border:1px solid #666; float:left; margin-left:5px; right:10px; display:none; padding-top:13px; padding:5px;" class="radiusBordered_f"> 
+<p style="text-align:center;"><img src="TEMPLATES/img/interface/ricerca.png" /></p>
+<div style="margin-top:10px;"><form action="cdb.php" method="POST">
+<input type="text" required="required" placeholder="Ricerca" name="searchKey" id="searchKey" style="width:185px;" autofocus="autofocus" /> 
+<select name="searchPattern" style="margin-top:4px;">
+	<option value="DBS1">Nel CDB (almeno una parola) </option>
+	<option value="DBS2">Nel CDB (tutte le parole) </option>
+	<option value="DBS3">Nel CDB (frase esatta) </option>
+	<!--<option value="USR">Scheda PG</option>-->
+	<option value="AUT">Per Autore</option>
+	<option value="PGG">Scheda PG</option>
+	<!--<option tal:condition="php:(showSearchMaster == 'yes')" value="MAS">Master</option>-->
+</select> <input type="submit"  style="height:21px; padding:2px; font-size:12px; letter-spacing:2px; "  class="interButton" value="CERCA" />
+</form>
+</div>
+
+<p style="text-align:center; color:#2190c4; font-variant:small-caps; margin-top:10px;">- Pattern di Ricerca -</p>
+
+<p><a href="cdb.php?meSearch=1" class="interfaceLink"> » Post scritti da me </a></p>
+<p><a href="cdb.php?meSearch=2" class="interfaceLink"> » Post che parlano di me </a></p>
+
+</div></div><div style="clear:both;" />
+
+<p style="text-align:right; margin:0px; margin-top:5px; width:900px; background-position:center; background-repeat:no-repeat; background-image:url('TEMPLATES/img/interface/cdbInterface/computer_globale.png')">▼ <a class="interfaceLink" href="cdb.php?resetnews=reset">(- RESETTA NEWS -)</a> ▲</p> 
+
+<div style="margin-left:5px; margin-top:2px;">
+	<a href="cdb.php?aggregator=FL"><div style="margin-top:5px; float:left; padding:5px; border:1px solid #310303; width:350px;" class="radiusBordered_f">
+	<img src="TEMPLATES/img/interface/forum-flotta.png" />
+	</div></a>
+	
+	<div style="margin-top:5px; margin-left:-10px; height:65px; float:left; padding:5px; padding-left:20px; width:515px;; border:1px solid #310303;" class="radiusBordered_f">
+		<table style="width:100%;">
+			<tr tal:repeat="topic lastTopicsFL" class="topicline">
+				<td style="width:20px;"><img tal:attributes="src php:(user.pgLastVisit GE topic['lastTstamp']) ? 'TEMPLATES/img/interface/indicator_off.gif' : (topic['lastTopicEvent'] == 'EDIT' ? 'TEMPLATES/img/interface/indicator_blue_on.gif' : 'TEMPLATES/img/interface/indicator_on.gif') ; title php:(user.pgLastVisit GE topic['lastTstamp']) ? 'Nessun Aggiornamento' : (topic['lastTopicEvent'] == 'EDIT' ? 'Uno o più post modificati' : 'Uno o più post inseriti')" /></td>
+				<td class="topicTitle">
+					<a tal:condition="php:topic['topicType'] == 'I'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicImportant ${topic/classExt}" tal:content="topic/title" style="font-size:11px;"></a>
+					<a tal:condition="php:topic['topicType'] == 'A'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicAnnounce ${topic/classExt}" tal:content="topic/title" style="font-size:11px;"></a>
+					<a tal:condition="php:topic['topicType'] == 'N'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicNormal ${topic/classExt}" tal:content="topic/title" style="font-size:11px;"></a>
+				</td>
+				<td class="topic" style="width:180px; text-align:right;"><span style="font-size:11px;" tal:content="topic/lastU"/>, <span style="font-size:10px;" tal:content="topic/lastT"/></td>
+			</tr>
+		</table>
+	</div>
+</div><div style="clear:both;" />
+
+<div style="margin-left:5px;">
+	<a href="cdb.php?aggregator=CIV"><div style="margin-top:5px; float:left;  padding:5px;  border:1px solid #110144; width:350px;" class="radiusBordered_f">
+	<img src="TEMPLATES/img/interface/forum-civili.png" />
+	</div></a>
+	
+	<div style="margin-top:5px; margin-left:-10px; height:65px; float:left; padding:5px; padding-left:20px; width:515px; border:1px solid #110144;" class="radiusBordered_f">
+		<table style="width:100%;">
+			<tr tal:repeat="topic lastTopicsCI" class="topicline">
+				<td style="width:20px;"><img tal:attributes="src php:(user.pgLastVisit GE topic['lastTstamp']) ? 'TEMPLATES/img/interface/indicator_off.gif' : (topic['lastTopicEvent'] == 'EDIT' ? 'TEMPLATES/img/interface/indicator_blue_on.gif' : 'TEMPLATES/img/interface/indicator_on.gif') ; title php:(user.pgLastVisit GE topic['lastTstamp']) ? 'Nessun Aggiornamento' : (topic['lastTopicEvent'] == 'EDIT' ? 'Uno o più post modificati' : 'Uno o più post inseriti')" /></td>
+				<td class="topicTitle">
+					<a tal:condition="php:topic['topicType'] == 'I'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicImportant ${topic/classExt}" tal:content="topic/title" style="font-size:11px;"></a>
+					<a tal:condition="php:topic['topicType'] == 'A'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicAnnounce ${topic/classExt}" tal:content="topic/title" style="font-size:11px;"></a>
+					<a tal:condition="php:topic['topicType'] == 'N'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicNormal ${topic/classExt}" tal:content="topic/title" style="font-size:11px;"></a>
+				</td>
+				<td class="topic" style="width:180px; text-align:right;"><span style="font-size:11px;" tal:content="topic/lastU"/>, <span style="font-size:10px;" tal:content="topic/lastT"/></td>
+			</tr>
+		</table>
+	</div>
+</div><div style="clear:both;" />
+
+<div style="margin-left:5px;">
+	<a href="cdb.php?aggregator=HE"><div style="margin-top:5px; float:left; padding:5px;  border:1px solid #483801; width:350px;" class="radiusBordered_f">
+	<img src="TEMPLATES/img/interface/forum-aiuto.png" />
+	</div></a>
+	
+	<div style="margin-top:5px; margin-left:-10px; height:65px; float:left; padding:5px; padding-left:20px; width:515px; border:1px solid #483801;" class="radiusBordered_f">
+		<table style="width:100%;">
+			<tr tal:repeat="topic lastTopicsHE" class="topicline">
+				<td style="width:20px;"><img tal:attributes="src php:(user.pgLastVisit GE topic['lastTstamp']) ? 'TEMPLATES/img/interface/indicator_off.gif' : (topic['lastTopicEvent'] == 'EDIT' ? 'TEMPLATES/img/interface/indicator_blue_on.gif' : 'TEMPLATES/img/interface/indicator_on.gif') ; title php:(user.pgLastVisit GE topic['lastTstamp']) ? 'Nessun Aggiornamento' : (topic['lastTopicEvent'] == 'EDIT' ? 'Uno o più post modificati' : 'Uno o più post inseriti')" /></td>
+				<td class="topicTitle">
+					<a tal:condition="php:topic['topicType'] == 'I'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicImportant ${topic/classExt}" tal:content="topic/title" style="font-size:11px;"></a>
+					<a tal:condition="php:topic['topicType'] == 'A'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicAnnounce ${topic/classExt}" tal:content="topic/title" style="font-size:11px;"></a>
+					<a tal:condition="php:topic['topicType'] == 'N'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicNormal ${topic/classExt}" tal:content="topic/title" style="font-size:11px;"></a>
+				</td>
+				<td class="topic" style="width:180px; text-align:right;"><span style="font-size:11px;" tal:content="topic/lastU"/>, <span style="font-size:10px;" tal:content="topic/lastT"/></td>
+			</tr>
+		</table>
+	</div>
+</div><div style="clear:both;" />
+
+<div tal:condition="php:(showSearchMaster == 'yes')" style="margin-left:5px;">
+	<a href="cdb.php?aggregator=MA"><div style="margin-top:5px; float:left;  padding:5px;  border:1px solid #01291E; width:350px;" class="radiusBordered_f">
+	<img src="TEMPLATES/img/interface/forum-master.png" />
+	</div></a>
+	
+	<div style="margin-top:5px; margin-left:-10px; height:65px; float:left; padding:5px; padding-left:20px; width:515px;; border:1px solid #01291E;" class="radiusBordered_f">
+		<table style="width:100%;">
+			<tr tal:repeat="topic lastTopicsMA" class="topicline">
+				<td style="width:20px;"><img tal:attributes="src php:(user.pgLastVisit GE topic['lastTstamp']) ? 'TEMPLATES/img/interface/indicator_off.gif' : (topic['lastTopicEvent'] == 'EDIT' ? 'TEMPLATES/img/interface/indicator_blue_on.gif' : 'TEMPLATES/img/interface/indicator_on.gif') ; title php:(user.pgLastVisit GE topic['lastTstamp']) ? 'Nessun Aggiornamento' : (topic['lastTopicEvent'] == 'EDIT' ? 'Uno o più post modificati' : 'Uno o più post inseriti')" /></td>
+				<td class="topicTitle">
+					<a tal:condition="php:topic['topicType'] == 'I'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicImportant ${topic/classExt}" tal:content="topic/title" style="font-size:11px;"></a>
+					<a tal:condition="php:topic['topicType'] == 'A'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicAnnounce ${topic/classExt}" tal:content="topic/title" style="font-size:11px;"></a>
+					<a tal:condition="php:topic['topicType'] == 'N'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicNormal ${topic/classExt}" tal:content="topic/title" style="font-size:11px;"></a>
+				</td>
+				<td class="topic" style="width:180px; text-align:right;"><span style="font-size:11px;" tal:content="topic/lastU"/>, <span style="font-size:10px;" tal:content="topic/lastT"/></td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+
+<div tal:condition="php:(showSearchMaster != 'yes')" style="z-index:20; margin-left:5px; margin-top:5px; float:left;  padding:5px;  border:1px solid #01291E; width:880px; text-align:center;" class="radiusBordered_f">
+	
+	<img src="TEMPLATES/img/interface/cdbInterface/cdb_promo.png" usemap="#mapAuxiliary" />
+	<map name="mapAuxiliary" id="mapAuxiliary">
+		<area shape="rect" coords="23,46,247,59" href="cdb.php?topic=237&page=1" alt="" />
+		<area shape="rect" coords="230,7,386,22" href="http://youtu.be/84RRUr9pZRU?hd=1" target="_blank" alt="" />
+		<area shape="rect" coords="421,46,613,59" href="calendar.php" alt="" title="Calendario di Star Trek Federation" />
+		<area shape="rect" coords="602,7,732,23" href="http://miki.startrekfederation.it/SigmaSys" target="_blank" alt="" title="Sigma Tools" />
+	</map>
+</div>
+
+<!-- <div tal:condition="php:(showSearchMaster != 'yes')">
+	<div style="margin-top:5px; float:left;  padding:5px;  border:1px solid #01291E; width:350px;" class="radiusBordered_f">
+	<img src="TEMPLATES/img/interface/forum-master-oscurato.png" />
+	</div>
+	
+	<div style="margin-top:5px; margin-left:-10px; height:65px; float:left; padding:5px; padding-left:20px; width:400px;; border:1px solid #01291E;" class="radiusBordered_f"/>
+</div>--><div style="clear:both;" />
+
+	</div>
+</div>
+</body>
+</html>

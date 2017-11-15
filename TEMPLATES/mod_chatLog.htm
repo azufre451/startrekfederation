@@ -1,0 +1,85 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+	<script type="text/javascript" src="TEMPLATES/js/highlighter.js"></script>
+	<script type="text/javascript">
+	function tera(ide)
+	{
+		jQuery('#'+ide).toggle(200);
+	}
+	
+	jQuery(function(){
+		jQuery('#calFrom').datepicker(
+		{
+		dateFormat:'dd/mm/yy'
+		});
+		
+		jQuery('#calTo').datepicker(
+		{
+		dateFormat:'dd/mm/yy'
+		}
+		);
+	});
+	</script>
+
+	<!-- <script type="text/javascript" src="TEMPLATES/js/lazyload.js"></script> -->
+	<title>LOG - STAR TREK FEDERATION</title>
+	
+		
+</head>
+
+<body style="background-color:black; background-image:url('TEMPLATES/img/main_login.jpg')">
+
+<div id="federation_interfaceContainer">
+<p>Log di chat GLOBALI - Da: <span tal:content="fromDate" /> a: <span tal:content="toDate"/></p>
+<div id="federation_chatDiv" style="padding:10px;">
+<div tal:repeat="LhtmlLiner htmlLiner">
+<p style="text-align:left; magin-left:20px;"><a href="javascript:void(0);" class="interfaceLink" tal:content="repeat/LhtmlLiner/key" tal:attributes="onclick string:javascript:tera('${repeat/LhtmlLiner/key}')"></a></p>
+<div style="display:none; border:2px solid #eee; padding:10px;" tal:content="structure LhtmlLiner" tal:attributes="id repeat/LhtmlLiner/key"/>
+</div>
+
+</div>
+
+	<div id="chatBar">
+	
+		<div style="margin-top:20px;">
+			<form method="POST" action="moderativeLog.php">
+				<select id="place" name="place" style="vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:20px; font-size:14px; font-weight:bold; text-align:center;" >
+				<option tal:repeat="place places" tal:content="place/placeName" tal:attributes="value place/placeID ; selected php:(place['placeID'] == ambientKey) ? 'selected' : false"/>
+				</select>
+				
+				
+				DA: 
+				<input type="text" id="calFrom" name="calFrom" style="vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:20px; font-size:14px; font-weight:bold; text-align:center;" tal:attributes="value php:date('d/m/Y',time()-(24*60*60))"/>
+				<input  type="text" id="calFromH" name="calFromH" style="width:25px;  vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:20px; font-size:12px; font-weight:bold; text-align:center;" tal:attributes="value php:date('H',time()-(24*60*60))"/> :
+				<input id="calFromM" name="calFromM" style="width:25px;  vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:20px; font-size:12px; font-weight:bold; text-align:center;" tal:attributes="value php:date('i',time()-(24*60*60))"/>
+				A:
+				<input type="text" id="calTo" name="calTo" style="vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:20px; font-size:14px; font-weight:bold; text-align:center;" tal:attributes="value php:date('d/m/Y',time())"/>
+				<input type="text"  id="calToH" name="calToH" style="width:25px; vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:20px; font-size:12px; font-weight:bold; text-align:center;" tal:attributes="value php:date('H',time())"/>:
+				<input type="text"  id="calToM" name="calToM" style="width:25px; vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:20px; font-size:12px; font-weight:bold; text-align:center;" tal:attributes="value php:date('i',time())"/>
+				
+				<input type="submit" value="Vai!" />
+			</form>
+		</div>
+	</div>
+
+</div>
+
+</body>
+</html>
+
+
+

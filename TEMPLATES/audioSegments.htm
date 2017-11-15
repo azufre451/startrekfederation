@@ -1,0 +1,18 @@
+<html>
+<div metal:define-macro="whisperPaddAlert" tal:condition="php:(user.audioextEnable && (incomingSuss || incomingPadd))">
+<script>
+if (document.getElementById('audioNotify')) document.getElementById('audioNotify').play();
+</script>
+</div>
+
+
+
+<div metal:define-macro="audioNotifier"  tal:condition="php:(user.audioEnable)">
+
+<audio id="audioNotify">
+  <source src="http://miki.startrekfederation.it/audioBase/hail3.ogg" type="audio/ogg" />
+  <source src="http://miki.startrekfederation.it/audioBase/hail3.mp3" type="audio/mpeg" />
+</audio>
+</div> 
+
+</html>

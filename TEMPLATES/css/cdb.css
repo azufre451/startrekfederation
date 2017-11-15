@@ -1,0 +1,253 @@
+body
+{	 
+	background-repeat:no-repeat;
+	background-color:black;
+	
+	background-position:top center;
+	background-color:black;
+	color:white;
+	scrollbar-base-color:black;
+	width:400px;
+	overflow:hidden;
+}
+
+img{border:0px;}
+
+a
+{
+	text-decoration:none;
+	color:#fffbe8;
+}
+
+
+p
+{
+	margin:0px;
+}
+
+a.topicNormal:hover 
+{
+	text-decoration:underline;
+}
+a.topicAnnounce:hover{text-decoration:underline;}
+a.topicImportant:hover{text-decoration:underline;}
+
+
+.interfaceLink,.interfaceLinkBlue,.interfaceLinkRed,.interfaceLinkGreen,.interfaceLinkYellow
+{
+	
+	font-size:12px;
+	font-weight:bold;
+	font-family:verdana;
+}
+
+.interfaceLink{color:#fffbe8;}
+a.interfaceLink:hover{color:orange;}
+
+.interfaceLinkBlue{color:#0077c3;}
+a.interfaceLinkBlue:hover{color:#5a9bc4;}
+
+.interfaceLinkRed{color:#dc0000;}
+a.interfaceLinkRed:hover{color:#eb5d5d;}
+
+.interfaceLinkGreen{color:#06a211;}
+a.interfaceLinkGreen:hover{color:#59cd61;}
+
+.interfaceLinkYellow{color:#FFCC00;}
+a.interfaceLinkYellow:hover{color:orange;}
+
+table
+{
+	color:#fffde0;
+}
+
+img{border:0px;}
+
+.topicImportant{color:red;}
+.topicAnnounce{color:orange;}
+.topicNormal{color:#fffbe8;} 
+.topic{font-size:11px; font-family:Helvetica;}
+.topic_ext_red {color:red;}
+.topic_ext_teal{color:teal;}
+.topic_ext_yellow{color:yellow;}
+.topic_ext_orange{color:orange;}
+.topic_ext_green{color:#0bba50;}
+.topic_ext_violet{color:#bb20cd;}
+.topic_ext_indigo{color:#4978ff;} 
+.topic_ext_white{color:white;} 
+
+tr.topicline
+{
+	font-size:12px;
+	font-family:Helvetica;
+	width:100%;
+}
+
+td.topicTitle
+{
+	width:auto;
+	text-transform:uppercase;
+	font-weight:bold;
+}
+
+.littleLink < a
+{
+	font-size:11px;
+}
+
+.topicTitolo
+{
+	text-transform:uppercase;
+	font-weight:bold;
+	font-size:12px;
+	font-family:Helvetica;
+}
+
+td.topicDate
+{
+	width:120px;
+	font-style:italic;
+}
+
+td.topicUser
+{
+	width:120px;
+	font-style:italic;
+}
+
+div.topicDiv
+{
+	
+	width:97%;
+	border:1px solid #466974;
+	padding:5px;
+	margin:5px;
+	margin-top:20px;
+}
+
+input, select, textarea, button
+{
+	color:#999;
+	border:1px solid #999;
+	background-color:black;
+    font-family: Arial;
+    font-size: 12px;
+    padding: 1px;
+}
+
+textarea {font-size:13px;}
+input:focus, select:focus, textarea:focus, button:focus
+{
+	color:white;
+	border:1px solid white;
+}
+
+input:hover, select:hover, textarea:hover, button:hover
+{
+	color:white;
+	border:1px solid white;
+}
+
+.borderTopic
+{
+	border-top:1px solid #888;
+	border-bottom:1px solid #888;
+}
+
+
+.postDate
+{
+	font-size:11px;
+	color:#ffc600;
+	font-family:helvetica;
+	letter-spacing:2px;
+	text-align:center;
+	margin-top:10px;
+	border-right:1px dotted #777;
+}
+
+
+
+.postTitle
+{
+	color:#FFCC33;
+	font-family:arial;
+	font-size:13px;
+	font-weight:bold;
+	padding-left:10px;
+}
+ 
+.postContent
+{
+	font-size:13px;
+	color:#fffbe8;
+	font-family:arial;
+	text-align:justify;
+	padding:20px;
+	padding-left:10px;
+	border-left:1px dashed #444;
+	border-right:1px dashed #444;
+	padding-bottom:20px;
+}
+
+.postContent p{margin:0px;}
+.signature
+{
+	color:#0077c3;
+	text-align:center;
+	font-weight:bold;
+	padding-bottom:5px;
+	font-style:italic;
+}
+
+.signatureCDB
+{
+	color:#0077c3;
+	text-align:center;
+	font-weight:bold;
+	font-style:italic;
+	width:260px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+
+.cdbPostRed{color:red;}
+.cdbPostBlue{color:#0077c3;}
+.cdbPostGreen{color:#009966;}
+.cdbPostYellow{color:#FFCC00;}
+.cdbPostWhite{color:white;}
+.cdbPostGray{color:#999;}
+
+.cdbPostLittleSize{font-size:11px;}
+.cdbPostNormalSize{font-size:13px;}
+.cdbPostBigSize{font-size:16px;}
+
+.paginatore, .activePaginatore
+{
+	border: 1px solid #eee;
+	float:left;
+	font-size:10px;
+	text-align:center;
+	border-radius:25px;
+	width:19px;
+	height:15px;
+	margin-left:4px; 
+}
+
+.blackgradient
+{
+	background-color:rgba(1,1,1);
+	background-color:rgba(1,1,1,0.7);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#B2010101,endColorstr=#B2010101);
+}
+
+.radiusBordered_f{border-radius:12px;}
+.activePaginatore {border-color:orange;}
+.activePaginatore a {color:#ffe138;}
+.paginatore{border-color:#466974;}
+
+.little {font-size:11px;}
+.littleShipLogo{width:130px; height:130px; float:left; padding:2px; margin-left:10px;}
+.smallTitle{font-variant:small-caps; font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif; font-size: 16px; font-weight: bold; text-align: center;  text-shadow: 0 0 5px #00C6FF; text-align:right; margin-right:20px;}
+.dateContainer input {font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif; font-size: 12px; font-weight: bold; text-align: center;  text-shadow: 0 0 5px #00C6FF;}

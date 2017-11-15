@@ -1,0 +1,81 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/cdb.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+
+	<title>STAR TREK FEDERATION - MODIFICA</title>	
+	
+</head>
+
+<body>
+<div id="federation_interfaceContainer">
+	<div id="leftCol" style="width:123px;">
+		<div id="leftC1" />
+		<div id="leftC3" />
+	</div>
+	
+	<div id="supCol">
+		<div id="bartop1" />
+		<div id="pD">
+			<a href="cdb.php"><div id="principaleBTN" /></a>
+			<a href="cdb.php?news=do"><div style="z-index:10" id="newsBTN" /></a>
+			<a href="crew.php"><div id="assegnazioniBTN" /></a>
+			<a href="cdb.php?dia=personal"><div id="diarioBTN" /></a>
+			<a href="guida.php"><div id="guidaBTN" /></a>
+		</div>
+		
+		
+	</div>
+	
+	<div id="fillerBax">
+		<div id="barbot1" />
+	</div>
+
+	
+	<div id="cdbContainer" >
+	<div metal:use-macro="TEMPLATES/metal.htm/cdbIntro" />
+
+<div style="font-size:12px; text-transform:uppercase;"><a href="cdb.php" class="interfaceLink">CDB</a> <span style="color:red; font-size:11px;">></span> <a class="interfaceLink" tal:attributes="href string:cdb.php?cat=${catID}"><span tal:content="catName" /></a> <span style="color:red; font-size:11px;">></span> <span class="interfaceLink" tal:content="topicTitle" /></div>
+
+<div style="text-align:center; border-top:1px solid #999; border-bottom:1px solid #999; margin-top:10px; padding:5px; margin-bottom:10px;">
+	<p style="font-size:14px;" tal:condition="php:topicType=='I'" tal:attributes="class string:topicTitolo topicImportant ${topicColorExt};" tal:content="topicTitle" />
+	<p style="font-size:14px; margin:0px;" tal:condition="php:topicType=='A'" tal:attributes="class string:topicTitolo topicAnnounce ${topicColorExt}" tal:content="topicTitle"/>
+	<p style="font-size:14px; margin:0px;" tal:condition="php:topicType=='N'" tal:attributes="class string:topicTitolo ${topicColorExt}" tal:content="topicTitle"/>
+</div>
+
+<div id="container">
+
+	<p style="color:orange;font-size:20px; text-align:left;margin-left:30px; margin-bottom:20px;">Sposta il topic in un'altra cetegoria:</p>
+	<form action="cdb.php?moveTopicDo" onsubmit="return confirm('Conferma operazione');" method="POST">
+
+		<select style="margin-left:10px;" name="destination" > 
+			<option tal:repeat="cat allCat" tal:attributes="value repeat/cat/key" tal:content="cat" /> 
+		</select>
+		
+		<input style="margin-left:10px;" type="submit" value="ESEGUI" />
+		<input type="hidden" name="topicID" tal:attributes="value topicID" />
+	</form>
+	<hr />
+	<p style="color:orange;font-size:20px; text-align:left;margin-left:30px; margin-bottom:20px;">Link del topic ad un altro topic:</p>
+	<p style="margin-top:20px; text-align:left;">Inserisci il numero di topic <a href="http://miki.startrekfederation.it/matDispense/guida/topicIDHT2.png" target="_blank" class="interfaceLink">(Dove si trova?)</a> verso il quale linkare, quindi la destinazione. Tutti i post del topic che stai modificando verranno spostati nel topic che linkerai, ed ogni click al post che stai modificando verranno ridirezionati al topic che linkerai. L'operazione può essere ripetuta per relinkare ma i post non verranno ri-spostati - sono unici-). In caso si voglia "tornare indietro" basta relinkare il topic a sé stesso:</p>
+
+	<div style="width:60%; margin-left:auto;margin-left:auto;"><form action="cdb.php?link=true&moveTopicDo" onsubmit="return confirm('Conferma operazione');" method="POST">
+
+		<input type="text" name="destination" style="width:40px; font-size:20px; text-align:center;" /> 
+		
+		<input style="margin-left:10px;" type="submit" value="ESEGUI" />
+		<input type="hidden" name="topicID" tal:attributes="value topicID" />
+	</form></div>
+	
+</div>
+</div>
+</div>
+</body>
+</html>

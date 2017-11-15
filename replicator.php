@@ -1,0 +1,234 @@
+<?php
+session_start();
+if (!isSet($_SESSION['pgID'])){ header("Location:index.php?login=do"); exit;}
+
+include('includes/app_include.php');
+include('includes/validate_class.php');
+include("includes/PHPTAL/PHPTAL.php");
+
+$currentUser = new PG($_SESSION['pgID']);
+
+if(isSet($_GET['term']) && isSet($_GET['lookSpecie']))
+{ 
+		$call = addslashes($_GET['term']);
+		$lookSpecie = addslashes($_GET['lookSpecie']);
+		$res = mysql_query("SELECT DISTINCT foodSpecie FROM fed_food WHERE active = 1 AND foodSpecie LIKE '%$call%'"); 
+		$arec = array(); 
+		while($reA = mysql_fetch_assoc($res)) $arec[] = $reA['foodSpecie'];
+		echo json_encode($arec);
+}
+
+elseif(isSet($_GET['term']))
+{ 
+		$call = addslashes($_GET['term']);
+		$res = mysql_query("SELECT foodName FROM fed_food WHERE active = 1 AND foodName LIKE '%$call%' OR foodSpecie LIKE '%$call%'"); 
+		$arec = array();
+		while($reA = mysql_fetch_assoc($res)) $arec[] = $reA['foodName'];
+		echo json_encode($arec);
+}
+
+elseif(isSet($_GET['propose']))
+{ 
+		$prop_foodTitle = addslashes($_POST['prop_foodTitle']);
+		$prop_foodDescript = addslashes($_POST['prop_foodDescript']);
+		$prop_foodSpecie = addslashes($_POST['prop_foodSpecie']);
+		$prop_foodImage = addslashes($_POST['prop_foodImage']);
+		$prop_foodType = addslashes($_POST['prop_foodType']);
+		$usr = $_SESSION['pgID'];
+	
+		mysql_query("INSERT INTO fed_food (foodName,foodImage,foodDescription,foodSpecie,active,presenter,foodType) VALUES ('$prop_foodTitle','$prop_foodImage','$prop_foodDescript','$prop_foodSpecie',0,$usr,'$prop_foodType')");
+		$p1 = new PG(1);
+		$p2 = new PG(5);
+		$toUser = $currentUser->pgUser;
+		
+		$cString = addslashes("L'utente $toUser a appena inserito in replicatore un cibo degli $prop_foodSpecie:<br /><br /><p style='text-align:center'><span style='font-weight:bold'>$prop_foodTitle</span><br /><img src='$prop_foodImage' style='border:1px solid #AAA; padding:5px; width:150px;' /> Accedi al tool admin replicatore per approvare o modificare.</p><br /> $prop_foodDescript");
+		
+		$p1->sendPadd('OFF: REPLICATORE',$cString);
+		$p2->sendPadd('OFF: REPLICATORE',$cString);
+		 
+		header("location:replicator.php?success=true&loc=".$_POST['loc']); 
+}
+
+elseif(isSet($_GET['ajax_checkInage']))
+{
+	$siz = getimagesize($_POST['imaUrl']);
+	if ($siz[0] == '390' || $siz[1] == '230') echo json_encode(array('OK' => true));
+	else echo json_encode(array());
+	exit;
+	
+}
+
+elseif(isSet($_GET['ajaxCall']))
+{ 
+		$call = $_GET['ajaxCall'];
+		if (is_numeric($call)) $qu = "SELECT foodID,foodName, foodImage, foodDescription FROM fed_food WHERE active = 1 AND foodID = $call";
+		else $qu = "SELECT foodID,foodName, foodImage, foodDescription FROM fed_food WHERE active = 1 AND foodName = '".addslashes($call)."'";
+		
+		$res = mysql_query($qu);
+		$reA = mysql_fetch_assoc($res);
+		echo json_encode($reA);
+}
+
+elseif(isSet($_POST['fCall1']))
+{
+		$call1 = $_POST['fCall1']; //cibi-bevande: (menuAll1 menuCibi menuBevande)
+		$call2 = $_POST['fCall2']; // liste: (menuAll2 menuLasts menuTop)
+		$call3 = $_POST['fCall3']; // order: (menuaz menuspecie)
+		
+		$wAdd = '';
+		$jAdd = '';
+		$oAdd = "ORDER BY foodName";
+		$gAdd = '';
+		$qAdd = '';
+		$dClause = '';
+		if($call1 == 'menuCibi') $wAdd .= "AND foodType='A'";
+		elseif($call1 == 'menuBevande') $wAdd .= "AND foodType='B'";
+		
+		if($call2 == 'menuLasts'){
+			$jAdd.= "JOIN fed_food_replications ON foodID = food";
+			$wAdd .= "AND user = ".$_SESSION['pgID']." ";
+			$oAdd = "ORDER BY timer DESC LIMIT 10";
+			$dClause = 'DISTINCT';
+		}
+		elseif($call2 == 'menuTop'){
+			$jAdd.= "JOIN fed_food_replications ON foodID = food";
+			$gAdd = "GROUP BY foodID,foodName, foodSpecie, foodType";
+			$oAdd = "ORDER BY LCO DESC LIMIT 10";
+			$qAdd = ', COUNT(*) as LCO';
+		}
+		//elseif($call2 == 'menuTop') $jAdd.= "AND foodID IN (SELECT food FROM fed_food_replications WHERE 1 GROUP BY food ORDER BY COUNT(*) DESC LIMIT 10)";
+		
+		$foods = array();
+		$res = mysql_query("SELECT $dClause foodID,foodName, foodSpecie, foodType $qAdd FROM fed_food $jAdd WHERE active = 1 $wAdd $gAdd $oAdd");
+		//echo "SELECT $dClause foodID,foodName, foodSpecie, foodType FROM fed_food $jAdd WHERE active = 1 $wAdd $gAdd $oAdd";exit;
+		while ($reA = mysql_fetch_assoc($res))
+		
+		{
+			if (!isSet($foods[$reA['foodSpecie']])) $foods[$reA['foodSpecie']] = array();
+			$foods[$reA['foodSpecie']][] = $reA;
+		}
+		ksort($foods);
+		echo json_encode($foods);
+}
+elseif(isSet($_GET['admin']))
+{
+	if(!PG::mapPermissions("SM",$currentUser->pgAuthOMA)) exit;
+	
+	$template = new PHPTAL('TEMPLATES/replicator_admin.htm');
+	$res = mysql_query("SELECT foodID,foodName, foodSpecie,foodDescription, foodType, foodImage, presenter, pgUser FROM fed_food,pg_users WHERE pgID = presenter AND active = 0");
+	$food=array();
+	while($rea = mysql_fetch_array($res))
+	{	
+		$sizS='';
+		if($rea['foodImage'] != '')
+		{	
+			$siz = getimagesize($rea['foodImage']);
+			$sizS = $siz[0].'x'.$siz[1];
+		}
+		
+		$food[]=array('foodID' => $rea['foodID'],'foodName' => $rea['foodName'],'foodSpecie' => $rea['foodSpecie'],'foodDescription' => $rea['foodDescription'],'foodType' => $rea['foodType'],'foodImage' => $rea['foodImage'],'pgUser' => $rea['pgUser'],'foodImaSize'=>$sizS);
+	}
+	$template->food =$food;
+	try
+	{
+		echo $template->execute();
+	}	catch (Exception $e){echo $e;}
+}
+
+elseif(isSet($_GET['approval']))
+{ 
+	$validate = new validator();
+	if(!PG::mapPermissions("SM",$currentUser->pgAuthOMA)) exit;
+	$mode = $_GET['s'];
+	$foodID = $validate->numberOnly($_GET['foodID']);
+	$getRecord = mysql_fetch_assoc(mysql_query("SELECT * FROM fed_food WHERE foodID = $foodID"));
+	
+	if($mode == 'approveFully')
+	{
+		if(!strpos(trim($getRecord['foodImage']), 'miki.startrekfederation.it/imaReplicatore'))
+		{
+			$fileName = substr(time(),4,4).basename($getRecord['foodImage']);
+			copy(trim($getRecord['foodImage']), "miki/imaReplicatore/$fileName");
+			$imaUrl = "http://miki.startrekfederation.it/imaReplicatore/$fileName";
+			mysql_query("UPDATE fed_food SET active = 1, foodImage = '$imaUrl' WHERE foodID = $foodID");
+			if(mysql_affected_rows() && strpos(trim($getRecord['foodImage']), 'miki.startrekfederation.it/SigmaSys/'))
+			{
+				$handle = fopen("LOG_to_delete_report.txt", "a");
+				fwrite($handle,date("d-m-Y H:i:s",time()).' '."Caricamento file ".$getRecord['foodImage']." in Sigma. Cancellare!\r\n");
+				fclose($handle);
+			}
+		}
+		else mysql_query("UPDATE fed_food SET active = 1 WHERE foodID = $foodID");
+		
+		
+		$to = $getRecord['presenter'];
+		$title=$getRecord['foodName'];
+		$foodImage=$getRecord['foodImage'];
+		$toUser = (PG::getSomething($to,'username'));
+		
+		$cString = addslashes("Ciao $toUser!<br /> La tua proposta di inserimento in replicatore:<br /><br /><p style='text-align:center'><span style='font-weight:bold'>$title</span><br /><img src='$foodImage' style='border:1px solid #AAA; padding:5px; width:150px;' /></p><br />è stata valutata ed approvata, ed è quindi ora disponibile nel menu del replicatore.<br /><br />Ti è stato accreditato <span style='color:darkcyan; font-weight:bold;'>1 FP</span> per il contributo.<br /><br />Grazie e buon gioco!<br />Il Team di Star Trek: Federation");
+		
+		mysql_query("INSERT INTO fed_pad (paddFrom, paddTo, paddTitle, paddText, paddTime, paddRead) VALUES (".$_SESSION['pgID'].", $to, 'Approvazione Proposta','$cString',$curTime,0)"); 
+		
+		$approvedUser = new PG($to);
+		$approvedUser->addPoints(1,'FOOD','Proposta cibo Replicatore','Proposta cibo Replicatore',$assigner=518);
+		
+		header('location:replicator.php?admin=true'); exit;
+	}
+	
+	if($mode == 'delete')
+	{
+		mysql_query("DELETE FROM fed_food WHERE foodID = $foodID");
+		header('location:replicator.php?admin=true'); exit;
+	}
+	if($mode == 'revise')
+	{
+		$template = new PHPTAL('TEMPLATES/replicator_admin_edit.htm');
+		$template->getRecord = $getRecord;
+		
+		try{echo $template->execute();}	catch (Exception $e){echo $e;}
+	}
+	
+	if($mode == 'confirmRevise')
+	{ 
+		$prop_foodTitle = addslashes($_POST['editName']);
+		$prop_foodDescript = addslashes($_POST['editDescr']);
+		$prop_foodSpecie = addslashes($_POST['editSpecie']);
+		$prop_foodImage = addslashes($_POST['editImage']);
+		$prop_foodType = addslashes($_POST['editTipo']);
+		
+		mysql_query("UPDATE fed_food SET foodName='$prop_foodTitle',foodImage='$prop_foodImage',foodDescription='$prop_foodDescript',foodSpecie='$prop_foodSpecie',foodType='$prop_foodType' WHERE foodID = $foodID");
+ 
+		header("location:replicator.php?admin=true");
+	}
+	
+}
+else
+{
+$template = new PHPTAL('TEMPLATES/replicator.htm');
+$foods = array();
+
+$res = mysql_query("SELECT foodID,foodName, foodSpecie, foodType FROM fed_food WHERE active = 1 ORDER BY foodName");
+while ($reA = mysql_fetch_assoc($res))
+{
+	if (!isSet($foods[$reA['foodSpecie']])) $foods[$reA['foodSpecie']] = array();
+	$foods[$reA['foodSpecie']][] = $reA;
+}
+ 
+ksort($foods); 
+$template->foods = $foods;
+if (isSet($_GET['success'])) $template->success = true;
+if(PG::mapPermissions("SM",$currentUser->pgAuthOMA)) $template->isAdmin = true;
+if (isSet($_GET['loc'])) $template->placeLoc = $_GET['loc'];
+if (isSet($_POST['loc'])) $template->placeLoc = $_POST['loc'];
+if (isSet($_GET['foodID'])) $template->customFood = $_GET['foodID'];
+ 
+
+	try
+	{
+		echo $template->execute();
+	}	catch (Exception $e){echo $e;}
+}	
+
+include('includes/app_declude.php');
+	?>

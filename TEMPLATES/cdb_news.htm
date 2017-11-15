@@ -1,0 +1,107 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/cdb.css?v=1.2.1" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+
+	<title>STAR TREK FEDERATION - CDB NEWS</title>
+	
+</head>
+
+<body style="background-repeat:no-repeat; background-color:black; background-position:top center;">
+
+
+<div id="federation_interfaceContainer">
+	<div id="leftCol" style="width:123px;">
+		<div id="leftC1" />
+		<div id="leftC3" />
+	</div>
+	
+	<div id="supCol">
+		
+		<div metal:use-macro="TEMPLATES/metal.htm/cdbHeading" />
+
+	</div>
+	
+	<div id="fillerBax">
+		<div id="barbot1" />
+	</div>
+	<div id="cdbContainer" >
+		<div metal:use-macro="TEMPLATES/metal.htm/cdbIntro" />
+
+<div style="font-size:12px; margin-left:5px; text-transform:uppercase; "><a href="cdb.php" class="interfaceLink">CDB</a> <span style="color:red; font-size:11px;">></span> <a class="interfaceLink" href="cdb.php?news=do">NEWS</a> <a class="interfaceLink" style="font-size:11px; font-style:italic; margin-left:26px;" href="cdb.php?resetnews=reset">(- RESETTA NEWS -)</a></div>
+
+<div id="local" class="topicDiv">
+<table style="width:96%; margin-left:auto; margin-right:auto; " align="center">
+<tr><td style="border:1px solid #555; padding:4px; text-align:center" colspan="4"><img src="TEMPLATES/img/interface/news_cdb.png" /></td></tr>
+	<tr tal:repeat="topic topics/LOCAL" class="topicline">
+		<td style="width:20px;">
+				<img tal:attributes="src php:(user.pgLastVisit GE topic['lastTstamp']) ? 'TEMPLATES/img/interface/indicator_off.gif' : (topic['lastTopicEvent'] == 'EDIT' ? 'TEMPLATES/img/interface/indicator_blue_on.gif' : 'TEMPLATES/img/interface/indicator_on.gif') ; title php:(user.pgLastVisit GE topic['lastTstamp']) ? 'Nessun Aggiornamento' : (topic['lastTopicEvent'] == 'EDIT' ? 'Uno o più post modificati' : 'Uno o più post inseriti')" /></td>
+		<td class="topicTitle"><a tal:attributes="href string:cdb.php?topic=${topic/ID}; class php:(topic['topicType'] == 'I') ? 'topicImportant ' . topic['classExt'] : ((topic['topicType'] == 'A') ? 'topicAnnounce ' . topic['classExt'] : 'topicNormal ' . topic['classExt'] )" tal:content="topic/title"></a></td>
+		<td class="topic topicUser" tal:content="topic/lastU" />
+		<td class="topic topicDate" tal:content="topic/lastT" />
+	</tr>
+</table>
+</div>
+
+<div id="FL" class="topicDiv">
+<table style="width:96%; margin-left:auto; margin-right:auto; " align="center">
+<tr><td style="border:1px solid #555; padding:4px; text-align:center" colspan="4"><img src="TEMPLATES/img/interface/news_flotta.png" /></td></tr>
+	<tr tal:repeat="topic topics/FL" class="topicline">
+		<td style="width:20px;">
+				<img tal:attributes="src php:(user.pgLastVisit GE topic['lastTstamp']) ? 'TEMPLATES/img/interface/indicator_off.gif' : (topic['lastTopicEvent'] == 'EDIT' ? 'TEMPLATES/img/interface/indicator_blue_on.gif' : 'TEMPLATES/img/interface/indicator_on.gif') ; title php:(user.pgLastVisit GE topic['lastTstamp']) ? 'Nessun Aggiornamento' : (topic['lastTopicEvent'] == 'EDIT' ? 'Uno o più post modificati' : 'Uno o più post inseriti')" /></td>
+		<td class="topicTitle"><a tal:attributes="href string:cdb.php?topic=${topic/ID}; class php:(topic['topicType'] == 'I') ? 'topicImportant ' . topic['classExt'] : ((topic['topicType'] == 'A') ? 'topicAnnounce ' . topic['classExt'] : 'topicNormal ' . topic['classExt'] )" tal:content="topic/title"></a></td>
+		<td class="topic topicUser" tal:content="topic/lastU" />
+		<td class="topic topicDate" tal:content="topic/lastT" />
+	</tr>
+</table>
+</div>
+
+<div id="local" class="topicDiv">
+<table style="width:96%; margin-left:auto; margin-right:auto; " align="center">
+<tr><td style="border:1px solid #555; padding:4px; text-align:center" colspan="4"><img src="TEMPLATES/img/interface/news_federazione.png" /></td></tr>
+	<tr tal:repeat="topic topics/CIV" class="topicline">
+		<td style="width:20px;">
+				<img tal:attributes="src php:(user.pgLastVisit GE topic['lastTstamp']) ? 'TEMPLATES/img/interface/indicator_off.gif' : (topic['lastTopicEvent'] == 'EDIT' ? 'TEMPLATES/img/interface/indicator_blue_on.gif' : 'TEMPLATES/img/interface/indicator_on.gif') ; title php:(user.pgLastVisit GE topic['lastTstamp']) ? 'Nessun Aggiornamento' : (topic['lastTopicEvent'] == 'EDIT' ? 'Uno o più post modificati' : 'Uno o più post inseriti')" /></td>
+		<td class="topicTitle"><a tal:attributes="href string:cdb.php?topic=${topic/ID}; class php:(topic['topicType'] == 'I') ? 'topicImportant ' . topic['classExt'] : ((topic['topicType'] == 'A') ? 'topicAnnounce ' . topic['classExt'] : 'topicNormal ' . topic['classExt'] )" tal:content="topic/title"></a></td>
+		<td class="topic topicUser" tal:content="topic/lastU" />
+		<td class="topic topicDate" tal:content="topic/lastT" />
+	</tr>
+</table>
+</div>
+
+<div id="local" class="topicDiv">
+<table style="width:96%; margin-left:auto; margin-right:auto; " align="center">
+<tr><td style="border:1px solid #555; padding:4px; text-align:center" colspan="4"><img src="TEMPLATES/img/interface/news_aiuto.png" /></td></tr>
+	<tr tal:repeat="topic topics/HE" class="topicline">
+		<td style="width:20px;">
+				<img tal:attributes="src php:(user.pgLastVisit GE topic['lastTstamp']) ? 'TEMPLATES/img/interface/indicator_off.gif' : (topic['lastTopicEvent'] == 'EDIT' ? 'TEMPLATES/img/interface/indicator_blue_on.gif' : 'TEMPLATES/img/interface/indicator_on.gif') ; title php:(user.pgLastVisit GE topic['lastTstamp']) ? 'Nessun Aggiornamento' : (topic['lastTopicEvent'] == 'EDIT' ? 'Uno o più post modificati' : 'Uno o più post inseriti')" /></td>
+		<td class="topicTitle"><a tal:attributes="href string:cdb.php?topic=${topic/ID}; class php:(topic['topicType'] == 'I') ? 'topicImportant ' . topic['classExt'] : ((topic['topicType'] == 'A') ? 'topicAnnounce ' . topic['classExt'] : 'topicNormal ' . topic['classExt'] )" tal:content="topic/title"></a></td>
+		<td class="topic topicUser" tal:content="topic/lastU" />
+		<td class="topic topicDate" tal:content="topic/lastT" />
+	</tr>
+</table>
+</div>
+
+<div id="local" class="topicDiv" tal:condition="exists:showMA">
+<table style="width:96%; margin-left:auto; margin-right:auto; " align="center">
+<tr><td style="border:1px solid #555; padding:4px; text-align:center" colspan="4"><img src="TEMPLATES/img/interface/news_master.png" /></td></tr>
+	<tr tal:repeat="topic topics/MA" class="topicline">
+		<td style="width:20px;"><img tal:attributes="src php:(user.pgLastVisit GE topic['lastTstamp']) ? 'TEMPLATES/img/interface/indicator_off.gif' : (topic['lastTopicEvent'] == 'EDIT' ? 'TEMPLATES/img/interface/indicator_blue_on.gif' : 'TEMPLATES/img/interface/indicator_on.gif') ; title php:(user.pgLastVisit GE topic['lastTstamp']) ? 'Nessun Aggiornamento' : (topic['lastTopicEvent'] == 'EDIT' ? 'Uno o più post modificati' : 'Uno o più post inseriti')" /></td>
+		<td class="topicTitle"><a tal:attributes="href string:cdb.php?topic=${topic/ID}; class php:(topic['topicType'] == 'I') ? 'topicImportant ' . topic['classExt'] : ((topic['topicType'] == 'A') ? 'topicAnnounce ' . topic['classExt'] : 'topicNormal ' . topic['classExt'] )" tal:content="topic/title"></a></td>
+		<td class="topic topicUser" tal:content="topic/lastU" />
+		<td class="topic topicDate" tal:content="topic/lastT" />
+	</tr>
+</table>
+</div>
+
+	</div>
+</div>
+</body>
+</html>

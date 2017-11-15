@@ -1,0 +1,162 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/personnel.css?v=1.6" rel="stylesheet" type="text/css" />
+	 
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+
+	<title>STAR TREK FEDERATION - SCHEDA</title>
+	<script type="text/javascript">
+	function paddOpen(who){window.open ('padd.php?s=seR&to='+who+'&sub=','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
+ 
+	function toggleVisit(ida)
+	{
+		var tit = ''; 
+		var hti = jQuery('#toggle_'+ida).html();  
+		if(hti.indexOf('ESPANDI') > 0) tit = '[ RIDUCI ]';
+		if(hti.indexOf('RIDUCI') > 0) tit = '[ ESPANDI ]';  
+		
+		jQuery('#visi_'+ida).toggle('slide',{},100,function(){jQuery('#toggle_'+ida).html(tit); jQuery('#visi_'+ida).css('background-color','rgba(0,0,0,0.5)');});
+	}
+	</script>	
+	
+ 
+</head>
+
+<body style="background-color:black; overflow:hidden; padding:-5px;">
+
+<div id="schedaContainer">
+
+<div metal:use-macro="TEMPLATES/metal.htm/schedaIntro" />
+
+<div id="mainContainer" style="margin-left:5px; margin-top:15px; width:620px;">
+
+	<div style="text-align:center; padding:5px; verflow-y:hidden;">
+		<!-- medica -->
+	<div style=" float:left; width:140px; margin-top:33px; margin-left:10px; ">
+	<div class="radiusBordered" style="border:1px solid #999;  color:#fffbe8">
+		<img src="TEMPLATES/img/logo/dipartimenti/100medical.png" alt="Flotta Stellare - Sezione Medica" title="Flotta Stellare - Sezione Medica" /><br />
+		<img src="TEMPLATES/img/interface/personnelInterface/statodisalute.png" alt="" title="" /><br />
+		
+		<span style="font-size:12px;" tal:content="statoSalute/salute" />
+	</div>
+	
+	<div tal:condition="exists:SHT" style="margin-top:20px; border:1px solid #999; padding:5px; color:#fffbe8">
+		<img src="TEMPLATES/img/interface/personnelInterface/aggiungireferto.png" />
+		
+		<button tal:condition="exists:showMedEdit" onclick="jQuery('#adderInfoMed').fadeIn()" href="javascript:void(0);" class="plusButton"><img src="TEMPLATES/img/interface/personnelInterface/plusicon.png" style="width:20px;" /></button>
+		<button tal:condition="exists:showPsiEdit" onclick="jQuery('#adderInfoPsi').fadeIn()" href="javascript:void(0);" class="plusButtonBlue"><img src="TEMPLATES/img/interface/personnelInterface/plusblueicon.png" style="width:20px;" /></button>
+		 
+ 
+	</div>
+	
+	<!--<a tal:condition="exists:showClinicalCreate" tal:attributes="href string:cdb.php?clinicA=${selectedUser}"><div class="radiusBordered12 greenEnfatic">Crea Cartella Clinica </div></a>
+	<a tal:condition="exists:showClinicalDelete" tal:attributes="href string:cdb.php?clinicR=${selectedUser}"><div  class="radiusBordered12 yellowEnfatic"> Disassocia Cartella Clinica </div></a>
+	<a tal:condition="exists:showClinicalGo" tal:attributes="onclick string:javascript:cdbOpenToTopic(${cartellaClinica}) ; href string:javascript:cdbOpenToTopic(${cartellaClinica})"><div tal:attributes="class php:(userData.pgSpecie == 'Romulana') ? 'radiusBordered12 greenEnfatic' : 'radiusBordered12 blueEnfatic'">Cartella Clinica</div></a>-->
+	
+	
+	</div>
+	
+	<div style="float:right; width:440px;">
+		<img src="TEMPLATES/img/interface/personnelInterface/schedamedica.png" />
+		<div style="height:500px; margin-top:4px; overflow-y:auto;  color:#fffbe8">
+		<div tal:repeat="med medics">
+		
+			<div style="clear:both; margin-top:10px;">
+			
+			<div style="float:left; width:42px; height:42px;">
+				<img tal:attributes="src string:TEMPLATES/img/logo/dipartimenti/${med/logoName} ; title med/unita" alt="Flotta Stellare - Sezione Medica" title="Flotta Stellare - Sezione Medica"   style="width:100%;"/>
+			</div>
+			<div class="visiMainBlock"> 
+				<p  style="margin:0px; color: #0077c3; float:left; margin-left:5px;"> <a tal:attributes="href string:scheda.php?s=meRem&recID=${med/recid}&pgID=${userData/ID}" tal:condition="php:(smasterPanel)"> <img src="TEMPLATES/img/interface/delete.png" /></a> <a tal:attributes="href string:scheda.php?s=meEdi&recID=${med/recid}&pgID=${userData/ID}" tal:condition="php:((isSet(showMedEdit) && (med['type'] == 'MED' || med['type'] == 'rMED')) || (isSet(showPsiEdit) && (med['type'] == 'PSI' || med['type'] == 'rPSI')) )" title="Modifica"> <img src="TEMPLATES/img/interface/edit_icon.png" /></a> <span tal:content="med/time"/></p>  <p style="margin:0px; margin-right:5px;  float:right;" tal:content="med/medic" /> 
+				<p  style="font-weight:normal; margin:0px; clear:both; margin-left:5px;" tal:content="med/medDiagnosi"/><p tal:condition="php:(med['medCode'] != NULL)" style="float:left; margin-left:10px; margin:0px; margin-top:3px; font-size:10px;" tal:attributes="class php:(med['medCode'] == 'ROSSO') ? 'cdbPostRed' : (med['medCode'] == 'GIALLO' ? 'cdbPostYellowr' : (med['medCode'] == 'VERDE' ? 'cdbPostGreen' : (med['medCode'] == 'BIANCO' ? 'cdbPostWhite' : (med['medCode'] == 'ARANCIONE' ? 'cdbPostYellow' : (med['medCode'] == 'BLU' ? 'cdbPostBlue' : 'cdbPostGray'))))) " tal:content="string:[COD. ${med/medCode}]">[ COD. ]</p><p style="float:right; margin-right:10px; margin:0px; margin-top:3px; "> <a class="interfaceLink" href="javascript:void(0);" tal:attributes="onclick string:toggleVisit(${med/recid}) ; id string:toggle_${med/recid}" style="font-size:10px;"> [ ESPANDI ]</a></p>
+			</div><div style="clear:both;"/>
+			
+			<div tal:attributes="id string:visi_${med/recid}" class="extededMedical">
+
+				<p tal:condition="php:(med['medAnamnesi'] != '')" style="margin:0px; font-size:10px; text-transform:uppercase;"><span style="font-weight:bold; color:#0077c3; ">ANAMNESI</span> <span tal:content="structure med/medAnamnesi" /> </p>
+				<p tal:condition="php:(med['medVisiv'] != '')" style="margin:0px; font-size:10px; text-transform:uppercase;"><span style="font-weight:bold; color:#0077c3; ">AN. VISIVA</span> <span tal:content="structure med/medVisiv" /> </p>
+				<p tal:condition="php:(med['medStrument'] != '')" style="margin:0px; font-size:10px; text-transform:uppercase;"><span style="font-weight:bold; color:#0077c3; ">AN. STRUMENTALE</span> <span tal:content="structure med/medStrument" /> </p>
+				<p style="margin:0px; font-size:10px; text-transform:uppercase;"><span style="font-weight:bold; color:#0077c3; ">DIAGNOSI</span> <span tal:content="structure med/medDiagnosi" /></p>
+				<p tal:condition="php:(med['medTerapia'] != '')" style="margin:0px; font-size:10px; text-transform:uppercase;"><span style="font-weight:bold; color:#0077c3; ">TERAPIA</span> <span tal:content="structure med/medTerapia" /></p>
+				<p tal:condition="php:(med['medDecorso'] != '')" style="margin:0px; font-size:10px; text-transform:uppercase;"><span style="font-weight:bold; color:#0077c3; ">DECORSO</span> <span tal:content="structure med/medDecorso" /></p>
+			</div><div style="clear:both;"/>
+			
+			</div> 
+			
+		</div>
+		</div>
+	</div>
+	
+
+	
+	</div>
+
+</div>
+
+
+</div>
+
+<div class="popup" id="adderInfoMed" tal:condition="exists:showMedEdit">
+		<p class="title" style="text-align:center; margin:0px; margin-top:5px;"> Aggiungi Referto Medico </p> 
+		<p style="margin:0px; text-align:center; margin-top:3px;"> Puoi usare i tag BBCODE [U]-[/U] e [I]-[/I]</p> 
+		<form tal:attributes="action string:scheda.php?s=meAdd&pgID=${userData/ID}" method="POST">
+			<input tal:condition="php:(omasterPanel)" name="medicName" required="required" placeholder="Medico" tal:attributes="value currentUserSignature" class="radiusBordered5"></input><br/>
+			
+			Triage: <select name="medicCode" style="width:150px;" class="radiusBordered5">
+			<optgroup label="Codici Triage Normali">
+				<option value="BIANCO">Codice Bianco</option>
+				<option value="VERDE">Codice Verde</option>
+				<option value="GIALLO">Codice Giallo</option>
+				<option value="ROSSO">Codice Rosso</option>
+			</optgroup>
+			<optgroup label="Codici Triage Speciali">
+				<option value="ARANCIONE">Codice Arancione</option>
+				<option value="BLU">Codice Blu</option>
+				<option value="NERO">Codice Nero</option>
+			</optgroup>
+			</select>
+			
+			Data: <select name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day ; selected php:(day == date('d') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataM"><option tal:repeat="day php:range(1,12)" tal:attributes="value day ;  selected php:(day == date('m') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataA"><option tal:repeat="day php:range(2290,thisYear)" tal:attributes="value day ; selected php:(day==thisYear) ? 'selected': false" tal:content="day" /></select> 
+			
+			<textarea name="medicAnamnesi" placeholder="Anamnesi" class="radiusBordered5"></textarea><br/>
+			<textarea name="medicVisi"  placeholder="Analisi Visiva" class="radiusBordered5"></textarea><br/>
+			<textarea name="medicStrum"  placeholder="Analisi Strumentale" class="radiusBordered5"></textarea><br/>
+			<textarea name="medicDiagnos"  placeholder="Diagnosi (OBBLIGATORIO - sarà anche il titolo del referto)" class="radiusBordered5"></textarea><br/>
+			<textarea name="medicTerap"  placeholder="Terapia" class="radiusBordered5"></textarea><br/>
+			<textarea name="medicDecorso"  placeholder="Decorso" class="radiusBordered5"></textarea><br/> 
+			<input type="hidden" tal:attributes="value php:(userData.pgSpecie != 'Romulana') ? 'MED' : 'rMED'" name="medType"/>
+			<p style="text-align:center;">  <input type="submit" value="[ - INVIA - ]">Invia!</input></p> 
+		</form>
+		
+		
+		<div style="position:absolute; top:2px; right:2px; height:15px; width:15px; background-color:black; text-align:center; cursor:pointer; border:1px solid #AAA; padding:2px;" onclick="jQuery('#adderInfoMed').fadeOut(100);">X</div>
+	</div>
+	
+<div class="popup" id="adderInfoPsi" tal:condition="exists:showPsiEdit">
+		<p class="title" style="text-align:center; margin:0px; margin-top:5px;"> Aggiungi Referto Psicologico </p> 
+		<p style="margin:0px; text-align:center; margin-top:3px;"> Puoi usare i tag BBCODE [U]-[/U] e [I]-[/I]</p> 
+		<form tal:attributes="action string:scheda.php?s=meAdd&pgID=${userData/ID}" method="POST">
+			<input tal:condition="php:(omasterPanel)" name="medicName" required="required" placeholder="Medico" tal:attributes="value currentUserSignature" class="radiusBordered5" style="width:210px;" /> Data: <select name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day ; selected php:(day == date('d') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataM"><option tal:repeat="day php:range(1,12)" tal:attributes="value day ;  selected php:(day == date('m') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataA"><option tal:repeat="day php:range(2290,thisYear)" tal:attributes="value day ; selected php:(day==thisYear) ? 'selected': false" tal:content="day" /></select> <br/>
+			
+			<textarea name="medicAnamnesi" placeholder="Rapporto" style="height:260px;" class="radiusBordered5"></textarea><br/>
+			<textarea name="medicDiagnos"  placeholder="Idoneità (OBBLIGATORIO - sarà anche il titolo del referto)" class="radiusBordered5"></textarea><br/>
+			<textarea name="medicTerap"  placeholder="Terapia" class="radiusBordered5"></textarea><br/> 
+			<input type="hidden" tal:attributes="value php:(userData.pgSpecie != 'Romulana') ? 'PSI' : 'rPSI'" name="medType"/>
+			<p style="text-align:center;">  <input type="submit" value="[ - INVIA - ]">Invia!</input></p> 
+		</form>
+		
+		
+		<div style="position:absolute; top:2px; right:2px; height:15px; width:15px; background-color:black; text-align:center; cursor:pointer; border:1px solid #AAA; padding:2px;" onclick="jQuery('#adderInfoPsi').fadeOut(100);">X</div>
+	</div>
+
+</body>
+</html>

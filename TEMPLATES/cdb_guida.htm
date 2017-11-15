@@ -1,0 +1,540 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/cdb.css?v=1.2.1" rel="stylesheet" type="text/css" />
+	
+	<link rel="stylesheet" type="text/css" href="TEMPLATES/css/gameGuide.css"/>
+	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+
+	<!-- <script type="text/javascript" src="TEMPLATES/js/lazyload.js"></script> -->
+	<title>STAR TREK FEDERATION - CDB</title>
+	
+		<script type="text/javascript">
+			jQuery(function(){
+	
+
+	jQuery('#inner1').fadeIn(50,function(){
+		jQuery('#inner2').fadeIn(50,function(){
+			jQuery('#inner3').fadeIn(50,function(){
+				jQuery('#inner4').fadeIn(50,function(){
+					jQuery('#inner5').fadeIn(50,function(){
+						jQuery('#inner6').fadeIn(50,function(){
+							jQuery('#inner7').fadeIn(50,function(){
+								jQuery('#inner8').fadeIn(50,function(){
+									jQuery('#inner9').fadeIn(50,function(){
+										jQuery('#inner10').fadeIn(50,function(){
+											});
+										});
+									});
+								});
+							});
+						});
+					});
+				});
+			});
+		});
+	});
+	
+	function outerDiv(par)
+	{
+		jQuery('#inner10').fadeOut(20,function(){
+		jQuery('#inner9').fadeOut(20,function(){
+		jQuery('#inner8').fadeOut(20,function(){
+			jQuery('#inner7').fadeOut(20,function(){
+				jQuery('#inner6').fadeOut(20,function(){
+					jQuery('#inner5').fadeOut(20,function(){
+						jQuery('#inner4').fadeOut(20,function(){
+							jQuery('#inner3').fadeOut(20,function(){
+								jQuery('#inner2').fadeOut(20,function(){
+									jQuery('#inner1').fadeOut(20,function(){
+											jQuery('#outer'+par).fadeIn(50);
+										});
+									});
+								});
+							});
+						});
+					});
+				});
+			});
+		});
+		
+		});
+		jQuery('#backLink').css('display','block');
+	}
+	
+	function reset()
+	{
+		jQuery('.outerDiv').fadeOut(20,function()
+		{
+			jQuery('#inner1').fadeIn(50,function(){
+				jQuery('#inner2').fadeIn(50,function(){
+					jQuery('#inner3').fadeIn(50,function(){
+						jQuery('#inner4').fadeIn(50,function(){
+							jQuery('#inner5').fadeIn(50,function(){
+								jQuery('#inner6').fadeIn(50,function(){
+									jQuery('#inner7').fadeIn(50,function(){
+										jQuery('#inner8').fadeIn(50,function(){
+											jQuery('#inner9').fadeIn(50,function(){
+												jQuery('#inner10').fadeIn(50,function(){
+												});
+											});
+										});
+									});
+								});
+							});
+						});
+					});
+				});
+			});
+		});
+		jQuery('#backLink').css('display','none');
+	}
+	</script>
+	
+	<style>.subTitler {margin-top:30px;}
+	.outerDiv{height:auto;}</style>
+</head>
+
+<body style="background-repeat:no-repeat; background-color:black; background-position:top center;">
+
+
+<div id="federation_interfaceContainer">
+	<div id="leftCol" style="width:123px;">
+		<div id="leftC1" />
+		<div id="leftC3" />
+	</div>
+	
+	<div id="supCol">
+		
+		<div metal:use-macro="TEMPLATES/metal.htm/cdbHeading" />
+
+	</div>
+	
+	<div id="fillerBax">
+		<div id="barbot1" />
+	</div>
+	<div id="cdbContainer" >
+	<div metal:use-macro="TEMPLATES/metal.htm/cdbIntro" />
+
+	<div style="font-size:12px; margin-left:5px; text-transform:uppercase; "><a href="cdb.php" class="interfaceLink">CDB</a> <span style="color:red; font-size:11px;">></span> <a href="cdb.php" class="interfaceLink">GUIDA AL GIOCO</a></div>
+
+	<div id="principale" class="sliding" style="display:block; overflow-x:hidden; clear:both">
+			<div id="backLink" style="display:none; position:relative; top:10px; left:50px;"><a class="interfaceLink" onClick="reset()" href="javascript:void(0);">Torna Indietro</a></div>
+			<div style="margin-left:auto;margin-top:60px; margin-right:auto;width:580px; text-align:center;" align="center">
+	<div>
+		<div class="innerDiv" id="inner1" onclick="javascript:outerDiv(1)"><p>Introduzione<br />al GdR</p></div>
+		<div class="innerDiv" id="inner2" onclick="javascript:outerDiv(2)"><p>ON e OFF<br />Cosa sono?</p></div>
+		<div class="innerDiv" id="inner3" onclick="javascript:outerDiv(3)"><p>Il Personaggio<br />(PG)</p></div>
+		<div class="innerDiv" id="inner4" onclick="javascript:outerDiv(4)"><p>Primi passi<br />in gioco</p></div>
+		<div class="innerDiv" id="inner5" onclick="javascript:outerDiv(5)"><p>L'interfaccia<br />di Federation</p></div>
+		<div class="innerDiv" id="inner6" onclick="javascript:outerDiv(6)"><p>Le azioni<br />e le chat</p></div>
+		<div class="innerDiv" id="inner7" onclick="javascript:outerDiv(7)"><p>Quest<br />e Staff</p></div>
+		<div class="innerDiv" id="inner8" onclick="javascript:outerDiv(8)"><p>Carriera Militare<br />Carriera Civile</p></div>
+		<div class="innerDiv" id="inner9" onclick="javascript:outerDiv(9)"><p>Informazioni<br />varie</p></div>
+		<a href="#" onclick="window.open ('db.php?element=150','db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=617');"><div class="innerDiv" id="inner10"><p>Regolamento</p></div></a>
+		<div style="clear:both;"></div>
+	</div>
+</div>
+
+<div id="outer2" class="outerDiv" style="height:550px;" align="center">
+
+<p class="clockTitle">Meccaniche di gioco: l'ON e l'OFF</p>
+<p class="ordinaryText">Il mondo dei Giochi di Ruolo &egrave; governato da una semplice ma importante distinzione: quella fra <span class="eviLG">ON</span> ed <span class="eviLG">OFF</span>. Vediamo di cosa si tratta. Detto in parole semplici: L'<span class="eviLG">ON</span> &egrave; tutto ci&ograve; che concerne il gioco, i suoi personaggi e le sue situazioni. Le interazioni fra due personaggi, le missioni, gli incarichi, le giocate in plancia, al bar o in infermeria, sono tutti elementi dell'ON game.
+Parallelamente esiste il concetto di <span class="eviLG">OFF</span>, cio&egrave; tutto quello che &egrave; al di l&agrave; del gioco e dell'ambientazione. Gli scambi di battute tra giocatori, per esempio. Il fatto che esista questa guida al gioco, ed il fatto stesso che nella realt&agrave; dei fatti questo &egrave; un <span class="eviG">GIOCO</span>.</p>
+
+<p class="ordinaryText">Al primo impatto la differenza tra <span class="eviLG">ON</span> e <span class="eviLG">OFF</span> dovrebbe risultare piuttosto semplice. In <span class="eviLG">ON</span> il tuo personaggio, cos&igrave; come i personaggi di tutti gli altri, vive su una nave stellare, o su una base, nell'anno 2380. Probabilmente sono abituati a viaggiare nello spazio, a conoscere le varie classi di navi. Conoscono la Federazione dei Pianeti, e magari sono arruolati nella Flotta Stellare. Per i nostri personaggi, in gioco, in <span class="eviLG">ON</span>, la realt&agrave; &egrave; proprio questa: la Flotta Stellare, lo spazio, le avventure, le missioni... l'uniforme. In <span class="eviLG">ON</span> ci sono dpadd, tricorder, phasers, sensori e tunnel spaziali. In <span class="eviLG">ON</span>, se il nostro personaggio deve uscire dalla plancia improvvisamente magari &egrave; perch&eacute; ha un impegno di servizio, o &egrave; atteso altrove.</p>
+ 
+<p class="ordinaryText">In <span class="eviLG">OFF</span>, invece, siamo giocatori che si collegano ad un gioco via chat, per passare qualche ora e divertirsi. In <span class="eviLG">OFF</span> siamo nel 2012, ci connettiamo ad Internet, alcuni di noi lavorano, altri studiano, c'&egrave; il calcio, la TV, gli smartphone. In <span class="eviLG">OFF</span>, magari si deve abbandonare la giocata perch&eacute; &egrave; pronta la cena, o perch&eacute; dobbiamo fare i compiti, o ancora perch&eacute; il capo ci chiama in ufficio oppure perch&eacute; l'ora si &egrave; fatta tarda e si vuole andare a dormire.</p>
+
+<p class="subTitler">Mai mischiare On e Off</p>
+
+<p class="ordinaryText">La regola pi&ugrave; importante di Star Trek Federation &egrave;: non mischiare <span class="eviR">MAI</span> <span class="comment">ON e OFF</span>. Come distinguere <span class="eviLG">ON</span> e <span class="eviLG">OFF</span>? Di pers&eacute;, una volta capito il meccanismo, &egrave; piuttosto immediato. In Star Trek Federation ogni ambiente di gioco &egrave; realizzato tramite una chat. In questa finestra di chat (chiamata anche Locazione, o ambiente) prendono vita le avventure dei personaggi, si gioca nell'<span class="eviLG">ON</span>, si fa esplorazione, si ripara il nucleo di curvatura, si beve un raktajino. Queste chat sono le <span class="eviLG">CHAT ON</span>, qui si gioca in <span class="eviLG">ON</span>, e solo in <span class="eviLG">ON</span>. Queste chat di gioco non vanno usate come delle normali chat di msn, per intenderci. In queste chat non si parla tra giocatori, ma da personaggi. Per riassumere: <span class="eviY">NELLE CHAT ON NOI</span> <span class="comment">(i giocatori)</span> <span class="eviY">RECITIAMO LA PARTE DEL NOSTRO PERSONAGGIO</span>, calandolo nell'ambientazione di gioco.</p>
+
+<p class="ordinaryText">Esistono ambiti <span class="eviLG">OFF</span> in Star Trek Federation? S&igrave;. Esistono i <span class="eviY">SUSSURRI</span>, ovvero un sistema di chat parallele agli ambienti di gioco. In queste chat si parla tra giocatori, esattamente come si farebbe in msn, o in skype. <b>Nelle chat <span class="eviLG">OFF</span> si discute del gioco, si contattano gli altri player</b>. Si chiede loro se vogliono giocare, se possono farci una simulazione addestrativa sul ponte ologrammi etc... In queste chat siamo giocatori, viviamo nel 2012 (a meno che qualcuno di voi non si chiami John Titor) e giochiamo ad un gioco di rulo online via chat.</p>
+
+<p class="ordinaryText">Quindi: nelle chat <span class="eviLG">ON</span> si recita la parte del proprio personaggio, descrivendone i gesti, parlando, interagendo con gli altri personaggi del gioco, in quelle <span class="eviLG">OFF</span> si parla fra giocatori. Ancora una volta precisiamo che l'ingerenza dell'<span class="eviLG">OFF</span> nell'<span class="eviLG">ON</span> &egrave; assolutamente da evitare, cos&igrave; come lo &egrave; il contrario. Questo comportamento, comunemente noto come metagioco, &egrave; vietato. Facciamo qualche esempio concreto. Pu&ograve; capitare che in <span class="eviLG">ON</span> un personaggio sia uno scontroso cinico antipatico che tratta male tutti (perch&eacute; il suo giocatore ha deciso di giocarsi questo tipo di personaggio). Magari questo personaggio tratta male il vostro, rispondendogli male. Questo <span class="eviG">NON SIGNIFICA</span> che il giocatore di quel personaggio ce l'ha con voi, n&eacute; che gli state antipatici come giocatori. Ed &egrave; vero anche il contrario.</p>
+
+<p class="ordinaryText">Se due personaggi litigano non &egrave; detto che i loro giocatori siano in cattivi rapporti. Non prendetevela a male se un altro personaggio tratta male il vostro. Questo <span class="eviR">&egrave; gioco</span>, e come tale va considerato. Un altro personaggio vi sputa in un occhio? Replicate in <span class="eviLG">ON</span>. <b>Portate avanti la giocata</b>. Fate agire il vostro personaggio come meglio credete, ma per <span class="eviR">nessun motivo</span> la cosa deve trasformarsi in uno scontro tra giocatori. <span class="eviLG">ON</span> e <span class="eviLG">OFF</span> sono due concetti disgiunti. Se ce l'avete personalmente con un altro giocatore (e questo pu&ograve; essere, perch&eacute; a volte le persone possono anche starci antipatiche, non lo neghiamo) questo non deve in alcun modo influenzare la vita dei vostri personaggi.</p>
+
+</div>
+<div id="outer1" class="outerDiv"  align="center">
+<p class="clockTitle">Introduzione al Gioco</p>
+<p class="ordinaryText">Star Trek Federation &egrave; un <b>Gioco di Ruolo via Chat</b>. Che cosa significa tutto ci&ograve;? Un gioco di ruolo, anche chiamato gioco di narrazione, &egrave; basato sostanzialmente sull'interazione fra i personaggi, sulle loro azioni e linee guida dettate dall'ambientazione. Un gioco di ruolo via chat, &egrave; un tipo di gioco di ruolo dove i giocatori interagiscono muovendo il loro personaggio nei vari ambienti di gioco, utilizzando come strumento un sistema di chat interattive e interconnesse. Ogni <span style="color:#0077c3;">CHAT</span> rappresenta un ambiente ed il discorso diretto del nostro personaggio coincide con quello che noi scriviamo in chat.</p>
+
+<p class="ordinaryText">Il giocatore interpreta un personaggio (chiamato anche <span class="eviB">PG</span>), caratterizzato da una specifica personalit&agrave;, un carattere ed un modo di approcciarsi alle situazioni che via via gli si presentano davanti. Il personaggio ha una sua storia, o biografia (chiamata anche BG, Background) che lo caratterizza ulteriormente: pensiamo alla famiglia che ha, alle avventure che si &egrave; lasciato alle spalle, agli studi che ha intrapreso, alle amicizie ed agli amori che ha vissuto e quant'altro. Tutto ci&ograve; <b>&egrave; il giocatore a deciderlo</b>. Il giocatore sceglie il Background del personaggio che andr&agrave; ad interpretare, e via via, giocando, accompagna il personaggio nelle sue avventure, formandolo giorno dopo giorno. Il gioco evolve con l'evoluzione della storia e dei suoi personaggi, che insieme interagiscono.</p>
+
+<p class="ordinaryText">Star Trek Federation &egrave; un gioco di ruolo ambientato nell'universo fantascientifico di <span class="eviB">Star Trek</span>. (Per maggiori informazioni ti invitiamo a consultare l'Ambientazione di gioco). ll personaggio che andrai ad interpretare, quindi, &egrave; immerso in questa ambientazione di gioco, in un universo ispirato a quello delle serie e dei film di Star Trek, per l'appunto, tra navi stellari, phaser e nuovi mondi tutti da esplorare.</p>
+
+</div>
+<div id="outer3" class="outerDiv"  align="center">
+
+<p class="clockTitle">Il Personaggio (PG)</p>
+<p class="ordinaryText">Ogni personaggio &egrave; caratterizzato da un ben preciso <span class="eviY">BACKGROUND</span>, ovvero la descrizione della sua vita, una sorta di biografia, che definisce quali esperienze ha avuto il PG, come &egrave; cresciuto, cosa ha studiato, cosa gli piace e cosa lo intristisce, come si pone nei confronti degli altri, e via dicendo. Il Background (solitamente una descrizione testuale, eventualmente correlata da una o pi&ugrave; fotografie) &egrave; contenuto nella scheda del personaggio, accessibile tramite il pulsante '<span class="eviLG">SCHEDA</span>' dell'interfaccia di gioco, o tramite localizzatore, computer di bordo e altri punti dell'interfaccia. Un buon background contiene le informazioni necessarie a presentare il personaggio, caratteriali e fisiche: altezza, colore dei capelli, segni particolari, gusti, carattere, indole, etc...</p>
+
+<p class="ordinaryText">&Egrave; consigliabile abbozzare <span class="eviR">almeno la parte della descrizione fisica del <span class="eviLG">PG</span> gi&agrave; dalle prime ore di gioco</span>. Per quanto riguarda il Background completo le tempistiche sono pi&ugrave; lunghe. Invitiamo comunque a redigere il background nel minor tempo possibile, e a <b>farlo pervenire ad un master</b> per approvazione. <span class="eviNLY">Un <span class="eviLG">PG</span> senza background &egrave; un <span class="eviLG">PG</span> fantasma</span>. Inoltre &egrave; importante sottolineare che i master si basano moltissimo sul background e sulla storia del <span class="eviLG">PG</span> al fine di fornire esiti alle azioni: un <span class="eviLG">PG</span> che ha una formazione precedente in tiro con l'arco predisporr&agrave; il master a tener conto di questo elemento nella valutazione dell'esito, per esempio.</p>
+
+</div>
+<div id="outer4" class="outerDiv"  align="center">
+
+<p class="clockTitle">L'iscrizione</p>
+
+<p class="ordinaryText">L'iscrizione &egrave; la procedura che ti permette di creare un personaggio in Star Trek Federation, e prevede l'inserimento di alcuni dati chiave:
+<ul><li><span class="eviY">NOME (utente)</span>: &egrave; il tuo username ed &egrave; anche il nome visualizzato in gioco. Per i PG della specie umana corrisponde al <span class="eviR">COGNOME</span> <b>del personaggio</b>, e cos&igrave; anche per le specie che prevedono sia il nome che il cognome. - <span class="eviR">NB:</span> questo parametro non &egrave; modificabile successivamente dagli utenti (nel caso puoi contattare un amministratore e farlo cambiare da lui).</li>
+<li><span class="eviY">SPECIE</span>: &Egrave; la specie del vostro personaggio. Consigliamo ai novizi del genere Trek di utilizzare quella umana (sar&agrave; possibile poi in gioco contattare un amministraotre per eventualmente cambiare personaggio, e sceglierne uno di una specie differente nel caso)</li>
+<li><span class="eviY">SESSO</span>: Il sesso del vostro personaggio</li>
+<li><span class="eviY">INDIRIZZO MAIL</span>: - Deve essere una email valida. Spediremo a questo indirizzo la tua password di accesso. <span class="eviR">IN CASO NON LA RICEVESSI</span> contatta l'amministrazione tramite uno dei canali presenti in homepage.</li></ul>
+
+Per iscriverti dovrai anche <span class="eviY">LEGGERE E APPROVARE L'INFORMATIVA SULLA PRIVACY</span>. Al termine della procedura riceverai una email all'indirizzo email indicato con lo <span class="eviLG">USERNAME</span> (il nome che hai scelto per il tuo PG) e la <span class="eviLG">PASSWORD</span> (generata in modo casuale) per accedere a Star Trek Federation. Potrai cambiare la password dalla Scheda PG.<br /><br />Infine ti ricordiamo che Star Trek Federation consente l'iscrizione a partire dal 14 anno di et&agrave;, e non tratta i dati di utenti minori di 14 anni, che pertanto non possono iscriversi.</p>
+
+<p class="subTitler">Primi passi in gioco</p>
+
+<p class="ordinaryText">Al tuo ingresso un messaggio in arrivo tramite la messaggistica interna (<span class="eviR">PADD</span>) ti dar&agrave; il benvenuto nella Land. Inizialmente il tuo personaggio sar&agrave; non potr&agrave; scrivere nelle chat di gioco: attendi che qualcuno dei giocatori venga ad accoglierti, oppure fatti notare utilizzando la chat <span class="eviLG">SUSSURRI</span>. Appena iscritto il giocatore 'guida' che ti prender&agrave; in carico ti spiegher&agrave; tutto quello che devi sapere per iniziare la tua avventura in Federation. Se hai domande circa qualunque argomento di gioco ponile pure al reclutatore. Dopo aver sostenuto una breve conversazione <span class="eviY">OFF</span> con il reclutatore, sarai sbloccato e potrai accedere alle varie aree del gioco, cliccando sul tasto <span class="eviY">MAPPA</span></p></div>
+<div id="outer5" class="outerDiv"  align="center">
+
+<p class="clockTitle">L'interfaccia</p>
+
+<p class="ordinaryText">La schermata principale permette di interagire con le funzioni principali dell'interfaccia. La sezione centrale visualizza la mappa dell'unit&agrave; con le varie locazioni disponibili:<br /></p>
+
+<img style="text-align:center;" src="http://miki.startrekfederation.it/cdbv/mainInterface.jpg"></img><br /><br />
+
+<div><div style="float:left;"><img src="http://miki.startrekfederation.it/cdbv/frame_laterale.jpg" /></div>
+<div style="float:left; width:595px; margin-left:15px;">
+<p class="ordinaryText">La cornice integra i collegamenti agli altri tool di gioco: 
+
+<ul><li>Il pulsante <span class="eviY">MAPPA</span> ti permette di visualizzare la mappa del luogo in cui ti trovi.</li>
+<li>Il pulsante <span class="eviY">ONLINE</span> ti permette di aprire il localizzatore, ovvero la lista dei PG connessi.</li>
+<li>Con pulsante <span class="eviY">DPADD</span>, invece, accedi al padd, che gestisce la messaggistica con i vari utenti, ti permette di consultare il Federation Tribune, fornisce informazioni circa lo status della nave. Con il dpadd puoi anche salvare brevi appunti di testo.</li>
+<li>Con il pulsante <span class="eviY">CHARTS</span> accedi alle mappe di gioco, che ti permettono di visualizzare il settore in cui ti trovi, o di cercare basi e pianeti.</li>
+<li>In alto a destra trovi i comando <span class="eviY">COMPUTER</span> e <span class="eviY">DATABASE</span>. Il primo aprir&agrave; il <b>Computer di Bordo</b>, il luogo in cui vengono inseriti rapporti, avvisi, disposizioni di servizio, storie legate alle quest, etc. Il <b>Database</b> invece contiene il materiale di documentazione sia ON che OFF: dispense delle varie discipline, guide al gioco, consigli, procedure.</li>
+<li>Il tasto <span class="eviY">COMM</span> permette di accedere al comunicatore, tramite il quale il tuo personaggio pu&ograve; contattare (in ON) i colleghi dello ambiente di gioco, o degli ambienti limitrofi.</li>
+<li>Il tasto Logout interrompe la connessione con Star Trek Federation e ti riporta alla schermata di login.</li></ul>
+
+Ai lati dell'interfaccia &egrave; presente anche <b>l'indicatore di allarme</b>, che varia quando la condizione di allarme viene reimpostata. La condizione pu&ograve; essere una fra le seguenti: <span class="eviG">CONDIZIONE VERDE</span>, <span class="eviY">ALLARME GIALLO</span>, <span class="eviR">ALLARME ROSSO</span>, <span class="eviB">CONDIZIONE BLU</span>. Nella barra in alto, invece &egrave; presente l'indicazione del nome dell'unit&agrave; presso la quale ci si trova, unitamente (quando disponibile) al comando di <span class="eviY">SBARCO</span> e <span class="eviY">IMBARCO</span>, che permette di cambiare ambiente di gioco.</p>
+</div></div><div style="clear:both" />
+
+<p class="subTitler">La barra di chat e la chat ON</p>
+
+<p class="ordinaryText"><p style="text-align:center;"><img src="http://miki.startrekfederation.it/cdbv/chatbarex.png" /></p>La chat di gioco è costituita da un largo spazio in cui vengono visualizzate le azioni inviate dagli altri utenti, e dal proprio utente, munito di una barra di chat nell'area inferiore. La barra di chat è divisa in tre sezioni: un box azzurro per l'inserimento del TAG (una o due parole che identificano in quale punto della stanza siete, a quale consolle state operando, e via discorrendo; la barra di chat vera e propria, ove inseirre le azioni per poi premere il tasto "Invia", ed una serie di comandi laterali che variano da ambiente a d ambiente.</p>
+
+<p><table style="width:80%;">
+<tr><td style="width:120px; border:1px solid #444; text-align:center; font-weight:bold; background-color:#222; padding:5px;">Icona</td><td style="width:350px; border:1px solid #444; padding:5px;  text-align:center; font-weight:bold; background-color:#222;">Descrizione</td><td style="border:1px solid #444; padding:5px;  text-align:center; font-weight:bold; background-color:#222;">Disponibilità</td></tr><tr><td style="text-align:center; border:1px solid #444; padding:5px;"><img src="TEMPLATES/img/interface/mainInterface/icon_ref.png" /></td><td style="border:1px solid #444; padding:5px;"><span class="eviY"><b>Aggiornamento della Chat.</b></span> Premendolo scatena il refresh della pagina web.</td><td style="border:1px solid #444; padding:5px;">Tutti gli ambienti</td></tr><tr><td style="text-align:center; border:1px solid #444; padding:5px;"><img src="TEMPLATES/img/interface/mainInterface/icon_desc.png" /></td><td style="border:1px solid #444; padding:5px;"><span class="eviY"><b>Informazioni Aggiuntive.</b></span> Mostra la descrizione dell'ambiente (se presente). Nelle locazioni dei "corridoi" permette di accedere in modo diretto a tutti gli ambienti di quel ponte. Permette l'accesso alle registrazioni ambientali (LOG)</td><td style="border:1px solid #444; padding:5px;">Tutti gli ambienti.</td></tr><tr><td style="text-align:center; border:1px solid #444; padding:5px;"><img src="TEMPLATES/img/interface/mainInterface/icon_ent.png" /></td><td style="border:1px solid #444; padding:5px;"><span class="eviY"><b>Log della Giocata.</b></span> Salva un log HTML dell'intera giocata visibile a schermo.</td><td style="border:1px solid #444; padding:5px;">Tutti gli ambienti</td></tr><tr><td style="text-align:center; border:1px solid #444; padding:5px;"><img src="TEMPLATES/img/interface/mainInterface/icon_ring.png" /></td><td style="border:1px solid #444; padding:5px;"><span class="eviY"><b>Campanello.</b></span> Permette di segnalare la presenza del proprio PG in quegli ambienti che richiedono di annunciarsi prima di entrare.</td><td style="border:1px solid #444; padding:5px;">Alloggi e Uffici</td></tr><tr><td style="text-align:center; border:1px solid #444; padding:5px;"><img src="TEMPLATES/img/interface/mainInterface/icon_repl.png" /></td><td style="border:1px solid #444; padding:5px;"><span class="eviY"><b>Replicatore.</b></span> Mostra la finestra relativa al replicatore, per ordinare cibi e bevande.</td><td style="border:1px solid #444; padding:5px;">Alloggi, Mense, Bar, Uffici</td></tr><tr><td style="text-align:center; border:1px solid #444; padding:5px;"><img src="TEMPLATES/img/interface/mainInterface/icon_clima.png" /></td><td style="border:1px solid #444; padding:5px;"><span class="eviY"><b>Controlli Ambientali.</b></span> Mostra la finestra relativa alla gestione dei controlli ambientali, per quegli ambienti ove è possibile cambiare illuminazione e temperatura.</td><td style="border:1px solid #444; padding:5px;">Alloggi, Uffici</td></tr><tr><td style="text-align:center; border:1px solid #444; padding:5px;"><img src="TEMPLATES/img/interface/mainInterface/icon_comm.png" /></td><td style="border:1px solid #444; padding:5px;"><span class="eviY"><b>Comunicazioni Subspaziali.</b></span> Mostra la finestra relativa alla gestione delle comunicazioni fra un vascello ed un altro.</td><td style="border:1px solid #444; padding:5px;">Plance, Centri di comando</td></tr><tr><td style="text-align:center; border:1px solid #444; padding:5px;"><img src="TEMPLATES/img/interface/mainInterface/icon_shut.png" /></td><td style="border:1px solid #444; padding:5px;"><span class="eviY"><b>Navette.</b></span> Sposta il personaggio al menu di imbarco sulle navette. Visualizza le navette cui è possibile accedere.</td><td style="border:1px solid #444; padding:5px;">Ponti di Lancio</td></tr><tr><td style="text-align:center; border:1px solid #444; padding:5px;"><img src="TEMPLATES/img/interface/mainInterface/icon_tt.png" /></td><td style="border:1px solid #444; padding:5px;"><span class="eviY"><b>Teletrasporto.</b></span> Mostra la finestra relativa ai comandi del teletrasporto. Permette di teletrasportare persona DA e VERSO gli ambienti della nave o quelli immediatamente raggiungibili.</td><td style="border:1px solid #444; padding:5px;">Sale Teletrasporto, Plance, Infermerie</td></tr><tr><td style="text-align:center; border:1px solid #444; padding:5px;"><img src="TEMPLATES/img/interface/mainInterface/icon_audio_off.png" /> <img src="TEMPLATES/img/interface/mainInterface/icon_audio.png" /></td><td style="border:1px solid #444; padding:5px;"><span class="eviY"><b>Audio di Sottofondo.</b></span> Se è presente una traccia audio di sottofondo, è possibile ascoltarla o stopparla con questo controllo.</td><td style="border:1px solid #444; padding:5px;">Ambienti ove è disponibile l'audio di ambiente.</td></tr><tr><td style="text-align:center; border:1px solid #444; padding:5px;"><img src="TEMPLATES/img/interface/mainInterface/icon_med.png" /> <img src="TEMPLATES/img/interface/mainInterface/icon_med2.png" /></td><td style="border:1px solid #444; padding:5px;"><span class="eviY"><b>Bioletto.</b></span> Permete di attivare o disattiavare le scansioni con il bioletto. Alla pressione il controllo diventa verde e la scansione si attiva. Una nuova pressione disattiverà la scansione.</td><td style="border:1px solid #444; padding:5px;">Infermerie</td></tr></table></p>
+
+<p class="subTitler">Computer e Database</p>
+
+<p class="ordinaryText">Il computer di bordo fornisce accesso a tutte le informazioni relative a: stato della nave, rapporti, disposizioni di servizio. &Egrave; la panoramica della situazione globale del GdR e rappresenta un tool fondamentale per ogni player. La schermata iniziale si presenta con un riepilogo delle ultime attivit&agrave;. Il Computer &egrave; <b>suddiviso in sezioni</b></p>.
+
+<p style="text-align:center"><img src="http://miki.startrekfederation.it/cdbv/cdbv.png" /></p>
+
+<p class="ordinaryText">
+<ul><li><span class="eviY">SEZIONE FLOTTA STELLARE</span>: Comprende tutto il materiale, le comunicazioni e i rapporti globali della Flotta Stellare. Al suo interno &egrave; suddivisa in sezioni, una per ogni ambito della Flotta Stellare.</li>
+<li><span class="eviY">SEZIONE FEDERAZIONE</span>: Comprende tutto il materiale e le comunicazioni Civili e della Federazione. Contiene inoltre i diari del personale.</li>
+<li><span class="eviY">SEZIONE COMUNIT&Agrave; e AIUTO</span>: &Egrave; una sezione libera, per discutere di questioni OFF pi&ugrave; o meno attinenti al gioco. Segnalazione di bug e problemi, richieste allo staff etc...</li>
+</ul></p>
+
+<p class="ordinaryText">Dalla cornice superiore &egrave; possibile accedere alle varie sezioni del computer:
+<ul><li><span class="eviY">PRINCIPALE</span>: &Egrave; la pagina iniziale del computer di bordo. Contiene gli accessi a tutte le sezioni, oltre ad un sistema di mini-news con i 3 ultimi interventi per ogni sezione. Nella parte in alto, quella dedicata all'unit&agrave;, &egrave; possibile accedere al computer della nave, cliccando su <b>Computer di Bordo</b>, o su una delle sottosezioni. Ogni nave, o installazione, ha un computer di bordo distinto. <b><span style="color:red">Attenzione:</span></b> Quando cambi location &egrave; consigliabile ricaricare il computer di bordo per evitare di accedere alle sezioni 'sbagliate' del sistema.</li>
+<li><span class="eviY">NEWS</span>: Permette di visualizzare un elenco degli ultimi aggiornamenti su tutto il computer, in tutte le sezioni globali, pi&egrave; il computer di bordo dell'unit&agrave; su cui sei attualmente imbarcato.</li>
+<li><span class="eviY">ASSEGNAZIONI</span>: Permette di vedere gli organigrammi delle installazioni, strutture, pianeti e navi giocanti e non.</li>
+<li><span class="eviY">DIARIO</span>: Permette un accesso rapido al Diario del Personaggio.</li>
+<li><span class="eviY">GUIDA AL GIOCO</span>: Visualizza la guida al gioco.</li>
+</ul></p>
+
+<p class="subTitler">La Scheda PG</p>
+
+<p class="ordinaryText">La scheda PG permette di visualizzare i dati del personaggio, e di modificarli nel caso si tratti del proprio.</p>
+
+<p style="text-align:center"><img src="http://miki.startrekfederation.it/cdbv/schedaYx.png" /></p>
+
+<p class="ordinaryText">I tasti superiori di sinistra permettono di accedere alle varie sotto sezioni della scheda:
+
+<ul><li><span class="eviY"><img src="TEMPLATES/img/interface/personnelInterface/principale.png" style="vertical-align:middle;"/> PRINCIPALE</span>: &Egrave; la pagina iniziale della scheda. Visualizza i dati di base del personaggio. La sezione "Scheda Off" Visualizza inoltre i dati di punteggio e Achievements del giocatore</li>
+<li><span class="eviY"><img src="TEMPLATES/img/interface/personnelInterface/background.png" style="vertical-align:middle;"/> BACKGROUND</span>: Qui viene visualizzato il background del personaggio, impostabile dall'utente tramite la modifica della scheda.</li>
+<li><span class="eviY"><img src="TEMPLATES/img/interface/personnelInterface/brevetti.png" style="vertical-align:middle;"/> ABILITA'</span>: Visualizza le abilità del PG, e i brevetti da egli posseduti</li>
+<li><span class="eviY"><img src="TEMPLATES/img/interface/personnelInterface/stato_servizio.png" style="vertical-align:middle;"/> RUOLINO</span>: Visualizza lo stato di servizio ed il ruolino del personaggio</li> 
+<li><span class="eviY"><img src="TEMPLATES/img/interface/personnelInterface/medica.png" style="vertical-align:middle;"/> SCHEDA MEDICA</span>: &Egrave; la scheda medica del personaggio. Visite, interventi, stato di salute e cartella clinica vengono caricati qui. Possono inserire in questa sezione i <span class="eviR">MASTER</span> ed i PG della <span class="eviG">SEZIONE MEDICA</span></li>
+<li><span class="eviY"><img src="TEMPLATES/img/interface/personnelInterface/alloggio.png" style="vertical-align:middle;"/> ALLOGGIO</span>: Contiene la descrizione dell'alloggio del personaggio</li>
+<li><span class="eviY"><img src="TEMPLATES/img/interface/personnelInterface/oggetti.png" style="vertical-align:middle;"/> INVENTARIO</span>: Contiene gli oggetti posseduti dal PG</li>
+<li><span class="eviY"><img src="TEMPLATES/img/interface/personnelInterface/modifica.png" style="vertical-align:middle;"/> MODIFICA</span>: Permette la modifica della scheda.</li>
+<li><span class="eviY"><img src="TEMPLATES/img/interface/personnelInterface/imaster.png" style="vertical-align:middle;"/> MASTER</span>: Il panello master per la gestione dei personaggi. Permette ai master di modificare i parametri di loro competenza.</li>
+<li><span class="eviY"><img src="TEMPLATES/img/interface/personnelInterface/admin.png" style="vertical-align:middle;"/> ADMIN</span>: Il panello admin per la gestione dei personaggi.</li>
+</ul></p>
+
+<p class="ordinaryText">I tasti superiori di destra identificano il ruolo OFF del giocatore:
+<ul><li><span class="eviLG"> <img src="TEMPLATES/img/interface/personnelInterface/player_on.png" alt='Giocatore' style="vertical-align:middle;"/> GIOCATORE ABILITATO</span></li>
+<li><span class="eviLG"> <img src="TEMPLATES/img/interface/personnelInterface/player_lock.png" alt='Ban' style="vertical-align:middle;"/> GIOCATORE BANNATO</span></li>
+<li><span class="eviLG"> <img src="TEMPLATES/img/interface/personnelInterface/ijuniormaster.png" alt='Junior Master' style="vertical-align:middle;"/> JUNIOR MASTER ATTIVO</span></li>
+<li><span class="eviLG"> <img src="TEMPLATES/img/interface/personnelInterface/imaster.png" alt='Master' style="vertical-align:middle;"/> MASTER</span></li>
+<li><span class="eviLG"> <img src="TEMPLATES/img/interface/personnelInterface/globalmaster.png" alt='Master Globale' style="vertical-align:middle;"/> MASTER GLOBALE</span></li>
+<li><span class="eviLG"> <img src="TEMPLATES/img/interface/personnelInterface/admin.png" alt='Amministratore' style="vertical-align:middle;"/> AMMINISTRATORE</span></li>
+</ul></p>
+<p class="subTitler">Il D-Padd</p>
+
+<p style="text-align:center;"><img src="http://miki.startrekfederation.it/cdbv/paddmex.png" alt='' style="vertical-align:middle;"/></p>
+
+<p class="ordinaryText">Il dpadd permette di scambiare messaggi con gli altri personaggi. L'interfaccia &egrave; intuitiva, e dalla scheda principale sono disponibili i padd <span class="eviY">INVIATI</span> e <span class="eviG">RICEVUTI</span>. &Egrave; possibile inviare un padd con il tasto <span class="eviG">NUOVO</span> e compilando i campi. (&Egrave; anche possibile inviare a pi&ugrave; destinatari separando i loro nomi con una virgola, nel campo "A").</p>
+
+<p class="subTitler">Il Comunicatore</p>
+
+<p style="text-align:center;"><img src="http://miki.startrekfederation.it/cdbv/comm.png" alt='' style="vertical-allign:middle;"/></p>
+
+<p class="ordinaryText">Il comunicatore &Egrave; uno strumento a disposizione del vostro personaggio per le comunicazioni tra una location ed un altra del gioco.</p>
+
+<p class="subTitler">Le Charts</p>
+
+<p style="text-align:center;"><img src="http://miki.startrekfederation.it/cdbv/charts.png" alt='' style="vertical-align:middle;"/></p>
+
+<p class="ordinaryText">Le charts sono uno strumento di cartografia stellare che permette ai giocatori di trovare rapidamente la posizione delle navi e dei pianeti attualmente caricati nel databse di Star Trek: Federation. La prima interfaccia che appare &Egrave; sempre quella del settore cartografico in cui ti trovi. In alto a destra trovi una funzione ricerca che ti permette di arrivare direttamente sulla mappa che interessa la tua ricerca. Il tasto <span class="eviY">PRINCIPALE</span> ti porta alla mappa dei quadranti. In questa troverai una mappa pi&ugrave; larga con una griglia che identifica i settori cartografici. Ogni settore cartografico &Egrave; composto da un appiattimento di numerosi livelli di nove settori stellari ciascuno a causa della realizzazione su due dimensioni. Premendo un settore cartografico verrai portato ad una mappa del tutto simile a quella apparsa all'apertura. Premendo invece i tre tasti sotto al motore di ricerca ti sposterai alla mappa globale di quei quadranti.</p>
+
+</div>
+<div id="outer6" class="outerDiv"  align="center">
+
+<p class="ordinaryText">Ogni Chat di Star Trek Federation presenta &egrave; formata dal <b>riquadro centrale</b>, che contiene la chat vera e propria, dalla <span class="eviY">BARRA DI CHAT</span> inferiore che permette di inviare azioni e dialoghi, e da alcuni tools specifici che variano ambiente per ambiente. Tramite la barra di chat &egrave; possibile inviare dialogo sotto forma di <span class="eviB">DISCORSO DIRETTO</span> e <span class="eviY">AZIONI</span>. Un'azione pu&ograve; essere per esempio l'ingresso in una stanza, l'operare ad una consolle, l'eseguire scansioni con uno strumento di analisi. L'azione deve essere ben definita, esplicativa e chiara, per permettere a tutti, anche a chi non ha letto tutta la chat, di capire cosa il vostro personaggio sta cercando di fare.</p>
+
+<p class="ordinaryText">Per inviare dialogo in forma di discorso diretto &egrave; sufficiente scrivere nella barra di chat e premere il pulsante invia. Per esempio inserendo: "Buona sera a tutti...", in chat comparir&agrave;:<br /><img src="http://miki.startrekfederation.it/cdbv/chatEx1.png" /></p>
+
+<p class="ordinaryText">Per inviare un'azione occorre anteporre il segno <span style="font-size:17px; font-weight:bold;">+</span> a quanto inserito nella barra di chat. Per esempio inserendo: "+ Entra nella stanza", in chat comparir&agrave;:<br /><img src="http://miki.startrekfederation.it/cdbv/chatEx2.png" /></p>
+
+<p class="ordinaryText">Azioni miste: &Egrave; possibile inserire discorso diretto nelle azioni e azioni nel discorso diretto utilizzando le parentesi acute: <span style="color:orange;">&lt;</span> e <span style="color:orange;">&gt;</span>. Concettualmente queste due forme sono equivalenti:<br /><br />
+<img src="http://miki.startrekfederation.it/cdbv/chatEx3.png" /></p>
+
+<p class="ordinaryText">Questa terza forma &egrave; <b>quella pi&ugrave; usata</b>, perch&eacute; permette di descrivere contemporaneamente sia nelle azioni che nel dialogo (e quindi anche nel tono di voce, nell'espressivit&agrave; facciale...) cosa il nostro personaggio fa, come si pone e che 'modi' usa per parlare.</p>
+
+<p class="ordinaryText"><span class="eviR">CONSIGLIO:</span> In caso di azioni composte prevalentemente composte da parlato è consigliabile usare la forma "discorso diretto". In caso di azioni prevalentemente composte da azione, è consigliabile usare la forma "+".</p>
+
+<p class="ordinaryText"><span class="eviR">NOTA IMPORTANTE:</span> l'azione <span class="eviB">NON DEVE</span> essere autoconclusiva, cio&egrave; non deve contenere palesemente o implicitamente l'esito dell'azione stessa. Questo per permettere agli altri giocatori di impostare l'azione del proprio personaggio in modo non vincolato. Ad esempio se il vostro personaggio intende offrire un bicchiere di vino ad un altro l'azione non dovr&agrave; essere del tipo:
+
+<p class="chatAction">Tizio da a Caio un bicchiere di vino e guarda mentre lo beve.</p>
+
+perch&eacute; quest'azione fornisce gi&agrave; indicazione su come gli eventi proseguiranno da li in avanti. Piuttosto sarebbe pi&ugrave corretto scrivere:
+
+<p class="chatAction">Tizio porge a Caio un bicchiere di vino, osservandolo.</p>
+
+In questo modo Caio avr&agrave; la possibilit&agrave; di <b>decidere se accettare o meno</b> il bicchiere di vino e se berlo oppure no.
+
+Le azioni <span class="eviB">NON DEVONO</span> contenere i pensieri dei personaggi, a meno che non si stia giocando specificatamente con PG telepati (in questo caso riferirsi alla guida della specie del PG) o empati (in questo caso si pu&ograve; descrivere lo stato empatico, cio&egrave; le emozioni e gli stati d'animo del PG, direttamente nell'azione.</p>
+
+<p class="ordinaryText"><span class="eviG">SI</span>: Tizio mormora e mugugna qualcosa di impercettibile, come a sottolineare un certo disagio.<br />
+<span class="eviR">NO</span>: Tizio mormora e mugugna qualcosa di impercettibile, pensando che Caio sia un imbecille.<br />
+<span class="eviR">NO</span>: Tizio mormora e mugugna qualcosa di impercettibile, come se ritenesse che Caio &egrave; un idiota.<br />
+<span class="eviR">NO</span>: Tizio entra nella stanza e saluta tutti quanti &lt;Buona sera&gt; mentre in realt&agrave; pensa che sarebbe meglio non dire nulla.<br />
+<span class="eviG">SI</span> <span style="color:#aaa">(in caso di PG empati presenti)</span>: Tizio entra nella stanza e saluta tutti quanti &lt;Buona sera&gt;, empaticamente a disagio per la situazione difficile in cui si trova, alla presenza di persone con cui non &egrave; a suo agio.<br />
+Ovviamente il lato empatico dell'azione lo coglieranno soltanto i PG empati o telepati (i Betazoidi ad esempio).</p>
+<p class="subTitler">Turnazione e Organizzazione del flusso di gioco</p>
+<p class="ordinaryText">Durante le giocate che implicano la presenza di esiti master, è richiesto ai giocatori di organizzare il flusso di gioco su un sistema di turni. L'argomento è meglio specificato nella apposita sezione del regolamento di gioco <a href="javascript:void(0)"  class="interfaceLink"  onclick="dbOpenToTopic(259)">(Clicca Qui)</a></p>
+
+
+<p class="subTitler">Lunghezza e Stile delle azioni</p>
+<p class="ordinaryText">Quanto deve essere lunga l'azione sta al player giudicarlo. Star Trek Federation &egrave; un gioco di fantascienza, con dinamiche abbastanza veloci soprattutto per quanto riguarda le giocate 'di quest'. Il nostro consiglio &egrave; di mantenere una lunghezza delle azioni non eccessiva, a beneficio del dinamismo di gioco.</p>
+
+</div>
+<div id="outer7" class="outerDiv"  align="center">
+
+<p class="subTitler">Le Quest e i Master</p>
+
+<p class="ordinaryText">Periodicamente in gioco vengono organizzati filoni di gioco chiamati <span class="eviR">"QUEST"</span>. Una quest &egrave; una trama che vede una serie di giocate facenti parte di <b>storia comune</b>. Un esempio semplice potrebbe essere una quest esplorativa, dove un gruppo di personaggi viene incaricato di esplorare o mappare un'area di spazio. Le quest sono la linfa vitale del gioco, e caratterizzano il progredire dell'ambientazione.</p>
+
+<p class="ordinaryText">In gioco esistono alcuni giocatori chiamati <span class="eviR">"MASTER"</span>. Un master &egrave; un giocatore esperto che direziona il gioco. I master organizzano le quest e coordinano il gioco libero, si pongono come guide per i nuovi giocatori e supportano i gestori nella pianificazione delle attivit&agrave; di gioco. Ruolo fontamentale del master, inoltre, &egrave; quello di fornire gli <span class="eviY">"ESITI"</span> (detti anche azioni master) agli altri giocatori quando questi svolgono un'azione che richieda un esito master. Vediamo subito un esempio.</p>
+
+<p class="ordinaryText">Immaginiamo che due giocatori, Tizio e Caio, stiano combattendo con il Phaser. Entrambi sparano. Se non sono dei power player eviteranno di costruire azioni autoconclusive, ma lasceranno spazio di reazione all'altro giocatore. Quindi piussoto che scrivere cose come:</p>
+
+<p class="chatAction" style="text-align:left;margin-left:20px; color:#207cb7">Tizio prende il phaser e spara a Caio colpendolo in pieno petto.</p>
+<p class="chatAction" style="text-align:left;margin-left:20px; color:#fbc712">Caio prendei l phaser e spara a Tizio ferendolo ad un braccio</p>
+
+<p class="ordinaryText">(che &egrave; vietato dal regolamento, proprio perch&eacute; trattasi di azione autoconclusiva), scriveranno:</p>
+
+<p class="chatAction" style="text-align:left;margin-left:20px; color:#207cb7">Tizio prende il phaser, mira accuratamente al petto di Caio e preme il grilletto per fare fuoco.</p>
+<p class="chatAction" style="text-align:left;margin-left:20px; color:#fbc712">Caio estrae rapidamente il phaser e, mirando a Tizio, fa fuoco.</p>
+
+<p class="ordinaryText">Queste due azioni <b>non sono autoconclusive</b>, e <b>non conengono l'esito</b>. Non lasciano intendere se Tizio ha centrato Caio o se Caio ha centrato Tizio. In questi casi sar&agrave; un Master a fornire l'esito dell'evento, con una scritta rossa di questo tipo:</p>
+
+<p class="masterAction">Tizio viene colpito all'addome e avverte un intenso dolore dovuto alla bruciatura da Phaser. Cade a terra, stordito.</p>
+
+<p class="ordinaryText">Il master &egrave; <b>imparziale</b> e giudicher&agrave; quale delle alternative possibili &egrave; pi&ugrave; probabile, basandosi per esempio sui Background di Tizio e di Caio, e sulla qualit&agrave; descrittiva dell'azione. In caso i giocatori avessero perplessit&agrave; su un esito fornito dal master possono:<ul><li>Chiedere spiegazioni al Master stesso.</li><li>Chiedere spiegazioni ad un Admin del gioco, o, in assenza, ad un Senior Master (un master anziano).</li></ul>
+
+Talvolta è possibile che il master decida di inviare una masterata ad un solo giocatore, per evitare di rovinare la sorpresa agli altri giocatori che assistono o partecipano alla giocata. Queste masterate sono di colore giallo e nell'angolo a destra sarà visibile il giocatore che riceve la masterata.<br />
+
+<div style="text-align:center;"><img src="http://miki.startrekfederation.it/matDispense/guida/maspecific.PNG" /><br /></div>
+
+I Master di gioco, inoltre, coordinano le giocate e garnatiscono il rispetto del regolamento di gioco.</p>
+
+<p class="ordinaryText"><span class="eviR">IMPORTANTE</span>: Quando in gioco compare una <b>scritta master</b> i giocatori sono tenuti, per regolamento, a rispettarla e a giocarsi le conseguenza che derivano da quell'esito. Il rifiuto di un player di conformarrsi ad un'azione master <b>non &egrave; contemplato</b>. Qualora ci fossero perplessit&agrave;, potete utilizzare i sussurri per chiedere spiegazioni sulle scelte del master (magari a fine giocata cos&igrave; da non bloccare l'ON). In caso di eventi pi&ugrave; gravi, o qualora il giocatore ritenesse che il master ha agito in maniera ingiusta, gli Admin sono a disposizione del giocatore stesso per chiarire, ed eventualmente prendere provvedimenti (anche contro il master che ha sbagliato eventualmente, se si riscontrasse una violazione del regolamento).</p>
+
+<p class="subTitler">Lo Staff di Star Trek: Federation</p>
+
+<div style="padding-bottom:5px;text-align:center;"><hr align="center" color="#999" size="1" width="230" /></div>
+
+<p class="ordinaryText" style="margin-left:15px;"><span style="font-size:18px; color:#FFCC00">Amministratori (o Gestori)</span> L'amministratore ha un ruolo di gestione e decisione. Gli amministratori gestiscono gli aspetti amministrativi della Land, la struttura e le modalit&agrave; di gioco. Gestiscono il regolamento di gioco, approvano le Quest. Gli amministratori partecipano attivamente alle spese di gestione di Star Trek Federation.</p> 
+
+<p class="ordinaryText" style="margin-left:15px;"><span style="font-size:18px; color:#e30505">Master Globali</span> Un global master &egrave; un master con esperienza che coordina il lavoro dei master. &Egrave; una figura duplice, a met&agrave; fra il master (che ha incarichi pi&ugrave; radicati nell'ON, nella gestione delle quest e nella creazione di gioco) e l'amministrazione (che ha competenze anche decisionali). Il Global Master supporta il lavoro degli amministratori, &egrave; consultato dagli amministratori per le trame delle quest complesse. Coordina lo sviluppo delle quest, organizza il gioco libero. Assiste l'amministrazione nei ruoli tecnici di assegnazione di incarico, promozione, variazione di grado, assegnazione di brevetti e lauree. Funge da moderazione e si occupa del mantenimento un'atmosfera di gioco tranquilla e pacifica evitando che le discussioni degenerino e facendo rispettare le varie norme contenute nel regolamento.  Il Global Master organizza il <span class="eviY"><b>[SIZE=1]COMPUTER DI BORDO[/SIZE]</b></span>, gestendo la priorit&agrave; delle cartelle, definendo quelle importanti e gli annunci.</p>
+
+<p class="ordinaryText" style="margin-left:15px;"><span style="font-size:18px; color:#46a8f3">Master Ordinari</span> I master sono la spina dorsale della gestione. Il master ha compiti ON che spaziano dalla creazione del gioco libero (momenti al bar, riparazioni, gioco di sezione, manutenzione e diagnostiche, visite mediche di routine etc...) alla scrittura ed esecuzione delle quest. </p>
+
+In sostanza il master:
+<ul><li>Scrive e propone le quest;</li><li>Mastera le Quest ed i PnG necessari allo svolgimento della stessa;</li><li>Coordina il gioco all'interno di una specifica area di gioco (Comando e Navigazione, Tattica e Sicurezza, Ingegneria, Scientifica, Medica);</li><li>Nella sua sezione di competenza si occupa del gioco interno: si prende cura dei pg/player della sezione e crea gioco per loro;</li><li>Sviluppa gioco tecnico per la sezione di competenza;</li></ul>
+
+<p class="ordinaryText" style="margin-left:15px;">I master guidano i nuovi iscritti durante le prime fasi del gioco ed illustrano loro le funzionalit&agrave; e le meccaniche di base (insieme comunque a tutti gli altri utenti che volessero essrere d'aiuto). I master, inoltre, sono il primo livello di controllo e delle chat di gioco. In caso di situazioni che lo richiedessero intervengono segnalando all'amministrazione comportamenti scorretti e violazioni del regolamento e vigilano sulla buona attuazione dello stesso. [I]Il master che non ha presentato quest, o spunti di quest, da olo o in collaborazione con altri master, per più 60 giorni viene temporaneamente privato del suo ruolo ordinario (diventa un Junior Master). Fanno eccezione i casi di assenza prolungata se debitamente segnalati alla gestione.[/I]</p>
+
+<p class="ordinaryText" style="margin-left:15px;"><span style="font-size:18px; color:#46a8f3">Junior Master</span> I Junior Master svolgono una funzione di supporto allo Staff di Star Trek: Federation. Sono addetti alla creazione di gioco di sezione e libero (intraquest, di concerto con il master competente, o extraquest). Assistono i singoli player e offrono consigli per un gioco più attinente al canon. Incrementano l'ambientazione globale in coordinazione con gli altri membri della gestione cercando di soddisfare le esigenze dell'utenza anche nel free role. Un master di supporto, di norma, non sviluppa o porta avanti quest (ma non è vietato che lo faccia coordinandosi con un master ordinario). Un master di supporto ha facoltà di portare avanti in autonomia delle proprie miniquest, concordando con la Gestione, o i Master Globali, le tempistiche e gli svolgimenti. I Junior Master non accedono alla sezione del CDB riservata ai Master Ordinari.</p>
+
+</div>
+<div id="outer8" class="outerDiv"  align="center">
+<p class="subTitler">La Carriera Militare</p>
+<p class="ordinaryText">La carriera militare prevede l'arruolamento nella <span class="eviB">FLOTTA STELLARE</span> tramite imbarco diretto. I membri della Flotta Stellare sono impiegati sulle navi, nelle installazioni militari e sui pianeti. Dopo un iniziale colloquio valutativo ed una visita medica di imbarco, il tuo personaggio sar&agrave; arruolato con il grado di Marinaio Recluta.</p>
+
+<p class="ordinaryText">Dopo un periodo di tirocinio in tutte le sezioni della durata non inferiore a <b>1 settimana</b> e non superiore a <b>2 settimane</b> (influiscono sui tempi i parametri specifici per le promozioni in gioco) il personaggio potr&agrave; scegliere se:
+<ul><li>Passare al grado di <span class="eviLG">MARINAIO SCELTO</span> (uniforme grigia, senza sezione) e continuare il tirocinio intersezione. Dopo un periodo della durata non inferiore alle <b>2 settimane</b> e non superiore ad <b>un mese</b>, il personaggio dovr&agrave; scegliere la sezione e verr&agrave; promosso al grado di Capo di 3a Classe.</li>
+<li>Scegliere una sezione e passare al grado di <span class="eviB">MARINAIO SCELTO</span> di sezione. Dopo un periodo della durata non inferiore alle <b>2 settimane</b> e non superiore ad un <b>un mese</b>, il personaggio verr&agrave; promosso al grado di Capo di 3a Classe.</li></ul></p>
+
+<p class="subTitler">La Flotta Stellare</p>
+
+<p class="ordinaryText">La <span class="eviB">FLOTTA STELLARE</span>, l'organizzazione presso la quale il vostro personaggio prester&agrave; servizio in caso di carriera militare, &egrave; organizzata in tre aree dipartinentali. Ciascuna area &egrave; a sua volta suddivisa in Sezioni. Le sezioni sono, in totale, cinque. Ciascuna sezione &egrave; poi organizzata in sottodipartimenti, ognuno con la sua specifica funzione.</p>
+
+<p class="ordinaryText" style="margin-left:20px;"><span class="eviR">AREA COMANDO-LOGISTICA</span>
+
+    &Egrave; parte di questa area il personale della sezione <span class="eviR">COMANDO E NAVIGAZIONE</span>. E' il dipartimento che si occupa dell'organizzazione, della gestione burocratica, logistica, amministrativa della Flotta. Ne fanno parte anche i timonieri, gli addetti alle comunicazioni e al controllo volo, i diplomatici ed i membri della magistratura militare. L'uniforme del personale di questa area dipartimentale &egrave; di colore <span class="eviR">ROSSO</span>.</p>
+
+<p class="ordinaryText" style="margin-left:20px;"><span class="eviY">AREA OPERAZIONI</span>
+
+   &Egrave; l'area operativa della Flotta. Suddivisa nelle sezioni <span class="eviY">TATTICA</span> e <span class="eviY">INGEGNERIA</span>, comprende il personale addetto all'esecuzione e pianificazione di attivit&agrave; concrete per il buon funzionamento dei sistemi e delle strategie delle strutture della Flotta. L'uniforme del personale di questa area dipartimentale &egrave; di colore <span class="eviY">GIALLO OCRA</span>.</p>
+
+<p class="ordinaryText" style="margin-left:20px;"><span class="eviG">AREA SCIENTIFICA</span>
+
+   &Egrave; l'area dedita alla ricerca, alla produzione di conoscenze teoriche e pratiche ricavate dallo studio di tutte le scienze. Tramite la sezione medica si occupa anche di fornire assistenza e servizi sanitari al personale della Flotta. E' divisa nelle sezioni <span class="eviG">SCIENTIFICA</span> e <span class="eviG">MEDICA</span>. L'uniforme del personale di questa area dipartimentale &egrave; di colore <span style="color:#008080;" class="eviG">VERDE TEAL</span>.</p>
+
+<p class="subTitler">Carriera</p>
+   
+<p class="ordinaryText">Il personale della <span class="eviB">FLOTTA STELLARE</span> &egrave; organizzato nelle categorie di: <span class="eviLG">MARINAI</span>, <span class="eviY">SOTTUFFICIALI</span>, <span class="eviR">UFFICIALI</span>.</p>
+
+<p style="text-align:center;" align="center"><img src="http://miki.startrekfederation.it/cdbv/elenco-gradi.png" /></p>
+
+<p class="ordinaryText">Il passaggio da Marinaio a Sottufficiale &egrave; subordinato alla sola <b>presenza attiva in gioco</b>. Bene o male, tutti i giocatori attivi raggiungono il grado di Capo di 3a Classe nei tempi previsti.</p>
+
+<p class="ordinaryText">Il passaggio da Sottufficiale a Ufficiale prevede il raggiungimento del grado di <span class="eviLG">CAPO SPECIALISTA</span>. I sottufficiali che avessero raggiunto tale grado possono sostenere il passaggio alla categoria ufficiali. Il sottufficiale deve essere <span class="eviG">PROPOSTO</span> per il passaggio di grado da un ufficiale di grado  non inferiore a <span class="eviR">TENENTE</span>. Tale ufficiale seguir&agrave; l'iter formativo del sottufficiale e, al termine del periodo riferir&agrave; al <b>Comandante dell'Unit&agrave;</b> circa i risultati ottenuti. Il Comandante dell'Unit&agrave;, o chi da esso delegato, provveder&agrave; a promuovere il sottufficiale in caso i risultati ottenuti siano sati soddisfacenti. In caso contrario il sottufficiale torner&agrave; al grado precedente.</p>
+
+<p class="ordinaryText">Il passaggio di grado si svolge con le seguenti modalit&agrave;:</p>
+
+<p class="ordinaryText"><ul><li>I <span class="eviY">CAPI SPECIALISTI</span> e i <span class="eviY">CAPI SENIOR</span> proposti come indicato sopra verranno nominati <span class="eviR">ALLIEVO GUARDIAMARINA</span> per un periodo della durata minima di <b>un mese</b> e massima di <b>quarantacinque giorni</b>. Assumeranno incarichi e responsabilit&agrave; del gradi di <b>Guardiamarina</b> e saranno sottoposti a valutazione periodica del loro operato. Al termine del corso gli allievi giudicati idonei verranno promossi al grado di Guardiamarina. Per la promozione &egrave; richiesto agli allievi di aver agito da comandanti di missione almeno una volta durante il corso.</li>
+
+<li>I <span class="eviY">CAPI MASTER</span> ed i <span class="eviY">CAPI MASTER con incarichi speciali</span> proposti come indicato sopra verranno nominati <span class="eviR">ALLIEVO SOTTOTENENTE</span> per un periodo della durata minima di <b>un mese</b> e massima di <b>due mesi</b>. Assumeranno incarichi e responsabilit&agrave; del grado di <b>Sottotenente</b> e saranno sottoposti a valutazione periodica del loro operato. Al termine del corso gli allievi giudicati idonei verranno promossi al grado di Sottotenente.  Per la promozione &egrave; richiesto agli allievi di aver agito da comandanti di missione almeno due volte durante il corso.</li></ul></p>
+
+<p class="ordinaryText">In caso di cambio di sezione tra la carriera sottufficiali e la carriera ufficiali, &egrave; richiesto che gli allievi sostengano un apposito esame integrativo, coordinato da un ufficiale anziano della sezione di destinazione dell'allievo.</p>
+
+<p class="subTitler">La Carriera Civile</p>
+
+<p class="ordinaryText">La carriera civile rappresenta un'alternativa a quella militare e consente di lavorare in vari settori. Tieni per&ograve; presente che i civili, a meno di concessioni specifiche da parte degli ufficiali in comando di unit&agrave; e stazioni spaziali, <span style="color:red">non possono avere accesso</span> alle aree ristrette e critiche delle suddette installazioni (<span style="color:#aaa">Plancia, Sala macchine, etc...</span>) Pertanto, nonostante ai civili si aprano diversi orizzonti di gioco, alcune opportunit&agrave; rimarranno chiuse per chi sceglie la carriera Civile. Se sei comunque interessato/a a questo tipo di carriera i master troveranno senza dubbio il modo di coinvolgerti nelle giocate.</p>
+
+<p class="ordinaryText">Star Trek Federation si impegna, per il futuro, e compatibilmente con i numeri di utenti, a creare alternative di gioco anche per chi sceglie la strada civile. Allo stato attuale, i settori civili disponibili sono:</p>
+
+<ul><li>Ristorazione: camerieri, baristi, addetti ai servizi di bordo, cuochi etc...</li>
+<li>Ricerca Scientifica Civile - Ricerca Medica Civile</li>
+<li>Giornalismo</li>
+<li>Diplomatici</li></ul>
+
+<p class="ordinaryText">&Egrave; comunque necessario che il personaggio abbia un background che giustifichi il suo essere su una nave della Flotta (un progetto particolare, una serie di esperimenti, un partneriato con il dipartimento ricerca della Flotta etc..) &Egrave; possibile in ogni momento passare da una carriera all'altra, giustificando in ON le motivazioni, eventualmente anche cambiando personaggio. Contatta un amministratore per questa eventualit&agrave;.</p>
+
+</div>
+<div id="outer9" class="outerDiv"  align="center">
+<p class="subTitler">Cose da non fare</p>
+
+<p class="ordinaryText">Sono da evitare, nei contesti ON:<ul>
+<li>Abbreviazioni da SMS, k al posto delle h</li>
+<li>Dialettismi (a meno che il vostro PG non abbia una ragione per usarli, scrivete in Italiano quanto pi&ugrave; possibile corretto)</li>
+<li>Imprecazioni, bestemmie, volgarit&agrave; esplicite</li>
+<li>Fumo: in ON il fumo e la droga sono stati abbandonati da umani e atre specie evolute. Niente sigari & co.</li></ul></p>
+
+<p class="ordinaryText">Sono vietati, in tutti i contesti di gioco:<ul>
+<li>Riferimenti a fatti politici OFF, propaganda, ideologie e quant'altro concerne la politica.</li>
+<li>Riferimenti o inneggiamenti a fatti di violenza, discriminazione razziale, sessuale, politica e sociale di ogni tipo.</li>
+<li>Riferimenti espliciti allo scaricamento di materiale pirata di qualunque genere, e alla violazione del diritto d'autore.</li></ul></p>
+
+<p class="ordinaryText">Sono fortemente consigliati, in tutti i contesti di gioco:<ul>
+<li>L'autoregolamentazione e l'automoderazione, nel rispetto del buon senso comune (Netiquette)</li>
+<li>La tenuta di un linguaggio consono alla situazione.</li>
+<li>Il tenere presente che Star Trek Federation <span class="eviG">CONSENTE</span> l'iscrizione agli utenti che abbiano superato il quattordicesimo anno di et&agrave;. Ci&ograve; include utenti minorenni.</li></ul></p>
+
+<p class="subTitler">Morte o Cambio del personaggio</p>
+
+<p class="ordinaryText">In Star Trek: Federation, al verificarsi di particolari condizioni in quest o extra-quest, è possibile che il personaggio subisca gravi ferite invalidanti o che muoia a seguito di ferite, scontri, esplosioni od altre situazioni gravi. La morte del PG è sempre subordinata alla comunicazione del decesso da apposito esito dei master (non può avvenire perché il giocatore decide in autonomia di cessare la vita del personaggio). <b>I master sono autorizzati a masterare eventi che conducono a gravi ferite o morte solo previa comunicazione alla gestione (amministratori)</b>.</p>
+
+<p class="ordinaryText">Il giocatore che dovesse decidere di abbandonare il proprio PG (trasferimento, cambio di vita, matrimonio, gravidanza) e volesse acquisirne un altro è soggetto al regolamento per il cambio volontario del personaggio (consultare la sezione relativa ai FP per le soglie di cambio). Nella condizione in cui venisse concesso un personaggio sostitutivo di pari grado (livello utente Platinum), l'assegnazione del nuovo incarico non è in alcun modo funzione dell'incarico precedentemente ricoperto (Es: Luigi ha un tenente comandante a capo della sezione Ingegneria. Decide di cambiare personaggio e ottiene un altro PG di grado pari o inferiore, a bordo della stessa unità o differente. L'incarico di Capo Ingegnere può quindi essergli riconfermato oppure assegnato ad altro personaggio, come ad esempio il precedente vice capo sezione). In caso il giocatore  fosse costretto dagli eventi (morte, imprigionamento, scomparsa...) legati alla quest all'abbandono del persoanggio, ha suo diritto ottenere un nuovo PG dello stesso grado del PG 'scomparso', o di un grado inferiore nelle medesime modalità di cui sopra. In tutti i casi in cui il cambio di personaggio includesse anche un cambio di sezione, il grado massimo ottenibile è pari al grado immediatamente inferiore a quello precedemente posseduto. Ciò per favorire il colmarsi di lacune relative al gioco differente fra una sezione e l'altra. Il trasferimento in toto o in parte del corredo di brevetti, medaglie, note e lauree verso il PG di nuova acquisizione è subordinato all'approvazione della gestione. NB: L'abilitazione al comando non può essere ottenuta per scambio di brevetti durante il transito fra un PG ed uno nuovo.</p>
+
+<p class="subTitler">Doppi PG</p>
+
+<p class="ordinaryText">I doppi PG creati su iniziativa dei singoli utenti che si iscrivono pi&ugrave; di una volta sono vietati. Star Trek Federation utilizza un sistema di controllo degli accessi che permette agli amministratori di controllare che il regolamento in materia di doppi sia rispettato. &Egrave; possibile l'utilizzo di doppi PG e di PNG (Personaggi Non Giocanti) solo con l'approvazione degli amministratori.</p>
+
+<p class="subTitler">PnG Assegnati</p>
+
+<p class="ordinaryText">Ad un giocatore può essere assegnato l'utilizzo di un personaggio non giocante, allo scopo di coprire temporaneamnete un incarico. (formare personale, creare situazioni di gioco...). Tali personaggi non giocanti sono identificati dalla fascia "PNG" In scheda, non ottengono punti abilità, ed hanno una scheda ablità assegnata arbitrariamente alla creazione del personaggio non giocante. I giocatori coinvolti nell'interpretazione del PnG vedranno assegnarsi i FP tramite assegnazione direta o differita (se l'identità del giocatore dovesse essere mantenuta nascosta) sulla scheda del proprio personaggio principale. </p>
+
+<p class="subTitler">Promozioni</p>
+
+<p class="ordinaryText">Le promozioni in Star Trek Federation permettono ai personaggi di <b><span style="color:#FFCC00">salire di grado</span></b>, acquisire maggiori responsabilit&agrave; e incarichi di maggiore rilevanza in gioco. La promozione pu&ograve; essere proposta dai master, viene approvata dagli amministratori o, in mancanza di essi e comunque su loro delega, da un master globale.</p>
+
+<p class="ordinaryText">E' ovvio che il grado riveste un ruolo importante ai fini del gioco: la gioia di vedere il nostro personaggio fare carriera &egrave; innegabile; ci&ograve; nonostante &egrave; bene ricordare che il buon giocatore sa giocarsi il personaggio, divertirsi e far divertire gli altri che giocano con lui/lei, indipendentemente dal grado in gioco. Tendenzialmente <span class="eviR">NON &Egrave;</span> buona pratica chiedere ai master quando il proprio PG sar&agrave; promosso. Il grado &egrave; un fattore dell'esperienza di gioco, ma ricordiamoci che non &egrave; l'unico. I giocatori che si dimostrano eccessivamente attaccati al grado del proprio personaggio e che chiedono con insistenza quando verranno promossi, verranno promossi molto pi&ugrave; lentamente.</p>
+
+<p class="ordinaryText">Nella promozione influiscono la presenza in gioco, la qualit&agrave; del gioco, la seriet&agrave; con cui si prendono le responsabilit&agrave; ON del personaggio, la capacit&agrave; di riconoscere ON ed OFF e di evitare il metagioco, il rispetto del regolamento. Influiscono anche delle tempistiche minime definite dall'amministrazione.</p>
+
+<p class="ordinaryText"><span class="eviY">NOTA</span>: Ricordando la separazione ON / OFF &egrave; bene rimarcare che un giocatore il cui personaggio ha un grado alto non &egrave; n&eacute; pi&ugrave; o meno 'importante' di un giocatore di grado pi&ugrave; basso. E' sicuramente un giocatore con pi&ugrave; esperienza, ma ai fini del rispetto del regolamento, e della questione 'diritti-responsabilit&agrave;-doveri' conta esattamente come tutti gli altri. Il grado del PG &egrave; un fattore esclusivamente ON.</p>
+
+<p class="ordinaryText" style="font-weight:bold; color:red;">L'Amministrazione si riserva il diritto di revocare l'account dei giocatori che non rispettassero il regolamento di gioco.</p>
+
+<p class="subTitler">Federation Points</p>
+
+<p class="ordinaryText">A seguito delle giocate, lo staff master potrà attribuire dei + ai giocatori, e lo staff admin potrà attribuire dei punti ai master (anche i master possono attribuire punti ai master).<br /></p>
+
+<p class="ordinaryText">Il punteggio delinea la quantità e la qualità partecipativa del giocatore (occhio: non del PG, ma proprio del giocatore). Posto che la gestione può attribuire punti anche al di fuori di questa tabella, indicativamente i master possono operare così:<br /></p>
+
+<p class="ordinaryText"><span class="eviY"><b>Gioco attivo</b></span><br />
+<span class="eviB"><b>1 FP - 10 FP</b></span> - Partecipazione in Quest<br />
+<span class="eviB"><b>1 FP - 5 FP</b></span> - Partecipazione (giocate One shot fuori quest con intervento di un master)<br />
+<span class="eviB"><b>2 FP</b></span> - Partecipazione (giocate Mini shot, free role. Assegnazione a discrezione del master (non tutte le Free Role ottengono punti)<br />
+<span class="eviB"><b>5 FP</b></span> - Organizzazione di una giocata One Shot (una singola sessione, per esempio serale).<br /></p>
+
+<p class="ordinaryText"><span class="eviY"><b>Scrittura materiale e dispense</b></span><br />
+<span class="eviB"><b> 20 FP</b></span> - Piccola integrazione alle dispense [almeno 10k caratteri];<br />
+<span class="eviB"><b> 50 FP</b></span> - Dispensa Completa [almeno 40k caratteri];<br /></p>
+
+<p class="ordinaryText"><span class="eviY"><b>Eventi in Gioco</b></span><br />
+<span class="eviB"><b> 2 FP</b></span> - Stesura di un Rapporto completo e preciso per una quest o giocata di sezione<br />
+<span class="eviB"><b> 1 FP</b></span> - Risposta ad un sondaggio OFF;<br /></p>
+
+<p class="ordinaryText">I <span class="eviR"><b>MASTER</b></span> ricevono punti in una maniera diversa (possono chiaramente ricevere punti se partecipano a quest di altri master comunque). I master ricevono infatti punti anche in base alle quest che dirigono.</p>
+
+<p class="ordinaryText">Una volta terminata la quest verrà lanciato un sondaggio della durata di 7 giorni in cui l'utenza potrà votare la qualità della quest in un range da 1 a 10, dove 1 è "scadente" e 10 è "oltre ogni aspettativa". Al termine del sondaggio, il master ottiene un numero di FP calcolato moltiplicando la media dei giudizi del sondaggio per il numero di sessioni di quest tracciate in calendario.</p>
+
+<p class="ordinaryText">In aggiunta al punteggio derivato dal sondaggio, gli admin, congiuntamente al global master possono assegnare un punteggio aggiuntivo fino a <span class="eviB"><b>20 FP</b></span>, prendendo atto del sondaggio e delle opinioni dell'utenza.</p>
+
+<p class="ordinaryText">I punti permangono in caso di cambio PG, secondo le modalità definite nel regolamento di Gioco.<br /> 
+I <span class="eviR"><b>PNG</b></span> non totalizzano o ottengono punti. </p>
+
+<p class="subTitler">Upgrade Points</p>
+
+<p class="ordinaryText">Ogni <span class="eviB"><b>100</b></span> FP vengono assegnati due punti di upgrade <span class="eviY"><b>2 UP</b></span> , per aumentare una caratteristica del personaggio. E' possibile accedere al pannello delle caratteristiche dalla scheda PG, sezione Brevetti, e cliccando sul tasto "+" verde.<span style="color:red; font-weight:bold;"> I punti vanno assegnati non appena possibile, e in caso, in caso contrario verranno cancellati al raggiungimento della soglia successiva (non è possibile avere più di <span class="eviY"><b>2 UP</b></span> da assegnare).</span></p>
+
+<p class="subTitler">Livelli</p>
+
+<p class="ordinaryText">In aggiunta, in base al tempo trascorso in gioco, nella scheda OFF sarà visibile il livello di gioco:</p>
+
+<ul><li><b><span style="color:#FFCC00">IRON</span></b>, pari a tre mesi di gioco</li><li><b><span style="color:#FFCC00">COPPER</span></b>, pari a sei mesi di gioco</li><li><b><span style="color:#FFCC00">BRONZE</span></b>, pari a nove mesi di gioco</li><li><b><span style="color:#FFCC00">SILVER</span></b>, pari ad un anno di gioco</li><li><b><span style="color:#FFCC00">GOLD</span></b>, pari ad un anno e mezzo di gioco</li><li><b><span style="color:#FFCC00">PLATINUM</span></b>, pari a due anni di gioco</li></ul>
+
+<p class="ordinaryText">All'ottenimento del livello <b><span style="color:#FFCC00">IRON</span></b> il giocatore è proponibile per l'incarico di Master.
+All'ottenimento del livello <b><span style="color:#FFCC00">BRONZE</span></b> il giocatore può fare richiesta di cambio del personaggio, perdendo il 50% dei punti FP, e perdendo due gradi.
+All'ottenimento del livello <b><span style="color:#FFCC00">SILVER</span></b> il giocatore può fare richiesta di cambio del personaggio, conservando i punti FP, perdendo il 30% dei punti e perdendo un grado.
+All'ottenimento del livello <b><span style="color:#FFCC00">PLATINUM</span></b> il giocatore può fare richiesta di cambio del personaggio, conservando i punti FP, i punti di abilità ed il grado.<br />
+Al cambio, i punti del vecchio personaggio concorreranno alla formazione di Upgrade Points (2 UP ogni 100 FP). In caso il numero di UP ottenuto dalla conversione sia inferiore a 14, 14 UP saranno comunque assegnati. In caso di cambio di PG per reiscrizione senza comunicazione alla gestione (riavvio della carriera) è possibile ottenere il 25% dei FP.</p>
+</div>
+
+		
+</div>
+
+</div>
+</div>
+</body>
+</html>

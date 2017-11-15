@@ -1,0 +1,127 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/padd.css?v=1.5.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
+	
+
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+
+	<script type="text/javascript">
+		function showSearch(){ jQuery('.warpField').css('display','none'); jQuery('#searcher').fadeIn(100);}
+		function alterwarp(){ jQuery('.warpField').css('display','none'); jQuery('#alterwarp').fadeIn(100);}
+		function showManualInput(){ jQuery('.warpField').css('display','none'); jQuery('#coordin').fadeIn(100);}
+		
+		jQuery(function() {
+			$( "#systemSearcher" ).autocomplete({
+			source: "ajax_searchPlace.php",
+			minLength: 2,
+			});
+		});
+	</script>
+	
+	<style type="text/css">
+		.ui-autocomplete {
+		max-height: 120px;
+		overflow-y: auto;
+		overflow-x: hidden;
+		padding-right: 15px;
+	}
+	
+	* html .ui-autocomplete {
+		height: 120px;
+	}
+	</style>
+	
+	<title>FEDERATION - STATO NAVE</title>	
+</head>
+
+<body style="background-color:black; overflow:hidden;">
+
+<div id="paddContainer">
+
+<div id="intestLeft">
+<a title="Principale" href="padd.php"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/padd.png" /></a><a title="Federation Tribune" href="padd.php?s=tr"><img class="iconelement" tal:attributes="src php:(tribuneNews == true) ? 'TEMPLATES/img/interface/paddInterface/tribune_news.png' : 'TEMPLATES/img/interface/paddInterface/tribune.png'" /></a><a title="Status Nave" href="padd.php?s=sh"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/nave.png" /></a><a title="Note" href="padd.php?s=no"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/note.png" /></a>
+</div>
+
+<div style="position:absolute; top:20px; right:350px; font-size:13px;">
+<form method="POST" tal:attributes="action string:service.php?warpSpeed=${place/placeID}" tal:condition="php:(stat == 'posizionata' && (place['placeType'] == 'Nave' || place['placeType'] == 'Navetta'))">
+	Curvatura: <input type="text" value="6" name="factor" style="margin-top:0px; text-align:center; height:15px; width:35px" /> <input type="submit" value="WARP" style="height:20px;"/>
+</form>
+</div>
+
+<div style="position:absolute; top:20px; right:20px; font-size:13px;" tal:condition="exists:limitrofi">
+<form method="POST" tal:attributes="action string:service.php?hangarize=${place/placeID}" tal:condition="php:(stat == 'posizionata')">
+	<select name="attracTo"><option tal:repeat="place limitrofi" tal:attributes="value repeat/place/key" tal:content="place" /></select> <input type="submit" value="ATTRACCA" style="height:20px;"/>
+</form>
+</div>
+
+<!-- De-Attracco -->
+<div style="position:absolute; top:20px; right:20px; font-size:13px;" tal:condition="php:(stat == 'attraccata')">
+<a tal:attributes="href string:service.php?exitHangar=${place/placeID}" class="interfaceLink">ESCI DALL'HANGAR</a>
+</div>
+
+<!-- Uscita Curvatura -->
+<div style="position:absolute; top:20px; background-color:black; left:170px; font-size:13px; margin-top:3px; z-index:11" tal:condition="php:(stat == 'curvatura')">
+<div id="questioner">ARRIVA A: <a href="javascript:showSearch();" class="interfaceLink">Cerca le Coordinate</a> | | <a href="javascript:showManualInput();" class="interfaceLink">Inserisci le coordinate</a> | |  <a href="javascript:alterwarp();" class="interfaceLink">Cambia</a></div>
+
+<form id="alterwarp" class="warpField" style="display:none;"  method="POST" tal:attributes="action string:service.php?warpSpeed=${place/placeID}">
+	Curvatura: <input type="text" value="6" name="factor" style="margin-top:0px; text-align:center; height:15px; width:35px" /> <input type="submit" value="CAMBIA" style="height:20px;"/>
+</form>
+
+<form id="searcher" class="warpField"  style="display:none;"  method="POST" tal:attributes="action string:service.php?punctualArriveTo=${place/placeID}">
+	Cerca: <input id="systemSearcher" name="systemSearcher" type="text" style="width:200px;" /><input style="margin-left:20px;" type="submit" value="ARRIVA" />
+</form>
+
+<form id="coordin" class="warpField"  style="display:none;"  method="POST" tal:attributes="action string:service.php?coorArriveTo=${place/placeID}">
+	Settore: Coordinate | X: <input type="text" name="coX" style="font-size:center; width:30px;" /> Y: <input type="text" name="coY" style="font-size:center; width:30px;" /> <input style="margin-left:20px;" type="submit" value="ARRIVA" /> 
+</form>
+
+</div>
+
+
+
+
+<div id="statusEdit" tal:attributes="class php:(user.pgSpecie=='Romulana') ? 'paddRomulanMain radiusBordered' : 'paddMain radiusBordered'" tal:condition="php:(modify==true)">
+		<div style="float:left; width:150px;"><img src="TEMPLATES/img/logo/${place/place_littleLogo1}" style="width:150px;" /></div>
+		<div style="margin-right:20px;  text-align:center; font-family:Arial; font-variant:small-caps; font-width:bold; margin-left:210px; height:100%;">
+			<p style="font-size:22px; margin:0px;" tal:content="place/placeName"/>
+			 </div>	
+	<form method="POST" tal:attributes="action string:service.php?updateStatus=&place=${place/placeID}">	
+		<div class="statusContainer radiusBordered" style="width:285px; left:30px; bottom:42px;">
+			<p style="text-align:center; font-size:14px; margin:2px;">STATO DEI SISTEMI</p>
+			<table><tbody>
+			<tr tal:repeat="stat statuses"><td tal:content="php:labels[repeat.stat.key]">SCAFO</td><td style="width:120px; text-align:right;"><input type="text" tal:attributes="name repeat/stat/key ; id repeat/stat/key ; value stat" style="text-align:center; font-weight:bold; padding-left:2px; width:30px; height:13px;" />
+			</td></tr>
+			<tr><td colspan="2" style="text-align:center;"><input type="submit" value="AGGIORNA" /></td></tr>
+			</tbody></table>
+		</div>
+		
+		<div style="width:225px; left:360px; bottom:276px;" class="statusContainer radiusBordered">
+			<table><tbody>
+				<tr>
+					<td style="width:100px;">CONDIZIONE</td>
+					<td colspan="3"><a tal:attributes="href string:service.php?setAlert=red&place=${place/placeID}"><img src="TEMPLATES/img/interface/paddInterface/redAlert.gif" /></a>&nbsp;&nbsp;&nbsp;<a tal:attributes="href string:service.php?setAlert=yellow&place=${place/placeID}"><img src="TEMPLATES/img/interface/paddInterface/yellowAlert.gif" /></a>&nbsp;&nbsp;&nbsp;<a tal:attributes="href string:service.php?setAlert=green&place=${place/placeID}"><img src="TEMPLATES/img/interface/paddInterface/greenAlert.gif" /></a>&nbsp;&nbsp;&nbsp;<a tal:attributes="href string:service.php?setAlert=blue&place=${place/placeID}"><img src="TEMPLATES/img/interface/paddInterface/blueAlert.gif" /></a>&nbsp;&nbsp;&nbsp;<a tal:attributes="href string:service.php?setAlert=grey&place=${place/placeID}"><img src="TEMPLATES/img/interface/paddInterface/greyAlert.gif" /></a></td>
+				</tr> 
+			</tbody></table>
+		</div>	
+		
+		<div>
+			<textarea  placeholder="Messaggio di stato" tal:content="place/note" name="note" cols="33" rows="8" style="padding:10px; width:215px; height:205px; left:360px; bottom:42px; font-size:11px;" class="statusContainer radiusBordered"/>
+		</div>
+		<!-- Hack geometrico XD -->
+		<div style="position:absolute; bottom:58px; left:327px; border-top:1px solid #444; height:1px; width:33px;" />
+		<div style="position:absolute; bottom:148px; left:327px; border-top:1px solid #444; height:1px; width:33px;" />
+	</form>
+</div>
+
+</div>
+</body>
+</html>

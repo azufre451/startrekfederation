@@ -1,0 +1,163 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/personnel.css?v=1.6" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" /> 
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+
+	<title>STAR TREK FEDERATION - SCHEDA</title>				
+	<script> 
+	
+	function upd(vara)
+	{
+		jQuery('#brever').css('background-image','url(\'TEMPLATES/img/ruolini/'+vara+'\')');
+	}
+	function paddOpen(who){window.open ('padd.php?s=seR&to='+who+'&sub=','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
+	</script>	
+	<link href="TEMPLATES/css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" type="text/css"/>
+	 
+	
+</head>
+<body style="background-color:black; overflow:hidden;  padding:-5px;">
+<div id="schedaContainer">
+
+<div metal:use-macro="TEMPLATES/metal.htm/schedaIntro" />
+
+<div id="mainContainer" >
+<p style="text-align:center; font-size:16px;"> PANNELLO GESTIONE UTENTE (Plus: <span tal:condition="exists:bonusM">Master</span><span tal:condition="exists:bonusSM">Global Master</span>)<br />
+<span style="font-weight:bold; margin:0px; text-align:center;color:orange; font-size:13px; font-family:courier;"> TRK: <span style="color:white;" tal:content="string:${pgTrek} %"></span> PbC: <span style="color:white;" tal:content="string:${pgPBC} %">100%</span> Ranking: <span style="color:white;" tal:condition="exists:valueofPG" tal:content="string:${valueofPG} pt">100%</span></span>
+</p>
+
+
+<a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=lock"><div style="border:1px solid #2e7ec8; width:130px; float:left; margin-left:20px; margin-right:0px; padding:7px; text-align:center;" tal:content="php:(lock==true) ? 'SBLOCCA PG' : 'BLOCCA PG'">BLOCCA/SBLOCCA PG</div></a>
+
+<div tal:condition="exists:bonusSM" style="border:1px solid #2e7ec8; width:155px; float:right; margin-right:20px;  margin-left:5px; padding:5px; text-align:center;">
+<form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setSeclar"><select name="setSeclar">
+	<option tal:repeat="con php:range(1,9)" tal:attributes="value con; selected php:(con == userData.pgSeclar) ? 'selected' : false" tal:content="string: SECLAR ${con}" />
+</select>&nbsp;&nbsp;<input type="submit" value="VAI" /></form>
+</div>
+
+<div style="clear:both; height:10px;" />
+<div style="border:1px solid #888; padding:5px; margin-left:20px; text-align:center; margin-right:20px;" tal:condition="exists:bonusM"><form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setSalute">Stato Salute&nbsp;&nbsp;<input type="text" name="medStatus" tal:attributes="value saluteStatus" style="width:360px;" onfocus="this.select()" />&nbsp;&nbsp;<input type="submit" value="VAI" /></form></div><div style="clear:both;" />
+<div style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;" tal:condition="exists:bonusSL">
+
+<form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=creAllo"><img style="margin-left:20px;" src="TEMPLATES/img/interface/personnelInterface/alloggio_w.png" />
+<br />
+<select name="alloLocation"><option tal:repeat="location locations" tal:attributes="value repeat/location/key;" tal:content="location"/></select>&nbsp;&nbsp;
+Numero: <input type="text" name="alloNum" style="width:30px;" onfocus="this.select()" />&nbsp;&nbsp;
+Ponte: <input type="text" name="alloDeck" onfocus="this.select()" style="width:30px; text-align:center; font-weight:bold;" />&nbsp;&nbsp;&nbsp;
+<input type="submit" value="CREA" /></form>
+
+<div style="width:80%; margin-left:auto; margin-right:auto;"><table style="width:100%;">
+	<tr style="text-align:center; font-weight:bold; color:orange;" ><td>Location</td><td>Ponte</td><td>Alloggio</td></tr>
+	<tr style="text-align:left;" tal:repeat="alloggio alloggi">
+	<td tal:content="alloggio/placeName" style="border:1px solid #333;" /><td style="border:1px solid #333;" tal:content="alloggio/ambientLevel_deck" /><td style="border:1px solid #333;" tal:content="alloggio/ambientNumber" /><td><a tal:attributes="href string:scheda.php?s=deleteAllo&loc=${alloggio/locID}&pgID=${selectedUser}"><img src="TEMPLATES/img/interface/delete.png" /></a><a tal:attributes="href string:scheda.php?s=setDefAllo&loc=${alloggio/locID}&pgID=${selectedUser}" tal:condition="php:(!alloggio['defaulta'])" title="Rendi Predefinito"><img src="TEMPLATES/img/interface/redit.png" /></a></td>
+	</tr>
+</table></div>
+
+
+</div>
+
+<div tal:condition="php:(!userData.png)" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+<form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=addPoints">Punteggi : &nbsp;&nbsp;<select name="addPoints">
+	<optgroup label="Punti Ordinari QUEST">
+	<option value="a1">1 pt - Insufficiente</option>
+	<option value="a2">2 pt - Scadente</option>
+	<option value="a3">3 pt - Scarso</option>
+	<option value="a4">4 pt - Sufficiente</option>
+	<option value="a5">5 pt - Discreto</option>
+	<option value="a6">6 pt - Buono</option>
+	<option value="a7">7 pt - Distinto</option>
+	<option value="a8">8 pt - Ottimo</option>
+	<option value="a9">9 pt - Eccezionale</option>
+	<option value="a10">10 pt - Ommammamiaquantoèfigo</option>
+	</optgroup>
+	
+	<optgroup label="Punti Ordinari ONE SHOT">
+	<option value="a1">1 pt - Insufficiente</option>
+	<option value="a2">2 pt - Sufficiente</option>
+	<option value="a3">3 pt - Buono</option>
+	<option value="a4">4 pt - Distinto</option>
+	<option value="a5">5 pt - Eccezionale</option>
+	<option value="b5">5 pt - Masterata di una One Shot</option>
+	</optgroup>
+	
+	<optgroup label="Punti Ordinari MINI SHOT - FREE ROLE">
+	<option value="f2">2 pt - Partecipazione</option>
+	</optgroup> 
+	
+	<optgroup label="Rapporti">
+	<option value="r2">2 pt R - Stesura Rapporto [Usare se possibile il comando in CDB!]</option>
+	</optgroup>
+	
+	<optgroup label="[SM] Integrazioni Dispense" tal:condition="exists:bonusSM"  >
+	<option value="kz1">20 pt DISP - Piccola Integrazione</option>
+	<option value="kz2">50 pt DISP+ - Dispensa Completa</option>
+	</optgroup>
+	
+</select><br /><input name="pointDetail" placeholder="Descrizione (Esempio: nome della quest, o della simulazione)" style="width:400px; margin-top:7px;" />&nbsp;&nbsp;<input type="submit" value="VAI" /></form>
+</div>
+
+	<div style="border:1px solid red; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;" tal:condition="exists:stringDoppi">
+		<table style="text-align:center; width:100%; font-size:10px;"><tbody>	
+		<tr><td>LAST ACTIVITY</td><td tal:content="php:date('d/m/y H:i:s',userData.pgLastAct)" /></tr>
+		<tr><td>LAST IP</td><td><span tal:content="ip"/><br /><span tal:content="host"/></td></tr>
+		<tr><td>DOPPI IP RILEVATI</td><td> PG:<img tal:condition="php:(stringDoppi != '')" src="TEMPLATES/img/interface/personnelInterface/info.png" tal:attributes="title stringDoppi"/> PNG: <img tal:condition="php:(stringPNGDoppi != '')" src="TEMPLATES/img/interface/personnelInterface/info.png" tal:attributes="title stringPNGDoppi"/></td></tr>
+		<tr><td>DOPPI IP PARZIALI</td><td> PG / PNG:<img tal:condition="php:(stringPGPartial != '')" src="TEMPLATES/img/interface/personnelInterface/info.png" tal:attributes="title stringPGPartial"/></td></tr>
+		</tbody></table>
+	</div>
+
+<div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+<form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setRanker">Mostrina&nbsp;&nbsp;
+<select name="rankCode">
+	<optgroup tal:repeat="ranker ranks" tal:attributes="label repeat/ranker/key">
+	<option tal:repeat="rnk ranker" tal:attributes="value repeat/rnk/key ; selected php:(repeat.rnk.key == rankCode) ? 'selected' : false" tal:content="rnk/note"/>
+	</optgroup>
+</select>
+<input type="submit" value="VAI" />
+</form>
+</div>
+
+<div tal:condition="exists:bonusSM" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+<form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setIncarico">Assegnazione e Incarico<br />
+	<select name="assegnazione">
+	<option tal:repeat="location locations" tal:attributes="value repeat/location/key ; selected php:(repeat.location.key == userData.pgAssign) ? 'selected' : false" tal:content="location"/></select>&nbsp;&nbsp;
+	<input type="text" name="incarico" style="width:260px;" tal:attributes="value userData/pgIncarico" onfocus="this.select()" />&nbsp;&nbsp;
+	<input type="submit" value="VAI" /></form>
+</div>
+
+<div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-left:20px; margin-right:20px;  margin-top:10px; padding:5px; text-align:center;">
+<form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setGrado">
+Grado: <input type="text" name="grado" style="width:180px;" tal:attributes="value userData/pgGrado" onfocus="this.select()" />&nbsp;&nbsp;Sezione: <input type="text" name="sezione" style="width:180px;" tal:attributes="value userData/pgSezione" onfocus="this.select()" /><br />Dipartimento: <input type="text" name="dipartimento" style="width:180px;" tal:attributes="value userData/pgDipartimento" onfocus="this.select()" />&nbsp;&nbsp;<input type="submit" value="VAI" /></form>
+</div>
+
+<div tal:condition="exists:bonusSM" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+	<div style="float:left; width:450px;">
+		<form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=addDotazione">LAUREE E NOTE<br />
+			<select name="tipologia"><option value="LAUR">LAUREA</option><option value="NOTA">NOTA</option></select>&nbsp;&nbsp;
+			<select onchange="javascript:upd(this.value);" name="image"><option tal:repeat="ima images" tal:attributes="value ima" tal:content="ima">IMMAGINE</option></select><br />
+			<input type="text" name="testo" style="width:350px;" value="Descrizione / Nome" onfocus="this.select()" />&nbsp;&nbsp;
+			<input type="submit" value="VAI" />
+		</form>
+	</div>
+	<div style="float:left; width:50px; margin-top:5px; height:50px; background-repeat:no-repeat;" id="brever"/><div style="clear:both;" />
+</div>
+
+<div style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+		Note dello Staff
+		<form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setNote" method="POST">
+		<textarea style="width:90%; height:70px;" name="note" tal:content="note" /><br /><br />
+		<input type="submit" value="VAI" />
+		</form>
+</div>
+<p tal:condition="isLorenzo" style="margin:0px; color:orange;font-size:20px;font-weight:bold;text-align:center;"><iframe width="560" height="315" src="http://www.youtube.com/embed/qwD5r6xCxiM" frameborder="0"></iframe></p>
+</div>
+</div>
+</body>
+</html>

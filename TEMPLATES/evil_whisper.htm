@@ -1,0 +1,87 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/whisper.css?v=1.2" rel="stylesheet" type="text/css" />
+	 
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+
+	<title>FEDERATION - SUSSURRI</title>	
+</head>
+
+<script type="text/javascript">
+		var are;
+		jQuery(function()
+		{
+			are = setInterval("updater();",4000);
+			jQuery("#chatDiv").scrollTop(jQuery("#chatDiv")[0].scrollHeight);
+		});
+		
+		function updater()
+		{ // JQUERY YOUR SISTER!
+			jQuery.post('ajax_evilwhisperGetter.php?ts='+new Date().getMilliseconds(), {lastID: jQuery('#lastID').prop('value')}, setterCA, 'json');
+			
+		}
+		
+		function setterCA(data)
+		{
+			if(data['CH'] != '') 
+			{	
+				jQuery('#chatDiv').append(data['CH']);
+				jQuery('#lastID').prop('value',data['LCH']);
+			}
+		}
+		
+		function sendChat()
+		{
+		if(jQuery('#chatInput').prop('value')!='')
+		{
+			clearInterval(are);
+			jQuery.ajax(
+			{
+			url: 'ajax_sendWhisper.php',
+			data: {chatLine: jQuery('#chatInput').prop('value'), chatTo: jQuery('#chatTo').prop('value')},
+			success: updater,
+			async:false,
+			type: 'POST'
+			});
+			are = setInterval("updater();",3000);
+		}
+		jQuery("#chatInput").prop('value','');
+		jQuery("#chatInput").focus();
+		}
+		
+			function sX(e)
+		{
+			var pitapa = (window.event) ? e.keyCode : e.which;
+			if(pitapa == 13) sendChat(jQuery('#locID').prop('value'),jQuery('#chatInput').prop('value'),jQuery('#chatTag').prop('value'));
+		}
+</script>
+
+<body>
+
+<!--<audio id="mainAu" autoplay="autoplay">
+<source id="" src="http://miki.startrekfederation.it/audioBase/evil_laugh.ogg" type="audio/ogg" />
+</audio>-->
+<div id="onlineList">
+<img src="/TEMPLATES/img/interface/whisperInterface/evil_jane.png" width="140px;" style="margin-left:20px;"/>
+<p style="margin:5px; text-align:center;" class="title">I'm feeling<br />evil...</p>
+</div> 
+
+<div id="leftContainer">
+	<div id="chatDiv" style="padding:10px;" tal:content="structure htmlLiner" />
+
+	<div id="chatBar">
+				<a href='javascript:void(0);' onclick="javascript:window.location.reload()"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_ref.png" style="vertical-align:middle;"/></a>
+				<input type="hidden" id="lastID" tal:attributes="value maxVIS" />
+	</div>
+</div>
+
+
+</body>
+</html>

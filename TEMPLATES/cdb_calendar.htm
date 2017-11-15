@@ -1,0 +1,161 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/cdb.css?v=1.2.1" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/calendar.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
+
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+
+	<!-- <script type="text/javascript" src="TEMPLATES/js/lazyload.js"></script> -->
+	<title>STAR TREK FEDERATION - CDB</title>
+
+	<script type="text/javascript">	jQuery(function(){
+		jQuery('#calDate').datepicker(
+		{
+		dateFormat:'dd/mm/yy',
+		dayNamesMin: [ "Do", "Lu", "Ma", "Me", "Gi", "Ve", "Sa" ],
+		firstDay:1,
+		monthNames: [ "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre" ]
+		});
+	});</script>
+</head>
+
+<body style="background-repeat:no-repeat; background-color:black; background-position:top center;">
+ 
+
+<div id="federation_interfaceContainer">
+	<div id="leftCol" style="width:123px;">
+		<div id="leftC1" />
+		<div id="leftC3" />
+	</div>
+	
+	<div id="supCol">
+		
+	<div metal:use-macro="TEMPLATES/metal.htm/cdbHeading" />
+
+	</div>
+	
+	<div id="fillerBax">
+		<div id="barbot1" />
+	</div>
+	<div id="cdbContainer" >
+	<div metal:use-macro="TEMPLATES/metal.htm/cdbIntro" />
+
+	<div style="font-size:12px; margin-left:5px; text-transform:uppercase; "><a href="cdb.php" class="interfaceLink">CDB</a> <span style="color:red; font-size:11px;">></span> <a class="interfaceLink" tal:attributes="href string:calendar.php">CALENDARIO</a> <span style="color:red; font-size:11px;">></span> <span class="interfaceLink">EVENTI DEI PROSSIMI 10 GIORNI</span></div>
+	
+
+	<div style="font-size:12px; margin-left:5px; float:right;"><a href="javascript:void(0)" onclick="javascript:$('#eventCreate').fadeIn(150);" class="interfaceLink">(- Aggiungi Evento -)</a> <a tal:condition="php:(M=='yes')" href="calendar.php?backwards=do" class="interfaceLink">(- Vedi ultimi 10 Giorni -)</a> </div>
+
+	<div style="text-align:justify; margin-top:20px; font-decoration:italic; margin-left:20px; color:#BBB; margin-right:20px; ">
+	<span style="color:red">Avviso</span> Il Calendario &egrave; uno strumento OFF. La possibilit&agrave; di calendarizzare riunioni, giocate e simulazioni non sostituisce la necessit&agrave; di pubblicare in CDB (ON) i dettagli organizzativi (convocazioni ed avvisi). Il Calendario rappresenta solo uno strumento OFF di incontro per raggruppare tutte le "giocate di interesse".
+	</div>
+<div class="popup" id="eventCreate">
+
+<p class="clockTitle" style="margin:0px; margin-bottom:10px; margin-right:10px;">Aggiungi Evento</p><hr />
+	<form method="POST" action="calendar.php">
+		<table>
+			<tr><td><b>Evento:</b></td><td><input  maxlength="100" name="event" style="width:250px;" type="text" value="" /></td></tr>
+			<tr><td><b>Categorie:</b></td><td>
+			<div id="catsSelector" style="text-align:left; float:left; margin-left:10px;"  tal:repeat="cat categoriesAvail">
+				<input type="checkbox"  tal:attributes="name string:cate[${cat/label}] ; value cat/label" />
+				<label tal:attributes="for string:cate[${cat/label}]" tal:content="cat/label" /> 
+			</div>
+			</td></tr>
+			<tr><td><b>Data:</b></td><td>
+			<input type="text" id="calDate" name="calDate" style="vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:17px; font-size:14px; font-weight:bold; width:100px; text-align:center;" tal:attributes="value php:date('d/m/Y')"/>
+			<select type="text" id="calDateM" name="calDateM" style="vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:22px; font-size:14px; font-weight:bold; text-align:center;">
+				<option value="00:00">00:00</option>
+				<option value="00:30">00:30</option>
+				<option value="01:00">01:00</option>
+				<option value="01:30">01:30</option>
+				<option value="02:00">02:00</option>
+				<option value="02:30">02:30</option>
+				<option value="03:00">03:00</option>
+				<option value="03:30">03:30</option>
+				<option value="04:00">04:00</option>
+				<option value="04:30">04:30</option>
+				<option value="05:00">05:00</option>
+				<option value="05:30">05:30</option>
+				<option value="06:00">06:00</option>
+				<option value="06:30">06:30</option>
+				<option value="07:00">07:00</option>
+				<option value="07:30">07:30</option>
+				<option value="08:00">08:00</option>
+				<option value="08:30">08:30</option>
+				<option value="09:00">09:00</option>
+				<option value="09:30">09:30</option>
+				<option value="10:00">10:00</option>
+				<option value="10:30">10:30</option>
+				<option value="11:00">11:00</option>
+				<option value="11:30">11:30</option>
+				<option value="12:00">12:00</option>
+				<option value="12:30">12:30</option>
+				<option value="13:00">13:00</option>
+				<option value="13:30">13:30</option>
+				<option value="14:00">14:00</option>
+				<option value="14:30">14:30</option>
+				<option value="15:00">15:00</option>
+				<option value="15:30">15:30</option>
+				<option value="16:00">16:00</option>
+				<option value="16:30">16:30</option>
+				<option value="17:00">17:00</option>
+				<option value="17:30">17:30</option>
+				<option value="18:00">18:00</option>
+				<option value="18:30">18:30</option>
+				<option value="19:00">19:00</option>
+				<option value="19:30">19:30</option>
+				<option value="20:00">20:00</option>
+				<option value="20:30">20:30</option>
+				<option value="21:00">21:00</option>
+				<option value="21:30">21:30</option>
+				<option value="22:00">22:00</option>
+				<option value="22:30">22:30</option>
+				<option value="23:00">23:00</option>
+				<option value="23:30">23:30</option>
+			</select>
+			</td></tr>
+			<tr><td><b>Luogo:</b></td><td><select id="place" name="place" style="vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:20px; font-size:14px; font-weight:bold; text-align:center;" >
+				<option tal:repeat="place places" tal:content="place/placeName" tal:attributes="value place/placeID ; selected php:(place['placeID'] == user.pgAssign) ? 'selected' : false"/>
+				</select></td></tr>
+				<tr><td colspan="2"><input type="submit" value="Inserisci" /></td></tr>
+		</table>
+	</form>
+	<button style="position:absolute;top:2px;right:3px; height:20px; width:20px;" onclick="javascript:jQuery('#eventCreate').fadeOut(300);">X</button>
+
+</div>
+	
+<div id="local" class="topicDiv" tal:repeat="eventE calEvents">
+			<p class="calendar" style="padding-bottom:15px;"><span class="calendarActDate" tal:content="php:utf8_encode(ucfirst(strftime('%A %e %B %Y',eventE[0]['Tevent']['date'])))" /> <span style="color:orange;">-</span> <span style="color:#AAA">[</span> <span tal:content="php:'D.S. ' . toStardate(eventE[0]['Tevent']['date'])" class="calendarActSD" /> <span class="calendarActDate" tal:content="eventE/0/Tevent/dateF" /> <span style="color:#AAA">]</span>
+			<p style="margin-top:6px;" tal:repeat="event eventE">
+				<div style="float:left;"><span class="calendarActSD" style="font-size:11px;" tal:content="php:date('H:i',event['Tevent']['date'])" /> <a onclick="javascript:return confirm('Sei sicuro?')" tal:attributes="href string:calendar.php?removeEvent=${event/Tevent/evID}" tal:condition="php:(SM=='yes' || user.ID == event['Tevent']['sender'])"><img src="TEMPLATES/img/interface/delete.png" /></a>
+				</div>
+				
+				<div style="float:left;margin-left:5px;margin-right:5px;">
+					<div tal:repeat="cat event/cats" tal:attributes="class string:calendarCat ${cat/class}" tal:content="cat/label" />
+				</div>
+				
+				<div style="float:left;">
+				<span style="" tal:content="structure event/Tevent/event" />
+				<span class="calendarActSD" style="font-size:11px; font-style:italic;" tal:content="event/Tevent/placeName" />
+				<span style="font-size:12px; color:#666; font-style:italic;" tal:content="string: By ${event/Tevent/pgUser}" />
+				
+				</div><div style="clear:both" />
+				
+			</p>
+			</p>
+</div>
+
+</div>
+</div>
+</body>
+</html>

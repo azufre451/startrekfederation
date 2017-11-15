@@ -1,0 +1,52 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/padd.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
+
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+	<title>FEDERATION - PADD</title>
+</head>
+
+<body style="background-color:black; overflow:hidden;">
+	<div id="paddContainer">
+		<div id="intestLeft"><a title="Principale" href="padd.php"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/padd.png" /></a><a title="Federation Tribune" href="padd.php?s=tr"><img class="iconelement" tal:attributes="src php:(tribuneNews == true) ? 'TEMPLATES/img/interface/paddInterface/tribune_news.png' : 'TEMPLATES/img/interface/paddInterface/tribune.png'" /></a><a title="Status Nave" href="padd.php?s=sh"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/nave.png" /></a><a title="Note" href="padd.php?s=no"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/note.png" /></a></div>
+		
+		<div id="intestLeftPost" >
+		<a tal:attributes="href string:padd.php?s=seR&to=${padd/FromPG}&sub=${padd/paddTitle}"><div class="btn" id="repBTN" style="width:70px;"/></a>
+		<a href="padd.php?h=ou"> <div class="btn" id="sentBTN"/> </a>
+		<a href="padd.php?h=in"> <div class="btn" id="receivedBTN"/> </a>
+		<a tal:condition="php:(deletable==true)" tal:attributes="href string:padd.php?s=delInPad&paddID=${padd/padID}"> <div class="btn" id="delBTN"/> </a>
+		<a tal:attributes="href string:padd.php?s=savePad&paddID=${padd/padID}" > <div class="btn" id="saveBTN"/> </a></div>
+		
+		<div id="padder" tal:attributes="class php:(user.pgSpecie=='Romulana') ? 'paddRomulanMain radiusBordered' : 'paddMain radiusBordered'">
+			<div class="innerPadd">
+				<div style="width:auto; text-align:left; padding:5px; border:1px solid #222;" class="radiusBordered">
+					<a tal:attributes="onclick string:schedaPOpen(${padd/FromPGID})" class="interfaceLink" href="#" tal:content="padd/FromPG" /> <span style="color:#0077c3; font-weight:bold;">></span> <a tal:attributes="onclick string:schedaPOpen(${padd/ToPGID})" class="interfaceLink" href="#" tal:content="padd/ToPG" /> <p style="font-weight:bold; float:right; margin:0px; margin-right:5px; text-decoration:underline;" tal:content="padd/paddTitle" />
+				</div>
+			<div style="width:135px; float:left; margin-top:10px;">
+			
+			<div>
+				<img style="width:120px; height:120px; padding:7px; border:1px solid #222;" tal:attributes="src padd/pgAvatar" class="radiusBordered" />
+			</div>
+			<div style="margin-top:5px; text-align:center;"><img tal:attributes="src string:TEMPLATES/img/ranks/${padd/ordinaryUniform}.png" style="vertical-align:middle;" /> <img style="vertical-align:middle; vertical-align:middle;" tal:attributes="src php:(padd['pgSesso'] == 'M') ? 'TEMPLATES/img/specie/' . padd['pgSpecie'] . '_m.png' : ((padd['pgSesso'] == 'F') ? 'TEMPLATES/img/specie/' . padd['pgSpecie'] . '_f.png' : 'TEMPLATES/img/specie/' . padd['pgSpecie'] . '_t.png' ) ; title php:(padd['pgSesso'] == 'M') ? padd['pgSpecie'] . ' - Maschio' : ((padd['pgSesso'] == 'F') ? padd['pgSpecie'] . ' - Femmina' : padd['pgSpecie'] . ' - Terzo Genere' )"  /> </div>
+			
+			<div style="text-align:center; font-family:century gothic, arial; color:#0077c3;">
+				<span style="font-size:25px;" tal:content="phour" /> : <span style="font-size:25px; color:#0077c3;" tal:content="pmin" /><br />
+			<span tal:content="pday" style="font-size:14px;" />
+			</div>
+			
+			</div>
+			
+			<div style="width:395px; overflow-x:hidden; overflow:y:auto; margin-top:10px; margin-left:15px; padding:10px; float:left; border:1px solid #999; height:218px;" class="radiusBordered">
+			
+					 <span tal:content="structure pcontent" />
+			
+			</div><div style="clear:both;" />
+			</div>
+			</div>
+	</div>
+</body></html>

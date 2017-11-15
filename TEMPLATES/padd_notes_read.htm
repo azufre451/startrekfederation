@@ -1,0 +1,89 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/padd.css?v=1.5.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
+	 
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<title>FEDERATION - PADD</title>	
+	
+<script type="text/javascript">
+		function jmp(to)
+		{
+			jQuery('.paddMain').fadeOut(400);
+			jQuery('#'+to).fadeIn(400);
+		}
+</script>
+</head>
+
+<body style="background-color:black; overflow:hidden;">
+
+<div id="paddContainer">
+
+<div id="intestLeft">
+<a title="Principale" href="padd.php"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/padd.png" /></a><a title="Federation Tribune" href="padd.php?s=tr"><img class="iconelement" tal:attributes="src php:(tribuneNews == true) ? 'TEMPLATES/img/interface/paddInterface/tribune_news.png' : 'TEMPLATES/img/interface/paddInterface/tribune.png'" /></a><a title="Status Nave" href="padd.php?s=sh"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/nave.png" /></a><a title="Note" href="padd.php?s=no"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/note.png" /></a>
+</div>
+
+<div id="intestLeftPost" >
+<a href="javascript:jmp('newNote')"><div class="btn" id="newBTN"/></a>
+<a href="javascript:jmp('ediNote')"><div class="btn" id="editBTN"/></a>
+<a tal:attributes="href string:padd.php?s=delNote&ID=${ID}"><div class="btn" id="delBTN"/></a>
+</div> 
+
+
+<p style="font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif; margin:0px; text-align: center; text-shadow: 0 0 5px #00C6FF; font-weight:bold;font-size:20px; text-decoration: underline; font-weight:bold;"> Appunti Personali </p>
+
+<div id="newNote" class="paddMain radiusBordered" style="display:none; height:300px;">
+
+<div class="innerPadd" style="margin-right:auto;margin-left:auto; width:510px; overflow:hidden;">
+
+
+<form action="padd.php?s=newNote" method="POST">
+
+<table cellspacing="0px">
+	<tr><td style="width:140px; border:1px dotted #333;">TITOLO</td><td class="newPaddtd"><input maxlength="25" name="titolo" style="width:400px;"/></td></tr>
+	<tr style="height:20px;" />
+	<tr><td style="width:140px; border:1px dotted #333; ">TESTO</td><td class="newPaddtd"><textarea name="testo" style="width:400px; height:160px;"/></td></tr>
+	<tr><td colspan="2" style="text-align:center;"><input style="width:50px;" type="submit" value="INVIA" /></td></tr>
+</table>
+</form>
+</div>
+</div>
+
+<div id="ediNote" class="paddMain radiusBordered" style="display:none; height:300px;">
+
+<div class="innerPadd" style="margin-right:auto;margin-left:auto; width:510px; overflow:hidden;">
+
+
+<form action="padd.php?s=ediNote" method="POST">
+
+<table cellspacing="0px">
+	<tr><td style="width:140px; border:1px dotted #333;">TITOLO</td><td class="newPaddtd"><input maxlength="25" name="titolo" tal:attributes="value title" style="width:400px;"/></td></tr>
+	<tr style="height:20px;" />
+	<tr><td style="width:140px; border:1px dotted #333; ">TESTO</td><td class="newPaddtd"><textarea name="testo" tal:content="textP" style="width:400px; height:160px;"/></td></tr>
+	<tr><td colspan="2" style="text-align:center;"><input style="width:50px;" type="submit" value="INVIA" /></td></tr>
+</table>
+<input type="hidden" name="ID" tal:attributes="value ID" />
+</form>
+</div>
+</div>
+
+<div class="paddMain radiusBordered" style="height:300px;">
+<div class="innerPadd">
+	<p style="text-align:center; font-size:16px; font-weight:bold; border-bottom:1px solid #999;" tal:content="title" />
+	<p style="text-align:justify;" tal:content="structure text" />
+</div>
+</div>
+
+
+</div>
+</body>
+</html>

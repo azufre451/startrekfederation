@@ -1,0 +1,101 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta charset="UTF-8" />
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/db.css?v=1.3" rel="stylesheet" type="text/css" /> 
+	<meta name="description" content="Star Trek: Federation é un GDR Play by Chat ambientato nell'anno 2382 e immerso nell'ambientazione dell'universo di Star Trek. Crea il tuo personaggio, vivi a bordo di un vascello, acquisisci nuove competenze. Chissà quali avventure si nascondono dietro la prossima stella!" />
+	 <meta name="keywords" content="STAR TREK FEDERATION, Comando e Navigazione, Tattica e Sicurezza, Ingegneria, Scientifica, Medica, Regolamento, Guida al gioco, Specie federali, database"/>
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<script type="text/javascript" src="TEMPLATES/js/google.js"></script>
+	<script type="text/javascript">
+		jQuery(function(){
+			jQuery('button').button();
+		});
+	</script>
+	<style>
+	ul{  list-style: none; margin-left: 0; padding-left: 0;}
+	li.liu:before{content: "»"; font-size:14px; color:red; padding-right: 5px;}
+	li.lib:before{content: "»"; font-size:14px; color:#2147c4; padding-right: 5px;}
+	</style>
+	<title>FEDERATION - DATABASE</title>	
+	
+	<script>
+	function cdbOpenToTopic(ida){window.open ('cdb.php?topic='+ida,'cdb', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=850,height=630');}
+	</script>
+</head>
+
+<body style="background-repeat:no-repeat; background-color:black;">
+
+<div id="federation_interfaceContainer">
+	<div id="leftCol" style="width:123px;">
+		<div id="leftC1" />
+		<div id="leftC3" />
+	</div>
+	
+	<div id="supCol">
+		<div id="supLeft" />
+		<div id="supRight" />
+
+	</div>
+	
+	<div id="fillerBax">
+		<div id="barbot1" />
+		<div id="barbot2" />
+	</div>
+	
+</div>
+
+<div id="cdbContainer" style="top:15px;">
+<p style="text-align:center; margin:10px; margin-top:15px;" class="titleFS">COMANDO DELLA FLOTTA STELLARE<br />DATABASE FEDERALE UNIFICATO</p>
+
+
+<div style="margin-left:auto; margin-right:20px;">
+<div style="float:left; width:65%;">
+<div style="text-align:center;">
+<form method="post" action="db.php?searcher=true">
+
+<div style="clear:both; width:100%; margin-left:auto; margin-right:auto; width:600px;"><div style="float:left;"><input type="text" name="key" class="searchField" style="height:17px; border-radius:9px;" autofocus="autofocus" tal:attributes="disabled php:(searchable == true) ? false : 'true' ; value php:(searchable == true) ? '' : 'La ricerca è possibile solo per gli utenti iscritti :)' "/><br />
+<input tal:attributes="disabled php:(searchable == true) ? false : 'disabled'" type="radio" value="0" name="mode" /> Almeno una parola 
+	<input tal:attributes="disabled php:(searchable == true) ? false : 'disabled'" type="radio" value="1" name="mode" checked="checked" /> Tutte le parole 
+	<input tal:attributes="disabled php:(searchable == true) ? false : 'disabled'" type="radio" value="2" name="mode" /> Intera frase
+</div><div style="float:left"><button tal:attributes="disabled php:(searchable == true) ? false : 'disabled'" style="margin-left:10px; width:120px; height: 33px; font-size:16px; letter-spacing:2px;">CERCA </button></div></div>
+</form>
+</div>
+
+<div style="clear:both;">
+	<a tal:attributes="href string:db.php?cat=${dis/catID}" class="interfaceLink"  tal:repeat="dis categories">
+		<div tal:attributes="style string:float:left;; margin-left:45px;; background-size:162px;; margin-top:20px;; width:162px;; height:110px;;  background-repeat:no-repeat;; background-image:url('TEMPLATES/img/tips/${dis/catImage}');;" />
+	</a>
+</div>
+</div>
+
+<div style="float:right; margin-top:0px; width:35%;">
+	<div style="border-radius:9px; border:1px solid magenta; padding-bottom:0px;">
+		 <p style="font-size:13px; margin:3px; margin-bottom:5px;"><img style="margin:3px;" src="TEMPLATES/img/interface/dbInterface/pen_icon.png" align="left"/><span style="font-weight:bold; color:magenta;"> Avviso: </span> Il materiale è in continua espansione! Se vuoi contribuire alla stesura della documentazione, tieni d'occhio <a href="javascript:void(0);" onclick="cdbOpenToTopic(1128)" class="interfaceLink">il post</a> in CDB, oppure contatta lo Staff!</p>
+	</div>
+
+	<div style="border-radius:9px; margin-top:15px; border:1px solid #FFCC00; padding:10px; padding-bottom:0px;">
+		<p style="margin:0px; text-align:right; font-variant:small-caps; color:#FFCC00;">Le più consultate</p>
+		
+		<ul><li class="liu" tal:attributes="title element/rtitle" tal:repeat="element topper" style="margin:0px; margin-top:4px; font-size:11px;"><a class="interfaceLink" tal:attributes="href string:db.php?element=${element/ID}"><span tal:content="string:${element/tag} -" tal:condition="php:element['tag'] != ''"/> <span tal:content="element/title" /></a></li></ul>
+		
+	</div>
+	<div style="border-radius:9px; margin-top:15px; border:1px solid #2190c4; padding:10px; padding-bottom:0px;">
+		<p style="margin:0px; text-align:right; font-variant:small-caps; color:#2190c4;">Le ultime caricate</p>
+		
+		<ul><li class="lib" tal:attributes="title element/rtitle" tal:repeat="element laster" style="margin:0px; margin-top:4px; font-size:11px;"><a class="interfaceLink" tal:attributes="href string:db.php?element=${element/ID}"> <span tal:content="string:${element/tag} -" tal:condition="php:element['tag'] != ''"/> <span tal:content="element/title" /></a></li></ul>
+	</div>
+</div>
+</div>
+
+</div>
+
+</body>
+</html>

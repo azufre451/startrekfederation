@@ -1,0 +1,54 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+
+	<title tal:content="string:CDB - ${gameName}"></title>
+	
+</head>
+
+<body style="background-image:url('TEMPLATES/img/interface/cdbBkg.jpg'); background-repeat:no-repeat; background-color:black; background-position:top center;">
+
+<div><span style="color:#5fc0f8;">D.S. 48315.62</span> <span style="margin-left:8px; color:#AAA" tal:content="string:[${currentDate}]"></span> <span style="color:#ffc600" tal:content="string: - Sei stato riconosciuto come ${pgGrado} ${pgUser}" /></div><br />
+
+<div style="border:1px solid #666; float:left; width:70%; height:200px;">
+	<div style="float:left; padding:10px;">
+		<img src="http://genesis.digital-destiny.org/SigmaSys/personal/destiny/LAMBDA/3h.png" />
+	</div>
+	<div style="float:left; padding-top:50px;">
+		<p style="font-size:18px; font-style:italic; font-weight:bold; font-family:Arial; margin:0px;">U.S.S. LO TRATTORE, NCC-86793<br />Computer di Bordo</p><hr /><img src="TEMPLATES/img/interface/equi.png" alt="Equipaggio" title="Lista Equipaggio"/>
+	</div>
+	<div style="clear:both;" />
+</div>
+
+<div style="border:1px solid #666; float:right; margin-right:5px; height:200px; width:27%;">
+</div><div style="clear:both;" /><br />
+
+<div style="margin-top:5px;  padding:5px;  border:1px solid #666;">
+<img src="TEMPLATES/img/interface/forum-flotta.png" />
+</div>
+
+<div style="margin-top:5px;  padding:5px;  border:1px solid #666;">
+<img src="TEMPLATES/img/interface/forum-civili.png" />
+</div>
+
+<div style="margin-top:5px;  padding:5px;  border:1px solid #666;">
+<img src="TEMPLATES/img/interface/forum-aiuto.png" />
+</div>
+
+<div tal:condition="exists:pgMaster" style="margin-top:5px; padding:5px;  border:1px solid #666;">
+<img src="TEMPLATES/img/interface/forum-master.png" />
+</div>
+
+<div tal:condition="exists:pgAdmin" style="margin-top:5px; padding:5px; border:1px solid #666;">
+<img src="TEMPLATES/img/interface/forum-admin.png" />
+</div>
+
+</body>
+</html>

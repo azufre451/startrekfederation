@@ -1,0 +1,205 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/padd.css?v=1.5.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" type="text/css" />
+	 
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<title>FEDERATION - PADD</title>	
+	
+<script type="text/javascript">
+		function jmp(to)
+		{
+			jQuery('.padderMain').fadeOut(400);
+			jQuery('#'+to).fadeIn(400);
+		}
+		
+		function split( val ) {
+			return val.split( /,\s*/ );
+		}
+		function extractLast( term ) {
+			return split( term ).pop();
+		}
+
+		jQuery(function(){
+			jQuery( "#users")
+			// don't navigate away from the field on tab when selecting an item
+			.bind( "keydown", function( event ) {
+				if ( event.keyCode === $.ui.keyCode.TAB &&
+						$( this ).data( "autocomplete" ).menu.active ) {
+					event.preventDefault();
+				}
+			})
+			.autocomplete({
+				source: function( request, response ) {
+					$.getJSON( "ajax_userGetter.php", {
+						term: extractLast( request.term )
+					}, response );
+				},
+				search: function()
+				{
+					// custom minLength
+					var term = extractLast( this.value );
+					if ( term.length < 1 ) {
+						return false;
+					}
+				},
+				focus: function() {
+					// prevent value inserted on focus
+					return false;
+				},
+				select: function( event, ui ) {
+					var terms = split( this.value );
+					// remove the current input
+					terms.pop();
+					// add the selected item
+					terms.push( ui.item.value );
+					// add placeholder to get the comma-and-space at the end
+					terms.push( "" );
+					this.value = terms.join( ", " );
+					return false;
+				}
+			})
+			
+			});
+			function togglePaddIndicator(ida)
+			{if(jQuery(ida).hasClass('selectedPadd')) jQuery(ida).removeClass('selectedPadd').addClass('unselectedPadd'); else jQuery(ida).removeClass('unselectedPadd').addClass('selectedPadd');}
+			
+			function deleteSelected()
+			{
+			var padds = new Array(); 
+			var i = 0;
+			jQuery('.selectedPadd').each(function(e){
+				padds[i++] = jQuery(this).prop('id');
+			});
+			
+			jQuery.post('ajax_padds.php?action=deleteMany', {padds: padds}, function(data){
+				if(data['OK'])
+					jQuery('.selectedPadd').each(function(e){
+						jQuery('#padd_'+jQuery(this).prop('id')).fadeOut(350);
+					});
+			}, 'json');
+			}
+			
+			function selectAll(mode)
+			{
+				var aggregator;
+				if(jQuery('#incoming').css('display') == 'block') aggregator = '.incoming';
+				if(jQuery('#outgoing').css('display') == 'block') aggregator = '.outgoing';
+				if(mode==0) jQuery(aggregator+' > .unselectedPadd').removeClass('unselectedPadd').addClass('selectedPadd');
+				if(mode==1) jQuery(aggregator+' > .selectedPadd').removeClass('selectedPadd').addClass('unselectedPadd');
+			}
+			
+			function selectRead()
+			{
+				var aggregator;
+				if(jQuery('#incoming').css('display') == 'block') aggregator = '.incoming';
+				if(jQuery('#outgoing').css('display') == 'block') aggregator = '.outgoing';
+				jQuery(aggregator+'.incoming.read > .unselectedPadd').removeClass('unselectedPadd').addClass('selectedPadd');
+			} 
+</script>
+
+</head>
+
+<body style="background-color:black; overflow:hidden;">
+
+<div id="paddContainer">
+
+<div id="intestLeft">
+<a title="Principale" href="padd.php"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/padd.png" /></a><a title="Federation Tribune" href="padd.php?s=tr"><img class="iconelement" tal:attributes="src php:(tribuneNews == true) ? 'TEMPLATES/img/interface/paddInterface/tribune_news.png' : 'TEMPLATES/img/interface/paddInterface/tribune.png'" /></a><a title="Status Nave" href="padd.php?s=sh"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/nave.png" /></a><a title="Note" href="padd.php?s=no"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/note.png" /></a>
+</div>
+<div id="intestLeftPost" >
+<a href="javascript:jmp('newPadd')"><div class="btn" id="newBTN"/></a> <a href="javascript:jmp('outgoing');"><div class="btn" id="sentBTN"/></a> <a href="javascript:jmp('incoming')"><div class="btn" id="receivedBTN"/></a> <a onclick="return confirm('Conferma cancellazione');" href="javascript:deleteSelected();"><div class="btn" id="delselBTN"/></a></div>
+
+<div id="messaSend" class="radiusBordered12" style="font-variant:small-caps; display:none; font-size:16px; position:absolute; top:50%; left:50%; width:300px; border:1px solid #777; height:20px; margin-left:-155px; margin-right:-15px; background-color:black; padding:5px; text-align:center; font-size:13px" tal:condition="exists:paddSent">Padd Inviato</div>
+<script type="text/javascript" tal:condition="exists:paddSent">jQuery('#messaSend').fadeIn(1000); setTimeout("jQuery('#messaSend').fadeOut(500)",2500);</script>
+
+<div id="newPadd" tal:attributes="style php:(submode=='se') ? 'display:block;;' : 'display:none;;' ; class php:(user.pgSpecie=='Romulana') ? 'paddRomulanMain padderMain radiusBordered' : 'paddMain padderMain radiusBordered'">
+<div class="innerPadd" style="margin-right:auto;margin-left:auto; width:510px; overflow:hidden;">
+
+
+<form action="padd.php?s=newP" method="POST">
+
+<table cellspacing="0px">
+	<tr><td style="border:1px dotted #333; width:140px;">DESTINATARI</td><td class="newPaddtd"><input id="users" name="users" style="width:400px;"/></td></tr>
+	<tr style="height:20px;"><td /><td class="newPaddtd" style="font-size:11px; color:#777;">(&Egrave; possibile selezionare pi&ugrave; di un contatto) - Es. "Picard, Barclay, Janeway..."</td></tr>
+	<tr><td style="width:140px; border:1px dotted #333;">TITOLO</td><td class="newPaddtd"><input maxlength="25" name="titolo" style="width:400px;"/></td></tr>
+	<tr style="height:20px;" />
+	<tr><td style="width:140px; border:1px dotted #333; ">TESTO</td><td class="newPaddtd"><textarea name="testo" style="width:400px; height:160px;"/></td></tr>
+	<tr><td colspan="2" style="text-align:center;"><input style="width:50px;" type="submit" value="INVIA" /></td></tr>
+
+</table>
+
+
+</form>
+</div>
+</div>
+
+<div id="incoming" tal:attributes="style php:(submode=='in') ? 'display:block;;' : 'display:none;;' ; class php:(user.pgSpecie=='Romulana') ? 'paddRomulanMain padderMain radiusBordered' : 'paddMain padderMain radiusBordered'">
+
+<div class="innerPadd"><form action="padd.php?s=delInPad" id="delPadds" method="POST">
+<table>
+	<tr tal:repeat="padd incoming/0" tal:attributes="id string:padd_${padd/ID}">
+		<td style="width:15px;" class="incoming unread"><div class="unselectedPadd" title="seleziona" tal:attributes="id padd/ID ; onclick string: javascript:togglePaddIndicator(this);"  style="cursor:pointer;"/> </td>
+		<td style="width:300px;" class="tdMessageNew"><a class="topcNormal tdMessageNew" tal:attributes="href string:padd.php?s=read&paddID=${padd/ID} ; title padd/paddText" tal:content="padd/title" /></td>
+		<td style="width:200px;" class="tdMessageNew" tal:content="padd/time"></td>
+		<td style="width:150px;" class="tdMessageNew" tal:content="padd/from"></td>
+		
+	</tr>
+</table>
+<hr tal:condition="php:count(incoming[0])" />
+<table>
+	<tr tal:repeat="padd incoming/1" tal:attributes="id string:padd_${padd/ID}">
+		<td style="width:15px;" class="incoming read"><div class="unselectedPadd" title="seleziona" tal:attributes="id padd/ID ; onclick string: javascript:togglePaddIndicator(this);" style="cursor:pointer;"/> </td>
+		<td style="width:300px;" class="tdMessage"><a class="topicNormal" tal:attributes="href string:padd.php?s=read&paddID=${padd/ID} ; title padd/paddText" tal:content="padd/title" /></td>
+		<td style="width:200px;" class="tdMessage" tal:content="padd/time"></td>
+		<td style="width:150px;" class="tdMessage" tal:content="padd/from"></td>
+	</tr>
+</table></form>
+
+</div>
+<div id="intestBottomPost">
+<a href="javascript:selectAll(0)"><div class="btn" id="selectaBTN"/></a>
+<a href="javascript:selectAll(1)"><div class="btn" id="noneBTN"/></a>
+<a href="javascript:selectRead()"><div class="btn" id="readBTN"/></a>
+</div>
+</div>
+
+<div id="outgoing" tal:attributes="style php:(submode=='ou') ? 'display:block;;' : 'display:none;;' ; class php:(user.pgSpecie=='Romulana') ? 'paddRomulanMain padderMain radiusBordered' : 'paddMain padderMain radiusBordered'">
+<div class="innerPadd">
+<table>
+	<tr tal:repeat="padd outgoing/0" tal:attributes="id string:padd_${padd/ID}">
+		<td style="width:15px;" class="outgoing read"><div class="unselectedPadd" title="seleziona" tal:attributes="id padd/ID ; onclick string: javascript:togglePaddIndicator(this);" style="cursor:pointer;"/> </td>
+		<td style="width:300px;" class="tdMessageNew"><a class="topicNormal" tal:attributes="href string:padd.php?s=read&paddID=${padd/ID}" tal:content="padd/title" /></td>
+		<td style="width:200px;" class="tdMessageNew" tal:content="padd/time"></td>
+		<td style="width:150px;" class="tdMessageNew" tal:content="padd/to"></td>
+	</tr>
+</table>
+<hr tal:condition="php:count(incoming[1])" />
+<table>
+	<tr tal:repeat="padd outgoing/1" tal:attributes="id string:padd_${padd/ID}">
+		<td style="width:15px;" class="outgoing unread"><div class="unselectedPadd" title="seleziona" tal:attributes="id padd/ID ; onclick string: javascript:togglePaddIndicator(this);" style="cursor:pointer;"/> </td>
+		<td style="width:300px;" class="tdMessage"><a class="topicNormal" tal:attributes="href string:padd.php?s=read&paddID=${padd/ID}" tal:content="padd/title" /></td>
+		<td style="width:200px;" class="tdMessage" tal:content="padd/time"></td>
+		<td style="width:150px;" class="tdMessage" tal:content="padd/to"></td>
+	</tr>
+</table>
+</div>
+<div id="intestBottomPost">
+<a href="javascript:selectAll(0)"><div class="btn" id="selectaBTN"/></a>
+<a href="javascript:selectAll(1)"><div class="btn" id="noneBTN"/></a>
+</div>
+</div>
+
+
+</div>
+</body>
+</html>

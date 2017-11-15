@@ -1,0 +1,168 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/personnel.css?v=1.6" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/sservice.js?v=2" /> 
+	<title>STAR TREK FEDERATION - SCHEDA</title>				
+ <style type="text/css">.ui-autocomplete {max-height: 135px;overflow-y: auto;overflow-x: hidden;padding-right: 1px;}
+		.ui-autocomplete li {height:45px;padding:2px;font-size:12px;} 
+		
+ 
+  } 
+  #where-description {
+    margin: 0;
+    padding: 0;
+  }
+	</style>
+</head>
+<body style="background-color:black; overflow:hidden;  padding:-5px;">
+<div id="schedaContainer">
+
+<div metal:use-macro="TEMPLATES/metal.htm/schedaIntro" />
+
+<div id="mainContainer">
+
+	<p style="margin:10px; text-align:center;"><img src="TEMPLATES/img/interface/personnelInterface/stato_servizio_testo.png" style="vertical-align:middle;" /> <button class="plusButton" style="vertical-align:middle;" tal:condition="php:(smasterPanel)" onclick="jQuery('#stoAdder').fadeIn(100);"><img src="TEMPLATES/img/interface/personnelInterface/plusicon.png" style="width:20px;" /></button> </p>
+	<div>
+	<table style="width:100%; font-size:12px;">
+	
+	<tr style="text-align:left;" tal:repeat="story stories/SERVICE">
+	<td style="width:200px; text-align:center; border-bottom:1px solid #333; ">
+	<p tal:content="php:str_pad(substr(story['timer'],8,2),2,'0',STR_PAD_LEFT) . '/' . str_pad(substr(story['timer'],5,2),2,'0',STR_PAD_LEFT) . '/' . substr(story['timer'],0,4)" style="color:#52b4e1; font-family:Verdana; font-size:11px; margin:0px;" />
+	<p tal:content="story/placeName" style="margin:0px;"  />
+	</td>
+	<td style=" border-bottom:1px solid #333; text-align:justify;"><span tal:content="structure story/text" /> <a tal:condition="php:(story['postLink'] != '')" href="javascript:void(0);" tal:attributes="onclick string:cdbOpenToTopic('${story/postLink}')" title="Riferimento"><img src="TEMPLATES/img/interface/personnelInterface/external_link.png"/></a></td>
+	<td tal:condition="php:(smasterPanel)"><a tal:attributes="href string:scheda.php?s=removessto&sID=${story/recID}&pgID=${selectedUser}"><img src="TEMPLATES/img/interface/delete.png" /></a></td>	
+	</tr>
+	</table>
+	</div>
+	<hr/>
+	<p style="margin:10px; text-align:center;"><img src="TEMPLATES/img/interface/personnelInterface/formazione_esami.png" style="vertical-align:middle;" /> <button class="plusButton" style="vertical-align:middle;" tal:condition="php:(smasterPanel)" onclick="jQuery('#exaAdder').fadeIn(100);"><img src="TEMPLATES/img/interface/personnelInterface/plusicon.png" style="width:20px;" /></button> </p>
+	
+	<table style="width:100%">	
+	<tr tal:attributes="class php: repeat.story.odd ? 'examLeft' : 'examRight'" tal:repeat="story stories/EXAM">
+	
+	<td class="t1" tal:content="php:str_pad(substr(story['timer'],8,2),2,'0',STR_PAD_LEFT) . '/' . str_pad(substr(story['timer'],5,2),2,'0',STR_PAD_LEFT) . '/' . substr(story['timer'],0,4)" />
+	
+	<td class="t2"><img tal:attributes="src string:TEMPLATES/img/ruolini/brevetti/${story/image}" tal:condition="php:(story['image']!='')"/></td>
+	
+	<td class="t3"><span tal:content="structure story/text" /></td>
+	
+	<td class="t4" tal:condition="php:(story['extra'] < 110)">
+		<span class="rankinkVot" style="font-style:italic; font-weight:bold; font-size:16px;" tal:content="structure story/extra" /><span style="font-size:11px;"> / 100</span>
+	</td>
+	<td class="t4" tal:condition="php:(story['extra'] == 110)">
+		<span class="rankinkVot" style="font-style:italic; font-weight:bold; font-size:10px; color:#7aff0f;">APPROVATO</span>
+	</td>
+	
+	<td class="t4" tal:condition="php:(story['extra'] == 111)">
+		<span class="rankinkVot" style="font-style:italic; font-weight:bold; font-size:10px; color:#fd1501;">RESPINTO</span>
+	</td> 
+	
+	<td class="t5" tal:condition="php:(smasterPanel)"><a tal:attributes="href string:scheda.php?s=removessto&sID=${story/recID}&pgID=${selectedUser}"><img src="TEMPLATES/img/interface/delete.png" /></a>	</td>
+	</tr>  
+	 
+	<script>
+		var arr = ['#fd1501', '#fd2b02', '#fd4002', '#fd5503', '#fd6a04', '#fd7e05', '#fd9305', '#fda806', '#febc07', '#fed108', '#fee508', '#fef909', '#effe0a', '#dbfe0b', '#c8fe0b', '#b4fe0c', '#a1ff0d', '#8dff0e', '#7aff0f', '#67ff0f', '#67ff0f'];
+		
+		jQuery('.rankinkVot').each(function(i,elem){jQuery(elem).css('color',arr[Math.round( parseInt(jQuery(elem).html()) * parseInt(jQuery(elem).html()) * 0.0012 + 0.0411 * parseInt(jQuery(elem).html()) + 0.1008)]);});
+	</script>
+	</table>
+	
+	
+	<hr/><div style="margin-top:20px;">
+	<p style="margin:10px; text-align:center;"><img src="TEMPLATES/img/interface/personnelInterface/ruolino_testo.png" style="vertical-align:middle;"/> <button class="plusButton" style="vertical-align:middle;" tal:condition="php:(editable || smasterPanel)" title="Aggiungi qualcosa al tuo Ruolino" onclick="jQuery('#rankAdder').fadeIn(100);"><img src="TEMPLATES/img/interface/personnelInterface/plusicon.png" style="width:20px;" /></button> </p>
+	<div style="overflow-y:auto;">
+	<table style="width:100%;">
+		<tr class="ruolinoRow">
+			<td><img src="TEMPLATES/img/interface/personnelInterface/grado.jpg"/></td>
+			<td><img src="TEMPLATES/img/interface/personnelInterface/data.jpg"/></td>
+			<td><img src="TEMPLATES/img/interface/personnelInterface/incarico.jpg"/></td>
+			<td><img src="TEMPLATES/img/interface/personnelInterface/assegnazione.jpg"/></td>
+		</tr>
+		
+		<tr tal:repeat="story storiesRuol" class="ruolinoRow">
+			<td class="tds"><img tal:attributes="src string:TEMPLATES/img/ranks/${story/rankImage}.png ; title story/rankName" /></td>
+			<td class="tdsa" tal:content="php:str_pad(substr(story['dater'],5,2),2,'0',STR_PAD_LEFT) . '/' . substr(story['dater'],0,4)">Data</td>
+			<td class="tds" tal:content="story/what">Incarico</td>
+			<td class="tds" tal:content="story/wherer">Assegnazione</td>
+			<td class="tds" tal:condition="php:(masterPanel==true || editable == true)"><a tal:attributes="href string:scheda.php?s=removeStory&sID=${story/storyID}"><img src="TEMPLATES/img/interface/delete.png" /></a></td>
+		</tr>
+	</table>
+	</div>
+	</div>
+	
+	 
+
+
+</div>
+</div>
+
+	<div id="stoAdder" tal:condition="php:smasterPanel==true">
+	<form method="POST" tal:attributes="action string:scheda.php?s=addssto&pgID=${selectedUser}"> 
+	<table> 
+		<tr><td width="100px; font-size:10px;"><b>Testo:</b></td><td><textarea style="width:300px; height:80px;" name="what" /></td></tr>
+		<tr><td width="100px; font-size:10px;"><b>Crosslink CDB:</b></td><td><input style="width:300px;" name="cross" /></td></tr>
+		<tr><td width="100px; font-size:10px;"><b>Data:</b></td><td><select name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day ; selected php:(day == date('d') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataM"><option tal:repeat="day php:range(1,12)" tal:attributes="value day ;  selected php:(day == date('m') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataA"><option tal:repeat="day php:range(2290,2382)" tal:attributes="value day ; selected php:(day==2382) ? 'selected': false" tal:content="day" /></select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Vai" /></td></tr>
+	</table>
+	</form>
+	<div class="xButton" onclick="jQuery('#stoAdder').fadeOut(100);">X</div>
+	</div> 
+	
+	<div id="exaAdder" tal:condition="php:smasterPanel==true">
+	<table>
+	<form method="POST" tal:attributes="action string:scheda.php?s=addexam&pgID=${selectedUser}"> 
+	
+		<tr><td width="100px; font-size:10px;"><b>Testo:</b></td><td><input style="width:300px;" id="brevWhat" name="what" /></td></tr>
+		<tr><td width="100px; font-size:10px;"><b>Esito:</b></td><td><select name="esit"><optgroup label="Esiti"><option value="110">APPROVATO</option><option value="111">NON APPROVATO</option></optgroup><optgroup label="Votazioni"><option tal:repeat="day php:range(0,100)" tal:attributes="value day" tal:content="string:${day} / 100" /></optgroup></select></td></tr>
+		<tr><td width="100px; font-size:10px;"><b>Data:</b></td><td><select name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day ; selected php:(day == date('d') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataM"><option tal:repeat="day php:range(1,12)" tal:attributes="value day ;  selected php:(day == date('m') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataA"><option tal:repeat="day php:range(2290,2382)" tal:attributes="value day ; selected php:(day==2382) ? 'selected': false" tal:content="day" /></select></td></tr>
+		<tr><td colspan="2" style="text-align:center;"><input type="submit" value="Vai" /></td></tr>
+	</form>
+	</table>
+	<div class="xButton" onclick="jQuery('#exaAdder').fadeOut(100);">X</div>
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<link href="TEMPLATES/css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" type="text/css" />
+	
+	
+	<script>jQuery('#brevWhat').autocomplete({
+			source: "ajax_getBrevetti.php",
+			minLength: 2
+			});
+	</script>
+	</div> 
+	
+	<div id="rankAdder" tal:condition="php:editable==true">
+	<table style="margin-top:20px; width:100%;">
+	<form method="POST" tal:attributes="action string:scheda.php?s=addStory&pgID=${selectedUser}">
+		<tr><td colspan="2"><select name="rankCode">
+			<optgroup tal:repeat="ranker ranks" tal:attributes="label repeat/ranker/key">
+				<option tal:repeat="rnk ranker" tal:attributes="value repeat/rnk/key" tal:content="rnk/note"/>
+			</optgroup>
+		</select></td></tr>
+		
+		<tr><td width="100px; font-size:10px;"><b>Incarico:</b></td><td><input style="width:310px;" name="what" /></td></tr>
+		<tr><td width="100px; font-size:10px;"><b>Data:</b></td><td><select name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day" tal:content="day" /></select> / <select name="dataM"><option tal:repeat="day php:range(1,12)" tal:attributes="value day" tal:content="php:monty[day]" /></select> / <select name="dataA"><option tal:repeat="day php:range(2290,2382)" tal:attributes="value day ; selected php:(day==2382) ? 'selected': false" tal:content="day" /></select></td></tr>
+		<tr><td width="100px; font-size:10px;"><b>Unit&agrave;</b></td><td>
+		 
+		<input id="where" name="where" tal:attributes="value assigned" style="width:320px;"/>   
+
+
+
+		 
+		
+		</td></tr>
+		<tr><td colspan="2" style="text-align:center;"><input type="image" src="TEMPLATES/img/interface/vai.png" /></td></tr>
+	<input type="hidden" name="userSelector" tal:attributes="value selectedUser" />
+	</form>
+	</table>
+	<div class="xButton" onclick="jQuery('#rankAdder').fadeOut(100);">X</div>
+	</div>
+</body>
+</html>

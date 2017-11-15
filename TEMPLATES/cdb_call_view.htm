@@ -1,0 +1,114 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/cdb.css?v=1.2.1" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+
+	<!-- <script type="text/javascript" src="TEMPLATES/js/lazyload.js"></script> -->
+	<title>STAR TREK FEDERATION - CDB</title>
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/callJS.js"></script>
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+	
+	<script type="text/javascript" src="TEMPLATES/js/progressBarHandler/prototype.js"></script>
+	<!-- jsProgressBarHandler core -->
+	<script type="text/javascript" src="TEMPLATES/js/progressBarHandler/jsProgressBarHandler.js"></script> 
+		
+	<style>
+	.votingElement:hover{box-shadow: 0 0 30px #0099FF}
+	</style>
+
+</head>
+
+<body style="background-repeat:no-repeat; background-color:black; background-position:top center;">
+
+
+<div id="federation_interfaceContainer">
+	<div id="leftCol" style="width:123px;">
+		<div id="leftC1" />
+		<div id="leftC3" />
+	</div>
+	
+	<div id="supCol">
+		
+	<div metal:use-macro="TEMPLATES/metal.htm/cdbHeading" />
+
+	</div>
+	
+	<div id="fillerBax">
+		<div id="barbot1" />
+	</div>
+	<div id="cdbContainer" >
+	<div metal:use-macro="TEMPLATES/metal.htm/cdbIntro" />
+
+	<div style="font-size:12px; margin-left:5px; text-transform:uppercase; "><a href="cdb.php" class="interfaceLink">CDB</a> <span style="color:red; font-size:11px;">></span> <a class="interfaceLink" tal:attributes="href string:cdb.php?calls=1">SONDAGGI</a> <span style="color:red; font-size:11px;">> <a class="interfaceLink" tal:content="call/callTitle"/></span></div>
+
+	<p style="font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif; font-size: 36px; text-align: center; text-shadow: 0 0 5px #00C6FF; font-weight:bold;" tal:content="call/callTitle"/><br />
+	
+	
+<div id="local" class="topicDiv">
+	
+	<div style="float:left; width:98%;">
+	<div tal:condition="exists:errorCall" id="messager" style="border:2px solid #333; background-color:black; border-radius:12px; width:300px; height:120px; position:absolute; z-index:10; top:50%; left:50%; margin-left:-150px; margin-top:-60px;">
+		<p style="margin:0px; background-color:#570000; color:red; font-weight:bold; border-radius:12px 12px 0px 0px; font-size:24px; text-align:center;"> Attenzione </p>
+		<p style="margin:20px; text-align:center;"> &Egrave; necessario lasciare un commento al sondaggio, prima di poterlo votare! <br /> <a href="javascript:void(0)" onclick="javascript:document.getElementById('messager').style.display = 'none'; document.getElementById('sondaggioMain').style.opacity = 100;" class="interfaceLink"> Torna al sondaggio </a></p>
+	</div>
+	
+	<div tal:condition="exists:errorCallLowPerm" id="messager" style="border:2px solid #333; background-color:black; border-radius:12px; width:300px; height:120px; position:absolute; z-index:10; top:50%; left:50%; margin-left:-150px; margin-top:-60px;">
+		<p style="margin:0px; background-color:#570000; color:red; font-weight:bold; border-radius:12px 12px 0px 0px; font-size:24px; text-align:center;"> Attenzione </p>
+		<p style="margin:20px; text-align:center;"> Non puoi votare un sondaggio di una quest a cui non hai partecipato!<br/> Sono necessarie almeno 3 sessioni <br /> <a href="javascript:void(0)" onclick="javascript:document.getElementById('messager').style.display = 'none'; document.getElementById('sondaggioMain').style.opacity = 100;" class="interfaceLink"> Torna al sondaggio </a></p>
+	</div> 
+	
+	<div tal:omit-tag="not:exists:errorCall" id="sondaggioMain" style="opacity:0.3; z-index:-10;">
+	<a tal:omit-tag="not:exists:votable" tal:attributes="href string:cdb.php?callVote=${call/call_id}&element=${element/recID}" tal:repeat="element callElements" onclick="return confirm('Conferma votazione');"><div style="float:left; margin-left:20px; width:130px; padding:5px; text-align:center;">
+	<img tal:attributes="src element/elementImage" class="votingElement" style="width:110px; height:110px; border:1px solid #333; padding:10px; border-radius:15px;" /><br />
+	<span style="font-family:Helvetica; font-size: 15px; font-weight:none; text-align: center; text-shadow: 0 0 3px #00C6FF; font-weight:bold;" tal:content="element/element"/>
+	</div></a>
+	<div style="clear:both; height:20px;"/>
+	<div>
+	<div style="float:left; width:500px; border;1px solid orange;">
+		<form action="service.php?addCallComment=true" method="POST">
+			<textarea name="testoComm" id="testoComm" maxlength="250" placeholder="La tua opinione è importante. Facci sapere come la pensi con un commento o con un consiglio!" style="height:32px; width:100%;"  onkeyup="javascript:sX(event);"/>
+			<input type="submit" style="float:right; margin-top:5px;" value="Invia Commento" /> <p style="margin:0px; margin-top:5px; margin-right:5px; float:right;"><span id="counter" style="color:#333; font-weight:bold; font-family:Helvetica">0</span> <span style="color:#AAA; font-weight:bold; font-family:Helvetica">/ 250</span> <input type="hidden" name="callID"  tal:attributes="value call/call_id"/></p>
+		</form><br/>
+		<b>Commenti al Sondaggio:</b>
+		
+		<div style="border:1px solid #333; padding:5px; margin-top:10px; border-radius:10px; width:100%;">
+			<div  tal:repeat="comment commArr" style="margin-top:10px; font-size:13px;">
+				<p style="float:left; width:80px; text-align:center; "><a class="interfaceLink" href="javascript:void(0);" tal:attributes="onclick string:schedaPOpen(${comment/pgID})" tal:content="comment/pgUser" /><br /><span style="color:#888;" tal:content="php:'(' . date('d/m/Y',comment['timer']) . ')'" /></p>
+				<p style="width:400px; float:left;"><span tal:content="structure comment/text" /></p>
+				<p style="clear:both" />
+			</div>
+		</div>
+	</div>
+	
+	<div style="float:right; border:1px dotted #444; padding:0px 10px; 0px"><p style="font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif; font-size: 36px; text-align: center; text-shadow: 0 0 5px #00C6FF; font-weight:bold;">Risultati</p><br />
+	Voti pervenuti: <span style="font-weight:bold; color:orange;" tal:content="counterGlobal"/>
+	<table><tbody>
+		<tr tal:repeat="element callElements"><td tal:content="element/element" style="font-weight:bold; font-size:11px; width:140px;"></td><td><span tal:attributes="id element/element" style="padding-left:2px;" tal:content="php:(isSet(results[element['recID']])) ? results[element['recID']] : 0"/></td></tr>
+	</tbody></table></div>
+	</div>
+	</div>
+	</div>
+		
+	
+	
+	<div style="clear:both;"/>
+	
+	
+	
+</div>
+
+</div>
+</div>
+
+	<script tal:repeat="element callElements" tal:content="structure string:new JS_BRAMUS.jsProgressBar($$('${element/element}'),parseInt(document.getElementById('${element/element}').innerHTML));">
+	</script>
+</body>
+</html>

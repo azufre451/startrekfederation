@@ -1,0 +1,44 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<meta http-equiv="refresh" tal:attributes="content refreshRate" />
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/localize.css?v=1.2" rel="stylesheet" type="text/css" />
+	 
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+
+	<title>STAR TREK FEDERATION - LOCALIZZATORE</title>
+	<script type="text/javascript">
+			function fullScreen(chat)
+			{
+				var wi = screen.availWidth - 10;
+				var au = screen.availHeight - 30;
+				window.open("chat.php?amb="+chat, "fed_main", "width=" + wi + ",height=" + au + ",top=0,left=0,location=no,menubar=no,resizable=yes,scrollbar=yes");
+			}
+	</script>
+</head>
+
+<body style="background-color:black">
+<div id="locContainer">
+
+	<div style="position:absolute; margin-left:105px; text-transform:uppercase; width:290px; margin-top:15px; text-align:center; font-family:Helvetica; font-weight:bold;" tal:content="placeName">USS USS</div>
+
+<div class="container radiusBordered" style="height:470px; overflow-y:auto;">
+<table style="width:100%;" cellspacing="0px;"><tbody>
+<tr class="row" tal:repeat="person people"><td class="leftCol">
+	<img style="vertical-align:middle;" tal:attributes="src string:TEMPLATES/img/ranks/${person/pgMostrina}.png ; title string:${person/pgGrado} - Sezione ${person/pgSezione}" /> <img style="vertical-align:middle; vertical-align:middle;" tal:attributes="src php:(person['pgSesso'] == 'M') ? 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_m.png' : ((person['pgSesso'] == 'F') ? 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_f.png' : 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_t.png' ) ; title php:(person['pgSesso'] == 'M') ? person['pgSpecie'] . ' - Maschio' : ((person['pgSesso'] == 'F') ? person['pgSpecie'] . ' - Femmina' : person['pgSpecie'] . ' - Terzo Genere' )"  /> <span class="radiusBordered5 lockedIcon" style="" tal:condition="php:(person['pgLock'])">LOCK</span> <a class="interfaceLink" tal:attributes="href string:javascript:schedaPOpen(${person/ID})" tal:content="person/pgUser" />
+	</td><td class="rightCol"><a tal:omit-tag="php:(person['ambientType'] == 'DEFAULT' || ungoable)" tal:attributes="href string:javascript:fullScreen('${person/pgPlaceI}')"><span tal:content="person/pgPlace" /></a> <img style="vertical-align:middle" title="Il giocatore è attivo nella chat" tal:condition="php:(person['pgInChat'])" src="TEMPLATES/img/interface/personnelInterface/online.png" /> <img tal:condition="php:(!person['pgInChat'])" style="vertical-align:middle" title="Il giocatore non è attivo nella chat" src="TEMPLATES/img/interface/personnelInterface/offline.png" /> </td></tr>
+</tbody>
+</table>
+</div>
+<p style="text-align:center; margin:0px;"><a href="localize.php" class="interfaceLink" tal:content="php:(online == 1) ? 'Localizzatore Generale - ' . online . ' PG connesso' : 'Localizzatore Generale - ' . online . ' PG connessi'"></a></p>
+</div>
+</body>
+</html>

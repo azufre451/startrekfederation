@@ -1,0 +1,81 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/chart.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
+	 
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<script type="text/javascript" src="TEMPLATES/js/jquery.overscroll.js"></script>
+	<script type="text/javascript">
+		jQuery(function(){
+			jQuery('.introb').button();
+			
+			$( "#systemSearcher" ).autocomplete({
+			source: "ajax_planetSearch.php",
+			minLength: 2,
+			});
+			
+		});
+	</script>
+		
+	<style type="text/css">
+		.ui-autocomplete {
+		max-height: 120px;
+		overflow-y: auto;
+		overflow-x: hidden;
+		padding-right: 1px;
+	}
+	
+	.ui-autocomplete li {
+		height:25px;
+		padding:2px;
+		font-size:12px;
+	}
+	
+	* html .ui-autocomplete {
+		height: 120px;
+	}
+	</style>
+	
+	<title>FEDERATION - CHARTS </title>	
+</head>
+
+<body>
+
+<div id="mainDatabase">
+	<div id="sectorMap" style="overflow-y:hidden">
+		
+		<div tal:attributes="style string:background-image:url('TEMPLATES/img/charts/chart_warp.jpg');; width:800px;;height:500px;; margin-top:30px; margin-left:60px;"/>
+		
+	</div>
+	
+	<div style="position:absolute; top:30px; left:910px;">
+		<form action="chart.php" method="GET"><input id="systemSearcher" name="goer" type="text" style="width:220px;" value="Ricerca" onfocus="this.value='';" class="radiusBordered12 searchField" /><p style="text-align:center; margin:0px;"><input type="submit" class="introb" style="margin-left:10px; margin-top:10px;  font-size:12px; letter-spacing:2px;" value="VAI" /></p></form>
+			
+		<div style="height:440px; overflow-y:auto;">
+			<div style="border:1px solid orange; height:50px; margin-left:5px; padding:5px; margin-right:10px; margin-top:10px;" class="radiusBordered12" tal:repeat="pla places">
+				<div style="float:left; width:80px; height:50px;">
+					<img tal:attributes="src 'TEMPLATES/img/logo/${pla/place_littleLogo1}'" style="width:80px;"/>
+				</div>
+				<div style="float:left; width:90px; height:50px;">
+					<span style="font-size:14px; font-weight:bold;" tal:content="pla/placeName" />
+				</div>
+			</div>
+		</div>
+		<p style="text-align:center;"><a href="chart.php"><button class="introb" style="margin-left:10px; font-size:12px; letter-spacing:2px;">PRINCIPALE</button></a></p>
+	</div>
+</div>
+
+
+
+
+</body>
+</html>

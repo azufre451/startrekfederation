@@ -1,0 +1,242 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/personnel.css?v=1.2" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	
+	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
+
+	<!-- <script type="text/javascript" src="TEMPLATES/js/lazyload.js"></script> -->
+	<title>STAR TREK FEDERATION - SCHEDA</title>				
+	<script>
+	jQuery(function(){
+			jQuery( "#users")
+			// don't navigate away from the field on tab when selecting an item
+
+			.autocomplete({
+				source: function( request, response ) {
+					$.getJSON( "ajax_userGetter.php", {
+						term: extractLast( request.term )
+					}, response );
+				},
+				search: function()
+				{
+					// custom minLength
+					var term = extractLast( this.value );
+					if ( term.length < 3 ) {
+						return false;
+					}
+				},
+				focus: function() {
+					// prevent value inserted on focus
+					return false;
+				},
+				select: function( event, ui ) {
+					var terms = split( this.value );
+					// remove the current input
+					terms.pop();
+					// add the selected item
+					terms.push( ui.item.value );
+					// add placeholder to get the comma-and-space at the end
+					terms.push( "" );
+					this.value = terms.join( ", " );
+					return false;
+				}
+			});
+			 
+			});
+			
+	function split( val ) {
+			return val.split( /,\s*/ );
+	}
+	
+	function extractLast( term ) {
+		return split( term ).pop();
+	}
+
+	function upd(vara)
+	{
+		jQuery('#brever').css('background-image','url(\'TEMPLATES/img/ruolini/'+vara+'\')');
+	}
+	function paddOpen(who){window.open ('padd.php?s=seR&to='+who+'&sub=','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
+	
+	function blockList()
+	{
+		if(jQuery('#users').val() != '' && confirm('Sei sicuro di Bloccare tutti i PG selezionati?')) jQuery.post('shadow_scheda.php?s=blockBulk', {listof: jQuery('#users').prop('value')}, confirmer, 'json');
+	}
+	
+	function setSeclar(ida)
+	{
+		if(jQuery('#users').val() != '' && confirm('Sei sicuro di riassegnare il seclar a tutti i PG selezionati?')) jQuery.post('shadow_scheda.php?s=setSeclar', {listof: jQuery('#users').prop('value'), seclar: ida}, confirmer, 'json');
+	}
+	
+	function setSalute(ida)
+	{
+		if(jQuery('#users').val() != '' && confirm('Sei sicuro di modificare lo status di salute a tutti i PG selezionati? (Viene inviato un Padd ad ogni PG)')) jQuery.post('shadow_scheda.php?s=setSalute', {listof: jQuery('#users').prop('value'), salute: ida}, confirmer, 'json');
+	}
+	
+	function setMostrina(ida)
+	{
+		if(jQuery('#users').val() != '' && confirm('Sei sicuro di voler cambiare la mostrina a tutti i PG selezionati?')) jQuery.post('shadow_scheda.php?s=setMostrina', {listof: jQuery('#users').prop('value'), mostrina: ida}, confirmer, 'json');
+	}
+	
+	function sendModerazione(ida)
+	{
+		if(jQuery('#users').val() != '' && confirm('Sei sicuro di voler inviare la moderazione a tutti i PG selezionati?')) jQuery.post('shadow_scheda.php?s=sendModeration', {listof: jQuery('#users').prop('value'), moder: ida}, confirmer, 'json');
+	}
+	
+	function setIncarico()
+	{
+		var ida = jQuery('#incarico').val();
+		var eda = jQuery('#assegnazione').val();
+		if(jQuery('#users').val() != '' && confirm('Sei sicuro di modificare incarico e assegnazione di tutti i PG selezionati?')) jQuery.post('shadow_scheda.php?s=setIncarico', {listof: jQuery('#users').prop('value'), incarico: ida, assegnazione: eda}, confirmer, 'json');
+	}
+	
+	function setDipartimento()
+	{
+		var ida = jQuery('#dipartimento').val();
+		if(jQuery('#users').val() != '' && confirm('Sei sicuro di modificare il Dipartimento di tutti i PG selezionati?')) jQuery.post('shadow_scheda.php?s=setDipartimento', {listof: jQuery('#users').prop('value'), dipartimento: ida}, confirmer, 'json');
+	}
+	
+	function noteAdd()
+	{
+		var ida = jQuery('#note').val();
+		if(jQuery('#users').val() != '' && confirm('Sei sicuro di aggiungere alle note master di tutti i PG selezionati questo testo?')) jQuery.post('shadow_scheda.php?s=addNote', {listof: jQuery('#users').prop('value'), note: ida}, confirmer, 'json');
+	}
+	function addPoints()
+	{
+		var1 = jQuery('#addPoints').val();
+		var2 = jQuery('#pointDetail').val();
+		if(jQuery('#users').val() != '' && confirm('Sei sicuro di aggiungere punti a tutti i PG selezionati?')) jQuery.post('shadow_scheda.php?s=addPoints', {listof: jQuery('#users').prop('value'), code: var1, detail:var2}, confirmer, 'json');
+	}
+	
+	function confirmer(data){alert('Operazione Completata per i PG: '+jQuery('#users').val()); jQuery('#users').val('');}
+	
+	
+	</script>	
+</head>
+<body style="background-color:black; overflow:hidden;  padding:-5px;">
+<div id="schedaContainer" style="background-image:url('TEMPLATES/img/interface/personnelInterface/sfondo_shadow_scheda.png');">
+ 
+<div id="mainContainer" style="height:535px; width:610px; overflow:auto; margin:7px; padding:4px; padding-left:7px; font-size:13px;">
+
+<p style="color:red; font-weight:bold;"> Attenzione! <span style="color:white;">Con questa scheda stai lavorando su un <span style="color:orange;"> GRUPPO </span> di personaggi. Le modifiche riguarderanno tutti i PG del gruppo.</span></p>
+
+<div style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+<b>Utenti a cui applicare le modifiche (Puoi inserirne più di uno separando con la virgola):</b><br/><textarea id="users" name="users" style="width:500px; height:40px; font-size:15px; font-weight:bold;" onfocus="this.select();" /></div>
+
+<div style="border:1px solid #888; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+Assegna Punteggi a Tutti: &nbsp;&nbsp;<select id="addPoints">
+	<optgroup label="Punti Ordinari QUEST">
+	<option value="a1">1 pt - Insufficiente</option>
+	<option value="a2">2 pt - Scadente</option>
+	<option value="a3">3 pt - Scarso</option>
+	<option value="a4">4 pt - Sufficiente</option>
+	<option value="a5">5 pt - Discreto</option>
+	<option value="a6">6 pt - Buono</option>
+	<option value="a7">7 pt - Distinto</option>
+	<option value="a8">8 pt - Ottimo</option>
+	<option value="a9">9 pt - Eccezionale</option>
+	<option value="a10">10 pt - Ommammamiaquantoèfigo</option>
+	</optgroup>
+	
+	<optgroup label="Punti Ordinari ONE SHOT">
+	<option value="a1">1 pt - Insufficiente</option>
+	<option value="a2">2 pt - Sufficiente</option>
+	<option value="a3">3 pt - Buono</option>
+	<option value="a4">4 pt - Distinto</option>
+	<option value="a5">5 pt - Eccezionale</option>
+	<option value="b5">5 pt - Masterata di una One Shot</option>
+	</optgroup>
+	
+	<optgroup label="Punti Ordinari MINI SHOT - FREE ROLE">
+	<option value="f2">2 pt - Partecipazione</option>
+	</optgroup> 
+	
+	<optgroup label="Rapporti">
+	<option value="r2">2 pt R - Stesura Rapporto [Usare se possibile il comando in CDB!]</option>
+	</optgroup>
+	
+	<optgroup label="[SM] Integrazioni Dispense" tal:condition="exists:bonusSM"  >
+	<option value="kz1">20 pt DISP - Piccola Integrazione</option>
+	<option value="kz2">50 pt DISP+ - Dispensa Completa</option>
+	</optgroup>
+	
+</select><br /><input id="pointDetail" placeholder="Descrizione (Esempio: nome della quest, o della simulazione)" style="width:400px; margin-top:7px;" />&nbsp;&nbsp;<input type="submit" value="VAI" onclick="addPoints();" /> <a onclick="window.open ('shadow_scheda.php?s=stor','prestav', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=490,height=605');" href="javascript:void(0);" class="interfaceLink" style="font-size:11px;">(TuttiPunti)</a>
+</div>
+
+<a href="#" onclick="blockList()" class="interfaceLinks"><div style="border:1px solid #2e7ec8; margin-top:20px; margin-left:20px; margin-right:20px; padding:7px; text-align:center;">BLOCCA QUESTI PG</div></a>
+
+<div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-top:20px; margin-right:20px;  margin-left:20px; padding:5px; text-align:center;">
+Assegna a tutti: <select id="setSecl">
+	<option tal:repeat="con php:range(1,9)" tal:content="string: SECLAR ${con}" tal:attributes="value con"/>
+</select>&nbsp;&nbsp;<input type="submit" value="VAI" onclick="setSeclar(jQuery('#setSecl').val());" />
+</div>
+
+<div style="clear:both; height:10px;" />
+<div style="border:1px solid #2e7ec8; padding:5px; margin-left:20px; text-align:center; margin-right:20px;" tal:condition="exists:bonusM" >Assegna a tutti lo Stato di Salute&nbsp;&nbsp;<input type="text" id="medStatus" placeholder="Stato di Salute"  style="width:360px;" onfocus="this.select()" />&nbsp;&nbsp;<input type="submit" value="VAI" onclick="setSalute(jQuery('#medStatus').val());" /></div><div style="clear:both;" />
+ 
+<div tal:condition="exists:bonusM" style="border:1px solid orange; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+Inserisci Evento Master Globale per il Vascello
+<form method="POST" action="shadow_scheda.php?s=insmaster">
+	<input type="text" name="eventTitle" placeholder="Titolo News" style="width:400px;" /><br />
+	<textarea type="text" name="eventText" placeholder="Testo News" style="width:400px; height:70px;" /><br />
+	<input type="submit" value="Inserisci" />
+</form>
+</div>
+
+<div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+Imposta Mostrina a Tutti&nbsp;&nbsp;
+<select id="rankCode">
+	<optgroup tal:repeat="ranker ranks" tal:attributes="label repeat/ranker/key">
+	<option tal:repeat="rnk ranker" tal:attributes="value repeat/rnk/key" tal:content="rnk/note"/>
+	</optgroup>
+</select>
+<input type="submit" value="VAI" onclick="setMostrina(jQuery('#rankCode').val());"/>
+
+</div>
+
+<div tal:condition="exists:bonusSM" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+Imposta Assegnazione e Incarico a Tutti<br />
+	<select id="assegnazione">
+	<option tal:repeat="location locations" tal:attributes="value repeat/location/key" tal:content="location"/></select>&nbsp;&nbsp;
+	<input type="text" id="incarico" style="width:260px;" placeholder="Incarico" onfocus="this.select()" />&nbsp;&nbsp;
+	<input type="submit" value="VAI" onclick="setIncarico();" />
+</div>
+
+<div tal:condition="exists:bonusSM" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+Imposta Dipartimento a Tutti<br />
+	<input type="text" id="dipartimento" style="width:260px;" placeholder="Dipartimento" />&nbsp;&nbsp;
+	<input type="submit" value="VAI" onclick="setDipartimento();" />
+</div>
+
+<!--<div tal:condition="exists:bonusSM" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+	<div style="float:left; width:450px;">
+		<form method="POST">Assegna a tutti una qualifica<br />
+			<select name="tipologia"><option value="LAUR">LAUREA</option><option value="BREV">BREVETTO / ABILIT.</option><option value="NOTA">NOTA</option></select>&nbsp;&nbsp;
+			<select onchange="javascript:upd(this.value);" name="image"><option tal:repeat="ima images" tal:attributes="value ima" tal:content="ima">IMMAGINE</option></select><br />
+			<input type="text" name="testo" style="width:350px;" value="Descrizione / Nome" onfocus="this.select()" />&nbsp;&nbsp;
+			<input type="submit" value="VAI" />
+		</form>
+	</div>
+	<div style="float:left; width:50px; margin-top:5px; height:50px; background-repeat:no-repeat;" id="brever"/><div style="clear:both;" />
+</div>-->
+
+<div style="border:1px solid #888; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+		Aggiungi alle note master di tutti:
+		
+		<textarea style="width:90%; height:70px;" id="note" /><br /><br />
+		<input type="submit" value="VAI" onclick="noteAdd();" />
+		
+</div>
+</div>
+</div>
+</body>
+</html>

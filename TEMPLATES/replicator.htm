@@ -1,0 +1,201 @@
+<html>
+<!DOCTYPE html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	
+	<link href="TEMPLATES/css/styles.css" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/styles.css" rel="stylesheet" type="text/css" />
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<script type="text/javascript" src="TEMPLATES/js/replicator.js?v=1.2" />
+	
+	<style>
+		body{
+			position:relative;
+			overflow:hidden;}
+		#repliContainer{
+			background-image:url('TEMPLATES/img/interface/replicatorInterface/replimat.png');
+			background-repeat:no-repeat;
+			bacground-position:top left;
+			background-color:black;
+			width:650px;
+			height:598px;
+		}
+		
+		.btn {background-position:top center; background-repeat:no-repeat; position:absolute; cursor:pointer;}
+		.btn:hover{background-position:bottom center;}
+		
+		#repliBtn{background-image:url('TEMPLATES/img/interface/replicatorInterface/repli_replica.png'); width:70px; height:27px; bottom:0px; right:76px;}
+		#annulBtn{background-image:url('TEMPLATES/img/interface/replicatorInterface/repli_annulla.png'); width:73px; height:27px; bottom:0px; right:9px;}
+		#propoBtn{background-image:url('TEMPLATES/img/interface/replicatorInterface/repli_proponi.png'); width:72px; height:27px; bottom:0px; left:10px;}
+		
+		#lateral{float:left; margin-left:5px; height:544px; margin-top:17px; width:200px;}
+		#mln{ float: left; height: 578px; margin-left: 19px; margin-top: 10px; width: 414px;}
+		.upper{width:100%; height:236px;}
+
+		#upperPost{display:none;} 
+		#upperPost img {width:390px; height:230px;  margin-left: 13px; margin-top: 10px;}
+		
+		#lower{width:100%; height:315px; margin-top:20px;}
+		.elements{height: 544px; overflow-y:auto; padding-left:15px; padding-top:10px;}
+
+		#menuSelector > div {float:left; width:110px;  border-right:1px dashed #AAA; margin-left:10px; }
+		#menuSelector p, p.littleLabel {font-weight:bold; padding-bottom:5px; font-family:tahoma; margin:0px; color:#0077c3; text-align:center; font-size:11px;}
+		#menuSelector { margin:auto; width:360px; }
+		
+		#menuSelector div div.button{cursor:pointer; background-position:bottom left; width:95px; height:26px; }
+		#menuSelector div div.button:hover, #menuSelector div div.active{ background-position:top left;}
+		
+		#menuAll1,#menuAll2{ background-image:url('TEMPLATES/img/interface/replicatorInterface/tutti.png'); }
+		#menuCibi{ background-image:url('TEMPLATES/img/interface/replicatorInterface/cibi.png');  }
+		#menuBevande{ background-image:url('TEMPLATES/img/interface/replicatorInterface/bevande.png');  }
+		#menuLasts{ background-image:url('TEMPLATES/img/interface/replicatorInterface/ultimi.png');  }
+		#menuTop{ background-image:url('TEMPLATES/img/interface/replicatorInterface/top10.png');  }
+		#menuaz{ background-image:url('TEMPLATES/img/interface/replicatorInterface/az.png');  }
+		#menuspecie{ background-image:url('TEMPLATES/img/interface/replicatorInterface/specie.png');  }
+		
+		#foodTitle
+		{ 
+		
+		width:90%;
+		margin-left:15px;
+		margin-right:15px;
+		margin-top:30px;
+		border:1px solid #AAA;
+		font-size:20px;
+		line-height:25px;
+		opacity:1;
+		text-align:center;
+		color:white;
+		} 
+		
+		.popup
+		{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		display:none;
+		width: 450px;
+		height: 370px;
+		margin-left: -230px;
+		background-color: rgba(0,0,0,0.9);
+		margin-top: -195px;
+		font-size: 13px;
+		border: 1px solid white;
+		padding: 10px;
+		font-family: Verdana;
+		}
+		
+		#searchBar{height:30px; width:160px; text-align:center;}
+		#searchBar input{width:100%; background-color:#222; border:1px dashed #0077C3;}
+		.descriText{font-family:verdana; font-size:14px; margin:0px; line-height:20px; padding:3px 10px; text-align:justify;}
+		
+		.ui-autocomplete{width:158px; font-size:13px;}
+	</style>
+	
+	<title>Replicatore</title>
+ 
+</head>
+
+<body>
+<div id="repliContainer">
+<div id="repliBtn" class="btn" onclick="javascript:doReplication();" />
+<div id="annulBtn" class="btn" onclick="javascript:location.reload();"/>
+<div id="propoBtn" class="btn" onclick="javascript:jQuery('#adderInfo').fadeIn();"/>
+
+<input type="hidden" id="foodOrdering"/>
+<input type="hidden" id="placeLoc" tal:attributes="value placeLoc"/>
+<input type="hidden" id="customFood" tal:condition="exists:customFood" tal:attributes="value customFood"/>
+
+	<div id="lateral">
+	
+		
+		<div class="elements">
+		<div id="searchBar"><input type="search" placeholder="Ricerca" id="searcher"/></div> 
+		<div id="species">
+		<div tal:repeat="specie foods">
+		<a href="javascript:void(0);" tal:content="repeat/specie/key" tal:attributes="onclick string:javascript:toggleSpecies('${repeat/specie/key}');" class="interfaceLinkBlue"> </a>
+		<div style="display:none; margin-left:10px;" tal:attributes="id repeat/specie/key">
+		<p style="margin:0px;" tal:repeat="cibo specie">
+			<span tal:attributes="style php:(cibo['foodType'] == 'a') ? 'color:#AAA' : 'color:#FC0'"> &raquo; </span> 
+			<a class="interfaceLink" href="javascript:void(0);"  tal:content="cibo/foodName" tal:attributes="onclick string:javascript:doFood(${cibo/foodID})" />
+		</p>
+		</div>
+		</div>
+		</div>
+		</div>
+		
+	</div>
+	<div id="mln">
+	<div id="upperIni" class="upper">
+		<p class="title" style="text-align:center; margin:0px; margin-top:5px;"> Replicatore </p>
+		<p class="descriText"> Seleziona dal menu laterale la pietanza da replicare, e premi il tasto Replica. Puoi cambiare lo stile del menu usando i tasti qui sotto. Ciò che vuoi ordinare non è nel menu? Puoi compilare la barra qui sotto direttamente e replicare ciò che preferisci. <a href="javascript:void(0);" onclick="window.open('replicator.php?admin=true','replicatorA', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,height=615,width=860')" tal:condition="exists:isAdmin" class="interfaceLink">( - Admin - )</a></p>
+		
+		<div id="menuSelector">
+		<div style="margin:0px;" id="selector1">
+		<p> TIPO</p>
+		<div id="menuAll1" class="button active" onclick="selecter(this)" />
+		<div id="menuCibi" class="button" onclick="selecter(this)" title="Visualizza solo i cibi" />
+		<div id="menuBevande" class="button" onclick="selecter(this)" title="Visualizza solo le bevande" />
+		</div>
+		<div id="selector2">
+		<p> RIDUCI</p>
+		<div id="menuAll2" class="button active" onclick="selecter(this)" />
+		<div id="menuLasts" class="button"  onclick="selecter(this)" title="Visualizza solo gli ultimi 10 elementi replicati (da te)" />
+		<div id="menuTop" class="button"  onclick="selecter(this)" title="Visualizza solo i 10 elementi più replicati (da tutti)"  />
+		</div>
+		<div id="selector3" style="border:0px;">
+		<p> RAGGRUPPA </p>
+		<div id="menuspecie" class="button active"  title="Visualizza l'elenco diviso per specie" onclick="selecter(this)" />
+		<div id="menuaz" class="button" title="Visualizza l'elenco in ordine alfabetico" onclick="selecter(this)" />
+		</div>
+		<div>
+		
+		</div>
+		</div>
+	</div>
+	<div id="upperPost" class="upper"><img id="foodImage" src="" /></div> 
+	<div id="lower">
+		<input id="foodTitle" placeholder="Replica..." class="title radiusBordered5"></input>
+		<p class="littleLabel" style="color:#AAA; font-style:italic;">Puoi modificare il nome del piatto per aggiungere dettagli<br/>specificare se caldo o freddo, zuccherato o amaro... etc.</p>
+		<p class="descriText" style="margin:10px 10px; height:190px; overflow-y:auto;" id="foodDescript" />
+	</div>
+	</div>
+	
+	<div class="popup" id="adderInfo">
+		<p class="title" style="text-align:center; margin:0px; margin-top:5px;"> Proponi qualcosa di nuovo </p>
+		<p> Per proporre allo Staff un nuovo piatto o bevanda, compila questi campi. Una volta inserito, il tuo contributo verrà inviato ad un amministratore che lo revisionerà. Potrà quindi essere replicato da tutti gli altri utenti. </p>
+		<form action="replicator.php?propose=do"  onsubmit="return checkImage();" method="POST">
+			<input name="prop_foodTitle" required="required" style="width:450px;" placeholder="Nome" class="radiusBordered5"></input><br/>
+			<p class="littleLabel" style="color:#AAA; font-style:italic;">Il nome del piatto o della bevanda</p>
+			<textarea name="prop_foodDescript"  style="width:450px; height:50px;" placeholder="Descrizione" class="radiusBordered5"></textarea><br/>
+			<p class="littleLabel" style="color:#AAA; font-style:italic;">Descrizione del piatto o della bevanda.</p>
+			<input name="prop_foodSpecie" required="required"  id="prop_foodSpecie" style="width:450px;" placeholder="Specie" class="radiusBordered5"></input><br/> 
+			<p class="littleLabel" required="required" style="color:#AAA; font-style:italic;">Di quale specie è caratteristico il piatto (nome al plurale, es: Umani)?</p>
+			
+			 
+			<input name="prop_foodImage" id="prop_foodImage" required="required" style="width:450px;" placeholder="Url Immagine" class="radiusBordered5"></input><br/> 
+			<p class="littleLabel" style="color:#AAA; font-style:italic;">L'immagine del piatto deve essere di dimensioni 390 x 230</p>
+			<p style="text-align:center;"><select name="prop_foodType" style="width:150px;" placeholder="Url Immagine" class="radiusBordered5">
+			<option value="a">Alimento</option>
+			<option value="b">Bevanda</option>
+			</select>  <input type="submit" value="[ - INVIA - ]">Invia!</input></p>
+			<input type="hidden" name="loc" tal:attributes="value placeLoc" />
+		</form>
+		
+		
+		<div style="position:absolute; top:2px; right:2px; height:15px; width:15px; background-color:black; text-align:center; cursor:pointer; border:1px solid #AAA; padding:2px;" onclick="jQuery('#adderInfo').fadeOut(100);">X</div>
+	</div>
+	 
+	
+	<div id="messaSend" class="radiusBordered5" style="font-variant:small-caps; display:none; position:absolute; top:50%; left:50%; width:300px; border:2px solid yellowgreen; margin-left:-155px; margin-right:-15px; background-color:black; padding:5px; font-weight:bold; text-align:center; font-size:15px; font-family:Verdana;"  tal:condition="exists:success" >Inserimento Eseguito</div>
+	<script type="text/javascript" tal:condition="exists:success">jQuery('#messaSend').fadeIn(1000); setTimeout("jQuery('#messaSend').fadeOut(500)",2500);</script> 
+</div>
+<input type="hidden" id="sizLoad" value="0" />
+</body>
+</html>

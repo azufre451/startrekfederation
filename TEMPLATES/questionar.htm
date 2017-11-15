@@ -1,0 +1,570 @@
+﻿<html>
+<div metal:define-macro="sondaggio" tal:condition="php:(user.pgFirst == 2)">
+	<script type="text/javascript" src="TEMPLATES/js/kendo.web.min.js"></script>
+	<script>
+			
+			
+		function nextElement()
+		{
+			var id = parseInt(jQuery('.vizi').attr('value'))+1;
+			if (id == 11) proceadToQuote();
+			
+			if (id >= 41) jQuery('#next').css('display','none');
+			else jQuery('#next').css('display','block');
+			
+			
+			jQuery('.vizi').fadeOut(90,function() {jQuery('#p-'+id).fadeIn(90,function() {jQuery('#p-'+id).addClass('vizi');});});
+			jQuery('.vizi').removeClass('vizi');
+			
+			
+			
+			//alert($("input[name='radio1']:checked").val());
+		}
+		
+		function prevElement()
+		{
+			var id = parseInt(jQuery('.vizi').attr('value'))-1;
+			if (id != 0)
+			{
+			jQuery('.vizi').fadeOut(90,function() {jQuery('#p-'+id).fadeIn(90,function() {jQuery('#p-'+id).addClass('vizi');});});
+			jQuery('.vizi').removeClass('vizi');
+			}
+			if (!(id > 41)) jQuery('#next').css('display','block');
+		}
+		
+		function setupLabel() {
+        if ($('.label_check input').length) {
+            $('.label_check').each(function(){ 
+                $(this).removeClass('c_on');
+            });
+            $('.label_check input:checked').each(function(){ 
+                $(this).parent('label').addClass('c_on');
+            });                
+        };
+        if ($('.label_radio input').length) {
+            $('.label_radio').each(function(){ 
+                $(this).removeClass('r_on');
+            });
+            $('.label_radio input:checked').each(function(){ 
+                $(this).parent('label').addClass('r_on');
+            });
+        };
+		};
+		
+		function setDefinitiveHelp()
+		{
+		
+		jQuery('#helper').fadeOut(200);
+		}
+		
+		function confirmFirstAndProcead()
+		{
+			var param = 'pgFirst=1&a1='+$("input[name='radio1']:checked").val()+'&a2='+$("input[name='radio2']:checked").val()+'&a3='+$("input[name='radio3']:checked").val()+'&a4='+$("input[name='radio4']:checked").val()+'&a5='+$("input[name='radio5']:checked").val()+'&a6='+$("input[name='radio6']:checked").val()+'&a7='+$("input[name='radio7']:checked").val(); 
+			jQuery.post('ajax_helpSet.php?'+param,function(e){location.reload();}); 
+			return false;
+		}
+		
+		function confirmSecondAndProcead()
+		{
+			var param = 'pgFirst=1&a8='+$("input[name='radio8']:checked").val()+'&a9='+$("input[name='radio9']:checked").val()+'&a10='+$("input[name='radio10']:checked").val()+'&a11='+$("input[name='radio11']:checked").val()+'&a12='+$("input[name='radio12']:checked").val()+'&a13='+$("input[name='radio13']:checked").val()+'&a14='+$("input[name='radio14']:checked").val()+'&a15='+$("input[name='radio15']:checked").val()+'&a16='+$("input[name='radio16']:checked").val()+'&a17='+$("input[name='radio17']:checked").val()+'&a18='+$("input[name='radio18']:checked").val()+'&a19='+$("input[name='radio19']:checked").val()+'&a20='+$("input[name='radio20']:checked").val()+'&a21='+$("input[name='radio21']:checked").val()+'&a22='+$("input[name='radio22']:checked").val()+'&a23='+$("input[name='radio23']:checked").val()+'&a24='+$("input[name='radio24']:checked").val()+'&a25='+$("input[name='radio25']:checked").val()+'&a26='+$("input[name='radio26']:checked").val()+'&a27='+$("input[name='radio27']:checked").val()+'&a28='+$("input[name='radio28']:checked").val()+'&a29='+$("input[name='radio29']:checked").val()+'&a29b='+$("input[name='radio29b']:checked").val()+'&a30='+$("input[name='radio30']:checked").val()+'&a31='+$("input[name='radio31']:checked").val()+'&a32='+$("input[name='radio32']:checked").val()+'&a33='+$("input[name='radio33']:checked").val()+'&a34='+$("input[name='radio34']:checked").val()+'&age='+$("#ager").val()+'&laurer='+$("#laurer").val(); 
+			jQuery.post('ajax_helpSet2.php?'+param,function(e){location.reload();});
+			
+			return false;
+		}
+		
+		function proceadToQuote()
+		{
+			var param = 'pgFirst=2&a1='+$("input[name='radio1']:checked").val()+'&a2='+$("input[name='radio2']:checked").val()+'&a3='+$("input[name='radio3']:checked").val()+'&a4='+$("input[name='radio4']:checked").val()+'&a5='+$("input[name='radio5']:checked").val()+'&a6='+$("input[name='radio6']:checked").val()+'&a7='+$("input[name='radio7']:checked").val(); 
+			jQuery.post('ajax_helpSet.php?'+param);
+
+		}
+		
+		function cheAge(ida)
+		{
+		jQuery('#aes').html('Nato nel '+(2382-ida.value));
+		
+		if(ida.value >= 24) jQuery('.laurerL').show();
+		else jQuery('.laurerL').hide();
+		
+		if(ida.value >= 21) jQuery('.laurerD').show();
+		else jQuery('.laurerD').hide();
+		}
+		
+	</script>
+	
+	<style>p{margin:5px;}fieldset{ width: 440px; position:absolute; bottom:35px; background: #959595;
+background: -moz-linear-gradient(-45deg,  #959595 0%, #0d0d0d 46%, #010101 50%, #0a0a0a 53%, #4e4e4e 76%, #383838 87%, #1b1b1b 100%);
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#959595), color-stop(46%,#0d0d0d), color-stop(50%,#010101), color-stop(53%,#0a0a0a), color-stop(76%,#4e4e4e), color-stop(87%,#383838), color-stop(100%,#1b1b1b));
+background: -webkit-linear-gradient(-45deg,  #959595 0%,#0d0d0d 46%,#010101 50%,#0a0a0a 53%,#4e4e4e 76%,#383838 87%,#1b1b1b 100%);
+background: -o-linear-gradient(-45deg,  #959595 0%,#0d0d0d 46%,#010101 50%,#0a0a0a 53%,#4e4e4e 76%,#383838 87%,#1b1b1b 100%);
+background: -ms-linear-gradient(-45deg,  #959595 0%,#0d0d0d 46%,#010101 50%,#0a0a0a 53%,#4e4e4e 76%,#383838 87%,#1b1b1b 100%);
+background: linear-gradient(135deg,  #959595 0%,#0d0d0d 46%,#010101 50%,#0a0a0a 53%,#4e4e4e 76%,#383838 87%,#1b1b1b 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#959595', endColorstr='#1b1b1b',GradientType=1 );
+ border-radius: 10px; box-shadow: 0 5px 12px rgba(0,0,0,.4); -webkit-box-shadow: 0 5px 12px rgba(0,0,0,.4); -moz-box-shadow: 0 5px 12px rgba(0,0,0,.4); -khtml-box-shadow: 0 5px 12px rgba(0,0,0,.4); border: 0; padding-bottom: 6px;}
+label       { display: block; cursor: pointer; line-height: 20px; padding-bottom: 9px; text-shadow: 0 -1px 0 rgba(0,0,0,.2); }
+.label_check input,.label_radio input  { margin-right: auto; margin-left:auto; }
+
+#helper{height:250px; margin-top:-125px;}
+#helper #next{height:250px;}
+#helper .content{height:230px;}
+
+.sonComment{font-size:14px; height:60px; text-align:justify; text-shadow:none;}
+.sonPage{position:absolute; bottom:5px; right:30px; font-size:17px; text-align:right;}
+</style>
+<link href="TEMPLATES/css/kendo_styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
+<link href="TEMPLATES/css/kendo_styles/kendo.metroblack.min.css" rel="stylesheet" type="text/css" />
+	<div style="position:absolute; background-color:rgba(0,0,0,0.7); top:50%; left:50%; margin-left:-570px; margin-top:-307px; width:1150px; height:625px; z-index:8" />
+	
+	<div id="helper2" class="lamp" style="z-index:10; position:absolute; bottom:85px; right:100px; background-image:url('TEMPLATES/img/interface/mainInterface/lookme.png'); width:70px; height:70px;" />
+
+	<div id="helper" class="popup planetLocationElement_a radiusBordered12">
+		<div id="prev" class="radiusBordered12" style="border-top-right-radius:0px; border-bottom-right-radius:0px;" onclick="javascript:prevElement()"/>
+
+	<div class="content">
+	<form id="h11">
+		<div id="p-1" value="1" class="vizi" style="display:block">
+		<p class="clockTitle" style="font-size:18px;"> Benvenuto! </p>
+		<img src="TEMPLATES/img/interface/index/blevinrevin_01.png" class="radiusBordered12" align="left"/>Benvenuto su Star Trek: Federation! Nei prossimi minuti ti chiediamo di rispondere a qualche breve domanda per rendere la tua esperienza di gioco davvero unica. Conoscere le tue esperienze precedenti ci aiuta a guidarti al meglio fra regolamento dinamica e modalità di gioco.</div>
+		
+		<div id="p-2" value="2">
+		<p class="clockTitle" style="font-size:18px;">Conosci il GdR Play By Chat?</p>
+		<p class="clockTitle" style="text-shadow:0px; font-size:15px;">Ti preghiamo di rispondere a queste domande in modo più accurato e veritiero possibile :)</p>
+        <fieldset class="radios" id="radio1">
+            <label class="label_radio"><input name="radio1" id="radio1" class="optionBocx" value="2" type="radio" /> Sì! Li conosco perfettamente e ci gioco da parecchio.</label>
+            <label class="label_radio"><input name="radio1" id="radio1" class="optionBocx" value="1" type="radio" /> Conosco il genere, ma non ho molta esperienza.</label>
+            <label class="label_radio"><input name="radio1" id="radio1" class="optionBocx" value="0" type="radio" /> No, non ci ho mai giocato.</label>
+        </fieldset>
+		<p class="clockTitle sonPage">1/7</p></div>
+		
+		<div id="p-3" value="3">
+		<p class="clockTitle" style="font-size:18px;">Conosci la differenza fra GDR ON e GDR OFF?</p>
+        <fieldset class="radios" id="radio2">
+            <label class="label_radio"><input name="radio2" class="optionBocx" value="2" type="radio" /> Sì! La conosco molto bene.</label>
+            <label class="label_radio"><input name="radio2" class="optionBocx" value="1" type="radio" /> Ne ho letto da qualche parte, ma non sono un esperto.</label>
+            <label class="label_radio"><input name="radio2" class="optionBocx" value="0" type="radio" /> No, avrei bisogno che qualcuno me la illustrasse meglio.</label>
+        </fieldset>
+		<p class="clockTitle sonPage">2/7</p></div>
+		
+		<div id="p-4" value="4">
+		<p class="clockTitle" style="font-size:18px;">Su una scala da 1 a 5, quanto ti ritieni "esperto" di GdR Play By Chat?</p>
+        <fieldset class="radios" id="radio3">
+            <label class="label_radio"><input name="radio3" class="optionBocx" value="0" type="radio" /> 1. Per niente esperto</label>
+            <label class="label_radio"><input name="radio3" class="optionBocx" value="1" type="radio" /> 2. Poco esperto</label>
+            <label class="label_radio"><input name="radio3" class="optionBocx" value="2" type="radio" /> 3. Mediamente esperto</label>
+            <label class="label_radio"><input name="radio3" class="optionBocx" value="3" type="radio" /> 4. Abbastanza esperto</label>
+            <label class="label_radio"><input name="radio3" class="optionBocx" value="4" type="radio" /> 5. Molto esperto</label>
+        </fieldset>
+		<p class="clockTitle sonPage">3/7</p></div>
+		
+		<div id="p-5" value="5">
+		<p class="clockTitle" style="font-size:18px;">Su una scala da 1 a 5, quanto ti ritieni "preparato" sull'ambientazione Trek?</p>
+        <fieldset class="radios" id="radio4">
+            <label class="label_radio"><input name="radio4" class="optionBocx" value="0" type="radio" /> 1. Per niente preparato</label>
+            <label class="label_radio"><input name="radio4" class="optionBocx" value="1" type="radio" /> 2. Poco preparato</label>
+            <label class="label_radio"><input name="radio4" class="optionBocx" value="2" type="radio" /> 3. Mediamente preparato</label>
+            <label class="label_radio"><input name="radio4" class="optionBocx" value="3" type="radio" /> 4. Abbastanza preparato</label>
+            <label class="label_radio"><input name="radio4" class="optionBocx" value="4" type="radio" /> 5. Molto preparato</label>
+        </fieldset>
+		<p class="clockTitle sonPage">4/7</p></div>
+		
+		<div id="p-6" value="6">
+		<p class="clockTitle" style="font-size:18px;">Delle serie Star Trek Deep Space Nine e Star Trek Voyager hai visto:</p>
+        <fieldset class="radios" id="radio5">
+            <label class="label_radio"><input name="radio5" class="optionBocx" value="0" type="radio" /> Qualche episodio</label>
+            <label class="label_radio"><input name="radio5" class="optionBocx" value="1" type="radio" /> Diversi episodi</label>
+            <label class="label_radio"><input name="radio5" class="optionBocx" value="2" type="radio" /> Quasi tutti gli episodi</label>
+            <label class="label_radio"><input name="radio5" class="optionBocx" value="3" type="radio" /> Tutti gli episodi</label>
+        </fieldset>
+		<p class="clockTitle sonPage">5/7</p></div>
+		
+		<div id="p-7" value="7">
+		<p class="clockTitle" style="font-size:18px;">Dei film di Star Trek hai visto:</p>
+        <fieldset class="radios" id="radio6">
+            <label class="label_radio"><input name="radio6" class="optionBocx" value="0" type="radio" /> Nessun Film</label>
+            <label class="label_radio"><input name="radio6" class="optionBocx" value="0" type="radio" /> Solo i film di J.J Abrams</label>
+            <label class="label_radio"><input name="radio6" class="optionBocx" value="1" type="radio" /> Almeno uno dei film con protagonista Picard</label>
+            <label class="label_radio"><input name="radio6" class="optionBocx" value="2" type="radio" /> Tutti i film con protagonista Picard</label>
+        </fieldset>
+		<p class="clockTitle sonPage">6/7</p></div>
+		
+		<div id="p-8" value="8">
+		<p class="clockTitle" style="font-size:18px;">Hai mai letto libri o novelle di ambientazione Trek?</p>
+        <fieldset class="radios" id="radio7">
+            <label class="label_radio"><input name="radio7" class="optionBocx" value="0" type="radio" /> No, mai.</label>
+            <label class="label_radio"><input name="radio7" class="optionBocx" value="1" type="radio" /> Ho letto qualcosa</label>
+            <label class="label_radio"><input name="radio7" class="optionBocx" value="2" type="radio" /> Sì, ne ho letti diversi.</label>
+        </fieldset>
+		<p class="clockTitle sonPage">7/7</p></div>
+		
+		<div id="p-9" value="9">
+		<p class="clockTitle" style="font-size:18px;"> Perfetto! </p>
+		<img src="TEMPLATES/img/interface/index/blevinrevin_02.png" class="radiusBordered12" align="right"/>A questo punto ti chiediamo di scegliere. Star Trek: Federation ti offre l'opportunità di giocare da subito un personaggio della Flotta Stellare con un grado fra <span style="color:orange; font-size:12px;">MARINAIO SCELTO</span> e  <span style="color:orange; font-size:12px;">CAPO SPECIALISTA</span> rispondendo ad un breve questionario che ti orienterà nell'impostazione del tuo PG! Hai quindi ben  due alternative!</div>
+		
+		<div id="p-10" value="10">
+			<p style="text-align:justify; font-size:13px; font-family:Verdana"><span style="text-align:center; font-size:15px; font-weight:bold; margin-left:20px; color:orange;">Imbarco Diretto</span> <span style="font-weight:bold; font-size:12px; font-family:Verdana; color:red;">>></span> <a onclick="if(confirm('Attenzione, la scelta è definitiva. Confermi?')) confirmFirstAndProcead();" href="javascript:void(0);" class="interfaceLink"> Prosegui e Imbarcati come Recluta</a><br />Scegliendo questa alternativa verrai iscritto con un personaggio Civile che potrà imbarcarsi e arruolarsi nella Flotta Stellare o rimanere civile (baristi, scienziati etc.) Questa scelta è consigliata per giocatori alle prime armi o poco esperti dell' ambientazione.</p>
+
+			<p style="text-align:justify; font-size:13px; font-family:Verdana"><span style="color:orange; text-align:center; font-size:15px; font-weight:bold; margin-left:20px;">Questionario</span> <span style="font-weight:bold; font-family:Verdana; font-size:12px; color:red;">>></span> <a onclick="nextElement();" href="javascript:void(0);" class="interfaceLink"> Prosegui con il Questionario</a><br />Ti verrà sottoposto un questionario orientativo di circa 35 domande, il cui esito determinerà la migliore coppia <span style="color:#">grado e sezione</span>, che potrai accettare o rifiutare (rientrando nel caso dell'imbarco diretto). </p>
+					
+		</div>
+		
+		<div id="p-11" value="11">
+		<p class="clockTitle" style="font-size:18px;"> Il tuo PG </p>
+		Ti chiediamo ora di specificare qualche dettaglio sul PG che vorresti giocare. Tieni presente che, trattandosi di un PG con esperienza, dovrai giocarti gli effetti di una sua formazione pregressa. Per iniziare, indica l'età del PG che intendi ruolare. <span style="color:red; font-weight:bold;">Attenzione:</span> PG troppo "giovani" non ricopriranno sicuramente un grado molto alto. Scegli questo parametro con cura :)<br /><br />
+		 <p style="text-align:center;"><select id="ager" style="font-size:20px; padding:5px; width:120px;" onkeyup="javascript:cheAge(this)" onchange="javascript:cheAge(this)"><option tal:repeat="a php:range(19,60)" tal:content="string:${a} anni" tal:attributes="value a" /></select> <span style="font-size:15px; color:orange;" id="aes"/></p>
+		<p class="clockTitle sonPage">1/30</p></div>
+		
+		<div id="p-12" value="12">
+		<p class="clockTitle" style="font-size:18px;"> Lauree e Diplomi </p>
+		Il Personaggio che vuoi ruolare, l'eroe delle tue avventure, ha compiuto degli studi universitari o post-diploma, prima di arruolarsi? Se desideri un titolo differente, seleziona ora il titolo più simile e contatta lo Staff in un secondo momento.<br /><br />
+		 <p style="text-align:center;">
+		 <select id="laurer" style="font-size:17px; padding:5px;">
+			<option value="0">Nessun Titolo</option>
+
+			<optgroup label="Diplomi [Durata 2-3 anni]" class="laurerD">
+			<option class="laurerD" value="40">Diploma di Navigatore</option>
+			<option class="laurerD" value="41">Diploma di Assistente Amministrativo</option>
+			<option class="laurerD" value="42">Diploma di Manutentore</option>
+			<option class="laurerD" value="43">Diploma di Tecnico Astrometrico</option>
+			<option class="laurerD" value="44">Diploma di Tecnico di Laboratorio</option>
+			<option class="laurerD" value="45">Diploma di Addetto alla Sorveglianza</option>
+			<option class="laurerD" value="46">Diploma di Assistente di Sala Macchine</option>
+			<option class="laurerD" value="47">Diploma di Operatore Sanitario</option>
+			<option class="laurerD" value="48">Diploma di Volo</option>
+			</optgroup>
+			
+			<optgroup label="Lauree [Durata 5 anni]" class="laurerL">
+			<option class="laurerL" value="1">Laurea in Biologia</option>
+			<option class="laurerL" value="2">Laurea in Lingue</option>
+			<option class="laurerL" value="3">Laurea in Scienze Logistiche</option>
+			<option class="laurerL" value="4">Laurea in Scienze Politiche</option>
+			<option class="laurerL" value="5">Laurea in Diplomazia Interculturale</option>
+			<option class="laurerL" value="6">Laurea in Giurisprudenza</option>
+			<option class="laurerL" value="7">Laurea in Scienze Naturali</option>
+			<option class="laurerL" value="8">Laurea in Fisica</option>
+			<option class="laurerL" value="9">Laurea in Chimica o Biologia</option>
+			<option class="laurerL" value="10">Laurea in Geologia</option>
+			<option class="laurerL" value="11">Laurea in Medicina e Chirurgia</option>
+			<option class="laurerL" value="12">Laurea in Infermieristica</option>
+			<option class="laurerL" value="13">Laurea in Psicologia</option>
+			<option class="laurerL" value="14">Laurea in Ingegneria Astronavale</option>
+			<option class="laurerL" value="15">Laurea in Ingegneria della Propulsione</option>
+			<option class="laurerL" value="16">Laurea in Ingegneria delle Comunicazioni</option>
+			<option class="laurerL" value="17">Laurea in Ingegneria dei Sistemi Difensivi</option>
+			<option class="laurerL" value="18">Laurea in Difesa e Sicurezza</option>
+			<option class="laurerL" value="19">Laurea in Scienze Forensi</option>
+			</optgroup>
+			
+			
+		</select></p>
+		<p class="clockTitle sonPage">2/30</p></div>
+		
+		<div id="p-13" value="13">
+		<p class="clockTitle" style="font-size:18px;">Quale serie TV ti ha maggiormente appassioanto?</p>
+        <fieldset class="radios" id="radio8">
+            <label class="label_radio"><input name="radio8" class="optionBocx" value="0" type="radio" /> La serie Classica</label>
+            <label class="label_radio"><input name="radio8" class="optionBocx" value="1" type="radio" /> The Next Generation</label>
+            <label class="label_radio"><input name="radio8" class="optionBocx" value="2" type="radio" /> Deep Space Nine</label>
+            <label class="label_radio"><input name="radio8" class="optionBocx" value="3" type="radio" /> Voyager</label>
+            <label class="label_radio"><input name="radio8" class="optionBocx" value="4" type="radio" /> Enterprise</label>
+        </fieldset>
+		<p class="clockTitle sonPage">3/30</p></div>
+		
+		<div id="p-14" value="14">
+		<p class="clockTitle" style="font-size:18px;">Quale tra questi personaggi potrebbe ispirare la carriera del tuo personaggio?</p>
+        <fieldset class="radios" id="radio9">
+            <label class="label_radio"><input name="radio9" class="optionBocx" value="0" type="radio" /> Harry Kim,  ingegnere desideroso di farsi notare</label>
+            <label class="label_radio"><input name="radio9" class="optionBocx" value="1" type="radio" /> Beverly Crusher, medico capace e futuro comandante </label>
+            <label class="label_radio"><input name="radio9" class="optionBocx" value="2" type="radio" /> Tuvok, ufficiale tattico serio e granitico</label>
+            <label class="label_radio"><input name="radio9" class="optionBocx" value="3" type="radio" /> Tom Paris, timoniere atipico e ribelle</label>
+            <label class="label_radio"><input name="radio9" class="optionBocx" value="4" type="radio" /> Jadzia Dax, scienziato polivalente e audace</label>
+        </fieldset>
+		<p class="clockTitle sonPage">4/30</p></div>
+		
+		<div id="p-15" value="15">
+		<p class="clockTitle" style="font-size:18px;">Situazione Ipotetica</p>
+		<p class="clockTitle" style="font-size:15px; text-shadow:none;">Il vostro personaggio deve scegliere se accettare un trasferimento all'Istituto Daystrom per portare avanti un progetto di ricerca, o rimanere a bordo di una nave stellare come manutentore. Cosa sceglie?</p>
+        <fieldset class="radios" id="radio10">
+            <label class="label_radio"><input name="radio10" class="optionBocx" value="0" type="radio" /> Istituto Daystrom</label>
+            <label class="label_radio"><input name="radio10" class="optionBocx" value="1" type="radio" /> Nave Stellare</label>
+        </fieldset>
+		<p class="clockTitle sonPage">5/30</p></div>
+		
+		<div id="p-16" value="16">
+		<p class="clockTitle" style="font-size:18px;">Quale fra queste tecnologie potrebbe attirare maggiormente l'interesse del tuo PG?</p>
+        <fieldset class="radios" id="radio11">
+            <label class="label_radio"><input name="radio11" class="optionBocx" value="0" type="radio" />La Corazza Ablativa</label>
+            <label class="label_radio"><input name="radio11" class="optionBocx" value="1" type="radio" />I sistemi di navigazione</label>
+            <label class="label_radio"><input name="radio11" class="optionBocx" value="2" type="radio" />I Gelpack Bioneurali</label>
+            <label class="label_radio"><input name="radio11" class="optionBocx" value="3" type="radio" />I Caccia Stellari</label>
+            <label class="label_radio"><input name="radio11" class="optionBocx" value="4" type="radio" />I sistemi sensori</label>
+        </fieldset>
+		<p class="clockTitle sonPage">6/30</p></div>
+		
+		<div id="p-17" value="17">
+		<p class="clockTitle" style="font-size:18px;">Il tuo PG rinuncerebbe a tutto ma non a...</p>
+        <fieldset class="radios" id="radio12">
+            <label class="label_radio"><input name="radio12" class="optionBocx" value="0" type="radio" /> Lavorare ad un prototipo innovativo</label>
+            <label class="label_radio"><input name="radio12" class="optionBocx" value="1" type="radio" /> La sicurezza nei confini Federali</label>
+            <label class="label_radio"><input name="radio12" class="optionBocx" value="2" type="radio" /> La Pace fuori dai confini federali</label>
+            <label class="label_radio"><input name="radio12" class="optionBocx" value="3" type="radio" /> La cura per una malattia terribile</label>
+            <label class="label_radio"><input name="radio12" class="optionBocx" value="4" type="radio" /> La possibilità di esplorare l'ignoto</label>
+        </fieldset>
+		<p class="clockTitle sonPage">7/30</p></div>
+		
+		<div id="p-18" value="18">
+		<p class="clockTitle" style="font-size:18px;">Il tuo personaggio userebbe il ponte ologrammi più frequentemente per...?</p>
+        <fieldset class="radios" id="radio13">
+            <label class="label_radio"><input name="radio13" class="optionBocx" value="0" type="radio" /> Fare simulazioni e risolvere problemi</label>
+            <label class="label_radio"><input name="radio13" class="optionBocx" value="1" type="radio" /> Svagarsi</label>
+            <label class="label_radio"><input name="radio13" class="optionBocx" value="2" type="radio" /> Simulare addestramento per mantenersi in forma</label>
+        </fieldset>
+		<p class="clockTitle sonPage">8/30</p></div>
+	
+		<div id="p-19" value="19">
+		<p class="clockTitle" style="font-size:18px;">Situazione Ipotetica</p>
+		<p class="clockTitle" style="font-size:15px; text-shadow:none;">Il vostro personaggio si trova al comando di un'importante missione esplorativa. Un imprevisto vi obbliga a scegliere se continuare e indagare successivamente, o interrompere la missione ed indagare subito.</p>
+        <fieldset class="radios" id="radio14">
+            <label class="label_radio"><input name="radio14" class="optionBocx" value="0" type="radio" />Continuo l'osservazione</label>
+            <label class="label_radio"><input name="radio14" class="optionBocx" value="1" type="radio" />Interrompo ed ordino di indagare</label>
+        </fieldset>
+		<p class="clockTitle sonPage">9/30</p></div>
+		
+		<div id="p-20" value="20">
+		<p class="clockTitle" style="font-size:18px;">Se potesse scegliere la sezione, il tuo PG sceglierebbe:</p>
+        <fieldset class="radios" id="radio15">
+            <label class="label_radio"><input name="radio15" class="optionBocx" value="0" type="radio" /> Comando e Navigazione</label>
+            <label class="label_radio"><input name="radio15" class="optionBocx" value="1" type="radio" /> Tattica e Sicurezza</label>
+            <label class="label_radio"><input name="radio15" class="optionBocx" value="2" type="radio" /> Ingegneria</label>
+            <label class="label_radio"><input name="radio15" class="optionBocx" value="3" type="radio" /> Scientifica</label>
+            <label class="label_radio"><input name="radio15" class="optionBocx" value="4" type="radio" /> Medica</label>
+        </fieldset>
+		<p class="clockTitle sonPage">10/30</p></div>
+		
+		<div id="p-21" value="21">
+		<p class="clockTitle" style="font-size:18px;">Più di tutto preferisci:</p>
+        <fieldset class="radios" id="radio16">
+            <label class="label_radio"><input name="radio16" class="optionBocx" value="0" type="radio" /> Giocate brevi e dinamiche. Azione.</label>
+            <label class="label_radio"><input name="radio16" class="optionBocx" value="1" type="radio" /> Giocate di ragionamento, risolvere problemi.</label>
+            <label class="label_radio"><input name="radio16" class="optionBocx" value="2" type="radio" /> Interagire e socializzare con gli altri PG.</label>
+            <label class="label_radio"><input name="radio16" class="optionBocx" value="3" type="radio" /> Fare addestramento, giocare in sezione.</label>
+        </fieldset>
+		<p class="clockTitle sonPage">11/30</p></div>
+		
+		<div id="p-22" value="22">
+		<p class="clockTitle" style="font-size:18px;">Preferisci avere un PG:</p>
+        <fieldset class="radios" id="radio17">
+            <label class="label_radio"><input name="radio17" class="optionBocx" value="0" type="radio" /> Interessante nella sua ordinarietà.</label>
+            <label class="label_radio"><input name="radio17" class="optionBocx" value="1" type="radio" /> Capace ed Intelligente</label>
+            <label class="label_radio"><input name="radio17" class="optionBocx" value="2" type="radio" /> Studioso e affascinante</label>
+            <label class="label_radio"><input name="radio17" class="optionBocx" value="3" type="radio" /> Defilato, ma a tratti brillante</label>
+        </fieldset>
+		<p class="clockTitle sonPage">12/30</p></div>
+		
+		<div id="p-23" value="23">
+		<p class="clockTitle" style="font-size:18px;">Situazione Ipotetica</p>
+		<p class="clockTitle" style="font-size:15px; text-shadow:none;">Il vostro personaggio preferisce trascorrere il tempo libero...</p>
+        <fieldset class="radios" id="radio18">
+            <label class="label_radio"><input name="radio18" class="optionBocx" value="0" type="radio" />In allenamento</label>
+            <label class="label_radio"><input name="radio18" class="optionBocx" value="1" type="radio" />A studiare dei manuali</label>
+            <label class="label_radio"><input name="radio18" class="optionBocx" value="2" type="radio" />A rilassarsi</label>
+        </fieldset>
+		<p class="clockTitle sonPage">13/30</p></div>
+		
+		
+		<div id="p-24" value="24">
+		<p class="clockTitle" style="font-size:18px;">Situazione Ipotetica</p>
+		<p class="clockTitle" style="font-size:15px; text-shadow:none;">Si blocca il Turboascensore. Il vostro PG...</p>
+        <fieldset class="radios" id="radio19">
+            <label class="label_radio"><input name="radio19" class="optionBocx" value="0" type="radio" />Cerca di scoprire il guasto e ripararlo, sfruttando le proprie conoscenze</label>
+            <label class="label_radio"><input name="radio19" class="optionBocx" value="1" type="radio" />Chiama soccorso e attende pazientemente qualcuno più competente di lui</label>
+        </fieldset>
+		<p class="clockTitle sonPage">14/30</p></div>
+		
+		<div id="p-25" value="25">
+		<p class="clockTitle" style="font-size:18px;">Per il tuo personaggio, il componete più utile di una Nave Stellare è...</p>
+        <fieldset class="radios" id="radio20">
+            <label class="label_radio"><input name="radio20" class="optionBocx" value="0" type="radio" />Il timone, senza giri a vuoto</label>
+            <label class="label_radio"><input name="radio20" class="optionBocx" value="1" type="radio" />Il Nucleo a Curvatura, senza non ti muovi</label>
+            <label class="label_radio"><input name="radio20" class="optionBocx" value="2" type="radio" />L'array di Sensori, senza non vedi nulla</label>
+            <label class="label_radio"><input name="radio20" class="optionBocx" value="3" type="radio" />Il sistema difensivo, senza sei indifeso</label>
+        </fieldset>
+		<p class="clockTitle sonPage">15/30</p></div>
+		
+		<div id="p-26" value="26">
+		<p class="clockTitle" style="font-size:18px;">Situazione Ipotetica</p>
+		<p class="clockTitle" style="font-size:15px; text-shadow:none;">Se il tuo PG fosse al comando di una nave stellare, per rispettare la Prima Direttiva, sacrificherebbe l'equipaggio?</p>
+        <fieldset class="radios" id="radio21">
+            <label class="label_radio"><input name="radio21" class="optionBocx" value="0" type="radio" />Sì, la direttiva ha un valore assoluto.</label>
+            <label class="label_radio"><input name="radio21" class="optionBocx" value="1" type="radio" />Sì, seppure con qualche remora</label>
+            <label class="label_radio"><input name="radio21" class="optionBocx" value="2" type="radio" />No, la direttiva è interpretabile</label>
+        </fieldset>
+		<p class="clockTitle sonPage">16/30</p></div>
+		
+		<div id="p-27" value="27">
+		<p class="clockTitle" style="font-size:18px;">Niente è più importante...</p>
+        <fieldset class="radios" id="radio22">
+            <label class="label_radio"><input name="radio22" class="optionBocx" value="0" type="radio" />Della conoscenza</label>
+            <label class="label_radio"><input name="radio22" class="optionBocx" value="1" type="radio" />Della lealtà</label>
+            <label class="label_radio"><input name="radio22" class="optionBocx" value="2" type="radio" />Dell'integrità personale</label>
+        </fieldset>
+		<p class="clockTitle sonPage">17/30</p></div>
+		
+		<div id="p-28" value="28">
+		<p class="clockTitle" style="font-size:18px;">Conflitto di Interessi</p>
+		<p class="clockTitle" style="font-size:15px; text-shadow:none;">Se il partner del tuo PG fosse un suo sottoposto, lui...</p>
+        <fieldset class="radios" id="radio23">
+            <label class="label_radio"><input name="radio23" class="optionBocx" value="0" type="radio" />Denuncerebbe la propria situazione</label>
+            <label class="label_radio"><input name="radio23" class="optionBocx" value="1" type="radio" />Troncherebbe la relazione</label>
+            <label class="label_radio"><input name="radio23" class="optionBocx" value="2" type="radio" />Continuerebbe, tenendo nascosta la cosa</label>
+        </fieldset>
+		<p class="clockTitle sonPage">18/30</p></div>
+		
+		<div id="p-29" value="29">
+		<p class="clockTitle" style="font-size:18px;">La paura più grande del tuo PG?</p>
+        <fieldset class="radios" id="radio24">
+            <label class="label_radio"><input name="radio24" class="optionBocx" value="0" type="radio" />La morte.</label>
+            <label class="label_radio"><input name="radio24" class="optionBocx" value="1" type="radio" />La sconfitta / L'umiliazione.</label>
+            <label class="label_radio"><input name="radio24" class="optionBocx" value="2" type="radio" />Lasciarsi sfuggire un'opportunità irripetibile.</label>
+        </fieldset>
+		<p class="clockTitle sonPage">19/30</p></div>
+		
+		<div id="p-30" value="30">
+		<p class="clockTitle" style="font-size:18px;">Quale di questi "cattivi" ti affascina maggiormente?</p>
+        <fieldset class="radios" id="radio25">
+            <label class="label_radio"><input name="radio25" class="optionBocx" value="0" type="radio" />Locutus, per la sua fermezza</label>
+            <label class="label_radio"><input name="radio25" class="optionBocx" value="1" type="radio" />Il Capitano Ransom, per i suoi principi</label>
+            <label class="label_radio"><input name="radio25" class="optionBocx" value="2" type="radio" />Luther Sloan, per il suo sottile cinismo</label>
+            <label class="label_radio"><input name="radio25" class="optionBocx" value="3" type="radio" />La Janeway di "Testimone Oculare", per la sua intransigenza</label>
+        </fieldset>
+		<p class="clockTitle sonPage">20/30</p></div>
+		
+		<div id="p-31" value="31">
+		<p class="clockTitle" style="font-size:18px;">Il valore più grande per un Ufficiale della Flotta è...</p>
+        <fieldset class="radios" id="radio26">
+            <label class="label_radio"><input name="radio26" class="optionBocx" value="0" type="radio" />Il Dovere</label>
+            <label class="label_radio"><input name="radio26" class="optionBocx" value="1" type="radio" />La Scienza</label>
+            <label class="label_radio"><input name="radio26" class="optionBocx" value="2" type="radio" />Il Rispetto</label>
+            <label class="label_radio"><input name="radio26" class="optionBocx" value="3" type="radio" />La flessibilità</label>
+        </fieldset>
+		<p class="clockTitle sonPage">21/30</p></div>
+		
+		<div id="p-32" value="32">
+		<p class="clockTitle" style="font-size:18px;">Il tuo personaggio desidera più di ogni altra cosa...</p>
+        <fieldset class="radios" id="radio27">
+            <label class="label_radio"><input name="radio27" class="optionBocx" value="0" type="radio" />Sopravvivere</label>
+            <label class="label_radio"><input name="radio27" class="optionBocx" value="1" type="radio" />Lasciare un segno nel suo campo</label>
+            <label class="label_radio"><input name="radio27" class="optionBocx" value="2" type="radio" />Aiutare gli altri</label>
+            <label class="label_radio"><input name="radio27" class="optionBocx" value="3" type="radio" />Proteggere gli altri</label>
+        </fieldset>
+		<p class="clockTitle sonPage">22/30</p></div>
+		
+		<div id="p-33" value="33">
+		<p class="clockTitle" style="font-size:18px;">L'arma migliore del tuo personaggio è...</p>
+        <fieldset class="radios" id="radio28">
+            <label class="label_radio"><input name="radio28" class="optionBocx" value="0" type="radio" />Prevalentemente La Parola</label>
+            <label class="label_radio"><input name="radio28" class="optionBocx" value="1" type="radio" />L'intuito</label>
+            <label class="label_radio"><input name="radio28" class="optionBocx" value="2" type="radio" />L'intelletto</label>
+            <label class="label_radio"><input name="radio28" class="optionBocx" value="3" type="radio" />La forza</label>
+        </fieldset>
+		<p class="clockTitle sonPage">23/30</p></div>
+		
+		<div id="p-34" value="34">
+		<p class="clockTitle" style="font-size:18px;">Se il tuo PG potesse scegliere di comandare una nave sceglierebbe</p>
+        <fieldset class="radios" id="radio29">
+            <label class="label_radio"><input name="radio29" class="optionBocx" value="0" type="radio" />Una Intrepid, piccola e manovrabile</label>
+            <label class="label_radio"><input name="radio29" class="optionBocx" value="1" type="radio" />Una Sovereign, mastodontica ed imponente</label>
+            <label class="label_radio"><input name="radio29" class="optionBocx" value="2" type="radio" />Un caccia stellare, agile e veloce</label>
+            <label class="label_radio"><input name="radio29" class="optionBocx" value="3" type="radio" />Il mio PG non vuole comandare</label>
+        </fieldset>
+		<p class="clockTitle sonPage">24/30</p></div>
+		
+		<div id="p-35" value="35">
+		<p class="clockTitle" style="font-size:18px;">Topi di laboratorio o Don Giovanni della Galassia?</p>
+        <fieldset class="radios" id="radio29">
+            <label class="label_radio"><input name="radio29b" class="optionBocx" value="0" type="radio" />Don Givanni</label>
+            <label class="label_radio"><input name="radio29b" class="optionBocx" value="1" type="radio" />Topo di Laboratorio</label>
+            <label class="label_radio"><input name="radio29b" class="optionBocx" value="2" type="radio" />Francamente preferirei entrambe...</label>
+        </fieldset>
+		<p class="clockTitle sonPage">25/30</p></div>
+		
+				<div id="p-36" value="36">
+		<p class="clockTitle" style="font-size:18px;">Situazione Ipotetica</p>
+		<p class="clockTitle" style="font-size:15px; text-shadow:none;">Ci sono un Ferengi, Un Klingon e un Nausicaano che litigano.</p>
+        <fieldset class="radios" id="radio30">
+            <label class="label_radio"><input name="radio30" class="optionBocx" value="0" type="radio" />Cerco di mediare</label>
+            <label class="label_radio"><input name="radio30" class="optionBocx" value="1" type="radio" />Intervengo con forza e li fermo</label>
+            <label class="label_radio"><input name="radio30" class="optionBocx" value="2" type="radio" />Lascio che se ne occupi chi di dovere</label>
+        </fieldset>
+		<p class="clockTitle sonPage">26/30</p></div>
+		
+		<div id="p-37" value="37">
+		<p class="clockTitle" style="font-size:18px;">Il nucleo di curvatura sta per esplodere</p>
+        <fieldset class="radios" id="radio31">
+            <label class="label_radio"><input name="radio31" class="optionBocx" value="0" type="radio" />Ordino l'evacuazione e attendo il mio turno per andare</label>
+            <label class="label_radio"><input name="radio31" class="optionBocx" value="1" type="radio" />Seguo il protocollo, agevolo l'evacuazione</label>
+            <label class="label_radio"><input name="radio31" class="optionBocx" value="2" type="radio" />Seguo gli ordini, ed abbandono la nave</label>
+        </fieldset>
+		<p class="clockTitle sonPage">27/30</p></div>
+		
+		<div id="p-38" value="38">
+		<p class="clockTitle" style="font-size:18px;">Quale personaggio rappresenta di più il tuo PG?</p>
+        <fieldset class="radios" id="radio32">
+            <label class="label_radio"><input name="radio32" class="optionBocx" value="0" type="radio" />Il Dottor Zimmerman, lavoro, lavoro e... insalata</label>
+            <label class="label_radio"><input name="radio32" class="optionBocx" value="1" type="radio" />Q - Di nuovo immortale, di nuovo onnipotente!</label>
+            <label class="label_radio"><input name="radio32" class="optionBocx" value="2" type="radio" />Gul Dukat prima delle visioni mistiche</label>
+            <label class="label_radio"><input name="radio32" class="optionBocx" value="3" type="radio" />La Dottoressa Marcus, ha la soluzione, ma è sbagliata</label>
+            <label class="label_radio"><input name="radio32" class="optionBocx" value="4" type="radio" />Il Capitano Jellico, 'e qui comando io, e questa è casa mia'</label>
+        </fieldset>
+		<p class="clockTitle sonPage">28/30</p></div>
+		
+		<div id="p-39" value="39">
+		<p class="clockTitle" style="font-size:18px;">Il protocollo...</p>
+        <fieldset class="radios" id="radio33">
+            <label class="label_radio"><input name="radio33" class="optionBocx" value="0" type="radio" />Un insieme fondamentale di regole che vanno seguite</label>
+            <label class="label_radio"><input name="radio33" class="optionBocx" value="1" type="radio" />Dovrebbe essere interpretato con flessibilità</label>
+            <label class="label_radio"><input name="radio33" class="optionBocx" value="2" type="radio" />Se il Capitano non vede, non ne soffrirà</label>
+        </fieldset>
+		<p class="clockTitle sonPage">29/30</p></div>
+		
+		<div id="p-40" value="40">
+		<p class="clockTitle" style="font-size:18px;">Non giocherei mai...</p>
+        <fieldset class="radios" id="radio34">
+            <label class="label_radio"><input name="radio34" class="optionBocx" value="0" type="radio" />Un Medico</label>
+            <label class="label_radio"><input name="radio34" class="optionBocx" value="1" type="radio" />Un Tattico</label>
+            <label class="label_radio"><input name="radio34" class="optionBocx" value="2" type="radio" />Uno Scienziato</label>
+            <label class="label_radio"><input name="radio34" class="optionBocx" value="3" type="radio" />Uno Timoniere</label>
+            <label class="label_radio"><input name="radio34" class="optionBocx" value="4" type="radio" />Un Ingegnere</label>
+        </fieldset>
+		<p class="clockTitle sonPage">30/30</p></div>
+		
+		<div id="p-41" value="41">
+		<p class="clockTitle" style="font-size:18px;"> Perfetto! </p>
+		<img src="TEMPLATES/img/interface/index/blevinrevin_01.png" class="radiusBordered12" align="right"/>Perfetto! Abbiamo terminato! Ora non ti resta che cliccare sul bottone qui sotto per confermare le risposte. Ricorda che la conferma è definitiva e che il questionario non può essere ripetuto! Riceverai un dPadd appena le risposte saranno pronte. Buona fortuna!<br /><br />
+		
+		<span style="font-weight:bold; font-size:12px; font-family:Verdana; color:red;">>></span> <a onclick="if(confirm('Le risposte saranno definitive. Confermi?')) confirmSecondAndProcead();" href="javascript:void(0);" class="interfaceLink">Confermo le Risposte</a></div>
+		
+	</form>
+	</div>
+	
+	<div id="next" class="radiusBordered12" style="border-top-left-radius:0px; border-bottom-left-radius:0px;" onclick="javascript:nextElement()"/>
+	<!--<div id="next" class="radiusBordered12" onclick="jQuery('#p-1').fadeOut(90,function() {jQuery('#p-2').fadeIn(140);});"/>-->
+</div>
+
+<script>
+	
+        $('body').addClass('has-js');
+        $('.label_check, .label_radio').click(function(){
+            setupLabel();
+        });
+		
+		$('.optionBocx').click(function(){
+            nextElement();
+        });
+        setupLabel(); 
+		
+		jQuery('.laurerL').hide();
+		jQuery('.laurerD').hide();
+</script>
+</div>
+
+</html>

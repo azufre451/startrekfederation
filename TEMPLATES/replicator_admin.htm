@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	
+	<link href="TEMPLATES/css/styles.css" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/styles.css" rel="stylesheet" type="text/css" />
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<script type="text/javascript" src="TEMPLATES/js/replicator.js?v=1.1" />
+ 
+	<title>Replicatore</title>
+	<style>
+		td {padding:5px;}
+		.intest td {background-color:#555; font-weight:bold; text-align:center;}
+		.outest td {background-color:#222; }
+	</style>
+</head>
+
+<body>
+	<div>
+	<table style="width:100%;">
+		<tr class="intest"><td style="width:40px;"> ID </td><td style="width:40px;"> User </td> <td style="width:100px;"> Nome </td> <td> Descrizione - Specie <br/>(<span style="color:#FC0; font-weight:bold;">Alimento</span> / <span style="color:darkcyan; font-weight:bold;">Bevanda</span>) </td> <td style="width:150px;"> Image </td> <td style="width:100px;"> Controls </td></tr>
+		<tr class="outest" tal:repeat="elem food">
+		<td style="width:40px;" tal:content="elem/foodID"/>
+		<td style="width:40px;" tal:content="elem/pgUser"/>
+		<td style="width:100px;" tal:content="elem/foodName"/>
+		<td><span  tal:content="elem/foodSpecie" tal:attributes="style php:(elem['foodType'] == 'a') ? 'color:#FC0;; font-weight:bold;;' : 'color:darkcyan;; font-weight:bold;;'" /> - <span  tal:content="elem/foodDescription"/><hr/><span  tal:content="php:(strlen(elem['foodDescription']) . ' caratteri.')" style="color:#FC0; font-size:11px;"/></td>
+		<td style="width:150px; text-align:center;"><img tal:attributes="src elem/foodImage" style="width:150px;"/> Size: <span tal:content="elem/foodImaSize" tal:attributes="style php:(elem['foodImaSize'] == '390x230') ? 'color:#0F0' : 'color:red'"/></td>
+		<td style="width:90px; text-align:center;">
+			<a tal:attributes="href string:replicator.php?approval=true&s=approveFully&foodID=${elem/foodID}" tal:condition="php:(elem['foodImaSize'] == '390x230' && elem['foodName'] != '' && elem['foodDescription'] != '' && elem['foodSpecie'] != '')" class="interfaceLinkGreen">[ APPROVA ]</a><br />
+			<a tal:attributes="href string:replicator.php?approval=true&s=revise&foodID=${elem/foodID}" class="interfaceLinkBlue">[ MODIFICA ]</a><br />
+			<a tal:attributes="href string:replicator.php?approval=true&s=delete&foodID=${elem/foodID}" class="interfaceLinkRed">[ ELIMINA ]</a>
+		</td>
+		</tr>
+	</table>
+	</div>
+</body>
+</html>

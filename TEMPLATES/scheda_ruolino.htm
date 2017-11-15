@@ -1,0 +1,260 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/personnel.css?v=1.6" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" /> 
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	
+	
+	<script type="text/javascript" src="TEMPLATES/js/progressBarHandler/prototype.js"></script> 
+	<script type="text/javascript" src="TEMPLATES/js/progressBarHandler/jsProgressBarHandler_ruol.js"></script>
+
+	<title>STAR TREK FEDERATION - SCHEDA</title>	
+	<script type="text/javascript">
+	
+	
+	function paddOpen(who){window.open ('padd.php?s=seR&to='+who+'&sub=','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
+	
+	function removeItem(ider,pgi)
+	{	
+		if(confirm('Conferma eliminazione?'))
+		window.location.href="scheda.php?s=remDotazione&brever=true&ider="+ider+'&pgID='+pgi;
+	}
+	
+	function addBreverItem(ider,pgi)
+	{	
+		window.location.href="scheda.php?s=addBrevetto&ider="+ider+'&pgID='+pgi;
+	}
+	
+	function removeDotazione(ider,pgi)
+	{	
+		if(confirm('Conferma eliminazione?'))
+		window.location.href="scheda.php?s=remDotazione&laurer=true&ider="+ider+'&pgID='+pgi;
+	}
+	
+	function showRuolino()
+	{
+		if(jQuery('#mainRuolino').css('display') == 'block') jQuery('#mainRuolino').fadeOut(200,function(){jQuery('#ruolinoER').fadeIn(200); jQuery('#linkerR').prop('src','TEMPLATES/img/interface/personnelInterface/schedaImage.png'); });
+		else jQuery('#ruolinoER').fadeOut(200,function(){jQuery('#mainRuolino').fadeIn(200); jQuery('#linkerR').prop('src','TEMPLATES/img/interface/personnelInterface/ruolinoImage.png'); });
+	}
+	
+	function viewAdder()
+	{
+		jQuery('#rankAdder').fadeIn(200, function(){jQuery('#viewAdderToggle').fadeOut(100)});
+	}
+	
+	function switchsect()
+	{
+		if (jQuery('#personalAbil').css('display') == 'none')
+		{
+			jQuery('#tecAbil').fadeOut(100,function(){jQuery('#personalAbil').fadeIn(100);});
+		}
+		else {jQuery('#personalAbil').fadeOut(100,function(){jQuery('#tecAbil').fadeIn(100);});}
+	}
+	
+	 jQuery(function() { jQuery('.tooltip, img').tooltip({
+          content: function () {
+              return jQuery(this).prop('title');
+          }
+      });});
+	
+	Event.observe(window, 'load', function(){
+	
+						new JS_BRAMUS.jsProgressBar($('1'),parseInt(document.getElementById('1').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('2'),parseInt(document.getElementById('2').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('3'),parseInt(document.getElementById('3').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('4'),parseInt(document.getElementById('4').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('5'),parseInt(document.getElementById('5').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('6'),parseInt(document.getElementById('6').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('7'),parseInt(document.getElementById('7').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('8'),parseInt(document.getElementById('8').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('9'),parseInt(document.getElementById('9').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('10'),parseInt(document.getElementById('10').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('11'),parseInt(document.getElementById('11').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('12'),parseInt(document.getElementById('12').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('13'),parseInt(document.getElementById('13').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('14'),parseInt(document.getElementById('14').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('15'),parseInt(document.getElementById('15').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('16'),parseInt(document.getElementById('16').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('17'),parseInt(document.getElementById('17').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('18'),parseInt(document.getElementById('18').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('19'),parseInt(document.getElementById('19').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('20'),parseInt(document.getElementById('20').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('21'),parseInt(document.getElementById('21').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('22'),parseInt(document.getElementById('22').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('23'),parseInt(document.getElementById('23').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('24'),parseInt(document.getElementById('24').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('25'),parseInt(document.getElementById('25').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('26'),parseInt(document.getElementById('26').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('27'),parseInt(document.getElementById('27').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('28'),parseInt(document.getElementById('28').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('29'),parseInt(document.getElementById('29').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('30'),parseInt(document.getElementById('30').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('31'),parseInt(document.getElementById('31').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('32'),parseInt(document.getElementById('32').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('33'),parseInt(document.getElementById('33').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('34'),parseInt(document.getElementById('34').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('35'),parseInt(document.getElementById('35').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('36'),parseInt(document.getElementById('36').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('37'),parseInt(document.getElementById('37').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('38'),parseInt(document.getElementById('38').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('39'),parseInt(document.getElementById('39').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('40'),parseInt(document.getElementById('40').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('41'),parseInt(document.getElementById('41').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('42'),parseInt(document.getElementById('42').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('43'),parseInt(document.getElementById('43').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('44'),parseInt(document.getElementById('44').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('45'),parseInt(document.getElementById('45').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('46'),parseInt(document.getElementById('46').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('47'),parseInt(document.getElementById('47').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('48'),parseInt(document.getElementById('48').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('49'),parseInt(document.getElementById('49').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('50'),parseInt(document.getElementById('50').innerHTML)); 
+						new JS_BRAMUS.jsProgressBar($('51'),parseInt(document.getElementById('51').innerHTML)); 
+				}, false);
+	</script>
+	<style>
+	.ui-tooltip {
+    font-family:Helvetica;
+	font-size:12px;
+	font-variant:small-caps;
+	max-width:55%;
+  }
+  
+  img.brevHighlit {height:25px; vertical-align:middle;}
+  img.rankHighlit {width:25px; vertical-align:middle;}
+  p.brevTitleRed {margin:0px; text-align:center; color:red; font-weight:bold;}
+  span.brevTitleWhite {margin:0px; text-align:center; color:white; font-weight:bold;}
+  span.brevTitleFC0 {color:#FC0; font-weight:bold;}
+  span.brevTitleGreen {color:#0F0; font-weight:bold;}
+  span.brevTitleYelo {color:yellow; font-weight:bold;}
+	</style>
+</head>
+
+<body style="background-color:black; overflow:hidden; height:385px; padding:-5px;">
+
+<div id="schedaContainer">
+
+<div metal:use-macro="TEMPLATES/metal.htm/schedaIntro" />
+ 
+<div id="mainContainer">
+ 
+
+<div id="mainRuolino" style="margin:0px; margin-left:10px; position:relative; margin-right:10px; height:500px;">
+	
+		<div style="margin:auto; width:495px;">
+			<p class="titleOrange boxLinkOrange" onclick="javascript:switchsect();"  style="cursor:pointer;  border:1px solid orange; padding:5px; border-radius:20px/9px; float:left; width:210px;">
+			<img  style="vertical-align:middle;" src="TEMPLATES/img/interface/personnelInterface/abilitazioni_competenze.png" /> <a href="#" onclick="jQuery('#brevAdder').fadeIn(200);"><img style="vertical-align:middle;" src="TEMPLATES/img/interface/personnelInterface/info.png" title="Clicca per aprire le regole dei brevetti" /></a>
+			</p>
+			
+			<p style="top:-10px; right:30px; position:absolute;">
+			<a tal:attributes="href string:scheda.php?s=bvadd&pgID=${selectedUser}"><button class="plusButton" tal:condition="exists:plusShow" style="vertical-align:middle;"><img src="TEMPLATES/img/interface/personnelInterface/plusicon.png" style="width:20px;" /></button> </a>
+			</p>
+			
+			<p class="titleBlue boxLinkBlue" style="cursor:pointer;  border:1px solid #13345C; padding:5px; margin-left:5px; border-radius:20px/9px; float:left; width:210px;"  onclick="javascript:switchsect();" >
+			<img  style="vertical-align:middle;" src="TEMPLATES/img/interface/personnelInterface/abilita_personali_l.png" /> <a  href="#" onclick="jQuery('#abilAdder').fadeIn(200);"> <img style="vertical-align:middle;" src="TEMPLATES/img/interface/personnelInterface/info.png" title="Clicca per maggiori informazioni" /></a>
+			</p>
+		</div> 
+		
+		<div style="clear:both" />
+		
+		<div id="tecAbil" class="radiusBordered" tal:attributes="style php:(userData.pgMatricola == '' || forcePerso) ? 'border:1px solid orange;; display:none;; margin-top:6px;; padding:10px;; margin-right:10px;;' : 'border:1px solid orange;; display:block;; margin-top:6px;; padding:10px;; padding-right:4px;; margin-right:10px;;'">
+		
+		<table>
+		<tr tal:repeat="breCat cats/0" style="margin:0px;">
+		<td class="categoryBrev"><span tal:content="string: AREA ${breCat/sectorName}"  />
+			<a class="interfaceLinkBlue" tal:attributes="onclick string:javascript:cdbOpenToTopic('${breCat/pointer}')" href="javascript:void(0);" tal:condition="php:(breCat['pointer'] != '')" style="font-size:11px; margin-left:5px;">[ <img style="vertical-align:middle;" src="TEMPLATES/img/interface/personnelInterface/info2.png" title="Informazioni sull'abilitazione" /> ]</a> 
+			<p class="subBrevDescript"> <span tal:content="structure breCat/sectDescr" /> <span tal:condition="php:(breCat['specialist'])" style="font-weight:bold; font-size:11px; color:#5d85a6;" class="tooltip" title="Questa è un'area specialistica: gli Specialist Points (1 ogni 200FP) devono essere assegnati ad una di queste aree.">[S]</span></p>
+		</td>
+		<td style="text-align:left;" class="tooltip"><div style="width:180px;float:left;"> <img tal:repeat="bre breCat/brevList" tal:attributes="src string:TEMPLATES/img/ruolini/brevetti/${bre/icon} ; title php:(bre['status'] != NULL) ? bre['alt'] . '<br /><span class=\'brevTitleGreen\'>Esame Superato</span>' : requires[bre['brevID']] ; ondblclick php:(smasterPanel== true && bre['status'] != NULL) ? 'javascript:removeItem(' . bre['recID'] . ',' . selectedUser . ')': ((smasterPanel== true && bre['status'] == NULL) ? 'javascript:addBreverItem(' . bre['brevID'] . ',' . selectedUser . ')' : '') ; class php:(bre['status'] == NULL && breCat['levelR'] LT bre['costObrev']) ? 'grayScale' : ((bre['status'] == NULL && breCat['levelR'] GE bre['costObrev']) ? 'blurred' : '') " style="margin-left:15px; margin-top:4px; width:45px; vertical-align:middle;" /></div> 
+		
+		
+		
+		<div tal:attributes="style string:float:left;; height:${breCat/specSize/0}px;; margin-left:${breCat/specSize/1}px;; margin-top:${breCat/specSize/2}px;; vertical-align:middle;;">
+			
+			<div style="float:left; width:${breCat/specSize/0}px;; height:${breCat/specSize/0}px;; margin-left:2px;" tal:repeat="spec breCat/specList" tal:condition="php:(count(breCat['specList']) != NULL)"> 
+				<img class="tooltip" tal:attributes="src string:TEMPLATES/img/ruolini/brevetti/${spec/image} ; style string:width:${breCat/specSize/0}px;; ; title string:<span style='color:#5d85a6;; font-weight:bold;;'>${spec/name}</span><hr/>${spec/descript}" />
+			</div>
+		</div>
+		
+		<div style=" margin:0px; margin-left:15px; clear:both;"><span tal:attributes="id breCat/lev" style="padding-left:2px;" tal:content="breCat/level">40</span> <span style="padding-left:2px; font-weight:bold; color: #187cd0;" tal:content="php:(breCat['levelR']) ? breCat['levelR'] . ' / 15 UP' : '0 / 15 UP'">40</span> <span class="tooltip" tal:condition="php:(strlen(breCat['specBlunt']) GT 98)" style="font-weight:bold; font-size:11px; color:#5d85a6;" tal:attributes="title breCat/specBlunt">[+]</span> </div></td>
+		
+		</tr>
+		</table>
+	</div>
+	
+	<!-- ABILITIES M251-->
+	<div tal:attributes="style php:(userData.pgMatricola == '' || forcePerso) ? 'border:1px solid #13345C;; display:block;; margin-top:6px;; padding:10px;; margin-right:10px;;' : 'border:1px solid #13345C;; display:none;; margin-top:6px;; padding:10px;; margin-right:10px;;'" id="personalAbil" class="radiusBordered">
+		
+		<table>
+		<tr tal:repeat="breCat cats/1" style="margin:0px;">
+		<td class="categoryBrev" style="width:320px;"><p tal:content="string: AREA ${breCat/sectorName}"  />
+			<div style="width:50px; height:50px; margin-left:20px; position:relative; float:left; padding:0px;">
+				<img tal:attributes="src string:TEMPLATES/img/ruolini/brevetti/${breCat/l_image}" style="margin:0px;"/>
+				<div tal:attributes="style php:'height:' . floor(50-(50*(breCat['level'])/100)) . 'px;; overflow-y:hidden;; position:absolute;; top:0px;; left:0px;; background-color:black;;'">
+					<img tal:attributes="src string:TEMPLATES/img/ruolini/brevetti/${breCat/l_image}" style="margin:0px;" class="grayScale"/>
+				</div>
+			</div>
+			<p class="subBrevDescript" style="float:right; width:220px;"><span tal:content="structure breCat/sectDescr" /></p>
+		</td>
+		
+		<td style="text-align:left; text-align:center;">
+			<p style="margin:0px; padding-top:50px;">
+			<span tal:attributes="id breCat/lev" tal:content="breCat/level" />
+			<p style="margin-top:5px; font-weight:bold; color: #187cd0;" tal:content="php:(breCat['levelR']) ? breCat['levelR'] . ' / 15 UP' : '0 / 15 UP'" />
+			</p>
+		</td>	
+			<!---->   
+		
+		</tr>
+		</table>
+	</div>
+	
+	
+</div>
+
+<div style="margin:0px; margin-left:15px; height:320px; float:left; width:440px; display:none;" id="ruolinoER">
+<p style="margin:0px;font-family:federationFontI; font-size:20px;"><img src="TEMPLATES/img/interface/personnelInterface/ruolino.jpg"/></p>
+
+
+
+	
+</div>
+
+</div>
+
+
+</div>
+
+<div id="brevAdder">
+	
+	<p style="margin:0px; margin-top:5px; font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;font-size: 25px;text-align: center;text-shadow: 0 0 5px #00C6FF;font-weight:bold;"> Abilitazioni e Conoscenze </p>
+	
+	<p style="margin:0px; margin-left:10px; margin-right:10px; text-align:justify; font-size:13px;">Incrementa le conoscenze del personaggio e ottieni i relativi brevetti (dovrai sostenere un esame in ON per confermare la conoscenza dei temi trattati dal brevetto del tuo PG). Il numero di punti spendibili nelle aree dipende dal totale di FP acquisiti. Un consiglio: delinea un percorso coerente per il tuo personaggio, e cerca di specializzarlo in pochi ambiti, così da poter essere utile in situazioni ad alta specificità. Ricorda anche che alcuni brevetti sono necessari per ricoprire alcune posizioni in ON. Per ogni dubbio, lo Staff è a tua completa disposizione. <span style="color:red; font-weight:bold;">E' possibile riallocare i punti</span> che non concorrono alla formazione dei brevetti, consultando lo staff e non per più di 3 volte</p>
+	
+	<p style="margin:0px; margin-left:10px; margin-right:10px; text-align:justify; font-size:13px;">Consulta le <a href="#" onclick="javascript:dbOpenToTopic(243);" class="interfaceLink">Regole dei Brevetti</a></p>
+
+	
+	
+	<div  style="position:absolute; top:2px; right:2px; height:15px; width:15px; background-color:black; text-align:center; cursor:pointer; border:1px solid #AAA; padding:2px;" onclick="jQuery('#brevAdder').fadeOut(100);">X</div>
+	</div>
+	
+<div id="abilAdder">
+	
+	<p style="margin:0px; margin-top:5px; font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;font-size: 25px;text-align: center;text-shadow: 0 0 5px #00C6FF;font-weight:bold;"> Abilità Personali </p>
+	
+	<p style="margin:0px; margin-left:10px; margin-right:10px; text-align:justify; font-size:13px;">Le abilità personali sono elementi di caratterizzazione aggiuntiva in aree non strettamente operative, ed orientate princiaplmente alla cultura personale del personaggio. <span style="color:#2266c3; font-weight:bold;">E' possibile riallocare i punti</span> che non concorrono alla formazione dei brevetti, consultando lo staff e non per più di 3 volte</p>
+	
+	<div  style="position:absolute; top:2px; right:2px; height:15px; width:15px; background-color:black; text-align:center; cursor:pointer; border:1px solid #AAA; padding:2px;" onclick="jQuery('#abilAdder').fadeOut(100);">X</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,110 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	 
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	
+	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" /> 
+	<title>TUTORIAL STAR TREK FEDERATION - SCHEDA</title>
+	<script type="text/javascript">
+	jQuery(function(){jQuery('#bkg').load('scheda.php?pgID=1');});
+	var positions = [ 
+	[60,40,7,5,300,30,'BARRA SUPERIORE','Questa serie di elementi richiama differenti sezioni della scheda del personaggio. La prima icona rappresenta questa prima schermata.',''],  
+	[60,200,7,521,123,30,'BARRA FUNZIONI','Qui trovi un collegamento rapido alla scrittura di messaggistica interna verso l\'utente di cui stai visualizzando la scheda oltre ad un riepilogativo dello status del giocatore che lo controlla; è online o offline? È un master o un admin?',''],  
+	[205,251,70,16,213,476,'AVATAR E UNIFORME','Qui visualizzi l\'avatar del personaggio e l\'uniforme che sta indossando (la puoi cambiare dal tool Abbigliamento dello strumento "computer"). Nessuna uniforme visibile equivale al fatto che il personaggio stia indossando abiti civili!',''],  
+	[373,244,73,236,387,287,'DETTAGLI DEL PG','I principali dettagli anagrafici del personaggio. Alcuni campi saranno modificabili da te, altri saranno assegnati automaticamente dallo staff.',''],  
+	[235,244,367,236,387,210,'TITOLI','In questo spazio vengono evidenziati i titoli di studio e le medaglie conseguite dal personaggio. Vorresti inserire una laurea o un diploma? Contatta l\'amministrazione per valutarne la fattiblità!',''],  
+	[350,84,567,2,148,26,'SCHEDA OFF','Un riepilogativo dei punti esperienza che hai guadagnato insieme agli achievement che come giocatore ti sei guadagnato ed il tempo trascorso da quando ti sei iscritto espresso in mesi.',''],  
+	[237,131,7,35,29,28,'BACKGROUND','Il background del personaggio è compilabile in cinque differenti sezioni. La personalizzazione della scheda è libera tramite l\'utilizzo dei tag html. Ciascuna sezione è importante, non essere troppo striminzito e non dimenticarti aspetti essenziali come la descrizione fisica all\'inizio. Con il tempo ricordati di ingrandire il contenuto ed aggiungere elementi utili ai master per coinvolgerti.','bg'],  
+	[237,131,7,65,29,28,'ABILITAZIONI','La scheda abilitazioni riporta l\'elenco delle abilità nel quale il personaggio sta facendo pratica. Ogni 5 punti il personaggio può acquisire un brevetto sostenendo un esame. Il brevetto aumenta il riconoscimento dell\'impegno profuso ed è estremamente utile per aiutarti nel superare le sfide che il master ti pone davanti. Avere un brevetto aumenta le possibilità di successo in quella disciplina! Inizialmente hai 14 punti da distribuire nelle "Abilitazioni e Competenze" e 7 punti nelle "Abilità Personali", collegate ad aspetti sportivi ed artistici.','bv'],  
+	[237,131,7,95,29,28,'SDS','Lo stato di servizio è suddiviso in tre parti. La prima riassume le assegnazioni del personaggio. La seconda registra quando un personaggio supera un esame e ottiene un brevetto. La terza è il ruolino degli incarichi; quest\'ultima è modificabile da te mentre le prime due sono modificate dallo staff.','ssto'],  
+	[237,131,7,125,29,28,'MEDICA','La scheda medica è il riferimento concreto delle situazioni di carattere medico che il personaggio affronta. Ogni visita medica e psicologica è riportata con tutti i dettagli dai medici del gioco. Questa sezione viene aggiornata dai giocatori che, per incarico, sono abilitati a aggiungere referti.','me'],  
+	[237,131,7,155,29,28,'ALLOGGIO','Una descrizione sommaria dell\'alloggio e la sua posizione nell\'unità. La descrizione è modificabile dall\'utente ma ricordati di rispettare le eventuali specifiche nella forma dell\'alloggio e della sua posizione sul vascello se si tratta di un alloggio standard! Arricchisci la descrizione per offrire dettagli ai giocatori che si trovassero con te nell\'alloggio!','al'],  
+	[237,131,7,185,29,28,'DOTAZIONE','Questa sezione, in fase di sviluppo, è un riepilogativo degli oggetti più importanti che il personaggio possiede di cui il giocatore può creare immagine e descrizione liberamente.','oj'],  
+	[237,131,7,215,29,28,'MODIFICA','Qui potrai modificare alcuni di dettagli della scheda principale, tutti i campi del background e il campo dell\'alloggio personale. Attraverso la funzione SCHEDA OFF puoi specificare quale individuo presta il volto al tuo personaggio e modificare alcune delle funzioni di notifica di Federation come i suoi e le mail di ricezione messaggi interni. Da questa scheda puoi modificare la password del personaggio.','edit'],  
+	]
+	function terminate(){window.close();}
+	function terminateR(){jQuery.post('ajax_helpSet3.php',{'what':'2','realK':1},function(e){window.close();});}
+	function goNext(ida)
+	{
+		idaN = parseInt(ida)+1; 
+		if(idaN > 12){ terminate(); return;}
+		if(idaN == 12){jQuery('#continuaL, #terminaK').fadeOut(150,function(){jQuery('#terminaAl').fadeIn();});}
+		
+		
+					 
+						
+		rTop_tb = positions[idaN][0];
+		rTop_ta = positions[idaN][2];
+		rLeft_tb = positions[idaN][1];
+		rLeft_ta = positions[idaN][3];
+		 
+		jQuery('#tutorialBox').animate({
+			 top: rTop_tb,
+			 left: rLeft_tb
+		},function(){
+				jQuery('#tutorialTitle').html(positions[idaN][6]);
+				jQuery('#tutorialContent').html(positions[idaN][7]);
+				jQuery('#tutorialStep').val(idaN);
+			});
+		
+		 
+			jQuery('#tutorialArrow').animate({
+			 top: rTop_ta,
+			 left: rLeft_ta,
+			 width: positions[idaN][4],
+			 height: positions[idaN][5],
+		},function(){
+			if(positions[idaN][8] != '') jQuery('#bkg').load('scheda.php?pgID=1&s='+positions[idaN][8]);
+		});
+		
+		jQuery('#tutorialBox').css('margin','0px');
+	}
+	</script>
+	 
+<style>
+.fluctuator{
+position:absolute;
+padding:10px;
+border-radius:5px; 
+font-family:verdana;
+z-index:10;
+max-width:350px;
+text-align:justify;
+border:1px solid #555;
+font-size:13px;
+background-color:rgba(0,0,0);
+background-color:rgba(0,0,0,0.85);
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#e6000000,endColorstr=#e6000000);
+
+}
+.fluctuator p{margin:0px; margin-bottom:5px; font-size:15px;}
+.evidenceYelo{color:#FC0; font-size:11px; text-transform:uppercase; font-weight:bold;}
+
+#tutorialArrow{z-index:10; position:absolute; top:-100px; left:-100px; width:25px; border-radius:10px; height:25px;  border:1px solid red; -moz-box-shadow: 0px 0px 20px red;
+    -webkit-box-shadow: 0px 0px 20px red;
+    box-shadow: 0px 0px 20px red;} 
+</style>
+
+</head>
+<body>
+
+<div id="bkg" style="opacity:0.7" />
+<div   style="position:absolute;width:97%;height:97%; z-index:2;" />
+
+<div class="fluctuator blueShadow" id="tutorialBox" style="top:50%; left:50%; margin-left:-200px; margin-top:-100px;">
+<p class="clockTitle" id="tutorialTitle">SCHEDA PG</p> 
+	<p id="continuaL" style="position:absolute; top:10px; right:10px;"><a href="javascript:void(0);" onclick="goNext(jQuery('#tutorialStep').val())" class="interfaceLinkBlue"> [ CONTINUA ]</a></p>
+	<p style="position:absolute; top:10px; left:10px;" id="terminaK"><a href="javascript:void(0);" onclick="if(confirm('Sei sicuro di voler terminare il tutorial?')) terminate()" class="interfaceLinkRed"> [ TERMINA ]</a></p> 
+	<p style="position:absolute; top:10px; right:10px; display:none;" id="terminaAl"><a href="javascript:void(0);" onclick="terminateR()" class="interfaceLinkRed"> [ TERMINA ]</a></p> 
+<hr />	
+ <p id="tutorialContent" style="margin:0px; font-size:13px;">La scheda pg é uno strumento indispensabile che ti permette di visualizzare tutte le informazioni inerenti di un personaggio. In essa puoi visualizzare tutti i dati , i brevetti, titoli di studio ed eventuali note di merito o demerito ottenute, la storia clinica, l’avanzamento di carriera, ma anche informazioni utili e personalizzabili come l’alloggio e gli averi posseduti. </p>
+ <input id="tutorialStep" value="-1" type="hidden" /> 
+</div>
+
+<div id="tutorialArrow" />
+
+
+</body>
+</html>

@@ -1,0 +1,324 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/cdb.css?v=1.2.1" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<script type="text/javascript" src="TEMPLATES/js/caret.js"></script>
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/datepicker.css" rel="stylesheet" type="text/css" />
+
+	<title>STAR TREK FEDERATION - CDB</title>
+	
+	<script type="text/javascript">
+		function split( val ) {
+			return val.split( /,\s*/ );
+		}
+		function extractLast( term ) {
+			return split( term ).pop();
+		}
+		
+		function isNumberKey(evt)
+		{
+
+         var charCode = (evt.which) ? evt.which : event.keyCode
+
+         if ((charCode < 58 && charCode > 47) || (charCode < 106 && charCode > 95) || charCode == 8)
+            return true;
+
+         return false;
+		 
+		 }
+
+		jQuery(function(){
+			jQuery( "#users")
+			// don't navigate away from the field on tab when selecting an item
+
+			.autocomplete({
+				source: function( request, response ) {
+					$.getJSON( "ajax_userGetter.php", {
+						term: extractLast( request.term )
+					}, response );
+				},
+				search: function()
+				{
+					// custom minLength
+					var term = extractLast( this.value );
+					if ( term.length < 3 ) {
+						return false;
+					}
+				},
+				focus: function() {
+					// prevent value inserted on focus
+					return false;
+				},
+				select: function( event, ui ) {
+					var terms = split( this.value );
+					// remove the current input
+					terms.pop();
+					// add the selected item
+					terms.push( ui.item.value );
+					// add placeholder to get the comma-and-space at the end
+					terms.push( "" );
+					this.value = terms.join( ", " );
+					return false;
+				}
+			});
+			
+			 $( "#usersMaster" ).autocomplete({
+			 source: "ajax_UserSearch.php?filter=PNG",
+			 minLength: 2,
+			 });
+			 
+			})
+			
+			function goTrasncript(rap,stringUse)
+			{
+				if (jQuery('#format1').prop('checked')) formatID = 1;
+				if (jQuery('#format2').prop('checked')) formatID = 2;
+				if (jQuery('#format3').prop('checked')) formatID = 3;
+				if (jQuery('#format4').prop('checked')) formatID = 4;
+				if (jQuery('#format5').prop('checked')) formatID = 5;
+				
+				jQuery.post('ajax_getCDBFormats.php', {stringer: stringUse, format: formatID, rapType: rap}, settercdb, 'json');
+			}
+			
+			function goStardate(d,m,y,h,i,s)
+			{
+				jQuery.post('ajax_stardateGetter.php', {day: d, mon: m, yea:y, hou:h,min:i}, settercdb, 'json');
+			}
+			
+			
+			function settercdb(data)
+			{
+				
+				var box = jQuery("#postContent");
+				box.val(box.val() + data);
+				jQuery('#pstAdva').fadeOut(50);
+			}
+	</script>
+</head>
+
+<body>
+<div id="federation_interfaceContainer">
+	<div id="leftCol" style="width:123px;">
+		<div id="leftC1" />
+		<div id="leftC3" />
+	</div>
+	
+	<div id="supCol">
+		 
+		<div metal:use-macro="TEMPLATES/metal.htm/cdbHeading" />
+
+	</div>
+	
+	<div id="fillerBax">
+		<div id="barbot1" />
+	</div>
+	
+	<div id="cdbContainer">
+	
+	<div metal:use-macro="TEMPLATES/metal.htm/cdbIntro" />
+
+<div style="font-size:12px; margin-left:5px; text-transform:uppercase;"><a href="cdb.php" class="interfaceLink">CDB</a> <span style="color:red; font-size:11px;">></span> <a class="interfaceLink" tal:attributes="href string:cdb.php?cat=${catID}"><span tal:content="catName" /></a> <span style="color:red; font-size:11px;">></span> <span class="interfaceLink" tal:content="topicTitle" /></div>
+
+<div style="text-align:center; border-top:1px solid #999; border-bottom:1px solid #999; margin-top:10px; padding:5px; margin-bottom:10px;">
+	<p style="font-size:14px;" tal:condition="php:topicType=='I'" tal:attributes="class string:topicTitolo topicImportant ${topicColorExt};" tal:content="topicTitle" />
+	<p style="font-size:14px; margin:0px;" tal:condition="php:topicType=='A'" tal:attributes="class string:topicTitolo topicAnnounce ${topicColorExt}" tal:content="topicTitle"/>
+	<p style="font-size:14px; margin:0px;" tal:condition="php:topicType=='N'" tal:attributes="class string:topicTitolo ${topicColorExt}" tal:content="topicTitle"/>
+	
+ 
+	<p tal:condition="exists:isGlobalMaster"><a tal:attributes="href string:cdb.php?disableTopic=${topicID}" title="CANCELLA" onclick="return confirm('Conferma cancellazione');"><img src="TEMPLATES/img/interface/cdbInterface/forum_delete.png" /></a> <a tal:attributes="href string:cdb.php?topicE=${topicID}" title="MODIFICA" ><img src="TEMPLATES/img/interface/cdbInterface/forum_edit.png" /></a> <a tal:attributes="href string:cdb.php?topicLock=${topicIDE}" title="BLOCCA"><img tal:attributes="src php: (!topicLock) ? 'TEMPLATES/img/interface/cdbInterface/forum_blocca.png' : 'TEMPLATES/img/interface/cdbInterface/forum_bloccato.png'" /></a> <a tal:attributes="href string:cdb.php?moveTopic=${topicID}" title="SPOSTA"><img src="TEMPLATES/img/interface/cdbInterface/forum_sposta.png" /></a> <a tal:attributes="href string:cdb.php?firsterTopic=${topicID}" title="PRIMIZZA" class="interfaceLink"><img src="TEMPLATES/img/interface/cdbInterface/forum_primizza.png" /></a> <a tal:attributes="href string:cdb.php?lurkerProtect=${topicID} ; class php:(lurkerProtect) ? 'interfaceLinkGreen' : 'interfaceLinkRed'" title="LURKER PROTECT"><img tal:attributes="src php: (lurkerProtect) ? 'TEMPLATES/img/interface/cdbInterface/forum_protected.png' : 'TEMPLATES/img/interface/cdbInterface/forum_proteggi.png'" /></a></p>
+	
+	
+</div>
+<div id="container">
+
+<div id="paginator" style="margin-left:10px;">
+<div tal:repeat="page php:range(1,pageNo)" tal:attributes="class php:(page==currentPage) ? 'activePaginatore' : 'paginatore'"><a tal:attributes="href string:cdb.php?topic=${topicID}&page=${page}" class="interfaceLink" tal:content="page"/></div>
+	</div> <p style="margin:0px; float:right; margin-right:20px;" tal:condition="php:(pageNo == currentPage)"><a tal:attributes="href string:#${lastPost/ID}" class="interfaceLink" tal:condition="php:(isSet(lastPost['ID']))">» Ultimo Elemento </a></p><div style="clear:both;" />
+	
+<div style="border:1px dotted #BBB; text-align:center; margin-top:10px; width:99%;" tal:repeat="post posts"><a tal:attributes="name post/ID" />
+
+<div style="position:relative;" tal:condition="exists:post/userdel"><div  style="position:absolute; font-size:11px; top:35px; right:28px; width:200px; height:20px;"><a class="interfaceLink" tal:attributes="href string:cdb.php?deletePost=${post/ID}" onclick="return confirm('Conferma operazione');" >ELIMINA <img src="TEMPLATES/img/interface/delete.png" /></a> | <a class="interfaceLink" tal:attributes="href string:cdb.php?postE=${post/ID}" ><img src="TEMPLATES/img/interface/edit_icon.png" /> MODIFICA</a></div></div>
+
+<div style="width:90%; margin-left:auto; margin-right:auto; margin-top:10px;" align="center">
+<table cellspacing="0" width="100%" style="width:100%; table-layout: fixed;">
+	<tr>
+		<td class="borderTopic" width="80px" style="width:100px; text-align:center; border-right:1px solid #777;"><a class="interfaceLink" tal:attributes="href string:javascript:schedaPOpen(${post/pgUserID})" tal:content="post/pgUser"></a></td>
+		<td class="borderTopic postTitle" style="text-align:left; width:auto; height:20px;"><p style="float:left;"  tal:content="string:${post/title}" /><a tal:attributes="href string:cdb.php?addPointsReport=${post/ID}&page=${currentPage}&topic=${topicID}" tal:condition="php:(post['FPtoA'] && isSet(isMaster))" onclick="return confirm('Sei sicuro di voler assegnare 2FP per questo rapporto?');" title="Assegna 2FP per questo post (da usare solo se il post è un rapporto)"><div style="float:left;" class="fpAdd" /></a></td>
+		<td class="borderTopic" style="width:15px;" width="15px"><img tal:attributes="src php:(user.pgSeclar GE post['postSeclar'] ||  post['pgUserID'] == user.ID) ? 'TEMPLATES/img/interface/lock_blue_icon.jpg' : 'TEMPLATES/img/interface/lock_red_icon.png'; title php:(user.pgSeclar GE post['postSeclar'] || post['pgUserID'] == user.ID) ? 'Il tuo PG in ON è autorizzato alla lettura del post' : 'ATTENZIONE - Il tuo PG in ON non è autorizzato alla lettura del post!'" /></td>
+		<td class="borderTopic" style="width:80px; text-align:right;"><img tal:attributes="src php:(user.pgSpecie == 'Romulana') ? 'TEMPLATES/img/seclar/seclar' . post['postSeclar'] . '.png' : 'TEMPLATES/img/seclar/seclar' . post['postSeclar'] . '.png'" /></td>
+	</tr>
+	
+	<tr>
+	<td class="postDate" style="width:80px;" width="80px" tal:content="post/time"></td>
+	<td class="postTitle" style="text-align:left; color:#999; font-size:11px; padding-left:14px;" tal:condition="php:(post['lastEdit'] != '01/01/2338 01:00:00')">
+		<img src="TEMPLATES/img/interface/edit_icon.png" tal:attributes="title string:Ultima Modifica: ${post/lastEdit}" />
+		<span tal:condition="exists:post/coOwner" style="font-size:12px; color:#AAA; font-style:italic;" tal:content="string:Co-autore: ${post/coOwner}"/>
+		<span tal:content="post/postNote" />
+	</td>   
+	</tr>
+	
+	<tr><td style="height:10px" colspan="4"/></tr>
+	<tr><td class="postContent" colspan="4" tal:content="structure post/content" tal:condition="not:exists:preventShow" /></tr>
+	<tr><td class="postContent" colspan="4" tal:condition="exists:preventShow">
+		<div style="font-size:20px; font-variant:small-caps; color:#3188F3; font-weight:bold; text-align:center; border:2px solid #333; width:80%; margin-left:auto; margin-right:auto; "> = RISERVATO =</div>
+		<p style="text-align:justify; margin-left:20px; margin-right:20px; margin-top:30px;"> <span class="cdbPostRed"><b>Questo topic è protetto!</b></span> La lettura è riservata allo staff di gestione, ai global master, all'autore principale del topic ed eventuali coautori.</p>
+	</td>
+	</tr>
+	<tr><td class="postContent signature" colspan="4" tal:content="structure post/signature" /></tr>
+</table>
+</div>
+
+</div>
+<div id="paginator" tal:condition="php:(postCounter GT 0)" style="margin-top:5px; margin-left:10px;">
+	<div tal:repeat="page php:range(1,pageNo)" tal:attributes="class php:(page==currentPage) ? 'activePaginatore' : 'paginatore'"><a tal:attributes="href string:cdb.php?topic=${topicID}&page=${page}" class="interfaceLink" tal:content="page"/></div>
+</div>
+<br /><hr />
+
+<div id="formFor" style="margin-top:30px; margin-left:auto; margin-right:auto;" tal:condition="php:(topicLock == 0)" align="center">
+
+<!-- POSTADVA -->
+<div id="pstAdva" style="display:none;">
+	
+	<div style="padding:5px; border-radius:12px; width:95%; margin-left:auto; margin-right:auto; border:1px solid #777;" class="radiusBordered12">
+	<p class="smallTitle">Mostrine</p>
+	<table cellspacing="0px">
+	<tr><td class="newPaddtd" style="text-align:center;">
+		<textarea placeholder="Inserisci i nomi dei personaggi da includere nel trafiletto PRESENTI / DESTINATARI del template rapporti. Se non selezioni nessun template, apparirà solo la lista PG" id="users" name="users" style="width:95%; height:40px;" onfocus="this.select();"></textarea></td>
+	</tr>
+	<tr><td> <span style="font-size:11px; font-weight:bold; margin-left:20px; margin-right:30px;">TEMPLATE</span>
+		<select id="scRapp">
+		<optgroup label="Generici">
+		<option value="00">- Nessun Template Rapporti (Solo lista PG) -</option>
+		<option value="Q1">Rapporti Quest / Extraquest</option>
+		</optgroup>
+		<optgroup label="Comando e Navigazione" tal:condition="php:(user.pgSpecie != 'Romulana')">
+			<option value="Q2">Generico Sezione Comando e Navigazione</option>
+			<option value="Q16">Ufficio del Capitano</option>
+			<option value="Q16b">Ufficio del Primo Ufficiale</option>
+			<option value="Q3">Disposizioni Dipartimento Comunicazioni</option>
+			<option value="Q11">Entry del Registro di Navigazione - Partenza</option>
+			<option value="Q12">Entry del Registro di Navigazione - Arrivo</option>
+		</optgroup>
+		<optgroup label="Galae Romulana" tal:condition="php:(user.pgSpecie == 'Romulana')">
+			<option value="Q2r1">Disposizioni Sezione Comando</option>
+			<option value="Q2r2">Disposizioni Sezione Navigazione</option>
+			<option value="Q2r3">Disposizioni Sezione Strategica</option>
+			<option value="Q2r4">Disposizioni Sezione Tecnica</option>
+			<option value="Q2r5">Disposizioni Sezione Ricerca e Terapia</option>
+			<option value="Q16r">Disposizioni Ufficio del Riov</option>
+			<option value="Q16br">Disposizioni Ufficio del Primo Ufficiale</option>
+		</optgroup>
+		<optgroup label="Tattica e Sicurezza" tal:condition="php:(user.pgSpecie != 'Romulana')">
+			<option value="Q15">Ufficio CTO</option>
+			<option value="Q4">Generico Sezione Tattica e Sicurezza</option>
+			<option value="Q5">Disposizioni Dipartimento Tattica</option>
+			<option value="Q6">Disposizioni Dipartimento Sicurezza</option>
+		</optgroup>
+		<optgroup label="Ingegneria" tal:condition="php:(user.pgSpecie != 'Romulana')">
+		<option value="Q14">Ufficio CEO</option>
+		<option value="Q7">Generico Sezione Ingegneria</option>
+		<option value="Q8">Disposizioni Dipartimento Operazioni</option>
+		</optgroup>
+		
+		<optgroup label="Scientifica" tal:condition="php:(user.pgSpecie != 'Romulana')">
+		<option value="Q13">Ufficio CSO</option>
+		<option value="Q9">Generico Sezione Scientifica</option>
+		</optgroup>
+		
+		<optgroup label="Medica" tal:condition="php:(user.pgSpecie != 'Romulana')">
+		<option value="Q17">UFFICIO CMO</option>
+		<option value="Q18">UFFICIO CNS</option>
+		<option value="Q10">Generico Sezione Medica</option>
+		</optgroup>
+		</select>
+	</td></tr>
+	<tr style="height:10px;"/>
+	<tr><td class="newPaddtd">
+		<div metal:use-macro="TEMPLATES/metal.htm/mostrinStyle" />
+	</td></tr>
+	
+	<tr><td colspan="2" style="text-align:center;"><button onclick="window.open('miki/SigmaSys/embed_ranks.php','embedr', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=120,left=200,width=550,height=580');">MOSTRINE MANUALI</button>&nbsp;&nbsp;<button onclick="javascript:goTrasncript(jQuery('#scRapp').val(),jQuery('#users').prop('value'))">VAI</button>&nbsp;&nbsp;<button onclick="javascript:jQuery('#pstAdva').fadeOut(150);">CHIUDI</button></td></tr>
+	</table>
+	</div>
+		
+		
+	<div style="padding:5px; border-radius:12px; width:95%; margin-left:auto; margin-top:10px; margin-right:auto; border:1px solid #777;" class="radiusBordered12">
+		<p class="smallTitle">Data Stellare</p>
+		<p class="dateContainer" style="text-align:left;"><span class="smallTitle" style="margin:0px; margin-left:20px;">Data:</span> <input type="text" id="inputDateD" onkeydown="if (!isNumberKey(event)) return false;" onkeyup="if(this.value.length == 2 && this.value >= 0 && this.value <= 31) jQuery('#inputDateM').select();"  style="width:20px;" tal:attributes="value php:date('d',curTime)" /> / <input type="text" id="inputDateM" onkeydown="if (!isNumberKey(event)) return false;" onkeyup="if(this.value.length == 2 && this.value >= 0 && this.value <= 12) jQuery('#inputDateY').select();" style="width:20px;" tal:attributes="value php:date('m',curTime)"/> / <input type="text" id="inputDateY" onkeydown="if (!isNumberKey(event)) return false;" onkeyup="if(this.value.length == 4 && this.value >= 0 && this.value <= 9999) jQuery('#inputDateH').select();" style="width:40px;" tal:attributes="value php:date('Y',curTime)"/>&nbsp;&nbsp;<span class="smallTitle" style="margin:0px; margin-left:20px;">Ora:</span> <input type="text" id="inputDateH" onkeydown="if (!isNumberKey(event)) return false;" onkeyup="if(this.value.length == 2 && this.value >= 0 && this.value <= 23) jQuery('#inputDateI').select();" style="width:20px;"/> : <input type="text" id="inputDateI" onkeydown="if (!isNumberKey(event)) return false;" onkeyup="if(this.value.length == 2 && this.value >= 0 && this.value <= 59) jQuery('#stardateBtn').focus();" style="width:20px;"/> <button id="stardateBtn" onclick="javascript:goStardate(jQuery('#inputDateD').prop('value'),jQuery('#inputDateM').prop('value'),jQuery('#inputDateY').prop('value'),jQuery('#inputDateH').prop('value'),jQuery('#inputDateI').prop('value'))" style="margin:0px; margin-left:20px;">INSERISCI</button></p>
+	</div>
+</div>
+
+<p style="text-align:left; margin-left:7px;"> <img src="TEMPLATES/img/interface/aggiungi_post.png" /> <img tal:attributes="src string:TEMPLATES/img/seclar/seclar${topicSeclar}.png" id="addPostImage" /></p>
+<form id="formContent" action="cdb.php?addPost=do"  method="POST">
+<table>
+<tr>
+	<td colspan="2" style="text-align:left;"><img src="TEMPLATES/img/interface/titolo.png" /><input style="marin-left:8px; width:488px;" width="488px;" type="text" name="postTitolo" />
+	 <a class="interfaceLink" tal:condition="exists:showStaff"  style="font-size:10px;" href="javascript:void(0);" onclick="jQuery('#pgChanger').fadeOut(300,function(){jQuery('#usersMaster').fadeIn(300);});" id="pgChanger">( - Scegli PnG - )</a><input id="usersMaster" name="usersMaster" tal:condition="exists:showStaff" style="display:none; width:150px;" onfocus="this.select();" /></td>
+</tr>
+<tr>
+	<td><img src="TEMPLATES/img/interface/note.png" /><input style="marin-left:8px; width:488px;" width="488px;"  type="text" name="postNote"  /><input type="hidden" name="topicID" tal:attributes="value topicIDE"/></td>
+</tr>
+<tr>
+	<td>
+		<textarea name="postContent" id="postContent" style="width:550px; height:350px; font-family:Arial;"></textarea>
+	</td>
+	<td style="text-align:center; vertical-align:middle;"> 
+		<input type="button" value="B" style="width:30px; margin-left:10px;" href="" onclick="bbstyle(0)" />
+		<input type="button" value="I" style="width:30px; margin-left:10px;" href="" onclick="bbstyle(2)" />
+		<input type="button" value="U" style="width:30px; margin-left:10px;" href="" onclick="bbstyle(4)" /><br /><br />
+
+		<input type="button" value="ROSSO" style="color:red; width:50px; margin-left:10px; font-size:10px;" href="" onclick="bbstyle(14)" />
+		<input type="button" value="GIALLO" style="color:yellow; width:50px; margin-left:10px; font-size:10px;" href="" onclick="bbstyle(16)" /> 
+		<input type="button" value="AZZURRO" style="color:#3ed1e7; width:55Px; margin-left:10px; font-size:10px;" href="" onclick="bbstyle(18)" /><br />
+		<input type="button" value="GRIGIO" style="color:#AAA; width:50px; margin-left:10px; font-size:10px;" href="" onclick="bbstyle(20)" />
+		<input type="button" value="BIANCO" style="color:white; width:50px; margin-left:10px ;font-size:10px;" href="" onclick="bbstyle(22)" />
+		<input type="button" value="VERDE" style="color:#30b030; width:55px; margin-left:10px; font-size:10px;" href="" onclick="bbstyle(24)" /><br /><br />
+		<input type="button" value="SIN" style="width:50px; margin-left:10px;" href="" onclick="bbstyle(8)" />
+		<input type="button" value="CEN" style="width:50px; margin-left:10px;" href="" onclick="bbstyle(6)" />
+		<input type="button" value="DES" style="width:50px; margin-left:10px;" href="" onclick="bbstyle(10)" /><br /><br />
+		
+		<input type="button" value="IMG" style="width:50px; margin-left:10px;" href="" onclick="bbstyle(12)" />
+		<input type="button" value="URL" style="width:50px; margin-left:10px;" href="" onclick="bbstyle(32)" /><br /><br />
+
+		<input type="button" value="A" style="width:30px; margin-left:10px; font-size:9px;" href="" onclick="bbstyle(26)">SINISTRA</input> 
+		<input type="button" value="A" style="width:30px; margin-left:10px; font-size:12px;" href="" onclick="bbstyle(28)">CENTER</input> 
+		<input type="button" value="A" style="width:30px; margin-left:10px; font-size:16px;" href="" onclick="bbstyle(30)">DESTRA</input><br /><br />
+
+		<input type="button" value="AVANZATE" style="width:90px; margin-left:10px; font-size:16px;" href="" onclick="javascript:jQuery('#pstAdva').toggle(150)">DESTRA</input><br /><br />
+
+		<table style="text-align:left; margin-left:20px; font-size:11px; font-weight:bold;"><tr><td>STILE FIRMA:</td><td><select style="width:90px;" name="postFirma">
+		<option value="corta">CORTA</option>
+		<option value="lunga">LUNGA</option>
+		</select></td></tr>
+		<tr><td>SECLAR:</td><td>
+		<select style="width:90px;" onchange="javascript:$('#addPostImage').prop('src','TEMPLATES/img/seclar/seclar'+this.value+'.png');" name="postSeclar">
+			<option tal:repeat="con php:range(topicSeclar,9)" tal:attributes="value con" tal:content="string: SECLAR ${con}" />
+			</select></td></tr></table>
+
+		<br /><br /><input type="submit" value="INVIA" style="width:150px; margin-left:10px; font-size:13px;" href="" onclick="" />
+	</td>
+</tr>
+</table>
+</form>	
+</div>
+<div tal:condition="php:(topicLock == 1)" style="color:red; font-weight:bold; text-align:center;">[  TOPIC BLOCCATO ]</div>
+
+
+	</div>
+		
+	</div>
+</div>
+
+</body>
+</html>
+

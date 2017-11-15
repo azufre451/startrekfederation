@@ -1,0 +1,82 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/> 
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+		<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+	
+	<script type="text/javascript" src="TEMPLATES/js/highlight.js"></script>
+
+	<script type="text/javascript">	jQuery(function(){
+		jQuery('#calFrom').datepicker(
+		{
+		dateFormat:'dd/mm/yy'
+		});
+		
+		jQuery('#calTo').datepicker(
+		{
+		dateFormat:'dd/mm/yy'
+		}
+		);
+	});
+	
+			function getLog()
+		{
+			var id = jQuery('#initialID').val();
+			var place = jQuery('#ambientID').val();
+			
+			window.open('getLog.php?amb='+place+'&lastID='+id,'lh', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=0,left=1,width=1,height=1');
+		}</script>
+
+	<title>LOG - STAR TREK FEDERATION</title>
+	
+		
+</head>
+ 
+<body style="background-color:black; background-image:url('TEMPLATES/img/main_login.jpg')">
+<input type="hidden" id="ambientID" tal:attributes="value ambient/locID" />
+<input type="hidden" id="initialID" tal:attributes="value ide" />
+
+
+<div id="federation_interfaceContainer">
+<p>Log di chat - <span tal:content="ambient/locName"/> - Da: <span tal:content="fromDate" /> a: <span tal:content="toDate"/> <a tal:condition="exists:userIsM" href="moderativeLog.php" class="interfaceLink">( - Passa a PRO - )</a></p>
+<div id="federation_chatDiv" style="padding:10px;" tal:content="structure htmlLiner" />
+</div>
+
+<div id="chatBar">
+	
+		<div style="margin-top:20px;">
+			<form method="POST" tal:attributes="action string:chatlog.php?amb=${ambient/locID}">
+
+				
+				
+				DA: 
+				<input type="text" id="calFrom" name="calFrom" style="vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:20px; font-size:14px; font-weight:bold; text-align:center;" tal:attributes="value php:date('d/m/Y',time()-(24*60*60))"/>
+				<input  type="text" id="calFromH" name="calFromH" style="width:25px;  vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:20px; font-size:12px; font-weight:bold; text-align:center;" tal:attributes="value php:date('H',time()-(24*60*60))"/> :
+				<input id="calFromM" name="calFromM" style="width:25px;  vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:20px; font-size:12px; font-weight:bold; text-align:center;" tal:attributes="value php:date('i',time()-(24*60*60))"/>
+				A:
+				<input type="text" id="calTo" name="calTo" style="vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:20px; font-size:14px; font-weight:bold; text-align:center;" tal:attributes="value php:date('d/m/Y',time())"/>
+				<input type="text"  id="calToH" name="calToH" style="width:25px; vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:20px; font-size:12px; font-weight:bold; text-align:center;" tal:attributes="value php:date('H',time())"/>:
+				<input type="text"  id="calToM" name="calToM" style="width:25px; vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:20px; font-size:12px; font-weight:bold; text-align:center;" tal:attributes="value php:date('i',time())"/>
+				
+				<input type="submit" value="Vai!" />
+			</form>
+			
+			<a href='javascript:void(0);'  onclick="getLog()"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_ent.png" title="Salva un Log della giocata" style="vertical-align:middle;"/></a>
+		</div>
+	</div>
+
+</body>
+</html>
+
+
+

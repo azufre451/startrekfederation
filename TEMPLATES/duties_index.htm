@@ -1,0 +1,53 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/padd.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
+	 
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<title>FEDERATION - DUTY SYSTEM</title>	
+
+</head>
+
+<body style="background-color:black; overflow:hidden;">
+
+<div id="paddContainer">
+
+<div id="intestLeft">
+<a title="Principale" href="padd.php"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/padd.png" /></a><a title="Federation Tribune" href="padd.php?s=tr"><img class="iconelement" tal:attributes="src php:(tribuneNews == true) ? 'TEMPLATES/img/interface/paddInterface/tribune_news.png' : 'TEMPLATES/img/interface/paddInterface/tribune.png'" /></a><a title="Status Nave" href="padd.php?s=sh"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/nave.png" /></a><a title="Note" href="padd.php?s=no"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/note.png" /></a>
+</div>
+
+<div id="newPadd" class="paddMain radiusBordered">
+<div class="innerPadd" style="margin-right:auto;margin-left:auto; width:510px; overflow:hidden;">
+
+	<p class="title" style="font-size:17px; text-align:center;">Duty System</p>
+	
+	<p tal:condition="exists:nextUserful">Non potrai scegliere un nuovo incarico dall'elenco fino al <span style="font-weight:bold; font-size:13px; color:orange;" tal:content="nextUseful" /></p>
+	
+	<div tal:condition="not:exists:nextUserful">
+	<p>Scegli una mansione dall'elenco. In ON il tuo PG svolgerà nel suo turno di servizio quella mansione per una settimana.</p>
+	
+
+	<div style="border-left:1px dotted #999; border-bottom:1px solid #333; padding-left:5px;" tal:repeat="duty availDuties">
+			<img tal:attributes="src duty/dutyImage" align="left"/>
+			<p style="font-size:14px;" class="title" tal:content="duty/dutyDesc" />
+			<p style="text-align:justify" tal:content="duty/dutyText"/>
+	</div>
+	</div>
+
+</div>
+</div>
+
+
+</div>
+
+</body>
+</html>

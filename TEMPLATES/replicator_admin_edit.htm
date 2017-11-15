@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	
+	<link href="TEMPLATES/css/styles.css" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/styles.css" rel="stylesheet" type="text/css" />
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" /> 
+ 
+ 
+	<script>jQuery(function(){ 
+			$( "#editSpecie" ).autocomplete({
+			source: "replicator.php?lookSpecie=do",
+			minLength: 2 
+			});
+			});
+	</script>
+	<title>Replicatore</title>
+	 
+	<style>
+		td {padding:5px; border:1px solid #DDD;}
+		.tds {background-color:#555; width:150px; font-weight:bold; text-align:center;}
+		.tda {background-color:#222; }
+		td input, td select, td textarea {width:90%;}
+	</style>
+</head>
+
+<body>
+	<div>
+	<form tal:attributes="action string:replicator.php?approval=true&s=confirmRevise&foodID=${getRecord/foodID}" method="POST">
+	<table style="width:100%;">
+		 <tr><td class="tds"> Nome Piatto </td><td class="tda"> <input onclick="this.select();"  name="editName" tal:attributes="value getRecord/foodName" /> </td></tr>
+		 <tr><td class="tds"> Descrizione </td><td class="tda"> <textarea name="editDescr" style="height:80px;" tal:content="getRecord/foodDescription" />  </td></tr>
+		  <tr><td class="tds"> Tipologia </td><td class="tda"> <select name="editTipo"><option tal:attributes="selected php:(getRecord['foodType'] == 'a') ? 'selected' : false" value="a">Alimento</option><option tal:attributes="selected php:(getRecord['foodType'] == 'b') ? 'selected' : false" value="b">Bevanda</option></select></td></tr>
+		  <tr><td class="tds"> Specie </td><td class="tda"> <input name="editSpecie" id="editSpecie" onclick="this.select();"  tal:attributes="value getRecord/foodSpecie" />  </td></tr>
+		  <tr><td class="tds"> Immagine </td><td class="tda"> <input name="editImage" onclick="this.select();" tal:attributes="value getRecord/foodImage" /> </td> </tr> 
+		  <tr><td class="tds"> Conferma </td><td class="tda"> <input type="submit" value=" [ - INVIA MODIFICHE - ]" />  </td> </tr> 
+	</table>
+	<a href="replicator.php?admin=true" class="interfaceLink"> ( - Torna Indietro - )</a>
+	</form>
+	</div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/personnel.css?v=1.6" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="TEMPLATES/css/gallerific/galleriffic-2.css" type="text/css" />
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+	<script src="TEMPLATES/js/galleria-1.2.9.js"></script>
+
+	<!-- <script type="text/javascript" src="TEMPLATES/js/lazyload.js"></script> -->
+	<title>STAR TREK FEDERATION - SCHEDA</title>
+	
+	<script type="text/javascript">
+	function paddOpen(who){window.open ('padd.php?s=seR&to='+who+'&sub=','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
+	
+	function viewAdder(){jQuery('#rankAdder').fadeIn(200);}
+	function viewRemover(){jQuery('#rankRemover').fadeIn(200);}	
+	</script>
+		
+</head>
+
+<body style="background-color:black; overflow:hidden; height:385px; padding:-5px;">
+
+<div id="schedaContainer">
+<div metal:use-macro="TEMPLATES/metal.htm/schedaIntro" />
+
+<div id="mainContainer" >
+
+	<div style="text-align:center; padding:10px; width:580px; height:300px">
+	
+	<p style="text-align:center; margin:0px;"><img src="TEMPLATES/img/interface/personnelInterface/oggetti_l.png" /> <a href="javascript:viewAdder();"  id="viewAdderToggle" tal:condition="php:editable==true" class="interfaceLink" style="float:left;" >( Aggiungi )</a><a href="javascript:viewRemover();"  id="viewAdderToggle" tal:condition="php:editable==true" class="interfaceLink" style="float:right;" >( Rimuovi )</a></p>
+	
+	<div id="gallery" style="width:96%">
+            <a tal:repeat="obj objects" tal:attributes="href obj/image">
+                <img tal:attributes="id obj/recID ; src obj/image ; title obj/title ; alt obj/descript" />
+            </a>
+
+	</div>
+	
+	<div id="rankAdder" style="position:absolute; top:50%;left:50%; display:none; z-index:10; background-color:black; margin-left:-210px; margin-top:-70px; width:420px; padding:10px; border:2px solid #666;"><br /><table tal:condition="php:editable==true">
+	<form method="POST" action="scheda.php?s=addObj">
+		
+		<tr><td width="140px; font-size:10px;"><b>Oggetto:</b></td><td><input required="required" style="width:300px;" name="what" /></td></tr>
+		<tr><td width="140px; font-size:10px;"><b>Descrizione:</b></td><td><textarea style="width:300px;" name="whatD" /></td></tr>
+		<tr><td width="140px; font-size:10px;"><b>URL Immagine:</b></td><td><input required="required" style="width:300px;" name="whatI" /></td></tr>
+		<tr><td colspan="2" style="text-align:center;"><input type="submit" value="Vai!" /></td></tr>
+	<input type="hidden" name="userSelector" tal:attributes="value selectedUser" />
+	</form><button style="position:absolute;top:5px; right:10px;" onclick="jQuery('#rankAdder').fadeOut(150);">X</button>
+	</table></div>
+	
+	<div id="rankRemover" style="position:absolute; top:70%;left:50%; display:none; z-index:10; background-color:black; margin-left:-210px; margin-top:-50px; width:420px; padding:10px; border:2px solid #666;">
+	 <button onclick="jQuery('#rankRemover').fadeOut(150);" style="float:right">X</button>
+	<form method="POST" onsubmit="return confirm('Sei Sicuro?')" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=remObj" tal:condition="php:editable==true">
+		
+		<select name="remover"><option tal:repeat="obj objects" tal:attributes="value obj/recID" tal:content="string: ${obj/title}" /></select>
+		 <input type="submit" value="Elimina!" />
+	</form> </div>
+	
+	
+	
+	
+	</div>
+
+</div>
+</div>
+<script>
+
+	Galleria.loadTheme('TEMPLATES/css/gallery_themes/classic/galleria.classic.min.js');
+	Galleria.run('#gallery',{
+	showinfo:true,
+	transition: 'fade',
+	css: 'galleria.classic.css'
+	});
+</script>
+
+</body>
+</html>

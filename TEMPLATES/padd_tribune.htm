@@ -1,0 +1,98 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/padd.css?v=1.5.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
+	<link tal:attributes="href php:(user.pgSpecie == 'Romulana') ? 'TEMPLATES/css/anythingslider_green.css' : 'TEMPLATES/css/anythingslider.css'" rel="stylesheet" type="text/css" />
+	 
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<!-- <script type="text/javascript" src="TEMPLATES/js/JU.js" /> -->
+	<!-- Nota: Anything Slider per le news -->
+	<script type="text/javascript" src="TEMPLATES/js/jquery.anythingslider.min.js"></script>
+	<script type="text/javascript">
+		function jmp(to)
+		{
+			jQuery('.paddMain').fadeOut(400);
+			jQuery('#'+to).fadeIn(400);
+		}
+		
+		jQuery(function() {
+			jQuery('#caSli').anythingSlider({
+			 buildArrows         : false,
+			 buildNavigation     : true,  
+			 buildStartStop      : false, 
+			 enableArrows        : false
+			});
+		})
+	</script>
+	<title>FEDERATION TRIBUNE - PADD</title>	
+
+</head>
+
+<body style="background-color:black; overflow:hidden; height:305px;">
+
+<div id="paddContainer">
+
+<div id="intestLeft">
+<a title="Principale" href="padd.php"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/padd.png" /></a><a title="Federation Tribune" href="padd.php?s=tr"><img class="iconelement" tal:attributes="src php:(tribuneNews == true) ? 'TEMPLATES/img/interface/paddInterface/tribune_news.png' : 'TEMPLATES/img/interface/paddInterface/tribune.png'" /></a><a title="Status Nave" href="padd.php?s=sh"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/nave.png" /></a><a title="Note" href="padd.php?s=no"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/note.png" /></a>
+</div>
+<div id="intestLeftPost" style="top:50px; left:20px;">
+<a tal:condition="php:(masterable==true)" href="javascript:jmp('newHerald')" class="interfaceLink"><img src="TEMPLATES/img/interface/paddInterface/padd_new.png" alt="Nuovo" /></a> <a href="padd.php?s=ta" class="interfaceLink"><img src="TEMPLATES/img/interface/paddInterface/padd_arch.png" alt="Archivio" /></a>
+</div>
+
+<div style="text-align:right; margin-right:30px;"><img tal:attributes="src php: (user.pgSpecie == 'Romulana') ? 'TEMPLATES/img/interface/paddInterface/fed_herald_rom.png' : 'TEMPLATES/img/interface/paddInterface/fed_herald.png'" />
+<br /><span class="titoloarticolo" style="font-size:1.2em; padding:0px;" tal:content="datae" />
+</div>
+
+
+<div id="newHerald" tal:condition="php:(masterable==true)"  class="heraldMain radiusBordered" style="display:none;">
+<div class="innerPadd" style="margin-right:auto;margin-left:auto; width:510px; overflow:hidden;">
+
+<form action="padd.php?s=newH" method="POST">
+
+<table cellspacing="0px">
+	<tr><td style="border:1px dotted #333; width:140px;">TITOLO</td><td class="newPaddtd"><input maxlength="37" id="titolo" name="titolo" style="width:400px;"/></td></tr>
+	<tr><td style="border:1px dotted #333; width:140px;">SOTTOTITOLO / LINK</td><td class="newPaddtd"><input id="sottotitolo" name="sottotitolo" style="width:400px;"/></td></tr>
+	<tr><td style="width:140px; border:1px dotted #333; ">TESTO</td><td class="newPaddtd"><textarea name="testo" style="width:400px; height:160px;"/></td></tr>
+	<tr tal:condition="php:(adminable==true)"><td style="width:140px; border:1px dotted #333; ">TESTO</td><td class="newPaddtd">
+	<select name="aleXX">
+		<option value="FED">FED</option>
+		<option value="ROM">ROM</option>
+		<option value="SCI">Scienza</option>
+		<option value="GDO">Gdr Online</option>
+		<option value="GDR">GDR</option>
+		<option value="SFI">SciFi</option>
+		<option value="SPA">Spazio</option>
+		<option value="TRK">Trek</option>
+		<option value="FDX">STFederation</option>
+	</select>
+	</td></tr>
+
+	<tr><td colspan="2" style="text-align:center;"><input style="width:50px;" type="submit" value="INVIA" /></td></tr>
+</table>
+</form>
+</div>
+</div>
+
+<div id="news" class="heraldMain radiusBordered" style="text-align:center; margin-top:10px;">
+	<ul id="caSli" style="width:100%; height:235px; padding:0px; margin:0px;">
+		<li tal:repeat="not news">
+			<p class="titoloarticolo" style="margin:0px; font-size:32px;" tal:content="not/title" />
+			<p class="titolosubarticolo" style="margin:0px;" tal:content="structure not/subtitle" />
+			<p class="testoNews" style="margin:0px; font-size:13px; margin-top:10px; height:130px;  line-height:20px; padding-right:10px; overflow-y:auto; text-align:justify"><span style="font-weight:bold;" tal:content="not/time" />&nbsp;&nbsp;<span tal:content="structure not/text"/></p>
+			<a tal:condition="php:(masterable==true)" tal:attributes="href string:padd.php?s=delHer&newsID=${not/ID}" title="Elimina Ultima News" align="right"><img src="TEMPLATES/img/interface/paddInterface/padd_del.png" alt="Cancella" /></a>
+			
+		</li>
+	</ul>
+</div>
+
+</div>
+</body>
+</html>

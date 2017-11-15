@@ -1,0 +1,313 @@
+<!DOCTYPE html> 
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="it">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+		<title>Star Trek: Federation GDR - Be The Future!</title>
+
+		<link rel="shortcut icon" href="favicon.ico" />
+		
+		<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+		<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+		<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+		<script type="text/javascript" src="TEMPLATES/js/index.js?v=0.6" />
+		
+	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/home/reset.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/clearfix.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/style.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/fonts.css"  />
+	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/jquery.dualSlider.0.2b.css?v=2.1" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	
+	<script src="TEMPLATES/carousel/js/jquery.easing.1.3.js" type="text/javascript"></script>
+	<script src="TEMPLATES/carousel/js/jquery.timers-1.2.js" type="text/javascript"></script>
+	<script src="TEMPLATES/carousel/js/jquery.dualSlider.0.3.min.js" type="text/javascript"></script>
+	<script src="TEMPLATES/js/easyAccordion.js" type="text/javascript"></script>
+	<script type="text/javascript" src="TEMPLATES/js/google.js"></script>	
+
+
+		<meta charset="UTF-8" />
+		<meta http-equiv="content-language" content="IT" />
+		<meta name="keywords" content="Star Trek, Voyager, Enterprise, The Next Generation, Tricorder, Phaser, Borg. Gioco di Ruolo, Federazione, Klingon, Romulani"/>
+		<meta name="description" content="GDR online che unisce l'interpretazione di un eroe del serial televisivo alla scrittura creativa via chat. Crea il tuo personaggio, illumina il tuo destino!" />
+		
+		
+		<script type="text/javascript">
+			jQuery(document).ready(function(){
+				
+			jQuery(".carousel").dualSlider({
+				auto:true,
+				autoDelay:6000,
+				easingCarousel: "swing",
+				easingDetails: "easeOutBack",
+				durationCarousel: 1000,
+				durationDetails: 600
+			});	
+		
+			});
+			
+	function toggleVisit(ida)
+	{
+		var tit = ''; 
+		var hti = jQuery('#toggle_'+ida).html();  
+		if(hti.indexOf('ESPANDI') > 0) tit = '[RIDUCI]';
+		if(hti.indexOf('RIDUCI') > 0) tit = '[ESPANDI]';  
+		
+		jQuery('#navisi_'+ida).toggle();
+		jQuery('#visi_'+ida).toggle('fade',{},100,function(){jQuery('#toggle_'+ida).html(tit);});
+		
+	}
+		</script>
+	</head>
+	
+
+
+<body>
+		<div id="error" tal:condition="php:(error==95)">Errore! L'email risulta gi&agrave; registrata!</div>
+		<div id="error" tal:condition="php:(error==96)">Errore! Lo username risulta gi&agrave; registrato!</div>
+		<div id="error" tal:condition="php:(error==99)">Errore! Inserimento non andato a buon fine. Contatta la gestione.</div>
+		<script type="text/javascript" tal:condition="php:(error!=NULL)">jQuery('#error').fadeIn(400); setTimeout(function(){jQuery('#error').fadeOut(20);},6000);</script>
+		<div id="success">Operazione completata con successo.<br />Riceverai una mail di conferma. </div>
+		<script type="text/javascript" tal:condition="php:(success!=NULL)">jQuery('#success').fadeIn(400); setTimeout(function(){jQuery('#success').fadeOut(20);},6000) </script>
+		
+		<div id="indi_mainContainer">
+			<div id="indi_header"  onclick="window.location.href = 'index.php';" />
+		<div id="indi_central">
+				<div metal:use-macro="TEMPLATES/metal_index.htm/indexMenu" />
+				
+			<div id="principale" class="sliding" tal:attributes="style php:(mod == '') ? 'display:block' : 'display:none';">
+				
+					<div id="quotation">
+					<p  style="margin:0px;">L'ambizione mi guida non solo più lontano di ogni altro uomo prima di me,<br />ma anche tanto lontano quanto io credo sia possibile per l'uomo arrivare</p>
+					<p style="text-align:right; margin:0px; margin-right:100px;">James Cook (1728-1779)</p>
+					</div><!-- quotation -->
+				
+			<div style="width:570px; margin:auto; border:1px solid #333; background-color:#111; padding:10px; margin-top:20px;">
+				<p style="font-size:17px; font-weight:bold; color:red; text-align:center;"> Attenzione: </p>
+				<p style="font-size:14px; line-height:1.5em;">Il progetto Star Trek: Federation al momento è chiuso e non accetta iscirzioni, né login. Ulteriori informazioni sono disponibili nel <a href="http://startrekfederation.it/index.php?readnews=164" class="interfaceLink"> messaggio dello Staff di Gestione</a>.</p>
+				
+				<p style="font-size:14px; line-height:1.2em;">Rimangono attive le pagine di promozione su <a href="https://www.facebook.com/federation.pbc" target="_blank" class="interfaceLinkBlue"> Facebook </a> e  <a href="http://www.gdr-online.com/star_trek_federation.asp" target="_blank" class="interfaceLinkGreen"> GDR-Online </a>.</p>
+			</div>
+			
+			<div id="fb-root" style="margin-top:20px;"></div> <script>(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = "//connect.facebook.net/en_US/all.js#xfbml=1"; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));</script>
+<div class="fb-post" data-href="https://www.facebook.com/federation.pbc/posts/717518694992523" data-width="466"><div class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/federation.pbc/posts/717518694992523">Post</a> by <a href="https://www.facebook.com/federation.pbc">Star Trek: Federation</a>.</div></div>
+
+			
+			<!--<div style="width:850px; height:400px; overflow-y:auto; text-align:justify; font-size:14px; line-height:1.3em; margin:auto; border:1px solid #333; background-color:#111; padding:10px; margin-top:20px;">
+Cari giocatori di Star Trek: Federation,<br /><br />
+
+Le ultime tre settimane sono state particolarmente difficili per noi. Da qualche tempo abbiamo iniziato a pensare che il progetto “Star Trek: Federation”, seppure relativamente attivo con la vostra presenza e impegno, più o meno profuso, non stesse viaggiando lungo la rotta che ci eravamo prefissati. <br /><br />
+
+Non è mai facile, per un gestore, distinguere - e accettare pienamente - la differenza fra ciò che voleva dal proprio lavoro e ciò che ha effettivamente realizzato. <br /><br />
+
+Oltre due anni fa, se ci avessero chiesto “cosa volete fare da grandi”, avremmo risposto con qualcosa di molto simile al: “Portare avanti il più completo, appassionante e coinvolgente gioco di ruolo a tematica Star Trek”. Un anno fa, in un’intervista su GDR-Online, riguardo al nostro futuro, rispondemmo: <br /><br />
+
+"Vediamo [in futuro] Star Trek: Federation come il gioco di ruolo della categoria più completo, non solo per le implementazioni immediatamente visibili, quanto più per l'attenzione che dedichiamo e dedicheremo sempre verso i giocatori, dalle opportunità che la programmazione del sito mette a disposizione loro al rispetto delle regole e del "buon gioco". Vediamo un gioco dove noi gestori siamo i garanti di questo buon gioco, dove lo staff è bene organizzato ed è un punto di riferimento per tutta l'utenza”. <br /><br />
+
+
+Nelle ultime settimane ci siamo più volte chiesti come risponderemmo, oggi, a quella stessa domanda, e per la terza volta non riusciamo a rispondere diversamente. E’ piuttosto chiaro, quindi, ciò che come gestori vorremmo dalla nostra land. Ciò che in questi tre anni è cambiato è il volume degli strumenti per poter realizzare questo sogno: il numero di membri dello staff; le possibilità e le energie che quello staff può dedicare al progetto; il turnover di giocatori in un genere che abbiamo sempre ritenuto vincente, nonostante le evidenti difficoltà a fare del brand “Star Trek” una valida alternativa al fantasy, ai moderni ed altre categorie sempre più gettonate. 
+
+Siamo partiti da un progetto molto semplice nella sua prima stesura e lo abbiamo evoluto secondo le linee ed i crismi di ciò che, secondo noi, è il buon gioco di ruolo. Abbiamo cercato costantemente di portare freschezza, qualità ed innovazione in un genere particolarmente chiuso a tali concetti. Non ci sentiamo di aver fallito in questo. <br />
+La presenza in Star Trek: Federation di molte persone “aliene” all’ambientazione Trek ne é, a nostro avviso, una prova; prova del fatto che concetti come qualità di gioco, turnazione e abilità non sono dei tabù inviolabili ma possono essere, anzi, strumento di crescita. Se anche queste cose ci hanno fatto perdere qualche giocatore non potremo mai dirci pentiti avendo altresì trovato molti di voi sul nostro cammino. <br />
+
+Star Trek: Federation è però arrivato al punto di dover confrontare le aspirazioni con la realtà dei fatti, e la ragione per cui ci troviamo a scrivere queste righe, purtroppo, non si limita ad esaminare la bellezza di quanto creato fino ad ora. La realtà dei fatti è che non crediamo di essere in grado di garantire, con le attuali energie, la medesima qualità di gioco che abbiamo mantenuto fino ad ora. <br /><br />
+
+Tutti noi, nella vita, ci siamo trovati di fronte a scelte difficili. Questa occasione non fa differenza e ci troviamo a dover scegliere se continuare a tenere in vita un progetto, sapendo di non poter mantenere la stessa qualità di prima, o se congedare tutti i nostri amici con una stretta di mano, un sorriso, e la convinzione che fino all’ultimo abbiamo dato il massimo. <br />
+Anche se nello staff le opinioni circa questa scelta sono state divergenti; apprezzando tanto chi ha voluto esprimere fiducia in una possibile continuazione “tenendo duro”, quanto chi ha ammesso di non poter garantire il pieno e costante supporto, abbiamo scelto di salutarci convinti di “essere diventati grandi”, non tanto come dimensioni numeriche quanto nel significato che abbiamo dato due anni e mezzo fa a quell’espressione.<br />
+Se tenessimo duro, se cercassimo a forze ridotte di tenere attivo il progetto, rischieremo invece di logorarlo e di portarlo ad uno standard più basso di quello che siamo convinti di aver raggiunto. <br /><br />
+
+La nostra intenzione è, allo stato attuale, quella di porre un punto fermo alla piattaforma di gioco, chiudendo con effetto immediato le registrazioni, sospendendo progressivamente tutte le attività di gioco organizzato, e sospendendo di qui a qualche tempo anche il login. Nelle prossime settimane sonderemo il terreno per decidere che cosa fare del progetto nel corso del 2015; non escludendo in toto la possibilità che Star Trek: Federation riemerga in qualche nuova forma in un futuro più o meno lontano. Le pagine ufficiali di promozione del progetto, in particolare Facebook e GDR-Online rimarranno temporaneamente attive e saranno lo strumento con cui aggiorneremo l’utenza circa eventuali nuovi sviluppi. <br /><br />
+
+Questi anni insieme - aperti e operativi - e questo periodo di valutazione - dedicato al brainstorming e allo sviluppo - ci permetteranno di comprendere cosa, di Federation, vogliamo traghettare verso il futuro e cosa, invece, ci ha frenato ed impedito di completarci pienamente; transizione non dissimile a quella che ha coinvolto altre realtà ludiche oggi fiorenti. <br /><br />
+
+Non vogliamo terminare questa comunicazione con un addio ma piuttosto con un chiaro e preciso “a presto”, consci del fatto che la strada da percorrere è ancora tanta, che al capolinea il treno si ferma e aspetta la prossima corsa, e che ogni bruco, prima o poi, si trasforma in farfalla. <br /><br />
+
+Grazie della vostra attenzione, e del vostro supporto, <br />
+Igor e Moreno</div>-->
+
+			
+			<!--<div style="text-align:center; border:1px solid white; border-radius:15px; padding:10px; padding-bottom:0px; width:750px; margin-left:auto;margin-right:auto;"><img style="border-radius:0 0 15px 15px;" src="TEMPLATES/img/interface/index/banner1.png" /></div>-->
+			<!--<div id="newsS" style="height:320px; clear:both; overflow-y:scroll; text-align:justify; padding-right:10px; margin-left:80px; font-size:13px; margin-right:80px;"><div tal:repeat="news resNews" style="margin-bottom:10px; font-family:Helvetica; margin-top:0px;">
+				<img tal:attributes="src string:TEMPLATES/img/interface/index/${news/aggregator}.png" style="padding-right:5px; float:left;" alt=""/>
+				<div style="float:left; width:80px; text-align:center;">
+					<span style="font-weight:bold; color:orange;" tal:content="news/data"/><br />
+					<a href="javascript:void(0)" class="interfaceLink" style="font-size:10px;" tal:attributes="onclick string:javascript:toggleVisit('${news/newsID}') ; id string:toggle_${news/newsID}">[ESPANDI]</a>
+					
+				</div>
+				<div style="float:left; width:640px;">
+				
+				<a tal:attributes="href news/toLink" class="interfaceLink" style="text-decoration:underline" tal:omit-tag="php:(news['toLink'] == '')" target="_blank"><span style="" tal:content="structure news/title"/></a>
+				<span style="color:white; font-weight:bold;"> - </span> <span tal:content=" structure news/text" tal:attributes="id string:navisi_${news/newsID}" style="color:#AAA" />
+				
+				<span tal:attributes="id string:visi_${news/newsID}" style="display:none;" tal:content="structure news/rtext"/> 
+				</div>
+				 <div style="clear:both" />
+			</div>
+			</div>-->
+			
+			</div>
+			
+			<!--<div id="REG" class="sliding" tal:attributes="style php:(mod == 'REG') ? 'display:block;; font-size:22px;; width:500px;; margin-left:auto;; margin-right:auto;;' : 'display:none'; font-size:22px;; width:500px;; margin-left:auto;; margin-right:auto;;">
+			<p style="font-size:22px; width:550px; line-height:25px; margin-left:auto; margin-right:auto;">Le iscrizioni sono temporaneamente chiuse. Nel caso puoi contattare lo staff a <a href="mailto:staff@startrekfederation.it" class="interfaceLink">staff@startrekfederation.it</a> per ottenere un account. La fase di riorganizzazione terminerà al pi&ugrave; tardi il 15 Novembre 2012. Siamo a disposizione per chiarimenti!</p>
+			</div>-->
+			
+			
+			<div id="REG" class="sliding" tal:attributes="style php:(mod == 'REG') ? 'display:block' : 'display:none';">
+				<p class="title">Registrazione</p>
+				<div id="rg2" style="background-image:url('TEMPLATES/img/interface/index/scheda_Ex.png'); background-repeat:no-repeat; width:600px; margin-left:60px; float:left; text-align:left; display:none; height:350px">
+				<div style="position:relative; width:200px; top:80px; left:310px; height:15px; font-size:12px;" id="schedaName" />
+				<div style="position:relative; width:200px; top:85px; left:310px; height:15px; font-size:12px;" id="specieName">Umana</div>
+				<div style="position:relative; width:200px; top:90px; left:310px; height:15px; font-size:12px;" id="sessoName">Maschio</div>
+				<div style="position:relative; width:200px; top:225px; left:310px; height:15px; font-size:12px;" id="autName" tal:content="aut" />
+				<div style="position:relative; width:100px; top:215px; left:90px; height:20px; font-size:12px;"><img alt="" style="vertical-align:middle;" id="imaSpecie" src="TEMPLATES/img/specie/Umana_m.png" /> <span id="imaUser" /></div>
+
+				</div>
+				
+				<div id="rg1" style="background-image:url('TEMPLATES/img/intros/intro_13c.png');background-repeat:no-repeat; width:600px; margin-left:60px; float:left; text-align:left; display:block; height:350px">
+					<p style="margin-top:20px; margin-left:-30px; text-align:center; "><img src="TEMPLATES/img/interface/index/destiny_q.png" alt="" /></p>
+					<div class="opacityBack innerMargins" style="width:470px; height:270px;">
+						<p style="text-align:justify; font-size:15px; margin:0px; font-family:Verdana; font-weight:bold;">Star Trek: Federation ti offre l'opportunità di giocare da subito un personaggio della Flotta Stellare con un grado fra <span style="color:orange; font-size:12px;">MARINAIO SCELTO</span> e  <span style="color:orange; font-size:12px;">CAPO SPECIALISTA</span> rispondendo ad un breve questionario che ti orienterà nell'impostazione del tuo PG! Hai quindi due alternative!</p>
+					<div style="margin-top:10px;">
+					<div style="float:left; width:215px; border-radius:10px; border:2px solid white; height:170px; background-image:url('TEMPLATES/img/interface/index/banner_7.png'); background-repeat:no-repeat; background-position:right top">
+						<p style="margin:5px 38px 10px 10px; text-align:justify; font-size:13px; font-family:Verdana"><span style="text-align:center; font-size:15px; font-weight:bold; margin-left:20px; color:orange;">Imbarco Diretto</span><br />Giocatori alle prime armi o poco esperti dell' ambientazione.<br /><br />Il tuo PG (civile) potrà arruolarsi nella Flotta Stellare, ove inizierà a fare carriera.</p>
+					</div>
+					
+					<div style="float:right; width:215px; border-radius:10px; border:2px solid white; height:170px; background-image:url('TEMPLATES/img/interface/index/banner_6.png'); background-repeat:no-repeat; background-position:left top">
+						<p style="margin:5px 10px 10px 38px; text-align:justify; font-size:13px; font-family:Verdana"><span style="color:orange; text-align:center; font-size:15px; font-weight:bold; margin-left:20px;">Questionario</span><br />Ti verrà sottoposta qualche domanda orientativa, il cui esito determinerà un <span style="color:#BBB">grado ed una sezione</span>, che potrai accettare o rifiutare (rientrando nell'imbarco diretto)</p>
+					</div>
+					<div style="height:1px; width:33px; border-top:1px solid #CCC; position:relative; top:35px; left:218px;" />
+					<div style="height:1px; width:33px; border-top:1px solid #CCC; position:relative; top:145px; left:218px;">
+					
+					</div>
+					</div><div style="clear:both;"/>
+				</div>
+				</div>
+				
+				
+				<div class="transpBkg radiusBordered12" style="font-size:15px;">
+					<p style="text-align:center; font-size:16px;">Dati del Personaggio</p>
+					<div><form method="post" action="service.php?registerUser=1" onsubmit="return checkIscri();">
+						<input type="hidden" tal:attributes="value aut" name="pgAuth" id="pgAuth"/>
+						<table style="font-family:Verdana"> 
+						<tr><td style="width:130px; font-weight:bold;">E-mail</td><td><input id="pgEmail" name="pgEmail" type="email" style="width:140px;" /></td></tr>
+						<tr><td style="width:130px; font-weight:bold;">Cognome PG</td><td><input onfocus="foc1();" onblur="foc2(this)" id="pgName" name="pgName" style="width:140px;" onkeyup="setNamae(this.value);" /></td></tr>
+						<tr><td style="width:130px; font-weight:bold;">Specie PG</td><td>
+						
+						<select name="pgSpecie" id="pgSpecie" style="width:130px;" onchange="setSpecie(this.value);">
+						<optgroup label="Federazione">
+						<option value="Andoriana">Andoriana</option>
+						<option value="Bajoriana">Bajoriana</option>
+						<option value="Benzita">Benzita</option>
+						<option value="Betazoide">Betazoide</option>
+						<option value="Boliana">Boliana</option>
+						<option value="Caitiana">Caitiana</option>
+						<option value="Deltana">Deltana</option>
+						<option value="Denobulana">Denobulana</option>
+						<option value="Risiana">Risiana</option>
+						<option value="Tellarita">Tellarita</option>
+						<option value="Trill">Trill</option>
+						<option value="Umana" selected="selected">Umana</option>
+						<option value="Vulcaniana">Vulcaniana</option>
+						<option value="Zakdorn">Zakdorn</option>
+						<option value="Zaldan">Zaldan</option>
+						</optgroup>
+						</select>
+						
+						</td></tr>
+						
+						<tr><td style="width:130px; font-weight:bold;">Sesso</td><td>
+						<select name="pgSesso" id="pgSesso" style="width:130px;" onchange="setSesso(this.value);">
+							<option value="M">Maschio</option>
+							<option value="F">Femmina</option>
+						</select></td></tr>
+						<tr><td colspan="2" style="text-align:center;"><a href="db.php?element=181" class="interfaceLink" onclick="window.open ('db.php?element=181','db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=617'); return false;">(Guida alle Specie)</a></td></tr>
+						<tr><td colspan="2" style="text-align:center;"><a href="index.php?guide=true" target="_blank" class="interfaceLink">(Guida)</a> - <a href="#" onclick="window.open ('db.php?element=150','db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=617'); return false;" class="interfaceLink">(Regolamento)</a></td></tr>
+						<tr><td colspan="2" style="text-align:center;">
+						<p style="font-size:12px; text-align:justify">Cliccando dichiari di accettare i <a href="#" onclick="window.open('condizioni.htm','info',config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=490,height=605')" class="interfaceLink">Termini e Condizioni del servizio</a>, di accettare l'<a href="#" onclick="window.open('informativa.htm','info',config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=490,height=605')" class="interfaceLink">Informativa sulla Privacy</a> <span style="color:red; font-weight:bold;">e di avere pi&ugrave; di 16 anni</span></p><input type="submit" value="[ - ACCETTO E MI ISCRIVO - ]" /></td></tr>
+						</table>
+					</form><br /><br /></div>
+					
+					
+				</div>
+				<img style="border-radius:0 0 15px 15px; margin-top:20px;" src="TEMPLATES/img/interface/index/banner3.png" alt="" />
+			
+			</div>
+			
+			
+			<div id="CON" class="sliding"  tal:attributes="style php:(mod == 'CON') ? 'display:block' : 'display:none';">
+			<div style="clear:both;" /><br />
+			<p class="title">Contatti</p>
+				
+			<div style="margin-top:20px;">
+				
+				<div style="text-align:left;  border:1px solid #999; width:400px; height:120px; float:left; margin-left:60px;  font-size:14px; padding:10px;" class="radiusBordered12">
+					<div style="float:left;"><img tal:attributes="src admT/1/pgAvatar" style="width:100px;" alt="Avatar1" class="radiusBordered12" /></div>
+					<div style="float:right; width:280px; text-align:right;">
+					<p style="font-size:25px; margin:0px;letter-spacing:2px;" class="title">Moreno Zolfo</p>
+					<p style="font-size:15px; font-variant:small-caps; margin:0px; margin-top:5px;letter-spacing:2px;" class="title">Gestore</p>
+					<p style="font-size:15px; margin:0px; margin-top:10px; letter-spacing:2px;" class="title">moreno@startrekfederation.it</p>
+					</div><div style="clear:both;" />
+					
+					<img style="vertical-align: middle;" tal:attributes="src string:TEMPLATES/img/ranks/${admT/1/ordinaryUniform}.png; title string:${admT/1/pgGrado} - Sezione ${admT/1/pgSezione}" alt=""/> <span style="font-weight:bold;" tal:content="admT/1/pgUser" />
+					<div style="float:right;"><a href="skype:destiny-one?add"><img src="TEMPLATES/img/interface/index/icons/Skype24.png" style="border: none;"  alt="Skype:destiny-one" title="Skype:destiny-one"/></a> <a target="_blank" href="http://www.facebook.com/digital-destiny"><img src="TEMPLATES/img/interface/index/icons/Facebook24.png" alt="" /></a> <a href="mailto:moreno@startrekfederation.it"><img src="TEMPLATES/img/interface/index/icons/Email24.png" alt=""/></a></div>
+
+				</div>
+				<div style="position:relative; border-top:1px solid #999; top:25px; left:482px; width:74px;" />
+				<div style="position:relative; border-top:1px solid #999; top:117px; left:482px; width:74px;" />
+
+				<div style="text-align:left;  border:1px solid #999; width:400px; height:120px; float:right; margin-right:60px; font-size:14px; padding:10px;" class="radiusBordered12">
+					<div style="float:left;"><img tal:attributes="src admT/5/pgAvatar" alt="" style="width:100px;" class="radiusBordered12" /></div>
+					<div style="float:right; width:280px; text-align:right;">
+					<p style="font-size:25px; margin:0px;letter-spacing:2px;" class="title">Igor Sontacchi</p>
+					<p style="font-size:15px; font-variant:small-caps; margin:0px; margin-top:5px;letter-spacing:2px;" class="title">Gestore</p>
+					<p style="font-size:15px; margin:0px; margin-top:10px; letter-spacing:2px;" class="title">igor@startrekfederation.it</p>
+					</div><div style="clear:both;" />
+					
+					<img style="vertical-align: middle;" tal:attributes="src string:TEMPLATES/img/ranks/${admT/5/ordinaryUniform}.png; title string:${admT/5/pgGrado} - Sezione ${admT/5/pgSezione} " alt=""/> <span style="font-weight:bold;" tal:content="admT/5/pgUser" />
+					<div style="float:right;"><a href="skype:ipnoseledil?chat"><img src="TEMPLATES/img/interface/index/icons/Skype24.png" style="border: none;"  alt="Skype:ipnoseledil" title="Skype:ipnoseledil"/></a> <a target="_blank" href="http://www.facebook.com/igor.sontacchi"><img src="TEMPLATES/img/interface/index/icons/Facebook24.png" alt="" /></a> <a href="mailto:igor.sontacchi@gmail.com"><img src="TEMPLATES/img/interface/index/icons/Email24.png" alt="" /></a></div>
+				</div><div style="clear:both" />
+				
+				<div style="width:920px;  margin-right:auto; margin-top:60px; margin-left:auto; ">
+				<div style="text-align:left;  height:120px; width:400px; border:1px solid #999; float:left; font-size:14px; padding:10px;" class="radiusBordered12">
+					<div style="float:left;"><img tal:attributes="src admT/796/pgAvatar" alt="" style="width:100px;" class="radiusBordered12" /></div>
+					<div style="float:right; width:280px; text-align:right;">
+					<p style="font-size:25px; margin:0px;letter-spacing:2px;" class="title">Claudio F.</p>
+					<p style="font-size:15px; font-variant:small-caps; margin:0px; margin-top:5px;letter-spacing:2px;" class="title">Master Globale</p>
+					<p style="font-size:15px; margin:0px; margin-top:10px; letter-spacing:2px;" class="title">claudio@startrekfederation.it</p>
+					</div><div style="clear:both;" />
+					
+					<img style="vertical-align: middle;" tal:attributes="src string:TEMPLATES/img/ranks/${admT/796/ordinaryUniform}.png; title string:${admT/796/pgGrado} - Sezione ${admT/796/pgSezione} " alt=""/> <span style="font-weight:bold;" tal:content="admT/796/pgUser" />
+					<div style="float:right;"><a href="skype:galen1978?chat"><img src="TEMPLATES/img/interface/index/icons/Skype24.png" style="border: none;"  alt="Skype:galen1978" title="Skype:galen1978"/></a> <a href="mailto:claudio@startrekfederation.it"><img src="TEMPLATES/img/interface/index/icons/Email24.png" alt="" /></a></div>
+				</div>
+				
+					<div style="text-align:center; height:120px; border:1px solid #999; width:300px; float:right; font-size:14px; padding:10px;" class="radiusBordered12">
+					
+					<p style="font-size:25px; margin:0px;letter-spacing:2px; width:100px; float:left;" class="title">Social</p>
+					<a href="http://www.facebook.com/federation.pbc" title="Seguici su Facebook!" target="_blank"><img src="TEMPLATES/img/interface/index/icons/Facebook.png" alt="" /></a>
+					<a href="http://twitter.com/STFederation" target="_blank"><img src="TEMPLATES/img/interface/index/icons/Twitter.png" alt="" /></a>
+					<!--<img src="TEMPLATES/img/interface/index/icons/gplus.png" alt="" />-->
+					<br/>
+					<b>Contatta lo Staff:</b> <a href="skype:destiny-one?chat"><img src="http://mystatus.skype.com/smallclassic/destiny-one" style="border: none;" width="114" height="20" alt="Il mio stato" /></a><p style="font-size:15px; margin:0px; margin-top:10px; letter-spacing:2px; text-align:center;" class="title">staff@startrekfederation.it</p>
+				</div>
+				</div>
+
+				
+				
+			</div>
+				
+			</div>
+			
+			</div>
+			<div metal:use-macro="TEMPLATES/metal.htm/footer" />
+
+
+
+		</div><!-- indi_mainContainer -->
+		
+		<!-- FOOTER -->
+		
+		
+<!--<form target="fed_main" id="aleph" action="login.php" method="POST"><input type="hidden" value="ALE" name="A" /></form>-->
+</body>
+</html>

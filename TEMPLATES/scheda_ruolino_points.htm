@@ -1,0 +1,209 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/personnel.css?v=1.7" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" /> 
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" /> 
+
+	<title>STAR TREK FEDERATION - SCHEDA</title>	
+	<script type="text/javascript">
+	
+	jQuery(function(){ 
+			jQuery('#toOff').button();  
+			jQuery('.incButton').button(); 
+			jQuery('.dincButton').button(); 
+			jQuery('.tooltip').tooltip();
+		});
+		
+	function paddOpen(who){window.open ('padd.php?s=seR&to='+who+'&sub=','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
+	
+	
+	function setView(ida){
+		jQuery('#realLateral').html(jQuery('#'+ida).html());
+		jQuery('.imageObrev').addClass('grayScale');
+		jQuery('#img_'+ida).removeClass('grayScale');
+		
+		
+		
+		}
+	</script>
+	<style>
+	.ui-tooltip {
+    font-family:Helvetica;
+	font-size:11px; 
+	max-width:80%;
+	text-transform:uppercase;
+  }
+  
+  img.brevHighlit {height:25px; vertical-align:middle;}
+  img.rankHighlit {width:25px; vertical-align:middle;}
+  p.brevTitleRed {margin:0px; text-align:center; color:red; font-weight:bold;}
+  span.brevTitleWhite {margin:0px; text-align:center; color:white; font-weight:bold;}
+  span.brevTitleFC0 {color:#FC0; font-weight:bold;}
+  span.brevTitleGreen {color:#0F0; font-weight:bold;}
+  span.brevTitleYelo {color:yellow; font-weight:bold;}
+  
+  #lateralL{float:left; text-align:center; overflow-y:auto; height:525px; margin-top:0px; width:180px; margin-left:-7px;}
+  .lateralR{display:none; float:right; margin-right:0px; height:525px; margin-top:0px; width:415px;}
+  
+  #lateralRtop{width:100%; height:180px;}
+  #lateralRbottom,.lateralRbottom{width:100%; margin-top:25px; height:300px;}
+  .descriText{font-family:verdana; font-size:14px; margin:0px; line-height:20px; padding:3px 10px; text-align:justify;}
+  
+  .imageObrev,.imageObrevNoGray{margin-left:3px; cursor:pointer;}
+  
+  .fc0Back{background-color:#413a1e;}
+  .redBack{background-color:#522a2a;}
+  .blueBack{background-color:#2a3352;}
+  .incButton{height:30px; width:120px; margin-top:-5px; vertical-align:middle; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:#157413;}
+  .dincButton{height:30px; width:120px; margin-top:-5px; vertical-align:middle; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:#3e88ed;}
+  
+  .grayScale:hover{
+   filter: none;
+    -webkit-filter: none;
+    -moz-filter: none;
+    -ms-filter: none;
+    -o-filter: none;
+	filter:none;
+	opacity:1;
+  }
+  
+  form p {margin:auto; position:relative; text-align:center;}
+	</style>
+</head>
+
+<body style="background-color:black; overflow:hidden; padding:-5px;">
+
+<div id="schedaContainer" style="background-image:url('TEMPLATES/img/interface/personnelInterface/cornice_scheda_up.png');">
+
+<div metal:use-macro="TEMPLATES/metal.htm/schedaIntro" />
+ 
+<div id="mainContainer">
+ 
+
+<div id="lateralL">
+
+	<img tal:attributes="title string:Area ${brev/sectName} ; src string:TEMPLATES/img/ruolini/brevetti/${brev/image} ; onclick string:javascript:setView('brevdiv_${brev/sectID}') ; id string:img_brevdiv_${brev/sectID}" class="imageObrevNoGray tooltip" style="width:42px;" tal:repeat="brev brevToShow/0" /><hr />
+	<img tal:attributes="title string:Area ${brev/sectName} ; src string:TEMPLATES/img/ruolini/brevetti/${brev/image} ; onclick string:javascript:setView('brevdiv_${brev/sectID}') ; id string:img_brevdiv_${brev/sectID}" class="grayScale imageObrev tooltip" style="width:42px;" tal:repeat="brev brevToShow/1" />
+
+</div>
+
+<div class="lateralR" id="realLateral" style="display:block">
+
+	<div id="lateralRtop"  style="font-size:14px; line-height:16px; text-align:justify;">
+	
+		Puoi assegnare in totale <span tal:content="php:(pgPointsAvail['pgSpecialistPoints']+pgPointsAvail['pgUpgradePoints']+pgPointsAvail['pgSocialPoints'])" style="font-weight:bold;" /> Upgrade Points per aumentare le conoscenze e abilità del tuo personaggio. I punti sono così ripartiti:
+		
+		<div style="width:405px; margin:auto; border:1px solid #235ea7; height:70px; border-radius:9px;">
+		
+		<div style="border-right:1px solid #235ea7; width:134px; float:left; border-top-left-radius:9px; border-bottom-left-radius:9px; height:70px;" tal:attributes="class php:(mode == 'specialist') ? 'redBack' : ''">
+		 <p style=" font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;font-size: 35px; text-shadow: 0 0 15px red; font-weight:bold; text-align:center; margin:0px; margin-top:20px;" tal:content="pgPointsAvail/pgSpecialistPoints">3</p>
+		 <p style="text-align:center; margin:0px; margin-top:10px;">Specialist Points</p>
+		 
+		</div>
+		
+		<div style="border-right:1px solid #235ea7; width:134px; float:left; height:70px;" tal:attributes="class php:(mode == 'general') ? 'fc0Back' : ''">
+		  <p style=" font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;font-size: 35px; text-shadow: 0 0 15px #FC0; font-weight:bold; text-align:center; margin:0px; margin-top:20px;" tal:content="pgPointsAvail/pgUpgradePoints">3</p>
+		 <p style="text-align:center; margin:0px; margin-top:10px;">Upgrade Points</p>
+		 
+		</div>
+		 
+		 <div style="width:134px; float:left; border-top-right-radius:9px; border-bottom-right-radius:9px; height:70px;" tal:attributes="class php:(mode == 'social') ? 'blueBack' : ''">
+		 <p style=" font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;font-size: 35px; text-shadow: 0 0 15px #235ea7; font-weight:bold; text-align:center; margin:0px; margin-top:20px;" tal:content="pgPointsAvail/pgSocialPoints">3</p>
+		 <p style="text-align:center; margin:0px; margin-top:10px;">Abilità Personali</p>
+		</div>
+		
+		</div>
+		
+		<p style="margin:0px; margin-top:5px;"  tal:condition="php:mode=='specialist'">I punti che stai assegnando adesso sono <span style="color:red; font-weight:bold;">Specialist Points</span>. Sono punti speciali che possono essere assegnati <u>solo ad alcune</u> categorie <b>che specializzano il tuo pg</b>. Per assegnare gli altri UP, dovrai prima assegnare tutti quelli di questa categoria.</p>
+		
+		<p style="margin:0px; margin-top:5px;"  tal:condition="php:mode=='general'">I punti che stai assegnando adesso sono <span style="color:#FC0; font-weight:bold;">Upgrade Points</span>. Sono punti che possono essere assegnati a tutte le categorie senza limitazioni. Per assegnare gli altri UP, dovrai prima assegnare tutti quelli di questa categoria.</p>
+		
+		<p style="margin:0px; margin-top:5px;"  tal:condition="php:mode=='social'">I punti che stai assegnando adesso sono punti <span style="color:#235ea7; font-weight:bold;">Abilità Personali</span>. Sono punti specifici per le abilità secondarie, come cucina, recitazione e l'abilità nelle lingue.</p>
+	</div>
+	<div class="lateralRbottom"><p class="title" style="font-size:25px; margin-top:30px; text-transform:uppercase;">Devi assegnare degli<br/> Upgrade Points!</p><hr /><p class="title" style="font-size:25px; margin-top:5px; text-transform:uppercase;"><span style="font-size:17px;">Clicca sulle abilità a lato per aprire la categoria corrispondente ed assegnare i punti.</span><hr/></p>
+	
+	<div tal:condition="php:(count(specsAvail) GT 0)"><p class="title" style="font-size:20px; margin-top:5px; text-transform:uppercase;">-- OPPURE --<br />	
+	<span style="font-size:17px;">Aggiungi una specializzazione (2UP) ad una delle aree in cui hai maturato 15 UP</span></p>
+	
+		<form method="POST" tal:attributes="action string:scheda.php?s=addPointSpec" onsubmit="javascript:return confirm('Confermi l\'operazione?')">
+			<p>  
+			<input type="hidden" name="userSelector" tal:attributes="value selectedUser" />
+			<select name="abili" style="font-size:14px; width:350px; text-align:center;">
+				<optgroup tal:repeat="spe specsAvail" tal:attributes="label repeat/spe/key">
+				<option tal:repeat="ala spe" tal:attributes="value ala/specID" tal:content="ala/specName" />
+				</optgroup>
+			</select> 
+			</p><p style="margin-top:5px;text-align:center;"> <button class="incButton">Aggiungi</button></p>
+		</form><hr/>
+	</div>
+	<div style="float:right;"><a tal:attributes="href string:scheda.php?s=bv&escape=true&pgID=${selectedUser}"><button type="submit" id="toOff" style="height:30px; width:166px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:#851818;"> Torna alla Scheda </button></a></div><div style="clear:both"/>
+	 
+	
+	</div>
+	
+</div> 
+
+
+<div class="lateralR" tal:attributes="id string:brevdiv_${brev/sectID}" tal:repeat="brev brevToShowPlain">
+
+	<div id="lateralRtop" tal:attributes="style string:position:relative ;; background-image:url('TEMPLATES/img/ruolini/brevetti/${brev/repr_image}')">
+	
+	<div style="font-size:45px; background-color:rgba(0,0,0,0.5); text-align:center; font-weight:bold; font-family:federationFontI; position:absolute; width:150px; height:50px; right:0px; bottom:0px;"> <span tal:content="php:(brev['value'] == NULL) ? '0' : brev['value']" /> <span style="color:#256aa0;">/ 15</span> </div>
+	
+	</div>
+	
+	<div id="lateralRbottom">
+		<p class="title" style="font-size:25px; margin-top:35px; text-transform:uppercase;" tal:content="string:AREA ${brev/sectName}"> Brevetto in </p>
+		<p class="descriText" tal:content="structure brev/descriptExt"> Test Descri </p>
+		
+		
+		<div style="margin-top:20px;">
+		<form method="POST" tal:attributes="action string:scheda.php?s=addPointCar" tal:condition="php:(pgPointsAvail['pgSpecialistPoints'] GE 1 && editable && brev['value'] LT 15 && mode == 'specialist')" onsubmit="javascript:return confirm('Confermi l\'operazione?')">
+			<p>
+			<input type="hidden" name="pool" value="SUP" />
+			<input type="hidden" name="abili" tal:attributes="value brev/sectID" />
+			<input type="hidden" name="userSelector" tal:attributes="value selectedUser" />
+			<span style="font-size:18px;">Incrementa di</span> <select name="toassign" style="font-size:18px; text-align:center;"><option tal:repeat="ala php:range(1,min(15,pgPointsAvail['pgSpecialistPoints']))" tal:attributes="value ala" tal:content="string:${ala} UP Speciali" /></select> <button class="incButton">Conferma</button>
+			</p>
+		</form>
+		
+		<form method="POST" tal:attributes="action string:scheda.php?s=addPointCar" tal:condition="php:(pgPointsAvail['pgUpgradePoints'] GE 1 && editable && brev['value'] LT 15 && mode == 'general')" onsubmit="javascript:return confirm('Confermi l\'operazione?')">
+			<p>
+			
+			<input type="hidden" name="pool" value="UP" />
+			<input type="hidden" name="abili" tal:attributes="value brev/sectID" />
+			<input type="hidden" name="userSelector" tal:attributes="value selectedUser" />
+			<span style="font-size:18px;">Incrementa di</span> <select name="toassign" style="font-size:18px; text-align:center;"><option tal:repeat="ala php:range(1,min(15,pgPointsAvail['pgUpgradePoints']))" tal:attributes="value ala" tal:content="string:${ala} UP Standard" /></select> <button class="incButton">Conferma</button>
+			</p>
+		</form>
+		
+		<form method="POST" tal:attributes="action string:scheda.php?s=addPointCar" tal:condition="php:(pgPointsAvail['pgSocialPoints'] GE 1 && editable && brev['value'] LT 15 && mode == 'social')" onsubmit="javascript:return confirm('Confermi l\'operazione?')">
+			<p>
+			<input type="hidden" name="pool" value="SOC" />
+			<input type="hidden" name="abili" tal:attributes="value brev/sectID" />
+			<input type="hidden" name="userSelector" tal:attributes="value selectedUser" />
+			<span style="font-size:18px;">Incrementa di</span> <select name="toassign" style="font-size:18px; text-align:center;"><option tal:repeat="ala php:range(1,min(15,pgPointsAvail['pgSocialPoints']))" tal:attributes="value ala" tal:content="string:${ala} UP Personali" /></select> <button class="incButton">Conferma</button>
+			</p>
+		</form> 
+		</div>
+	
+	</div>
+</div>
+
+</div>
+
+
+</div>
+
+</body>
+</html>

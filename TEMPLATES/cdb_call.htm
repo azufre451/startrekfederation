@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/cdb.css?v=1.2.1" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+
+	<!-- <script type="text/javascript" src="TEMPLATES/js/lazyload.js"></script> -->
+	<title>STAR TREK FEDERATION - CDB</title>
+	
+</head>
+
+<body style="background-repeat:no-repeat; background-color:black; background-position:top center;">
+
+
+<div id="federation_interfaceContainer">
+	<div id="leftCol" style="width:123px;">
+		<div id="leftC1" />
+		<div id="leftC3" />
+	</div>
+	
+	<div id="supCol">
+		
+	<div metal:use-macro="TEMPLATES/metal.htm/cdbHeading" />
+
+	</div>
+	
+	<div id="fillerBax">
+		<div id="barbot1" />
+	</div>
+	<div id="cdbContainer" >
+	<div metal:use-macro="TEMPLATES/metal.htm/cdbIntro" />
+
+	<div style="font-size:12px; margin-left:5px; text-transform:uppercase; "><a href="cdb.php" class="interfaceLink">CDB</a> <span style="color:red; font-size:11px;">></span> <a class="interfaceLink" tal:attributes="href string:crew.php">SONDAGGI</a> <span style="color:red; font-size:11px;">></span></div>
+
+	<p class="smallTitle" style="font-size:20px; text-align:center; margin-top:5px; font-weight:bold;">Votazioni di Qualità & Quest Review</p>
+	<div id="local" class="topicDiv" style="height: 220px; overflow-y:auto; margin-top:5px;">
+	<p tal:repeat="call calls/VOT" style="line:height:5px;  margin-top:5px;"><a class="interfaceLink" tal:attributes="href string:cdb.php?callView=${call/call_id}">  <span style="color:#4978ff;">&raquo;</span> <span class="topicTitle" style="font-weight:bold;" tal:content="call/callTitle"  /><span tal:attributes="style php:(call['activeTo'] GE time()) ? 'margin-left:30px;; font-size:11px;; color:#0F0;;' : 'margin-left:30px;; font-size:11px;; color:#555;;'" tal:content="php:(call['activeTo'] GE time()) ? 'Termina il: ' . date('d/m/Y',call['activeTo']) : 'Terminato il: ' . date('d/m/Y',call['activeTo'])" /></a></p>
+	</div>
+
+	<p class="smallTitle" style="font-size:20px; text-align:center; margin-top:5px; font-weight:bold;">Sondaggi su argomenti vari</p>
+	<div id="local" class="topicDiv" style="height: 220px;  overflow-y:auto; margin-top:5px;">
+	<p tal:repeat="call calls/DEM" style="line:height:5px; margin-top:5px;"><a class="interfaceLink" tal:attributes="href string:cdb.php?callView=${call/call_id}"> <span style="color:red;">&raquo;</span> <span class="topicTitle" style="font-weight:bold;" tal:content="call/callTitle" /><span tal:attributes="style php:(call['activeTo'] GE time()) ? 'margin-left:30px;; font-size:11px;; color:#0F0;;' : 'margin-left:30px;; font-size:11px;; color:#555;;'" tal:content="php:(call['activeTo'] GE time()) ? 'Termina il: ' . date('d/m/Y',call['activeTo']) : 'Terminato il: ' . date('d/m/Y',call['activeTo'])" /></a></p>
+</div>
+
+</div>
+</div>
+</body>
+</html>

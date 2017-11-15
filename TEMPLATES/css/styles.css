@@ -1,0 +1,417 @@
+/*
+Progetto Star Trek Federation
+Autore originale: Moreno Zolfo
+*/
+
+body
+{	
+	background-color:black;
+	color:white;
+	height:100%;
+}
+img{border:0px;}
+a
+{
+	color:white;
+	text-decoration:none;
+}
+
+a:hover 
+{
+	color:yellow;
+	text-decoration:none;
+}
+
+#loginForm 
+{
+	font-size:11px;
+	
+}
+
+#loginForm input, button
+{
+	background-color:black;
+	color:#999;
+	border:1px solid #999;
+	font-weight:bold;
+}
+
+#loginForm input:focus, button:focus
+{
+	color:white;
+	border:1px solid white;
+}
+
+#loginForm input:hover, button:hover
+{
+	color:white;
+	border:1px solid white;
+}
+
+
+.interfaceLink,.interfaceLinkBlue,.interfaceLinkRed,.interfaceLinkGreen
+{
+	
+	font-size:12px;
+	font-weight:bold;
+	font-family:verdana;
+}
+.interfaceLink{color:#fffbe8;}
+a.interfaceLink:hover{color:orange;}
+
+.interfaceLinkBlue{color:#0077c3;}
+a.interfaceLinkBlue:hover{color:#5a9bc4;}
+
+.interfaceLinkRed{color:#dc0000;}
+a.interfaceLinkRed:hover{color:#eb5d5d;}
+
+.interfaceLinkGreen{color:#06a211;}
+a.interfaceLinkGreen:hover{color:#59cd61;}
+
+#loginDiv
+{
+	border:2px solid black;
+	margin-left:auto;
+	margin-right:auto;
+	position:relative;
+	
+	top:50%; 
+	margin-top:-65px;
+	left:50%;
+	margin-left:-145px;
+	
+	padding-top:30px; padding-bottom:30px;
+	padding-left: 20px; padding-right:20px;
+	width:250px;
+	height:70px;
+	background-color:rgba(192,192,192);
+	background-color:rgba(192,192,192,0.7);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#B2C0C0C0,endColorstr=#B2C0C0C0);
+	font-weight:bold;
+	color:black; 
+}
+
+.transpBkg
+{
+	background-color:rgba(60,60,60);
+	background-color:rgba(60,60,60,0.5);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#7F3C3C3C,endColorstr=#7F3C3C3C);
+	margin-left:10px;
+	width:300px;
+	float:left;
+	border:1px solid #444;
+}
+
+.title
+{
+font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;
+font-size: 29px;
+margin:0px;
+margin-bottom:10px;
+margin-left:60px;
+text-align: left;
+text-shadow: 0 0 5px #00C6FF;
+font-weight:bold;
+}
+
+#superLoginDiv
+{
+display:none;
+width:686px;
+height:437px;
+float:left;
+}
+
+#centralContainer
+{
+	width:1037px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:30px;
+}
+
+.tipBox
+{
+z-index:10; 
+width:340px; 
+font-size:11px;
+color:black;
+height:110px;
+border:1px solid #222;
+margin-bottom:5px;
+/*background: rgb(100, 100, 100);
+background: rgba(100, 100, 100, 0.4);
+filter: alpha(opacity = 40);*/
+text-align:center;
+}
+
+.opacityBack
+{
+background-color:rgba(0,0,0);
+background-color:rgba(0,0,0,0.8);
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC000000,endColorstr=#CC000000);
+}
+
+.innerMargins
+{
+	margin-left:40px;
+	margin-right:40px;
+}
+
+#mapDiv1, #mapDiv2, #mapDiv3
+{
+	margin-left:-570px;
+	margin-top:-307.5px;
+	position:absolute;
+	top:50%;
+	left:50%;
+	width:1150px;
+	height:625px;
+	z-index:1;
+}
+
+#mapDiv2, #mapDiv3{display:none;}
+
+#reminderAvatar
+{
+width:100px;
+height:130px;
+top:180px;
+
+}
+
+#reminderST
+{
+width:100px;
+
+top:150px;
+font-size:13px;
+font-family:helvetica;
+font-weight:bold;
+text-align:center;
+}
+
+input, select, textarea, button
+{
+	color:#999;
+	border:1px solid #999;
+	background-color:black;
+    font-family: Helvetica;
+    font-size: 12px;
+    padding: 1px;
+}
+
+textarea {font-size:12px;}
+input:focus, select:focus, textarea:focus, button:focus
+{
+	color:white;
+	border:1px solid white;
+}
+
+input:hover, select:hover, textarea:hover, button:hover
+{
+	color:white;
+	border:1px solid white;
+}
+
+.radiusBordered
+{
+	-moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -khtml-border-radius: 20px;
+	border-radius:20px;
+	behavior: url(border-radius.htc);
+}
+
+.radiusBordered35
+{
+	-moz-border-radius: 35px;
+    -webkit-border-radius: 35px;
+    -khtml-border-radius: 35px;
+	border-radius:35px;
+}
+.radiusBordered12
+{
+	-moz-border-radius: 12px;
+    -webkit-border-radius: 12px;
+    -khtml-border-radius: 12px;
+	border-radius:12px;
+}
+
+.radiusBordered5
+{
+	-moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+	border-radius:5px;
+}
+.blueshadow
+{ box-shadow:rgba(19,52,92,0.4) 5px 5px 0 5px inset;
+}
+
+input.searchField
+{
+width:450px;
+padding:7px;
+font-size:16px;
+font-weight:bold;
+}
+
+
+.overNaviLimitrElement
+{
+	width:230px;
+	height:150px;
+	float:left;
+	margin-top:20px;
+	background-color:black;
+	margin-left:45px;
+	text-align:center;
+	border:1px solid #292929;
+	padding:5px;
+}
+
+.overNaviLimitrElement:hover
+{
+	
+	-moz-box-shadow: 0px 0px 20px #0099ff;
+    -webkit-box-shadow: 0px 0px 20px #0099ff;
+    box-shadow: 0px 0px 20px #0099ff;
+}
+
+.subTitler
+{
+	color:#FFCC00;
+	border-top:1px solid #BBB;
+	border-bottom:1px solid #BBB;
+	padding-top:10px; padding-bottom:10px;
+	text-align:center;
+	font-family:Verdana;
+	font-size:16px;
+	width:320px;
+	margin-left:auto;
+	margin-right:auto;
+	font-weight:bold;
+	font-variant:small-caps;
+}
+
+.redTitler
+{
+	color:red;
+	border-top:1px solid #BBB;
+	border-bottom:1px solid #BBB;
+	padding-top:10px; padding-bottom:10px;
+	text-align:center;
+	font-family:Verdana;
+	font-size:16px;
+	width:320px;
+	margin-left:auto;
+	margin-right:auto;
+	font-weight:bold;
+	font-variant:small-caps;
+}
+
+/* INTERFACCIA MAIN */
+/*****************************************************/
+#indi_mainContainer
+{
+	height:200px;
+}
+
+#indi_header
+{
+	background-image:url('../img/interface/index/header_olimpico.png');
+	width:1037px;
+	cursor:pointer;
+	height:158px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:0px;
+}
+
+#indi_central
+{
+	background-image:url('../img/interface/index/menu.png');
+	width:1037px;
+	margin-left:auto;
+	height:730px;
+	margin-right:auto;
+	margin-top:0px;
+	background-repeat:no-repeat;
+}
+
+.elementButtonSprite
+{
+	background-position:top center;
+	float:left;
+}
+
+.elementButtonSprite:hover
+{
+	background-position:bottom center;
+}
+
+div#history p
+{
+	color:#fffdef;
+	line-height:1.1em;
+	margin-left:60px;
+	margin-right:60px;
+	text-align:justify;
+}
+
+ul.mainmenu{list-style-type: none;}
+.mainmenu li {cursor:pointer;}
+
+li#login{background-image:url('../img/interface/index/login.png');width:98px;height:33px;}
+li#contatti{background-image:url('../img/interface/index/contatti.png');width:98px;height:33px;}
+li#directory{background-image:url('../img/interface/index/directory.png');width:112px;height:33px;}
+li#documentazione{background-image:url('../img/interface/index/documentazione.png');width:158px;height:33px;}
+li#gallery{background-image:url('../img/interface/index/gallery.png');width:90px;height:33px;}
+li#guida{background-image:url('../img/interface/index/guida.png');width:142px;height:33px;}
+li#registrati{background-image:url('../img/interface/index/registrati.png');width:112px;height:33px;}
+
+div#quotation
+{
+	
+	margin-right:75px;
+	margin-left:75px;
+	text-align:center;
+}
+
+div#lastNews{border:1px solid #EEE; position:relative; top:0px; left:0px; width:300px; height:120px; padding:5px;}
+
+#quotation p {font-style:italic;font-size:14px;font-weight:bold;font-family:Helvetica,arial; text-align:center;}
+
+#footer{color:#EEE; font-size:13px;  margin-left:auto; margin-right:auto; margin-top:0px; text-align:center;}
+#footer p{margin:0px; text-align:center;}
+#footer div img{margin-left:5px;}
+
+.sliding{display:none;}
+
+#success,#error{
+display:none;
+position:absolute;
+top:50px;
+left:50%;
+width:530px;
+text-align:center;
+margin-left:-265px;
+margin-top:-25px;
+border:2px solid #00FF00;
+background-color:black;
+color:#00FF00;
+font-size:20px;
+font-weight:bold;
+padding:5px;
+}
+
+.avviso
+{
+font-family:Verdana;
+border-radius:12px;
+padding:10px;
+display:none;
+}
+#success,.avvisoG{border:2px solid #00FF00; color:#00FF00;cursor:pointer;}
+#error,.avvisoR{border:2px solid red; color:red;}

@@ -1,0 +1,163 @@
+body{
+	width:1140px;
+	overflow:hidden;
+	/*background-image:url('../img/interface/dbInterface/cornice_database.png');*/
+	font-family:Arial;
+	background-repeat:no-repeat;
+}
+
+#mainDatabase
+{
+	margin-left:35px;
+	margin-top:23px;
+	height:575px;
+}
+
+.titleFS
+{
+    font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;
+    font-size: 36px;
+    text-align: center;
+    text-shadow: 0 0 5px #00C6FF;
+	font-weight:bold;
+}
+
+.cdbPostRed{color:red;}
+.cdbPostBlue{color:#0077c3;}
+.cdbPostGreen{color:#009966;}
+.cdbPostYellow{color:#FFCC00;}
+.cdbPostLYellow{color:yellow;}
+.cdbPostWhite{color:white;}
+.cdbPostGray{color:#999;}
+
+.cdbPostLittleSize{font-size:11px;}
+.cdbPostNormalSize{font-size:13px;}
+.cdbPostBigSize{font-size:16px;}
+
+
+/***/
+
+#cdbContainer
+{
+position:absolute;
+top:110px;
+left:40px;
+width:95%;
+margin-left:auto;
+margin-right:auto;
+bottom:20px;
+overflow:auto;  
+z-index:10;
+}
+
+#cdbHeader
+{
+position:absolute;
+top:20px;
+left:20px;
+width:93%;
+margin-left:auto;
+margin-right:auto;
+overflow:auto;  
+z-index:10;
+}
+
+#federation_interfaceContainer
+{
+    display:block;
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}
+
+#leftCol
+{
+	background-image:url('../img/interface/dbInterface/filler_later.png');
+	background-repeat:repeat-y;
+	width:41px;
+	position:absolute;
+	top:0px;
+	height:100%;	
+}
+
+#leftC1
+{
+	background-image:url('../img/interface/dbInterface/angolo_alto_sx.png');
+	width:123px;
+	height:294px;
+	position:absolute;
+	left:0px;
+	top:0px;
+	z-index:1;
+}
+
+#fillerBax
+{	
+	background-image:url('../img/interface/dbInterface/filler_basso.png');
+	background-repeat:repeat-x;
+	position:absolute;
+	bottom:0px;
+	width:100%;
+	height:11px;
+}
+
+#barbot2
+{	
+	background-image:url('../img/interface/dbInterface/mont_basso_dx.png');
+	position:absolute;
+	bottom:0px;
+	right:0px;
+	height:11px;
+	width:371px;
+}
+#barbot1
+{	
+	background-image:url('../img/interface/dbInterface/mont_basso_sx.png');
+	position:absolute;
+	bottom:0px;
+	left:123px;
+	width:266px;
+	height:11px;
+}
+
+
+#leftC3
+{
+	background-image:url('../img/interface/dbInterface/angolo_basso_sx.png');
+	width:123px;
+	height:263px;
+	position:absolute;
+	bottom:0px;
+	z-index:2;
+}
+
+#supCol
+{
+	background-image:url('../img/interface/dbInterface/filler_alto.png');
+	background-repeat:repeat-x;
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:100%;
+	height:22px;
+}
+#supRight
+{
+	background-image:url('../img/interface/dbInterface/mont_alto_dx.png');
+	position:absolute;
+	top:0px;
+	right:0px;
+	width:371px;
+	height:22px;
+}
+#supLeft
+{
+	background-image:url('../img/interface/dbInterface/mont_alto_sx.png');
+	position:absolute;
+	top:0px;
+	left:123px;
+	width:241px;
+	height:22px;
+}

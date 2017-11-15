@@ -1,0 +1,201 @@
+@font-face{
+font-family:'federationFont';
+src: url('../Roddenberry.eot');
+src: url('../Roddenberry.ttf') format('truetype');
+}
+
+
+#cdbContainer
+{
+position:absolute;
+top:40px;
+left:50px;
+width:93%;
+margin-left:auto;
+margin-right:auto;
+height:90%;
+overflow:auto;  
+z-index:10;
+}
+
+#federation_interfaceContainer
+{
+    display:block;
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}
+
+#leftCol
+{
+	background-image:url('../img/interface/cdbInterface/10_filler_sx.png');
+	background-repeat:repeat-y;
+	width:45px;
+	position:absolute;
+	top:0px;
+	height:100%;	
+}
+
+#leftC1
+{
+	background-image:url('../img/interface/cdbInterface/01_angolo_alto.png');
+	width:123px;
+	height:136px;
+	position:absolute;
+	left:0px;
+	top:0px;
+	z-index:1;
+}
+
+#leftC3
+{
+	background-image:url('../img/interface/cdbInterface/11_angolo_basso.png');
+	width:123px;
+	height:332px;
+	position:absolute;
+	bottom:0px;
+	z-index:2;
+}
+
+#supCol
+{
+	background-image:url('../img/interface/cdbInterface/02_filler_alto.png');
+	background-repeat:repeat-x;
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:100%;
+	height:26px;
+	
+}
+
+#seclarBox
+{
+margin-left:124px;
+margin-top:4px;
+height:15px;
+width:80px;
+}
+
+#pD 
+{
+	height:40px;
+	position:absolute;
+	right:0px;
+	top:0px;
+}
+
+#bartop2
+{
+	background-image:url('../img/interface/cdbInterface/04_finale_alto.png');
+	width:149px;
+	height:26px;
+	position:absolute;
+	right:0px;
+	top:0px;
+	z-index:2;
+}
+
+#fillerBax
+{	
+	background-image:url('../img/interface/cdbInterface/12_filler_basso.png');
+	background-repeat:repeat-x;
+	position:absolute;
+	bottom:0px;
+	width:100%;
+	height:15px;
+	z-index:1;
+}
+
+#barbot1
+{	
+	background-image:url('../img/interface/cdbInterface/13_finale_basso.png');
+	position:absolute;
+	bottom:0px;
+	right:0px;
+	width:580px;
+	height:15px;
+}
+
+#principaleBTN
+{
+background-image:url('../img/interface/cdbInterface/A.png');
+background-position:top center;
+width:109px;
+height:34px;
+float:left;
+}
+
+#calendarioBTN
+{
+background-image:url('../img/interface/cdbInterface/G.png');
+background-position:top center;
+width:113px;
+height:34px;
+float:left;
+}
+#sondaggiBTN
+{
+background-image:url('../img/interface/cdbInterface/F.png');
+background-position:top center;
+width:90px;
+height:34px;
+float:left;
+}
+
+#newsBTN
+{
+background-image:url('../img/interface/cdbInterface/B.png');
+background-position:top center;
+width:63px;
+height:34px;
+float:left;
+}
+#assegnazioniBTN
+{
+background-image:url('../img/interface/cdbInterface/C.png');
+background-position:top center;
+width:121px;
+height:34px;
+float:left;
+}
+#diarioBTN
+{
+background-image:url('../img/interface/cdbInterface/D.png');
+background-position:top center;
+width:71px;
+height:34px;
+float:left;
+}
+#guidaBTN
+{
+background-image:url('../img/interface/cdbInterface/E.png');
+background-position:top center;
+width:140px;
+height:34px;
+float:left;
+}
+
+.fpAdd{background-image:url('../img/interface/cdbInterface/plus_fp.png'); background-position:top center; width:23px; height:12px; margin-left:10px;}
+
+#principaleBTN:hover, #newsBTN:hover,#sondaggiBTN:hover,#calendarioBTN:hover, #assegnazioniBTN:hover, #diarioBTN:hover, #guidaBTN:hover,.fpAdd:hover{background-position:bottom center;}
+#principaleBTNbw{background-image:url('../img/interface/cdbInterface/bwA.png');background-position:top center;width:111px;height:34px;float:left;}
+#newsBTNbw{background-image:url('../img/interface/cdbInterface/bwB.png');background-position:top center;width:97px;height:34px;float:left;}
+#assegnazioniBTNbw{background-image:url('../img/interface/cdbInterface/bwC.png');background-position:top center;width:124px;height:34px;float:left;}
+#diarioBTNbw{background-image:url('../img/interface/cdbInterface/bwD.png');background-position:top center;width:102px;height:34px;float:left;}
+
+#pstAdva
+{
+	width:560px;
+	height:350px;
+	position:absolute;
+	left:50%;
+	margin-left:-380px;
+	font-family:arial;
+	padding-top:95px;
+	background-color:rgba(1,1,1);
+	background-color:rgba(1,1,1,0.7);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#B2010101,endColorstr=#B2010101);
+}

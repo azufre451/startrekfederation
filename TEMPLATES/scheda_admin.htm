@@ -1,0 +1,211 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/personnel.css?v=1.6" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	
+	<title>SCHEDA ADMIN</title>	
+	<script type="text/javascript">
+	function paddOpen(who){window.open('padd.php?s=seR&to='+who+'&sub=','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
+	
+	function sendaya(ida)
+	{
+		jQuery('#averterBox').fadeIn();
+		jQuery('#averter').html(ida);
+		
+	}
+	</script>
+	
+</head>
+<body style="background-color:black; overflow:hidden; padding:-5px;"><div id="schedaContainer">
+<div metal:use-macro="TEMPLATES/metal.htm/schedaIntro" />
+
+<div id="mainContainer" >
+<p style="text-align:center; font-size:16px;"> PANNELLO ADMIN</p>
+<div>
+	<div style="width:200px; height:60px; float:left; margin-left:20px; margin-right:10px; padding:5px; text-align:center;">
+		<div style="width:220px; margin-left:auto;margin-right:auto;">
+			<a tal:attributes="href php:(isBan==true) ? 'scheda.php?pgID=' . selectedUser . '&s=sban' : 'scheda.php?pgID=' . selectedUser . '&s=ban'">
+			<div style="border:1px solid #2e7ec8; float:left; width:60px;" tal:content="php:(isBan==true) ? 'SBANNA' : 'BANNA'">BANNA/SBANNA PG</div>
+			</a>
+			<a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=png">
+			<div style="border:1px solid #2e7ec8; margin-left:10px; float:left; width:60px;" tal:content="php:(png==true) ? 'PG' : 'PNG'">PNG/PG</div>
+			</a>
+			<a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=invaliMail">
+			<div style="border:1px solid #2e7ec8; margin-left:10px; float:left; width:60px;">deMAIL</div>
+			</a> 
+			<br />
+			<br />
+			<a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=resetUP">
+			<div style="border:1px solid #2e7ec8; float:left; width:120px;">RESET UP</div>
+			</a>
+			
+			<div style="clear:both" />
+		</div>
+		
+		<div style="border:1px solid #2e7ec8; margin-top:10px; padding:4px;">
+			<span style="font-weight:bold;">USERNAME</span>
+			<form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setUsername" method="POST">
+					<input type="text" name="username" style="width:130px;" tal:attributes="value userData/pgUser" onfocus="this.select()" />
+					<input type="submit" value="VAI" />
+			</form>	
+		</div>
+		<div style="border:1px solid #2e7ec8; margin-top:10px; padding:4px;">
+		<span style="font-weight:bold;">SPECIE / SESSO</span>
+
+<form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=spesex" method="POST">
+<select name="specie" tal:attributes="value userData/pgSpecie">
+<option value="Andoriana">Andoriana</option>
+<option value="Bajoriana">Bajoriana</option>
+<option value="Bajoriana-Cardassiana">Bajoriana-Cardassiana</option>
+<option value="Benzita">Benzita</option>
+<option value="Betazoide">Betazoide</option>
+<option value="Boliana">Boliana</option>
+<option value="Borg">Borg</option>
+<option value="Breen">Breen</option>
+<option value="Caitiana">Caitiana</option>
+<option value="Capelliana">Capellana</option>
+<option value="Cardassiana">Cardassiana</option>
+<option value="Deltana">Deltana</option>
+<option value="Denobulana">Denobulana</option>
+<option value="El-Auriana">El-Auriana</option>
+<option value="Elaysiana">Elaysiana</option>
+<option value="Ferengi">Ferengi</option>
+<option value="Fondatore">Fondatore</option>
+<option value="Gorn">Gorn</option>
+<option value="Grazerita">Grazerita</option>
+<option value="Jem'Hadar">Jem'Hadar</option>
+<option value="Klingon">Klingon</option>
+<option value="Nausicaana">Nausicaana</option>
+<option value="Ocampa">Ocampa</option>
+<option value="Orioniana">Orioniana</option>
+<option value="Risiana">Risiana</option>
+<option value="Romulana">Romulana</option>
+<option value="Sauriana">Sauriana</option>
+<option value="Sconosciuta">Sconosciuta</option>
+<option value="Talariana">Talariana</option>
+<option value="Talassiana">Talassiana</option>
+<option value="Tellarita">Tellarita</option>
+<option value="Tholiana">Tholiana</option>
+<option value="Trill">Trill</option>
+<option value="Tzenkethi">Tzenkethi</option>
+<option value="Umana">Umana</option>
+<option value="Umana-Betazoide">Umana-Betazoide</option>
+<option value="Umana-Vulcaniana">Umana-Vulcaniana</option>
+<option value="Umana-Klingon">Umana-Klingon</option>
+<option value="Vorta">Vorta</option>
+<option value="Vulcaniana">Vulcaniana</option>
+<option value="Xenita">Xenita</option>
+<option value="Zakdorn">Zakdorn</option>
+<option value="Zaldan">Zaldan</option>
+</select>
+<select name="sesso">
+	<option value="M">M</option>
+	<option value="F">F</option>
+	<option value="T">T</option>
+</select>
+<input type="submit" value="VAI" />
+</form></div>
+
+<div style="border:1px solid #2e7ec8; margin-top:10px; padding:4px;"><span style="font-weight:bold;">AUTH NOMA</span>
+<form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setAutoma" method="POST">
+	<select name="aut">
+	<option tal:attributes="selected php:(userData.pgAuthOMA=='N') ? 'selected': false" value="N">Utente Normale</option>
+	<option tal:attributes="selected php:(userData.pgAuthOMA=='N') ? 'selected': false" value="O">Olomaster</option>
+	<option tal:attributes="selected php:(userData.pgAuthOMA=='M') ? 'selected': false" value="M">Master</option>
+	<option tal:attributes="selected php:(userData.pgAuthOMA=='JM') ? 'selected': false" value="JM">Junior Master</option>
+	<option tal:attributes="selected php:(userData.pgAuthOMA=='MM') ? 'selected': false" value="MM">Moderatore</option>
+	<option tal:attributes="selected php:(userData.pgAuthOMA=='SM') ? 'selected': false" value="SM">Global Master</option>
+	<option tal:condition="php:(adminOstePanel == 'yes')" tal:attributes="selected php:(userData.pgAuthOMA=='A') ? 'selected': false" value="A">Admin</option>
+	</select>
+	<input type="submit" value="VAI" />
+</form>
+</div>
+<div style="border:1px solid #2e7ec8; margin-top:10px; padding:4px;"><span style="font-weight:bold;">LOCATION ATTUALE</span>
+<form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setLocation" method="POST">
+	<select name="location">
+		<option tal:repeat="location locations" tal:attributes="value repeat/location/key ; selected php:(repeat.location.key == userData.pgLocation) ? 'selected' : false" tal:content="location"/>
+	</select>
+	<input type="submit" value="VAI" />
+</form>
+</div>
+<div style="border:1px solid #2e7ec8; margin-top:10px; padding:4px;"><span style="font-weight:bold;">FEDERATION POINTS</span>
+<form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=addPoints" method="POST">
+	<input type="hidden" value="aa11" name="addPoints"/>
+	<input type="text" placeholder="Punti" name="points" style="width:40px;" /> 
+	<input type="text" placeholder="Ragione" name="pointDetail" style="width:120px;" /> 
+	<input type="submit" value="VAI" />
+</form>
+</div>
+
+<div style="border:1px solid #2e7ec8; margin-top:10px; padding:4px;"><span style="font-weight:bold;">IMPOSTA UP</span>
+<form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setUPPoints" method="POST">
+	<input type="hidden" value="aa11" name="addPoints"/>
+	<input type="text" placeholder="Punti" name="points" style="width:40px;" /> 
+	<select name="type" style="width:120px;"><option value="skills">UP Abilità</option><option value="specials">UP Speciali</option><option value="social">UP Sociali</option></select>
+	<input type="submit" value="VAI" />
+</form>
+</div>
+</div>
+
+
+<div style="width:300px; overflow-x:auto; float:left; margin-left:20px; margin-right:20px; padding:5px; text-align:center;">
+	<div style="border:1px solid #2e7ec8;">
+		<table style="text-align:left; font-size:12px;"><tbody>	
+		<tr><td>EMAIL:</td><td tal:content="email" /></tr>
+		</tbody></table>
+	</div>
+	
+	<div style="margin-top:5px; border:1px solid #2e7ec8;">
+		AGGIUNGI ENCOMI / NASTRINI
+		<form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setNastrini" method="POST">
+		<select name="nastrini" style="width:100%;"><option tal:repeat="nas nastrini" tal:attributes="value nas/medID" tal:content="nas/medName" /></select>
+		<input type="submit" value="VAI" />
+		</form>
+		
+		<a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=refirst">
+			<div style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;">Riabilita Sondaggio</div>
+			</a>
+		<a tal:attributes="href string:scheda.php?s=toggleMasCap&pgID=${selectedUser}">
+			<div style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;" tal:content="php:(isMasCapableEnable==true) ? 'DISABILITA MASCAP' : 'ABILITA MASCAP'">--</div>
+			</a>
+		<a tal:attributes="href string:scheda.php?s=kavanagh&pgID=${selectedUser}">
+			<div style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;">Kavanagh</div>
+			</a>
+		<a tal:attributes="href string:scheda.php?s=document&pgID=${selectedUser}">
+			<div style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;">Padd Benvenuto</div>
+			</a>
+	</div>
+	
+	<div style="clear: both; padding:5px;">
+		<table style="text-align:left;">
+			<div tal:repeat="last lasts">
+			<tr style="">
+			<td><span tal:content="last/2" style="color:#2e7ec8; font-weight:bold; font-style:italic;"/></td>
+			<td><span tal:content="last/0"/></td>
+			</tr>
+			<tr><td tal:content="structure last/1" colspan="2" /></tr>
+			</div>
+		</table>
+		
+		<table style="font-size:11px;">
+		<tr><td class="bdr" style="width:40px; text-align:center;"><img src="TEMPLATES/img/interface/personnelInterface/punteggio.png" alt="Punteggio"/></td><td style="width:60px; text-align:center;" class="bdr"><img src="TEMPLATES/img/interface/personnelInterface/data.jpg" alt="data"/></td><td colspan="2" class="bdr" style="text-align:center;"><img src="TEMPLATES/img/interface/personnelInterface/descrizione.png" alt="descrizione"/></td></tr>
+		<tr tal:repeat="point pstory" tal:attributes="title string:Assegnato da ${point/pgUser}"><td style="width:50px;" class="bdr" tal:content="string:+${point/points}" /><td style="width:60px;" class="bdr" tal:content="php:(date('d/m/Y',point['timer']))" /><td class="bdr" style="width:30px;" tal:content="point/cause"  tal:attributes="title point/causeM"/><td class="bdr" tal:content="point/causeE" /></tr>
+		
+		</table>
+	</div>
+	
+	<div id="averterBox" style="position:absolute; top:50%; left:50%; width:300px; height:500px; margin-top:-250px; margin-left:-150px; border:1px solid white; display:none;">
+		<div id="averter" />
+	</div>
+</div><div style="clear:both;" /></div>
+</div>
+</div>
+</body>
+</html>

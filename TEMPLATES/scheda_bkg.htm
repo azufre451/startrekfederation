@@ -1,0 +1,64 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/personnel.css?v=1.6" rel="stylesheet" type="text/css" />
+	 
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+
+	<title>STAR TREK FEDERATION - SCHEDA</title>	
+	<script type="text/javascript">
+	function paddOpen(who){window.open ('padd.php?s=seR&to='+who+'&sub=','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
+	</script>
+	
+	<style>.backkander > img {max-width:280px;}</style>
+</head>
+
+<body style="background-color:black; overflow:hidden; height:385px; padding:-5px;">
+
+<div id="schedaContainer">
+
+<div metal:use-macro="TEMPLATES/metal.htm/schedaIntro" />
+
+<div id="mainContainer">
+<div tal:condition="php:(userData.png == true)"><p style="text-align:center; font-style:italic; font-weight:bold; padding:5px; margin-left:20px; margin-right:20px; border:1px solid #2ba1f4 ">Questo è un PnG: Personaggio non Giocante ad uso ambientativo
+<span style="font-size:11px;">Rappresenta uno strumento di gestione per arricchire il gioco,
+in attesa di un personaggio giocante abile all'incarico di questo PnG</span></p></div>
+
+<div style="clear:both; text-align:center;">
+	<a href="#fis"><img src="TEMPLATES/img/interface/personnelInterface/bg_aspetto.png" alt="Aspetto Fisico" title="Aspetto Fisico" /></a> 
+	<a href="#bac"><img src="TEMPLATES/img/interface/personnelInterface/bg_biografia.png" alt="Biografia" title="Biografia" /></a> 
+	<a href="#car"><img src="TEMPLATES/img/interface/personnelInterface/bg_psicologia.png" alt="Profilo Psicologico" title="Profilo Psicologico" /></a> <br />
+
+	<a href="#fam"><img src="TEMPLATES/img/interface/personnelInterface/bg_famiglia.png" alt="Famiglia" title="Famiglia" /></a> 
+	<a href="#var"><img src="TEMPLATES/img/interface/personnelInterface/bg_altro.png" alt="Varie" title="Varie" /></a> 
+</div>
+
+
+<a name="fis" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_aspetto.png" /></p>
+<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure background/pgBiometrics" />
+
+<a name="bac" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_biografia.png" /></p>
+<div style="margin-right:5px; font-size:13px; text-align:justify" class="backkander" tal:content="structure background/pgBackground" />
+
+<a name="car" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_psicologia.png" /></p>
+<div style="margin-right:5px; font-size:13px; text-align:justify" class="backkander" tal:content="structure background/pgCarattere" />
+
+<a name="fam" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_famiglia.png" /></p>
+<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure background/pgFamily" />
+
+<a name="var" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_altro.png" /></p>
+<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure background/pgVarie" />
+
+</div>
+
+
+</div>
+</body>
+</html>

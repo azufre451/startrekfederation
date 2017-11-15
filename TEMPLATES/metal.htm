@@ -1,0 +1,78 @@
+﻿<html>
+<div tal:condition="php:(isSet(debug) && debug==true)" metal:define-macro="versionBox">
+	<div id="versionBox" style="z-index:10; border:1px solid white; width:300px; font-size:11px; color:black; height:100px; position:absolute; bottom:80px; right:80px; background-color:#EEE; opacity:0.4;  filter: alpha(opacity = 40); text-align:center;">
+		<b>INFORMAZIONE DI SERVIZIO</b><br />
+		<span tal:content="structure gameServiceInfo" /><hr />
+		<i><span tal:content="gameVersion" /></i>
+		<input type="button" style="position:absolute; top:3px; right:3px;" value="X" onclick="javascript:$('#versionBox').fadeOut(200)" />
+	</div>
+</div>
+
+<div metal:define-macro="didYouKnow">
+	<div id="tipBox" class="tipBox">
+		<div style="float:left; width:100px; padding:5px; height:100px;"><img alt="" width="100px;" tal:attributes="src tipImage" /></div><div style="width:220px; color:white; height:100px; padding:5px; float:left; font-size:11px; font-family:Verdana; text-align:justify;" tal:content="structure tipText"></div><div style="clear:both;" />
+	</div>
+</div>
+
+<div metal:define-macro="cdbHeading">
+		<div id="pD">
+			<a href="cdb.php"><div id="principaleBTN" /></a>
+			<a href="cdb.php?news=do"><div style="z-index:10" id="newsBTN" /></a>
+			<a href="crew.php"><div id="assegnazioniBTN" /></a>    
+			<a href="cdb.php?dia=personal"><div id="diarioBTN" /></a>
+			<a href="calendar.php"><div id="calendarioBTN" /></a>
+			<a href="cdb.php?calls=1"><div id="sondaggiBTN" /></a>
+		</div>
+</div>
+
+<div metal:define-macro="mostrinStyle">
+
+		<form>
+		<input type="radio" name="format" id="format1" checked="checked" value="1" /> <span class="cdbPostLittleSize"><img src="http://startrekfederation.it/TEMPLATES/img/ranks/C13.png" alt="Capitano - Sezione Comando e Navigazione" title="Capitano - Sezione Comando e Navigazione" /><span class="cdbPostRed"> <b>CAPITANO HOPKINS, ISAAC</b></span> - Comandante di Vascello <span class="cdbPostGray">U.S.S. ENDEAVOUR NCC-76582 </span></span><br />
+		
+		<input type="radio" name="format" id="format2" value="2" /> <span class="cdbPostLittleSize"><img src="http://startrekfederation.it/TEMPLATES/img/ranks/C13.png" alt="Capitano - Sezione Comando e Navigazione" title="Capitano - Sezione Comando e Navigazione" /> <b>CAPITANO HOPKINS, ISAAC</b> <span class="cdbPostRed">&gt;</span> <span class="cdbPostGray">COMANDANTE DI VASCELLO</span></span><br />
+		
+		<input type="radio" name="format" id="format3" value="3" /> <span class="cdbPostLittleSize"><img src="http://startrekfederation.it/TEMPLATES/img/ranks/C13.png" alt="Capitano - Sezione Comando e Navigazione" title="Capitano - Sezione Comando e Navigazione" /><span class="cdbPostRed"> <b>CAPITANO HOPKINS, ISAAC</b></span></span><br />
+		<input type="radio" name="format" id="format4" value="4" /> <span class="cdbPostLittleSize"><img src="http://startrekfederation.it/TEMPLATES/img/ranks/C13.png" alt="Capitano - Sezione Comando e Navigazione" title="Capitano - Sezione Comando e Navigazione" /><span class="cdbPostRed"> <b>CAPITANO HOPKINS</b></span></span><br />
+		<input type="radio" name="format" id="format5" value="5" /> <span class="cdbPostLittleSize"><img src="http://startrekfederation.it/TEMPLATES/img/ranks/C13.png" alt="Capitano - Sezione Comando e Navigazione" title="Capitano - Sezione Comando e Navigazione" /><span class="cdbPostRed"> <b>HOPKINS</b></span></span><br />
+		
+		
+		</form>
+</div>
+
+<div metal:define-macro="allMostrine">
+	<button tal:repeat="mostr php:scandir('TEMPLATES/img/ranks')" style="float:left;"><img tal:attributes="src string:TEMPLATES/img/ranks/${mostr}"/></button>
+</div>
+
+<div metal:define-macro="cdbIntro">
+	<div style="margin-bottom:5px; margin-top:2px; text-align:left; font-size:14px; font-weight:bold; font-variant:small-caps;"><span style="color:#5fc0f8; font-family:helvetica" tal:content="string:D.S. ${currentStarDate}">STARDATE</span> <span style="margin-left:8px; color:#AAA" tal:content="string:[${currentDate}]">CUR DATE</span> - <span style="color:#ffc600" tal:content="string:${user/pgGrado} ${user/pgUser}" /></div>
+</div>
+
+<div metal:define-macro="footer">
+					<div style="clear:both;" /><div id="footer">
+					
+					<a href="http://www.facebook.com/federation.pbc" target="_blank"><img src="TEMPLATES/img/interface/index/facebook_logo.png" class="radiusBordered5" style="margin-right:12px;" alt="Facebook" title="Segui la nostra pagina su Facebook" /></a>
+					<a href="http://www.gdr-online.com/star_trek_federation.asp" target="_blank"><img src="TEMPLATES/img/interface/index/segnalato_gdronline.png" class="radiusBordered5" style="margin-right:12px;" alt="Affiliato GdR Online" title="Affiliato GdR Online" /></a>
+					<img src="TEMPLATES/img/interface/index/cc_16.png" alt="supporto_ie" title="Questo GdR &egrave; vietato ai minori di 16." /> 
+					<img src="TEMPLATES/img/interface/index/cc_scontri.png" alt="supporto_ie" title="Questo GdR potrebbe contenere scene di scontri, uccisioni, ferimenti e simili." /> 
+					<img src="TEMPLATES/img/interface/index/cc_rete.png" alt="supporto_ie" title="Il sito offre in qualunque forma (scritta o multimediale, in tempo reale o meno) strumenti di comunicazione online ed interazione non mediata con terze persone di identita' non verificabile (chat, messaggeria privata, etc)." /> 
+					<img src="TEMPLATES/img/interface/index/cc_mod.png" alt="supporto_ie" title="I gestori del sito sono consapevoli di non poter garantire agli utenti del sito o del servizio una moderazione tempestiva ed in tempo reale 24 ore su 24, 7 giorni la settimana e 365/6 giorni l'anno." /> <img src="TEMPLATES/img/interface/index/cc_ie.png" alt="supporto_ie" title="Questo GdR supporta Internet Explorer 7 e successivi. Purtroppo alcuni elementi grafici potrebbero non funzionare e l'esperienza di gioco potrebbe non essere ottimale. Abbiamo cercato di fare il possibile per rendere tutto compatibile, e ti invitiamo ad usare un browser migliore per accedere al sito." />
+					<img src="TEMPLATES/img/interface/index/cc_fir.png" alt="supporto_ie" title="Questo GdR supporta pienamente Mozilla Firefox" /> 
+					<img src="TEMPLATES/img/interface/index/cc_chr.png" alt="supporto_ie" title="Questo GdR supporta pienamente Google Chrome" /> 
+					<img src="TEMPLATES/img/interface/index/cc_op.png" alt="supporto_ie" title="Questo GdR supporta pienamente Opera" /> 
+					<img src="TEMPLATES/img/interface/index/cc_saf.png" alt="supporto_ie" title="Questo GdR supporta pienamente Safari" />
+					<a href="http://twitter.com/STFederation" target="_blank"><img src="TEMPLATES/img/interface/index/twitter_logo.png" class="radiusBordered5" style="margin-left:12px;" alt="Twitter" title="Seguici su Twitter!" /></a>
+				
+					<p>Star Trek: Federation &egrave; un progetto sviluppato da Moreno Zolfo e Igor Sontacchi &copy; 2012-2014 - Tutti i diritti riservati.<br />I marchi e i loghi di Star Trek sono propriet&agrave; di CBS Inc. Non si intende offendere alcun copyright.</p>
+					</div>
+</div>
+
+<div metal:define-macro="schedaIntro">
+	<div id="intestLeft">
+<a title="Principale" tal:attributes="href string:scheda.php?pgID=${selectedUser}"><img class="iconelement" tal:attributes="src php:(userData.pgSpecie=='Romulana') ? 'TEMPLATES/img/interface/personnelInterface/rprincipale.png' : 'TEMPLATES/img/interface/personnelInterface/principale.png'" /></a><a title="Background" tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=bg"><img class="iconelement" tal:attributes="src php:(userData.pgSpecie=='Romulana') ? 'TEMPLATES/img/interface/personnelInterface/rbackground.png' : 'TEMPLATES/img/interface/personnelInterface/background.png'" /></a><a title="Abilitazioni" tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=bv"><img class="iconelement" tal:attributes="src php:(userData.pgSpecie=='Romulana') ? 'TEMPLATES/img/interface/personnelInterface/rbrevetti.png' : 'TEMPLATES/img/interface/personnelInterface/brevetti.png'" /></a><a title="Stato di Servizio" tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=ssto"><img class="iconelement" src="TEMPLATES/img/interface/personnelInterface/stato_servizio.png" /></a><a title="Scheda Medica" tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=me"><img class="iconelement" src="TEMPLATES/img/interface/personnelInterface/medica.png" /></a><a title="Alloggio" tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=al"><img class="iconelement" src="TEMPLATES/img/interface/personnelInterface/alloggio.png" /></a><a title="Dotazione" tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=oj"><img class="iconelement" src="TEMPLATES/img/interface/personnelInterface/oggetti.png" /></a><a title="Modifica" tal:omit-tag="php:editable!='yes'" tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=edit"><img tal:attributes="src php:(editable== true) ? 'TEMPLATES/img/interface/personnelInterface/modifica.png' : 'TEMPLATES/img/interface/personnelInterface/modifica_lock.png' ; class php:(editable== true) ? 'iconelement' : 'iconlit' " /></a><a title="Pannello Master" tal:omit-tag="php:masterPanel!='yes'" tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=master"><img tal:attributes="src php:(masterPanel== true) ? 'TEMPLATES/img/interface/personnelInterface/imaster.png' : 'TEMPLATES/img/interface/personnelInterface/imaster_lock.png' ; class php:(masterPanel== true) ? 'iconelement' : 'iconlit' " /></a><a title="Pannello Admin" tal:omit-tag="php:adminPanel!='yes'" tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=admin"><img tal:attributes="src php:(adminPanel== true) ? 'TEMPLATES/img/interface/personnelInterface/admin.png' : 'TEMPLATES/img/interface/personnelInterface/admin_lock.png' ; class php:(adminPanel== true) ? 'iconelement' : 'iconlit'" /></a>
+</div>
+
+<div id="intestRight"> 
+<a title="Invia un Padd" tal:attributes='href string:javascript:paddOpen("${userData/pgUser}")'><img class="iconelement" src="TEMPLATES/img/interface/personnelInterface/messaggio.png" /></a><img tal:attributes="src php:(isBan) ? 'TEMPLATES/img/interface/personnelInterface/player_lock.png' : ((userData.ONLINE) ? 'TEMPLATES/img/interface/personnelInterface/player_on.png' : 'TEMPLATES/img/interface/personnelInterface/player_off.png') ; class php:(isBan) ? 'iconlit' : 'iconelement' ; title php:(userData.ONLINE) ? 'PG ONLINE' : ((masterPanel=='true') ? 'PG OFFLINE DAL ' . date(dateFormat,userData.pgLastAct)  : 'PG OFFLINE')" /><img tal:attributes="src php:(isAdmin) ? 'TEMPLATES/img/interface/personnelInterface/admin_sm.png' : ((isSuperMaster) ? 'TEMPLATES/img/interface/personnelInterface/i_global_master.png' : ((isMMaster) ? 'TEMPLATES/img/interface/personnelInterface/moderatore.png' : ((isMaster) ? 'TEMPLATES/img/interface/personnelInterface/imaster.png' : ((isJMaster) ? 'TEMPLATES/img/interface/personnelInterface/ijuniormaster.png' : ((isOlo) ? 'TEMPLATES/img/interface/personnelInterface/ientertainer.png' : 'TEMPLATES/img/interface/personnelInterface/imaster_lock.png'))))) ; class php:(isMaster || isMMaster || isJMaster || isOlo) ? 'iconelement' : 'iconlit' ; title php:(isAdmin) ? 'Admin' : ((isSuperMaster) ? 'Master Globale' : ((isMMaster) ? 'Moderatore' : ((isMaster) ? 'Master' : ((isJMaster) ? 'Junior Master' : ((isOlo)  ? 'Entertainer' : 'Funzioni master non attive')))))" /><img tal:attributes="src php:(isAdmin) ? 'TEMPLATES/img/interface/personnelInterface/admin.png' : 'TEMPLATES/img/interface/personnelInterface/admin_lock.png' ; class php:(isAdmin) ? 'iconelement' : 'iconlit' ; title php:(isAdmin) ? 'Funzioni Admin attive' : 'Funzioni Admin non attive' " /></div>
+</div>
+</html>

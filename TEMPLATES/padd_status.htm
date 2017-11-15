@@ -1,0 +1,94 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/padd.css?v=1.5.2" rel="stylesheet" type="text/css" />
+	
+	 
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<!-- Nota Moreno: Handling delle progress bars. ATTENZIONE. Confligge con JQuery e JQueryUI! -->
+	<!-- jsProgressBarHandler prerequisites : prototype.js -->
+	<script type="text/javascript" src="TEMPLATES/js/progressBarHandler/prototype.js"></script>
+	<!-- jsProgressBarHandler core -->
+	<script type="text/javascript" src="TEMPLATES/js/progressBarHandler/jsProgressBarHandler.js"></script>
+
+	<script type="text/javascript">
+				
+				Event.observe(window, 'load', function(){
+						new JS_BRAMUS.jsProgressBar($('0'),parseInt(document.getElementById('0').innerHTML));
+						new JS_BRAMUS.jsProgressBar($('1'),parseInt(document.getElementById('1').innerHTML));
+						new JS_BRAMUS.jsProgressBar($('2'),parseInt(document.getElementById('2').innerHTML));
+						new JS_BRAMUS.jsProgressBar($('3'),parseInt(document.getElementById('3').innerHTML));
+						new JS_BRAMUS.jsProgressBar($('4'),parseInt(document.getElementById('4').innerHTML));
+						new JS_BRAMUS.jsProgressBar($('5'),parseInt(document.getElementById('5').innerHTML));
+						new JS_BRAMUS.jsProgressBar($('6'),parseInt(document.getElementById('6').innerHTML));
+						new JS_BRAMUS.jsProgressBar($('7'),parseInt(document.getElementById('7').innerHTML));
+						new JS_BRAMUS.jsProgressBar($('8'),parseInt(document.getElementById('8').innerHTML));
+						new JS_BRAMUS.jsProgressBar($('9'),parseInt(document.getElementById('9').innerHTML));
+						new JS_BRAMUS.jsProgressBar($('10'),parseInt(document.getElementById('10').innerHTML));
+						new JS_BRAMUS.jsProgressBar($('11'),parseInt(document.getElementById('11').innerHTML));
+				}, false);
+				
+			</script>
+	
+	<title>FEDERATION - STATO NAVE</title>	
+</head>
+
+<body style="background-color:black; overflow:hidden;">
+
+<div id="paddContainer">
+
+<div id="intestLeft">
+<a title="Principale" href="padd.php"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/padd.png" /></a><a title="Federation Tribune" href="padd.php?s=tr"><img class="iconelement" tal:attributes="src php:(tribuneNews == true) ? 'TEMPLATES/img/interface/paddInterface/tribune_news.png' : 'TEMPLATES/img/interface/paddInterface/tribune.png'" /></a><a title="Status Nave" href="padd.php?s=sh"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/nave.png" /></a><a title="Note" href="padd.php?s=no"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/note.png" /></a>
+</div>
+
+<div id="intestLeftPost" style="top:20px; left:170px;">
+<a tal:condition="php:(modify==true)" href="padd.php?s=shM" class="interfaceLink"><img src="TEMPLATES/img/interface/paddInterface/padd_edit.png" alt="Modifica Stato Nave" /></a>
+</div>
+
+
+<div id="mainStatus" tal:attributes="class php:(user.pgSpecie=='Romulana') ? 'paddRomulanMain radiusBordered' : 'paddMain radiusBordered'">
+		<div style="float:left; width:150px;"><img src="TEMPLATES/img/logo/${place/place_littleLogo1}" style="width:150px;" /></div>
+		<div style="margin-right:20px;  text-align:center; font-family:Arial; font-variant:small-caps; font-width:bold; margin-top:5px; margin-left:185px; height:100%;">
+			<p style="font-size:22px; margin:0px;" tal:content="place/placeName"/>
+			<p style="font-size:16px; font-style:italic; margin:0px;" tal:content="place/placeMotto"/>
+			<p style="font-size:12px; text-align:right; position:relative; font-style:italic;" tal:content="structure place/placeClass"/>
+		</div>	
+		
+		<div class="statusContainer radiusBordered" style="width:285px; left:30px; bottom:42px;">
+			<p style="text-align:center; font-size:14px; margin:2px;">STATO DEI SISTEMI</p>
+			<table><tbody>
+			<tr tal:repeat="stat statuses"><td tal:content="php:labels[repeat.stat.key]">SCAFO</td><td><span tal:attributes="id repeat/stat/key" style="padding-left:2px;" tal:content="stat" />
+			</td></tr>
+			</tbody></table>
+		</div>
+		
+		<div style="width:225px; left:360px; bottom:176px;" class="statusContainer radiusBordered">
+				<table><tbody>
+				<tr><td style="width:100px;">CONDIZIONE</td><td><img tal:attributes="src string:TEMPLATES/img/interface/paddInterface/${place/placeAlert}.gif" /></td><td style="width:120px; text-align:center;" tal:content="php:(place['placeAlert'] == 'redAlert') ? 'ROSSA' : ((place['placeAlert'] == 'yellowAlert') ? 'GIALLA' : ((place['placeAlert'] == 'greenAlert') ? 'VERDE' : ((place['placeAlert'] == 'blueAlert') ? 'BLU' : ((place['placeAlert'] == 'greyAlert') ? 'GRIGIA' : (place['placeAlert'] == 'intruderAlert') ? 'INTRUSO' :'')))) "></td><td><img tal:attributes="src string:TEMPLATES/img/interface/paddInterface/${place/placeAlert}.gif" /></td></tr>
+				<tr tal:condition="php:(stat == 'posizionata')"><td style="width:100px;">POSIZIONE</td><td style="width:100px;" colspan="3"><a href="javascript:void(0);" onclick="javascript:window.open ('chart.php','chart', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=617');" class="interfaceLink">( - VEDI MAPPA - )</a></td></tr>
+				
+				<tr tal:condition="php:(stat == 'attraccata')" style="height:30px;">
+					<td style="width:100px; font-size:11px;">ATTRACCATA A:</td><td colspan="3" style="text-align:center; font-size:11px;" tal:content="attraccata">attracco</td>
+				</tr>
+				
+				<tr tal:condition="php:(stat == 'curvatura')" style="height:30px;">
+					<td style="width:100px;">IN CURVATURA</td><td colspan="3" style="text-align:center; font-size:11px;" tal:content="string:FATTORE ${place/warp}">fattore</td>
+				</tr>
+				</tbody></table>
+		</div>	
+		
+		<div style="padding:10px; width:215px; height:105px; left:360px; bottom:42px; overflow-y:auto;" class="statusContainer radiusBordered" tal:content="structure note" />
+		<!-- Hack geometrico XD -->
+		<div style="position:absolute; bottom:58px; left:327px; border-top:1px solid #444; height:1px; width:33px;" />
+		<div style="position:absolute; bottom:148px; left:327px; border-top:1px solid #444; height:1px; width:33px;" />
+</div>
+
+</div>
+</body>
+</html>

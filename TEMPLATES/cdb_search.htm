@@ -1,0 +1,97 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/cdb.css?v=1.2.1" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/caret.js"></script>
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+
+	<title>STAR TREK FEDERATION - CDB</title>
+	<script>
+		function setView(ida){
+		jQuery('.topicTable:visible').fadeOut(0);
+		jQuery('#'+ida).fadeIn(200);
+		
+		jQuery('#topiTitle').html(jQuery('#leaf_'+ida).val());
+		}</script>
+</head>
+
+<body>
+<div id="federation_interfaceContainer">
+	<div id="leftCol" style="width:123px;">
+		<div id="leftC1" />
+		<div id="leftC3" />
+	</div>
+	
+	<div id="supCol">
+		 
+		<div metal:use-macro="TEMPLATES/metal.htm/cdbHeading" />
+
+	</div>
+	
+	<div id="fillerBax">
+		<div id="barbot1" />
+	</div>
+	
+	<div id="cdbContainer">
+
+<div style="position:fixed; top:40px; left: 50px; font-size:12px; width:100%; margin-left:5px; text-transform:uppercase;"><p style="float:left;"><a href="cdb.php" class="interfaceLink">CDB</a> <span style="color:red; font-size:11px;">></span> <span class="interfaceLink">RICERCA</span> <span style="color:red; font-size:11px;">></span> <span class="interfaceLink">TOPIC RELATIVI ALLA RICERCA EFFETTUATA</span></p> <p id="topiTitle" style="float:right; width:100px;">TEST</p></div>
+ 
+
+<div id="container">
+
+<div style="color:orange; font-size:20px; font-weight:bold; font-family:Arial;text-align:center;" tal:condition="exists:over">NESSUN POST TROVATO. Ritenta.</div>
+
+<div style="width:200px; padding:10px; position:fixed; top:60px; left:40px; height:530px; overflow:auto; border:1px solid #333;"><p tal:repeat="topic topics" style="font-weight: bold; text-transform: uppercase;font-family: Helvetica; line-height:20px; font-size: 12px;">
+	<a tal:condition="php:topic['topicType'] == 'I'" tal:attributes="title topic/title; class string:topicImportant ${topic/classExt}; onclick  string:setView(${topic/topicID}); id string:leaf_${topic/topicID}" tal:content="topic/title" style="font-size:11px; cursor:pointer;"></a>
+	<a tal:condition="php:topic['topicType'] == 'A'" tal:attributes="title topic/title; class string:topicAnnounce ${topic/classExt}; onclick  string:setView(${topic/topicID})" tal:content="topic/title"  style="font-size:11px; cursor:pointer;"></a>
+	<a tal:condition="php:topic['topicType'] == 'N'" tal:attributes="title topic/title; class string:topicNormal ${topic/classExt}; onclick  string:setView(${topic/topicID})" tal:content="topic/title" style="font-size:11px; cursor:pointer;"></a>
+</p></div>
+
+<div style="float:right; width:680px; margin-top:20px; height:540px; overflow-x:auto;">
+<div tal:repeat="postsT posts" class="topicTable" tal:attributes="id repeat/postsT/key" style="display:none;">
+
+<div tal:repeat="post postsT" style="text-align:center; margin-top:10px; width:99%;" >
+<div style="position:relative;" tal:condition="exists:post/userdel"><div  style="position:absolute; font-size:11px; top:35px; right:28px; width:200px; height:20px;"><a class="interfaceLink" tal:attributes="href string:cdb.php?deletePost=${post/ID}" onclick="return confirm('Conferma operazione');" >ELIMINA <img src="TEMPLATES/img/interface/delete.png" /></a> | <a class="interfaceLink" tal:attributes="href string:cdb.php?postE=${post/ID}" ><img src="TEMPLATES/img/interface/edit_icon.png" /> MODIFICA</a></div></div>
+
+<div style="width:100%; margin-left:auto; margin-right:auto; margin-top:10px;" align="center">
+<table cellspacing="0" width="100%" style="width:100%; table-layout: fixed;">
+	<tr>
+		<td class="borderTopic" width="80px" style="width:100px; text-align:center; border-right:1px solid #777;"><a class="interfaceLink" tal:attributes="href string:javascript:schedaPOpen(${post/pgUserID})" tal:content="post/pgUser"></a></td>
+		<td class="borderTopic postTitle" style="text-align:left; width:auto; height:20px;" tal:content="string:${post/title}">TITLE</td>
+		<td class="borderTopic" style="width:15px;" width="15px"><img tal:attributes="src php:(user.pgSeclar GE post['postSeclar']) ? 'TEMPLATES/img/interface/lock_blue_icon.jpg' : 'TEMPLATES/img/interface/lock_red_icon.png'; title php:(user.pgSeclar GE post['postSeclar']) ? 'Il tuo PG in ON  e\' autorizzato alla lettura del post' : 'ATTENZIONE - Il tuo PG in ON non e\' alla lettura del post!'" /></td>
+		<td class="borderTopic" style="width:80px; text-align:right;"><img tal:attributes="src string:TEMPLATES/img/seclar/seclar${post/postSeclar}.png" /></td>
+	</tr>
+	
+	<tr>
+	<td class="postDate" style="width:80px;" width="80px" tal:content="post/time"></td>
+	<td class="postTitle" style="text-align:left; color:#999; font-size:11px; padding-left:30px;"><a tal:attributes="href string:cdb.php?topic=${post/topicID}" class="interfaceLink" >VISUALIZZA TUTTO IL TOPIC</a></td>
+	<td></td>
+	</tr>
+	
+	<tr><td style="height:10px" colspan="4"/></tr>
+	<tr><td class="postContent" colspan="4" tal:content="structure post/content" /></tr>
+	<tr><td class="postContent signature" colspan="4" tal:content="structure post/signature" /></tr>
+</table>
+</div>
+
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+		
+</div>
+</div>
+</body>
+</html>
+

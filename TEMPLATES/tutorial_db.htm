@@ -1,0 +1,114 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	 
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	
+	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" /> 
+	<title>TUTORIAL STAR TREK FEDERATION - COMPUTER</title>
+	<script type="text/javascript">
+	jQuery(function(){jQuery('#bkg').load('db.php');});
+	var positions = [ 
+	[190,699,191,74,599,377,'DATABASE',' Il database è suddiviso in sezioni tematiche che permettono l\'aggregazione dei contenuti in base alla loro sezione di appartenenza. In esse sono contenute sia le dispense utili in gioco (ON), sia il materiale proprio della documentazione di gioco (Regolamento e elementi della Guida al gioco). Con un po\' di pratica non ti sarà difficile padroneggiare le sezioni, ma...','top','left'],  
+	[200,194,116,73,616,68,'RICERCA','... in caso ti fossi perso o non riuscissi a trovare ciò che ti serve, puoi usare la barra di ricerca per ottenere accesso in modo più rapido ai contenuti che ti interessano. Basta scrivere ciò che ti serve, selezionare la modalità di ricerca e premere il pulsante cerca.','top','left'],  
+	[206,815,209,420,380,382,'I PIU\'...','A lato è invece possibile ottenere la lista degli ultimi elementi caricati, e degli elementi più popolari per gli utenti. La documentazione è in continuo sviluppo, e se ritieni che manchi qualcosa o pensi di poter contribuire ti invitiamo a contattare lo Staff, che sarà ben lieto di ascoltare le tue proposte!','top','right'],  	
+	]
+	function terminate(){window.close();}
+	function terminateR(){jQuery.post('ajax_helpSet3.php',{'what':'4','realK':1},function(e){window.close();});}
+	function goNext(ida)
+	{
+		idaN = parseInt(ida)+1; 
+		if(idaN > 2){ terminate(); return;}
+		if(idaN == 2){jQuery('#continuaL, #terminaK').fadeOut(150,function(){jQuery('#terminaAl').fadeIn();});}
+		
+		if(positions[idaN][8] == 'bottom')
+		{
+			rTop_tb = jQuery(window).height() - positions[idaN][0];
+			rTop_ta = jQuery(window).height() - positions[idaN][2];
+		}
+		else
+		{
+			rTop_tb = positions[idaN][0];
+			rTop_ta = positions[idaN][2];
+		}
+		
+		if(positions[idaN][9] == 'right')
+		{
+			rLeft_tb = jQuery(window).width() - positions[idaN][1];
+			rLeft_ta = jQuery(window).width() - positions[idaN][3];
+		}
+		else
+		{
+			rLeft_tb = positions[idaN][1];
+			rLeft_ta = positions[idaN][3];
+		}
+					  
+		 
+		jQuery('#tutorialBox').animate({
+			 top: rTop_tb,
+			 left: rLeft_tb
+		},function(){
+				jQuery('#tutorialTitle').html(positions[idaN][6]);
+				jQuery('#tutorialContent').html(positions[idaN][7]);
+				jQuery('#tutorialStep').val(idaN);
+			});
+		
+		 
+			jQuery('#tutorialArrow').animate({
+			 top: rTop_ta,
+			 left: rLeft_ta,
+			 width: positions[idaN][4],
+			 height: positions[idaN][5],
+		});
+		
+		jQuery('#tutorialBox').css('margin','0px');
+	}
+	</script>
+	 
+<style>
+.fluctuator{
+position:absolute;
+padding:10px;
+border-radius:5px; 
+font-family:verdana;
+z-index:10;
+max-width:350px;
+text-align:justify;
+border:1px solid #555;
+font-size:13px;
+background-color:rgba(0,0,0);
+background-color:rgba(0,0,0,0.85);
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#e6000000,endColorstr=#e6000000);
+
+}
+.fluctuator p{margin:0px; margin-bottom:5px; font-size:15px;}
+.evidenceYelo{color:#FC0; font-size:11px; text-transform:uppercase; font-weight:bold;}
+
+#tutorialArrow{z-index:10; position:absolute; top:-100px; left:-100px; width:25px; border-radius:10px; height:25px;  border:1px solid red; -moz-box-shadow: 0px 0px 20px red;
+    -webkit-box-shadow: 0px 0px 20px red;
+    box-shadow: 0px 0px 20px red;} 
+</style>
+
+</head>
+<body>
+
+<div id="bkg" style="opacity:0.7" />
+<div   style="position:absolute;width:97%;height:97%; z-index:2;" />
+
+<div class="fluctuator blueShadow" id="tutorialBox" style="top:50%; left:50%; margin-left:-200px; margin-top:-100px;">
+<p class="clockTitle" id="tutorialTitle">DATABASE</p> 
+	<p id="continuaL" style="position:absolute; top:10px; right:10px;"><a href="javascript:void(0);" onclick="goNext(jQuery('#tutorialStep').val())" class="interfaceLinkBlue"> [ CONTINUA ]</a></p>
+	<p style="position:absolute; top:10px; left:10px;" id="terminaK"><a href="javascript:void(0);" onclick="if(confirm('Sei sicuro di voler terminare il tutorial?')) terminate()" class="interfaceLinkRed"> [ TERMINA ]</a></p> 
+	<p style="position:absolute; top:10px; right:10px; display:none;" id="terminaAl"><a href="javascript:void(0);" onclick="terminateR()" class="interfaceLinkRed"> [ TERMINA ]</a></p> 
+<hr />	
+ <p id="tutorialContent" style="margin:0px; font-size:13px;">
+DATABASE: Il database di Federation è la raccolta della documentazione inerente al gioco. Dall'ambientazione alle regole della Flotta Stellare, dal regolamento alle guide alle specie giocabili e non. Il sistema è dotato di un sistema di ricerca ed un comodo salvataggio del testo in formato pdf.</p>
+ <input id="tutorialStep" value="-1" type="hidden" /> 
+</div>
+
+<div id="tutorialArrow" />
+
+
+</body>
+</html>

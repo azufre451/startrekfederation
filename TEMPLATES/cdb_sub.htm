@@ -1,0 +1,50 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/cdb.css?v=1.2.1" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+
+	<title>STAR TREK FEDERATION - CDB</title>
+	
+</head>
+
+<body style="background-repeat:no-repeat; background-color:black; background-position:top center;">
+<div id="federation_interfaceContainer">
+	<div id="leftCol" style="width:123px;">
+		<div id="leftC1" />
+		<div id="leftC3" />
+	</div>
+	
+	<div id="supCol">
+		
+		<div metal:use-macro="TEMPLATES/metal.htm/cdbHeading" />
+
+	</div>
+	
+	<div id="fillerBax">
+		<div id="barbot1" />
+	</div>
+	<div id="cdbContainer" >
+
+		<div metal:use-macro="TEMPLATES/metal.htm/cdbIntro"/>
+		<div style="float:right;"><a class="interfaceLink" href="cdb.php">[- TORNA INDIETRO -]</a></div>
+
+			<div  style="margin-top:40px;">
+				<a tal:repeat="cat subcats" tal:attributes="href string:cdb.php?cat=${cat/ID}" style="color:orange;">
+					<div style="margin-top:5px;  padding:5px;  border:1px solid #666;">
+						<p style="font-size:18px; margin:0px; font-weight:bold; font-family:Arial;"><img tal:attributes="src php:(user.pgLastVisit LT cat['last']) ? 'TEMPLATES/img/interface/indicator_on.gif' : 'TEMPLATES/img/interface/indicator_off.gif'" /> <span tal:content="cat/name"/></p>
+						<p style="margin: 0px; margin-top:3px; font-family:Arial; font-style:italic; margin-left:20px; color:white;" tal:content="cat/desc" />
+					</div>
+				</a>
+			</div>
+		
+	</div>
+</div>
+</body>
+</html>

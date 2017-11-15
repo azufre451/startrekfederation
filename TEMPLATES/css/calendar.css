@@ -1,0 +1,142 @@
+p.calendar
+{
+margin-top:2px;
+font-size:14px;
+font-weight:bold;
+font-variant:small-caps;
+}
+
+.calendarActDate{
+color:#AAA;
+margin-left:8px;
+}
+.calendarActSD
+{
+	color:#5fc0f8;
+	font-family:helvetica;
+}
+.calendarCat
+{
+border-radius:8px;
+text-align:center;
+padding-left:7px;
+padding-right:7px;
+padding-top:3px;
+padding-bottom:3px;
+float:left;
+font-size:11px;
+line-height: 12px;
+height:12px;
+margin-left:5px;
+font-weight:bold;
+font-family:helvetica;
+}
+
+.catQuest
+{
+border:1px solid #ff2b2b;
+color: #ff2b2b;
+-moz-box-shadow: 0px 0px 10px #ff2b2b;
+-webkit-box-shadow: 0px 0px 10px #ff2b2b;
+box-shadow: 0px 0px 10px #ff2b2b;
+}
+
+.catSim
+{
+border:1px solid #ffee2b;
+color: #ffee2b;
+-moz-box-shadow: 0px 0px 10px #ffee2b;
+-webkit-box-shadow: 0px 0px 10px #ffee2b;
+box-shadow: 0px 0px 10px #ffee2b;
+}
+.catAddr
+{
+border:1px solid #2ba3ff;
+color: #2ba3ff;
+-moz-box-shadow: 0px 0px 10px #2ba3ff;
+-webkit-box-shadow: 0px 0px 10px #2ba3ff;
+box-shadow: 0px 0px 10px #2ba3ff;
+}
+
+.catSocial
+{
+border:1px solid violet;
+color: violet;
+-moz-box-shadow: 0px 0px 10px violet;
+-webkit-box-shadow: 0px 0px 10px violet;
+box-shadow: 0px 0px 10px violet;
+}
+
+.catComNav{
+border:1px solid black;
+background-color: #ff0303;
+color:black;
+-moz-box-shadow: 0px 0px 10px #f11313;
+-webkit-box-shadow: 0px 0px 10px #f11313;
+box-shadow: 0px 0px 10px #f11313;
+}
+.catTat{
+border:1px solid black;
+background-color: #e89a04;
+color:black;
+-moz-box-shadow: 0px 0px 10px #ac5100;
+-webkit-box-shadow: 0px 0px 10px #ac5100;
+box-shadow: 0px 0px 10px #ac5100;
+}
+.catIng{
+border:1px solid black;
+background-color: #ece40b;
+color:black;
+-moz-box-shadow: 0px 0px 10px #98930e;
+-webkit-box-shadow: 0px 0px 10px #98930e;
+box-shadow: 0px 0px 10px #98930e;
+}
+.catSci{
+border:1px solid black;
+background-color: #44db34;
+color:black;
+-moz-box-shadow: 0px 0px 10px #046f0e;
+-webkit-box-shadow: 0px 0px 10px #046f0e;
+box-shadow: 0px 0px 10px #046f0e;
+}
+.catMed{
+border:1px solid black;
+background-color: #5fc0f8;
+color:black;
+-moz-box-shadow: 0px 0px 10px #046f4a;
+-webkit-box-shadow: 0px 0px 10px #046f4a;
+box-shadow: 0px 0px 10px #046f4a;}
+
+.popup
+{
+z-index:10;
+display:none;
+top:50%;
+left:50%;
+position:absolute;
+padding:15px;
+background-color:rgba(0,0,0);
+background-color:rgba(0,0,0,0.85);
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#B2000000,endColorstr=#55000000);
+font-size:12px;
+}
+
+#eventCreate 
+{
+	width:350px;
+	height:200px;
+	margin-left:-175px;
+	margin-top:-100px;
+	text-align:center;
+	border:2px solid #444;
+	
+}
+
+.clockTitle
+{
+font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;
+font-size: 25px;
+text-align: center;
+text-shadow: 0 0 5px #00C6FF;
+font-weight:bold;
+}

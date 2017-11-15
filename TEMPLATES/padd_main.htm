@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/padd.css?v=1.5.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
+	 
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<title>FEDERATION - PADD</title>	
+	
+<script type="text/javascript">
+	
+	jQuery(function(){
+		jQuery('.padd1').fadeIn(200,function(){
+			jQuery('.padd2').fadeIn(200,function(){
+				jQuery('.padd3').fadeIn(200);
+			});
+		});
+		
+		jQuery('.padd4').fadeIn(200,function(){});
+	});
+			
+</script>
+
+</head>
+
+<body style="background-color:black; overflow:hidden;">
+
+<div id="paddMainContainer">
+
+	<div style="margin-left:20px; margin-top:20px; text-align:left; font-size:15px; font-weight:bold; font-variant:small-caps;"><span style="color:#5fc0f8; font-family:helvetica" tal:content="string:Data Stellare ${currentStarDate}">STARDATE</span> - Dpadd personale del <span style="color:#ffc600" tal:content="string:${user/pgGrado} ${user/pgUser}" /></div>
+	
+	<div style="float:left; margin-left:20px; width:150px; margin-top:10px;">
+	<a href="padd.php?s=mainMessages" class="padd padd1"><div class="mainPaddIcon iconPadd"> <div class="roundIndicator" tal:content="paddNumber" tal:attributes="style php:(!paddNumber) ? 'color:#444;; border-color:#444' : ''"></div> </div></a>
+	<a href="padd.php?s=tr" class="padd padd2"><div class="mainPaddIcon iconTrib"></div></a>
+	<a href="padd.php?s=sh" class="padd padd3"><div class="mainPaddIcon iconShip"></div></a>
+	</div>
+	
+	<div style="float:right;  width:150px; margin-top:10px;">
+	<a href="padd.php?s=not" class="padd padd4"><div class="mainPaddIcon iconNoti"> <div class="roundIndicator" tal:content="paddNumber" tal:attributes="style php:(!paddNumber) ? 'color:#444;; border-color:#444' : ''"></div> </div></a>
+	</div>
+
+	<div style="clear:both;" />
+</div>
+</body>
+</html>

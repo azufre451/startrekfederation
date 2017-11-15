@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />  
+
+	<script>
+	 
+		function prevMostrina(ida)
+		{
+			
+			jQuery.post('servicePage.php?prevMos=true', {emoSel: ida}, setFormer, 'json');
+		}
+		
+		function setFormer(e)
+		{ 
+			jQuery('#uniLoc').attr('src','TEMPLATES/img/uniformi/'+e['DLU']+e['DLS']+'.png');
+			jQuery('#mostriLoc').attr('src','TEMPLATES/img/ranks/'+e['DLT']+'.png');
+			jQuery('#dscr').html(e['TTT']);
+			jQuery('#confirmer').css('visibility','visible');
+		}
+		
+		function confirmC(ida)
+		{ 
+			jQuery.post('servicePage.php?setMos=true', {emoSel: ida}, setClose, 'json');
+		}
+		
+		function setClose(e)
+		{
+			if(e['DLT']) {jQuery('#remindMos').attr('src','TEMPLATES/img/ranks/'+e['DLT']+'.png'); jQuery('#wordrober').fadeOut();}
+		}
+	</script>
+	<title>STAR TREK: FEDERATION</title>
+	 
+	
+</head>
+<body style="background-color:black; background-image:url('TEMPLATES/img/main_login.jpg')">
+ 
+<p class="clockTitle blackOpacity" style="text-align:center;  margin:0px; font-size:22px;">Modifica Abbigliamento</p>
+
+	<select name="emoSel" id="emoSel" onchange="prevMostrina(this.value)">
+		<option value="">- Modifica in... -</option>
+		<option value="SER">Uniforme di Servizio</option>
+		<option value="HIG">Alta Uniforme</option>
+		<option value="TAT" >Sbarco - Operativa</option>
+		<option value="DES" >Sbarco - Desertica</option>
+		<option value="POL" >Sbarco - Polare</option>
+		<option value="FAT" >Fatica e Allenamento</option>
+		<option value="EVA" >Tuta E.V.A.</option>
+		<option value="NBC" >Tuta Ambientale</option>
+		<option value="VOL" >Uniforme di Volo</option> 
+		<option value="CAM" >Camice chirurgico</option>  
+		<option value="CIV">Abiti Civili</option>
+	</select> <button type="submit" id="confirmer" onclick="javascript:confirmC(jQuery('#emoSel').val());" style="visibility:hidden;">Conferma</button>
+
+	<div style="margin-top:10px;">
+		<div style="float:left; width:150px; height:270px; border:1px solid #333;">
+			<p style="float:left; margin:0px; margin-left:10px"><img id="uniLoc" tal:attributes="src string:TEMPLATES/img/uniformi/${uniform}.png" style="margin-left:3px; margin-top:5px;" /></p>
+			<p style="float:left; margin:0px; margin-left:10px"><img id="mostriLoc" tal:attributes="src string:TEMPLATES/img/ranks/${user/pgMostrina}.png; title string:${user/pgGrado} - Sezione ${user/pgSezione}" /><img tal:attributes="src php:'TEMPLATES/img/specie/' . user.pgSpecie . '_' . strtolower(user.pgSesso) . '.png'" /></p>
+			
+		</div>
+		<div style="float:left; width:390px; font-family:Helvetica; overflow-y:auto; height:250px; border:1px solid #333; text-align:justify; margin-left:20px; font-size:13px; padding:10px;" id="dscr" tal:content="descript"></div>
+	</div>
+
+<button style="position:absolute; top:7px; right:7px;" onclick="javascript:jQuery('#wordrober').fadeOut(150);">X</button>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
+	
+	<link id="alerter" tal:attributes="href string:TEMPLATES/css/${alertCSS}.css" rel="stylesheet" type="text/css" />
+	 
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/mapCore.js?v=1.4.5"/>
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+	<script type="text/javascript">
+	function setIco(vara)
+		{
+			jQuery('#limOverNavi').css('background-image','url(\'TEMPLATES/img/maps/'+vara+'\')');
+		}
+	</script>
+	
+	<title>STAR TREK FEDERATION</title>
+</head>	
+
+<body style="background-color:black; background-image:url('TEMPLATES/img/main_login.jpg')"  onkeyup="swish(event)">
+
+<div id="federation_interfaceContainer">
+	<div id="federation_interfaceColumnLeft">
+		<div id="federation_leftTop">
+			<div id="federation_cornerUL" />
+			<div id="federation_montUL" tal:attributes="class php:(incomingPadd == true) ? 'paddON' : 'paddOFF'" />
+			<div id="federation_montULint2" />
+			
+			<!-- LINKS ALL'INTERFACCIA -->
+			<a href="main.php"><div style="position:absolute; top:46px; left:9px; width:72px; height:27px;" title="Mappa Principale"/></a>
+			<a href="javascript:locOpen();"><div style="position:absolute; top:75px; left:9px; width:72px; height:27px;" title="Localizzatore"/></a>
+			<a href="javascript:paddOpen();"><div style="position:absolute; top:181px; left:9px; width:72px; height:27px;" title="Dpadd"/></a>
+			<a href="javascript:commOpen();"><div style="position:absolute; top:215px; left:9px; width:72px; height:24px;" title="Comunicatori"/></a>
+			<a href="javascript:schedaOpen();"><div style="position:absolute; top:247px; left:9px; width:72px; height:26px;" title="Scheda"/></a>
+			<!-- FINE DEI LINK ALL'INTERFACCIA -->
+		</div>
+		
+		<div id="federation_alertLeft">
+			<div id="leftAlert" />
+		</div>
+		<div id="federation_leftBottom">
+			<div id="federation_montDL4" />
+			<a href="javascript:masterShadow();" tal:condition="exists:isStaff"><div id="federation_shadowMasterButton" title="Master"/></a>
+			<a href="javascript:chartOpen();"><div style="position:absolute; bottom:160px; left:8px; width:76px; height:26px;" title="Charts"/></a>
+			<a href="javascript:void(0);" onclick="javascript:doLogout();"><div style="position:absolute; bottom:13px; left:5px; width:76px; height:30px;" title="Effettua il Logout"/></a>
+		</div>
+	</div>
+	
+	<div id="federation_interfaceBottom">
+		
+		<div id="federation_interfaceBottomLeft"/>
+		<div id="federation_interfaceBottomCenter"/>
+		<div id="federation_interfaceBottomRight" />
+	
+	</div> 
+	
+	<div id="federation_interfaceColumnRight">
+		<div id="federation_rightTop" />
+
+		<div metal:use-macro="TEMPLATES/metal_panels.htm/reminderST" />
+		<div metal:use-macro="TEMPLATES/metal_panels.htm/reminderAvatar" />
+		
+		<div id="federation_alertRight">
+			<div id="rightAlert" />
+		</div>
+		
+		<div id="federation_rightBottom">
+			<div id="federation_rightBottomSuperSs">
+			
+			<a href="javascript:void(0);" title="Guida" onclick="jQuery('#guidePanel').load('tutorial.php',function(){jQuery('#guidePanel').fadeIn();});"><div id="federation_rightBottomGuide" /></a>
+			</div>
+			
+			<a href="javascript:whisperOpen();"><div id="federation_rightBottomSussurro" tal:attributes="class php:(incomingSuss == true) ? 'sussON' : 'sussOFF'" /></a>
+			<div id="federation_rightBottomAngolo" />
+		</div>
+	</div>
+	
+	<div id="federation_interfaceTop">
+	<div id="federation_interfaceTopLeft" />
+	<div id="federation_topRightPre" />
+	</div>
+	
+	<div id="federation_interfaceCenterTitle">
+		<div style="text-align:center; font-family:helvetica; font-weight:bold; margin-top:10px; font-size:14px;"><span tal:content="placeName" /><br/>SBARCO / IMBARCO SU:</div>
+	</div>
+
+	<a href="#" onClick="javascript:cdbOpen();"><div tal:condition="php:(setDBOn==false)" id="btnComputer" /><div tal:condition="php:(setDBOn==true)" id="btnComputer_a" /></a>
+	<a href="#" onClick="javascript:dbOpen();"><div id="btnDatabase" /></a>
+	<a href="javascript:statusOpen();"><div id="btnStatus" /></a>
+</div>
+
+	<div id="limOverNavi" class="radiusBordered35" />
+	<div id="limOverNavfore" class="radiusBordered35" >
+	<a tal:attributes="href string:main.php?l=${pla/placeID}" class="interfaceLink"  tal:repeat="pla places">
+		<div class="overNaviLimitrElement radiusBordered35" tal:attributes="onmouseover string:javascript:setIco('${pla/placeMap1}')">
+			<img tal:attributes="src string:TEMPLATES/img/logo/${pla/place_littleLogo1}" /><br />
+			<span style="font-weight:bold;" tal:content="pla/placeName" />
+		</div>
+	</a>
+	
+	</div>
+	
+<div metal:use-macro="TEMPLATES/metal_panels.htm/alertPanel" />
+<div metal:use-macro="TEMPLATES/metal_panels.htm/wordrobePanel" />
+
+<div metal:use-macro="TEMPLATES/guidar.htm/guidePanel" />
+<div metal:use-macro="TEMPLATES/audioSegments.htm/audioNotifier" />
+<div metal:use-macro="TEMPLATES/audioSegments.htm/whisperPaddAlert" />
+</body>
+</html>

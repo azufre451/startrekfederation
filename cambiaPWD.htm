@@ -1,0 +1,66 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/personnel.css" rel="stylesheet" type="text/css" />
+	 
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ.js"></script>
+	<!-- <script type="text/javascript" src="TEMPLATES/js/funct.js"></script> -->
+	<!-- <script type="text/javascript" src="TEMPLATES/js/lazyload.js"></script> -->
+	<title tal:content="gameName"></title>	
+	<script type="text/javascript">
+	function checkPwdValore(origin)
+	{
+
+		
+		if(origin.length > 7 && ($('#passNeu1').attr('value') == $('#passNeu2').attr('value')))
+		{
+		jQuery('#pwdSub').css('color','#299f05');
+		jQuery('#pwdSub').css('border-color','#299f05');
+		jQuery('#pwdSub').attr('disabled',false);
+		}
+		else
+		{
+			jQuery('#pwdSub').css('color','#9f0505');
+			jQuery('#pwdSub').css('border-color','#9f0505');
+			jQuery('#pwdSub').attr('disabled','disabled');
+		}
+	}
+	
+	function checker(origin)
+	{	
+		var origin = jQuery('#passNeu1').attr('value');
+		if(origin.length >= 8 && ($('#passNeu1').attr('value') == $('#passNeu2').attr('value'))) return true;
+		else 
+		{
+			alert('Attenzione! Le password non coincidono oppure stai inserendo una password con meno di 8 caratteri! Lunghezza password: '+origin.length);
+			
+			return false;
+		}
+	}
+	</script>
+</head>
+
+<body style="background-color:black; text-align:center; overflow:hidden; height:385px; padding:-5px;">
+
+<p style="font-size:18px; font-weight:bold; text-align:center;">CAMBIO PASSWORD</p>
+<p style="font-size:14px;">La password deve essere lunga almeno <b>OTTO</b> caratteri</p>
+
+<form action="login.php?action=changePWD" onsubmit="return checker()" method="POST">
+<table style="width:100%; font-size:13px;">
+	<tbody>
+		<tr><td style="width:200px;">PASSWORD ATTUALE</td><td class="bdr"><input name="passAtt" type="password"/></td></tr>
+		<tr><td style="width:200px;">NUOVA PASSWORD</td><td class="bdr"><input name="passNeu1" id="passNeu1" type="password"/></td></tr>
+		<tr><td style="width:200px;">NUOVA PASSWORD (ripeti)</td><td class="bdr"><input onkeyup="javascript:checkPwdValore(this.value);" id="passNeu2" name="passNeu2" type="password"/></td></tr>
+		<tr><td colspan="2" style="text-align:center;"><input type="submit" value="Modifica" id="pwdSub" /></td></tr>
+	</tbody>
+</table>
+</form>
+
+</body>
+</html>

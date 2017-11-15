@@ -1,0 +1,72 @@
+body{
+	overflow:hidden;
+	background-image:url('../img/interface/commInterface/cornice_comunicatore.png');
+	font-family:Arial;
+	background-repeat:no-repeat;
+	width:650px;
+}
+
+
+#chatBar
+{
+	margin-left:15px;
+	height:40px;
+	z-index:10;
+	padding:10px;
+}
+
+#leftContainer
+{
+	width:622px;
+	float:left;
+}
+
+#chatDiv
+{
+	margin-top:20px;
+	margin-left:15px;
+	height:500px;
+	background-color: black;
+	overflow-y:auto;
+	font-family:Verdana, Helvetica, Arial;
+	font-size:13px;
+	color:#EEE;
+}
+#chatDiv p {margin:0px;margin-top:2px;}
+
+#onlineList
+{
+	float:right;
+	margin-top:25px;
+	margin-right:0px;
+	width:190px;
+	height:580px;
+}
+
+.titleFS
+{
+    font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;
+    font-size: 26px;
+	margin:0px;
+    text-align: center;
+    text-shadow: 0 0 5px #00C6FF;
+	font-weight:bold;
+}
+
+.susChatMPUser,.susChatMPSeparator{font-weight:bold;font-size:13px;}
+.susChatMPUser{color:#3188F3;}
+.susChatMPSeparator{color:#de0a0a;}
+.imageAction{text-align:center; margin:5px;}
+
+.auxAction,.auxActionMaster
+{
+	padding:4px;
+	border:1px solid;
+	font-weight:bold;
+	font-size:16px;
+	margin:5px;
+	text-align:center;
+}
+
+.auxAction{border-color:#e01976;color:#e01976;}
+.auxActionMaster{border-color:red;color:red;}

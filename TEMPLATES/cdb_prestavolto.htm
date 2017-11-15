@@ -1,0 +1,31 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/localize.css?v=1.2" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+
+	<!-- <script type="text/javascript" src="TEMPLATES/js/lazyload.js"></script> -->
+	<title>STAR TREK FEDERATION - LOCALIZZATORE</title>
+	
+</head>
+<body style="background-color:black">
+<div id="locContainer">
+	<div style="position:absolute; margin-left:105px; text-transform:uppercase; width:275px; margin-top:15px; text-align:center; font-family:Helvetica; font-weight:bold;">PRESTAVOLTO</div>
+	
+	<p style="text-align:center; margin-top:40px; ">Questi sono i prestavolto attualmente associati ai PG di Star Trek: Federation</p><br />
+	
+	<div style="width:400px; margin-left:auto;margin-right:auto; height:450px; overflow-x:auto;"><table style="font-family:Helvetica; width:100%; text-align:left;">
+	<tr><td style="border:1px solid #333; color:orange; text-align:center;  font-weight:bold;">Cognome</td><td style="border:1px solid #333; color:orange; text-align:center; font-weight:bold;">Nome</td><td style="border:1px solid #333; color:orange; font-weight:bold; text-align:center; ">PG</td></tr>
+	<tr tal:repeat="pgg pg"><td  style="border:1px solid #333;" tal:content="pgg/pgOffAvatarC">Cognome</td><td style="border:1px solid #333;" tal:content="pgg/pgOffAvatarN">Nome</td><td style="border:1px solid #333;"><a tal:attributes="onclick string:schedaPOpen(${pgg/pgID})" tal:content="pgg/pgUser" class="interfaceLink" href="javascript:void(0);"></a></td></tr>
+	</table></div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,127 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	 
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	 
+	<title>TUTORIAL STAR TREK FEDERATION - COMPUTER</title>
+	<script type="text/javascript">
+	jQuery(function(){jQuery('#bkg').load('cdb.php');});
+	var positions = [ 
+	[80,667,7,565,105,30,'PRINCIPALE',' Il tasto principale è il richiamo rapido all\'interfaccia iniziale del computer di bordo. Da qui puoi raggiungere ogni punto del computer di bordo con un semplice click del mouse.','top','right'],  
+	[80,562,7,455,60,30,'NEWS','Questa sezione elenca tutti gli ultimi thread delle varie sezioni disponibili. Una prima parte mostra le discussioni inerenti l\'unità in cui ti trovi, le successive seguono l\'ordine delle maggiori sezioni che puoi intravedere in questa schermata.','top','right'],  
+	[80,502,7,397,120,30,'ASSEGNAZIONI',' Il tool delle assegnazioni ti permette di selezionare un unità giocante o temporanea e di vedere al suo interno quali personaggi sono assegnati ad essa. Da questo strumento ti è possibile raggiungere anche le bacheche interne di quell\'unità.','top','right'], 
+	[80,350,7,274,66,30,'DIARIO','Il diario è un collegamento rapido ad una cartella a te dedicata dove scrivere il diario personale del tuo personaggio. Il diario è segretato ad un livello tale che soltanto chi è autorizzato alla lettura può conoscerne i contenuti. Ricordati che un ufficiale di grado elevato può ottenere dal Comando di Flotta la possibilità di leggerne il contenuto in caso di indagine a tuo carico!','top','right'],  	
+	[80,350,7,195,100,30,'CALENDARIO','Lo strumento calendario ti permette di verificare quali eventi sono già stati programmati dallo staff. Ogni evento è contrassegnato da diversi flag che identificano lo scopo della giocata (quest, addestramento, simulazione) ed a quali sezioni è consigliata!','top','right'],  	
+	[80,350,7,90,90,30,'SONDAGGI',' Al termine di ogni quest gli admin aprono un sondaggio in cui i giocatori possono esprimersi sul lavoro del master. La media dei risultati ottenuti corrisponde al punteggio che gli admin assegneranno al master per il proprio lavoro.','top','right'],  	
+	[318,291,66,52,898,209,'LA TUA UNITÀ','Questa macro-sezione ospita tutte le attività che avvengono a bordo dell\'unità o pianeta su cui ti trovi ora.','top','left'],  	
+	[193,192,184,51,128,91,'STRUMENTI','EQUIPAGGIO: Questo tasto ti rimanda all\'elenco dei personaggi assegnati all\'unità su cui ti trovi in questo momento. ABBIGLIAMENTO: Attraverso questo strumento puoi cambiarti d\'abito e, per conseguenza, cambiare la mostrina associata in chat. RICERCA: Lo strumento di ricerca ti permette di cercare un contenuto nel computer di bordo o la scheda di un personaggio di cui sai il nome.','top','left'],  	
+	[129,421,79,198,206,190,'EVENTI GLOBALI','Attraverso questo strumento i giocatori sono informati su eventi definiti da un master che influenzano l\'intero equipaggio. Controlla questa sezione spesso per non perderti nulla degli eventi e dei pettegolezzi di bordo!','top','left'],  	
+	[129,430,105,485,168,18,'DISPOSIZIONI','Questa sezione delle bacheche di bordo contiene tutte le disposizioni operative che il personale da e riceve in merito al regolare svolgimento delle operazioni di bordo.','top','left'],  	
+	[129,480,105,657,137,18,'GIORNALE DI BORDO',' Il giornale di bordo contiene l\'elenco dei rapporti e delle disposizioni relative agli "episodi" le quest principali e secondarie di Star Trek: Federation collegate ad una specifica unità. Ciascuna unità di gioco ha i suoi episodi.','top','left'],  	
+	[129,520,105,796,80,18,'RAPPORTI','  Quest\'ultima sezione del computer di bordo raccoglie i rapporti scollegati dalle quest, relativi a specifici eventi come one-shot e piccole trame collegate tra loro.','top','left'],  	
+	[157,307,309,55,892,239,'SEZIONE GLOBALE','  Questa parte del Computer contiene le informazioni che non riguardano nello specifico una singola unità o pianeta: sono visibili sempre indipendentemente da dove ci si trovi.','top','left'],  	
+	[309,432,309,55,360,239,'SEZIONI','Ognuna di queste tre sezioni può essere navigata cliccandoci sopra: <b>Flotta Stellare</b> contiene il materiale informativo della Flotta (Regolamenti, Disposizioni Globali per tutti i vascelli); <b>Federazione</b> contiene i documenti civili, i diari e le notizie del Federation Tribune. <b>Comunità e Aiuto</b> è una sezione OFF: un forum per i giocatori per parlare del più e del meno, ottenere consigli e comunicare con lo staff.','top','left'],  	
+	[309,36,136,416,530,412,'ULTIMI POST','Gli ultimi post sono raggruppati per sezione, ed ordinati cronologicamente dal più recente al meno recente. Per visualizzare un numero maggiore di post puoi utilizzare il tasto <b>News</b>. Con questo si conclude il Tutorial del CDB. Grazie :)','top','left'],  	
+	]
+	function terminate(){window.close();}
+	function terminateR(){jQuery.post('ajax_helpSet3.php',{'what':'3','realK':1},function(e){window.close();});}
+	function goNext(ida)
+	{
+		idaN = parseInt(ida)+1; 
+		if(idaN > 14){ terminate(); return;}
+		if(idaN == 14){jQuery('#continuaL, #terminaK').fadeOut(150,function(){jQuery('#terminaAl').fadeIn();});}
+		
+		if(positions[idaN][8] == 'bottom')
+		{
+			rTop_tb = jQuery(window).height() - positions[idaN][0];
+			rTop_ta = jQuery(window).height() - positions[idaN][2];
+		}
+		else
+		{
+			rTop_tb = positions[idaN][0];
+			rTop_ta = positions[idaN][2];
+		}
+		
+		if(positions[idaN][9] == 'right')
+		{
+			rLeft_tb = jQuery(window).width() - positions[idaN][1];
+			rLeft_ta = jQuery(window).width() - positions[idaN][3];
+		}
+		else
+		{
+			rLeft_tb = positions[idaN][1];
+			rLeft_ta = positions[idaN][3];
+		}
+					  
+		 
+		jQuery('#tutorialBox').animate({
+			 top: rTop_tb,
+			 left: rLeft_tb
+		},function(){
+				jQuery('#tutorialTitle').html(positions[idaN][6]);
+				jQuery('#tutorialContent').html(positions[idaN][7]);
+				jQuery('#tutorialStep').val(idaN);
+			});
+		
+		 
+			jQuery('#tutorialArrow').animate({
+			 top: rTop_ta,
+			 left: rLeft_ta,
+			 width: positions[idaN][4],
+			 height: positions[idaN][5],
+		});
+		
+		jQuery('#tutorialBox').css('margin','0px');
+	}
+	</script>
+	 
+<style>
+.fluctuator{
+position:absolute;
+padding:10px;
+border-radius:5px; 
+font-family:verdana;
+z-index:10;
+max-width:350px;
+text-align:justify;
+border:1px solid #555;
+font-size:13px;
+background-color:rgba(0,0,0);
+background-color:rgba(0,0,0,0.85);
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#e6000000,endColorstr=#e6000000);
+
+}
+.fluctuator p{margin:0px; margin-bottom:5px; font-size:15px;}
+.evidenceYelo{color:#FC0; font-size:11px; text-transform:uppercase; font-weight:bold;}
+
+#tutorialArrow{z-index:10; position:absolute; top:-100px; left:-100px; width:25px; border-radius:10px; height:25px;  border:1px solid red; -moz-box-shadow: 0px 0px 20px red;
+    -webkit-box-shadow: 0px 0px 20px red;
+    box-shadow: 0px 0px 20px red;}
+	
+.clockTitle{font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;font-size: 25px;text-align: center;text-shadow: 0 0 5px #00C6FF;font-weight:bold;}
+.blueShadow{-moz-box-shadow: 0px 0px 20px #0099ff;-webkit-box-shadow: 0px 0px 20px #0099ff;box-shadow: 0px 0px 20px #0099ff;}
+</style>
+
+</head>
+<body>
+
+<div id="bkg" style="opacity:0.7" />
+<div   style="position:absolute;width:97%;height:97%; z-index:2;" />
+
+<div class="fluctuator blueShadow" id="tutorialBox" style="top:50%; left:50%; margin-left:-200px; margin-top:-100px;">
+<p class="clockTitle" id="tutorialTitle">COMPUTER DI BORDO</p> 
+	<p id="continuaL" style="position:absolute; top:10px; right:10px;"><a href="javascript:void(0);" onclick="goNext(jQuery('#tutorialStep').val())" class="interfaceLinkBlue"> [ CONTINUA ]</a></p>
+	<p style="position:absolute; top:10px; left:10px;" id="terminaK"><a href="javascript:void(0);" onclick="if(confirm('Sei sicuro di voler terminare il tutorial?')) terminate()" class="interfaceLinkRed"> [ TERMINA ]</a></p> 
+	<p style="position:absolute; top:10px; right:10px; display:none;" id="terminaAl"><a href="javascript:void(0);" onclick="terminateR()" class="interfaceLinkRed"> [ TERMINA ]</a></p> 
+<hr />	
+ <p id="tutorialContent" style="margin:0px; font-size:13px;">Uno dei maggiori strumenti di Federation è il sistema di bacheche. Come una sorta di forum le bacheche si dividono in varie categorie che riflettono sezioni dedicate a specifice comunicazioni nel gioco ed altre orientate alla community ed i suoi giocatori.</p>
+ <input id="tutorialStep" value="-1" type="hidden" /> 
+</div>
+
+<div id="tutorialArrow" />
+
+
+</body>
+</html>

@@ -1,0 +1,588 @@
+﻿<?php
+session_start();
+include('includes/app_include.php');
+include('includes/validate_class.php');
+
+
+
+
+if(isSet($_GET['registerUser']))
+{	header('Location:index.php');
+	exit;
+	$pgName= ucfirst(addslashes(($_POST['pgName'])));
+	$emai= (htmlentities(addslashes(($_POST['pgEmail'])),ENT_COMPAT, 'UTF-8'));
+	$pgSpecie= (htmlentities(addslashes(($_POST['pgSpecie'])),ENT_COMPAT, 'UTF-8'));
+	if(!in_array($pgSpecie,array('Andoriana','Bajoriana','Benzita','Betazoide','Boliana','Caitiana','Deltana','Denobulana','Risiana','Tellarita','Trill','Umana','Vulcaniana','Zakdorn','Zaldan'))){header('Location:http://www.youtube.com/watch?v=SGFz5v_P2ug'); exit;}
+	
+	$pgSesso= (htmlentities(addslashes(($_POST['pgSesso'])),ENT_COMPAT, 'UTF-8'));
+	$pgAuth= (htmlentities(addslashes(($_POST['pgAuth'])),ENT_COMPAT, 'UTF-8'));
+	
+	if ($pgName =='' || $emai == '' || $pgSpecie == '' || $pgSesso == '') 
+	{	
+		header('Location:index.php?error=insertion_error');
+		exit;
+	}
+	
+	
+	$passer = createRandomPassword();
+	$matri = createRandomMatricola();
+	$pwd = md5($passer);
+	$assignTOSHIP = ($pgSpecie == 'Romulana') ? 'IRW2' : 'USS2';
+	
+	$re1=mysql_query("SELECT 1 FROM pg_users WHERE email = '$emai'");
+	if (mysql_affected_rows() && $emai != 'png@startrekfederation.it'){header("Location:index.php?error=95"); exit;}
+	
+	$re1=mysql_query("SELECT 1 FROM pg_users WHERE pgUser = '$pgName'");
+	if (mysql_affected_rows()){header("Location:index.php?error=96"); exit;}
+	
+	$curTimeLL = $curTime - 1801;
+	
+	mysql_query("INSERT INTO pg_users(pgUser, pgPass, pgGrado, pgSezione, pgAssign, pgSeclar, pgAuth, pgLocation, pgRoom, pgAuthOMA, pgSpecie, pgSesso, pgMostrina, rankCode, email,pgLock,pgFirst,iscriDate,pgPoints,audioEnable,pgMatricola,pgIncarico,pgLastAct,pgUpgradePoints, pgSocialPoints) VALUES ('$pgName','$pwd','Civile','Nessuna','$assignTOSHIP',1,'$pgAuth','$assignTOSHIP','$assignTOSHIP','N','$pgSpecie','$pgSesso','CIV',1,'$emai',1,2,$curTime,5,1,'$matri','In attesa di assegnazione',$curTimeLL,14,7)");
+	
+	mysql_query("INSERT INTO pg_users_bios (pgID) VALUES ((SELECT pgID FROM pg_users WHERE pgUser = '".$pgName."'))");
+	
+	mysql_query("INSERT INTO pg_imbarchi (pgID,dateInsert,toAppear) VALUES ((SELECT pgID FROM pg_users WHERE pgUser = '".$pgName."'),".time().",1)");
+	
+	/*Aggiungo achi iniziale */
+	mysql_query("INSERT INTO pg_achievement_assign (owner,achi,timer) VALUES ((SELECT pgID FROM pg_users WHERE pgUser = '".$pgName."'),33,".time().")");
+	mysql_query("INSERT INTO pg_users_pointStory (owner,points,cause,causeM,causeE,timer,assigner) VALUES ((SELECT pgID FROM pg_users WHERE pgUser = '".$pgName."'),5,'ISCR','Bonus iscrizione a STF','Bonus iscrizione a STF',".time().",1)");
+	
+	
+	$cString = addslashes("<br />Hai ottenuto 14 Upgrade Points (punti abilit&agrave;), quale accredito per l'iscrizione di un nuovo personaggio!<br />Puoi usarli per aumentare le caratteristiche del tuo personaggio, e definire in questo modo le sue abilit&agrave;!<br /><br />Clicca su Scheda, a lato nella interfaccia di gioco, quindi sulla zona dei brevetti (simbolo dell'Accademia della Flotta Stellare nella barra alta) per assegnare le caratteristiche.<br /> In caso di problemi, non esitare a contattare lo Staff!<br /> Buon gioco su Star Trek: Federation!<br /><br />Il Team di Star Trek: Federation");
+	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead) VALUES (518,(SELECT pgID FROM pg_users WHERE pgUser = '".$pgName."'),'Benvenuto!','<div style=\"text-align:center\"><img src=\"http://miki.startrekfederation.it/SigmaSys/logo/little_logo.png\" /><br /><b>Benvenuto in Star Trek: Federation!</b></div><br />Ti inviamo questo padd come riassunto del materiale informativo presente presso i vari canali di gioco. In caso di perplessita\', non esitare a contattare i master e gli admin di Star Trek: Federation!<br />
+	
+	&raquo; <a href=\"index.php?guide=true\" target=\"_blank\" class=\"interfaceLink\">Guida al Gioco</a>
+	<p style=\"margin:0px; margin-left:30px; \"> Qui puoi trovare tutte le informazioni sulla dinamica di gioco </p>
+	
+	&raquo; <a href=\"javascript:dbOpenToTopic(186)\" class=\"interfaceLink\"> Ambientazione - La Federazione Unita dei Pianeti </a>
+	<p style=\"margin:0px; margin-left:30px; \"> Nuovo all\'ambientazione di Star Trek? Qualche info la trovi qui! </p>
+
+	&raquo; <a href=\"javascript:dbOpenToTopic(150)\" class=\"interfaceLink\"> Regolamento di Gioco </a>
+	<p style=\"margin:0px; margin-left:30px; \"> Contiene il regolamento di gioco, dacci un\'occhiata! </p>
+	
+	&raquo; <a href=\"javascript:dbOpenToTopic(151)\" class=\"interfaceLink\"> Frequently Asked Questions </a>
+	<p style=\"margin:0px; margin-left:30px; \"> Domande e Risposte frequenti. Hai un dubbio? Probabilmente troverai risposta qui </p>
+	
+	&raquo; <a href=\"javascript:dbOpenToTopic(262)\" class=\"interfaceLink\"> Il Gioco di Ruolo</a>
+	<p style=\"margin:0px; margin-left:30px; \"> Guida al gioco di ruolo e ai principi da seguire per giocare al meglio</p>
+	
+	&raquo; <a href=\"javascript:dbOpenToTopic(241)\" class=\"interfaceLink\"> La stesura del Background </a>
+	<p style=\"margin:0px; margin-left:30px; \">Chi e\' il tuo PG? Come descriverlo al meglio? Creare un buon Background e\' fondamentale!</p>
+	
+	&raquo; <a href=\"javascript:cdbOpenToTopic(58)\" class=\"interfaceLink\"> Ti serve un avatar? </a>
+	<p style=\"margin:0px; margin-left:30px; \">Chiedi qui un fotomontaggio per il tuo PG!</p>
+	
+	<b>Sezione Aiuto: qualche consiglio utile</b>
+	
+	&raquo; <a href=\"javascript:cdbOpenToTopic(64)\" class=\"interfaceLink\"> Lo Staff: Admin e Master di STF </a>
+	&raquo; <a href=\"javascript:dbOpenToTopic(265)\" class=\"interfaceLink\"> Il sistema dei Federation Points </a>
+	&raquo; <a href=\"javascript:dbOpenToTopic(245)\" class=\"interfaceLink\"> Empatia e Telepatia: Betazoidi, Vulcaniani... </a>
+	&raquo; <a href=\"javascript:dbOpenToTopic(249)\" class=\"interfaceLink\"> Stesura dei Rapporti di gioco </a>
+	&raquo; <a href=\"javascript:dbOpenToTopic(259)\" class=\"interfaceLink\"> Turnazione</a>
+	&raquo; <a href=\"javascript:dbOpenToTopic(248)\" class=\"interfaceLink\"> Piccolo Glossario Trek </a>
+	&raquo; <a href=\"javascript:dbOpenToTopic(242)\" class=\"interfaceLink\"> Lauree </a>
+	&raquo; <a href=\"javascript:dbOpenToTopic(243)\" class=\"interfaceLink\"> Brevetti </a>
+	
+	&raquo; <a href=\"javascript:dbOpen()\" class=\"interfaceLink\"> Documentazione Completa </a>
+	
+	
+	Buon gioco,<br />Il team di Star Trek Federation',".time().",0),(518,(SELECT pgID FROM pg_users WHERE pgUser = '".$pgName."'),'OFF: Upgrade Points!','$cString',$curTime,0)");
+
+	mysql_query("INSERT INTO connlog (user,time,ip) VALUES ((SELECT pgID FROM pg_users WHERE pgUser = '$pgName'),$curTime,'".$_SERVER['REMOTE_ADDR']."')");
+	
+	
+	$pgName=stripslashes($pgName);
+	
+	// mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddTest,paddTime,paddRead) VALUES (1,,'Benvenuto!','Ciao<br />Benvenuto in Star Trek Federation. Ti invitiamo a consultare la guida al gioco ed il regolamento e a porre qualunque domanda ai master o agli admin loggati. Buon gioco,<br />Il team di Star Trek Federation',".time().",0)");
+	
+	if(!mysql_error()){
+	mail($emai,"Star Trek Federation - Benvenuto!","Star Trek Federation - Benvenuto:\n\nCiao, $pgName,\n\nTu, o qualcuno per te, ha provveduto ad eseguire la registrazione del tuo indirizzo email a Star Trek Federation. L'operazione ha avuto esito positivo.\n\nUSERNAME: $pgName\nPASSWORD: $passer\n\nPotrai cambiare la password loggandoti in Star Trek Federation al link http://www.startrekfederation.it\n\nCi auguriamo di vederti presto tra noi!\nIl team di Star Trek: Federation","From:staff@startrekfederation.it");
+	header('Location:index.php?success=true');
+	exit;
+	}
+	else
+	{
+		if (mysql_affected_rows()){header("Location:index.php?error=99"); exit;}
+		exit;
+	}
+}
+
+if(isSet($_GET['createPNG']))
+{
+//	return;
+	$pgName= ucfirst(addslashes(($_POST['pgName'])));
+	$emai= 'png@startrekfederation.it';
+	$pgSpecie= (htmlentities(addslashes(($_POST['specie'])),ENT_COMPAT, 'UTF-8'));
+	$pgSesso= (htmlentities(addslashes(($_POST['pgSesso'])),ENT_COMPAT, 'UTF-8'));
+	$passer = addslashes($_POST['password']);
+	$pgPassword1 = md5($passer);
+	
+	$a1 = array('ALFA','BETA','GAMMA','DELTA','ETA','EPSILON','ZETA','ETA','THETA','IOTA','KAPPA','LAMBDA','MI','NI','XI','OMICRON','PI','RHO','SIGMA','TAU','YPSILON','PHI','CHI','PSI','OMEGA');
+	$pgAuth= $a1[rand(0,24)].' '.$a1[rand(0,24)].' '.rand(0,10).' '.rand(0,10);
+	
+	if ($pgName =='' || $emai == '' || $pgSpecie == '' || $pgSesso == '') 
+	{	
+		header('Location:index.php?error=insertion_error');
+		exit;
+	}
+	
+	$assignTOSHIP = 'SOL';
+	
+	$currentUser = new PG($_SESSION['pgID']);
+	if(PG::mapPermissions('SM',$currentUser->pgAuthOMA))
+	{
+	
+	$re1=mysql_query("SELECT 1 FROM pg_users WHERE pgUser = '$pgName'");
+	if (mysql_affected_rows()){header("Location:index.php?error=96"); exit;}
+	
+	mysql_query("INSERT INTO pg_users(pgUser, pgPass, pgGrado, pgSezione, pgAssign, pgSeclar, pgAuth, pgLocation, pgRoom, pgAuthOMA, pgSpecie, pgSesso, pgMostrina, rankCode, email,pgLock,pgFirst,png, pgNote, pgMatricola) VALUES ('$pgName','$pgPassword1','Civile','Nessuna','$assignTOSHIP',1,'$pgAuth','$assignTOSHIP','$assignTOSHIP','N','$pgSpecie','$pgSesso','CIV',1,'$emai',0,0,1,'Password: $passer','".createRandomMatricola()."')");
+	
+	mysql_query("INSERT INTO pg_users_bios (pgID) VALUES ((SELECT pgID FROM pg_users WHERE pgUser = '$pgName'))");
+	
+	
+	mysql_query("INSERT INTO connlog (user,time,ip) VALUES ((SELECT pgID FROM pg_users WHERE pgUser = '$pgName'),$curTime,'".$_SERVER['REMOTE_ADDR']."')");
+	
+	$pgName=stripslashes($pgName);
+	
+	// mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddTest,paddTime,paddRead) VALUES (1,,'Benvenuto!','Ciao<br />Benvenuto in Star Trek Federation. Ti invitiamo a consultare la guida al gioco ed il regolamento e a porre qualunque domanda ai master o agli admin loggati. Buon gioco,<br />Il team di Star Trek Federation',".time().",0)");
+	
+	if(!mysql_error()){
+	header('Location:crew.php?equi=SOL');
+	exit;
+	}
+	else
+	{
+		if (mysql_affected_rows()){header("Location:index.php?error=99"); exit;}
+		exit;
+	}
+	
+	}
+}
+
+
+if(isSet($_GET['addCallComment']))
+{
+$vali = new validator();
+$callID = $vali->numberOnly($_POST['callID']);
+$type = (addslashes($_POST['testoComm']));
+$type = substr($type,0,255);
+if(trim($type) != '') mysql_query("INSERT INTO cdb_calls_comments(owner,callID,text,timer) VALUES(".$_SESSION['pgID'].",$callID,'$type',".time().")");
+header("Location:cdb.php?callView=$callID");
+exit;
+}
+
+if (!isSet($_SESSION['pgID'])){echo "Errore di Login. Ritorna alla homepage ed effettua il login correttamente!"; exit;}
+
+
+
+$vali = new validator();
+$currentUser = new PG($_SESSION['pgID']);
+ 
+if (isSet($_GET['setAlert']))
+{
+	$g = $_GET['setAlert'];
+	$place = addslashes($_GET['place']);
+	if($g == 'red' || $g=='intruder' || $g == 'yellow' || $g == 'blue' || $g == 'green' || $g = 'grey')
+	{
+		if($g=='red') mysql_query("UPDATE fed_ambient SET ambientLightColor='#d10000' WHERE ambientLocation='$place'");
+		else if($g=='yellow') mysql_query("UPDATE fed_ambient SET ambientLightColor='#e8cd05' WHERE ambientLocation='$place'");
+		else if($g=='green') mysql_query("UPDATE fed_ambient SET ambientLightColor='#ffeecb' WHERE ambientLocation='$place'");
+		else if($g=='grey') mysql_query("UPDATE fed_ambient SET ambientLight=2 WHERE ambientLocation='$place'");
+		else if($g=='blue') mysql_query("UPDATE fed_ambient SET ambientLightColor='#3f79ba' WHERE ambientLocation='$place'");
+		
+		$toset = $g.'Alert';
+		
+		
+		if(PG::mapPermissions('M',$currentUser->pgAuthOMA))
+		mysql_query("UPDATE pg_places SET placeAlert = '$toset' WHERE placeID = '$place'");
+		
+		$string = '<p class="globalAction">Su tutta la nave si attiva '.str_replace(array('redAlert','yellowAlert','blueAlert','greenAlert','greyAlert','intruderAlert'),array('l\\\'allarme Rosso','l\\\'allarme Giallo','la condizione Blu','la condizione Verde','la condizione Grigia. Il dispendio energetico viene ridotto al minimo.','L\\\'allarme Intruso'),$toset).'</p>';
+		$locations = mysql_query("SELECT locID FROM fed_ambient WHERE ambientLocation = '$place'"); 
+		 
+		 
+		while ($resLoc = mysql_fetch_array($locations))
+		{
+				$ambientTo = $resLoc['locID'];
+				 
+				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$ambientTo','$string',".time().",'GLOBAL')");
+				
+				if($g == 'red') mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$ambientTo','redalert',".time().",'AUDIO')");
+				if($g == 'intruder') mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$ambientTo','intruderAlert',".time().",'AUDIO')");
+		} 
+		header('Location:padd.php?s=sh');
+		exit;
+	}
+}
+
+
+else if (isSet($_GET['bavosize']))
+{
+	$to = $vali->numberOnly($_GET['bavosize']);
+	$dest = ($_GET['place']);
+	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
+	{
+ 
+	mysql_query("UPDATE pg_users SET pgLocation = 'BAVO', pgRoom ='BAVO', pgAssign='BAVO' WHERE pgID = $to");
+	mysql_query("DELETE FROM pg_alloggi WHERE pgID = $to");
+	//mysql_query("DELETE FROM fed_ambient WHERE locID = (SELECT pgAlloggio FROM pg_users WHERE pgID = $to)");
+	mysql_query("INSERT INTO fed_pad (paddFrom, paddTo, paddTitle, paddText, paddTime, paddRead) VALUES (".$_SESSION['pgID'].", $to, 'Importante', 'Ciao. La presente per comunicarti che sei stato spostato in una locazione di attesa a causa di ridotta attivita\' in gioco per molto tempo. Contatta la crew al piu\' presto!',".time().",0)");
+	
+	$pg = new PG($to);
+	$pgName = $pg->pgUser;
+	//mail(PG::getSomething($to,'email'),"Star Trek Federation - Ti abbiamo perso di vista!","Ciao $pgName,\n\nSono passati due mesi dal tuo ultimo login in Star Trek: Federation. Per garantire uno sviluppo funzionale degli organigrammi di bordo, il tuo personaggio verrà spostato in altra locazione a partire da oggi. Ci auguriamo di rivederti presto fra noi, e ti assicuriamo che, in caso volessi tornare, il tuo PG sarà mantenuto attivo per altri 30 giorni. Al termine dei 30 giorni, il PG sarà eliminato dai nostri server.\n\n A presto\n\nIl team di Star Trek: Federation\n\nhttp://www.startrekfederation.it","From:staff@startrekfederation.it");
+	}
+	header("Location:crew.php?equi=$dest");
+	exit;
+}
+
+else if (isSet($_GET['mostrina']))
+{
+	$to = $vali->numberOnly($_GET['mostrina']);
+	$dest = ($_GET['place']);
+	
+	if (PG::mapPermissions('M',$currentUser->pgAuthOMA))
+	{
+		$selectable = new PG($to);
+		if ($selectable->pgSpecie == 'Romulana')
+		{
+			$imaMostrina = 301;
+			$textRecluta = "Eredh in Addestramento";
+		}
+		
+		else 
+		{	
+			$imaMostrina = 302;
+			$textRecluta = "Recluta in Addestramento";
+		}
+		
+		PG::setMostrina($to,$imaMostrina);
+		PG::setIncarico($to,$textRecluta);
+	}
+	
+	header("Location:crew.php?equi=$dest");
+	exit;
+}
+
+else if (isSet($_GET['delete']))
+{
+	$to = $vali->numberOnly($_GET['delete']);
+	$dest = ($_GET['place']);
+	$timeString =substr(time(),4,4).'_';
+	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
+	{
+	//mysql_query("UPDATE cdb_posts SET owner = 6 WHERE owner = $to");
+	mysql_query("DELETE FROM pg_alloggi WHERE pgID = $to");
+	mysql_query("DELETE FROM pgDotazioni WHERE pgID = $to");
+	mysql_query("DELETE FROM pg_brevetti_assign WHERE owner = $to");
+	mysql_query("DELETE FROM pg_notes WHERE owner = $to");
+	mysql_query("DELETE FROM pgMedica WHERE pgID = $to");
+	mysql_query("DELETE FROM fed_pad WHERE paddFrom = $to");
+	mysql_query("DELETE FROM pg_user_stories WHERE pgID = $to");
+	mysql_query("UPDATE pg_users SET pgUser = CONCAT('$timeString',pgUser), pgLocation = 'BAVO',pgAssign='BAVO', email = CONCAT('$timeString',email), pgRoom ='BAVO', pgAuthOMA='BAN', pgOffAvatarC = '', pgOffAvatarN='' WHERE pgID = $to");
+	mysql_query("UPDATE pg_users SET pgIncarico = '-' WHERE pgAssign ='BAVO'");
+	//mysql_query("DELETE FROM pg_users WHERE pgID = $to");
+	}
+	header("Location:crew.php?equi=$dest");
+	exit;
+}
+
+else if (isSet($_GET['updateStatus']))
+{
+	$statu = "";
+	if(isSet($_GET['place']) && isSet($_POST['note']))
+	{
+	$place = addslashes($_GET['place']);
+	$doki = addslashes($_POST['note']);
+	str_replace(array('<iframe>','<frame>','<object>','<embed>','<img>','<script>'),array('iframe','frame','object','embed','img','script'),$doki);
+	
+	for($i = 0; $i<12;$i++)
+		$statu.=$vali->numberOnly($_POST[$i]).',';
+	
+	$statu = trim($statu,',');
+	if(PG::mapPermissions('M',$currentUser->pgAuthOMA))
+	mysql_query("UPDATE pg_places SET status = '$statu', note = '$doki' WHERE placeID = '$place'");
+	}
+	header('Location:padd.php?s=sh');
+	exit;
+}
+
+else if(isSet($_GET['comm']))
+{
+	$type = $_GET['comm'];
+	if($currentUser->pgLock){header('Location:comm.php'); exit;}
+	if ($type=='sendCommUser')
+	{
+		$to = (htmlentities(addslashes(($_POST['personTo'])),ENT_COMPAT, 'UTF-8'));
+		$row = (htmlentities(addslashes(($_POST['rowSend'])),ENT_COMPAT, 'UTF-8'));
+		
+		
+		
+		if($to != 0)
+		{
+			$toQ = mysql_query('SELECT pgUser, pgRoom FROM pg_users WHERE pgID = '.$to);
+			$toQE = mysql_fetch_array($toQ);
+			$toRoom = $toQE['pgRoom'];
+			$toPg = addslashes($toQE['pgUser']);
+			
+			
+			$string = '<p class="commMessage">'.date('H:i').' <span class="commPreamble">'.addslashes($currentUser->pgUser)." a $toPg:</span> ".$row.'</p>';
+			if($toRoom != $currentUser->pgRoom) mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'".$currentUser->pgRoom."','$string',".time().",'ACTION')");
+			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','$string',".time().",'ACTION')");
+			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','commbadge',".time().",'AUDIO')");
+		}
+		
+		else if ($to == 0)
+		{
+			$allAmb = mysql_query('SELECT locID FROM fed_ambient WHERE ambientLocation = \''.$currentUser->pgLocation.'\' AND locID <> \''.$currentUser->pgLocation.'\'');
+			
+			$string = '<p class="commMessage">'.date('H:i').' <span class="commPreamble">'.addslashes($currentUser->pgUser)." a tutto il personale:</span> ".$row.'</p>';
+			
+			while($rea = mysql_fetch_array($allAmb))
+			{
+			$toRoom = $rea['locID'];
+			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','$string',".time().",'ACTION')");
+			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','commbadge',".time().",'AUDIO')");
+			// mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','<audio autoplay=\"autoplay\"><source src=\"http://miki.startrekfederation.it/audioBase/commbadge.ogg\" type=\"audio/ogg\" /><source src=\"http://miki.startrekfederation.it/audioBase/commbadge.mp3\" type=\"audio/mpeg\" /></audio>',".time().",'AUDIO')");
+			}
+		}
+	}
+	
+	else if ($type=='sendCommDeck')
+	{
+		$to = $_POST['deckTo'];
+		if(!is_numeric($to)) exit;
+		
+		$row = (htmlentities(addslashes(($_POST['rowSend'])),ENT_COMPAT, 'UTF-8'));
+		
+		$allAmb = mysql_query('SELECT locID FROM fed_ambient WHERE ambientLocation = \''.$currentUser->pgLocation.'\' AND ambientLevel_deck = '.$to.' AND locID <> \''.$currentUser->pgLocation.'\'');
+			
+			$string = '<p class="commMessage">'.date('H:i').' <span class="commPreamble">'.addslashes($currentUser->pgUser)." a PONTE $to:</span> ".$row.'</p>';
+			//mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'".$currentUser->pgRoom."','$string',".time().",'ACTION')");
+			
+			while($rea = mysql_fetch_array($allAmb))
+			{
+			$toRoom = $rea['locID'];
+			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','$string',".time().",'ACTION')");
+			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','commbadge',".time().",'AUDIO')");
+			}
+	}
+	
+	else if ($type=='sendCommAmbient')
+	{
+		$to = (htmlentities(addslashes(($_POST['ambTo'])),ENT_COMPAT, 'UTF-8'));
+		$row = (htmlentities(addslashes(($_POST['rowSend'])),ENT_COMPAT, 'UTF-8'));
+		
+		if(!$ambientName = Ambient::getAmbientName($to)) exit;
+		
+		$string = '<p class="commMessage">'.date('H:i').' <span class="commPreamble">'.addslashes($currentUser->pgUser)." a $ambientName:</span> ".$row.'</p>';
+			
+		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$to','$string',".time().",'ACTION')");
+		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$to','commbadge',".time().",'AUDIO')");
+		
+		
+		if($to != $currentUser->pgRoom){ mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'".$currentUser->pgRoom."','$string',".time().",'ACTION')");}
+		
+	}
+	
+	echo "<html><script type='text/javascript'>window.close();</script></html>";
+}
+
+else if(isSet($_GET['warpSpeed']))
+{
+		if(isSet($_POST['factor'])){
+		$place = addslashes($_GET['warpSpeed']);
+		$fact = addslashes($_POST['factor']);
+		$fact = str_replace(',','.',$fact);
+		
+		if(PG::mapPermissions('M',$currentUser->pgAuthOMA))
+		mysql_query("UPDATE pg_places SET warp = $fact, pointerL='', attracco='' WHERE placeID = '$place' AND (placeType = 'Nave' OR placeType = 'Navetta')");
+		mysql_query("UPDATE pg_places SET warp = $fact, pointerL='' WHERE attracco = '$place' AND placeType = 'Navetta'");
+			
+			$locations = mysql_query("SELECT locID,placeName FROM fed_ambient,pg_places WHERE ambientLocation = placeId AND ambientLocation = '$place'");
+			while ($resLoc = mysql_fetch_array($locations))
+			{
+				$ambientTo = $resLoc['locID'];
+				$placeName = $resLoc['placeName'];
+				$string = "<p class=\"globalAction\" title=\"Warp\">La $placeName entra in curvatura, fattore $fact</p>";
+				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$ambientTo','$string',".time().",'GLOBAL')");
+				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$ambientTo','warp_in',".time().",'AUDIO')");
+			}
+		}
+		header('Location:padd.php?s=shM');
+		exit;
+}
+
+else if(isSet($_GET['exitHangar']))
+{ 
+		$place = addslashes($_GET['exitHangar']);
+		
+		$genitrice = mysql_query("SELECT pointerL FROM pg_places WHERE placeID = (SELECT attracco FROM pg_places WHERE placeID = '$place')");
+		//echo "SELECT sector, pointer FROM pg_places WHERE placeID = (SELECT attracco FROM pg_places WHERE placeID = '$place')"; exit;
+		if(mysql_affected_rows() && PG::mapPermissions('M',$currentUser->pgAuthOMA))
+		{
+			$ge = mysql_fetch_array($genitrice);
+			$pointerL = $ge['pointerL'];
+			mysql_query("UPDATE pg_places SET warp = '0', pointerL = '$pointerL', attracco = '' WHERE placeID = '$place'");
+	
+		}
+		header('Location:padd.php?s=sh');
+		exit;
+}
+
+else if(isSet($_GET['hangarize']))
+{ 
+	if(isSet($_POST['attracTo']) && isSet($_GET['hangarize'])){
+	
+		$place = addslashes($_GET['hangarize']);
+		$toplace = addslashes($_POST['attracTo']);
+		
+		$p1 = mysql_query("SELECT pointerL FROM pg_places WHERE placeID = '$place'");
+		$pa = mysql_fetch_array($p1);
+		$p1A = $pa['pointerL'];
+		$p1 = mysql_query("SELECT pointerL FROM pg_places WHERE placeID = '$toplace'");
+		$pa = mysql_fetch_array($p1);
+		$p1B = $pa['pointerL'];
+		
+		if($p1A == $p1B && PG::mapPermissions('M',$currentUser->pgAuthOMA))
+			mysql_query("UPDATE pg_places SET warp = '0',pointerL='', attracco = '$toplace' WHERE placeID = '$place'");
+		
+	}
+		header('Location:padd.php?s=sh');
+		exit;
+}
+
+else if(isSet($_GET['punctualArriveTo']))
+{ 
+	if(isSet($_POST['systemSearcher']) && PG::mapPermissions('M',$currentUser->pgAuthOMA)){
+	
+		$place = addslashes($_GET['punctualArriveTo']);
+		$toplaceR = addslashes($_POST['systemSearcher']);
+		$toplaceS = explode(' - ',$toplaceR);
+		$toplace = $toplaceS[0];
+		$toplaceI = $toplaceS[1];
+		
+		$coordinate = mysql_query("SELECT pointerL FROM pg_places WHERE pointerL <> '' AND placeID = '$toplace'");
+		
+		if(mysql_affected_rows())
+		{	
+			$coordinate = mysql_fetch_array($coordinate); 
+			$topointer = $coordinate['pointerL'];
+			mysql_query("UPDATE pg_places SET warp='0',attracco='',pointerL='$topointer' WHERE placeID = '$place'");
+			mysql_query("UPDATE pg_places SET warp='0',pointerL='$topointer' WHERE attracco = '$place'");
+			
+				$locations = mysql_query("SELECT locID,placeName FROM fed_ambient,pg_places WHERE ambientLocation = placeId AND ambientLocation = '$place'");
+				while ($resLoc = mysql_fetch_array($locations))
+				{
+				$ambientTo = $resLoc['locID'];
+				$placeName = $resLoc['placeName'];
+				$string = "<p class=\"globalAction\" title=\"Warp\">La $placeName esce dalla curvatura, arrivando a $toplaceI</p>";
+				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$ambientTo','$string',".time().",'GLOBAL')");
+				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$ambientTo','warp_out',".time().",'AUDIO')");
+				}
+		}
+	}
+		header('Location:padd.php?s=sh');
+		exit;
+}
+
+else if(isSet($_GET['coorArriveTo']))
+{ 
+	if(PG::mapPermissions('M',$currentUser->pgAuthOMA)){
+	
+		$place = addslashes($_GET['coorArriveTo']);
+		
+		$x = ($vali->numberOnly($_POST['coX']) != '') ? $vali->numberOnly($_POST['coX']) : 0;
+		$y = ($vali->numberOnly($_POST['coY']) != '') ? $vali->numberOnly($_POST['coY']) : 0;
+	
+		
+		$topointer = "$x;$y";
+			
+		mysql_query("UPDATE pg_places SET warp='0',attracco='',pointerL='$topointer' WHERE placeID = '$place'");
+		mysql_query("UPDATE pg_places SET warp='0',pointerL='$topointer' WHERE attracco = '$place'");
+		
+		
+	}
+		header('Location:padd.php?s=sh');
+		exit;
+}
+
+else if (isSet($_GET['addMapLocation']))
+{
+	$to = addslashes($_GET['addMapLocation']);
+	$name = addslashes(str_replace('\'','&apos;',$_POST['name'])); 
+	$locID = strtoupper(preg_replace('/[^\x20-\x7E]/','',str_replace(array(' ','\'','&apos;'),array('_','',''),$to.'_'.$name)));
+	$desc = addslashes($_POST['descript']);
+	$icon = addslashes($_POST['icon']);
+	$ima = addslashes($_POST['internalImage']);
+	
+	if($icon == '') $icon = 'http://miki.startrekfederation.it/imaLocation/i_generic.png';
+	if($ima == '') $ima = 'http://miki.startrekfederation.it/imaLocation/c_generic.png';
+	$map = ($vali->numberOnly(addslashes($_POST['mappNo'])));
+	
+	if(PG::mapPermissions('JM',$currentUser->pgAuthOMA))
+		mysql_query("INSERT INTO fed_ambient (locID,locName,ambientLocation,descrizione,planetSub,icon,image,ambientType) VALUES ('$locID','$name','$to','$desc','$map','$icon','$ima','NORMAL')");
+	
+	header('Location:main.php');	
+}
+
+else if (isSet($_GET['purifyAlloggi']))
+{
+	$to = addslashes($_GET['purifyAlloggi']);
+	
+	mysql_query("DELETE FROM pg_alloggi WHERE alloggio IN (SELECT locID FROM fed_ambient WHERE locID LIKE 'ALL%' AND ambientType = 'ALLOGGIO' AND ambientLocation = '$to')");
+	mysql_query("DELETE FROM fed_ambient WHERE locID LIKE 'ALL%' AND ambientType = 'ALLOGGIO' AND ambientLocation = '$to'");
+	
+	header('Location:main.php');	
+}
+
+include('includes/app_declude.php');	
+
+function createRandomPassword() {
+    $chars = "abcdefghijkmnopqrstuvwxyz023456789";
+    srand((double)microtime()*1000000);
+    $i = 0;
+    $pass = '' ;
+
+    while ($i <= 7) {
+        $num = rand() % 33;
+        $tmp = substr($chars, $num, 1);
+        $pass = $pass . $tmp;
+        $i++;
+    }
+    return $pass;
+}
+
+function createRandomMatricola() {
+	$chars = "abcdefghijkmnopqrstuvwxyz";
+    $nums = "023456789";
+    srand((double)microtime()*1000000);
+   
+    $i = 0;
+    $let = '' ;
+    $num1 = '' ;
+    $num2 = '' ;
+
+    while ($i < 2) {
+        $num = rand() % 25;
+        $tmp = substr($chars, $num, 1);
+        $let = $let . $tmp;
+        $i++;
+    }
+	 $i = 0;
+	 while ($i < 3) {
+        $num = rand() % 9;
+        $tmp = substr($nums, $num, 1);
+        $num1 = $num1 . $tmp;
+        $i++;
+    }
+	$i = 0;
+	 while ($i < 3) {
+        $num = rand() % 9;
+        $tmp = substr($nums, $num, 1);
+        $num2 = $num2 . $tmp;
+        $i++;
+    }
+	return strtoupper($let.'-'.$num1.'-'.$num2);
+}
+
+?>

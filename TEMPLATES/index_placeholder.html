@@ -1,0 +1,263 @@
+<!DOCTYPE html> 
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="it">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+		<title>Star Trek: Federation GDR - Be The Future!</title>
+
+		<link rel="shortcut icon" href="favicon.ico" />
+		
+		<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+		<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+		<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+		<script type="text/javascript" src="TEMPLATES/js/index.js?v=0.6" />
+		
+	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/home/reset.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/clearfix.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/style.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/fonts.css"  />
+	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/jquery.dualSlider.0.2b.css?v=2.1" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/index.css?v=1.2" rel="stylesheet" type="text/css" />
+	
+
+	<script type="text/javascript" src="TEMPLATES/js/google.js"></script>	
+
+
+		<meta charset="UTF-8" />
+		<meta http-equiv="content-language" content="IT" />
+		<meta name="keywords" content="Star Trek, Voyager, Enterprise, The Next Generation, Tricorder, Phaser, Borg. Gioco di Ruolo, Federazione, Klingon, Romulani"/>
+		<meta name="description" content="GDR online che unisce l'interpretazione di un eroe del serial televisivo alla scrittura creativa via chat. Crea il tuo personaggio, illumina il tuo destino!" />
+		
+		
+		<script type="text/javascript">
+			jQuery(document).ready(function(){
+			    jQuery('#dva').css('height',jQuery(window).height());
+			    jQuery('#dva').css('width',jQuery(window).width());			    
+			});
+			
+	function toggleVisit(ida)
+	{
+		var tit = ''; 
+		var hti = jQuery('#toggle_'+ida).html();  
+		if(hti.indexOf('ESPANDI') > 0) tit = '[RIDUCI]';
+		if(hti.indexOf('RIDUCI') > 0) tit = '[ESPANDI]';  
+		
+		jQuery('#navisi_'+ida).toggle();
+		jQuery('#visi_'+ida).toggle('fade',{},100,function(){jQuery('#toggle_'+ida).html(tit);});
+		
+	}
+		</script>
+	
+	<style>	
+
+
+		@-moz-keyframes reveal-banner {
+		0% {
+			opacity: 0;
+		}
+
+		100% {
+			opacity: 1;
+		}
+	}
+
+	@-webkit-keyframes reveal-banner {
+		0% {
+			opacity: 0;
+		}
+
+		100% {
+			opacity: 1;
+		}
+	}
+
+	@-ms-keyframes reveal-banner {
+		0% {
+			opacity: 0;
+		}
+
+		100% {
+			opacity: 1;
+		}
+	}
+
+	@keyframes reveal-banner {
+		0% {
+			opacity: 0;
+		}
+
+		100% {
+			opacity: 1;
+		}
+	}
+	
+	@-moz-keyframes revealhead {
+		0% {
+			width: 0;
+		}
+
+		100% {
+			width: 100%;
+		}
+	}
+
+	@-webkit-keyframes revealhead {
+		0% {
+			width: 0;	
+		}
+
+		100% {
+			width: 100%;
+		}
+	}
+
+	@-ms-keyframes revealhead {
+		0% {
+			width: 0;
+		}
+
+		100% {
+			width: 100%;
+		}
+	}
+	
+	
+	@keyframes revealhead {
+		0% {
+			width: 0;
+		}
+
+		100% {
+			width: 100%;
+		}
+	}
+ 
+    #dva{
+    background: url('TEMPLATES/placeholder.jpg');
+    background-size: auto 100%;
+    background-position:top center;
+    background-repeat: no-repeat;
+    }
+    
+			.inner {
+			-moz-animation: reveal-banner 1s 0.25s ease-in-out;
+			-webkit-animation: reveal-banner 1s 0.25s ease-in-out;
+			-ms-animation: reveal-banner 1s 0.25s ease-in-out;
+			animation: reveal-banner 1s 0.25s ease-in-out;
+			-moz-animation-fill-mode: forwards;
+			-webkit-animation-fill-mode: forwards;
+			-ms-animation-fill-mode: forwards;
+			animation-fill-mode: forwards;
+			
+			background-color: rgba(255, 255, 255, 0.51);
+			
+			color: black;
+			display: inline-block;
+			opacity: 0;
+			padding: 5em;
+			text-align: center; 
+			
+			top:50%;
+			left:50%;
+			margin-left:-17em;
+			margin-top:-11em;
+			position:absolute;
+
+		} 
+		
+		
+			.inner header {
+				display: inline-block; 
+				margin: 0 0 2em 0;
+				padding: 3px 0 3px 0;
+			}
+				.inner header hr {
+					width:100%;
+					border: 1px solid black;
+					margin:0px;
+					margin:auto; 
+					-moz-animation: revealhead 1s 0.25s ease-in-out;
+					-webkit-animation: revealhead 1s 0.25s ease-in-out;
+					-ms-animation: revealhead 1s 0.25s ease-in-out;
+					animation: revealhead 1s 0.25s ease-in-out;
+					
+					-moz-animation-fill-mode: forwards;
+					-webkit-animation-fill-mode: forwards;
+					-ms-animation-fill-mode: forwards;
+					animation-fill-mode: forwards;
+				}
+				
+				.inner header h2 {
+					-moz-animation: reveal-banner 1s 0.25s ease-in-out;
+					-webkit-animation: reveal-banner 1s 0.25s ease-in-out;
+					-ms-animation: reveal-banner 1s 0.25s ease-in-out;
+					animation: reveal-banner 1s 0.25s ease-in-out;
+					-moz-animation-fill-mode: forwards;
+					-webkit-animation-fill-mode: forwards;
+					-ms-animation-fill-mode: forwards;
+					animation-fill-mode: forwards;
+					font-size: 2.5em;
+					font-weight: 900;
+					letter-spacing: 0.2em;
+					margin: 0;
+					padding-left: 0.05em;
+					position: relative;
+					text-transform: uppercase;
+				}
+
+			.inner p {
+				letter-spacing: 0.1em;
+				margin: 0 ;
+				text-transform: uppercase;
+			}
+
+				.inner p a {
+					color: inherit;
+					font-weight: 400;
+					text-decoration: none;
+				}
+
+			.inner footer {
+				margin: 2em 0 0 0;
+			}
+		</style>
+	</head>
+	
+
+
+<body>
+		<div id="error" tal:condition="php:(error==95)">Errore! L'email risulta gi&agrave; registrata!</div>
+		<div id="error" tal:condition="php:(error==96)">Errore! Lo username risulta gi&agrave; registrato!</div>
+		<div id="error" tal:condition="php:(error==99)">Errore! Inserimento non andato a buon fine. Contatta la gestione.</div>
+		<script type="text/javascript" tal:condition="php:(error!=NULL)">jQuery('#error').fadeIn(400); setTimeout(function(){jQuery('#error').fadeOut(20);},6000);</script>
+		<div id="success">Operazione completata con successo.<br />Riceverai una mail di conferma. </div>
+		<script type="text/javascript" tal:condition="php:(success!=NULL)">jQuery('#success').fadeIn(400); setTimeout(function(){jQuery('#success').fadeOut(20);},6000) </script>
+		
+		<div style="width:100%; height:100px;" id="dva">
+			
+
+					<div class="inner"> 
+						<header>
+							<hr />
+							
+							<h2><img src="http://miki.startrekfederation.it/SigmaSys/logo/little_logo.png"></img></h2>
+							<hr />
+
+							<div style="margin-top:10px; line-height:1.2em;"><h2><p><strong>Gioco di Ruolo</strong><br/><br/>Sci-Fi via chat</p></h2></div>
+							
+
+							<div style="margin-top:10px;"><p>Prossima apertura in alpha test:</p><p><a href="#"  onclick="javascript:fullScreen();"  style="font-weight:bold; text-decoration:underline; font-style:underline;">Login in Alpha Test</a></p></div>
+						</header>
+						
+						 
+					</div>
+					
+
+		</div>
+		
+		
+<!--<form target="fed_main" id="aleph" action="login.php" method="POST"><input type="hidden" value="ALE" name="A" /></form>-->
+</body>
+</html>

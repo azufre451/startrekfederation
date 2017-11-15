@@ -32,5 +32,27 @@ class CDB
 		return mysql_affected_rows();
 	}
 	
+	public static function checkPostAccess($t1,$user){
+
+		$userID = $user->ID;
+		mysql_query("SELECT 1 FROM cdb_posts_seclarExceptions WHERE postID = '$t1' AND pgID = '$userID'");
+		if (mysql_affected_rows()) return 1;
+
+		return 0;
+	}
+
+	public static function getPostAccess($t1){
+
+		
+		$res = mysql_query("SELECT pgUser FROM cdb_posts_seclarExceptions,pg_users WHERE postID = '$t1' AND pg_users.pgID = cdb_posts_seclarExceptions.pgID");
+		$re=array();
+		while($resA = mysql_fetch_assoc($res))
+		{
+			$re[] = $resA['pgUser'];
+		}
+		
+		return $re;
+	}
+
 }
 ?>

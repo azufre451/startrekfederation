@@ -1,7 +1,7 @@
-﻿<?php
+<?php
 session_start();
 $a = microtime();
-if (!isSet($_SESSION['pgID']))  header("Location:index.php");
+if (!isSet($_SESSION['pgID'])) { header("Location:http://www.startrekfederation.it"); exit;}
     
 include('includes/app_include.php');
 include('includes/validate_class.php');
@@ -14,7 +14,7 @@ $toLocation= (isSet($_GET['l'])) ? addslashes($_GET['l']) : $currentUser->pgLoca
 if($toLocation == '') $toLocation = 'BAVO';
 $currentUser->setPresenceInto($toLocation);
 
-
+if(isSet($_GET['message']) && $_GET['message'] == 'no_auth') $template->noauth=true;
 
 // location Per sbarco imbarco
 

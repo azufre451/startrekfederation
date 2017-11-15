@@ -1,0 +1,140 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/personnel.css?v=1.7" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/circle.css?v=1.7" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" /> 
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+
+	<title>STAR TREK FEDERATION - SCHEDA</title>	
+	<script type="text/javascript">
+	
+	
+	function paddOpen(who){window.open ('padd.php?s=seR&to='+who+'&sub=','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
+	
+	function removeItem(ider,pgi)
+	{	
+		if(confirm('Conferma eliminazione?'))
+		window.location.href="scheda.php?s=remDotazione&brever=true&ider="+ider+'&pgID='+pgi;
+	}
+	
+	function addBreverItem(ider,pgi)
+	{	
+		window.location.href="scheda.php?s=addBrevetto&ider="+ider+'&pgID='+pgi;
+	}
+	
+	function removeDotazione(ider,pgi)
+	{	
+		if(confirm('Conferma eliminazione?'))
+		window.location.href="scheda.php?s=remDotazione&laurer=true&ider="+ider+'&pgID='+pgi;
+	}
+	
+	function showRuolino()
+	{
+		if(jQuery('#mainRuolino').css('display') == 'block') jQuery('#mainRuolino').fadeOut(200,function(){jQuery('#ruolinoER').fadeIn(200); jQuery('#linkerR').prop('src','TEMPLATES/img/interface/personnelInterface/schedaImage.png'); });
+		else jQuery('#ruolinoER').fadeOut(200,function(){jQuery('#mainRuolino').fadeIn(200); jQuery('#linkerR').prop('src','TEMPLATES/img/interface/personnelInterface/ruolinoImage.png'); });
+	}
+	
+	function viewAdder()
+	{
+		jQuery('#rankAdder').fadeIn(200, function(){jQuery('#viewAdderToggle').fadeOut(100)});
+	}
+	
+	function switchsect()
+	{
+		if (jQuery('#personalAbil').css('display') == 'none')
+		{
+			jQuery('#tecAbil').fadeOut(100,function(){jQuery('#personalAbil').fadeIn(100);});
+		}
+		else {jQuery('#personalAbil').fadeOut(100,function(){jQuery('#tecAbil').fadeIn(100);});}
+	}
+	
+	 jQuery(function() { jQuery('.tooltip, img').tooltip({
+          content: function () {
+              return jQuery(this).prop('title');
+          }
+      });});
+	
+	</script>
+	<style>
+	.ui-tooltip {
+    font-family:Helvetica;
+	font-size:15px;
+	font-variant:small-caps;
+	max-width:55%;
+  }
+ 
+	</style>
+</head>
+
+<body style="background-color:black; overflow:hidden; height:385px; padding:-5px;">
+
+<div id="schedaContainer">
+
+<div metal:use-macro="TEMPLATES/metal.htm/schedaIntro" />
+<div id="mainContainer">
+<div id="mainRuolino" style="margin:0px; margin-left:10px; position:relative; overflow:hidden; margin-right:0px; height:530px;">
+	
+	  	<!--<div style="width: 200px; height: 510px; position: absolute;  z-index:0; background-image:url('TEMPLATES/img/uniformi/test67.png');"> </div>-->
+
+		<div id="backUniformDiv" tal:attributes="style string:background-image:url('TEMPLATES/img/uniformi/${uniform}.png');; top: 22px;; z-index:1;; right: 10px;;"> </div>
+		
+		<div style="overflow-y:auto; height:530px; width:100%;  z-index:10; position:absolute;">
+			<div tal:attributes="class string:abiliAggregator ${repeat/abiClass/key}" tal:repeat="abiClass abi">
+				
+				<p tal:content="php:labeler[repeat.abiClass.key]">GENERICI</p>
+				
+				<div style="height:25px;" />
+					<div style="float:left;" tal:repeat="abilit abiClass" >
+						   <div tal:attributes="class string:c100 p${abilit/levelperc} small tooltip ; title string:<span style='color:#5d85a6;; font-weight:bold;;'>${abilit/abName}</span> - Liv. ${abilit/level}<hr/>${abilit/leveldesc}" style="z-index:0">
+								<img tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/abilita/${abilit/abImage}" />
+								<span tal:content="abilit/level">1</span>
+		
+										<div class="slice">
+											<div class="bar"></div>
+											<div class="fill"></div>
+										</div>
+									</div>
+							</div>	
+						
+							<div style="clear:both"></div>
+					</div>
+			</div>
+		</div>
+
+	<p style="position:absolute; bottom:-14px; z-index:10; left:0px;" tal:condition="php:(!userData.png)"><a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=bvadd" class="interfaceLink"><img src="TEMPLATES/img/interface/personnelInterface/scheda_modifica_btn.png" /></a></p>
+</div>
+</div>
+
+<div id="brevAdder">
+	
+	<p style="margin:0px; margin-top:5px; font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;font-size: 25px;text-align: center;text-shadow: 0 0 5px #00C6FF;font-weight:bold;"> Abilitazioni e Conoscenze </p>
+	
+	<p style="margin:0px; margin-left:10px; margin-right:10px; text-align:justify; font-size:13px;">Incrementa le conoscenze del personaggio e ottieni i relativi brevetti (dovrai sostenere un esame in ON per confermare la conoscenza dei temi trattati dal brevetto del tuo PG). Il numero di punti spendibili nelle aree dipende dal totale di FP acquisiti. Un consiglio: delinea un percorso coerente per il tuo personaggio, e cerca di specializzarlo in pochi ambiti, così da poter essere utile in situazioni ad alta specificità. Ricorda anche che alcuni brevetti sono necessari per ricoprire alcune posizioni in ON. Per ogni dubbio, lo Staff è a tua completa disposizione. <span style="color:red; font-weight:bold;">E' possibile riallocare i punti</span> che non concorrono alla formazione dei brevetti, consultando lo staff e non per più di 3 volte</p>
+	
+	<p style="margin:0px; margin-left:10px; margin-right:10px; text-align:justify; font-size:13px;">Consulta le <a href="#" onclick="javascript:dbOpenToTopic(243);" class="interfaceLink">Regole dei Brevetti</a></p>
+
+	
+	
+	<div  style="position:absolute; top:2px; right:2px; height:15px; width:15px; background-color:black; text-align:center; cursor:pointer; border:1px solid #AAA; padding:2px;" onclick="jQuery('#brevAdder').fadeOut(100);">X</div>
+	</div> 
+	
+<div id="abilAdder">
+	
+	<p style="margin:0px; margin-top:5px; font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;font-size: 25px;text-align: center;text-shadow: 0 0 5px #00C6FF;font-weight:bold;"> Abilità Personali </p>
+	
+	<p style="margin:0px; margin-left:10px; margin-right:10px; text-align:justify; font-size:13px;">Le abilità personali sono elementi di caratterizzazione aggiuntiva in aree non strettamente operative, ed orientate princiaplmente alla cultura personale del personaggio. <span style="color:#2266c3; font-weight:bold;">E' possibile riallocare i punti</span> che non concorrono alla formazione dei brevetti, consultando lo staff e non per più di 3 volte</p>
+	
+	<div  style="position:absolute; top:2px; right:2px; height:15px; width:15px; background-color:black; text-align:center; cursor:pointer; border:1px solid #AAA; padding:2px;" onclick="jQuery('#abilAdder').fadeOut(100);">X</div>
+	</div>
+</body>
+</html>

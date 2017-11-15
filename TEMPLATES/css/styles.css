@@ -3,6 +3,14 @@ Progetto Star Trek Federation
 Autore originale: Moreno Zolfo
 */
 
+@font-face{
+font-family:'federationFont';
+src: url('../Roddenberry.eot') format('eot');
+src: url('../Roddenberry.woff') format("woff");
+src: url('../Roddenberry.woff2') format("woff2");
+src: url('../Roddenberry.ttf') format('truetype');
+}
+
 body
 {	
 	background-color:black;
@@ -47,6 +55,20 @@ a:hover
 	color:white;
 	border:1px solid white;
 }
+
+
+
+input[type=text].neon{ 
+	border:0px;
+	border-bottom:1px solid #666;
+	padding:5px 3px;
+}
+
+input[type=text].neon:hover, input[type=text].neon:active, input[type=text].neon:focus{ 
+	border-color:red;
+	outline: none;
+}
+
 
 
 .interfaceLink,.interfaceLinkBlue,.interfaceLinkRed,.interfaceLinkGreen
@@ -191,9 +213,13 @@ font-weight:bold;
 text-align:center;
 }
 
+
+
+
 input, select, textarea, button
 {
 	color:#999;
+	
 	border:1px solid #999;
 	background-color:black;
     font-family: Helvetica;

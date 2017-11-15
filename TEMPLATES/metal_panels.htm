@@ -190,7 +190,7 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 <a id="teleportPanelConfirmButton" style="border:1px solid #999; padding:3px; font-size:11px;" href="javascript:sendayaTeleportFromChange();" class="interfaceLink">Ok</a></p> 
 
 <div id="userSigner">
-<div class="littleUserSign"  tal:repeat="user people" tal:attributes="title user/pgUser ; id string:tele_${user/pgID} ; style string:background-image:url('${user/pgAvatar}') ; onclick string:javascript:selectTeleportable('tele_${user/pgID}');" ></div> 
+<div class="littleUserSign"  tal:repeat="user people" tal:attributes="title user/pgUser ; id string:tele_${user/pgID} ; style string:background-image:url('${user/pgAvatarSquare}') ; onclick string:javascript:selectTeleportable('tele_${user/pgID}');" ></div> 
 </div><div style="clear:both;"/>
 </div>
 
@@ -211,11 +211,192 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
   
 <div metal:define-macro="wordrobePanel" id="wordrober" class="popup blackOpacity" style="width:590px; height:320px; margin-left:-300px;	margin-top:-155px; text-align:center; border:2px solid #444;" />
  
+<div metal:define-macro="sessionsPanel" >
+<div id="sessionsP" class="popup blackOpacity">
+	<button style="position:absolute; top:7px; right:7px;" onclick="javascript:jQuery('#sessionsP').fadeOut(150);">X</button>
+	<p class="clockTitle blackOpacity" style="text-align:center;  margin:0px; margin-bottom:20px; font-size:22px;">Gestore di Sessioni:</p>
+	
+	<div id="NoSessions" style="display:none;">
+		<div style="width:85%; margin:auto;"><br />
+			<div class="sessionMark">Nessuna sessione in corso</div>
+		</div> 
+		
+		 
+		<hr/>
+		<p style="font-size:1.3em"> Apri una nuova sessione...</p>
+		<input type="text" class="neon" style="width:90%" id="sessionLabel" placeholder="Titolo della sessione" /><br/>
+		<p style="text-align:left; margin-left:10px;" tal:condition="exists:isMasteringJuniorMasterOrMod"><input type="checkbox" id="masterCheck" /> Sessione Master</p>
+		<p style="text-align:left; margin-left:35px;" tal:condition="exists:isMasteringJuniorMasterOrMod" > accesso riservato a: <input type="text" id="tusers" class="neon" name="tusers" onfocus="this.select();" placeholder="" /> </p>
+		
+		<a class="interfaceLinkBlue" href="javascript:void(0);" onclick="javascript:openSession()">[ - Apri la sessione - ]</a>
+		
+	</div>
+	
+	<div id="YesSessions" style="display:none;">
+		<div style="width:85%; margin:auto;">
+			<div class="sessionMark" id="sessionDivLabel" />
+			<div class="sessionMark viewQuest" id="sessionQuest">Sessione Master</div>
+			<div style="margin-top:5px;"><div class="sessionMark" id="sessionDivOwner"><span id="sessionDivOwnerPlace"/></div><div class="sessionMark" id="sessionDivDate" /></div>
+			
+		</div>
+		<div style="clear:both" />
+		
+		<div style="border:1px solid #333; height:150px; overflow-y:auto; margin-top:10px; background-color:black;">
+			<table style="width:100%; text-align:center;"><tr style="background-color:#333; font-weight:bold;"><td style="width:250px; text-align:left;">Personaggio</td><td>Azioni</td><td colspan="2">Caratteri</td></tr><tr><td/><td/><td>Tot</td><td>Media</td></tr><tbody id="tablePG"></tbody></table>
+		</div>
+		
+		<hr/>
+		<p id="PtablePG"></p>
+		<a class="interfaceLinkBlue"   href="javascript:void(0);"  onclick="javascript:closeSession()">[ - Chiudi questa sessione - ]</a> <a class="interfaceLinkBlue" href="javascript:void(0);" onclick="javascript:getLog()">[ - Salva un log - ]</a><p class="viewQuest" style="display:none;"> (Solo un master può chiudere una sessione di quest)</p>
+	</div> 
+	
+	
+	
+	
+	<script src="TEMPLATES/js/gamesessions.js?v=1.3"></script>
+	<style>
+		.buttonOpen{ width:200px; height:30px; border:1px solid #333; font-weight:bold; border-radius:8px; transition:.5s;}
+		.buttonOpen:hover{ background-color:green;}
+		.sessionMark{ line-height:30px; font-family:Verdana; font-size:1.3em; text-align:center; height:30px; border:1px solid #333; margin:auto; font-weight:bold; border-radius:8px; transition:.5s;}
+		#sessionDivLabel{width:100%;   background-color: #053468;}
+		#sessionDivOwner{width:38%; float:left;  background-color: #4e4e4e;}
+		#sessionDivDate{width:45%; float:right;   background-color: #4e4e4e;}
+		#sessionQuest{width:100%; float:left; margin-top:10px; margin-bottom:10px;  backgroundtusers-color: #4e0000; font-size:1em; line-height:20px; height:20px; display:none;}
+	</style>
+</div>
+</div>
+  
+ 
+
+<!--<div metal:define-macro="privatePanel">
+<div id="privateP" class="popup blackOpacity">
+
+	<button style="position:absolute; top:7px; right:7px;" onclick="javascript:jQuery('#privateP').fadeOut(150);">X</button>
+	<p class="clockTitle blackOpacity" style="text-align:center;  margin:0px; margin-bottom:20px; font-size:22px;">Gestore di Giocate Private:</p>
+	
+	<div id="NoPrivate" style="display:none;">
+		<div style="width:85%; margin:auto;"><br />
+			<div class="sessionMarkpvt">Questa chat è aperta a tutti al momento</div>
+		</div> 
+		<hr />
+		<div tal:condition="exists:protectable">
+			<p style="font-size:1.3em"> Rendi questa chat privata per i seguenti giocatori:</p>
+			<textarea id="tusers" name="tusers" style="width:95%; height:40px; font-size:15px; font-weight:bold;" onfocus="this.select();" tal:content="string:${user/pgUser}, " /><br/>
+			<a class="interfaceLinkBlue" href="javascript:void(0);" onclick="javascript:startPrivate(jQuery('#tusers').val())">[ - Rendi la chat privata - ]</a>
+		</div>
+		
+		<div tal:condition="not:exists:protectable"><p>Puoi avviare chat private solo nel tuo alloggio!</p></div>
+		
+	
+		
+	</div>
+	
+	<div id="YesPrivate" style="display:none;">
+		<div style="width:90%; margin:auto;"><br />
+			<div class="sessionMarkpvt">&Egrave; in corso una giocata privata<br/>ristretta ai seguenti giocatori:</div>
+		</div> 
+	
+		<div style="margin-top:10px;">
+			<table style="width:40%; text-align:center;"><tbody id="tablePG"></tbody></table>
+		</div>
+		<p id="privateSwitch"><a class="interfaceLinkBlue" tal:condition="exists:owner_of_private" href="javascript:void(0);" onclick="javascript:stopPrivate();">[ - Chiudi questa chat privata - ]</a></p>
+	</div>
+	
+	
+	
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	
+	<script src="TEMPLATES/js/gameprivate.js"></script>
+	
+	<style>
+		.buttonOpen{ width:200px; height:30px; border:1px solid #333; font-weight:bold; border-radius:8px; transition:.5s;}
+		.buttonOpen:hover{ background-color:green;}
+		.sessionMarkpvt{ line-height:30px; font-family:Verdana; font-size:1.3em; text-align:center; height:60px;
+	</style>
+</div>
+</div>-->
+
+
 
 <div metal:define-macro="reminderST" id="reminderST" class="reminder" tal:content="string:D.S. ${currentStarDate}" />
+
 <div metal:define-macro="reminderAvatar" id="reminderAvatar" class="reminder">
-			<img tal:attributes="src user/pgAvatar" style="padding:3px;" width="90px" height="90px"/>
+			<img tal:attributes="src user/pgAvatarSquare" style="padding:3px;" width="90px" height="90px"/>
 			<img tal:attributes="src string:TEMPLATES/img/ranks/${user/pgMostrina}.png; title string:${user/pgGrado} - Sezione ${user/pgSezione}" id="remindMos" /> <a href="javascript:void(0);" onclick="jQuery('#wordrober').fadeIn(150,function(){jQuery('#wordrober').load('servicePage.php?wordrobe=t');}); "><img src="TEMPLATES/img/interface/edit_icon.png" /></a> 
 			<img tal:attributes="src string:TEMPLATES/img/seclar/seclar${user/pgSeclar}.png" style="padding:4px;" />
 </div>
- 
+
+
+<div metal:define-macro="masterDicePanel">
+<div id="masterDicePanel" class="popup blackOpacity">
+
+
+	<script>
+		function recompute(fo){
+
+		
+			jQuery.ajax(
+			{
+			url: 'ajax_manipulateAbilities.php?action=rollRecompute',
+			data:{abID: jQuery(fo).parent().parent().find('.abiDice').val(),valor:jQuery(fo).parent().parent().find('.valDice').html(), mod:jQuery(fo).val(),'pgID': jQuery(fo).parent().parent().find('.pgID').val() },
+			type: 'POST', 
+			dataType : 'json',
+			timeout:4500,
+			success: function(e){
+
+				jQuery(fo).parent().parent().find('.abiOutcome').html(e["outcome"]);
+			}
+
+			}); 
+
+			
+
+		}  
+
+		function distributeDice(){
+
+			var tly=[];
+
+			jQuery('.diceEvent').each(function(k,v){
+
+				recID = jQuery(v).find('.recID').val();
+				abMod= jQuery(v).find('.abMod').val();
+
+				tly.push([recID,abMod]);
+				jQuery('.diceEvent.r_'+recID).remove();
+
+			});
+
+			jQuery.ajax(
+			{
+			url: 'ajax_manipulateAbilities.php?action=rollDeliver',
+			data:{lister: JSON.stringify(tly) , amb: jQuery('#locID').prop('value') },
+			type: 'POST',
+			dataType : 'json',
+			timeout:4500,
+			success: noti
+			}); 
+
+		}
+
+	</script>
+
+	<button style="position:absolute; top:7px; right:7px;" onclick="javascript:jQuery('#masterDicePanel').fadeOut(150);">X</button>
+	<p class="clockTitle blackOpacity" style="text-align:center;  margin:0px; margin-bottom:20px; font-size:22px;">Assegna Esiti Master</p>
+
+	<div style="height:210px; overflow-y:auto;">
+	<table id="adler">
+		<tr style="background-color:#444; font-weight:bold;"><td style="padding:3px;">User</td><td style="padding:3px;">Abilità</td> <td style="padding:3px;">Dado</td> <td style="padding:3px;">Soglia / Modificatore</td> <td style="padding:3px;">Esito Calcolato</td> </tr>
+
+		<tr tal:repeat="adlerDice diceEvents" tal:attributes="class string:diceEvent r_${adlerDice/recID}"><td tal:content="adlerDice/pgUser"></td><td><img tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/abilita/${adlerDice/abImage}" style="width:50px;" /></td><td><span class="valDice" tal:content="adlerDice/outcome"></span>  <input class="abiDice" type="hidden" tal:attributes="value adlerDice/abID" /> <input class="recID" type="hidden" tal:attributes="value adlerDice/recID" /> <input class="pgID" type="hidden" tal:attributes="value adlerDice/pgID"  />  </td>  <td><span tal:content="adlerDice/threshold" />+ <select class="abMod" onchange="recompute(this);"><option value="-6">-6</option> <option value="-3">-3</option> <option value="0" selected="selected">0</option> <option value="3">+3</option> <option value="6">+6</option> </select></td> <td class="abiOutcome" tal:content="adlerDice/outcomeW"></td></tr>
+
+
+	</table>
+	</div>
+
+	<input onclick="distributeDice();" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:#1e7597;" value="Lancia l'Utente!" class="ui-button ui-widget ui-state-default ui-corner-all" />
+
+
+</div>
+
+</div> 

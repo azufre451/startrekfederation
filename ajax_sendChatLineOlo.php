@@ -14,23 +14,22 @@ include('includes/validate_class.php');
 		
 			if(in_array(strtolower($string),array('exit','+exit')))
 			{ 
-				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','<p class=\"directiveRemove\">".addslashes($user->pgUser)."</p>',".time().",'NORMAL')");
+				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','<p class=\"directiveRemove\">".addslashes($user->pgUser)."</p>',".time().",'NORMAL',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 				exit;
 			} 
 		
-		if($string[0] == '+')
-		{
-			$userN = addslashes($user->pgUser);
-			$tag = ($_POST['chatTag'] == '') ? '' : '['.(strtoupper(addslashes($_POST['chatTag']))).']';
-			$string[0] = '';
+		// if($string[0] == '+')
+		// {
+			// $userN = addslashes($user->pgUser);
+			// $tag = ($_POST['chatTag'] == '') ? '' : '['.(strtoupper(addslashes($_POST['chatTag']))).']';
+			// $string[0] = '';
 			
-			$stringe=strtolower($string);
+			// $stringe=strtolower($string);
 			
-			$string = '<p class="chatAction">'.date('H:i')." <span class=\"actionUser\">$userN</span> ".$tag.' '.str_replace(array('&lt;','&gt;'),array('<span class="chatQuotationAction">&laquo;','&raquo;</span>'),$string).'</p>';			
-			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'ACTION')");
-			
-		
-		}
+			// $string = '<p class="chatAction">'.date('H:i')." <span class=\"actionUser\">$userN</span> ".$tag.' '.str_replace(array('&lt;','&gt;'),array('<span class="chatQuotationAction">&laquo;','&raquo;</span>'),$string).'</p>';			
+			// mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'ACTION')");
+
+		// }
 		
 		
 		else if($string[0] == '-' && (PG::mapPermissions('O',PG::getOMA($_SESSION['pgID']))))
@@ -57,7 +56,7 @@ include('includes/validate_class.php');
 			<div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Inviata da: '.$sended.' ('.date('H:i').')\nAzione descrittiva di un ambiente olografico responso di un Entertainer (un player abilitato a fornire esiti solo in simulazione e NON facente parte dello staff) collegata strettamente ad una sala ologrammi o sala parzialmente attrezzata per gli ologrammi. L\\\'entertainer non può masterare PnG o situazioni reali, ma solo ambienti e situazioni simulate sul ponte ologrammi."/> Entertainer</div>'.ucfirst(ltrim($string)).'</div>';
 				}
 			} 
-			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,specReceiver) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'$masSpec',$userSpecific)"); 
+			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,specReceiver,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'$masSpec',$userSpecific,IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))"); 
 		}
 		
 		else if($string[0] == '*' && (PG::mapPermissions('O',PG::getOMA($_SESSION['pgID']))))
@@ -66,13 +65,13 @@ include('includes/validate_class.php');
 			$string = str_replace('*','',$string);
 			$string = '<p class="imageAction"><a href="'.$string.'" target="_blank"><img src="'.$string.'" alt="'.$string.'"/></a></p>';
  
-			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'IMAGE')");
+			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'IMAGE',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 		}
 		
 		else if($string[0] == '%' && (PG::mapPermissions('M',PG::getOMA($_SESSION['pgID'])) || PG::isMasCapable($_SESSION['pgID'])))
 		{ 
 			$string = str_replace('%','',$string);
-			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'AUDIOE')"); 
+			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'AUDIOE',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))"); 
 		}
 		
 		else if($string[0] == '=' && PG::mapPermissions('SM',PG::getOMA($_SESSION['pgID'])))
@@ -128,7 +127,7 @@ include('includes/validate_class.php');
 		else if ($string[0] == '$' && PG::mapPermissions('SM',PG::getOMA($_SESSION['pgID'])))
 		{
 			$stringc = "<p class=\"directiveRemove\">".str_replace('$','',$string)."</p>";
-			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','$stringc',".time().",'DIRECT')");
+			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','$stringc',".time().",'NORMAL')");
 			exit;
 		}
 		
@@ -154,35 +153,35 @@ include('includes/validate_class.php');
 		$tag = ($_POST['chatTag'] == '') ? '' : '<span class="chatTag">['.strtoupper(addslashes($_POST['chatTag'])).']</span>';
 		
 		$stringe = strtolower($string);
-		
+		$realLen = strlen($string);
 		$string = ($olomostrina) ? '<div style="margin-top:4px"><div class="chatDirect" style="float:left;">'.date('H:i')."</div> $ima1 ".addslashes($ima2)." <span onclick=\'javascript:schedaPOpen($pgID);\' class=\'chatUser chatDirect\' onmouseover=\"javascript:selectOccur(\'$userN\');\" onmouseout=\"deselectOccur();\">$userN</span> <span class=\"chatDirect\">$tag ".str_replace(array('&lt;','&gt;'),array(' <span class="chatQuotation">&laquo;','&raquo;</span> '),$string)."</span></div>" : '<p class="chatDirect">'.date('H:i')." $ima1 ".addslashes($ima2)." <span onclick=\'javascript:schedaPOpen($pgID);\' class=\'chatUser chatDirect\' onmouseover=\"javascript:selectOccur(\'$userN\');\" onmouseout=\"deselectOccur();\">$userN</span> $tag ".str_replace(array('&lt;','&gt;'),array(' <span class="chatQuotation">&laquo;','&raquo;</span> '),$string)."</p>";
-		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES($pgID,'$amb','$string',".time().",'DIRECT')");
+		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,realLen,privateAction) VALUES($pgID,'$amb','$string',".time().",'DIRECT',$realLen,IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 		
 			
 		if($stringe == 'computer, che ore sono?')
 			{
 				$stringe = '<div style="position:relative;" class="auxAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Azione automatica di risposta ad un giocatore per aver consultato il computer di bordo o premuto un tasto automatizzato (luci, replicatori, biolettini etc.)." /> Comando Utente</div>Voce del Computer: &lt;Sono le ore '.date('H').', '.date('i').' minuti e '.date('s').' secondi&gt;</div>';  
-				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','$stringe',".(time()+1).",'MASTER')");
+				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$stringe',".(time()+1).",'MASTER',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 			}
 			
 			elseif($stringe == 'computer, spegni le luci')
 			{
 				$stringe = '<div style="position:relative;" class="auxAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Azione automatica di risposta ad un giocatore per aver consultato il computer di bordo o premuto un tasto automatizzato (luci, replicatori, biolettini etc.)." /> Comando Utente</div>Le luci nella stanza si spengono</div>';  
-				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','$stringe',".(time()+1).",'MASTER')");
+				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$stringe',".(time()+1).",'MASTER',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 				mysql_query("UPDATE fed_ambient SET ambientLight = 1 WHERE locID='$amb'");
 			}
 			
 			elseif($stringe == 'computer, accendi le luci')
 			{ 
 				$stringe = '<div style="position:relative;" class="auxAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Azione automatica di risposta ad un giocatore per aver consultato il computer di bordo o premuto un tasto automatizzato (luci, replicatori, biolettini etc.)." /> Comando Utente</div>Le luci nella stanza si accendono</div>';  
-				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','$stringe',".(time()+1).",'MASTER')");
+				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$stringe',".(time()+1).",'MASTER',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 				mysql_query("UPDATE fed_ambient SET ambientLight = 5 WHERE locID='$amb'");
 			}
 			
 			elseif($stringe == 'computer, abbassa le luci')
 			{
 				$stringe = '<div style="position:relative;" class="auxAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Azione automatica di risposta ad un giocatore per aver consultato il computer di bordo o premuto un tasto automatizzato (luci, replicatori, biolettini etc.)." /> Comando Utente</div>Le luci nella stanza si abbassano di intensit&agrave;</div>'; 
-				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','$stringe',".(time()+1).",'MASTER')");
+				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$stringe',".(time()+1).",'MASTER',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 				mysql_query("UPDATE fed_ambient SET ambientLight = 2 WHERE locID='$amb'");
 			}
 			

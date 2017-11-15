@@ -7,7 +7,7 @@ include('includes/validate_class.php');
  		
 		
 	$term = addslashes($_GET['term']);
-	$res = mysql_query("SELECT image,descript FROM pg_brevetti,pg_brevetti_sectors WHERE sector = sectID AND (descript LIKE '%$term%' OR sectName LIKE '%$term%')");   
+	$res = mysql_query("SELECT image,descript FROM pg_brevetti WHERE descript LIKE '%$term%'");   
 	$arr = array();
 	while($rea=mysql_fetch_array($res)) $arr[]=$rea['descript'];
 	

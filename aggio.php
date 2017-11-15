@@ -7,9 +7,12 @@ include('includes/app_include.php');
 
 $aar = array();
 
-$res = mysql_query('SELECT padID FROM fed_pad WHERE paddDeletedTo = 0 AND paddTo = '.($_SESSION['pgID']).' AND paddRead = 0 AND paddTitle NOT LIKE "::special::%" LIMIT 1');
 
-if(mysql_affected_rows()) $aar['NP'] = 1;
+
+$res =mysql_fetch_assoc ( mysql_query('SELECT padID,paddTitle,pgAvatarSquare FROM fed_pad,pg_users WHERE paddFrom = pg_users.pgID AND  paddDeletedTo = 0 AND paddTo = '.($_SESSION['pgID']).' AND paddRead = 0 AND paddTitle NOT LIKE "::special::%" ORDER BY paddTime DESC LIMIT 1 ') ) ;
+
+if(mysql_affected_rows()){ $aar['NP'] = 1; $aar['NPtitle'] = $res['paddTitle']; $aar['NPavatar'] = $res['pgAvatarSquare'];}
+
 
 $resNotify = mysql_query('SELECT paddText,extraField FROM fed_pad WHERE paddTo = '.($_SESSION['pgID']).' AND paddRead = 0 AND paddTitle LIKE "::special::%" LIMIT 1');
 if(mysql_affected_rows()){$aal = mysql_fetch_array($resNotify); $etm = explode('::',$aal['paddText']); $aar['NOTIFY']['TEXT'] = ($etm[1]); $aar['NOTIFY']['TITLE'] = ($etm[0]);  $aar['NOTIFY']['IMG'] = $aal['extraField'];}

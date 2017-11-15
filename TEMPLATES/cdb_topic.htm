@@ -36,7 +36,7 @@
          return false;
 		 
 		 }
-
+ 
 		jQuery(function(){
 			jQuery( "#users")
 			// don't navigate away from the field on tab when selecting an item
@@ -135,11 +135,11 @@
 	<p style="font-size:14px; margin:0px;" tal:condition="php:topicType=='N'" tal:attributes="class string:topicTitolo ${topicColorExt}" tal:content="topicTitle"/>
 	
  
-	<p tal:condition="exists:isGlobalMaster"><a tal:attributes="href string:cdb.php?disableTopic=${topicID}" title="CANCELLA" onclick="return confirm('Conferma cancellazione');"><img src="TEMPLATES/img/interface/cdbInterface/forum_delete.png" /></a> <a tal:attributes="href string:cdb.php?topicE=${topicID}" title="MODIFICA" ><img src="TEMPLATES/img/interface/cdbInterface/forum_edit.png" /></a> <a tal:attributes="href string:cdb.php?topicLock=${topicIDE}" title="BLOCCA"><img tal:attributes="src php: (!topicLock) ? 'TEMPLATES/img/interface/cdbInterface/forum_blocca.png' : 'TEMPLATES/img/interface/cdbInterface/forum_bloccato.png'" /></a> <a tal:attributes="href string:cdb.php?moveTopic=${topicID}" title="SPOSTA"><img src="TEMPLATES/img/interface/cdbInterface/forum_sposta.png" /></a> <a tal:attributes="href string:cdb.php?firsterTopic=${topicID}" title="PRIMIZZA" class="interfaceLink"><img src="TEMPLATES/img/interface/cdbInterface/forum_primizza.png" /></a> <a tal:attributes="href string:cdb.php?lurkerProtect=${topicID} ; class php:(lurkerProtect) ? 'interfaceLinkGreen' : 'interfaceLinkRed'" title="LURKER PROTECT"><img tal:attributes="src php: (lurkerProtect) ? 'TEMPLATES/img/interface/cdbInterface/forum_protected.png' : 'TEMPLATES/img/interface/cdbInterface/forum_proteggi.png'" /></a></p>
+	<p tal:condition="exists:isGlobalMaster"><a tal:attributes="href string:cdb.php?disableTopic=${topicID}" title="CANCELLA" onclick="alert('Sistema di commissariamento Admin Distratti. Confermi la cancellazione?'); alert('Sistema di commissariamento Admin Distratti. Jean, sei sicuro???'); return('Oh, ma serio!?');"><img src="TEMPLATES/img/interface/cdbInterface/forum_delete.png" /></a> <a tal:attributes="href string:cdb.php?topicE=${topicID}" title="MODIFICA" ><img src="TEMPLATES/img/interface/cdbInterface/forum_edit.png" /></a> <a tal:attributes="href string:cdb.php?topicLock=${topicIDE}" title="BLOCCA"><img tal:attributes="src php: (!topicLock) ? 'TEMPLATES/img/interface/cdbInterface/forum_blocca.png' : 'TEMPLATES/img/interface/cdbInterface/forum_bloccato.png'" /></a> <a tal:attributes="href string:cdb.php?moveTopic=${topicID}" title="SPOSTA"><img src="TEMPLATES/img/interface/cdbInterface/forum_sposta.png" /></a> <a tal:attributes="href string:cdb.php?firsterTopic=${topicID}" title="PRIMIZZA" class="interfaceLink"><img src="TEMPLATES/img/interface/cdbInterface/forum_primizza.png" /></a> <a tal:attributes="href string:cdb.php?lurkerProtect=${topicID} ; class php:(lurkerProtect) ? 'interfaceLinkGreen' : 'interfaceLinkRed'" title="LURKER PROTECT"><img tal:attributes="src php: (lurkerProtect) ? 'TEMPLATES/img/interface/cdbInterface/forum_protected.png' : 'TEMPLATES/img/interface/cdbInterface/forum_proteggi.png'" /></a></p>
 	
 	
 </div>
-<div id="container">
+<div id="container"> 
 
 <div id="paginator" style="margin-left:10px;">
 <div tal:repeat="page php:range(1,pageNo)" tal:attributes="class php:(page==currentPage) ? 'activePaginatore' : 'paginatore'"><a tal:attributes="href string:cdb.php?topic=${topicID}&page=${page}" class="interfaceLink" tal:content="page"/></div>
@@ -168,7 +168,24 @@
 	</tr>
 	
 	<tr><td style="height:10px" colspan="4"/></tr>
-	<tr><td class="postContent" colspan="4" tal:content="structure post/content" tal:condition="not:exists:preventShow" /></tr>
+	<tr><td class="postContent" colspan="4" tal:content="structure post/content" tal:condition="php:(!isSet(preventShow) && post['accessible'])" /></tr>
+
+
+
+	<tr><td class="postContent" colspan="4" tal:condition="php:!post['accessible']">
+		<div style="width:100%; height:280px; background-image:url('TEMPLATES/img/interface/cdbInterface/shadowPost.jpg');">
+		<br/>
+		<div style="background-color:rgba(0,0,0,0.5);">
+			<div style="text-align:center;" align="center"><span class="cdbPostYellow cdbPostLittleSize">- COMANDO DELLA FLOTTA STELLARE -</span></div><br /><br />
+			<div style="text-align:center;" align="center"><img src="http://miki.startrekfederation.it/SigmaSys/logo/starfleet.png"/></div><br /><br />
+			<div style="text-align:center;" align="center"><img tal:attributes="src string:TEMPLATES/img/seclar/seclar${post/postSeclar}.png"></img></div> <br />
+			<div style="text-align:center;" align="center"><span class="cdbPostRed cdbPostLittleSize">- INFORMAZIONE RISERVATA -</span></div> 
+		</div>
+		</div>
+	</td>
+	</tr>
+
+
 	<tr><td class="postContent" colspan="4" tal:condition="exists:preventShow">
 		<div style="font-size:20px; font-variant:small-caps; color:#3188F3; font-weight:bold; text-align:center; border:2px solid #333; width:80%; margin-left:auto; margin-right:auto; "> = RISERVATO =</div>
 		<p style="text-align:justify; margin-left:20px; margin-right:20px; margin-top:30px;"> <span class="cdbPostRed"><b>Questo topic è protetto!</b></span> La lettura è riservata allo staff di gestione, ai global master, all'autore principale del topic ed eventuali coautori.</p>
@@ -177,6 +194,7 @@
 	<tr><td class="postContent signature" colspan="4" tal:content="structure post/signature" /></tr>
 </table>
 </div>
+
 
 </div>
 <div id="paginator" tal:condition="php:(postCounter GT 0)" style="margin-top:5px; margin-left:10px;">
@@ -201,7 +219,7 @@
 		<option value="00">- Nessun Template Rapporti (Solo lista PG) -</option>
 		<option value="Q1">Rapporti Quest / Extraquest</option>
 		</optgroup>
-		<optgroup label="Comando e Navigazione" tal:condition="php:(user.pgSpecie != 'Romulana')">
+		<optgroup label="Comando e Navigazione">
 			<option value="Q2">Generico Sezione Comando e Navigazione</option>
 			<option value="Q16">Ufficio del Capitano</option>
 			<option value="Q16b">Ufficio del Primo Ufficiale</option>
@@ -209,33 +227,24 @@
 			<option value="Q11">Entry del Registro di Navigazione - Partenza</option>
 			<option value="Q12">Entry del Registro di Navigazione - Arrivo</option>
 		</optgroup>
-		<optgroup label="Galae Romulana" tal:condition="php:(user.pgSpecie == 'Romulana')">
-			<option value="Q2r1">Disposizioni Sezione Comando</option>
-			<option value="Q2r2">Disposizioni Sezione Navigazione</option>
-			<option value="Q2r3">Disposizioni Sezione Strategica</option>
-			<option value="Q2r4">Disposizioni Sezione Tecnica</option>
-			<option value="Q2r5">Disposizioni Sezione Ricerca e Terapia</option>
-			<option value="Q16r">Disposizioni Ufficio del Riov</option>
-			<option value="Q16br">Disposizioni Ufficio del Primo Ufficiale</option>
-		</optgroup>
-		<optgroup label="Tattica e Sicurezza" tal:condition="php:(user.pgSpecie != 'Romulana')">
+		<optgroup label="Tattica e Sicurezza">
 			<option value="Q15">Ufficio CTO</option>
 			<option value="Q4">Generico Sezione Tattica e Sicurezza</option>
 			<option value="Q5">Disposizioni Dipartimento Tattica</option>
 			<option value="Q6">Disposizioni Dipartimento Sicurezza</option>
 		</optgroup>
-		<optgroup label="Ingegneria" tal:condition="php:(user.pgSpecie != 'Romulana')">
+		<optgroup label="Ingegneria">
 		<option value="Q14">Ufficio CEO</option>
 		<option value="Q7">Generico Sezione Ingegneria</option>
 		<option value="Q8">Disposizioni Dipartimento Operazioni</option>
 		</optgroup>
 		
-		<optgroup label="Scientifica" tal:condition="php:(user.pgSpecie != 'Romulana')">
+		<optgroup label="Scientifica">
 		<option value="Q13">Ufficio CSO</option>
 		<option value="Q9">Generico Sezione Scientifica</option>
 		</optgroup>
 		
-		<optgroup label="Medica" tal:condition="php:(user.pgSpecie != 'Romulana')">
+		<optgroup label="Medica">
 		<option value="Q17">UFFICIO CMO</option>
 		<option value="Q18">UFFICIO CNS</option>
 		<option value="Q10">Generico Sezione Medica</option>
@@ -251,7 +260,6 @@
 	</table>
 	</div>
 		
-		
 	<div style="padding:5px; border-radius:12px; width:95%; margin-left:auto; margin-top:10px; margin-right:auto; border:1px solid #777;" class="radiusBordered12">
 		<p class="smallTitle">Data Stellare</p>
 		<p class="dateContainer" style="text-align:left;"><span class="smallTitle" style="margin:0px; margin-left:20px;">Data:</span> <input type="text" id="inputDateD" onkeydown="if (!isNumberKey(event)) return false;" onkeyup="if(this.value.length == 2 && this.value >= 0 && this.value <= 31) jQuery('#inputDateM').select();"  style="width:20px;" tal:attributes="value php:date('d',curTime)" /> / <input type="text" id="inputDateM" onkeydown="if (!isNumberKey(event)) return false;" onkeyup="if(this.value.length == 2 && this.value >= 0 && this.value <= 12) jQuery('#inputDateY').select();" style="width:20px;" tal:attributes="value php:date('m',curTime)"/> / <input type="text" id="inputDateY" onkeydown="if (!isNumberKey(event)) return false;" onkeyup="if(this.value.length == 4 && this.value >= 0 && this.value <= 9999) jQuery('#inputDateH').select();" style="width:40px;" tal:attributes="value php:date('Y',curTime)"/>&nbsp;&nbsp;<span class="smallTitle" style="margin:0px; margin-left:20px;">Ora:</span> <input type="text" id="inputDateH" onkeydown="if (!isNumberKey(event)) return false;" onkeyup="if(this.value.length == 2 && this.value >= 0 && this.value <= 23) jQuery('#inputDateI').select();" style="width:20px;"/> : <input type="text" id="inputDateI" onkeydown="if (!isNumberKey(event)) return false;" onkeyup="if(this.value.length == 2 && this.value >= 0 && this.value <= 59) jQuery('#stardateBtn').focus();" style="width:20px;"/> <button id="stardateBtn" onclick="javascript:goStardate(jQuery('#inputDateD').prop('value'),jQuery('#inputDateM').prop('value'),jQuery('#inputDateY').prop('value'),jQuery('#inputDateH').prop('value'),jQuery('#inputDateI').prop('value'))" style="margin:0px; margin-left:20px;">INSERISCI</button></p>
@@ -262,11 +270,11 @@
 <form id="formContent" action="cdb.php?addPost=do"  method="POST">
 <table>
 <tr>
-	<td colspan="2" style="text-align:left;"><img src="TEMPLATES/img/interface/titolo.png" /><input style="marin-left:8px; width:488px;" width="488px;" type="text" name="postTitolo" />
-	 <a class="interfaceLink" tal:condition="exists:showStaff"  style="font-size:10px;" href="javascript:void(0);" onclick="jQuery('#pgChanger').fadeOut(300,function(){jQuery('#usersMaster').fadeIn(300);});" id="pgChanger">( - Scegli PnG - )</a><input id="usersMaster" name="usersMaster" tal:condition="exists:showStaff" style="display:none; width:150px;" onfocus="this.select();" /></td>
+	<td colspan="2" style="text-align:left;"><img src="TEMPLATES/img/interface/titolo.png" style="vertical-align: middle;" /><input class="neon"  style="marin-left:8px; width:488px;" width="488px;" type="text" name="postTitolo" />
+	 <a class="interfaceLink" tal:condition="exists:showStaff"  style="font-size:10px;" href="javascript:void(0);" onclick="jQuery('#pgChanger').fadeOut(300,function(){jQuery('#usersMaster').fadeIn(300);});" id="pgChanger">( - Scegli PnG - )</a><input class="neon" placeholder="Inserisci il nome del PnG" type="text" id="usersMaster" name="usersMaster" tal:condition="exists:showStaff" style="display:none; width:150px;" onfocus="this.select();" /></td>
 </tr>
 <tr>
-	<td><img src="TEMPLATES/img/interface/note.png" /><input style="marin-left:8px; width:488px;" width="488px;"  type="text" name="postNote"  /><input type="hidden" name="topicID" tal:attributes="value topicIDE"/></td>
+	<td><img src="TEMPLATES/img/interface/note.png" style="vertical-align: middle;" /><input style="margin-bottom:10px; width:488px;" width="488px;" class="neon"  type="text" name="postNote"  /><input type="hidden" name="topicID" tal:attributes="value topicIDE"/></td>
 </tr>
 <tr>
 	<td>

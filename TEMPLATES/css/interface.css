@@ -379,7 +379,8 @@ text-align:center;
 right:13px;
 padding:2px;
 background-color:rgba(80,80,80);
-background-color:rgba(80,80,80,0.5);
+/*background-color:rgba(80,80,80,0.5);*/
+background-color:rgba(50,50,50,0.6);
 filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#7F808080,endColorstr=#7F808080);
 position:absolute;
 text-align:center;
@@ -602,14 +603,18 @@ position:relative;
 
 #locationInfo p, #locationMap p{font-size:16px;}
 
+#climate, #teleportPanel, #sessionsP,#privateP,#replimat,#dicePanel,#masterDicePanel
+{
+	text-align:center;
+	border:2px solid #444; 
+}
+
 #replimat
 {
 	width:650px;
 	height:600px;
 	margin-left:-325px;
-	margin-top:-300px;
-	text-align:center;
-	border:2px solid #444;
+	margin-top:-300px; 
 	/*background-image:url('../img/interface/replicatore.jpg');*/
 }
 
@@ -619,20 +624,36 @@ position:relative;
 	height:160px;
 	margin-left:-115px;
 	margin-top:-82.5px;
-	text-align:center;
-	border:2px solid #444;
+	
 	/*background-image:url('../img/interface/replicatore.jpg');*/
 }
-
 #teleportPanel
 {
 	width:590px;
 	height:280px;
 	margin-left:-300px;
 	margin-top:-135px;
-	text-align:center;
-	border:2px solid #444;
+	
 	/*background-image:url('../img/interface/replicatore.jpg');*/
+}
+
+#sessionsP,#privateP
+{
+	width:450px;
+	height:360px;
+	margin-left:-225px;
+	margin-top:-180px;
+	
+	/*background-image:url('../img/interface/replicatore.jpg');*/
+}
+
+#dicePanel,#masterDicePanel{
+
+	width:620px;
+	height:300px;
+	margin-left:-320px;
+	margin-top:-150px;
+
 }
 
 .littleUserSign
@@ -682,9 +703,10 @@ position:relative;
 .blackOpacity
 {
 	background-color:rgba(0,0,0);
-	background-color:rgba(0,0,0,0.8);
+	background-color:rgba(0,0,0,0.9);
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#B2000000,endColorstr=#B2000000);
 }
+
 
 .chatAction,.subspaceCom,.commMessage,.chatQuotation,.chatQuotationAction,.chatUser{font-style:italic;}
 .chatAction,.subspaceCom,.commMessage,.chatTag,.masterAction, .globalAction,.offAction,.auxAction, .tempMasterAction,.specificMasterAction,.oloMasterAction{font-weight:bold;}
@@ -721,7 +743,7 @@ color:#47cd35;
 	text-transform:uppercase;
 }
 
-.masterAction, .globalAction,.offAction,.auxAction,.specificMasterAction,.oloMasterAction
+.masterAction, .globalAction,.offAction,.auxAction,.specificMasterAction,.oloMasterAction,.diceAction
 {
 	padding:8px;
 	border:1px solid;
@@ -729,7 +751,7 @@ color:#47cd35;
 	margin:5px;
 	text-align:center;
 }
-.globalAction  div , .masterAction  div, .offAction  div, .auxAction  div:first-of-type, .specificMasterAction  div, .oloMasterAction div {
+.globalAction > div:first-child , .masterAction > div:first-child, .oloMasterAction > div:first-child, .offAction > div:first-child, .auxAction > div:first-child, .specificMasterAction   > div:first-child, .diceAction  > div:first-child, .oloMasterAction  > div:first-child {
 float:left;
 font-size: 10px;
 margin-top:-8px;
@@ -741,21 +763,24 @@ border-bottom-style:solid;
 border-right-style:solid;
 }
 .globalAction{border-color:#3188F3; color:#3188F3;}
-.globalAction  div {background-color: #14335a; border-color:#3188F3; color:white;}
+.globalAction > div:first-child {background-color: #14335a; border-color:#3188F3; color:white;}
 
 /*Master*/
 .masterAction{border-color:red; color:red;}
-.masterAction   div {background-color: #850000; border-color:red; color:white;} 
+.masterAction > div:first-child {background-color: #850000; border-color:red; color:white;} 
 
 /*OFF*/
 .auxAction, .oloMasterAction{border-color:#b3b3b3; color:#b3b3b3;}
-.auxAction  div:first-of-type, .oloMasterAction div {background-color: #333; border-color:#b3b3b3; color:white;} 
+.auxAction > div:first-of-type, .oloMasterAction > div:first-child {background-color: #333; border-color:#b3b3b3; color:white;} 
  
 .offAction{border-color:#1db716; color:#1db716;}  
-.offAction  div {background-color: #175a14; border-color: #1db716; color:white;}
+.offAction > div:first-child {background-color: #175a14; border-color: #1db716; color:white;}
  
+.diceAction{border-color:#ff8a00; color:#ff8a00;}
+.diceAction > div:first-child {background-color: #a95b00; border-color:#ff8a00; color:white;} 
+
 .specificMasterAction{border-color:#c67729; color:#c67729;}  
-.specificMasterAction  div {background-color: #8a5e09; border-color: #c67729; color:white;}
+.specificMasterAction > div:first-child {background-color: #8a5e09; border-color: #c67729; color:white;}
   
 
 .imageAction{text-align:center; margin:5px;}
@@ -765,6 +790,100 @@ border-right-style:solid;
 .blackOpacity img {vertical-align:middle;}
 
 .directiveRemove{display:none;}
+
+
+.diceOutcomeBox{
+
+	clear:both;
+	font-size: :15px;
+    display: inline-block;
+    /* for ie6/7: */
+    *display: inline;
+    text-align: left;
+	background-color:black;
+	color:white;
+	border:0px;
+}
+
+
+.diceOutcomeBox div{
+
+	background-color:black;
+	margin-top:5px;
+	margin-left:10px;
+	float:left; 
+	border-right:1px solid #333;
+padding:5px;
+
+	padding-right:10px;
+	width:140px;
+	
+}
+
+.diceOutcomeBox img{
+	width:30px;
+	vertical-align: middle;
+}
+
+.diceOutcomeBox p.bar
+{
+	width:100%;
+	height: 4px;
+	margin:0;
+	margin-bottom:5px;
+
+}
+.diceOutcomeBox div.S p.bar{
+	background-color:#35971e;
+}
+
+.diceOutcomeBox div.F p.bar{
+	
+	background-color:#d72b2b;
+	
+}
+
+.diceOutcomeBox div.FC p.bar{
+	background-color:#971e1e;
+	
+}
+
+.diceOutcomeBox div.SC p.bar{
+	background-color:#1e7597;	
+}
+
+.diceOutcomeBox p.label{text-align:right; margin:0px; margin-top:4px; font-size:12px;}
+
+.diceOutcomeBox div.FC p.label::after{color:#971e1e; content:'[ Fall. Critico ]';}
+.diceOutcomeBox div.F p.label::after{color:#d72b2b; content:'[ Fallimento ]';}
+.diceOutcomeBox div.S p.label::after{color:#35971e; content:'[ Successo ]';}
+.diceOutcomeBox div.SC p.label::after{color:#1e7597; content:'[ Succ. Critico ]';}
+
+
+
+.diceOutcomeBox span.bmal::before{content:'[';}
+.diceOutcomeBox span.bmal::after{content:']';}
+
+.diceOutcomeBox div.S span.bmal::before, .diceOutcomeBox div.S span.bmal::after{
+	color:#35971e;
+}
+
+.diceOutcomeBox div.F span.bmal::before, .diceOutcomeBox  div.F span.bmal::after{
+	
+	color:#d72b2b;
+	
+}
+
+.diceOutcomeBox div.FC span.bmal::before, .diceOutcomeBox div.FC span.bmal::after{
+	color:#971e1e;
+	
+}
+
+.diceOutcomeBox div.SC span.bmal::before, .diceOutcomeBox  div.SC span.bmal::after{
+	color:#1e7597;	
+}
+
+
 
 .chatUser
 {
@@ -810,7 +929,9 @@ border-radius:13px;
 
 @font-face{
 font-family:'federationFont';
-src: url('../Roddenberry.eot');
+src: url('../Roddenberry.eot') format('eot');
+src: url('../Roddenberry.woff') format("woff");
+src: url('../Roddenberry.woff2') format("woff2");
 src: url('../Roddenberry.ttf') format('truetype');
 }
 

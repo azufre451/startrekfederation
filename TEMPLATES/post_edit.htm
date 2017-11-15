@@ -36,7 +36,7 @@
 		 }
 
 		jQuery(function(){
-			jQuery( "#users")
+			jQuery( ".users")
 			// don't navigate away from the field on tab when selecting an item
 
 			.autocomplete({
@@ -95,6 +95,14 @@
 				jQuery('#pstAdva').fadeOut(50);
 			}
 	</script>
+
+	<style>
+		.etoh {
+			font-family:Verdana;
+			font-size:14px;
+
+		} 
+	</style>
 </head>
 
 <body>
@@ -145,7 +153,7 @@
 	<p class="smallTitle">Mostrine</p>
 	<table cellspacing="0px">
 	<tr><td class="newPaddtd" style="text-align:center;">
-		<textarea placeholder="Inserisci i nomi dei personaggi da includere nel trafiletto PRESENTI / DESTINATARI del template rapporti. Se non selezioni nessun template, apparirà solo la lista PG" id="users" name="users" style="width:95%; height:40px;" onfocus="this.select();"></textarea></td>
+		<textarea placeholder="Inserisci i nomi dei personaggi da includere nel trafiletto PRESENTI / DESTINATARI del template rapporti. Se non selezioni nessun template, apparirà solo la lista PG" id="users" class="users" name="users" style="width:95%; height:40px;" onfocus="this.select();"></textarea></td>
 	</tr>
 	<tr><td> <span style="font-size:11px; font-weight:bold; margin-left:20px; margin-right:30px;">TEMPLATE</span>
 		<select id="scRapp">
@@ -215,11 +223,11 @@
 <form tal:attributes="action string:cdb.php?editPost=${editID}&m=14" id="formContent" method="POST">
 <table>
 <tr>
-	<td colspan="2" style="text-align:left;"><img src="TEMPLATES/img/interface/titolo.png" /><input style="marin-left:8px; width:488px;" type="text" name="postTitolo" tal:attributes="value editTitle"  /> </td>
+	<td colspan="2" style="text-align:left;"><img src="TEMPLATES/img/interface/titolo.png" style="vertical-align: middle;"/><input class="neon" style="marin-left:8px; width:488px;" type="text" name="postTitolo" tal:attributes="value editTitle"  /> </td>
 	<input type="hidden" name="topicID" tal:attributes="value topicID"/>
 </tr>
 <tr>
-			<td colspan="2"><img src="TEMPLATES/img/interface/note.png" /><input style="marin-left:8px; width:488px;" type="text" name="postNote" tal:attributes="value editNotes"  /></td>
+			<td colspan="2"><img src="TEMPLATES/img/interface/note.png" style="vertical-align: middle;" /><input class="neon"  style="marin-left:8px; width:488px;" type="text" name="postNote" tal:attributes="value editNotes"  /></td>
 </tr>
 <tr>
 	<td>
@@ -267,9 +275,12 @@
 </form>	
 
 <form tal:attributes="action string:cdb.php?editPost=${editID}&m=10" method="POST" tal:condition="exists:isAdmin" > <p style="font-size:15px;">Cambio autori:</p> 
-	<table><tr><td>Autore principale (può editare e cancellare):</td><td><input id="userOwner" name="userOwner" style="width:150px;" onfocus="this.select();" tal:attributes="value postOwnerUser"/></td></tr>
-	<tr><td>Autore secondario (può editare): </td><td><input id="userCoOwner" name="userCoOwner" style="width:150px;" onfocus="this.select();" tal:attributes="value postCoOwnerUser" /></td></tr>
+	<table class="etoh">
+	<tr><td  style="padding:5px; width:300px;">Autore principale (può editare e cancellare):</td><td><input type="text" id="userOwner" class="users neon" name="userOwner" style="width:190px;" onfocus="this.select();" tal:attributes="value postOwnerUser"/></td></tr>
+	<tr><td style="padding:5px; width:300px;">Autore secondario (può editare): </td><td><input type="text" id="userCoOwner" class="users  neon" name="userCoOwner" style="width:190px;" onfocus="this.select();" tal:attributes="value postCoOwnerUser" /></td></tr>
+	<tr><td style=" padding:5px; width:300px;">Bypass seclar in lettura per: </td><td><input type="text" id="userSecBypass" class="users  neon" name="userSecBypass" style="width:190px;" onfocus="this.select();" tal:attributes="value userSecBypass"  /></td></tr>
 	<tr><td colspan="2" style="text-align:center;"><input type="submit" value="INVIA" style="width:170px; margin-left:10px; font-size:13px;" href="" onclick="" /></td></tr>
+
 	</table>
 	<input type="hidden" name="topicID" tal:attributes="value topicID"/>
 </form>

@@ -64,7 +64,7 @@ $res = mysql_query("SELECT tipImage, tipText FROM cdb_tips WHERE active='A' ORDE
 $resoT = mysql_fetch_array($res);
 
 
-$template = new PHPTAL('TEMPLATES/index.htm');
+$template = new PHPTAL('TEMPLATES/index_placeholder.html');
 $template->tipImage = $resoT ['tipImage'];
 
 $template->login = (isSet($_GET['login'])) ? true : false;
@@ -104,13 +104,13 @@ $template->aut = $a1[rand(0,24)].' '.$a1[rand(0,24)].' '.rand(0,10).' '.rand(0,1
 
 
 /*Admins*/
-$adm = mysql_query("SELECT pgID, pgSpecie, pgSesso, pgUser, pgGrado,pgAvatar, pgIncarico, pgSezione, ordinaryUniform FROM pg_users,pg_ranks WHERE prio = rankCode AND pgID IN (1,5,796)");
-while ($admres = mysql_fetch_array($adm)) $admT[$admres['pgID']] = $admres;
-$template->admT = $admT;
+// $adm = mysql_query("SELECT pgID, pgSpecie, pgSesso, pgUser, pgGrado,pgAvatar, pgIncarico, pgSezione, ordinaryUniform FROM pg_users,pg_ranks WHERE prio = rankCode AND pgID IN (1,5,796)");
+// while ($admres = mysql_fetch_array($adm)) $admT[$admres['pgID']] = $admres;
+// $template->admT = $admT;
 
-$template->articles=$articles;
-$template->gameVersion = $gameVersion;
-$template->debug = $debug;
+// $template->articles=$articles;
+// $template->gameVersion = $gameVersion;
+// $template->debug = $debug;
 $template->tips = $tips;
 $template->resNews = $resNews;
 $template->gameServiceInfo = $gameServiceInfo;

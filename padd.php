@@ -83,7 +83,7 @@ else if ($mode == 'read')
 { 
 	$template = new  PHPTAL('TEMPLATES/padd_show.htm');
 	$paddID = $vali->numberOnly($_GET['paddID']);
-	$paddQ = mysql_query("SELECT padID, paddTitle, paddText, paddFrom, paddTo, paddTime, fromPGT.pgAvatar , toPGT.pgUser as ToPG, fromPGT.pgUser as FromPG,fromPGT.pgSpecie as pgSpecie,fromPGT.pgSesso as pgSesso, toPGT.pgID as ToPGID, fromPGT.pgID as FromPGID, ordinaryUniform FROM fed_pad, pg_users  AS fromPGT, pg_users AS toPGT, pg_ranks WHERE prio = fromPGT.rankCode AND (paddDeletedFrom <> 1 OR paddDeletedTo <> 1) AND padID =$paddID AND toPGT.pgID = paddTo AND fromPGT.pgID = paddFrom AND (paddTo = ".$_SESSION['pgID']." OR paddFrom = ".$_SESSION['pgID'].")");
+	$paddQ = mysql_query("SELECT padID, paddTitle, paddText, paddFrom, paddTo, paddTime, fromPGT.pgAvatarSquare , toPGT.pgUser as ToPG, fromPGT.pgUser as FromPG,fromPGT.pgSpecie as pgSpecie,fromPGT.pgSesso as pgSesso, toPGT.pgID as ToPGID, fromPGT.pgID as FromPGID, ordinaryUniform FROM fed_pad, pg_users  AS fromPGT, pg_users AS toPGT, pg_ranks WHERE prio = fromPGT.rankCode AND (paddDeletedFrom <> 1 OR paddDeletedTo <> 1) AND padID =$paddID AND toPGT.pgID = paddTo AND fromPGT.pgID = paddFrom AND (paddTo = ".$_SESSION['pgID']." OR paddFrom = ".$_SESSION['pgID'].")");
 	
 	if(mysql_affected_rows())
 	{
@@ -131,7 +131,7 @@ else if ($mode == 'sh' || ($mode == 'shM' && PG::mapPermissions('M',$currentUser
 {
 	$template = ($mode == 'sh') ? new  PHPTAL('TEMPLATES/padd_status.htm') : new  PHPTAL('TEMPLATES/padd_status_edit.htm');
 	
-	$placeQ = mysql_query('SELECT placeID,status,placeAlert,placeType,warp, placeMotto, placeName, placeLogo,note, place_littleLogo1, placeClass, sectorID, sectorName, sectorQuadrant, attracco, placeSubType FROM pg_places LEFT JOIN fed_sectors ON sector = sectorID WHERE placeID = \''.$currentUser->pgLocation.'\'');
+	$placeQ = mysql_query('SELECT placeID,status,placeAlert,placeType,warp, placeMotto, placeName, placeLogo,note, place_littleLogo1, placeClass, attracco, placeSubType FROM pg_places  WHERE placeID = \''.$currentUser->pgLocation.'\'');
 
 	if(mysql_affected_rows())
 	{
@@ -235,11 +235,11 @@ else if($mode == 'tr' || $mode == 'ta')
 	$particle = ($currentUser->pgSpecie == 'Romulana') ? 'ROM' : 'FED';
 	
 	setlocale(LC_TIME, 'it_IT');
-	$template->datae = strftime('%e').' '.ucfirst(strftime('%B')).' '.(date('Y')+368);
+	$template->datae = strftime('%e').' '.ucfirst(strftime('%B')).' '.(date('Y')+377);
 	$news = mysql_query("SELECT * FROM fed_news WHERE aggregator = '$particle' ORDER BY newsTime DESC $limit");
 	$newsArr=array();
 	while($newsA = mysql_fetch_array($news))
-	$newsArr[] = array('ID' => $newsA['newsID'],'title' => $newsA['newsTitle'], 'subtitle' => $newsA['newsSubTitle'], 'text' => str_replace($bbCode,$htmlCode,$newsA['newsText']), 'time' => (strftime('%e', $newsA['newsTime']).' '.ucfirst(strftime('%B', $newsA['newsTime'])).' '.(date('Y', $newsA['newsTime'])+368)));
+	$newsArr[] = array('ID' => $newsA['newsID'],'title' => $newsA['newsTitle'], 'subtitle' => $newsA['newsSubTitle'], 'text' => str_replace($bbCode,$htmlCode,$newsA['newsText']), 'time' => (strftime('%e', $newsA['newsTime']).' '.ucfirst(strftime('%B', $newsA['newsTime'])).' '.(date('Y', $newsA['newsTime'])+377)));
 	
 	$template->masterable = (PG::mapPermissions('M',$currentUser->pgAuthOMA)) ? true : false;
 	$template->adminable = (PG::mapPermissions('A',$currentUser->pgAuthOMA)) ? true : false;
@@ -345,7 +345,7 @@ else if($mode == 'readTribune')
 	$id = $vali->numberOnly($_GET['newsID']);
 	setlocale(LC_TIME, 'it_IT');
 	$template = new PHPTAL('TEMPLATES/padd_tribune_read.htm');
-	$template->datae = strftime('%e').' '.ucfirst(strftime('%B')).' '.(date('Y')+368);
+	$template->datae = strftime('%e').' '.ucfirst(strftime('%B')).' '.(date('Y')+377);
 	$news = mysql_query("SELECT * FROM fed_news WHERE newsID = $id");
 	if(mysql_affected_rows()) $newsA = mysql_fetch_array($news);
 	

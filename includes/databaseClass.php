@@ -467,15 +467,19 @@ class Ambient
 		
 	}
 	
-	public static function openSession($ambientID,$owner,$label,$master,$private=0,$timer=8){
+	public static function openSession($ambientID,$owner,$label,$master,$private=0,$timer=8,$maxchar=0){
 		$curTime = time();
 		$col= ($master) ? 'masterAction' : 'auxAction';
 		$sessionTimerA = ($timer != 8) ? "| Tempo max di attesa fra un\'azione e l\'altra: $timer minuti <img src=\"TEMPLATES/img/interface/personnelInterface/info.png\" title=\"Dovrai inviare la tua azione entro $timer minuti dall\'ultima azione inserita in chat, altrimenti non ti saranno assegnati gli FP per quell\' azione\" />" : '';
 
-		$res = mysql_query("INSERT INTO federation_sessions(sessionPlace,sessionStart,sessionStatus,sessionOwner,sessionLabel,sessionMaster,sessionPrivate,	sessionIntervalTime) VALUES ('$ambientID',$curTime,'ONGOING',$owner,'$label',$master,$private,$timer)"); 
+		$sessionCharrerA = ($maxchar != 0) ? " | Numero massimo di caratteri per azione: $maxchar" : '';
+
+		$res = mysql_query("INSERT INTO federation_sessions(sessionPlace,sessionStart,sessionStatus,sessionOwner,sessionLabel,sessionMaster,sessionPrivate,	sessionIntervalTime,sessionMaxChars) VALUES ('$ambientID',$curTime,'ONGOING',$owner,'$label',$master,$private,$timer,$maxchar)"); 
+		//echo "INSERT INTO federation_sessions(sessionPlace,sessionStart,sessionStatus,sessionOwner,sessionLabel,sessionMaster,sessionPrivate,	//sessionIntervalTime,sessionMaxChars) VALUES ('$ambientID',$curTime,'ONGOING',$owner,'$label',$master,$private,$timer,$maxchar)";
+
 		if(mysql_affected_rows()){ 
 			
-			$string = '<div style="position:relative;" class="'.$col.'"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Azione automatica di risposta del tool sessioni" /> Sessione Avviata</div>&Egrave; stata avviata una nuova sessione: '.$label.' '.$sessionTimerA.'</div>';   
+			$string = '<div style="position:relative;" class="'.$col.'"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Azione automatica di risposta del tool sessioni" /> Sessione Avviata </div>&Egrave; stata avviata una nuova sessione: '.$label.' '.$sessionTimerA.$sessionCharrerA.'</div>';   
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$ambientID','$string',".time().",'OFF')");
 			
 			return 1;
@@ -1155,6 +1159,13 @@ class PG
 		if ($actual == "M" && $requested == "O") return true;
 		if ($actual == "JM" && $requested == "O") return true;
 		if ($actual == "G" && $requested == "O") return true;
+
+		if ($actual == "A" && $requested == "G") return true;
+		if ($actual == "SM" && $requested == "G") return true;
+		if ($actual == "M" && $requested == "G") return true;
+		if ($actual == "SL" && $requested == "G") return true;
+
+
 	
 		if ($actual == $requested) return true;
 		

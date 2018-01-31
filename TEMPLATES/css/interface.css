@@ -647,9 +647,9 @@ position:relative;
 #sessionsP,#privateP
 {
 	width:450px;
-	height:360px;
+	height:390px;
 	margin-left:-225px;
-	margin-top:-180px;
+	margin-top:-195px;
 	
 	/*background-image:url('../img/interface/replicatore.jpg');*/
 }

@@ -33,6 +33,12 @@ if(mysql_affected_rows()){
 	$isMasCapable = $aarA['isMasCapable'];
 }
 
+$resSession = mysql_query("SELECT sessionMaxChars FROM federation_sessions WHERE sessionStatus = 'ONGOING' AND sessionMaxChars <> 0 AND sessionPlace = '$ambient'");
+if (mysql_affected_rows()){
+	$rea = mysql_fetch_assoc($resSession);
+	$aar['MC'] = $rea['sessionMaxChars'];
+}
+
 $maxTime = time()-3600;
 // $masterCondition = (PG::mapPermissions("M",$pgAuthOMA) || $isMasCapable) ? '' : "AND (type <> 'APM' OR sender = ".$_SESSION['pgID'].')';
 $adminCondition = (PG::mapPermissions("SM",$pgAuthOMA)) ? '' : "AND (type <> 'MASTERSPEC' OR sender = ".$_SESSION['pgID']." OR specReceiver = ".$_SESSION['pgID'].") AND (type <> 'DICERSPEC' OR sender = ".$_SESSION['pgID']." OR specReceiver = ".$_SESSION['pgID'].")";

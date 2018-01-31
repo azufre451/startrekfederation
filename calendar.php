@@ -9,7 +9,7 @@ include("includes/PHPTAL/PHPTAL.php"); //NEW
 function toStardate($curTime)
 {
 $lapConstant = ((date("Y",$curTime) % 4) == 0) ? 0.00003162315 : 0.00003170979; 
-return number_format((((date("Y",$curTime)+368)-2323) + (date("z",$curTime)/365.2425))*1000 + ((date("H",$curTime)*3600 + date("i",$curTime)*60 + date("s",$curTime)) * $lapConstant),2,".","");
+return number_format((((date("Y",$curTime)+379)-2323) + (date("z",$curTime)/365.2425))*1000 + ((date("H",$curTime)*3600 + date("i",$curTime)*60 + date("s",$curTime)) * $lapConstant),2,".","");
 }
 
 
@@ -72,7 +72,7 @@ $calEvents=array();
 	{
 
 	//$rea['dateF'] = date("d/m",$rea['date'])."/".(date("Y",$rea['date'])+368);
-	$rea['dateF'] = utf8_encode(ucfirst(strftime('%A %e %B %Y',mktime(0,0,0,date("n",$rea['date']),date("j",$rea['date']),(368+date("Y",$rea['date']))))));	
+	$rea['dateF'] = utf8_encode(ucfirst(strftime('%A %e %B %Y',mktime(0,0,0,date("n",$rea['date']),date("j",$rea['date']),($bounceYear+date("Y",$rea['date']))))));	
 	
 	$date = date('z',$rea['date']);
 	$rese = mysql_query("SELECT label,class,iorder FROM calendar_labels_assign,calendar_labels WHERE labelCode = label AND eventID = ".$rea['evID']." ORDER BY iorder ASC");

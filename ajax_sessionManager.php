@@ -50,14 +50,18 @@ include('includes/validate_class.php');
 			{
 				$vali = new validator();
 				$timer = $vali->numberOnly($_POST['maxturner']);
+				$charrer = (isSet($_POST['maxchar']) && (int)$_POST['maxchar'] > 0) ? $vali->numberOnly($_POST['maxchar']) : 0;
 
 			}
-			else $timer = 8;
+			else{
+				$timer = 8;
+				$charrer=0;
+			}
 
 
 			$listerOne = ($master && isSet($_POST['lister'])) ? $_POST['lister'] : '';
 			$pvtIndex = ($listerOne != '') ? 1 : 0;
-			Ambient::openSession($ambientID,$user->ID,$label,$master,$pvtIndex,$timer); 
+			Ambient::openSession($ambientID,$user->ID,$label,$master,$pvtIndex,$timer,$charrer); 
 			
 			if($pvtIndex){
 				Ambient::openPrivate($ambientID,$user->ID,$listerOne); 

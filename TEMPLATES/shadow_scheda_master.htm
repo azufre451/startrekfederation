@@ -93,6 +93,10 @@
 		if(jQuery('#users').val() != '' && confirm('Sei sicuro di Bloccare tutti i PG selezionati?')) jQuery.post('shadow_scheda.php?s=blockBulk', {listof: jQuery('#users').prop('value')}, confirmer, 'json');
 	}
 
+	function setReassign()
+	{
+		if(jQuery('#users').val() != '' && confirm('Sei sicuro di Spostare tutti i PG selezionati?')) jQuery.post('shadow_scheda.php?s=reassignBulk', {listof: jQuery('#users').prop('value'), placeAssign: jQuery('#assegnazioneSpostamento').prop('value')}, confirmer, 'json');
+	}
 
 	function delList()
 	{
@@ -300,6 +304,13 @@
 	</select>
 	<input type="submit" value="VAI" onclick="setMostrina(jQuery('#rankCode').val());"/>
 
+	</div>
+
+	<div tal:condition="exists:bonusSM" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+	Sposta PG sulla location<br />
+		<select id="assegnazioneSpostamento">
+		<option tal:repeat="location locations" tal:attributes="value repeat/location/key" tal:content="location"/></select><br />
+		<input  type="submit" value="VAI" onclick="setReassign();" />
 	</div>
 
 	<div tal:condition="exists:bonusSM" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">

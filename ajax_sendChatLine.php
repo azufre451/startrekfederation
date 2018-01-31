@@ -171,7 +171,7 @@ include('includes/validate_class.php');
 		$stringe = strtolower($string); 
 		$realLen = strlen($string); 
  		
- 		$string = '<p class="chatDirect">'.date('H:i')." $ima1 ".addslashes($ima2)." <span onclick=\"javascript:schedaPOpen($pgID);\" onmouseover=\"javascript:selectOccur(\'$userN\');\" onmouseout=\"deselectOccur();\" class=\"chatUser\">$userN</span> $tag ".ucfirst(str_replace(array('&lt;','&gt;'),array(' <span class="chatQuotation">&laquo;','&raquo;</span> '),$string))."</p>";	
+ 		$string = '<p class="chatDirect">'.date('H:i')." $ima1 ".addslashes($ima2)." <span onclick=\"javascript:schedaPOpen($pgID);\" onmouseover=\"javascript:selectOccur(\'$userN\');\" onmouseout=\"deselectOccur();\" class=\"chatUser\">$userN</span> $tag ".ucfirst(str_replace(array('&lt;','&gt;','&laquo;','&raquo;'),array(' <span class="chatQuotation">&laquo;','&raquo;</span> ',' <span class="chatQuotation">&laquo;','&raquo;</span> '),$string))."</p>";	
 
  		//$stringu = " $ima1 ".addslashes($ima2)." <span onclick=\"javascript:schedaPOpen($pgID);\" onmouseover=\"javascript:selectOccur(\'$userN\');\" onmouseout=\"deselectOccur();\" class=\"chatUser\">$userN</span> $tag ".ucfirst(str_replace(array('&lt;','&gt;'),array(' <span class="chatQuotation">&laquo;','&raquo;</span> '),$string))."</p>";
 

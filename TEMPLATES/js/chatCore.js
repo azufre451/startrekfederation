@@ -251,6 +251,11 @@
 			jQuery("#federation_chatDiv").scrollTop(jQuery("#federation_chatDiv")[0].scrollHeight);
 			}
 			}
+
+			if(data['MC'])
+				jQuery('#chatInput').attr('maxlength',parseInt(data['MC']));
+			else jQuery('#chatInput').removeAttr('maxlength');
+			
 			
 			if(data['LIGHT'])
 			jQuery('#reminderLight').prop('src','TEMPLATES/img/interface/mainInterface/l'+data['LIGHT']+'.png');

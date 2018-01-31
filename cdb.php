@@ -24,12 +24,12 @@ if(isSet($_POST['cdbCartellaCreate']))
 		$title = 		  $vali->killChars(strtoupper(addslashes($_POST['cdbCartellaCreate'])));
 		$colorExtension = $vali->killChars(htmlentities(addslashes($_POST['cdbColor'])));
 		$seclar = $vali->numberOnly($_POST['cdbSeclar']);
-		$order = $vali->numberOnly($_POST['cdbOrder']);
+		//$order = $vali->numberOnly($_POST['cdbOrder']);
 		$type = $vali->killChars(htmlentities(addslashes($_POST['cdbType'])));
 		$cat = $vali->numberOnly($_POST['catCode']);
 		
 		
-		mysql_query("INSERT INTO cdb_topics(topicTitle,topicLastTime,topicType,topicLastUser,topicCat,orderIndex,topicSeclar,topicColorExt)  VALUES('$title',".time().",'$type',".$_SESSION['pgID'].",$cat,$order,$seclar,'$colorExtension')");
+		mysql_query("INSERT INTO cdb_topics(topicTitle,topicLastTime,topicType,topicLastUser,topicCat,orderIndex,topicSeclar,topicColorExt)  VALUES('$title',".time().",'$type',".$_SESSION['pgID'].",$cat,'',$seclar,'$colorExtension')");
 		header("Location:cdb.php?cat=$cat");
 		exit;
 	}
@@ -118,7 +118,7 @@ else if(isSet($_GET['calls']))
 	
 	$calls = array();
 	while ($resA = mysql_fetch_array($res))
-	$calls[$resA['callType']][] = $resA;
+		$calls[] = $resA;
 	$template->calls = $calls;
 }
 
@@ -931,11 +931,12 @@ elseif(isSet($_GET['insertMasterEvent']))
 	 
 	$curID = $_SESSION['pgID'];
 	$oneMonth = $curTime - 2505600; 
-	$idR = mysql_query("SELECT pgID,pgUser FROM pg_users WHERE pgLock=0 AND png=0 AND pgAssign = '$place' AND pgLastAct >= $oneMonth");
+	$idR = mysql_query("SELECT DISTINCT pg_incarichi.pgID FROM `pg_incarichi`,pg_users WHERE pgPlace = '$place' and pg_users.pgID = pg_incarichi.pgID AND pgLastAct >= $oneMonth AND pgLock=0 AND png=0");
+
 	while($res = mysql_fetch_assoc($idR))
 	{ 
-			$idA = $res['pgID']; 
-			mysql_query("INSERT INTO fed_pad (paddFrom, paddTo, paddTitle, paddText, paddTime, paddRead) VALUES (518, $idA, 'NUOVO EVENTO MASTER', 'È stato inserito un nuovo evento master ($eventTitle) nel Computer di Bordo. Controlla la sezione Eventi Master del computer per visualizzarlo!',$curTime,0)");
+			$idA = new PG($res['pgID']);
+			$idA->sendPadd('NUOVO EVENTO MASTER','È stato inserito un nuovo evento master ($eventTitle) nel Computer di Bordo. Controlla la sezione Eventi Master del computer per visualizzarlo!');
 	}
 	header('Location:shadow_scheda.php');
 	exit;

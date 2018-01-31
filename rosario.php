@@ -24,9 +24,9 @@ $for2 = $date+604800+604800;
 
 $SITA = "<p style=\"font-family:monospace\">-----------  Rapporto Pulizia  --------------<br />Esecuzione in data: ".date('d-m-y h:i:s',time()).'<br />-------------------------------------------<br /><br />';
 
-mysql_query("DELETE FROM federation_chat WHERE time < $twoMonth");
+mysql_query("DELETE FROM federation_chat WHERE time < $threeMonth");
 
-$SITA .= "> Cancello <span style=\"font-weight:bold;color:#096bd0\">".mysql_affected_rows()."</span> righe di chat più vecchie di DUE mesi<br />";
+$SITA .= "> Cancello <span style=\"font-weight:bold;color:#096bd0\">".mysql_affected_rows()."</span> righe di chat più vecchie di TRE mesi<br />";
 
 mysql_query("DELETE FROM fed_sussurri WHERE time < $oneMonth AND susTo IN (0,6)");
 

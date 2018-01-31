@@ -63,7 +63,9 @@ if(isSet($_GET['place']))
 else {
 $template = new PHPTAL('TEMPLATES/localize_gen.htm');
 
-$places = mysql_query("SELECT placeID, placeName,place_littleLogo1, (SELECT COUNT(*) FROM pg_users WHERE pgLocation = placeID AND pgLastAct >= ".(time()-1800).") AS contoTot FROM pg_places WHERE (SELECT COUNT(*) FROM pg_users WHERE pgLocation = placeID AND pgLastAct >= ".(time()-1800).") > 0");
+$testFiler = ($currentUser->pgUser == 'Test') ? "placeID <> 'USS1' AND" : ''; 
+
+$places = mysql_query("SELECT placeID, placeName,place_littleLogo1, (SELECT COUNT(*) FROM pg_users WHERE pgLocation = placeID AND pgLastAct >= ".(time()-1800).") AS contoTot FROM pg_places WHERE  $testFiler (SELECT COUNT(*) FROM pg_users WHERE pgLocation = placeID AND pgLastAct >= ".(time()-1800).") > 0");
 $placeArray = array();
 
 while($res = mysql_fetch_array($places)) $placeArray[]=$res;

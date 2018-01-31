@@ -39,16 +39,11 @@
 
 	<div style="font-size:12px; margin-left:5px; text-transform:uppercase; "><a href="cdb.php" class="interfaceLink">CDB</a> <span style="color:red; font-size:11px;">></span> <a class="interfaceLink" tal:attributes="href string:crew.php">SONDAGGI</a> <span style="color:red; font-size:11px;">></span></div>
 
-	<p class="smallTitle" style="font-size:20px; text-align:center; margin-top:5px; font-weight:bold;">Votazioni di Qualità & Quest Review</p>
-	<div id="local" class="topicDiv" style="height: 220px; overflow-y:auto; margin-top:5px;">
-	<p tal:repeat="call calls/VOT" style="line:height:5px;  margin-top:5px;"><a class="interfaceLink" tal:attributes="href string:cdb.php?callView=${call/call_id}">  <span style="color:#4978ff;">&raquo;</span> <span class="topicTitle" style="font-weight:bold;" tal:content="call/callTitle"  /><span tal:attributes="style php:(call['activeTo'] GE time()) ? 'margin-left:30px;; font-size:11px;; color:#0F0;;' : 'margin-left:30px;; font-size:11px;; color:#555;;'" tal:content="php:(call['activeTo'] GE time()) ? 'Termina il: ' . date('d/m/Y',call['activeTo']) : 'Terminato il: ' . date('d/m/Y',call['activeTo'])" /></a></p>
+	<p class="smallTitle" style="font-size:20px; text-align:center; margin-top:5px; font-weight:bold;">Sondaggi disponibili</p>
+	<div id="local" class="topicDiv" style="margin-top:5px;">
+	<p tal:repeat="call calls" style="line:height:5px;  margin-top:5px;"><a class="interfaceLink" tal:attributes="href string:cdb.php?callView=${call/call_id}">  <span style="color:#4978ff;">&raquo;</span> <span class="topicTitle" style="font-weight:bold;" tal:content="call/callTitle"  /><span tal:attributes="style php:(call['activeTo'] GE time()) ? 'margin-left:30px;; font-size:11px;; color:#0F0;;' : 'margin-left:30px;; font-size:11px;; color:#555;;'" tal:content="php:(call['activeTo'] GE time()) ? 'Termina il: ' . date('d/m/Y',call['activeTo']) : 'Terminato il: ' . date('d/m/Y',call['activeTo'])" /></a></p>
 	</div>
-
-	<p class="smallTitle" style="font-size:20px; text-align:center; margin-top:5px; font-weight:bold;">Sondaggi su argomenti vari</p>
-	<div id="local" class="topicDiv" style="height: 220px;  overflow-y:auto; margin-top:5px;">
-	<p tal:repeat="call calls/DEM" style="line:height:5px; margin-top:5px;"><a class="interfaceLink" tal:attributes="href string:cdb.php?callView=${call/call_id}"> <span style="color:red;">&raquo;</span> <span class="topicTitle" style="font-weight:bold;" tal:content="call/callTitle" /><span tal:attributes="style php:(call['activeTo'] GE time()) ? 'margin-left:30px;; font-size:11px;; color:#0F0;;' : 'margin-left:30px;; font-size:11px;; color:#555;;'" tal:content="php:(call['activeTo'] GE time()) ? 'Termina il: ' . date('d/m/Y',call['activeTo']) : 'Terminato il: ' . date('d/m/Y',call['activeTo'])" /></a></p>
-</div>
-
+ 
 </div>
 </div>
 </body>

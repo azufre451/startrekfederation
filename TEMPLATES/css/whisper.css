@@ -56,11 +56,27 @@ img{
 	font-weight:bold;
 }
 
-.susChatMPUser,.susChatMPUserO,.susChatMPSeparator,.susChatMPUserA,.susChatMPUserG{font-weight:bold;font-size:13px;}
+.susChatMPUser,.susChatMPUserO,.susChatMPSeparator,.susChatMPUserA,.susChatMPUserM,.susChatMPUserG{font-weight:bold;font-size:13px;}
 .susChatMPUser{color:#3188F3;}
 
-.susChatMPUserA{color:#f33131;}
-.susChatMPUserG{color:#31F367;}
+.susChatMPUserM, .gani_M::after{color:#ff3600;}
+.susChatMPUserA, .gani_A::after{color:#d7b52f;}
+.susChatMPUserG, .gani_G::after{color:#31F367;}
+
+.gani_M::after, .gani_G::after, .gani_A::after
+{
+	font-size:11px; 
+	margin-left:4px;
+	font-style:italic;
+ }
+
+
+.gani_A::after {content: '[A]';}
+.gani_M::after {content: '[M]';}
+.gani_G::after {content: '[G]';}
+	
+		
+
 
 .susChatMPUserO{color:#22ac7a;}
 .susChatMPSeparator{color:#de0a0a;}
@@ -99,3 +115,32 @@ font-family: Verdana;
 .popup p {text-align:justify;}
 
 .closeBTN{position:absolute; top:2px; right:2px; height:15px; width:15px; background-color:black; text-align:center; cursor:pointer; border:1px solid #AAA; padding:2px;}
+
+#onlineUserList{
+			height:500px;
+			overflow-y auto; 
+		}
+
+#onlineUserList div{
+			margin:2px 13px 2px 5px;
+			padding:1px;
+			cursor:pointer;
+			border:1px solid #000;
+		}
+
+
+#onlineUserList div.activ{
+			border:1px solid #294f82;
+			background-color: #1a3252;
+		}
+
+ #onlineUserList div:hover{
+ 	border:1px solid #294f82;
+			background-color: #222;
+ }
+
+#onlineList div span{
+			font-size:13px;
+			font-weight:bold;
+}
+

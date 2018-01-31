@@ -16,11 +16,11 @@ mysql_query('SET NAMES utf8');
 //$formats = array(".jpg",".png",".gif",".bmp");
 //$baseSite = "http://genesis.digital-destiny.org/SigmaSys/";
 
-$gameName = "v. 1.7.1 - Quiescent Tortoise";
-$gameVersion = "1.7.1 - Quiescent Tortoise";
+$gameName = "v. 1.7.2 - Quiescent Tortoise";
+$gameVersion = "1.7.2 - Quiescent Tortoise";
 
 
-$gameOptions = array('numericVersion' => "1.7.1.2");
+$gameOptions = array('numericVersion' => "1.7.2");
 
 $debug=true;
 $tips=true;

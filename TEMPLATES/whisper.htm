@@ -16,9 +16,11 @@
 
 <script type="text/javascript">
 		var are;
+		var area;
 		jQuery(function()
 		{
 			are = setInterval("updater();",5000);
+			area = setInterval("upa();",5000);
 			jQuery("#chatDiv").scrollTop(jQuery("#chatDiv")[0].scrollHeight);
 		});
 		
@@ -32,6 +34,18 @@
 			url: 'ajax_whisperGetter.php?ts='+new Date().getMilliseconds(),
 			data:{vinculum:0,lastID: jQuery('#lastID').prop('value'), focused: jQuery('#focused').prop('value')},
 			success: setterCA, 
+			type: 'POST',
+			dataType : 'json',
+			timeout:4500
+			});  
+		}
+
+		function upa()
+		{ // JQUERY YOUR SISTER!  
+			jQuery.ajax(
+			{
+			url: 'ajax_onlineGetter.php?ts='+new Date().getMilliseconds(),
+			success: setterPG,
 			type: 'POST',
 			dataType : 'json',
 			timeout:4500
@@ -51,6 +65,15 @@
 			}
 		}
 		
+		function setterPG(data)
+		{
+			if(data['PGG'] != '') 
+			{
+				console.write('a');
+			}
+		}
+		
+
 		function sendChat()
 		{
 		if(jQuery('#chatInput').prop('value')!='')

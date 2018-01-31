@@ -1,0 +1,81 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+ 
+	
+	<link href="TEMPLATES/css/whisper.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+
+	 
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+
+	<script type="text/javascript" src="TEMPLATES/js/whisper.js?v=${gameOptions/numericVersion}"/>
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/> 
+
+	<title>FEDERATION - SUSSURRI</title>
+
+	<style>
+		
+
+	</style>
+</head>
+
+<script type="text/javascript">
+		
+</script>
+
+<body>
+<input type="hidden" id="selectedSendTo" tal:attributes="value publiGetterChannel" />
+<input type="hidden" id="publiGetterChannel" tal:attributes="value publiGetterChannel" />
+
+<div id="onlineList">
+	<p style="margin:0px;" class="titleFS">Utenti</p>
+	<div id="onlineUserList">
+		<div tal:attributes="id string:ST_${publiGetterChannel}" onclick="setSendTo(this)" class="activ">
+		<img src="TEMPLATES/img/ranks/CIV.png" /> <span> TUTTI </span>
+		</div>
+		<hr style="width:80%; border-color:#555;" />
+
+
+
+		<div tal:repeat="person people" tal:attributes="id string:ST_${repeat/person/key} ; ondblclick string:schedaPOpen(${repeat/person/key}) " onclick="setSendTo(this)" >
+		<img tal:attributes="src string:TEMPLATES/img/ranks/${person/pgMostrina}.png" /> <span tal:attributes="class string:gani_${person/role}" tal:content="structure person/label" />
+		</div>
+ 	</div>
+<p tal:condition="php:(publiGetterChannel == 0)" style="text-align:center; margin:10px; margin-top:5px; border:1px solid #3188F3; padding:5px;"><a href="whisper.php?recruitment=R" class="interfaceLink">ACCOGLIENZA</a></p>
+<p tal:condition="php:(publiGetterChannel == 7)" style="text-align:center; margin:10px; margin-top:5px; border:1px solid #3188F3; padding:5px;"><a href="whisper.php" class="interfaceLink">TORNA INDIETRO</a></p> 
+
+</div>
+
+<div id="leftContainer">
+	<input type="hidden" id="focused" value="1" />
+	<div id="chatDiv" style="padding:10px;" tal:content="structure htmlLiner" />
+
+	<div id="chatBar">
+			
+				<a href='javascript:void(0);' onclick="javascript:window.location.reload()"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_ref.png" style="vertical-align:middle;"/></a>
+				<a href='javascript:void(0);' onclick="javascript:jQuery('#whisperInfo').fadeIn(150);"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_desc.png" style="vertical-align:middle;"/></a>
+				<input id="chatInput" style="width:76%; vertical-align:middle; height:20px;"  onkeyup="javascript:sX(event);"/>
+				<input type="hidden" id="lastID" tal:attributes="value maxVIS" />
+				<button type="submit" style="border-radius:10px;vertical-align:middle; width:60px; margin-left:7px;" onclick="javascript:sendChat();">INVIA</button>
+	</div>
+</div>
+
+<div class="popup" id="whisperInfo">
+		<p class="title" style="text-align:center; margin:0px; margin-top:5px;"> Sussurri </p>
+		<p> I sussurri sono una chat OFF destinata alla comunicazione fra utenti. Puoi inviare messaggi pubblici (scrivendo direttamente nel campo testo qui sotto) oppure messaggi privati (selezionando l'utente dall'elenco a destra). Puoi inoltre usare le seguenti emoticon inserendo il testo corrispondente direttamente nella barra dei sussurri.</p>
+		<center><table style="text-align:center;">
+		<tr><td><img src="/TEMPLATES/img/interface/smileys/sm_lol.gif" alt="LOL" /></td><td> LOL </td> <td><img src="/TEMPLATES/img/interface/smileys/puke.gif" alt="LOL" /></td><td> (bleah) </td></tr>
+		<tr><td><img src="/TEMPLATES/img/interface/smileys/bho.gif" alt="LOL" /></td><td> (bho) </td> <td><img src="/TEMPLATES/img/interface/smileys/uplook.gif" alt="LOL" /></td><td> (uplook) </td></tr>
+		<tr><td><img src="/TEMPLATES/img/interface/smileys/cry.gif" alt="LOL" /></td><td> (cry) </td> <td><img src="/TEMPLATES/img/interface/smileys/2heart.gif" alt="LOL" /></td><td> (love) </td></tr>
+		</table></center>
+		<div class="closeBTN" onclick="jQuery('#whisperInfo').fadeOut(100);">X</div>
+</div>
+
+</body>
+</html>

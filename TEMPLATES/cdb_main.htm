@@ -39,7 +39,7 @@
 
 <div class="topicDiv">
 	<form action="cdb.php" method="POST">
-		<input name="cdbCartellaCreate" style="width:300px;" placeholder="Crea nuovo topic" type="text" class='neon' />  <input style="margin-left:10px; padding:5px;" type="submit" value="CREA" />
+		<input name="cdbCartellaCreate" style="width:300px;" placeholder="Crea nuovo topic" required="required" type="text" class='neon' />  <input style="margin-left:10px; padding:5px;" type="submit" value="CREA" />
 		
 		<select style="margin-left:10px;" name="cdbColor" tal:condition="php:user.pgAuthOMA == 'SM' OR user.pgAuthOMA == 'A'"> 
 			<option value="">- COLORE -</option> 
@@ -59,10 +59,10 @@
 			<option value="I">IMPORTANTE</option> 
 		</select>
 		
-		<select style="margin-left:10px;" name="cdbOrder" tal:condition="php:user.pgAuthOMA == 'SM' OR user.pgAuthOMA == 'A'"> 
+		<!--<select style="margin-left:10px;" name="cdbOrder" tal:condition="php:user.pgAuthOMA == 'SM' OR user.pgAuthOMA == 'A'"> 
 			<option value="0">- SLOT -</option> 
 			<option tal:repeat="con php:range(1,20)" tal:attributes="value con" tal:content="string: SLOT ${con}" />
-		</select>
+		</select>-->
 		
 		
 		<select style="margin-left:10px;" name="cdbSeclar">

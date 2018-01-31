@@ -8,7 +8,7 @@ $term = addslashes(@$_GET['term']);
 
 if($disc=="PNG")
 $res = mysql_query("SELECT pgUser FROM pg_users WHERE png=1 AND pgUser LIKE '$term%'");
-else if($disc == "PREST") $res= mysql_query("SELECT pgUser FROM pg_users WHERE pgID <> '".($_SESSION['pgID'])."' AND pgOffAvatarC = '".addslashes(strtolower($_POST['term2']))."' AND pgOffAvatarN = '".addslashes(strtolower($_POST['term1']))."'");
+else if($disc == "PREST") $res= mysql_query("SELECT pgUser FROM pg_users WHERE pgID <> '".($_SESSION['pgID'])."' AND LOWER(pgOffAvatarC) = '".addslashes(strtolower($_POST['term2']))."' AND LOWER(pgOffAvatarN) = '".addslashes(strtolower($_POST['term1']))."'");
 else $res = mysql_query("SELECT pgUser FROM pg_users WHERE pgUser LIKE '$term%'");
 
 $aar = array();

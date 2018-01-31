@@ -172,6 +172,23 @@ if($mode == "blockBulk")
 	echo json_encode(array('stat'=>true)); exit;
 }
 
+if($mode == "reassignBulk")
+{
+	if (!PG::mapPermissions('SM',$currentUser->pgAuthOMA)) exit;
+	$sel=explode(',',$_POST['listof']);
+	$placeLocReassign = $_POST['placeAssign'];
+	$lisOuser="";
+	foreach ($sel as $auth)
+		if($auth!='') $lisOuser .= "'".trim(addslashes($auth))."',";
+	
+	$lisOuser = substr(trim($lisOuser),0,-1);
+	$res = mysql_query("UPDATE pg_users SET pgLocation='$placeLocReassign',pgRoom = '$placeLocReassign' WHERE pgUser IN ($lisOuser)");
+	
+	//echo "UPDATE pg_users SET pgLock=1 WHERE pgUser IN ($lisOuser)"; exit;
+	echo json_encode(array('stat'=>true)); exit;
+}
+
+
 if($mode == "setSeclar")
 {
 	if (!PG::mapPermissions('SM',$currentUser->pgAuthOMA)) exit;

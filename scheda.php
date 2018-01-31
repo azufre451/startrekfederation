@@ -230,7 +230,10 @@ elseif($mode == 'ssto')
 	if($selectedUser == $_SESSION['pgID'] || $currentUser->pgAuthOMA == 'A')
 	{
 	$ranks=array();
-	$my = mysql_query("SELECT prio,Note,ordinaryUniform,aggregation FROM pg_ranks ORDER BY rankerprio DESC");
+
+	$adminFilter = ($currentUser->pgAuthOMA == 'A') ? '' : 'WHERE masked = 0';
+
+	$my = mysql_query("SELECT prio,Note,ordinaryUniform,aggregation FROM pg_ranks $adminFilter ORDER BY rankerprio DESC");
 	while($myA = mysql_fetch_array($my))
 	$ranks[$myA['aggregation']][$myA['prio']] = array('rankImage' => $myA['ordinaryUniform'],'note' => $myA['Note']);
 	$template->ranks = $ranks;
@@ -786,6 +789,16 @@ elseif($mode=='kavanagh')
 	header('Location:scheda.php?pgID='.$_GET['pgID']);
 }
 
+elseif($mode=='logout')
+{
+	if ((int)$_GET['pgID'] > 5)
+	{
+		mysql_query("UPDATE pg_users SET pgLastVisit = ".time().", pgLastAct = ".(time()-1801)." WHERE pgID = ".$_GET['pgID']);
+	}
+	header('Location:scheda.php?pgID='.$_GET['pgID']);
+}
+
+
 elseif($mode=='matto')
 { 
 	$namea = PG::getSomething($_GET['pgID'],'username');
@@ -1103,7 +1116,9 @@ elseif ($mode == 'setIncarico')
 	$incSezione = addslashes($_POST['incSezione']);
 	$incDipartimento = addslashes($_POST['incDipartimento']);
 
-	
+	 
+	$dateDef = $bounceYear+date('Y',$curTime).'-'.date('n',$curTime).'-'.date('j',$curTime);
+
 	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
 	{	
 		mysql_query("UPDATE pg_users SET pgAssign = '$assegnazione' WHERE pgID ='$pgID'");
@@ -1111,6 +1126,9 @@ elseif ($mode == 'setIncarico')
 			mysql_query("UPDATE pg_incarichi SET incMain = 0 WHERE pgID = '$pgID' AND pgPlace = '$assegnazione'");
 		
 		mysql_query("INSERT INTO pg_incarichi (pgID,incIncarico,incSezione,incDivisione,incDipartimento,pgPlace,incMain) VALUES('$pgID','$incIncarico','$incSezione','$incDivisione','$incDipartimento','$assegnazione','$incMain')");
+
+		mysql_query("INSERT INTO pg_user_stories (pgID,rankImage,dater,what,wherer,rankName) VALUES ('$pgID',(SELECT ordinaryUniform FROM pg_ranks,pg_users WHERE prio = rankCode AND pgID = '$pgID'),'$dateDef','$incIncarico',(SELECT placeName FROM pg_places WHERE placeID = '$assegnazione'),(SELECT Note FROM pg_ranks,pg_users WHERE prio = rankCode AND pgID = '$pgID'))");
+ 
 		
 	}
 	header("Location:scheda.php?pgID=$pgID&s=master#setIncarichi");
@@ -1236,7 +1254,7 @@ elseif ($mode == 'setAutoma')
 	* URL immagine (immagini)
 	
 	Ulteriori informazioni sono disponibili qui:
-	&raquo;  <a href=\"javascript:dbOpenToTopic(251)\" class=\"interfaceLink\"> Regolamento Entertainers</a>");
+	&raquo;  <a href=\"javascript:cdbOpenToTopic(10026)\" class=\"interfaceLink\"> Regolamento Entertainers</a>");
 	
 	if (PG::mapPermissions('A',$currentUser->pgAuthOMA)){
 		mysql_query("UPDATE pg_users SET pgAuthOMA = '$aut' WHERE pgID ='$pgID'");

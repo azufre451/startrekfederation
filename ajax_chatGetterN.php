@@ -31,6 +31,12 @@ if(mysql_affected_rows()){
 	$pgAuthOMA = $aarA['pgAuthOMA'];
 }
 
+$resSession = mysql_query("SELECT sessionMaxChars FROM federation_sessions WHERE sessionStatus = 'ONGOING' AND sessionMaxChars <> 0 AND sessionPlace = '$ambient'");
+if (mysql_affected_rows()){
+	$rea = mysql_fetch_assoc($resSession);
+	$aar['MC'] = $rea['sessionMaxChars'];
+}
+
 $res = mysql_query("SELECT ambientTemperature,ambientLight,ambientLightColor FROM fed_ambient WHERE locID = '$ambient'");
 if(mysql_affected_rows()){
 	$aarA = mysql_fetch_array($res);

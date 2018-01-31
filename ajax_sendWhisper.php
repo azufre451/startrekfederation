@@ -2,6 +2,26 @@
 session_start();
 if (!isSet($_SESSION['pgID'])){exit;}
 
+function stringToColorCode($str) {
+
+	$arr=array("#e6194b","#3cb44b","#ffe119","#0082c8","#f58231","#911eb4","#46f0f0","#f032e6","#d2f53c","#fabebe","#008080","#e6beff","#aa6e28","#fffac8","#800000","#aaffc3","#808000","#ffd8b1","#000080","#808080","#000000");
+
+  $code = md5($str);
+  $cnt=0;
+  echo $code;
+  echo "<br />";
+  for($i = 0; $i < count($code); $i++)
+    {
+    	echo $code[$i] + ' ' + ord($code[$i]);
+        $cnt += ord($code[$i]);
+    }
+  echo $cnt % count($arr);
+
+  return $arr[($cnt+1) % count($arr)];
+}
+
+
+
 include('includes/app_include.php');
 include('includes/validate_class.php');
 
@@ -59,12 +79,15 @@ include('includes/validate_class.php');
 			
 			$fromUser = addslashes($user->pgUser);
 			$toUser = addslashes(PG::getSomething($chatTo,'username'));
-			$string = '<p class="susChat"><span class=\"susPrivate\">'.date('H:i',$time)."</span> <span class=\"susChatMPUserO\">$fromUser</span> <span class=\"susChatMPSeparator\">--&gt;</span>  <span class=\"susChatMPUserO\">$toUser:</span> <span class=\"susPrivate\">$string</span></p>";
+
+			$Col=stringToColorCode($fromUser);
+
+			$string = '<p class="susChat"><span class=\"susPrivate\">'.date('H:i',$time)."</span> <span class=\"susChatMPUserO\">$fromUser</span> <span style=\"color:$Col\"; class=\"susChatMPSeparator\">--&gt;</span>  <span class=\"susChatMPUserO\">$toUser:</span> <span class=\"susPrivate\">$string</span></p>";
 		}
 		else 
 		{		$fromUser = addslashes($user->pgUser);
 
-				$classer = (PG::mapPermissions('M',$user->pgAuthOMA)) ? 'susChatMPUserA' : ((PG::mapPermissions('G',$user->pgAuthOMA)) ? 'susChatMPUserG' : 'susChatMPUser');
+				$classer = (PG::mapPermissions('A',$user->pgAuthOMA)) ? 'susChatMPUserA' : ((PG::mapPermissions('M',$user->pgAuthOMA)) ? 'susChatMPUserM' : ((PG::mapPermissions('G',$user->pgAuthOMA)) ? 'susChatMPUserG' : 'susChatMPUser'));
 				$string = '<p class="susChat">'.date('H:i',$time)." <span class=\"$classer\">$fromUser:</span> $string</p>";
 		}
 		

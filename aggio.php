@@ -30,5 +30,6 @@ if(mysql_affected_rows())
 }
 
 echo json_encode($aar);
+include('includes/app_declude.php');
 //echo var_dump($aar);
 ?>

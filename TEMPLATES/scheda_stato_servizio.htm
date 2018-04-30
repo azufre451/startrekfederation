@@ -7,8 +7,8 @@
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/personnel.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
-	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 	<script type="text/javascript" src="TEMPLATES/js/sservice.js?v=2" /> 
 	<title>STAR TREK FEDERATION - SCHEDA</title>				
  <style type="text/css">.ui-autocomplete {max-height: 135px;overflow-y: auto;overflow-x: hidden;padding-right: 1px;}
@@ -111,7 +111,7 @@
 		<tr><td width="100px; font-size:10px;"><b>Testo:</b></td><td><textarea style="width:300px; height:80px;" name="what" /></td></tr>
 		<tr><td width="100px; font-size:10px;"><b>Unit:</b></td><td> <select name="placer"><option tal:repeat="location locations" tal:attributes="value repeat/location/key;" tal:content="location"/></select> </td></tr>
 		<tr><td width="100px; font-size:10px;"><b>Crosslink CDB:</b></td><td><input style="width:300px;" class="neon" name="cross" /></td></tr>
-		<tr><td width="100px; font-size:10px;"><b>Data:</b></td><td><select name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day ; selected php:(day == date('d') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataM"><option tal:repeat="day php:range(1,12)" tal:attributes="value day ;  selected php:(day == date('m') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataA"><option tal:repeat="day php:range(2290,2396)" tal:attributes="value day ; selected php:(day==2396) ? 'selected': false" tal:content="day" /></select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Vai" /></td></tr>
+		<tr><td width="100px; font-size:10px;"><b>Data:</b></td><td><select name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day ; selected php:(day == date('d') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataM"><option tal:repeat="day php:range(1,12)" tal:attributes="value day ;  selected php:(day == date('m') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataA"><option tal:repeat="day php:range(2290,2397)" tal:attributes="value day ; selected php:(day==2397) ? 'selected': false" tal:content="day" /></select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Vai" /></td></tr>
 	</table>
 	</form>
 	<div class="xButton" onclick="jQuery('#stoAdder').fadeOut(100);">X</div>
@@ -123,13 +123,13 @@
 	
 		<tr><td width="100px; font-size:10px;"><b>Testo:</b></td><td><input style="width:300px;" id="brevWhat" name="what" type="text" class="neon"/></td></tr>
 		<tr><td width="100px; font-size:10px;"><b>Esito:</b></td><td><select name="esit"><optgroup label="Esiti"><option value="110">CONSEGUITO</option><option value="111">NON APPROVATO</option></optgroup><optgroup label="Votazioni"><option tal:repeat="day php:range(0,100)" tal:attributes="value day" tal:content="string:${day} / 100" /></optgroup></select></td></tr>
-		<tr><td width="100px; font-size:10px;"><b>Data:</b></td><td><select name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day ; selected php:(day == date('d') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataM"><option tal:repeat="day php:range(1,12)" tal:attributes="value day ;  selected php:(day == date('m') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataA"><option tal:repeat="day php:range(2290,2396)" tal:attributes="value day ; selected php:(day==2396) ? 'selected': false" tal:content="day" /></select></td></tr>
+		<tr><td width="100px; font-size:10px;"><b>Data:</b></td><td><select name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day ; selected php:(day == date('d') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataM"><option tal:repeat="day php:range(1,12)" tal:attributes="value day ;  selected php:(day == date('m') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataA"><option tal:repeat="day php:range(2290,2397)" tal:attributes="value day ; selected php:(day==2397) ? 'selected': false" tal:content="day" /></select></td></tr>
 		<tr><td colspan="2" style="text-align:center;"><input type="submit" value="Vai" /></td></tr>
 	</form>
 	</table>
 	<div class="xButton" onclick="jQuery('#exaAdder').fadeOut(100);">X</div>
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
-	<link href="TEMPLATES/css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 	
 	
 	<script>jQuery('#brevWhat').autocomplete({
@@ -150,7 +150,7 @@
 			</optgroup>
 		</select></td></tr>
 		<tr><td width="100px; font-size:10px;"><span style="font-family:federationFont; font-size:20px; letter-spacing:1px;">Incarico:</span></td><td><input type='text'  placeholder="Incarico" class="neon" style="width:310px;" name="what" /></td></tr>
-		<tr><td width="100px; font-size:10px;"><span style="font-family:federationFont; font-size:20px; letter-spacing:1px;">Data:</span></td><td><select name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day" tal:content="day" /></select> / <select name="dataM"><option tal:repeat="day php:range(1,12)" tal:attributes="value day" tal:content="php:monty[day]" /></select> / <select name="dataA"><option tal:repeat="day php:range(2290,2396)" tal:attributes="value day ; selected php:(day==2396) ? 'selected': false" tal:content="day" /></select></td></tr>
+		<tr><td width="100px; font-size:10px;"><span style="font-family:federationFont; font-size:20px; letter-spacing:1px;">Data:</span></td><td><select name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day" tal:content="day" /></select> / <select name="dataM"><option tal:repeat="day php:range(1,12)" tal:attributes="value day" tal:content="php:monty[day]" /></select> / <select name="dataA"><option tal:repeat="day php:range(2290,2397)" tal:attributes="value day ; selected php:(day==2397) ? 'selected': false" tal:content="day" /></select></td></tr>
 		<tr><td width="100px; font-size:10px;"><span style="font-family:federationFont; font-size:20px; letter-spacing:1px;">Unit&agrave;</span></td><td>
 		 
 		<input type='text' class="neon" id="where" name="where" placeholder="Unità di Assegnazione" style="width:320px;"/>   

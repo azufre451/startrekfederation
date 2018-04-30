@@ -4,6 +4,8 @@ if (!isSet($_SESSION['pgID'])){ header("Location:index.php?login=do"); exit;}
 
 include('includes/app_include.php');
 include('includes/validate_class.php');
+include('includes/bbcode.php');
+
 include('includes/cdbClass.php');
 include("includes/PHPTAL/PHPTAL.php"); //NEW 
 
@@ -335,21 +337,50 @@ else if (isSet($_GET['addPost']))
 		$firma=addslashes($tipoFirma);
 		mysql_query("INSERT INTO cdb_posts(title,content,owner,coOwner,time,topicID,postSeclar,postNotes,signature) VALUES('$title','$content',".$masterPnG->ID.",".$_SESSION['pgID'].",".time().",$topicCode,$seclar,'$notes','$firma')");
 		mysql_query("UPDATE cdb_topics SET lastTopicEvent='CREATE',topicLastUser = ".$masterPnG->ID.", topicLastTime = ".time()." WHERE topicID = $topicCode");
-		header("Location:cdb.php?topic=$topicCode");
-		exit;
+
 	}
 	}
-	
+	else{
 	$currentUser->getIncarichi();
 	$departmentString = ($currentUser->pgDipartimento != '') ? '<br />Dipartimento '.$currentUser->pgDipartimento : '';
 	$tipoFirma = ($_POST['postFirma'] == "corta") ? "<hr align=\"center\" size=\"1\" width=\"230\" color=\"#999\" />".$currentUser->pgGrado." ".$currentUser->pgUser : "<hr align=\"center\" size=\"1\" width=\"230\" color=\"#999\" />".$currentUser->pgGrado." ".$currentUser->pgNomeC." ".$currentUser->pgUser ." ".$currentUser->pgNomeSuff."<br />".$currentUser->pgIncarico."$departmentString<br />".(PG::getLocationName($currentUser->pgAssign));
 	$firma=addslashes($tipoFirma);
 	mysql_query("INSERT INTO cdb_posts(title,content,owner,time,topicID,postSeclar,postNotes,signature) VALUES('$title','$content',".$_SESSION['pgID'].",".time().",$topicCode,$seclar,'$notes','$firma')");
 	mysql_query("UPDATE cdb_topics SET lastTopicEvent='CREATE', topicLastUser = ".$_SESSION['pgID'].", topicLastTime = ".time()." WHERE topicID = $topicCode");
+	}
+
+ 	if (mysql_affected_rows() && $_POST['peopleList'] != '')
+	{  
+			$POSTID=mysql_fetch_assoc(mysql_query("SELECT ID FROM cdb_posts WHERE title = '$title' ORDER BY time DESC LIMIT 1"));
+			$postIDCo=$POSTID['ID'];
+			$listPG=explode(',',trim($_POST['peopleList']));
+			foreach ($listPG as $to)
+			{
+				$to=trim($to);
+				if($to!="") 
+				{	
+					$idsA = mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '".addslashes($to)."'"));
+					$toP = new PG($idsA['pgID'],2);
+					$nt = ($title == '') ? 'Nessun titolo' : $title;
+					
+					
+					$overSeclar="";
+					if((int)($toP->pgSeclar) < (int)($seclar))
+					{	mysql_query("INSERT INTO cdb_posts_seclarExceptions (pgID, postID) VALUES (".$toP->ID.",'$postIDCo')"); 
+						$overSeclar = "Il post è stato inserito a <span style=\"color:red; font-weight:bold;\">SECLAR $seclar</span> ma puoi visualizzarlo ugualmente, essendone destinatario";
+					}
+
+					$toP->sendPadd('[CDB] - '.$nt,"Ciao $to <br /><br />Il PG ".$currentUser->pgUser." ha inserito un nuovo post che probabilmente ti riguarda: <a class=\"interfaceLinkBlue\" href=\"javascript:void(0);\" onclick=\"javascript:cdbOpenToTopic('$topicCode#$postIDCo')\">$nt</a>. $overSeclar <br />Lo staff",'518'); 
+				}
+			}
+	}
+
 	header("Location:cdb.php?topic=$topicCode");
 	exit;
+	
+	
 }
-
+ 
 else if (isSet($_GET['editPost']))
 {
 	$topicID = $vali->numberOnly($_POST['topicID']);
@@ -880,7 +911,7 @@ else if (isSet($_GET['news']))
 	if (isSet($masters)) $template->showMA = true;
 	$template->topics = $topics;
 }
-
+/*
 else if (isSet($_POST['emoSel']))
 {
 	$emo = $_POST['emoSel'];
@@ -906,7 +937,7 @@ else if (isSet($_POST['emoSel']))
 	
 	header('Location:cdb.php');
 	exit;
-}
+}*/
 
 elseif(isSet($_GET['deleteMasterEvent']))
 {
@@ -936,7 +967,7 @@ elseif(isSet($_GET['insertMasterEvent']))
 	while($res = mysql_fetch_assoc($idR))
 	{ 
 			$idA = new PG($res['pgID']);
-			$idA->sendPadd('NUOVO EVENTO MASTER','È stato inserito un nuovo evento master ($eventTitle) nel Computer di Bordo. Controlla la sezione Eventi Master del computer per visualizzarlo!');
+			$idA->sendPadd('NUOVO EVENTO MASTER',"È stato inserito un nuovo evento master ($eventTitle) nel Computer di Bordo. Controlla la sezione Eventi Master del computer per visualizzarlo!");
 	}
 	header('Location:shadow_scheda.php');
 	exit;
@@ -977,42 +1008,6 @@ while ($reso = mysql_fetch_array($reiss))
 }
 
 
-
-
-
-/*
-
-
-while ($reso = mysql_fetch_array($reiss))
-{
-$title = (strlen($reso['topicTitle']) > $maxChars) ? substr($reso['topicTitle'],0,$maxChars).'...' : $reso['topicTitle'];
-$lastTopicsFL[] = array('ID' => $reso['topicID'],"lastTopicEvent" => $reso['lastTopicEvent'], 'title' => $title, 'titleL' => $reso['topicTitle'], 'lastT' => timeHandler::timestampToGiulian($reso['topicLastTime']), 'lastU' => $reso['pgUser'], 'classExt' =>$reso['topicColorExt'], 'lastTstamp' => $reso['topicLastTime'], 'topicType' => $reso['topicType'], 'catName' => $reso['catName']);
-} 
-$reiss = mysql_query("SELECT restrictions,lastTopicEvent, topicID,topicTitle,topicLastTime,topicLastUser,topicType,topicColorExt, pgUser, catName, catSuper FROM cdb_topics,cdb_cats,pg_users WHERE pgID = topicLastUser AND topicCat = catCode AND catSuper = 'CIV' ORDER by topicLastTime DESC LIMIT 5");
-while ($reso = mysql_fetch_array($reiss))
-{
-$title = (strlen($reso['topicTitle']) > $maxChars) ? substr($reso['topicTitle'],0,$maxChars).'...' : $reso['topicTitle'];
-$lastTopicsCI[] = array('ID' => $reso['topicID'],"lastTopicEvent" => $reso['lastTopicEvent'], 'title' => $title, 'titleL' => $reso['topicTitle'], 'lastT' => timeHandler::timestampToGiulian($reso['topicLastTime']), 'lastU' => $reso['pgUser'], 'classExt' =>$reso['topicColorExt'], 'lastTstamp' => $reso['topicLastTime'], 'topicType' => $reso['topicType'], 'catName' => $reso['catName']);
-}
-
-$reiss = mysql_query("SELECT restrictions,lastTopicEvent, topicID,topicTitle,topicLastTime,topicLastUser,topicType,topicColorExt, pgUser, catName, catSuper FROM cdb_topics,cdb_cats,pg_users WHERE pgID = topicLastUser AND topicCat = catCode AND catSuper = 'HE' AND restrictions IN (".PG::returnMapsStringFORDB($currentUser->pgAuthOMA).") ORDER by topicLastTime DESC LIMIT 5");
-
-while ($reso = mysql_fetch_array($reiss))
-{
-$title = (strlen($reso['topicTitle']) > $maxChars) ? substr($reso['topicTitle'],0,$maxChars).'...' : $reso['topicTitle'];
-$lastTopicsHE[] = array('ID' => $reso['topicID'],"lastTopicEvent" => $reso['lastTopicEvent'], 'title' => $title, 'titleL' => $reso['topicTitle'], 'lastT' => timeHandler::timestampToGiulian($reso['topicLastTime']), 'lastU' => $reso['pgUser'], 'classExt' =>$reso['topicColorExt'], 'lastTstamp' => $reso['topicLastTime'], 'topicType' => $reso['topicType'], 'catName' => $reso['catName']);
-}
-
-/*$reiss = mysql_query("SELECT restrictions,lastTopicEvent, topicID,topicTitle,topicLastTime,topicLastUser,topicType,topicColorExt, pgUser, catName, catSuper FROM cdb_topics,cdb_cats,pg_users WHERE pgID = topicLastUser AND topicCat = catCode AND catSuper = 'MA' AND catCode <> 47 AND restrictions IN (".PG::returnMapsStringFORDB($currentUser->pgAuthOMA).") ORDER by topicLastTime DESC LIMIT 3");
-
-while ($reso = mysql_fetch_array($reiss))
-{
-	$title = (strlen($reso['topicTitle']) > $maxChars) ? substr($reso['topicTitle'],0,$maxChars).'...' : $reso['topicTitle'];
-	$lastTopicsMA[] = array('ID' => $reso['topicID'], 'title' => $title, 'titleL' => $reso['topicTitle'], 'lastT' => timeHandler::timestampToGiulian($reso['topicLastTime']),"lastTopicEvent" => $reso['lastTopicEvent'], 'lastU' => $reso['pgUser'], 'classExt' =>$reso['topicColorExt'], 'lastTstamp' => $reso['topicLastTime'], 'topicType' => $reso['topicType'], 'catName' => $reso['catName']);
-}
-
-*/
-
 $reiss = mysql_query("SELECT lastTopicEvent, topicID,topicTitle,topicLastTime,topicLastUser,topicType,topicColorExt, pgUser FROM cdb_topics,pg_users WHERE pgID = topicLastUser AND (topicCat IN (".$currentLocation['catGDB'].",".$currentLocation['catDISP'].",".$currentLocation['catRAP'].")) ORDER by topicLastTime DESC LIMIT 7");
 
 
@@ -1034,7 +1029,7 @@ $template->superCatsCounts = $superCatsCounts;
 $template->lastTopicsLOC = $lastTopicsLOC;
 
 $template->newsMas = $newsMas;
-if(PG::mapPermissions('JM',$currentUser->pgAuthOMA)) $ddd = 'yes'; else $ddd=NULL;
+if(PG::mapPermissions('G',$currentUser->pgAuthOMA)) $ddd = 'yes'; else $ddd=NULL;
 $template->showSearchMaster = $ddd;
 }
 

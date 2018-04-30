@@ -6,8 +6,8 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
-	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 
 	<title>STAR TREK FEDERATION - LOGIN</title>
 	<script type="text/javascript" src="TEMPLATES/js/google.js"></script>
@@ -20,12 +20,34 @@
 
 <body style="background-image:url('TEMPLATES/img/main_login_redox.jpg')">
 
+<div tal:condition="exists:banReason" id="banMessage" style="position:absolute; top:50%; left:50%; width:700px; height:400px; padding:10px; border:1px solid #333; background-color:rgb(0,0,0); z-index:10; margin-left:-360px; margin-top:-210px; overflow-y: auto; display:none;">
+
+
+		<link href="TEMPLATES/css/padd.css" rel="stylesheet" type="text/css" />
+		<style>
+			 p.quoter{
+	margin:5px 25px;
+	background-color:#333;
+	border-left:2px solid #666;
+	padding:10px;
+	
+
+		}
+
+		</style>
+	<p tal:content="structure banReason/content"></p>
+	<a href="javascript:void();" onclick="jQuery('#banMessage').fadeOut();" class="interfaceLink"> Chiudi </a></div>
+
 <div id="allContainer" style="position:absolute; top:50%; left:50%; width:1037px; height:650px; margin-left:-518px; margin-top:-325px;">
 
 <div id="indi_header" onclick="window.location.href = 'index.php';" />
 
 <div id="centralContainer">
 <div align="center" tal:condition="exists:error" style="color:red; font-weight:bold;">ERRORE NEI DATI DI LOGIN<hr style="color:red" noshade="no" /></div>
+<div align="center" tal:condition="exists:banReason" style="color:red; font-weight:bold;">E' IN VIGORE UN PROVVEDIMENTO DI BAN. IMPOSSIBILE EFFETTUARE IL LOGIN FINO AL <span tal:content="php:date('d/m/y h:i',banReason['expiry'])"></span><br />
+
+	<a href="javascript:void();" onclick="jQuery('#banMessage').toggle();" class="interfaceLink"> Clicca qui per leggere il messaggio di Ban </a> - Puoi contattarci a <a class="interfaceLinkBlue" href="mailto:staff@startrekfederation.it">staff@startrekfederation.it</a>
+<hr style="color:red" noshade="no" /></div>
 <div align="center" tal:condition="exists:logged_out" style="color:#FFCC00; font-variant:small-caps; font-weight:bold;">Logout eseguito! Grazie per aver giocato e a presto!<hr style="color:#555" noshade="no" /></div>
 <div id="superLoginDiv" tal:attributes="style string:background-image:url('${backLoginImage}');">
 

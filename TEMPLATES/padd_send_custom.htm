@@ -3,16 +3,17 @@
 
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/padd.css?v=1.5.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
-	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	
+	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/padd.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	<title>FEDERATION - PADD</title>
 	</head><body style="background-color:black; overflow:hidden;">
 	
-	<div id="paddContainer"><div id="intestLeft"><a title="Principale" href="padd.php"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/padd.png" /></a><a title="Federation Tribune" href="padd.php?s=tr"><img class="iconelement" tal:attributes="src php:(tribuneNews == true) ? 'TEMPLATES/img/interface/paddInterface/tribune_news.png' : 'TEMPLATES/img/interface/paddInterface/tribune.png'" /></a><a title="Status Nave" href="padd.php?s=sh"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/nave.png" /></a><a title="Note" href="padd.php?s=no"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/note.png" /></a></div>
+	<div id="paddContainer"><div id="intestLeft"><a title="Principale" href="padd.php"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/padd.png" /></a><a title="Tychonian Herald" href="padd.php?s=tr"><img class="iconelement" tal:attributes="src php:(tribuneNews == true) ? 'TEMPLATES/img/interface/paddInterface/tribune_news.png' : 'TEMPLATES/img/interface/paddInterface/tribune.png'" /></a><a title="Status Nave" href="padd.php?s=sh"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/nave.png" /></a><a title="Note" href="padd.php?s=no"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/note.png" /></a></div>
 	<div id="intestLeftPost">
 		<a href="padd.php?h=se"><div class="btn" id="newBTN"/></a>
 		<a href="padd.php?h=ou"> <div class="btn" id="sentBTN"/></a>
@@ -20,4 +21,4 @@
 	</div>	
 	 
 	
-	<div id="newPadd" tal:attributes="class php:(user.pgSpecie=='Romulana') ? 'paddRomulanMain radiusBordered' : 'paddMain radiusBordered'"><div class="innerPadd" style="margin-right:auto;margin-left:auto; width:510px; overflow:hidden;"><form action="padd.php?s=newP" method="POST"><table cellspacing="0px">	<tr><td style="border:1px dotted #333; width:140px;">DESTINATARO</td><td class="newPaddtd"><input readonly="readlonly" id="users" name="users" style="width:400px; border-color:#222" tal:attributes="value string:${to}"/></td></tr>	<tr><td style="width:140px; border:1px dotted #333;">TITOLO</td><td class="newPaddtd"><input maxlength="25" name="titolo" style="width:400px;" tal:attributes="value string:${sub}"/></td></tr>	<tr style="height:20px;" />	<tr><td style="width:140px; border:1px dotted #333; ">TESTO</td><td class="newPaddtd"><textarea name="testo" style="width:400px; height:160px;"/></td></tr>	<tr><td colspan="2" style="text-align:center;"><input style="width:50px;" type="submit" value="INVIA" /></td></tr></table></form></div></div></div></body></html>
+	<div id="newPadd" tal:attributes="class php:(user.pgSpecie=='Romulana') ? 'paddRomulanMain radiusBordered' : 'paddMain radiusBordered'"><div class="innerPadd" style="margin-right:auto;margin-left:auto; width:510px; overflow:hidden;"><form tal:attributes="action php:((guider) ? 'padd.php?s=newP&guider=1' : 'padd.php?s=newP')  " method="POST"><table cellspacing="0px">	<tr><td style="border:1px dotted #333; width:140px;">DESTINATARO</td><td class="newPaddtd"><input readonly="readlonly" id="users" name="users" style="width:400px; border-color:#222" tal:attributes="value string:${to}"/></td></tr>	<tr><td style="width:140px; border:1px dotted #333;">TITOLO</td><td class="newPaddtd"><input maxlength="25" name="titolo" style="width:400px;" tal:attributes="value string:${sub}"/></td></tr>	<tr style="height:20px;" />	<tr><td style="width:140px; border:1px dotted #333; ">TESTO</td><td class="newPaddtd"><textarea name="testo" style="width:400px; height:160px;"/></td></tr>	<tr><td colspan="2" style="text-align:center;"><input style="width:50px;" type="submit" value="INVIA" /></td></tr></table></form></div></div></div></body></html> 

@@ -93,7 +93,8 @@ $template->note = nl2br($currentLocation['note']);
 
 
 $template->user = $currentUser;
-if (PG::mapPermissions('SL',$currentUser->pgAuthOMA)) $template->mapAdd = true;
+if (PG::mapPermissions('G',$currentUser->pgAuthOMA)) $template->isStaff = true;
+	 
 if (PG::mapPermissions('JM',$currentUser->pgAuthOMA)) $template->mapAdd2 = true;
  
 if(strpos($_SERVER['HTTP_USER_AGENT'],'iPad') != 0) $template->isIpad = true;

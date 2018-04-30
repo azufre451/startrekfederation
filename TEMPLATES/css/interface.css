@@ -1129,3 +1129,19 @@ float:left;
 	background-color:rgba(1,1,1,0.7);
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#B2010101,endColorstr=#B2010101);
 }
+
+#guidePanel{
+	font-size:13px;
+	width:430px;
+	height:400px;
+	margin-top:-180px;
+	margin-left:-220px; 
+	padding:10px;
+	border:1px
+	solid #555;
+	overflow-y:hidden;
+}
+
+#guidePanel a.interfaceLinkBlue, #guidePanel a.interfaceLink, #guidePanel a.interfaceLinkGreen,#guidePanel a.interfaceLinkRed  {
+	font-size:14px !important;
+}

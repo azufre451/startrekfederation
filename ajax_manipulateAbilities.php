@@ -44,7 +44,7 @@ if ($_GET['action'] == 'rollDeliver'){
 		$outcome = $b->reRollDice($rea['dicerAbil'],$rea['dicerOutcome'],$modi);
 		$launched_abil = $b->abilDict[$rea['dicerAbil']];
 
-		$otp .= '<div class="'.$outcome['outcome'].'"><p class="bar"></p>'.PG::getSomething($rea['sender'],'username').': <img src="TEMPLATES/img/interface/personnelInterface/abilita/'.$launched_abil['abImage'].'" title="'.$launched_abil['abName'].'"><br />Soglia: '.$outcome['threshold'].' <span class="bmal">'.$modi.'</span> <br />Dado: '.$outcome['v'].' <p class="label"></p></div>';
+		$otp .= '<div class="'.$outcome['outcome'].'"><p class="bar"></p>'.addslashes(PG::getSomething($rea['sender'],'username')).': <img src="TEMPLATES/img/interface/personnelInterface/abilita/'.$launched_abil['abImage'].'" title="'.$launched_abil['abName'].'"><br />Soglia: '.$outcome['threshold'].' <span class="bmal">'.$modi.'</span> <br />Dado: '.$outcome['v'].' <p class="label"></p></div>';
 		
 		mysql_query("UPDATE federation_chat SET dicerAbil = '' WHERE IDE = $recID");
 

@@ -97,7 +97,6 @@ include('includes/validate_class.php');
 				
 				if(!array_key_exists($ppl,$person))	$person[$ppl] = array();
 				
-				
 				$ltime = $var['time'];
 
 				if($var['type'] == 'DIRECT')
@@ -107,19 +106,14 @@ include('includes/validate_class.php');
 			
 			foreach($person as $playerID => $player)
 			{	
-
 				foreach ($player as $action)
 				{
-					
-
 					if(!array_key_exists($playerID,$pointarray))	$pointarray[$playerID] = 0.0;
 					if($action > 500)
 					{
 						if($action >= 500 && $action <= $avig*1.3)
 						{
 							$pointarray[$playerID] += $action / (($avig*1.3) - 500) - (500 / (($avig*1.3) - 500));
-							
-							//echo 'Action('.$playerID.',' . $action . ') : ' . ($action / (($avig*1.3) - 500) - (500 / (($avig*1.3) - 500))) . 'pt MS: '.($avig*1.3).';;;';
 						}
 						else if ($action > $avig*1.3) { $pointarray[$playerID]+=1; }
 					}
@@ -132,11 +126,13 @@ include('includes/validate_class.php');
 				
 				$owner = (string)($sectionsOngoing['session']['sessionOwner']);
 				
-				if(!array_key_exists($owner,$pointarray)){$pointarray[$owner] = 0.0;}
 				
 				foreach($pointarray as $personPoints){$totalPta += $personPoints;}
+
 				$avgpointarray = (float)$totalPta / count($pointarray);
-				
+
+				if(!array_key_exists($owner,$pointarray)){$pointarray[$owner] = 0.0;}
+
 				if ((count($pointarray)-1) >= 3 && (count($pointarray)-1) <=5) $coeff = (count($pointarray)-1) * 10;
 				elseif ((count($pointarray)-1) >= 6) $coeff = 50;
 				else $coeff = 0;
@@ -167,8 +163,8 @@ include('includes/validate_class.php');
 				mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead) VALUES (518,$sl,'RIEPILOGO PUNTI SESSIONE','<p style=\"font-size:13px; margin-left:15px; margin-right:15px;\">$master_expl</p><p style=\" color:#AAA; font-style:italic;\">Questo è un messaggio automatico.</p>',$curTime,0)");
 				echo mysql_error(); 
 			}
-			
-			
+			 
+
 			foreach($pointarray as $playerID => $playerResult)
 			{
 				echo $playerID."--".$playerResult.'>>'.round($playerResult);

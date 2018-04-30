@@ -3,7 +3,7 @@
 		// nota Moreno: utilizzo del selettore JQ 'Jquery per evitare conflitti con PHPTAL XML PARSER
 		jQuery(function()
 		{
-			are = setInterval("ccc();",5000);
+			are = setInterval("ccc();",7000);
 			setInterval(function(){ $('.lamp').each( function(){ $(this).css('visibility' , $(this).css('visibility') === 'hidden' ? '' : 'hidden') } ); }, 350);
 
 			jQuery("#federation_chatDiv").scrollTop(jQuery("#federation_chatDiv")[0].scrollHeight);	
@@ -69,24 +69,32 @@
 			var turnskipping = 0;
 			var lastPos = 0;
 		 
-			 // jQuery('#federation_chatDiv p.directiveRemove').reverse().each(function(e){
-				// if(nonConsiderer.indexOf(jQuery(this).text()) == -1)
-					// nonConsiderer.push(jQuery(this).text());
-			 // });
 			 
-			 jQuery('#federation_chatDiv p .chatUser, #federation_chatDiv p .actionUser, #federation_chatDiv p.directiveRemove').reverse().each(function(e){
+			 jQuery('#federation_chatDiv p .chatUser, #federation_chatDiv p .actionUser, #federation_chatDiv p.directiveRemove, #federation_chatDiv div.masterAction').reverse().each(function(e){
 				
-				if(nonConsiderer.indexOf(jQuery(this).text()) == -1){ 
+				if (jQuery(this).attr("class") == 'masterAction') {
+					tname='MASTER';
+				}
+				else{
+					tname =  jQuery(this).text();
+				}
+
+				if(nonConsiderer.indexOf(tname) == -1){ 
 				
-				if (jQuery(this).attr("class") == 'directiveRemove'){nonConsiderer.push(jQuery(this).text());}
+				if (jQuery(this).attr("class") == 'directiveRemove'){nonConsiderer.push(tname);}
+
 				else
 				{
-					if(indexer.indexOf(jQuery(this).text()) == -1 && turnskipping < 2)
+
+					if(indexer.indexOf(tname) == -1 && turnskipping < 2)
 					{
-						if(indexer.length == 0){ turnOpener = jQuery(this).text();}
-						indexer.push(jQuery(this).text()); 
+						if(indexer.length == 0){ turnOpener = tname;}
+						
+						indexer.push(tname);
+
 					}
-					else if(jQuery(this).text() == turnOpener){turnskipping++;}
+					else if(tname == turnOpener){turnskipping++;}
+
 				}
 				}
 			 });
@@ -97,6 +105,8 @@
 			for (index = 0; index < indexer.length; index++) {
 			var classer = '';
 			if(indexer[index] == currentUsername) classer = ' style="color:#3188F3;" '; 
+			if(indexer[index] == 'MASTER') classer = ' style="color:red;" '; 
+
 			
 
 
@@ -360,8 +370,8 @@
 		{
 			if (mode != 'extern')
 			{
-				jQuery('#au1').prop('src','http://miki.startrekfederation.it/audioBase/'+ida+'.ogg');
-				jQuery('#au2').prop('src','http://miki.startrekfederation.it/audioBase/'+ida+'.mp3');
+				jQuery('#au1').prop('src','https://miki.startrekfederation.it/audioBase/'+ida+'.ogg');
+				jQuery('#au2').prop('src','https://miki.startrekfederation.it/audioBase/'+ida+'.mp3');
 			}
 			else jQuery('#au1').prop('src',ida);
 			

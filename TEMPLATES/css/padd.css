@@ -134,7 +134,7 @@ padding: 4px;
 	margin-left:20px;
 	margin-right:20px;
 	text-align:justify;
-	height:260px;
+	height:250px;
 	background-image:url('../img/interface/cdbBkg.jpg');
 }
 
@@ -237,4 +237,35 @@ border:1px solid #444;
 .selectedPadd{background-image:url('../img/interface/indicator_amber_on.png'); width:12px; height:12px;}
 .unselectedPadd{background-image:url('../img/interface/indicator_amber_off.png'); width:12px; height:12px;}
 
+#paddContent{
+ width:395px;
+ overflow-x:hidden;
+ overflow:y:auto;
+ margin-top:10px;
+ margin-left:15px;
+ padding:10px;
+ float:left;
+ border:1px solid #999;
+ height:218px;
+}
 
+#paddContent p.quoter{
+	margin:5px 25px;
+	background-color:#333;
+	border-left:2px solid #666;
+	padding:10px;
+	
+
+}
+
+
+.cdbPostRed{color:red;}
+.cdbPostBlue{color:#0077c3;}
+.cdbPostGreen{color:#009966;}
+.cdbPostYellow{color:#FFCC00;}
+.cdbPostWhite{color:white;}
+.cdbPostGray{color:#999;}
+
+.cdbPostLittleSize{font-size:11px;}
+.cdbPostNormalSize{font-size:13px;}
+.cdbPostBigSize{font-size:16px;}

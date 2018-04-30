@@ -98,7 +98,7 @@ Rapporto";
 elseif ($rapType=="Q2"){
 $outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE COMANDO E STRATEGIA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
+[CENTER][IMG]https://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- UFFICIO __Ufficio__ -[/SIZE][/CENTER][/COLOR]
 
@@ -115,7 +115,7 @@ $usersString
 elseif ($rapType=="Q16"){
 $outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE COMANDO E STRATEGIA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
+[CENTER][IMG]https://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- UFFICIO DEL CAPITANO -[/SIZE][/CENTER][/COLOR]
 
@@ -132,7 +132,7 @@ $usersString
 elseif ($rapType=="Q16b"){
 $outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE COMANDO E STRATEGIA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
+[CENTER][IMG]https://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- UFFICIO DEL PRIMO UFFICIALE -[/SIZE][/CENTER][/COLOR]
 
@@ -149,7 +149,7 @@ $usersString
 elseif ($rapType=="Q4"){
 $outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE DIFESA E SICUREZZA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_sec.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG][/CENTER]
+[CENTER][IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_sec.r.png[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG][/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- UFFICIO __Ufficio__ -[/SIZE][/CENTER][/COLOR]
 
@@ -165,7 +165,7 @@ $usersString
 elseif ($rapType=="Q15"){
 $outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE DIFESA E SICUREZZA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_sec.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG]  [/CENTER]
+[CENTER][IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_sec.r.png[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG]  [/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- UFFICIO DEL CAPO DELLA SICUREZZA -[/SIZE][/CENTER][/COLOR]
 
@@ -180,7 +180,7 @@ $usersString
 elseif ($rapType=="Q6"){
 $outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE DIFESA E SICUREZZA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_sec.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG]  [/CENTER]
+[CENTER][IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_sec.r.png[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG]  [/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- DIPARTIMENTO SICUREZZA -[/SIZE][/CENTER][/COLOR]
 
@@ -195,7 +195,7 @@ $usersString
 elseif ($rapType=="Q7"){
 $outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE INGEGNERIA E OPERAZIONI $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/logo_ops.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_ops.r.png[/IMG][/CENTER]
+[CENTER][IMG]https://miki.startrekfederation.it/SigmaSys/logo/logo_ops.png[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_ops.r.png[/IMG][/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- UFFICIO: __Ufficio__ -[/SIZE][/CENTER][/COLOR]
 
@@ -210,7 +210,7 @@ $usersString
 elseif ($rapType=="Q8"){
 $outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE INGEGNERIA E OPERAZIONI $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/logo_ops.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_ops.r.png[/IMG][/CENTER]
+[CENTER][IMG]https://miki.startrekfederation.it/SigmaSys/logo/logo_ops.png[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_ops.r.png[/IMG][/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- DIPARTIMENTO OPERAZIONI -[/SIZE][/CENTER][/COLOR]
 
@@ -225,7 +225,7 @@ $usersString
 elseif ($rapType=="Q14"){
 $outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE INGEGNERIA E OPERAZIONI $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/logo_ops.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_ops.r.png[/IMG][/CENTER]
+[CENTER][IMG]https://miki.startrekfederation.it/SigmaSys/logo/logo_ops.png[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_ops.r.png[/IMG][/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- UFFICIO DEL CAPO INGEGNERE -[/SIZE][/CENTER][/COLOR]
 
@@ -240,7 +240,7 @@ $usersString
 elseif ($rapType=="Q9"){
 $outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE SCIENTIFICA E MEDICA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_med.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG]  [IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_sci.r.png[/IMG][/CENTER]
+[CENTER][IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_med.r.png[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG]  [IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_sci.r.png[/IMG][/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- UFFICIO __Ufficio__ -[/SIZE][/CENTER][/COLOR]
 
@@ -255,7 +255,7 @@ $usersString
 elseif ($rapType=="Q13"){
 $outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE SCIENTIFICA E MEDICA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_sci.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [/CENTER]
+[CENTER][IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_sci.r.png[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- UFFICIO CSO -[/SIZE][/CENTER][/COLOR]
 
@@ -271,7 +271,7 @@ $usersString
 elseif ($rapType=="Q17"){
 $outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE SCIENTIFICA E MEDICA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_med.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [/CENTER]
+[CENTER][IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_med.r.png[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- UFFICIO DEL CMO -[/SIZE][/CENTER][/COLOR]
 
@@ -286,7 +286,7 @@ $usersString
 elseif ($rapType=="Q18"){
 $outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE SCIENTIFICA E  MEDICA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_med.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [/CENTER]
+[CENTER][IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_med.r.png[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- UFFICIO DEL CONSIGLIERE DI BORDO -[/SIZE][/CENTER][/COLOR]
 
@@ -301,7 +301,7 @@ $usersString
 elseif ($rapType=="QN1"){
 $outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE NAVIGAZIONE $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_nav.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
+[CENTER][IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_nav.r.png[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- COMANDO DELLE FORZE AEREE -[/SIZE][/CENTER][/COLOR]
 
@@ -316,7 +316,7 @@ $usersString
 elseif ($rapType=="QN2"){
 $outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE NAVIGAZIONE $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_nav.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [/CENTER]
+[CENTER][IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_nav.r.png[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- DIPARTIMENTO GESTIONE E CONTROLLO HANGAR NAVETTE -[/SIZE][/CENTER][/COLOR]
 
@@ -332,7 +332,7 @@ $usersString
 elseif ($rapType=="QN3"){
 $outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE NAVIGAZIONE $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_nav.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [/CENTER]
+[CENTER][IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_nav.r.png[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- COORDINAMENTO DEL CONTROLLO VOLO -[/SIZE][/CENTER][/COLOR]
 
@@ -347,7 +347,7 @@ $usersString
 elseif ($rapType=="QN4"){
 $outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE NAVIGAZIONE $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_nav.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
+[CENTER][IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_nav.r.png[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- COMANDO DELLE FORZE AEREE -[/SIZE][/CENTER][/COLOR]
 
@@ -372,7 +372,7 @@ $outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE NAVIGAZIONE $curLocationNa
 elseif ($rapType=="QN4"){
 $outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE NAVIGAZIONE $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
-[CENTER][IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_nav.r.png[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]http://miki.startrekfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
+[CENTER][IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_nav.r.png[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
 
 [COLOR=BLUE][CENTER][SIZE=1]- COMANDO DELLE FORZE AEREE -[/SIZE][/CENTER][/COLOR]
 

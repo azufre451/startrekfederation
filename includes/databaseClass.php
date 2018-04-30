@@ -38,9 +38,6 @@ class abilDescriptor
 			$r[$ras['abClass']][]=$ras; 
 
 		}
-		
-		
-
 		return $r;
 	}
 
@@ -262,12 +259,12 @@ class abilDescriptor
 	public function superImposeRace($race)
 	{ 
 
-		$t['Umana']= array(	array(38,0),array(31,1) );
-		$t['Vulcaniana']=  array(array(60,2),array(59,1),array(61,1),array(56,0));
-		$t['Betazoide'] = array(array(61,2),array(20,0),array(60,2));
-		$t['Trill'] =array(array(21,1),array(20,1),array(9,0),array(35,2));
-		$t['Andoriana'] = array(array(10,2),array(21,1),array(17,1),array(52,2),array(4,3));
-		$t['Bajoriana'] = array(array(7,1),array(12,3),array(18,1),array(21,2),array(19,0));
+		$t['Umana']= array(	array(38,0),array(31,1),array(5,0) );
+		$t['Vulcaniana']=  array(array(60,2),array(59,1),array(61,1),array(56,0),array(5,0));
+		$t['Betazoide'] = array(array(61,2),array(20,0),array(60,2),array(5,0));
+		$t['Trill'] =array(array(21,1),array(20,1),array(9,0),array(35,2),array(5,0));
+		$t['Andoriana'] = array(array(10,2),array(21,1),array(17,1),array(52,2),array(4,3),array(5,0));
+		$t['Bajoriana'] = array(array(7,1),array(12,3),array(18,1),array(21,2),array(19,0),array(5,0));
 
 		
 		$r['Vulcaniana']=  array(array('WP',1),array('HT',1)); // 11 + 15 = 26 (79)
@@ -633,7 +630,7 @@ class PG
 		$myAssign = $this->pgAssign;
 
 
-		$rek=mysql_query("SELECT recID,incDipartimento,incDivisione,incSezione,incIncarico,incMain,pgPlace FROM pg_incarichi WHERE pgID = $myID ORDER BY incMain DESC");
+		$rek=mysql_query("SELECT recID,incDipartimento,incDivisione,incSezione,incIncarico,incMain,pgPlace,placeName FROM pg_incarichi,pg_places WHERE placeID = pgPlace AND pgID = $myID ORDER BY incMain DESC");
 		while($rekA = mysql_fetch_assoc($rek))
 			$inca[] = $rekA;
 
@@ -648,7 +645,7 @@ class PG
 			if(count($inca) > 1){
 				$this->metapgIncarico = 'Altri incarichi:<hr/><ul>';
 				for($k=1; $k < count($inca); $k++)
-					$this->metapgIncarico .= '<li>'.$inca[$k]['incIncarico'].'</li>';
+					$this->metapgIncarico .= '<li>'.$inca[$k]['incIncarico'].' - '.$inca[$k]['placeName'].'</li>';
 				$this->metapgIncarico .= '</ul>';
 			}
 		}
@@ -721,7 +718,7 @@ class PG
 		return mysql_affected_rows();
 	}
 	
-	public function sendPadd($subject,$text,$from = '518')
+	public function sendPadd($subject,$text,$from = '518',$guider=0,$forceMail=0)
 	{
 		$myID = $this->ID;
 		$curTime = time();
@@ -732,15 +729,15 @@ class PG
 
 		$textE=addslashes($text);
 		
-		mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead) VALUES ($from,$myID,'$subject','<p style=\"font-size:13px; margin-left:10px; margin-right:10px;\">$textE</p>$aft',$curTime,0)");
-
+		mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,bgRevision) VALUES ($from,$myID,'$subject','<p style=\"font-size:13px; margin-left:10px; margin-right:10px;\">$textE</p>$aft',$curTime,0,$guider)");
+		if(mysql_error()){echo mysql_error();exit;}
 		if(!isSet($this->paddMail)){
 			$resa = mysql_fetch_assoc(mysql_query("SELECT paddMail,email FROM pg_users WHERE pgID = $myID"));
 			$this->paddMail = $resa['paddMail'];
 			$this->email = $resa['email'];
 		}
 
-		if($this->paddMail)
+		if($this->paddMail || $forceMail)
 		{
 
 			$sendTo = $this->email;
@@ -799,13 +796,13 @@ class PG
 		mysql_query("DELETE FROM pg_achievement_assign WHERE owner = '$pgID';");
 		mysql_query("DELETE FROM pg_alloggi WHERE pgID = '$pgID';");
 		mysql_query("UPDATE pg_users SET pgBavo = 1, pgLocation = 'BAVO', pgRoom ='BAVO' WHERE pgID = $pgID");
-		/*$this->sendPadd('Sospensione Account', "Ciao $pgName,
+		$this->sendPadd('Sospensione Account', "Ciao $pgName,
 
-			Sono passati 30 giorni dal tuo ultimo login in Star Trek: Federation. Per garantire uno sviluppo funzionale degli organigrammi di bordo, il tuo personaggio verrà spostato in altra locazione a partire da oggi. Ci auguriamo di rivederti presto fra noi, e ti assicuriamo che, in caso volessi tornare, il tuo PG sarà mantenuto attivo per altri 30 giorni. Al termine dei 30 giorni, il PG sarà eliminato dai nostri server.
+			Sono passati 30 giorni dalla tua ultima giocata in Star Trek: Federation. Per garantire uno sviluppo funzionale degli organigrammi di bordo, il tuo personaggio verrà rimosso dal gioco attivo a partire da oggi. Ci auguriamo di rivederti presto fra noi, e ti assicuriamo che, in caso volessi tornare, il tuo PG sarà mantenuto attivo per altri 30 giorni. Al termine dei 30 giorni, il PG sarà eliminato dai nostri server.
 
 			A presto
 			Il team di Star Trek: Federation
-			http://www.startrekfederation.it");*/
+			http://www.startrekfederation.it");
 
 	}
 
@@ -1189,11 +1186,11 @@ class PG
 	public static function returnMapsStringFORDB($actual)
 	{	// O M SM A
 			
-		if ($actual == "A") return "'A','MM','SM','M','SL','JM','N'";
-		elseif ($actual == "SM") return "'SM','MM','SL','M','JM','N'";
-		elseif ($actual == "MM") return "'MM','JM','SL','N'";
-		elseif ($actual == "M") return "'M','JM','SL','N'";
-		elseif ($actual == "JM") return "'JM','N'";
+		if ($actual == "A") return "'A','MM','SM','M','SL','JM','G','N'";
+		elseif ($actual == "SM") return "'G','SM','MM','SL','M','JM','N'";
+		elseif ($actual == "MM") return "'G','MM','JM','SL','N'";
+		elseif ($actual == "M") return "'G','M','JM','SL','N'";
+		elseif ($actual == "JM") return "'G','JM','N'";
 		elseif ($actual == "G") return "'G','O','N'";
 		elseif ($actual == "O") return "'O','N'";
 		elseif ($actual == "N") return "'N'";

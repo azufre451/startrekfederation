@@ -67,10 +67,10 @@
 
 
 <div id="schedaLeft">
-	<div tal:attributes="style string:border:1px solid #999;; width:200px;; height:470px;; margin-left:auto;; margin-right:auto;; background-position:center;; background-size: auto 100%;; background-image:url('${userData/pgAvatar}');; background-repeat:no-repeat;" class="radiusBordered">
+	<div tal:attributes="style string:border:1px solid #999;; width:200px;; height:470px;; z-index:10;; margin-left:auto;; margin-right:auto;; background-position:center;; background-size: auto 100%;; background-image:url('${userData/pgAvatar}');; background-repeat:no-repeat;" class="radiusBordered">
 		<img tal:attributes="src php:(userData.png == 1) ? 'TEMPLATES/img/interface/PNGmarker.png' : 'TEMPLATES/img/interface/NOmarker.png'" />		
 	</div>
-			
+ 
 		
 		<!--	<div style="width:196px; padding:2px 2px 3px 2px; margin-top:20px; border:1px dotted #999; margin-left:auto; margin-right:auto;"><img style="vertical-align:middle;" tal:attributes="src string:TEMPLATES/img/ranks/${userData/pgMostrina}.png ; title string:${userData/pgGrado} - Sezione ${userData/pgSezione}" /> <img style="vertical-align:middle;" tal:attributes="src php:(userData.pgSesso == 'M') ? 'TEMPLATES/img/specie/' . userData.pgSpecie . '_m.png' : ((userData.pgSesso == 'F') ? 'TEMPLATES/img/specie/' . userData.pgSpecie . '_f.png' : 'TEMPLATES/img/specie/' . userData.pgSpecie . '_t.png' ) ; title php:(userData.pgSesso == 'M') ? userData.pgSpecie . ' - Maschio' : ((userData.pgSesso == 'F') ? userData.pgSpecie . ' - Femmina' : userData.pgSpecie . ' - Terzo Genere' )"  /> <span style="vertical-align:middle; font-size:13px;" tal:content="userData/pgUser" /></div>-->
 			
@@ -85,7 +85,7 @@
 			<table cellspacing="2px" id="tabEr">
 				<tbody>
 					<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/nome.png" alt="Nome"/></td><td class="bdr" tal:content="string:${userData/pgNomeC} ${userData/pgUser} ${userData/pgNomeSuff}"></td></tr>
-					<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/matricola.png" alt="Matricola Flotta Stellare"/></td><td class="bdr" tal:content="string:${userData/pgMatricola}"></td></tr>
+					<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/matricola.png" alt="Matricola Flotta Stellare"/></td><td class="bdr" tal:content="string:${userData/pgMatricola}"></td> </tr>
 					<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/specie.png" alt="Specie"/></td><td class="bdr"><span tal:content="userData/pgSpecie"></span>, <span tal:content="php:(userData.pgSesso == 'M') ? 'Maschio' : (userData.pgSesso == 'F' ? 'Femmina': 'Terzo Genere')"></span></td></tr>
 					<tr><td class="borderOne"><img tal:attributes="src php:(userData.pgSesso == 'F') ? 'TEMPLATES/img/interface/personnelInterface/nata_luogo.png' : 'TEMPLATES/img/interface/personnelInterface/nato_luogo.png'" alt="Luogo di Nascita"/></td><td class="bdr" tal:content="userData/pgLuoN"></td></tr>
 					<tr><td class="borderOne"><img tal:attributes="src php:(userData.pgSesso == 'F') ? 'TEMPLATES/img/interface/personnelInterface/nata_data.png' : 'TEMPLATES/img/interface/personnelInterface/nato_data.png'" alt="Data di Nascita"/></td><td class="bdr" tal:content="string:${userData/pgDataN} ${userData/pgFixYear}" /></tr>

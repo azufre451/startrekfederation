@@ -7,8 +7,8 @@
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link href="TEMPLATES/css/cdb.css?v=1.2.1" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
-	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 
 	<title>STAR TREK FEDERATION - CDB</title>
 	
@@ -67,7 +67,7 @@
 		
 		<select style="margin-left:10px;" name="cdbSeclar">
 			<option tal:condition="php:(showSearchMaster)" tal:repeat="con php:range(1,9)" tal:attributes="value con" tal:content="string: SECLAR ${con}" />
-			<option tal:condition="php:user.pgAuthOMA == 'N' OR user.pgAuthOMA == 'O'" tal:repeat="con php:range(1,user.pgSeclar)" tal:attributes="value con" tal:content="string: SECLAR ${con}" />
+			<option tal:condition="php:user.pgAuthOMA == 'N' OR user.pgAuthOMA == 'O' OR user.pgAuthOMA == 'G'" tal:repeat="con php:range(1,user.pgSeclar)" tal:attributes="value con" tal:content="string: SECLAR ${con}" />
 		</select>
 		
 		

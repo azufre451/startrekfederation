@@ -1,0 +1,305 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/personnel.css?v=1.2" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js" />
+	<script type="text/javascript" src="TEMPLATES/js/multitool.js" />
+	
+	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+	<!-- <script type="text/javascript" src="TEMPLATES/js/lazyload.js"></script> -->
+	<title>STAR TREK FEDERATION - SCHEDA</title>		 
+	<style>
+		
+		.ongoing{display:block; background-color: #945416; color: white; padding:2px; border: 1px solid white;}
+		.closed{display:block; background-color: black; color: white; padding:2px; border: 1px solid white;}
+		.forced{display:block; background-color: #961c1c; color: white; padding:2px; border: 1px solid white;}
+		.masterPriv{display:block; background-color: #73279f; color: white; padding:2px; border: 1px solid white;}
+		.master{display:block; background-color: #960101; color: white; padding:2px; border: 1px solid white;}
+		.nomaster{display:block; background-color: #0c4580; color: white; padding:2px; border: 1px solid white;}
+
+		.approvalDiv{background-color:#333; border:1px solid #333; padding:5px;}
+		.approvalDiv:hover{background-color:#945416; cursor: pointer;}
+
+		#approvals ins {text-decoration: none; background-color:green !important;}
+		#approvals del {text-decoration: none; background-color:#960101 !important;}
+
+		#padderList div {cursor:pointer; border:1px solid #222; margin-top:3px; font-size:13px;}
+		#padderList div.active, #padderList div:hover {background-color:#1b5c82; color:white;}
+		#connDiv table td {padding:4px; font-size:13px;   border-bottom:1px solid #FC0;} 
+		#connDiv table tr.head td {font-weight:bold; background-color:#555;} 
+
+
+	</style>
+</head>
+<body style="background-color:black; overflow:hidden;  padding:-5px;">
+
+<div style="background-image:url('TEMPLATES/img/interface/multitool/cornice_multitool.png'); background-repeat: no-repeat; height:620px; padding-top:20px; padding-left:20px;">
+
+
+	<div style="float:left; width:170px;">
+		<p style="font-size:14px;" tal:condition="exists:bonusM"><a href="javascript:void(0);" class="interfaceLink" onclick="jQuery('#multiedit').toggle();" >&raquo; EDIT SCHEDE MULTIPLE </a></p>
+
+		<p style="font-size:14px;"><a onclick="window.open ('multitool.php?s=stor','prestav', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=490,height=605');" href="javascript:void(0);" class="interfaceLink">&raquo; TUTTI I PUNTI</a></p>
+
+
+		<p style="font-size:14px;"  tal:condition="exists:bonusM"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#masterEvents').toggle();" >&raquo; EVENTI MASTER </a></p>    
+
+		<p style="font-size:14px;"  tal:condition="exists:bonusSM"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#closingTool').toggle();" >&raquo; GESTORE SESSIONI </a></p>  
+
+		<!-- _________________________- -->
+		<p style="font-size:14px;"  tal:condition="exists:bonusSM"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#approvals').toggle();" >&raquo; APPROVAZIONE BG </a></p>
+
+		<p style="font-size:14px;"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#lastpgs').toggle();" >&raquo; TOOL ULTIMI PG </a></p>
+
+
+	</div>
+
+	<div style="float:left; width:600px; height:520px; font-size:13px; font-family:Helvetica; overflow-y:auto; margin-left:30px; margin-top:40px;">
+
+
+		<div id="lastpgs" style="display:none; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;"> 
+
+			<table>
+
+				<tr>
+					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;"> Personaggio</td>
+					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;"> Lock</td>
+					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;"> Alloggio</td>
+					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;"> Incarico</td>
+					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;"> App. BG</td> 
+					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;" colspan="2">Messaggi Staff</td>
+				</tr>
+				<tr tal:repeat="person resLastPGS"> 
+				<td style="text-align:left;">
+					<img tal:attributes="src string:TEMPLATES/img/ranks/${person/ordinaryUniform}.png" style="vertical-align:middle;" />
+					<a tal:attributes="onclick string:javascript:schedaPOpen(${person/pgID})" class="interfaceLink" href="javascript:void(0);" tal:content="person/pgUser"></a>
+				</td>
+			
+				<td style="border:1px solid #111;"><img tal:attributes="src php:(person['pgLock']) ? 'TEMPLATES/img/interface/red_dot_icon.png' : 'TEMPLATES/img/interface/green_dot_icon.png'" /></td>
+
+
+				<td style="border:1px solid #111;"><img tal:attributes="src php:(person['pgAlloggio'] != '') ? 'TEMPLATES/img/interface/green_dot_icon.png' : 'TEMPLATES/img/interface/red_dot_icon.png' ; title php:(person['pgAlloggio'] != '') ? 'Alloggio assegnato' : 'Alloggio non ancora assegnato, i Masters possono assegnare gli alloggi.'" /></td>
+
+				<td style="border:1px solid #111;"><img tal:attributes="src php:(person['pgIncarico']) ? 'TEMPLATES/img/interface/green_dot_icon.png' : 'TEMPLATES/img/interface/red_dot_icon.png'" /></td>
+
+				<td style="border:1px solid #111;"><img tal:attributes="src php:(person['pgBackground']) ? 'TEMPLATES/img/interface/green_dot_icon.png' : 'TEMPLATES/img/interface/red_dot_icon.png'" />
+
+				</td>
+				<td style="border:1px solid #111;"><a class="interfaceLink" href="javascript:void(0)" tal:condition="php:(person['commpadd'])" tal:attributes="onclick string:ajax_getProfilingPadds(${person/pgID})">[ <span tal:content="person/commpadd" /> ]</a>
+				</td>
+
+				<td style="border:1px solid #111;"><a class="interfaceLink" href="javascript:void(0)" tal:attributes="onclick string:if(confirm('Attenzione: i Padd inviati da questo tool, così come le risposte inviate, saranno visibili a tutto lo staff tramite il multi-tool. Ciò permane anche se la conversazione procede tramite -Padd normali- dopo il messaggio iniziale' ) ){ window.open('padd.php?s=seR&to=${person/pgUser}&sub=&guider=1','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403')}">[ Nuovo ]</a>
+				</td> 
+
+				</tr>
+			</table>
+
+
+		</div>
+
+
+		<div tal:condition="exists:bonusM" id="masterEvents" style="display:none; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+		Inserisci Evento Master Globale per il Vascello<br /><br />
+			<form method="POST" action="cdb.php?insertMasterEvent=do">
+				<input type="text" class="neon" name="eventTitle" placeholder="Titolo Evento Master" style="width:400px;" /><br /> <br />
+
+				<select name='place' style="width:400px;"><option tal:repeat="location locations" tal:attributes="value repeat/location/key" tal:content="location"/></select> <br /><br />
+	
+				<textarea type="text" name="eventText" placeholder="Testo Evento Master" style="width:400px; height:170px;" /><br /><br />
+				<input type="submit" value="Inserisci" />
+			</form>
+		</div>
+
+
+		<div tal:condition="exists:bonusSM" id="closingTool" style="display:none; border:1px solid orange; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+			
+			<table>
+				<tr style="background-color:#444; font-weight:bold;"> <td style="width:30px;"> ID </td> <td> Luogo </td> <td> Owner </td> <td>Data Inizio </td> <td> Stato </td> </tr>
+				<tr style="margin-top:15px; border:1px solid white;" tal:attributes="id string:session_${session/sessionID}" tal:repeat="session sessions"> 
+
+				<td><span tal:attributes="class php:((session['sessionMaster'] == '1') ? ((session['sessionPrivate'] == '1') ? 'masterPriv': 'master') : 'nomaster')" tal:content="session/sessionID" /></td>
+
+				<td><span tal:content="session/sessionLabel" style="margin:0" /> <span style="font-color:#20527c; font-weight:bold;">@</span> <span tal:content="session/locName" style="margin:0;" /> <a href="javascript:void(0);" tal:attributes="onclick string:closeSession('${session/sessionID}')" class=" commander interfaceLink" style="color:red;" tal:condition="php:(session['sessionStatus'] == 'ONGOING')"> [Chiudi] </a> <a href="javascript:void(0);" tal:attributes="href string:getLog.php?session=${session/sessionID}" target="_blank" style="color:#FFCC00;" tal:condition="php:(session['sessionStatus'] == 'CLOSED')"> [Log] </a> </td>
+				<td tal:content="session/pgUser" />
+				<td><span tal:content="php:(date('d/m/y',session['sessionStart']))" /><br /><span tal:content="php:(date('H:i',session['sessionStart']))" /></td>
+				<td class="statuser"><span tal:attributes="class php:((session['sessionStatus'] == 'ONGOING') ? 'ongoing' : ((session['sessionStatus'] == 'CLOSED') ? 'closed' : '' ) )" tal:content="session/sessionStatus" /></td>
+				
+				
+				</tr>
+			</table>
+		</div>
+
+
+		<div style="display:none;" tal:condition="exists:bonusM" id="multiedit"> 
+
+			<p style="color:red; font-weight:bold;"> Attenzione! <span style="color:white;">Con questa scheda stai lavorando su un <span style="color:orange;"> GRUPPO </span> di personaggi. Le modifiche riguarderanno tutti i PG del gruppo.</span></p>
+
+			<div style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+			<b>Utenti a cui applicare le modifiche (Puoi inserirne più di uno separando con la virgola):</b><br/><textarea id="users" name="users" style="width:500px; height:40px; font-size:15px; font-weight:bold;" onfocus="this.select();" /></div>
+
+			<hr />
+
+			<div style="border:1px solid #888; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;" tal:condition="exists:bonusSM">
+			Assegna Punteggi a Tutti: &nbsp;&nbsp;<select id="addPoints">
+				<optgroup label="Punti Ordinari QUEST">
+				<option value="a1">1 pt - Insufficiente</option>
+				<option value="a2">2 pt - Scadente</option>
+				<option value="a3">3 pt - Scarso</option>
+				<option value="a4">4 pt - Sufficiente</option>
+				<option value="a5">5 pt - Discreto</option>
+				<option value="a6">6 pt - Buono</option>
+				<option value="a7">7 pt - Distinto</option>
+				<option value="a8">8 pt - Ottimo</option>
+				<option value="a9">9 pt - Eccezionale</option>
+				<option value="a10">10 pt - Ommammamiaquantoèfigo</option>
+				</optgroup>
+				
+				<optgroup label="Punti Ordinari ONE SHOT">
+				<option value="a1">1 pt - Insufficiente</option>
+				<option value="a2">2 pt - Sufficiente</option>
+				<option value="a3">3 pt - Buono</option>
+				<option value="a4">4 pt - Distinto</option>
+				<option value="a5">5 pt - Eccezionale</option>
+				<option value="b5">5 pt - Masterata di una One Shot</option>
+				</optgroup>
+				
+				<optgroup label="Punti Ordinari MINI SHOT - FREE ROLE">
+				<option value="f2">2 pt - Partecipazione</option>
+				</optgroup> 
+				
+				<optgroup label="Rapporti">
+				<option value="r2">2 pt R - Stesura Rapporto [Usare se possibile il comando in CDB!]</option>
+				</optgroup>
+				
+				<optgroup label="[SM] Integrazioni Dispense">
+				<option value="kz1">20 pt DISP - Piccola Integrazione</option>
+				<option value="kz2">50 pt DISP+ - Dispensa Completa</option>
+				</optgroup>
+				
+			</select><br /><input id="pointDetail" placeholder="Descrizione (Esempio: nome della quest, o della simulazione)" style="width:400px; margin-top:7px;" />&nbsp;&nbsp;<input type="submit" value="VAI" onclick="addPoints();" />
+			</div>
+
+			<a href="#" onclick="blockList()" class="interfaceLinks"><div style="border:1px solid #2e7ec8; margin-top:20px; margin-left:20px; margin-right:20px; padding:7px; text-align:center;">BLOCCA QUESTI PG</div></a>
+
+			<a href="#" tal:condition="exists:bonusSM" onclick="bavoList()" class="interfaceLinks"><div style="border:1px solid #2e7ec8; margin-top:20px; margin-left:20px; margin-right:20px; padding:7px; text-align:center;">BAVOSIZZA QUESTI PG</div></a>
+
+			<a href="#" tal:condition="exists:bonusSM" onclick="delList()" class="interfaceLinks"><div style="border:1px solid #2e7ec8; margin-top:20px; margin-left:20px; margin-right:20px; padding:7px; text-align:center;">CANCELLA QUESTI PG</div></a>
+
+			<div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-top:20px; margin-right:20px;  margin-left:20px; padding:5px; text-align:center;">
+			Assegna a tutti: <select id="setSecl">
+				<option tal:repeat="con php:range(1,9)" tal:content="string: SECLAR ${con}" tal:attributes="value con"/>
+			</select>&nbsp;&nbsp;<input type="submit" value="VAI" onclick="setSeclar(jQuery('#setSecl').val());" />
+			</div>
+
+			<div style="clear:both; height:10px;" />
+			<div style="border:1px solid #2e7ec8; padding:5px; margin-left:20px; text-align:center; margin-right:20px;" tal:condition="exists:bonusM" >Assegna a tutti lo Stato di Salute&nbsp;&nbsp;<input type="text" id="medStatus" placeholder="Stato di Salute"  style="width:360px;" onfocus="this.select()" />&nbsp;&nbsp;<input type="submit" value="VAI" onclick="setSalute(jQuery('#medStatus').val());" /></div><div style="clear:both;" />
+			 
+			<div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+			Imposta Mostrina a Tutti&nbsp;&nbsp;
+			<select id="rankCode">
+				<optgroup tal:repeat="ranker ranks" tal:attributes="label repeat/ranker/key">
+				<option tal:repeat="rnk ranker" tal:attributes="value repeat/rnk/key" tal:content="rnk/note"/>
+				</optgroup>
+			</select>
+			<input type="submit" value="VAI" onclick="setMostrina(jQuery('#rankCode').val());"/>
+
+			</div>
+
+			<div tal:condition="exists:bonusSM" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+			Sposta PG sulla location<br />
+				<select id="assegnazioneSpostamento">
+				<option tal:repeat="location locations" tal:attributes="value repeat/location/key" tal:content="location"/></select><br />
+				<input  type="submit" value="VAI" onclick="setReassign();" />
+			</div>
+
+			<div tal:condition="exists:bonusSM" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+			Pialla Incarichi & Imposta Assegnazione e Incarico a Tutti<br />
+				<select id="assegnazione">
+				<option tal:repeat="location locations" tal:attributes="value repeat/location/key" tal:content="location"/></select><br />
+				<input class="neon" style="width:300px;" type="text" id="incarico" placeholder="Incarico" onfocus="this.select()" /><br />
+				<input class="neon" style="width:300px;" type="text" id="divisione" placeholder="Divisione" onfocus="this.select()" /><br />
+				<input class="neon" style="width:300px;" type="text" id="dipartimento" placeholder="Dipartimento" onfocus="this.select()" /><br/>
+				<input  type="submit" value="VAI" onclick="setIncarico();" />
+			</div>
+
+
+			<div style="border:1px solid #888; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+					Aggiungi alle note master di tutti:
+					
+					<textarea style="width:90%; height:70px;" id="note" /><br /><br />
+					<input type="submit" value="VAI" onclick="noteAdd();" />
+			</div>
+
+		</div>	
+
+
+		<div id="approvals" tal:condition="exists:bonusSM" tal:attributes="style php:((isSet(viewApprovals)) ? 'display:block' : 'display:none' )"> 
+			
+			<div style="width:400px;">
+				<a tal:repeat="approBG pendingBGS" tal:content="repeat/approBG/key" style="margin-left:5px; border-left:2px solid #333; " class="interfaceLink" tal:attributes="onclick string:jQuery('#tyl_${repeat/approBG/key}').toggle();" />
+			</div>
+
+			<div tal:repeat="approBG pendingBGS" tal:attributes="id string:tyl_${repeat/approBG/key}" style="display:none; width:100%;">
+				<div tal:repeat="approval approBG">
+						<p class="approvalDiv" tal:attributes="onclick string:jQuery('#modi_${approval/pgID}').toggle();">
+							<img tal:attributes="src string:TEMPLATES/img/ranks/${approval/ordinaryUniform}.png" style="vertical-align:middle;" />
+							<a tal:attributes="onclick string:javascript:schedaPOpen(${approval/pgID})" class="interfaceLink" href="javascript:void(0);" tal:content="approval/pgUser"></a> Ultima Modifica: <span tal:content="php:date('d-m-y H:i',approval['tim'])">  </span>
+							[ <span tal:content="php: ((approval['supervision']) ? ((approval['supervision'] == 3) ? 'Jean' : 'Moreno') : '') " style="font-weight:bold;"> </span> ]
+						</p>
+
+						<div style="display:none;" tal:attributes="id string:modi_${approval/pgID}" tal:condition="exists:approval/approdiff" >
+
+						<p><img src="TEMPLATES/img/interface/personnelInterface/div_aspetto.png" /></p>
+						<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure approval/approdiff/pgBiometrics" />
+
+						<p><img src="TEMPLATES/img/interface/personnelInterface/div_biografia.png" /></p>
+						<div style="margin-right:5px; font-size:13px; text-align:justify" class="backkander" tal:content="structure approval/approdiff/pgBackground" />
+
+						<p><img src="TEMPLATES/img/interface/personnelInterface/div_psicologia.png" /></p>
+						<div style="margin-right:5px; font-size:13px; text-align:justify" class="backkander" tal:content="structure approval/approdiff/pgCarattere" />
+
+						<p><img src="TEMPLATES/img/interface/personnelInterface/div_famiglia.png" /></p>
+						<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure approval/approdiff/pgFamily" />
+
+						<p><img src="TEMPLATES/img/interface/personnelInterface/div_seclar7.png" /></p>
+						<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure approval/approdiff/pgIlSegreto" />
+
+						<p><img src="TEMPLATES/img/interface/personnelInterface/div_altro.png" /></p>
+						<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure approval/approdiff/pgVarie" />
+						
+						</div>
+						<div style="clear:both" />
+						<a tal:attributes="href string:multitool.php?s=approveBackground&pgID=${approval/pgID}" class="interfaceLinkGreen"> [ - APPROVA - ] </a> <a tal:attributes="title php:((approval['lastReminder']) ? 'Ultimo Reminder in data: '.date('d/m/y H:i',approval['lastReminder']) : '') ; onclick php:((approval['lastReminder']) ? 'return confirm(\'Sicuro di voler inviare un nuovo reminder?\');;' : 'return true;;') ; href string:multitool.php?s=remindBackground&pgID=${approval/pgID}" class="interfaceLinkBlue"> [ - INVIA REMINDER - ] </a>  <a tal:attributes="href string:multitool.php?s=achiAssignBackground&pgID=${approval/pgID}&what=14" class="interfaceLink"> [ - ACH. BG - ] </a>  <a tal:attributes="href string:multitool.php?s=achiAssignBackground&pgID=${approval/pgID}&what=44" class="interfaceLink"> [ - ACH. RUOL - ] </a>
+					</div>
+				</div>
+			</div>
+
+
+	</div>
+
+	<div style="clear:both"/>
+</div>
+  
+<div class="popup" style="padding:20px; font-family:Sans; border:1px solid #EEE; width:600px; height:320px; margin-top:-160px; margin-left:-320px; overflow-y:auto;" id="padders">
+	
+
+	<div  style="position:absolute; top:2px; right:2px; height:15px; width:15px; background-color:black; text-align:center; cursor:pointer; border:1px solid #AAA; padding:2px;" onclick="jQuery('#padders').fadeOut(100);">X</div>
+	<p style="font-size:20px; margin:0px;"> Elenco padd inviati dallo Staff </p>
+
+	<div class="container" />
+
+</div>
+
+
+</body>
+</html>

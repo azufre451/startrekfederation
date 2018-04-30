@@ -8,9 +8,9 @@
 
 		<link rel="shortcut icon" href="favicon.ico" />
 		
-		<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+		<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
 		<script type="text/javascript" src="TEMPLATES/js/JU.js" />
-		<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+		<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 		<!--<script type="text/javascript" src="TEMPLATES/js/index.js?v=0.6" />-->
 		<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=0.6" />
 		
@@ -22,7 +22,7 @@
 	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/index.css?v=1.2" rel="stylesheet" type="text/css" />
 	<link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet" />
-	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" /> 
+	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" /> 
 	
 	<script src="TEMPLATES/carousel/js/jquery.easing.1.3.js" type="text/javascript"></script>
 	<script src="TEMPLATES/carousel/js/jquery.timers-1.2.js" type="text/javascript"></script>
@@ -288,7 +288,7 @@
 					<div style="width:80%; margin-left:80px;">
 				<p style=" font-family:federationFontI; text-align:left; font-size:26px; line-height:26px; letter-spacing:3px; color:#BBB; margin-top:0px; ">&ldquo;Spazio, ultima frontiera.<br /><span style="margin-left:60px; ">Questi sono i viaggi della nave stellare Enterprise...&rdquo;</span> </p>
 				
-				<p class="content" style="text-align:center; width:100%; font-family:Lato; font-size:25px; line-height:1.3em;">Star Trek: Federation è un Gioco di Ruolo online<br />via chat ambientato nell' <a style="text-decoration: underline;" href="landing.php?mod=trk1&flavour=0">anno 2396</a></p></div>
+				<p class="content" style="text-align:center; width:100%; font-family:Lato; font-size:25px; line-height:1.3em;">Star Trek: Federation è un Gioco di Ruolo online<br />via chat ambientato nell' <a style="text-decoration: underline;" href="landing.php?mod=trk1&flavour=0">anno 2397</a></p></div>
 
 				<p style="font-family:federationFontI; font-size:22px; text-align:left; margin-left:60px;"> Che cosa succede in gioco: </p>				 
 					<div id="newsS">
@@ -386,8 +386,8 @@
 							<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_sfC" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
 									 
 								<optgroup label="Ufficiali">
-									<!--<option value="842_o4">Tenente Comandante, Sezione Comando e Strategia (Flotta Stellare)</option>-->
-									<option value="837_o3">Tenente, Sezione Comando e Strategia (Flotta Stellare)</option>
+									<!--<option value="842_o4">Tenente Comandante, Sezione Comando e Strategia (Flotta Stellare)</option>
+									<option value="837_o3">Tenente, Sezione Comando e Strategia (Flotta Stellare)</option>-->
 									<option value="832_o2">Sottotenente, Sezione Comando e Strategia (Flotta Stellare)</option>
 									<option value="827_o1">Guardiamarina, Sezione Comando e Strategia (Flotta Stellare)</option>
 								</optgroup>
@@ -397,8 +397,8 @@
 							<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_sfT" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
 									 
 								<optgroup label="Ufficiali">
-									<!--<option value="841_o4">Tenente Comandante, Sezione Difesa e Sicurezza (Flotta Stellare)</option>-->
-									<option value="836_o3">Tenente, Sezione  Difesa e Sicurezza  (Flotta Stellare)</option>
+									<!--<option value="841_o4">Tenente Comandante, Sezione Difesa e Sicurezza (Flotta Stellare)</option>
+									<option value="836_o3">Tenente, Sezione  Difesa e Sicurezza  (Flotta Stellare)</option>-->
 									<option value="831_o2">Sottotenente, Sezione  Difesa e Sicurezza  (Flotta Stellare)</option>
 									<option value="826_o1">Guardiamarina, Sezione  Difesa e Sicurezza  (Flotta Stellare)</option>
 								</optgroup>
@@ -413,8 +413,8 @@
 							<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_sfI" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
 									 
 								<optgroup label="Ufficiali">
-									<!--<option value="839_o4">Tenente Comandante, Sezione Operazioni (Flotta Stellare)</option>-->
-									<option value="834_o3">Tenente, Sezione  Operazioni  (Flotta Stellare)</option>
+									<!--<option value="839_o4">Tenente Comandante, Sezione Operazioni (Flotta Stellare)</option>
+									<option value="834_o3">Tenente, Sezione  Operazioni  (Flotta Stellare)</option>-->
 									<option value="829_o2">Sottotenente, Sezione  Operazioni  (Flotta Stellare)</option>
 									<option value="824_o1">Guardiamarina, Sezione  Operazioni  (Flotta Stellare)</option>
 								</optgroup>
@@ -428,8 +428,8 @@
 							<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_sfS" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
 									 
 								<optgroup label="Ufficiali">
-									<!--<option value="838_o4">Tenente Comandante, Sezione Scientifica e Medica (Flotta Stellare)</option>-->
-									<option value="833_o3">Tenente, Sezione Scientifica e Medica (Flotta Stellare)</option>
+									<!--<option value="838_o4">Tenente Comandante, Sezione Scientifica e Medica (Flotta Stellare)</option>
+									<option value="833_o3">Tenente, Sezione Scientifica e Medica (Flotta Stellare)</option>-->
 									<option value="828_o2" selected="selected" >Sottotenente, Sezione Scientifica e Medica (Flotta Stellare)</option>
 									<option value="823_o1">Guardiamarina, Sezione Scientifica e Medica (Flotta Stellare)</option>
 								</optgroup>
@@ -443,8 +443,8 @@
 							<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_sfN" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
 									 
 								<optgroup label="Ufficiali">
-									<!--<option value="840_o4">Tenente Comandante, Sezione Navigazione (Flotta Stellare)</option>-->
-									<option value="835_o3">Tenente, Sezione  Navigazione  (Flotta Stellare)</option>
+									<!--<option value="840_o4">Tenente Comandante, Sezione Navigazione (Flotta Stellare)</option>
+									<option value="835_o3">Tenente, Sezione  Navigazione  (Flotta Stellare)</option>-->
 									<option value="830_o2">Sottotenente, Sezione  Navigazione  (Flotta Stellare)</option>
 									<option value="825_o1">Guardiamarina, Sezione  Navigazione  (Flotta Stellare)</option>
 								</optgroup>

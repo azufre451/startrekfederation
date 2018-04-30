@@ -76,7 +76,7 @@ input[type=text].neon:hover, input[type=text].neon:active, input[type=text].neon
 	
 	font-size:12px;
 	font-weight:bold;
-	font-family:verdana;
+	font-family:Arial;
 }
 .interfaceLink{color:#fffbe8;}
 a.interfaceLink:hover{color:orange;}
@@ -336,7 +336,7 @@ font-weight:bold;
 	border-bottom:1px solid #BBB;
 	padding-top:10px; padding-bottom:10px;
 	text-align:center;
-	font-family:Verdana;
+	font-family:Arial;
 	font-size:16px;
 	width:320px;
 	margin-left:auto;
@@ -352,7 +352,7 @@ font-weight:bold;
 	border-bottom:1px solid #BBB;
 	padding-top:10px; padding-bottom:10px;
 	text-align:center;
-	font-family:Verdana;
+	font-family:Arial;
 	font-size:16px;
 	width:320px;
 	margin-left:auto;
@@ -455,7 +455,7 @@ padding:5px;
 
 .avviso
 {
-font-family:Verdana;
+font-family:Arial;
 border-radius:12px;
 padding:10px;
 display:none;

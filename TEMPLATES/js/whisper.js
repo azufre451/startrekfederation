@@ -2,8 +2,7 @@ var are;
 		var area;
 		jQuery(function()
 		{
-			are = setInterval("updater();",5000);
-			area = setInterval("upa();",5000);
+			are = setInterval("updater();",5000); 
 			jQuery("#chatDiv").scrollTop(jQuery("#chatDiv")[0].scrollHeight);
 		});
 		
@@ -46,12 +45,7 @@ var are;
 			jQuery("#chatDiv").scrollTop(jQuery("#chatDiv")[0].scrollHeight);
 			}
 			}
-		}
-		
-		function setterPG(data)
-		{
-			if(data['PGP'] != '') 
-			{
+			if(data['PGP'] != '') {
 				sendToValue = jQuery('#selectedSendTo').prop('value');
 				if (sendToValue == 0 || sendToValue == 7)
 					classTutti = 'class="activ"';
@@ -72,10 +66,9 @@ var are;
 					jQuery('#onlineUserList').append('<div id="ST_'+ea['pgID']+'" onclick="setSendTo(this)" ondblclick="schedaPOpen('+ea['pgID']+')" '+ct+'><img src="TEMPLATES/img/ranks/'+ea['pgMostrina']+'.png" /> <span '+classStaff+'> '+ea['label']+'</span></div>');
 				}); 
 				
-				 
 			}
 		}
-		
+		 
 
 		function sendChat()
 		{

@@ -51,11 +51,11 @@ a.topicImportant:hover{text-decoration:underline;
 .interfaceLink,.interfaceLinkBlue,.interfaceLinkRed,.interfaceLinkGreen,.interfaceLinkYellow
 {
 	
-	font-size:12px;
+	font-size:13px;
 
 	font-weight:bold;
 
-	font-family:verdana;
+	font-family:Arial;
 
 }
 

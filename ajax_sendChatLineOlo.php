@@ -7,32 +7,31 @@ include('includes/validate_class.php');
  		
 		$string= str_replace("\xE2\x80\x8B", "", trim(preg_replace('/[\n\r]/','',htmlentities(addslashes(($_POST['chatLine'])),ENT_COMPAT, 'UTF-8'))));
 		
-		if ($string == '' || $string == '+' || $string == '-' || $string == '@' || $string == '#') exit;
+		$amb= addslashes($_POST['amb']);
 		$user = new PG($_SESSION['pgID']);
+		
+
+		if ($string == '' || $string == '+' || $string == '-' || $string == '@' || $string == '#') exit;
+		
 		if($user->pgLock || $user->pgAuthOMA == 'BAN') exit;
 		
-		$amb= addslashes($_POST['amb']);
 		
 			if(in_array(strtolower($string),array('exit','+exit')))
 			{ 
-				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','<p class=\"directiveRemove\">".addslashes($user->pgUser)."</p>',".time().",'NORMAL',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
+				mysql_query("INSERT INTO federation_chat(sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','<p class=\"directiveRemove\">".addslashes($user->pgUser)."</p>',".time().",'NORMAL',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 				exit;
 			} 
 		
-		// if($string[0] == '+')
-		// {
-			// $userN = addslashes($user->pgUser);
-			// $tag = ($_POST['chatTag'] == '') ? '' : '['.(strtoupper(addslashes($_POST['chatTag']))).']';
-			// $string[0] = '';
+		else if($string == '*mst::sounder**')
+		{
 			
-			// $stringe=strtolower($string);
+			$string = str_replace('-','',$string); 
+			$string = '<div style="position:relative;" class="auxAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Azione automatica di risposta ad un giocatore per aver consultato il computer di bordo o premuto un tasto automatizzato (luci, replicatori, biolettini etc.)." /> Comando Utente</div>Il sensore della porta suona, emettendo il suo inconfondibile squillo</div>'; 
+			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'MASTER',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 			
-			// $string = '<p class="chatAction">'.date('H:i')." <span class=\"actionUser\">$userN</span> ".$tag.' '.str_replace(array('&lt;','&gt;'),array('<span class="chatQuotationAction">&laquo;','&raquo;</span>'),$string).'</p>';			
-			// mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'ACTION')");
+			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','voy_door_chime',".time().",'AUDIO',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
+		}
 
-		// }
-		
-		
 		else if($string[0] == '-' && (PG::mapPermissions('O',PG::getOMA($_SESSION['pgID']))))
 		{
 			$vali=new validator();
@@ -59,7 +58,21 @@ include('includes/validate_class.php');
 			} 
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,specReceiver,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'$masSpec',$userSpecific,IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))"); 
 		}
+		else if($string[0] == '=' && PG::mapPermissions('SM',PG::getOMA($_SESSION['pgID'])))
+		{	
+			$vali=new validator();
+			$userSpecific= (isSet($_POST['userSpecific'])) ? $vali->numberOnly($_POST['userSpecific']): 0;
+			$string[0] = '';
+			if($userSpecific != 0)
+			
+			$string = '<div style="position:relative;" class="offAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Inviata da: Moderazione\nAzione di moderazione che un Moderatore indirizza all\\\'attenzione del giocatore. Va interpretata come un avviso formale da parte della moderazione a correggere atteggiamenti che si allontanano dal regolamento di gioco o dai principi di netiquette. La moderazione pu&ograve; utilizzare questo strumento anche per suggerimenti pi&ugrave; bonari :-)"/> Moderazione (Privata)</div>'.ucfirst(ltrim($string)).'</div>'; 
+			
+			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'SPECIFIC')");
+			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$userSpecific.",'$amb','$string',".time().",'SPECIFIC')");
+		}
 		
+
+
 		else if($string[0] == '*' && (PG::mapPermissions('O',PG::getOMA($_SESSION['pgID']))))
 		{ 
 			$tag = ($_POST['chatTag'] == '') ? '' : '['.(strtoupper(addslashes($_POST['chatTag']))).']';
@@ -75,16 +88,7 @@ include('includes/validate_class.php');
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'AUDIOE',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))"); 
 		}
 		
-		else if($string[0] == '=' && PG::mapPermissions('SM',PG::getOMA($_SESSION['pgID'])))
-		{	$vali=new validator();
-			$userSpecific= (isSet($_POST['userSpecific'])) ? $vali->numberOnly($_POST['userSpecific']): 0;
-			$string[0] = '';
-			if($userSpecific != 0)
-			$string = '<div style="position:relative;" class="offAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Inviata da: Moderazione\nAzione di moderazione che un Moderatore indirizza all\\\'attenzione del giocatore. Va interpretata come un avviso formale da parte della moderazione a correggere atteggiamenti che si allontanano dal regolamento di gioco o dai principi di netiquette. La moderazione pu&ograve; utilizzare questo strumento anche per suggerimenti pi&ugrave; bonari :-)"/> Moderazione (Privata)</div>'.ucfirst(ltrim($string)).'</div>'; 
-			
-			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'SPECIFIC')");
-			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$userSpecific.",'$amb','$string',".time().",'SPECIFIC')");
-		}
+
 		
 		else if($string[0] == '@' && (PG::mapPermissions('M',PG::getOMA($_SESSION['pgID'])) || PG::isMasCapable($_SESSION['pgID'])))
 		{
@@ -99,13 +103,13 @@ include('includes/validate_class.php');
 			{
 				$ambientTo = $resLoc['locID'];
 				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$ambientTo','$string',".time().",'GLOBAL')");
+
 			}
 		}
 		
 		else if($string[0] == '#' && (PG::mapPermissions('M',PG::getOMA($_SESSION['pgID'])) || PG::isMasCapable($_SESSION['pgID'])))
 		{
-			$string[0] = '';
-			
+			$string = str_replace('#','',$string);
 			$string = '<p class="imageAction"><img src="'.$string.'" alt="'.$string.'"/></p>';
 			
 			$locations = mysql_query("SELECT locID FROM fed_ambient WHERE ambientLocation = (SELECT ambientLocation FROM fed_ambient WHERE locID = '$amb')");
@@ -117,6 +121,7 @@ include('includes/validate_class.php');
 				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$ambientTo','$string',".time().",'GLOBAL_IMAGE')");
 			}
 		}
+				
 		else if ($string == 'CHAT_ZAP' && PG::mapPermissions('SM',PG::getOMA($_SESSION['pgID'])))
 		{
 			mysql_query("DELETE FROM federation_chat WHERE ambient = '$amb'");
@@ -124,20 +129,21 @@ include('includes/validate_class.php');
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'OFF')");
 			exit;
 		}
+	
 		
-		else if ($string[0] == '$' && PG::mapPermissions('SM',PG::getOMA($_SESSION['pgID'])))
+		else if ($string[0] == '$' && PG::mapPermissions('G',PG::getOMA($_SESSION['pgID'])))
 		{
 			$stringc = "<p class=\"directiveRemove\">".str_replace('$','',$string)."</p>";
-			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','$stringc',".time().",'NORMAL')");
-			exit;
+			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$stringc',".time().",'NORMAL',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
+			exit; 
 		}
-		
 		
 		else
 		{
 		$userN = addslashes($user->pgUser);
-		$grado = addslashes($user->pgGrado);
 		$pgID=$_SESSION['pgID'];
+		$grado = addslashes($user->pgGrado);
+
 		if($user->pgMostrinaOlo != '') 
 		{
 			$mostrina = $user->pgMostrinaOlo;
@@ -189,6 +195,5 @@ include('includes/validate_class.php');
 
 		PG::updatePresence($_SESSION['pgID']);
 		}
-		/* Laura backup System. Adds spaces after and before actions sent with < and >, to prevent people not using chat properly. (FIX-CODE: LAURA#21.2)*/
-		/* Laura backup System. Forces TAG to  (FIX-CODE: LAURA#21.2)*/
+
 ?>						

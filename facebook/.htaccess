@@ -1,0 +1,49 @@
+
+RewriteEngine on
+
+<Files 403.shtml>
+order allow,deny
+allow from all
+</Files>
+
+RewriteCond %{HTTP_HOST} ^facebook\.startrekfederation\.it$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.facebook\.startrekfederation\.it$
+RewriteRule ^/?$ "http\:\/\/www\.facebook\.com\/federation\.pbc" [R=301,L]
+
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^http://facebook.startrekfederation.it/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://facebook.startrekfederation.it$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://miki.startrekfederation.it/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://miki.startrekfederation.it$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://startrekfederation.it/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://startrekfederation.it$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.facebook.startrekfederation.it/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.facebook.startrekfederation.it$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.miki.startrekfederation.it/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.miki.startrekfederation.it$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.startrekfederation.it/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.startrekfederation.it$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.gdr-online.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.gdr-online.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.zfn.startrekfederation.it/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.zfn.startrekfederation.it$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://zfn.startrekfederation.it/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://zfn.startrekfederation.it$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://facebook.startrekfederation.it/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://facebook.startrekfederation.it$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://miki.startrekfederation.it/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://miki.startrekfederation.it$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://startrekfederation.it/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://startrekfederation.it$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.facebook.startrekfederation.it/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.facebook.startrekfederation.it$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.miki.startrekfederation.it/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.miki.startrekfederation.it$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.startrekfederation.it/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.startrekfederation.it$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.zfn.startrekfederation.it/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.zfn.startrekfederation.it$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://zfn.startrekfederation.it/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://zfn.startrekfederation.it$      [NC]
+RewriteRule .*\.(jpg|jpeg|gif|png|bmp)$ - [F,NC]
+

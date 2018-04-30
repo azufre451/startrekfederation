@@ -1,16 +1,18 @@
-﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<meta name="google" value="notranslate" />
+
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/personnel.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" /> 
+	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" /> 
 	
-	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" /> 
-	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" /> 
+	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 
 	<title>STAR TREK FEDERATION - SCHEDA</title>
@@ -55,28 +57,21 @@
 
 <div metal:use-macro="TEMPLATES/metal.htm/schedaIntro" />
 
-<div id="mainContainer" style="margin:-10px; height:560px; width:100%;">
+<div id="mainContainer" style="margin:-10px; height:590px; width:100%;">
  
-<div tal:attributes="style php:(OFFSubi) ? 'display:none' : 'display:block'"><table cellspacing="0px" id="incaricoTop" class="onRelated"><tbody><tr><td class="bdr" style="border-right:0px; width:200px;"><img tal:attributes="src string:TEMPLATES/img/logo/${unit}" /></td><td class="bdr" tal:content="structure userData/pgIncarico" /></tr>
-</tbody></table> </div>
 
 <div id="mainSchedaOn" class="onRelated" tal:attributes="style php:(OFFSubi) ? 'display:none' : 'display:block'">
+
+<table cellspacing="0px" id="incaricoTop" class="onRelated"><tbody><tr><td class="bdr" style="border-right:0px; width:200px;"><img tal:attributes="src string:TEMPLATES/img/logo/${unit}" /></td><td class="bdr" ><span tal:content="userData/pgIncarico" /> <img tal:condition="exists:userData/metapgIncarico" style="vertical-align:middle" class="tooltip" src="TEMPLATES/img/interface/personnelInterface/info.png"  tal:attributes="title userData/metapgIncarico" /> </td></tr>
+</tbody></table>
+
+
 <div id="schedaLeft">
-	<div tal:attributes="style string:border:1px solid #999;; width:200px;; height:200px;; margin-left:auto;; margin-right:auto;; background-size: 200px 200px;; background-image:url('${userData/pgAvatar}');; background-repeat:no-repeat;" class="radiusBordered">
+	<div tal:attributes="style string:border:1px solid #999;; width:200px;; height:470px;; z-index:10;; margin-left:auto;; margin-right:auto;; background-position:center;; background-size: auto 100%;; background-image:url('${userData/pgAvatar}');; background-repeat:no-repeat;" class="radiusBordered">
 		<img tal:attributes="src php:(userData.png == 1) ? 'TEMPLATES/img/interface/PNGmarker.png' : 'TEMPLATES/img/interface/NOmarker.png'" />		
 	</div>
-			
-			<div id="uniformDiv" class="radiusBordered">
-			
-			<p style="float:left; margin:0px; margin-left:10px"><img tal:attributes="src string:TEMPLATES/img/uniformi/${uniform}.png" style="margin-left:3px; margin-top:5px;" /></p>
-			
-			<p style="float:left; margin:0px; width:50px;"><img tal:repeat="bre commendations/NOTA" tal:attributes="src string:TEMPLATES/img/ruolini/${bre/icon} ; title bre/alt" style="margin-top:5px;" /></p>
-			
-			<p style="width:50px; position:absolute; top:90px; let:5px;" id="rankr">
-			<img tal:condition="exists:visitNeed" class="tooltip" src="TEMPLATES/img/interface/personnelInterface/visita_icon.png" title="Deve effettuare la visita medica periodica" style="margin-top:5px;" />
-			<img tal:condition="exists:visitPsiNeed" class="tooltip" src="TEMPLATES/img/interface/personnelInterface/visita_psi.png" title="Deve effettuare il colloquio di idoneità psicologica" style="margin-top:5px;" /> </p>
-			
-			</div>
+ 
+		
 		<!--	<div style="width:196px; padding:2px 2px 3px 2px; margin-top:20px; border:1px dotted #999; margin-left:auto; margin-right:auto;"><img style="vertical-align:middle;" tal:attributes="src string:TEMPLATES/img/ranks/${userData/pgMostrina}.png ; title string:${userData/pgGrado} - Sezione ${userData/pgSezione}" /> <img style="vertical-align:middle;" tal:attributes="src php:(userData.pgSesso == 'M') ? 'TEMPLATES/img/specie/' . userData.pgSpecie . '_m.png' : ((userData.pgSesso == 'F') ? 'TEMPLATES/img/specie/' . userData.pgSpecie . '_f.png' : 'TEMPLATES/img/specie/' . userData.pgSpecie . '_t.png' ) ; title php:(userData.pgSesso == 'M') ? userData.pgSpecie . ' - Maschio' : ((userData.pgSesso == 'F') ? userData.pgSpecie . ' - Femmina' : userData.pgSpecie . ' - Terzo Genere' )"  /> <span style="vertical-align:middle; font-size:13px;" tal:content="userData/pgUser" /></div>-->
 			
 			<p style="position:absolute; bottom:-14px; z-index:10; left:0px;" tal:condition="php:(!userData.png)"><a onclick="showOff();" href="javascript:void(0);" class="interfaceLink"><img src="TEMPLATES/img/interface/personnelInterface/scheda_off_btn.png" /></a></p>
@@ -84,31 +79,45 @@
 </div>
 <div id="schedaRight">
 	<div id="nastriniER">
-	<table cellspacing="2px" id="tabEr">
-		<tbody>
-			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/nome.png" alt="Nome"/></td><td class="bdr" tal:content="string:${userData/pgNomeC} ${userData/pgUser} ${userData/pgNomeSuff}"></td></tr>
-			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/matricola.png" alt="Matricola Flotta Stellare"/></td><td class="bdr" tal:content="string:${userData/pgMatricola}"></td></tr>
-			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/specie.png" alt="Specie"/></td><td class="bdr"><span tal:content="userData/pgSpecie"></span>, <span tal:content="php:(userData.pgSesso == 'M') ? 'Maschio' : (userData.pgSesso == 'F' ? 'Femmina': 'Terzo Genere')"></span></td></tr>
-			<tr><td class="borderOne"><img tal:attributes="src php:(userData.pgSesso == 'F') ? 'TEMPLATES/img/interface/personnelInterface/nata_luogo.png' : 'TEMPLATES/img/interface/personnelInterface/nato_luogo.png'" alt="Luogo di Nascita"/></td><td class="bdr" tal:content="userData/pgLuoN"></td></tr>
-			<tr><td class="borderOne"><img tal:attributes="src php:(userData.pgSesso == 'F') ? 'TEMPLATES/img/interface/personnelInterface/nata_data.png' : 'TEMPLATES/img/interface/personnelInterface/nato_data.png'" alt="Data di Nascita"/></td><td class="bdr" tal:content="string:${userData/pgDataN} ${userData/pgFixYear}" /></tr>
-			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/stato_civile.png" alt="Stato Civile"/></td><td class="bdr" tal:content="userData/pgStatoCiv">-</td></tr>
-			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/grado.png" alt="Grado"/></td><td class="bdr" tal:content="userData/pgGrado"></td></tr>
-			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/sezione.png" alt="Sezione"/></td><td class="bdr" tal:content="userData/pgSezione"></td></tr><tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/dipartimento.png" alt="Dipartimento"/></td><td class="bdr" tal:content="userData/pgDipartimento"></td></tr>
-			<tr tal:condition="php:userData.pgSpecie != 'Romulana'"><td class="borderOne" ><img src="TEMPLATES/img/interface/personnelInterface/acc_seclar.png" alt="Accesso Seclar"/></td><td class="bdr"><img tal:attributes="src string:TEMPLATES/img/seclar/seclar${userData/pgSeclar}.png" /></td></tr>
-			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/autorizzazione.png" alt="Autorizzazione"/></td><td class="bdr" tal:condition="php:userData.pgSpecie == 'Romulana'" style="vertical-align:bottom; font-size:11px; text-transform:uppercase; font-family:'romulanFaceM'" tal:content="php:(userData.pgAuth != '') ? userData.pgUser . ' ' .  userData.pgAuth : ''" onmouseover="javascript:jQuery(this).css('font-family','arial');" onmouseout="javascript:jQuery(this).css('font-family','romulanFaceM');"></td><td class="bdr" tal:condition="php:userData.pgSpecie != 'Romulana'" style="vertical-align:bottom; font-size:11px; text-transform:uppercase;" tal:content="php:(userData.pgAuth != '') ? userData.pgUser . ' ' .  userData.pgAuth : ''"></td></tr>
-		</tbody>
-	</table>
-	<div style="margin-top:15px; border-radius:10px; padding:10px; border:1px solid #333; width:90%; margin-left:auto;margin-right:auto; text-align:center;" tal:condition="php:(count(commendations['MEDAL']))">
-		<img tal:repeat="op commendations/MEDAL" tal:attributes="src string:TEMPLATES/img/ruolini/medaglie/${op/icon} ; title op/alt" class="tooltip" style="margin-left:2px; margin-top:2px;" />
+	<div style="width:100%; display:block; position:relative">
+	
+		<div style="position:absolute; top:0px; left:0px; z-index:10">
+			<table cellspacing="2px" id="tabEr">
+				<tbody>
+					<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/nome.png" alt="Nome"/></td><td class="bdr" tal:content="string:${userData/pgNomeC} ${userData/pgUser} ${userData/pgNomeSuff}"></td></tr>
+					<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/matricola.png" alt="Matricola Flotta Stellare"/></td><td class="bdr" tal:content="string:${userData/pgMatricola}"></td> </tr>
+					<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/specie.png" alt="Specie"/></td><td class="bdr"><span tal:content="userData/pgSpecie"></span>, <span tal:content="php:(userData.pgSesso == 'M') ? 'Maschio' : (userData.pgSesso == 'F' ? 'Femmina': 'Terzo Genere')"></span></td></tr>
+					<tr><td class="borderOne"><img tal:attributes="src php:(userData.pgSesso == 'F') ? 'TEMPLATES/img/interface/personnelInterface/nata_luogo.png' : 'TEMPLATES/img/interface/personnelInterface/nato_luogo.png'" alt="Luogo di Nascita"/></td><td class="bdr" tal:content="userData/pgLuoN"></td></tr>
+					<tr><td class="borderOne"><img tal:attributes="src php:(userData.pgSesso == 'F') ? 'TEMPLATES/img/interface/personnelInterface/nata_data.png' : 'TEMPLATES/img/interface/personnelInterface/nato_data.png'" alt="Data di Nascita"/></td><td class="bdr" tal:content="string:${userData/pgDataN} ${userData/pgFixYear}" /></tr>
+					<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/stato_civile.png" alt="Stato Civile"/></td><td class="bdr" tal:content="userData/pgStatoCiv">-</td></tr>
+					<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/grado.png" alt="Grado"/></td><td class="bdr" tal:content="userData/pgGrado"></td></tr>
+					<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/sezione.png" alt="Sezione"/></td><td class="bdr" tal:content="userData/pgSezione"></td></tr><tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/dipartimento.png" alt="Dipartimento"/></td><td class="bdr" tal:content="userData/pgDipartimento"></td></tr>
+					<tr tal:condition="php:userData.pgSpecie != 'Romulana'"><td class="borderOne" ><img src="TEMPLATES/img/interface/personnelInterface/acc_seclar.png" alt="Accesso Seclar"/></td><td class="bdr"><img tal:attributes="src string:TEMPLATES/img/seclar/seclar${userData/pgSeclar}.png" /></td></tr>
+					<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/autorizzazione.png" alt="Autorizzazione"/></td><td class="bdr" tal:condition="php:userData.pgSpecie == 'Romulana'" style="vertical-align:bottom; font-size:11px; text-transform:uppercase; font-family:'romulanFaceM'" tal:content="php:(userData.pgAuth != '') ? userData.pgUser . ' ' .  userData.pgAuth : ''" onmouseover="javascript:jQuery(this).css('font-family','arial');" onmouseout="javascript:jQuery(this).css('font-family','romulanFaceM');"></td><td class="bdr" tal:condition="php:userData.pgSpecie != 'Romulana'" style="vertical-align:bottom; font-size:11px; text-transform:uppercase;" tal:content="php:(userData.pgAuth != '') ? userData.pgUser . ' ' .  userData.pgAuth : ''"></td></tr>
+				</tbody>
+			</table> 
+	
+			<div class="accessoryDiv_e " tal:condition="php:(count(commendations['MEDAL']))">
+				<img tal:repeat="op commendations/MEDAL" tal:attributes="src string:TEMPLATES/img/ruolini/medaglie/${op/icon} ; title op/alt" class="tooltip" style="margin-left:2px; margin-top:2px;" />
+				
+			</div>
+			
+			<div tal:condition="php:(count(commendations['LAUR']) > 0)" class="accessoryDiv_e ">  
+				<!-- LAUREE  -->
+			<img tal:repeat="lau commendations/LAUR" tal:attributes="src string:TEMPLATES/img/ruolini/lauree/${lau/icon} ; title lau/alt ; ondblclick php:(masterPanel== true) ? 'javascript:removeDotazione(' . lau['recID'] . ',' . selectedUser . ')':''" class="tooltip" style="margin-left:4px;"/>
+			
+			<div style="position:absolute; top:0px; right:0px; width:50px;"><img tal:repeat="bre commendations/NOTA" class="tooltip" tal:attributes="src string:TEMPLATES/img/ruolini/${bre/icon} ; title bre/alt" style="margin-top:5px;" /></div>
+			</div>
+			
+			
+		
+		</div> 
+		
+		<div id="backUniformDiv" tal:attributes="style string:background-image:url('TEMPLATES/img/uniformi/${uniform}.png')"> </div>
+		
 		
 	</div>
-	
-		<div tal:condition="php:(count(commendations['LAUR']) > 0)" style="margin-top:15px; border-radius:10px; padding:10px; border:1px solid #333; width:90%; margin-left:auto;margin-right:auto; text-align:center;" class="radiusBordered">
-		<!-- LAUREE  -->
-		<img tal:repeat="lau commendations/LAUR" tal:attributes="src string:TEMPLATES/img/ruolini/${lau/icon} ; title lau/alt ; ondblclick php:(masterPanel== true) ? 'javascript:removeDotazione(' . lau['recID'] . ',' . selectedUser . ')':''" class="tooltip" style="margin-left:4px;"/>
-		</div>
 	</div>
-	 
 	 
 	<!--<img style="position:absolute; bottom:110px; left:-20px; opacity:0.8;" src="TEMPLATES/img/logo/endeavour_logo.png" width="70px;" />-->
 
@@ -128,7 +137,7 @@
 		</div>
 		<div style="clear:both;" />
 		</div>
-
+ 
 		<div id="subBandaOff">
 		<p style="float:left;margin-right:10px;"><a onclick="showOn();" href="javascript:void(0);" class="interfaceLink">(- Indietro -)</a>
 		<a onclick="window.open ('shadow_scheda.php?s=stor','prestav', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=490,height=605');" href="javascript:void(0);" class="interfaceLink" tal:condition="php:(masterPanel)">(- TuttiPunti -)</a></p>
@@ -152,7 +161,7 @@
 	<div id="schedaOffLateralR">
 		<table style="font-size:11px;">
 		<tr><td class="bdr" style="width:40px; text-align:center;"><img src="TEMPLATES/img/interface/personnelInterface/punteggio.png" alt="Punteggio"/></td><td style="width:60px; text-align:center;" class="bdr"><img src="TEMPLATES/img/interface/personnelInterface/data.jpg" alt="data"/></td><td colspan="2" class="bdr" style="text-align:center;"><img src="TEMPLATES/img/interface/personnelInterface/descrizione.png" alt="descrizione"/></td></tr>
-		<tr tal:repeat="point pointss" tal:attributes="title string:Assegnato da ${point/pgUser}"><td style="width:50px;" class="bdr" tal:content="php:(point['points'] LT 0) ? '-' . abs(point['points']) : '+' . point['points']" /><td style="width:60px;" class="bdr" tal:content="php:(date('d/m/Y',point['timer']))" /><td class="bdr" style="width:30px;" tal:content="point/cause"  tal:attributes="title point/causeM"/><td class="bdr"><span tal:content="point/causeE" /> <a tal:attributes="onclick php:'cdbOpenToTopic(\'' . explode('Rap:',point['causeM'])[1] . '\')'" href="javascript:void(0);" tal:condition="php:(strpos(point['causeM'], 'Rap:') !== false)"><img src="TEMPLATES/img/interface/personnelInterface/external_link.png" style="height:11px;" /></a></td></tr>
+		<tr tal:repeat="point pointss" tal:attributes="title string:Assegnato da ${point/pgUser}"><td style="width:50px;" class="bdr" tal:content="php:(point['points'] LT 0) ? '-' . abs(point['points']) : '+' . point['points']" /><td style="width:60px;" class="bdr" tal:content="php:(date('d/m/Y',point['timer']))" /><td class="bdr" style="width:30px;" tal:content="point/cause"  tal:attributes="title point/causeM"/><td class="bdr"><span tal:content="point/causeE" /> <a tal:attributes="onclick php:'cdbOpenToTopic(\'' . explode('Rap:',point['causeM'])[1] . '\')'" href="javascript:void(0);" tal:condition="php:(strpos(point['causeM'], 'Rap:') !== false)"><img src="TEMPLATES/img/interface/personnelInterface/external_link.png" style="height:11px; margin-left:10px;" /></a> <a tal:attributes="onclick php:'window.open(\'getLog.php?session=' . explode('Log:',point['causeM'])[1] . '\')'" href="javascript:void(0);" tal:condition="php:(strpos(point['causeM'], 'Log:') !== false)"><img src="TEMPLATES/img/interface/personnelInterface/external_link.png" style="height:11px;  margin-left:10px;" /></a> </td></tr>
 		
 		</table>
 		

@@ -11,8 +11,8 @@
 	<link id="alerter" tal:attributes="href string:TEMPLATES/css/${alertCSS}.css" rel="stylesheet" type="text/css" />
 	 
 	
-	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
-	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 	<script type="text/javascript" src="TEMPLATES/js/mapCore.js?v=${gameOptions/numericVersion}"/>
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 
@@ -60,7 +60,7 @@ var myImg = "https://unsplash.it/600/600?image=777";
 		<div id="federation_leftBottom">
 			<div id="federation_montDL4" />
 			<a href="javascript:chartOpen();"><div style="position:absolute; bottom:160px; left:8px; width:76px; height:26px;" title="Charts"/></a>
-			<a href="javascript:masterShadow();" tal:condition="exists:mapAdd"><div id="federation_shadowMasterButton" title="Master"/></a>
+			<a href="javascript:masterShadow();" tal:condition="exists:isStaff"><div id="federation_shadowMasterButton" title="Master"/></a>
 	
 			<a href="javascript:void(0);" onclick="javascript:doLogout();"><div style="position:absolute; bottom:13px; left:5px; width:76px; height:30px;" title="Effettua il Logout"/></a>
 		</div>

@@ -4,6 +4,8 @@ if (!isSet($_SESSION['pgID']))  header("Location:index.php?login=do");
     
 include('includes/app_include.php');
 include('includes/validate_class.php');
+
+include('includes/bbcode.php');
 include("includes/PHPTAL/PHPTAL.php");
 
 PG::updatePresence($_SESSION['pgID']);
@@ -57,7 +59,7 @@ elseif($mode == 'bvadd')
 	{
 
 
-		$template = new PHPTAL('TEMPLATES/N_scheda_ruolino_points.htm');
+		$template = new PHPTAL('TEMPLATES/scheda_ruolino_points.htm');
 		
 		$resPoints = PG::getSomething($selectedUser,'upgradePoints');
 		$resUPoints = $resPoints['pgUpgradePoints'];
@@ -141,7 +143,7 @@ elseif($mode == 'bv')
 	
 	//if(($ptl['pgUpgradePoints']+$ptl['pgSocialPoints']+$ptl['pgSpecialistPoints'] > 0) && !isSet($_GET['escape']) && $selectedUser == $_SESSION['pgID']) header("Location:scheda.php?s=bvadd&pgID=$selectedUser");
 	
-	$template = new PHPTAL('TEMPLATES/N_scheda_ruolino.htm');
+	$template = new PHPTAL('TEMPLATES/scheda_ruolino.htm');
 	
 	$resQ = mysql_query("SELECT pg_abilita.abID,abName, abImage, abClass, value as level, abLevelDescription_1,abLevelDescription_2,abLevelDescription_3,abLevelDescription_4,abLevelDescription_5 FROM pg_abilita_levels, pg_abilita WHERE pgID = $selectedUser AND pg_abilita_levels.abID = pg_abilita.abID ORDER BY abDiff,abName");
 	// $i=0;
@@ -1449,7 +1451,7 @@ elseif($code == "aa11")
 
 else 
 { 
-$template = new PHPTAL('TEMPLATES/N_scheda.htm');
+$template = new PHPTAL('TEMPLATES/scheda.htm');
 $pgPoints = PG::getSomething($selectedUser,'pgPoints');
 $pgPointsSaldo = PG::getSomething($selectedUser,'totalPoints');
 $prestavolto = PG::getSomething($selectedUser,"prestavolto");

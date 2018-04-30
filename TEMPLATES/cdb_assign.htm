@@ -7,8 +7,8 @@
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link href="TEMPLATES/css/cdb.css?v=1.2.1" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
-	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 
 	<title>STAR TREK FEDERATION - CDB</title>
 	
@@ -74,7 +74,7 @@
 	
 	<div style="margin-top:20px;">
 	
-	<a tal:repeat="place places" tal:attributes="href string:crew.php?equi=${place/placeID}"><div class="littleShipLogo" tal:attributes="title place/placeName ; onmouseover string:javascript:setLittle('TEMPLATES/img/logo/${place/placeLittle}','${place/placeName}','${place/placeMotto}','${place/placeClass}','${place/catGDB}','${place/catDISP}','${place/catRAP}','${place/commander}','${place/uniform}');" onmouseout="jQuery('#cdber').css('display','none')"><img tal:attributes="src string:TEMPLATES/img/logo/${place/placeLogo}" width="130px" /></div></a>
+	<a tal:repeat="place places" tal:attributes="href string:crew.php?equi=${place/placeID}"><div class="littleShipLogo" tal:attributes="title place/placeName ; onmouseover string:javascript:setLittle('TEMPLATES/img/logo/${place/placeLittle}','${place/placeNameE}','${place/placeMotto}','${place/placeClass}','${place/catGDB}','${place/catDISP}','${place/catRAP}','${place/commander}','${place/uniform}');" onmouseout="jQuery('#cdber').css('display','none')"><img tal:attributes="src string:TEMPLATES/img/logo/${place/placeLogo}" width="130px" /></div></a>
 	
 	</div>
 	

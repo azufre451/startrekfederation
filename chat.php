@@ -205,7 +205,7 @@ $template->getAudio = $currentUser->audioEnable;
 $template->user = $currentUser;
 $template->currentStarDate = $currentStarDate;
 $template->leastOlo = (PG::mapPermissions("O",$currentUser->pgAuthOMA)) ? true : false;
-if (PG::mapPermissions('SL',$currentUser->pgAuthOMA)) $template->isStaff = true;
+if (PG::mapPermissions('G',$currentUser->pgAuthOMA)) $template->isStaff = true;
 if (PG::mapPermissions('JM',$currentUser->pgAuthOMA) && (PG::mapPermissions('SL',$currentUser->pgAuthOMA) || PG::isMasCapable($currentUser->ID))) $template->isMasteringJuniorMasterOrMod = true;
 if (PG::mapPermissions('M',$currentUser->pgAuthOMA)) $template->isMaster = true;
 

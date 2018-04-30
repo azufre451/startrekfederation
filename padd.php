@@ -5,6 +5,7 @@ if (!isSet($_SESSION['pgID'])){echo "Errore di Login. Ritorna alla homepage ed e
     
 include('includes/app_include.php');
 include('includes/validate_class.php');
+include('includes/bbcode.php');
 include("includes/PHPTAL/PHPTAL.php");
 PG::updatePresence($_SESSION['pgID']);
 
@@ -32,6 +33,8 @@ if($mode == 'newP')
 		$titolo = addslashes($_POST['titolo']);
 		$testo = htmlentities(addslashes(($_POST['testo'])),ENT_COMPAT, 'UTF-8');
 		
+
+
 		$oneMonth = $curTime - 2505600;
 		if(trim($titolo=="")) $titolo= "NESSUN OGGETTO";
 		
@@ -51,6 +54,8 @@ if($mode == 'newP')
 		$titolo = htmlentities($_POST['titolo'],ENT_COMPAT, 'UTF-8');
 		$testo = htmlentities($_POST['testo'],ENT_COMPAT, 'UTF-8');
 		
+		$guider = (isSet($_GET['guider'])) ? 1 : 0;
+
 		if(trim($titolo=="")) $titolo= "NESSUN OGGETTO";
 		
 		foreach($toString as $to)
@@ -79,10 +84,10 @@ if($mode == 'newP')
 
 			$idsA = mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$to'"));
 			$toP = new PG($idsA['pgID'],2);
-			$toP->sendPadd($titolo,$testo,$_SESSION['pgID']);
+
+			$fm= (isSet($_POST['forceMail']) && PG::mapPermissions('A',$currentUser->pgAuthOMA)) ? 1 : 0;
+			$toP->sendPadd($titolo,$testo,$_SESSION['pgID'],$guider,$fm);
 			}
-			
-			
 		} 
 	}
 	header('Location:padd.php?ps=1'); 
@@ -92,16 +97,19 @@ else if ($mode == 'read')
 { 
 	$template = new  PHPTAL('TEMPLATES/padd_show.htm');
 	$paddID = $vali->numberOnly($_GET['paddID']);
-	$paddQ = mysql_query("SELECT padID, paddTitle, paddText, paddFrom, paddTo, paddTime, fromPGT.pgAvatarSquare , toPGT.pgUser as ToPG, fromPGT.pgUser as FromPG,fromPGT.pgSpecie as pgSpecie,fromPGT.pgSesso as pgSesso, toPGT.pgID as ToPGID, fromPGT.pgID as FromPGID, ordinaryUniform FROM fed_pad, pg_users  AS fromPGT, pg_users AS toPGT, pg_ranks WHERE prio = fromPGT.rankCode AND (paddDeletedFrom <> 1 OR paddDeletedTo <> 1) AND padID =$paddID AND toPGT.pgID = paddTo AND fromPGT.pgID = paddFrom AND (paddTo = ".$_SESSION['pgID']." OR paddFrom = ".$_SESSION['pgID'].")");
+	$paddQ = mysql_query("SELECT padID, paddTitle, paddText, paddFrom, paddTo, paddTime, fromPGT.pgAvatarSquare , toPGT.pgUser as ToPG, fromPGT.pgUser as FromPG,fromPGT.pgSpecie as pgSpecie,fromPGT.pgSesso as pgSesso, toPGT.pgID as ToPGID, fromPGT.pgID as FromPGID, bgRevision, ordinaryUniform FROM fed_pad, pg_users  AS fromPGT, pg_users AS toPGT, pg_ranks WHERE prio = fromPGT.rankCode AND (paddDeletedFrom <> 1 OR paddDeletedTo <> 1) AND padID =$paddID AND toPGT.pgID = paddTo AND fromPGT.pgID = paddFrom AND (paddTo = ".$_SESSION['pgID']." OR paddFrom = ".$_SESSION['pgID'].")");
 	
 	if(mysql_affected_rows())
 	{
-		$padd = mysql_fetch_array($paddQ);
+		$padd = mysql_fetch_assoc($paddQ); 
 		$template->padd = $padd;
-		//$template->pcontent = str_replace($bbCode,$htmlCode,$padd['paddText']);
-		$template->pcontent = nl2br($padd['paddText']);
+		$template->pcontent = str_replace($bbCode,$htmlCode,$padd['paddText']);
+		
+		//$template->pcontent = nl2br($padd['paddText']);
+
 		$template->phour = date('H',$padd['paddTime']);
-		$template->pmin = date('i',$padd['paddTime']);
+		$template->pmin = date('i',$padd['paddTime']); 
+
 		$template->pday = timeHandler::extrapolateDay($padd['paddTime']);
 		$template->deletable = ($padd['paddTo'] == $_SESSION['pgID']) ? true : false;
 		if($padd['paddTo'] == $_SESSION['pgID']) mysql_query("UPDATE fed_pad SET paddRead = 1 WHERE padID = $paddID");
@@ -211,7 +219,8 @@ else if($mode == 'seR')
 	
 	$template->to = $_GET['to'];
 	$template->sub = ($_GET['sub'] != "") ? (strstr($_GET['sub'],'Re: ') ? $_GET['sub'] : 'Re: '.addslashes($_GET['sub']) ) : addslashes($_GET['sub']) ;
-}
+	$template->guider = isSet($_GET['guider']) ? 1 : 0;
+ }
 
 else if($mode == 'ds')
 {
@@ -248,7 +257,7 @@ else if($mode == 'tr' || $mode == 'ta')
 	$news = mysql_query("SELECT * FROM fed_news WHERE aggregator = '$particle' ORDER BY newsTime DESC $limit");
 	$newsArr=array();
 	while($newsA = mysql_fetch_array($news))
-	$newsArr[] = array('ID' => $newsA['newsID'],'title' => $newsA['newsTitle'], 'subtitle' => $newsA['newsSubTitle'], 'text' => str_replace($bbCode,$htmlCode,$newsA['newsText']), 'time' => (strftime('%e', $newsA['newsTime']).' '.ucfirst(strftime('%B', $newsA['newsTime'])).' '.(date('Y', $newsA['newsTime'])+377)));
+	$newsArr[] = array('ID' => $newsA['newsID'],'title' => $newsA['newsTitle'], 'subtitle' => $newsA['newsSubTitle'], 'text' => str_replace($bbCode,$htmlCode,$newsA['newsText']), 'time' => (strftime('%e', $newsA['newsTime']).' '.ucfirst(strftime('%B', $newsA['newsTime'])).' '.(date('Y', $newsA['newsTime'])+379)));
 	
 	$template->masterable = (PG::mapPermissions('M',$currentUser->pgAuthOMA)) ? true : false;
 	$template->adminable = (PG::mapPermissions('A',$currentUser->pgAuthOMA)) ? true : false;
@@ -325,24 +334,27 @@ else if($mode == 'newH')
 	$sottotitolo = addslashes($_POST['sottotitolo']);
 	$testo = addslashes($_POST['testo']);
 	$categ =  isSet($_POST['aleXX']) ? addslashes($_POST['aleXX']) : 'FED';
-	$tolink = ($categ != "FED" && $categ != "ROM") ? addslashes($_POST['sottotitolo']) : '';
-	
-	$particle = ($categ == 'ROM') ? "pgSpecie == 'Roumulana'" : "pgSpecie != 'Roumulana'";
-	$particle2 = ($categ == 'ROM') ? "Giornale Romulano" : "Federation Tribune";
+	$tolink = ($categ != "FED") ? addslashes($_POST['sottotitolo']) : '';
 	
 	if(trim($titolo)!="" && trim($testo)!="" && (PG::mapPermissions('M',$currentUser->pgAuthOMA)))
 	{
 		mysql_query("INSERT INTO fed_news (toLink,newsTitle, newsSubTitle, newsText, newsTime, aggregator) VALUES ('$tolink','$titolo', '$sottotitolo', '$testo',$curTime,'$categ')");
-		if($categ == 'ROM' || $categ == 'FED')
+		$NI=mysql_fetch_assoc(mysql_query("SELECT newsID FROM fed_news ORDER BY newsID DESC LIMIT 1"));
+		$newsID = $NI['newsID'];
+		if($categ == 'FED')
 		{
-		$curID = $_SESSION['pgID'];
-		$oneMonth = $curTime - 2505600; 
-		$idR = mysql_query("SELECT pgID,pgUser FROM pg_users WHERE pgLock=0 AND png=0 AND $particle AND pgLastAct >= $oneMonth");
-		while($res = mysql_fetch_assoc($idR))
-		{ 
-			$idA = $res['pgID']; 
-			mysql_query("INSERT INTO fed_pad (paddFrom, paddTo, paddTitle, paddText, paddTime, paddRead) VALUES (518, $idA, 'NUOVA NEWS', 'E\' stata inserita una nuova News nel $particle2.<br /><p style=\"text-align:center;\"><span style=\"font-size:20px;\">$titolo</span><br />$sottotitolo</p><br /><br />Accedi al Dpadd, sezione $particle2 per leggerla!',$curTime,0)");
-		} 
+			$curID = $_SESSION['pgID'];
+			$oneMonth = $curTime - 2505600; 
+			$idR = mysql_query("SELECT pgID,pgUser FROM pg_users WHERE pgLock=0 AND png=0 AND pgLastAct >= $oneMonth");
+			while($res = mysql_fetch_assoc($idR))
+			{ 
+				$idA = $res['pgID']; 
+				mysql_query("INSERT INTO fed_pad (paddFrom, paddTo, paddTitle, paddText, paddTime, paddRead) VALUES (1610, $idA, 'Tychonian Herald: $titolo', 'E\' stata inserita una nuova News nel Tychonian Herald<br /><p style=\"text-align:center;\"><span style=\"font-size:20px;\">$titolo</span><br />$sottotitolo</p><br /><br /> <br /><a href=\"padd.php?s=readTribune&newsID=$newsID\" class=\"interfaceLinkBlue\">Clicca qui</a> per leggerla!',$curTime,0)");
+			} 
+
+			$string = addslashes("<p class=\"auxActionMaster\">Nuova News inserita nel Tychonian Eagle<br /><a class=\"interfaceLinkBlue\" href=\"javascript:void(0);\" onclick=\"window.open ('padd.php?s=readTribune&newsID=$newsID','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');\">$titolo</a></p>");
+			mysql_query('INSERT INTO fed_sussurri (susFrom,susTo,time,chat,reade) VALUES('.$_SESSION['pgID'].",0,$curTime,'$string',0)");
+
 		}
 	}
 		
@@ -354,7 +366,7 @@ else if($mode == 'readTribune')
 	$id = $vali->numberOnly($_GET['newsID']);
 	setlocale(LC_TIME, 'it_IT');
 	$template = new PHPTAL('TEMPLATES/padd_tribune_read.htm');
-	$template->datae = strftime('%e').' '.ucfirst(strftime('%B')).' '.(date('Y')+377);
+	$template->datae = strftime('%e').' '.ucfirst(strftime('%B')).' '.(date('Y')+379);
 	$news = mysql_query("SELECT * FROM fed_news WHERE newsID = $id");
 	if(mysql_affected_rows()) $newsA = mysql_fetch_array($news);
 	
@@ -362,7 +374,7 @@ else if($mode == 'readTribune')
 	 $template->title = $newsA['newsTitle'];
 	 $template->subtitle = $newsA['newsSubTitle'];
 	 $template->text = str_replace($bbCode,$htmlCode,$newsA['newsText']);
-	 $template->time = (strftime('%e', $newsA['newsTime']).' '.ucfirst(strftime('%B', $newsA['newsTime'])).' '.(date('Y', $newsA['newsTime'])+368));
+	 $template->time = (strftime('%e', $newsA['newsTime']).' '.ucfirst(strftime('%B', $newsA['newsTime'])).' '.(date('Y', $newsA['newsTime'])+379));
 	 
 	$template->masterable = (PG::mapPermissions('M',$currentUser->pgAuthOMA)) ? true : false;
 	
@@ -423,7 +435,8 @@ else {
 		);
 		$template->incoming = $incumingArray;
 		$template->outgoing = $outcumingArray;
-		
+		if (PG::mapPermissions('A',$currentUser->pgAuthOMA)) $template->isAdmin = true;
+
 		if (isSet($_GET['ps'])) $template->paddSent = true;
 		
 		/*SELECT paddTitle,paddFrom,paddTo,paddText,paddTime,paddRead, P1.pgUser as paddFromUser, P2.pgUser as paddToUser FROM fed_pad,pg_users as P1, pg_users as P2 WHERE paddFrom=P1.pgID AND paddTo = P2.pgID AND paddDeleted <> 1*/	

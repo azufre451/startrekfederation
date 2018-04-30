@@ -3,24 +3,31 @@ session_start();
 include('includes/app_include.php');
 
 include('includes/validate_class.php');
+
+include('includes/bbcode.php');
 include("includes/PHPTAL/PHPTAL.php"); //NEW
 $action = (isSet($_GET['action'])) ? $_GET['action'] : NULL;
 $vali = new validator();
 
 if ($action == "doLogin")
 {
-	if($_SERVER['REMOTE_ADDR'] == '95.243.35.21' || $_SERVER['REMOTE_ADDR'] == '188.218.197.221') {header('Location:http://google.it'); exit;}
-
 	$user = ucfirst(addslashes($_POST['loginUser']));
 	$pass = md5($_POST['loginPass']); 
-	$res = mysql_query("SELECT * FROM pg_users WHERE pgUser = '$user' AND pgPass = '$pass' AND pgAuthOMA <> 'BAN'"); 
+	$res = mysql_query("SELECT * FROM pg_users WHERE pgUser = '$user' AND pgPass = '$pass'"); 
 	
 	if ($reso = mysql_fetch_array($res))
 	{
+		if ($reso['pgAuthOMA'] == 'BAN'){
+			$pgID=$reso['pgID'];
+			header("Location:login.php?mode=ban&pgID=$pgID");}
+
+		else{
 		$_SESSION['pgID'] = $reso['pgID'];
 		PG::updatePresence($_SESSION['pgID']);
 		mysql_query("INSERT INTO connlog (user,time,ip,notes) VALUES (".$_SESSION['pgID'].",$curTime,'".$_SERVER['REMOTE_ADDR']."','".gethostbyaddr($_SERVER['REMOTE_ADDR'])."')");
 		header("Location:main.php");
+		}
+
 		exit;
 	}
 	else
@@ -139,6 +146,17 @@ else
 	$template->backLoginImage = $reso['imaURL'];
 	$template->gameServiceInfo = $gameServiceInfo;
 	if(@$_GET['mode'] == 'e') $template->error = true;
+
+	if(@$_GET['mode'] == 'ban'){
+		$pgID = $vali->numberOnly($_GET['pgID']);
+
+
+		$banReason = mysql_fetch_assoc(mysql_query("SELECT * FROM ban_instances WHERE pgID = $pgID ORDER BY timer DESC LIMIT 1"));
+
+		$banReason['content'] = str_replace($bbCode,$htmlCode,$banReason['content']);
+
+		$template->banReason=$banReason;
+	}
 
 	try 
 	{

@@ -20,12 +20,12 @@ $gameName = "v. 1.7.2 - Quiescent Tortoise";
 $gameVersion = "1.7.2 - Quiescent Tortoise";
 
 
-$gameOptions = array('numericVersion' => "1.7.2");
+$gameOptions = array('numericVersion' => "1.7.2.7");
 
 $debug=true;
 $tips=true;
 
-$thisYear = 2017;
+$thisYear = 2018;
 $bounceYear = 379;
 
 
@@ -47,6 +47,7 @@ $currentStarDate = number_format((((date("Y",$curTime)+$bounceYear)-2323) + (dat
 //$assignTOSHIP='USS2';
 
 //57342.238375874 
+/*
 $bbCode = array(
 "[B]","[/B]",
 "[I]","[/I]",
@@ -81,5 +82,5 @@ $htmlCode = array("<i>","</i>","<u>","</u>","<br />");
 
 return str_replace($bbCode,$htmlCode,htmlspecialchars($str));
 }
-
+*/
 ?>

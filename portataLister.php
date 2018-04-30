@@ -32,7 +32,7 @@ $template->gameVersion = $gameVersion;
 $template->debug = $debug;
 $template->tips = $tips;
 $template->gameServiceInfo = $gameServiceInfo;
-if (PG::mapPermissions('SL',$currentUser->pgAuthOMA)) $template->isStaff = true;
+if (PG::mapPermissions('G',$currentUser->pgAuthOMA)) $template->isStaff = true;
 	try
 	{
 		echo $template->execute();

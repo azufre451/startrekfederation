@@ -218,7 +218,7 @@ if (isSet($_GET['setAlert']))
 		if(PG::mapPermissions('M',$currentUser->pgAuthOMA))
 		mysql_query("UPDATE pg_places SET placeAlert = '$toset' WHERE placeID = '$place'");
 		
-		$string = '<p class="globalAction">Su tutta la nave si attiva '.str_replace(array('redAlert','yellowAlert','blueAlert','greenAlert','greyAlert','intruderAlert'),array('l\\\'allarme Rosso','l\\\'allarme Giallo','la condizione Blu','la condizione Verde','la condizione Grigia. Il dispendio energetico viene ridotto al minimo.','L\\\'allarme Intruso'),$toset).'</p>';
+		$string = '<p class="globalAction">Su tutta la nave si attiva '.str_replace(array('redAlert','yellowAlert','blueAlert','greenAlert','greyAlert','intruderAlert'),array('l\\\'allarme Rosso','l\\\'allarme Giallo','la condizione Blu','la condizione Verde','la condizione di Quarantena. Voce del Computer: Attenzione Procedura di Quarantena attivata. Da questo momento risulta in vigore la procedura di quarantena di Livello Tre. Tutto il personale ottemperi al protocollo di quarantena. Tutte le autorizzazioni di sbarco e imbarco sono revocate con effetto immediato.','L\\\'allarme Intruso'),$toset).'</p>';
 		$locations = mysql_query("SELECT locID FROM fed_ambient WHERE ambientLocation = '$place'"); 
 		 
 		 

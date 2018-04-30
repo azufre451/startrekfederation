@@ -9,12 +9,12 @@
 	<link href="TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 
-	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
-	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	<script type="text/javascript" src="TEMPLATES/js/caret.js"></script>
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
-	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/datepicker.css" rel="stylesheet" type="text/css" />
 
 	<title>STAR TREK FEDERATION - CDB</title>
@@ -90,6 +90,12 @@
 				if (jQuery('#format5').prop('checked')) formatID = 5;
 				
 				jQuery.post('ajax_getCDBFormats.php', {stringer: stringUse, format: formatID, rapType: rap}, settercdb, 'json');
+				jQuery('#pepoleList').attr('value',stringUse);
+				jQuery('#peopleListMirror').html(stringUse);
+				jQuery('#peopleListMirrorContain').fadeIn();
+				
+
+
 			}
 			
 			function goStardate(d,m,y,h,i,s)
@@ -179,7 +185,7 @@
 		<br/>
 		<div style="background-color:rgba(0,0,0,0.5);">
 			<div style="text-align:center;" align="center"><span class="cdbPostYellow cdbPostLittleSize">- COMANDO DELLA FLOTTA STELLARE -</span></div><br /><br />
-			<div style="text-align:center;" align="center"><img src="http://miki.startrekfederation.it/SigmaSys/logo/starfleet.png"/></div><br /><br />
+			<div style="text-align:center;" align="center"><img src="https://miki.startrekfederation.it/SigmaSys/logo/starfleet.png"/></div><br /><br />
 			<div style="text-align:center;" align="center"><img tal:attributes="src string:TEMPLATES/img/seclar/seclar${post/postSeclar}.png"></img></div> <br />
 			<div style="text-align:center;" align="center"><span class="cdbPostRed cdbPostLittleSize">- INFORMAZIONE RISERVATA -</span></div> 
 		</div>
@@ -210,10 +216,10 @@
 <div id="pstAdva" style="display:none;">
 	
 	<div style="padding:5px; border-radius:12px; width:95%; margin-left:auto; margin-right:auto; border:1px solid #777;" class="radiusBordered12">
-	<p class="smallTitle">Mostrine</p>
+	<p class="smallTitle">All'attenzione di...</p>
 	<table cellspacing="0px">
 	<tr><td class="newPaddtd" style="text-align:center;">
-		<textarea placeholder="Inserisci i nomi dei personaggi da includere nel trafiletto PRESENTI / DESTINATARI del template rapporti. Se non selezioni nessun template, apparirà solo la lista PG" id="users" name="users" style="width:95%; height:40px;" onfocus="this.select();"></textarea></td>
+		<textarea placeholder="Inserisci i nomi dei personaggi da includere nel trafiletto PRESENTI / ALL'ATTENZIONE DI del post. Se non selezioni nessun template, apparirà solo la lista PG con le mostrine" id="users" name="users" style="width:95%; height:40px;" onfocus="this.select();"></textarea></td>
 	</tr>
 	<tr><td> <span style="font-size:11px; font-weight:bold; margin-left:20px; margin-right:30px;">TEMPLATE</span>
 		<select id="scRapp">
@@ -285,6 +291,8 @@
 <tr>
 	<td>
 		<textarea name="postContent" id="postContent" style="width:550px; height:350px; font-family:Arial;"></textarea>
+		<p id="peopleListMirrorContain" style="display:none; font-size:13px;"> Il post verrà segnalato a: <span id="peopleListMirror" /> con un padd automatico</p>
+			<input type="hidden" style="border:0" id="pepoleList" name="peopleList" value="" />
 	</td>
 	<td style="text-align:center; vertical-align:middle;"> 
 		<input type="button" value="B" style="width:30px; margin-left:10px;" href="" onclick="bbstyle(0)" />
@@ -324,6 +332,7 @@
 	</td>
 </tr>
 </table>
+
 </form>	
 </div>
 <div tal:condition="php:(topicLock == 1)" style="color:red; font-weight:bold; text-align:center;">[  TOPIC BLOCCATO ]</div>

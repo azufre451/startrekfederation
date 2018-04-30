@@ -3,9 +3,9 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/padd.css?v=1.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/jquery-ui-1.8.20.custom.css" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/padd.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
 	<title>FEDERATION - PADD</title>
@@ -13,10 +13,10 @@
  
 <body style="background-color:black; overflow:hidden;">
 	<div id="paddContainer">
-		<div id="intestLeft"><a title="Principale" href="padd.php"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/padd.png" /></a><a title="Federation Tribune" href="padd.php?s=tr"><img class="iconelement" tal:attributes="src php:(tribuneNews == true) ? 'TEMPLATES/img/interface/paddInterface/tribune_news.png' : 'TEMPLATES/img/interface/paddInterface/tribune.png'" /></a><a title="Status Nave" href="padd.php?s=sh"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/nave.png" /></a><a title="Note" href="padd.php?s=no"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/note.png" /></a></div>
+		<div id="intestLeft"><a title="Principale" href="padd.php"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/padd.png" /></a><a title="Tychonian Herald" href="padd.php?s=tr"><img class="iconelement" tal:attributes="src php:(tribuneNews == true) ? 'TEMPLATES/img/interface/paddInterface/tribune_news.png' : 'TEMPLATES/img/interface/paddInterface/tribune.png'" /></a><a title="Status Nave" href="padd.php?s=sh"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/nave.png" /></a><a title="Note" href="padd.php?s=no"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/note.png" /></a></div>
 		
 		<div id="intestLeftPost" >
-		<a tal:attributes="href string:padd.php?s=seR&to=${padd/FromPG}&sub=${padd/paddTitle}"><div class="btn" id="repBTN" style="width:70px;"/></a>
+		<a tal:attributes="href php:'padd.php?s=seR&to=' . padd['FromPG'] . '&sub=' . padd['paddTitle'] . ((padd['bgRevision']) ? '&guider=1' : '')"><div class="btn" id="repBTN" style="width:70px;"/></a>
 		<a href="padd.php?h=ou"> <div class="btn" id="sentBTN"/> </a>
 		<a href="padd.php?h=in"> <div class="btn" id="receivedBTN"/> </a>
 		<a tal:condition="php:(deletable==true)" tal:attributes="href string:padd.php?s=delInPad&paddID=${padd/padID}"> <div class="btn" id="delBTN"/> </a>
@@ -41,7 +41,7 @@
 			
 			</div>
 			
-			<div style="width:395px; overflow-x:hidden; overflow:y:auto; margin-top:10px; margin-left:15px; padding:10px; float:left; border:1px solid #999; height:218px;" class="radiusBordered">
+			<div id="paddContent" class="radiusBordered">
 			
 					 <span tal:content="structure pcontent" />
 			

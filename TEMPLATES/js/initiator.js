@@ -58,7 +58,7 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 	function statusOpen(){window.open ('padd.php?s=sh','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
 	function commOpen(){window.open ('comm.php','comm', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=650,height=160');}
 	function schedaOpen(){window.open ('scheda.php','scheda', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=653,height=605');}
-	function masterShadow(){window.open ('shadow_scheda.php','shadow', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=753,height=605');}
+	function masterShadow(){window.open ('multitool.php','shadow', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=860,height=630');}
 	function schedaPOpen(ida){window.open ('scheda.php?pgID='+ida,'schedaP', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=653,height=605');}
 	function chartOpen(){window.open ('chart.php','chart', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1160,height=630');}
 	function whisperOpen(){window.open ('whisper.php','whisper', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=854,height=618');}

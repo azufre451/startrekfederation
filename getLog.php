@@ -20,7 +20,7 @@ $htmlLiner = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "ht
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 	<link rel="shortcut icon" href="favicon.ico" />
 	
-	<title>STAR TREK FEDERATION</title>
+	<title>Star Trek: Federation - Log: ###PLH_TITLE###</title>
 <script>
 		function selectOccur(tex){}
 		function deselectOccur(tex){}
@@ -287,6 +287,7 @@ if ($sessionID > 0)
 	}
 	else $adminCondition = '';
 
+	$htmlLiner=str_replace('###PLH_TITLE###',$sesser['sessionLabel'],$htmlLiner);
 	
 	$presents = mysql_query("SELECT DISTINCT pgUser,ordinaryUniform,pgGrado,pgSezione,MIN(time) as minner, MAX(time)  as maxer,COUNT(chat) as chatter FROM pg_users,federation_chat,pg_ranks WHERE sender=pgID AND prio=rankCode AND ambient = '$locID' AND (time BETWEEN $sessionIniTime AND $sessionStopTime) AND type IN ('DIRECT','ACTION') $adminCondition GROUP BY pgUser,ordinaryUniform,pgGrado,pgSezione ORDER BY minner ASC");
 	$userLister='';

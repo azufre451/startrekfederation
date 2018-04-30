@@ -70,5 +70,6 @@ $aar['DICER'] = $diceOutcomes;
 $aar['CH'] = $htmlLiner;
 $aar['LCH'] = $MAX;
 echo json_encode($aar);
+include('includes/app_declude.php');
 //echo var_dump($aar);
 ?>

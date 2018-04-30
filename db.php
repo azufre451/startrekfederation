@@ -5,6 +5,8 @@ include('includes/app_include.php');
 include('includes/validate_class.php');
 include("includes/PHPTAL/PHPTAL.php"); //NEW 
 include("includes/md/Parsedown.php"); //NEW 
+
+include('includes/bbcode.php');
 include("includes/md/ParsedownExtra.php"); //NEW 
 
 

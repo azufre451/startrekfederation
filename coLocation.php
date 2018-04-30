@@ -88,7 +88,7 @@ $template->gameName = $gameName;
 $template->gameVersion = $gameVersion;
 $template->debug = $debug;
 $template->gameServiceInfo = $gameServiceInfo;
-if (PG::mapPermissions('SL',$currentUser->pgAuthOMA)) $template->isStaff = true;
+if (PG::mapPermissions('G',$currentUser->pgAuthOMA)) $template->isStaff = true;
 
 	try
 	{

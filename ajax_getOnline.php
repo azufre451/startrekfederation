@@ -11,4 +11,6 @@ while ($row = mysql_fetch_array($res)) {
 $aar[] = $row;
 }
 echo json_encode($aar);
+
+include('includes/app_declude.php');
 ?>

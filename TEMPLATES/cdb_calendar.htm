@@ -5,16 +5,19 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/cdb.css?v=1.2.1" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/calendar.css?v=1.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+
+	<link href="TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+ 	<link href="TEMPLATES/css/calendar.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+
+ 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 
 	
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
-	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 
 	<!-- <script type="text/javascript" src="TEMPLATES/js/lazyload.js"></script> -->
 	<title>STAR TREK FEDERATION - CDB</title>
@@ -27,7 +30,46 @@
 		firstDay:1,
 		monthNames: [ "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre" ]
 		});
-	});</script>
+	});
+
+
+</script>
+<style>
+	.eventParticip{
+		 margin:1px;
+		 width:30px;
+
+		 display:inline-block;
+	}
+	.eventParticip:hover{
+		 border:1px solid red;
+		 margin:0px;
+	}
+	.eventParticip img{
+		vertical-align:middle; width:100%;
+	}
+
+	p.participationYes,p.participationNo{
+
+		width:151px;
+		height:20px;
+		cursor:pointer;
+		background-size:100% 100%;
+		margin-top:10px;
+
+	}
+
+	p.participationYes{
+		
+		background-image: url('TEMPLATES/img/interface/cdbInterface/cal_yes_presence.png');
+		
+	}
+
+	p.participationNo{
+		background-image: url('TEMPLATES/img/interface/cdbInterface/cal_no_presence.png');
+		
+	}
+</style>
 </head>
 
 <body style="background-repeat:no-repeat; background-color:black; background-position:top center;">
@@ -136,18 +178,34 @@
 	
 <div id="local" class="topicDiv" tal:repeat="eventE calEvents">
 			<p class="calendar" style="padding-bottom:15px;"><span class="calendarActDate" tal:content="php:utf8_encode(ucfirst(strftime('%A %e %B %Y',eventE[0]['Tevent']['date'])))" /> <span style="color:orange;">-</span> <span style="color:#AAA">[</span> <span tal:content="php:'D.S. ' . toStardate(eventE[0]['Tevent']['date'])" class="calendarActSD" /> <span class="calendarActDate" tal:content="eventE/0/Tevent/dateF" /> <span style="color:#AAA">]</span>
-			<p style="margin-top:6px;" tal:repeat="event eventE">
+			<p style="margin-top:15px;" tal:repeat="event eventE">
 				<div style="float:left;"><span class="calendarActSD" style="font-size:11px;" tal:content="php:date('H:i',event['Tevent']['date'])" /> <a onclick="javascript:return confirm('Sei sicuro?')" tal:attributes="href string:calendar.php?removeEvent=${event/Tevent/evID}" tal:condition="php:(SM=='yes' || user.ID == event['Tevent']['sender'])"><img src="TEMPLATES/img/interface/delete.png" /></a>
 				</div>
 				
-				<div style="float:left;margin-left:5px;margin-right:5px;">
+				<div style="float:left;margin-left:5px;margin-right:5px; min-width:65px;">
 					<div tal:repeat="cat event/cats" tal:attributes="class string:calendarCat ${cat/class}" tal:content="cat/label" />
 				</div>
 				
-				<div style="float:left;">
-				<span style="" tal:content="structure event/Tevent/event" />
-				<span class="calendarActSD" style="font-size:11px; font-style:italic;" tal:content="event/Tevent/placeName" />
-				<span style="font-size:12px; color:#666; font-style:italic;" tal:content="string: By ${event/Tevent/pgUser}" />
+				<div style="float:left; font-family:Helvetica; font-size:14px; width:600px;">
+				<div>
+					<span style="" tal:content="structure event/Tevent/event" />
+					<span class="calendarActSD" style="font-size:11px; font-style:italic;" tal:content="event/Tevent/placeName" />
+					<span style="font-size:12px; color:#AAA; font-style:italic;" tal:content="string: [${event/Tevent/pgUser}]" />
+				</div>
+				<div style="margin-left:0px; margin-top:10px; padding-top:10px; border-top:1px solid #EEE;">
+					<p tal:condition="php:(count(event['pres']) GT 0)" style="font-weight:bold; font-size:12px;">Parteciperanno:</p> 
+					<p tal:condition="php:(count(event['pres']) == 0)" style="font-weight:bold; font-size:12px;">Ancora nessun partecipante:</p> 
+					
+					<p style="margin-left:15px; margin-top:8px;" tal:attributes="id string:participationBox_${event/Tevent/evID}">
+						<span class="eventParticip"  tal:repeat="person event/pres" tal:attributes="id string:participationBox_element_${person/pgID}">
+							<img tal:attributes="src person/pgAvatarSquare ; title person/pgUser"/>
+						</span>
+					</p>
+
+					<p href="javascript:void(0);" tal:attributes="class php:((event['ipar']) ? 'participationNo': 'participationYes'); onclick string:javascript:toggleMyPresence(${event/Tevent/evID}) ; id string:participationMark_${event/Tevent/evID}" />
+
+				</div>
+				
 				
 				</div><div style="clear:both" />
 				

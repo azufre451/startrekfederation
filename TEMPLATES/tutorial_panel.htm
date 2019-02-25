@@ -31,6 +31,14 @@
 <p style="margin:0px;" tal:condition="php:user.pgSpecie == 'Betazoide' || user.pgSpecie == 'Umana-Betazoide' "> &raquo; <a href="javascript:dbOpenToTopic(184)"  class="interfaceLinkGreen">I Betazoidi </a></p>
 <p style="margin:0px;" tal:condition="php:user.pgSpecie == 'Zaldan'"> &raquo; <a href="javascript:dbOpenToTopic(194)"  class="interfaceLinkGreen">Gli Zaldan </a></p>
 <p style="margin:0px;" tal:condition="php:user.pgSpecie == 'Andoriana'"> &raquo; <a href="javascript:dbOpenToTopic(191)"  class="interfaceLinkGreen">Gli Andoriani </a></p>
+
+<p style="margin:0px;" tal:condition="php:user.pgSezione == 'Comando e Strategia'"> &raquo; <a href="javascript:dbOpenToTopic(256)"  class="interfaceLinkRed">La Sez. Comando e Strategia </a></p>
+<p style="margin:0px;" tal:condition="php:user.pgSezione == 'Difesa e Sicurezza'"> &raquo; <a href="javascript:dbOpenToTopic(257)"  class="interfaceLinkGreen">La Sez. Difesa e Sicurezza </a></p>
+<p style="margin:0px;" tal:condition="php:user.pgSezione == 'Scientifica e Medica'"> &raquo; <a href="javascript:dbOpenToTopic(219)"  class="interfaceLinkBlue">La Sez. Medica </a></p>
+<p style="margin:0px;" tal:condition="php:user.pgSezione == 'Scientifica e Medica'"> &raquo; <a href="javascript:dbOpenToTopic(320)"  class="interfaceLinkBlue">La Sez. Scientifica </a></p>
+<p style="margin:0px;" tal:condition="php:user.pgSezione == 'Navigazione'"> &raquo; <a href="javascript:dbOpenToTopic(155)"  class="interfaceLinkBlue">La Sez. Navigazione </a></p>
+<p style="margin:0px;" tal:condition="php:user.pgSezione == 'Operazioni'"> &raquo; <a href="javascript:dbOpenToTopic(258)"  class="interfaceLink">La Sez. Operazioni </a></p>
+
 </div><hr/>
 
 <img src="TEMPLATES/img/interface/mainInterface/tutorial.png"/>
@@ -42,7 +50,7 @@
 <p style="margin:0px 0px 0px 15px; font-family:Verdana; font-weight:bold;"> &raquo; <span style="font-weight:bold; color:white; font-size:13px;">Il Computer di Bordo </span> <a style="display:block; float:right;" href="javascript:void(0);" onclick="window.open ('tutorial.php?what=cdb','t_cdb', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1000,height=660'); jQuery('#guidePanel').fadeOut(150);" tal:attributes="class php:(testCDB) ? 'interfaceLinkGreen' : 'interfaceLinkRed'" tal:content="php:(testCDB) ? '[ - RIAVVIA - ]' : '[ - AVVIA - ]'"></a></p>
 
 
-<p style="margin:0px 0px 0px 15px; font-family:Verdana; font-weight:bold;"> &raquo; <span style="font-weight:bold; color:white; font-size:13px;">Il Database</span> <a style="display:block; float:right;" href="javascript:void(0);" onclick="window.open ('tutorial.php?what=dbb','t_db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=617'); jQuery('#guidePanel').fadeOut(150);" tal:attributes="class php:(testDB) ? 'interfaceLinkGreen' : 'interfaceLinkRed'" tal:content="php:(testDB) ? '[ - RIAVVIA - ]' : '[ - AVVIA - ]'"></a></p>
+<p style="margin:0px 0px 0px 15px; font-family:Verdana; font-weight:bold;"> &raquo; <span style="font-weight:bold; color:white; font-size:13px;">Il Database</span> <a style="display:block; float:right;" href="javascript:void(0);" onclick="window.open ('tutorial.php?what=dbb','t_db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=730'); jQuery('#guidePanel').fadeOut(150);" tal:attributes="class php:(testDB) ? 'interfaceLinkGreen' : 'interfaceLinkRed'" tal:content="php:(testDB) ? '[ - RIAVVIA - ]' : '[ - AVVIA - ]'"></a></p>
+ 
 
-
-<button style="position:absolute; top:7px; right:7px;" onclick="javascript:jQuery('#guidePanel').fadeOut(150);">X</button>
+<div class="xButton" onclick="jQuery('#guidePanel').fadeOut(100);"></div>

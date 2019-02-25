@@ -82,12 +82,16 @@
 <div id="cdbContainer">
 
 <div style="padding:10px; padding-left:40px; padding-right:60px; text-align:justify; font-size:13px; margin-right:20px;">
-	<p class="subTitler">Divisione per Flotta</p><p style="margin-top:0px; text-align:center;"><a href="http://miki.startrekfederation.it//matDispense/img/flotte_chart.jpg" target="_blank" class="interfaceLinkGreen"> Suddivisione delle Flotte </a></p><p style="text-align:center; margin:0px; font-weight:bold; font-size:17px;"><span tal:repeat="fleet shipsFleet"><a tal:attributes="onclick string:javascript:display('flotta_${repeat/fleet/key}');" class="interfaceLink" tal:content="repeat/fleet/key" href="javascript:void(0);" style="font-size:16px;"/> - </span></p>
+	<p class="subTitler">Divisione per Flotta</p><p style="margin-top:0px; text-align:center;"><a href="http://miki.startrekfederation.it//matDispense/img/flotte_chart.jpg" target="_blank" class="interfaceLinkGreen"> Suddivisione delle Flotte </a></p><p style="text-align:center; margin:0px; font-weight:bold; font-size:17px;">
+		<span tal:repeat="fleet shipsFleet">
+			<a tal:attributes="onclick string:javascript:display('flotta_${repeat/fleet/key}');" class="interfaceLink" tal:content="string: ${repeat/fleet/key}" href="javascript:void(0);" style="font-size:16px;"/> -
+		</span>
+	</p>
 	
 	<div id="fleetContainer" style="display:none; margin:auto; width:80%; margin-top:20px; border:1px solid gray; padding:10px;" />
 	
 	<div tal:repeat="fleet shipsFleet" tal:attributes="id string:flotta_${repeat/fleet/key}" style="display:none;" >
-		<p><span tal:content="string:${repeat/fleet/key}a Flotta" style="font-family:Helvetica; font-size:25px;" /></p>
+		<p><span tal:content="string:${repeat/fleet/key} Flotta" style="font-family:Helvetica; font-size:25px;" /></p>
 		<p style="margin:0px; margin-left:30px;">
 			<b><span class="cdbPostGreen">Comandante:</span></b> <img tal:attributes="src string:TEMPLATES/img/ranks/${fleet/0/ouniform}.png" style="vertical-align:middle;" /> <img style="vertical-align:middle; vertical-align:middle;" tal:attributes="src php:(fleet[0]['pgSesso'] == 'm') ? 'TEMPLATES/img/specie/' . fleet[0]['pgSpecie'] . '_m.png' : ((fleet[0]['pgSesso'] == 'f') ? 'TEMPLATES/img/specie/' . fleet[0]['pgSpecie'] . '_f.png' : 'TEMPLATES/img/specie/' . fleet[0]['pgSpecie'] . '_t.png' ) ; title php:(fleet[0]['pgSesso'] == 'm') ? fleet[0]['pgSpecie'] . ' - Maschio' : ((fleet[0]['pgSesso'] == 'f') ? fleet[0]['pgSpecie'] . ' - Femmina' : fleet[0]['pgSpecie'] . ' - Terzo Genere' )"  /> <span class="cdbPostRed cdbPostLittleSize" style="text-transform:uppercase;" tal:content="fleet/0/cString" /> </p>
 		<p style="margin:0px; margin-left:30px;">	<b><span class="cdbPostGreen ">Settore:</span></b> <span class="cdbPostLittleSize" style="text-transform:uppercase;" tal:content="fleet/0/sector"/></p>
@@ -105,7 +109,7 @@
 			<span class="cdbPostGreen cdbPostLittleSize" tal:condition="php:(nave['status'] == 'REFIT')"> (IN REFIT)  </span>
 			<span class="cdbPostWhite cdbPostLittleSize" tal:condition="php:(nave['status'] == 'INACTIVE')"> (DECOMMISSIONATA)  </span>
 			<span class="cdbPostWhite cdbPostLittleSize" tal:condition="php:(nave['status'] == 'HEAVY_DAMAGED')"> (GRAVEMENTE DANNEGGIATA)  </span>
-		</p>
+		</p> 
 		<a href="javascript:void(0);" onclick="jQuery('#fleetContainer').fadeOut();" class="interfaceLink"> Chiudi</a>
 	</div>
 	
@@ -122,12 +126,13 @@
 			<span tal:attributes="class php:(nave['admiral']) ? 'cdbPostRed' : 'cdbPostBlue'" style="font-weight:bold;"  tal:content="nave/name"/> - 
 			<span class="cdbPostGrey cdbPostLittleSize" style="color:white" tal:content="nave/NCC"/>
 			<span class="cdbPostYellow" style="font-style:italic;" tal:content="string: [Classe ${nave/class}]"/>
-			<span class="cdbPostGreen cdbPostLittleSize" style="font-style:italic;" tal:content="string: [${nave/fleetno}a FLOTTA]"/>
+			<span class="cdbPostGreen cdbPostLittleSize" style="font-style:italic;" tal:content="string: [${nave/romanFleet} FLOTTA]"/>
 			
 			<span class="cdbPostRed cdbPostLittleSize" tal:condition="php:(nave['status'] == 'DESTROYED')">&#10013; (DISTRUTTA) &#10013;</span>
 			<span class="cdbPostBlue cdbPostLittleSize" tal:condition="php:(nave['status'] == 'LOST')"> (DISPERSA)  </span>
 			<span class="cdbPostGreen cdbPostLittleSize" tal:condition="php:(nave['status'] == 'REFIT')"> (IN REFIT)  </span>
 			<span class="cdbPostWhite cdbPostLittleSize" tal:condition="php:(nave['status'] == 'INACTIVE')"> (DECOMMISSIONATA)  </span>
+			<span class="cdbPostWhite cdbPostLittleSize" tal:condition="php:(nave['status'] == 'HEAVY_DAMAGED')"> (GRAVEMENTE DANNEGGIATA)  </span>
 		</p>
 		<a href="javascript:void(0);" onclick="jQuery('#classContainer').fadeOut();" class="interfaceLink"> Chiudi</a>
 	</div>
@@ -144,12 +149,13 @@
 			<span tal:attributes="class php:(nave['admiral']) ? 'cdbPostRed' : 'cdbPostBlue'" style="font-weight:bold;"  tal:content="nave/name"/> - 
 			<span class="cdbPostGrey cdbPostLittleSize" style="color:white" tal:content="nave/NCC"/>
 			<span class="cdbPostYellow" style="font-style:italic;" tal:content="string: [Classe ${nave/class}]"/>
-			<span class="cdbPostGreen cdbPostLittleSize" style="font-style:italic;" tal:content="string: [${nave/fleetno}a FLOTTA]"/>
+			<span class="cdbPostGreen cdbPostLittleSize" style="font-style:italic;" tal:content="string: [${nave/romanFleet} FLOTTA]"/>
 			
 			<span class="cdbPostRed cdbPostLittleSize" tal:condition="php:(nave['status'] == 'DESTROYED')">&#10013; (DISTRUTTA) &#10013;</span>
 			<span class="cdbPostBlue cdbPostLittleSize" tal:condition="php:(nave['status'] == 'LOST')"> (DISPERSA)  </span>
 			<span class="cdbPostGreen cdbPostLittleSize" tal:condition="php:(nave['status'] == 'REFIT')"> (IN REFIT)  </span>
 			<span class="cdbPostWhite cdbPostLittleSize" tal:condition="php:(nave['status'] == 'INACTIVE')"> (DECOMMISSIONATA)  </span>
+			<span class="cdbPostWhite cdbPostLittleSize" tal:condition="php:(nave['status'] == 'HEAVY_DAMAGED')"> (GRAVEMENTE DANNEGGIATA)  </span>
 		</p>
 		<a href="javascript:void(0);" onclick="jQuery('#typesContainer').fadeOut();" class="interfaceLink"> Chiudi</a>
 	</div>
@@ -167,7 +173,13 @@
 			<span tal:attributes="class php:(nave['admiral']) ? 'cdbPostRed' : 'cdbPostBlue'" style="font-weight:bold;"  tal:content="nave/name"/> - 
 			<span class="cdbPostGrey cdbPostLittleSize" style="color:white" tal:content="nave/NCC"/>
 			<span class="cdbPostYellow" style="font-style:italic;" tal:content="string: [Classe ${nave/class}]"/>
-			<span class="cdbPostGreen cdbPostLittleSize" style="font-style:italic;" tal:content="string: [${nave/fleetno}a FLOTTA]"/>
+			<span class="cdbPostGreen cdbPostLittleSize" style="font-style:italic;" tal:content="string: [${nave/romanFleet} FLOTTA]"/>
+
+			<span class="cdbPostRed cdbPostLittleSize" tal:condition="php:(nave['status'] == 'DESTROYED')">&#10013; (DISTRUTTA) &#10013;</span>
+			<span class="cdbPostBlue cdbPostLittleSize" tal:condition="php:(nave['status'] == 'LOST')"> (DISPERSA)  </span>
+			<span class="cdbPostGreen cdbPostLittleSize" tal:condition="php:(nave['status'] == 'REFIT')"> (IN REFIT)  </span>
+			<span class="cdbPostWhite cdbPostLittleSize" tal:condition="php:(nave['status'] == 'INACTIVE')"> (DECOMMISSIONATA)  </span>
+			<span class="cdbPostWhite cdbPostLittleSize" tal:condition="php:(nave['status'] == 'HEAVY_DAMAGED')"> (GRAVEMENTE DANNEGGIATA)  </span>
 		</p>
 		<a href="javascript:void(0);" onclick="jQuery('#alfaContainer').fadeOut();" class="interfaceLink"> Chiudi</a>
 	</div>

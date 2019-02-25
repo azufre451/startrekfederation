@@ -47,7 +47,7 @@ if(isSet($_GET['registerUser']))
 	$passer = createRandomPassword();
 	$matri = createRandomMatricola(); 
 	$pwd = md5($passer);
-	$assignTOSHIP = 'USS5';
+	$assignTOSHIP = 'USS9';
 
 	$re1=mysql_query("SELECT 1 FROM pg_users WHERE email = '$emai'");
 	if (mysql_affected_rows() && $emai != 'png@startrekfederation.it'){echo json_encode(array('err'=>'ME')); exit;}
@@ -122,8 +122,52 @@ $pgNew->sendPadd('Benvenuto!','<div style="text-align:center"><img src="http://m
 	$abio = new abilDescriptor($pgNew->ID);
 	$abio->superImposeRace($pgSpecie);
 
- 
+ 		$me = $pgNew->ID;
+		//PADD
+		$trics=array(100,115,72);
+		$trics_med=array(133,134,135);
+		$trics_ing=array(136,137,138);
+		mysql_query("DELETE FROM pg_current_dotazione WHERE owner = $me AND type='OBJECT' AND ref IN (SELECT oID FROM fed_objects WHERE oType ='SERVICE')");
+		mysql_query("DELETE FROM fed_objects_ownership WHERE owner = $me AND oID IN (SELECT oID FROM fed_objects WHERE oType ='SERVICE')");
+		
 
+		if($pgNew->pgSezione == 'Scientifica e Medica')
+		{
+			mysql_query("INSERT INTO fed_objects_ownership(oID,owner) VALUES (122,$me),(128,$me)");
+			mysql_query("INSERT INTO fed_objects_ownership(oID,owner) VALUES (".$trics_med[array_rand($trics_med)].",$me)");
+
+		}
+		elseif($pgNew->pgSezione == 'Difesa e Sicurezza')
+		{	
+			$ro=mysql_fetch_assoc(mysql_query("SELECT rankCode FROM pg_users WHERE pgID = $me"));
+			if((int)($ro['rankCode']) >= 823){
+				mysql_query("INSERT INTO fed_objects_ownership(oID,owner) VALUES (2,$me),(116,$me)");
+
+			}
+			else
+				mysql_query("INSERT INTO fed_objects_ownership(oID,owner) VALUES (97,$me)");
+
+			mysql_query("INSERT INTO fed_objects_ownership(oID,owner) VALUES (98,$me)");
+
+		}
+		elseif($pgNew->pgSezione == 'Operazioni')
+		{
+			mysql_query("INSERT INTO fed_objects_ownership(oID,owner) VALUES (120,$me),(129,$me)");
+			mysql_query("INSERT INTO fed_objects_ownership(oID,owner) VALUES (".$trics_ing[array_rand($trics_ing)].",$me)");
+		}
+
+		elseif($pgNew->pgSezione == 'Comando e Strategia')
+		{
+			mysql_query("INSERT INTO fed_objects_ownership(oID,owner) VALUES (98,$me)");
+		}
+		else{
+			mysql_query("INSERT INTO fed_objects_ownership(oID,owner) VALUES (".$trics[array_rand($trics)].",$me)");
+		}
+
+
+		mysql_query("INSERT INTO fed_objects_ownership(oID,owner) VALUES (1,$me),(124,$me),(118,$me),(119,$me)");
+	
+  
 	echo json_encode('OK');
 	exit;
 	
@@ -542,7 +586,7 @@ else if(isSet($_GET['coorArriveTo']))
 		$y = ($vali->numberOnly($_POST['coY']) != '') ? $vali->numberOnly($_POST['coY']) : 0;
 	
 		
-		$topointer = "$x;$y";
+		$topointer = "D:$x;$y";
 			
 		mysql_query("UPDATE pg_places SET warp='0',attracco='',pointerL='$topointer' WHERE placeID = '$place'");
 		mysql_query("UPDATE pg_places SET warp='0',pointerL='$topointer' WHERE attracco = '$place'");
@@ -570,6 +614,27 @@ else if (isSet($_GET['addMapLocation']))
 		mysql_query("INSERT INTO fed_ambient (locID,locName,ambientLocation,descrizione,planetSub,icon,image,ambientType) VALUES ('$locID','$name','$to','$desc','$map','$icon','$ima','NORMAL')");
 	
 	header('Location:main.php');	
+}
+
+
+else if (isSet($_GET['editMapLocation']))
+{
+	$locID = addslashes($_GET['editMapLocation']);
+	$name = addslashes($_POST['name']);
+	$desc = addslashes($_POST['descript']);
+	$icon = addslashes($_POST['icon']);
+	$ima = addslashes($_POST['internalImage']);
+	$typer = addslashes($_POST['typer']);
+	
+	if($icon == '') $icon = 'http://miki.startrekfederation.it/imaLocation/i_generic.png';
+	if($ima == '') $ima = 'http://miki.startrekfederation.it/imaLocation/c_generic.png';
+	$map = ($vali->numberOnly(addslashes($_POST['mappNo'])));
+	$deck = addslashes($_POST['pontNo']);
+	
+	if(PG::mapPermissions('M',$currentUser->pgAuthOMA))
+		mysql_query("UPDATE fed_ambient SET locName='$name', ambientType='$typer', planetSub='$map', ambientLevel_deck='$deck', descrizione='$desc', icon='$icon',image='$ima' WHERE locID='$locID'");
+	
+	header("Location:chat.php?amb=$locID");	
 }
 
 else if (isSet($_GET['purifyAlloggi']))

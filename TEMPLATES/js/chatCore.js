@@ -1,4 +1,4 @@
-﻿		var are;
+		var are;
 		var timerLLL;
 		// nota Moreno: utilizzo del selettore JQ 'Jquery per evitare conflitti con PHPTAL XML PARSER
 		jQuery(function()
@@ -57,83 +57,155 @@
 				timer = null;
 			}
 		}
+
+
+
+		function getDotazione(me,pg){
+			
+			jQuery(me).tooltip({ 
+				content: function(response) {
+					var elem = jQuery(this); 
+
+					jQuery.ajax(
+					{
+						url: 'servicePage.php?getDot=true', 
+						data: {pgID : pg},
+						  
+						type: 'POST',
+						dataType : 'json',
+						timeout:4500
+					}).then(function( e ) {
+
+						if (e['DATA']['ABITI'][0] && e['pgMostrina'] == 'CIV')
+						{ 
+							abDescr=e['DATA']['ABITI'][0]['descr']; 
+							if (e['DATA']['ABITI'][0]['image'] != "")
+								abImage=e['DATA']['ABITI'][0]['image'];
+							else abImage='TEMPLATES/img/uniformi/nouniformf_small.png';
+						}
+						else{
+							abImage="TEMPLATES/img/uniformi/"+e['currentUniform']+'_small.png'; 
+							abDescr=e['currentDescript']; 
+						}
+
+						if (e['DATA']['OBJECT'].length)
+						{
+							dot="<hr /><p class=\"tt_equi\"><span class=\"etitle\">Ha con sé:</span>";
+ 
+							jQuery.each(e['DATA']['OBJECT'],function(k){
+							dot+= "<p class=\"tt_elem\"><img src=\""+e['DATA']['OBJECT'][k]['image']+"\"></img> <span>"+e['DATA']['OBJECT'][k]['oName']+"</span></p>" ; 
+							});
+							dot+="</p>";
+						}
+						else dot='';
+	  
+
+						fcntl="<div class=\"tt_unidiv\"> <img class=\"unif\" src=\""+abImage+"\" ><br /><img src=\"TEMPLATES/img/ranks/"+e['pgMostrina']+".png\" > </div> <div class=\"tt_unidesc\"> "+abDescr+dot+"</div> ";  
+           				
+           				response( fcntl );
+          				}); 
+
+				}
+			});
+		}
+
 		$.fn.reverse = function() {return $(this.get().reverse());}
 		
-		function showTurni()
+		function showTurni(data)
 		{
 			var index; 
 			var stringer = ''; 
 			var indexer = []; 
 			var nonConsiderer = []; 
 			var turnOpener = '';
-			var turnskipping = 0;
-			var lastPos = 0;
-		 
+			var turnskipping = 0; 
+		 	var acts = [];
+		 	var isme=0;
 			 
-			 jQuery('#federation_chatDiv p .chatUser, #federation_chatDiv p .actionUser, #federation_chatDiv p.directiveRemove, #federation_chatDiv div.masterAction').reverse().each(function(e){
+			 jQuery('#federation_chatDiv span.chatUser, #federation_chatDiv p .actionUser, #federation_chatDiv p.directiveRemove, #federation_chatDiv div.masterAction').reverse().each(function(e){
 				
-				if (jQuery(this).attr("class") == 'masterAction') {
-					tname='MASTER';
-				}
-				else{
-					tname =  jQuery(this).text();
-				}
+
+				// https://www.youtube.com/watch?v=ulOb9gIGGd0 //
+				//thisTimer = jQuery(this).data('timecode');
+				tname=(jQuery(this).attr("class") == 'masterAction') ? 'MASTER' : jQuery(this).text();
+ 
+
 
 				if(nonConsiderer.indexOf(tname) == -1){ 
-				
-				if (jQuery(this).attr("class") == 'directiveRemove'){nonConsiderer.push(tname);}
+					
+					//add the removed to the nonconsider list
+					if (jQuery(this).attr("class") == 'directiveRemove'){nonConsiderer.push(tname); }
 
-				else
-				{
-
-					if(indexer.indexOf(tname) == -1 && turnskipping < 2)
+					//any other action counts
+					else
 					{
-						if(indexer.length == 0){ turnOpener = tname;}
-						
-						indexer.push(tname);
+ 
+						if(indexer.indexOf(tname) == -1 && turnskipping < 2)
+						{
+							if(indexer.length == 0){ turnOpener = tname;}
+							
+							indexer.push(tname); 
+
+						}
+						else if(tname == turnOpener){turnskipping++;}
 
 					}
-					else if(tname == turnOpener){turnskipping++;}
+				}
+			 }); 
 
-				}
-				}
-			 });
-			
-			indexer.reverse();
+			indexer = indexer.reverse();
+
 			currentUsername = jQuery('#pgUser').val();
-			
+			isme=0
 			for (index = 0; index < indexer.length; index++) {
-			var classer = '';
-			if(indexer[index] == currentUsername) classer = ' style="color:#3188F3;" '; 
-			if(indexer[index] == 'MASTER') classer = ' style="color:red;" '; 
+				var classer = '';
+
+				if(indexer[index] == currentUsername){classer = ' style="color:#3188F3;" '; isme=1;}
+				if(indexer[index] == 'MASTER') classer = ' style="color:red;" '; 
 
 			
+				//it's you turn, madafaka
+				if(index == 0 && indexer[index] == currentUsername)
+				{			
+					lastACT= Math.max(parseInt(data['LCT']), parseInt(jQuery('#lastTime').val()));
+
+					rtime = (Date.now() / 1000 | 0) - lastACT;
+					maxIntervalTime = (isNaN(parseInt(data['IT']))) ? 9999 : parseInt(data['IT']);
+
+					if (lastACT >0 && rtime > (maxIntervalTime * 60))
+					{
+						//alert(indexer[indexer.length-1 ]['pgUser'] + ' - ' + indexer[indexer.length-1]['tc'] + ' - ' + indexer[index]['pgUser'] + ' - ' + (Date.now() / 1000 | 0)+ ' ---> ' + rtime + ' ' + parseInt(jQuery('#maxIntervalTime').val()) * 60);
+						removeTurner('');
+
+						//console.log('REMOVEYOY!');
 
 
-			if(index == 0 && indexer[index] == currentUsername)
-			{			
-				  	
+					}
+					else
+					{
+						console.log( (Date.now() / 1000 | 0)+ '-' +lastACT + ' ---> ' + rtime + ' (' + maxIntervalTime+')');
+					}
 
-				stringer+= '<p class="turnElement myTurnElement lamp" '+classer+'>'+indexer[index]+'</p>'; 
-				if(!parseInt(jQuery('#turnIndicatorNotified').val())){
+					stringer+= '<p class="turnElement myTurnElement lamp" '+classer+'>'+indexer[index]+'</p>'; 
+					if(!parseInt(jQuery('#turnIndicatorNotified').val())){
 
-				notifyDesktop('Tocca a te azionare','TEMPLATES/img/logo_fed_fb.jpg',paddOpen,'Notifica');  
-				
-				timerLLL = setInterval(function(){var title = document.title;document.title = (title == "STAR TREK FEDERATION" ? "TUO TURNO - STAR TREK FEDERATION" : "STAR TREK FEDERATION");}, 1000);
-				jQuery('#turnIndicatorNotified').prop('value',1)
+					notifyDesktop('Tocca a te azionare','TEMPLATES/img/logo_fed_fb.jpg',paddOpen,'Notifica');  
+					
+					timerLLL = setInterval(function(){var title = document.title;document.title = (title == "STAR TREK FEDERATION" ? "TUO TURNO - STAR TREK FEDERATION" : "STAR TREK FEDERATION");}, 1000);
+					jQuery('#turnIndicatorNotified').prop('value',1)
+
+					}
 
 				}
-
-			}
-			else
-			{
-				stringer+= '<p class="turnElement" '+classer+'>'+indexer[index]+'</p>';  
-			}
+				else
+				{
+					stringer+= '<p class="turnElement" '+classer+'>'+indexer[index]+'</p>';  
+  				}
 			
 		} 
 		
 		//clearInterval(timerLLL);
-		if(indexer.indexOf(currentUsername) != -1) stringer+="<hr/><p style=\"margin:0px;\"><a href=\"javascript:void(0);\" class=\"interfaceLinkRed\" style=\"font-size:11px; text-align:lefft;\" onclick=\"javascript:removeTurner('')\"> [ ESCI ] </a> <img style=\"vertical-align:middle;\" src=\"TEMPLATES/img/interface/personnelInterface/info.png\" title=\"Uscita dalla turnazione. Premendo questo tasto segnali a tutti i giocatori l'uscita (oppure l'inattività, del tuo PG). Puoi farlo anche scrivendo la parola \"exit\" in un'azione di chat (deve contenere solo exit).\" /></p>";
+		if(isme ==1) stringer+="<hr/><p style=\"margin:0px;\"><a href=\"javascript:void(0);\" class=\"interfaceLinkRed\" style=\"font-size:11px; text-align:lefft;\" onclick=\"javascript:removeTurner('')\"> [ ESCI ] </a> <img style=\"vertical-align:middle;\" src=\"TEMPLATES/img/interface/personnelInterface/info.png\" title=\"Uscita dalla turnazione. Premendo questo tasto segnali a tutti i giocatori l'uscita (oppure l'inattività, del tuo PG). Puoi farlo anche scrivendo la parola \"exit\" in un'azione di chat (deve contenere solo exit).\" /></p>";
 		jQuery('#reminderBrevs').html(stringer);
 
 
@@ -174,6 +246,24 @@
 			else
 				jQuery('#federation_montUL').prop('class','paddOFF');
 			
+
+			if(data['NPR'] >= 1)
+			{
+			
+
+				if(!jQuery('#btnStatus').hasClass('notify'))
+				{
+					//notifyDesktop(data['NPtitle'],data['NPavatar'],paddOpen,'Nuovo DPADD');
+
+					if (document.getElementById('audioNotify')) document.getElementById('audioNotify').play();
+					jQuery('#btnStatus').addClass('notify');
+					jQuery('#btnStatus').prop('title',data['NPR']+' nuove notifiche');
+				}
+			}
+			else
+				jQuery('#btnStatus').removeClass('notify');
+			
+			
 			if(data['NOTIFY'])
 			{
 				notifyDesktop(data['NOTIFY']['TEXT'],data['NOTIFY']['IMG'],function(){},data['NOTIFY']['TITLE']);
@@ -185,6 +275,10 @@
 
 			}
 			
+			if(data['LCT']){ 
+				jQuery('#lastTime').val(data['LCT']);
+			}
+
 			if(data['SU']){
 				if(jQuery('#federation_rightBottomSussurro').prop('class')=='sussOFF')
 				{
@@ -215,9 +309,9 @@
 			var text = jQuery('#chatInput').prop('value');
 			jQuery.ajax(
 			{
-			url: jQuery('#listenerURL').prop('value'),
+			url: 'ajax_sendChatLineU.php',
 			data: {amb: jQuery('#locID').prop('value'), chatLine: text, userSpecific: jQuery('#chatUser').val(), chatTag: jQuery('#chatTag').prop('value')},
-			success: noti,
+			success: notiEC,
 			async:false,
 			type: 'POST'
 			});
@@ -225,6 +319,22 @@
 		}
 		
 		function noti(e)
+		{
+			jQuery('#turnIndicatorNotified').prop('value',0);
+			document.title = "STAR TREK: FEDERATION";
+			clearInterval(timerLLL);
+		
+			jQuery.ajax(
+			{
+				url: jQuery('#getterURL').prop('value')+'?ts='+new Date().getMilliseconds(),
+				data:{ambient: jQuery('#ambientID').prop('value'), lastID: jQuery('#lastID').prop('value')},
+				success: selfUpdater, 
+				type: 'POST',
+				dataType : 'json',
+			}); 
+		}
+
+		function notiEC(e)
 		{
 		jQuery('#chatInput').prop('value','');
 		jQuery('#counter').html('0');
@@ -258,6 +368,7 @@
 			}
 			jQuery('#federation_chatDiv').append(data['CH']);
 			jQuery('#lastID').prop('value',data['LCH']);
+			jQuery('#lastTime').prop('value',data['LCT']);
 			jQuery("#federation_chatDiv").scrollTop(jQuery("#federation_chatDiv")[0].scrollHeight);
 			}
 			}
@@ -265,8 +376,7 @@
 			if(data['MC'])
 				jQuery('#chatInput').attr('maxlength',parseInt(data['MC']));
 			else jQuery('#chatInput').removeAttr('maxlength');
-			
-			
+							
 			if(data['LIGHT'])
 			jQuery('#reminderLight').prop('src','TEMPLATES/img/interface/mainInterface/l'+data['LIGHT']+'.png');
 			
@@ -293,7 +403,7 @@
 			}
 
 
-			showTurni();
+			showTurni(data);
 		}
 		
 		function sX(e)
@@ -327,8 +437,7 @@
 			
 		}
 		
-		function dlindlon(ambient){jQuery.post('ajax_sendChatLine.php', {amb: ambient, chatLine: '*mst::sounder**'}, noti);}
-		
+  		function dlindlon(ambient){jQuery.post('ajax_sendChatLineU.php', {amb: ambient, chatLine: '*mst::sounder**'}, noti);}
 
 		function doRedirectToMona(ida) {
 			
@@ -393,8 +502,22 @@
 
 		}
 
-		function rollDice(){jQuery.post('ajax_manipulateAbilities.php?action=roll', {amb: jQuery('#ambientID').prop('value'), abID: jQuery('#selectedDiceSkill').val()}, function(e){jQuery('#dicePanel').fadeOut(100); 
+		function rollDice(){
+			 
+			var htluckypoint = jQuery('#abUsePoint').length ? jQuery('#abUsePoint').prop('checked') : false;
 
+			jQuery.post('ajax_manipulateAbilities.php?action=roll', {amb: jQuery('#ambientID').prop('value'), luckypoint: htluckypoint, abID: jQuery('#selectedDiceSkill').val()}, function(e){
+
+	 
+			jQuery('#dicePanel').fadeOut(100); 
+			if ( e["residualSpec"] !== undefined ){
+				if (parseInt(e['residualSpec']) <= 0){
+					jQuery('#abUsePoint').prop('checked',false);
+					jQuery('#dicerLuckOpt').fadeOut(0);
+					jQuery("div[id^='dicer_']").removeClass();
+				}
+			}
+			
 			jQuery.ajax(
 			{
 			url: jQuery('#getterURL').prop('value')+'?ts='+new Date().getMilliseconds(),
@@ -403,18 +526,21 @@
 			type: 'POST',
 			dataType : 'json',
 			}); 
-		});}
+		},'json');}
+
+
 
 		function diceChanger(){
 
 			at=jQuery('#selectedDiceSkill').val();
+			var htluckypoint = jQuery('#abUsePoint').length ? jQuery('#abUsePoint').prop('checked') : false;
 
 			jQuery('#aSK0,#aSK1,#aAB1').hide();
 
 			jQuery.ajax(
 			{
 			url: 'ajax_manipulateAbilities.php?action=getAbil',
-			data:{abID: at},
+			data:{abID: at,luckypoint:htluckypoint},
 			type: 'POST',
 			dataType : 'json',
 			timeout:4500,

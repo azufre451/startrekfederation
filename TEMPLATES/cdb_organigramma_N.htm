@@ -25,7 +25,8 @@
 		}
 
 		function opng(ide){
-			if (jQuery(ide).attr('checked'))
+
+			if (ide.checked)
 				jQuery('.pngLine, .fpngLine').fadeIn(120);
 			else jQuery('.pngLine, .fpngLine').fadeOut(120);
 		}
@@ -34,11 +35,29 @@
 			jQuery('#sectionWhat').autocomplete({source: "ajax_gradiGedder.php?sezioni=do",	minLength: 2});
 			jQuery('#departmentWhat').autocomplete({source: "ajax_gradiGedder.php?dipartimenti=do",	minLength: 2});
 			jQuery('#divisionWhat').autocomplete({source: "ajax_gradiGedder.php?divisioni=do",	minLength: 2});
+			jQuery('#groupWhat').autocomplete({source: "ajax_gradiGedder.php?gruppi=do",	minLength: 2});
+			
+			jQuery('.tooltip').tooltip({
+          content: function () {
+              return jQuery(this).prop('title');
+          	}
+      		});
+	
 
 		});
 	
 	</script>
 	<style>
+
+	.ui-tooltip {
+	font-size:12px;
+	text-align:justify;
+  }
+  	.ui-tooltip-content span {
+	font-weight:bold;
+  }
+  .im1{vertical-align: middle}
+
 		.sbtn{
 			border:1px solid #777;
 			border-radius:6px;
@@ -57,11 +76,36 @@
 		}
 		.sbtn:hover{background-color:#FFF; color:black !important;}
 
-		.ccolRed{ color:red; }
-		.ccolGre{ color:#6fbf22; }
-		.ccolYelo{ color:#FFCC00; }
-		.ccolBlue{ color:#2264bf; }
-		.ccolTeal{ color:teal; }
+		.sccolRed, a.ccolRed,p.ccolRed{ color:red; }
+		.sccolGre, a.ccolGre,p.ccolGre{ color:#6fbf22; }
+		.sccolYelo, a.ccolYelo,p.ccolYelo{ color:#FFCC00; }
+		.sccolBlue, a.ccolBlue,p.ccolBlue{ color:#2264bf; }
+		.sccolTeal, a.ccolTeal,p.ccolTeal{ color:teal; }
+
+		
+		
+		
+		
+		
+
+ 		p.dipGroup.ccolRed,p.dipGroup.ccolGre,p.dipGroup.ccolYelo,p.dipGroup.ccolBlue,p.dipGroup.ccolTeal{color:#BBB;}
+
+
+		p.dipGroup.ccolRed{ text-decoration-color:red; }
+		p.dipGroup.ccolGre{ text-decoration-color:#6fbf22; }
+		p.dipGroup.ccolYelo{ text-decoration-color:#FFCC00; }
+		p.dipGroup.ccolBlue{ text-decoration-color:#2264bf; }
+		p.dipGroup.ccolTeal{ text-decoration-color:teal; }
+
+ 		div.dipGroup{padding-left:10px; margin-left:20px; padding-left:5px; border-left:2px solid black;}
+
+		.pre_dipGroup div.dipGroup.ccolRed{ border-color:red; }
+		.pre_dipGroup div.dipGroup.ccolGre{ border-color:#6fbf22; }
+		.pre_dipGroup div.dipGroup.ccolYelo{ border-color:#FFCC00; }
+		.pre_dipGroup div.dipGroup.ccolBlue{ border-color:#2264bf; }
+		.pre_dipGroup div.dipGroup.ccolTeal{ border-color:teal; }
+
+		.pre_dipGroup{margin-left:40px;}
 
 		.sbtn.ccolRed{  border-color:red; }
 		.sbtn.ccolGre{  border-color:#6fbf22; }
@@ -164,28 +208,39 @@
 
 				<p tal:content="php:(strstr(repeat.dipartimento.key,'Comando')) ? repeat.dipartimento.key : 'DIP. ' . repeat.dipartimento.key" tal:condition="php:(repeat.dipartimento.key != '')" tal:attributes="class php:(array_key_exists(repeat.sezione.key,ccol) ? ccol[repeat.sezione.key] : '')" style="margin-bottom:5px;"  />
 
-				<p tal:repeat="person dipartimento" tal:attributes="class php:((person['png'] && person['pgID'] == 0) ? 'fpngLine' : ((person['png'] ? 'pngLine' : 'rpgLine')))" >
+				<div tal:repeat="dipGroup dipartimento" tal:attributes="class php:(repeat.dipGroup.key != '') ? 'pre_dipGroup' : ''">
 
-					<span style="display:inline-block; width:10px;" >
-						<a tal:attributes="href string:crew.php?delAssign=${person/recID}&equia=${equi} " tal:condition="php:(userM == 'yes' && person['png'] && person['pgID'] == 0)"><img src="TEMPLATES/img/interface/delete.png" style="vertical-align:middle;"/></a>
+					<p tal:content="string:Squadra/Unità ${repeat/dipGroup/key}" tal:condition="php:(repeat.dipGroup.key != '')" tal:attributes="class php:(array_key_exists(repeat.sezione.key,ccol) ? 'dipGroup ' . ccol[repeat.sezione.key] : '')" style="margin-bottom:5px; margin-top:10px;"  />
 
-					</span>
-					
+					<div tal:attributes="class php:(array_key_exists(repeat.sezione.key,ccol) ? 'dipGroup ' . ccol[repeat.sezione.key] : '')">
 
-					<img style="vertical-align:middle;" tal:attributes="src string:TEMPLATES/img/ranks/${person/ordinaryUniform}.png ; title string:${person/pgGrado} - Sezione ${person/pgSezione}" />
-					<img style="vertical-align:middle; vertical-align:middle;" tal:attributes="src php:(person['pgSesso'] == 'M') ? 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_m.png' : ((person['pgSesso'] == 'F') ? 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_f.png' : 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_t.png' ) ; title php:(person['pgSesso'] == 'M') ? person['pgSpecie'] . ' - Maschio' : ((person['pgSesso'] == 'F') ? person['pgSpecie'] . ' - Femmina' : person['pgSpecie'] . ' - Terzo Genere' )"  />
-					<a tal:omit-tag="php:(person['pgID'] == 0)" tal:attributes="href string:javascript:schedaPOpen(${person/pgID}) ; title php:(userSL) ? 'ULTIMO LOGIN: ' . date('d-m-Y H:i:s',person['pgLastAct']) : ''"><span class="itu" tal:content="string: ${person/pgNomeSuff} ${person/pgUser}, ${person/pgNomeC}" /></a> 
-		
-		<!--<span tal:condition="php:(user.pgAuthOMA == 'A' || user.pgAuthOMA == 'SM')" class="morer" style="display:none; float:right;">
-			<a tal:attributes="href string:service.php?place=${place/placeID}&bavosize=${person/pgID}" style="border:1px solid yellow; color:white; font-size:10px; padding:2px;" onclick="return confirm('Conferma Operazione');" tal:condition="php:(user.pgAuthOMA == 'A' || user.pgAuthOMA == 'SM')">Bv</a>
-			<a tal:attributes="href string:service.php?place=${place/placeID}&delete=${person/pgID}" style="border:1px solid red; color:white; font-size:10px; padding:2px;" onclick="return confirm('Conferma Operazione');" tal:condition="php:(user.pgAuthOMA == 'A')">De</a>
-		</span>-->
-		
-				<span  tal:attributes="class php:(array_key_exists(repeat.sezione.key,ccol) ? ccol[repeat.sezione.key] : '')" style=" font-weight:bold;">></span> <span tal:content="structure person/incIncarico">INCARICO</span>
+					<p tal:repeat="person dipGroup" tal:attributes="class php:((person['png'] && person['pgID'] == 0) ? 'fpngLine' : ((person['png'] ? 'pngLine' : 'rpgLine')))" >
 
+						<span style="display:inline-block; width:10px;" >
+							<a tal:attributes="href string:crew.php?editAssign=${person/recID}&equia=${equi} " tal:condition="php:(userM == 'yes' && person['png'] && person['pgID'] == 0)"><img src="TEMPLATES/img/interface/edit.png" style="vertical-align:middle;"/></a>
 
- 
-				</p>
+						</span>
+						
+						<img style="vertical-align:middle;" tal:attributes="src string:TEMPLATES/img/ranks/${person/ordinaryUniform}.png ; title string:${person/pgGrado} - Sezione ${person/pgSezione}" />
+						
+						<img style="vertical-align:middle; vertical-align:middle;" tal:attributes="src php:(person['pgSesso'] == 'M') ? 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_m.png' : ((person['pgSesso'] == 'F') ? 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_f.png' : 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_t.png' ) ; title php:(person['pgSesso'] == 'M') ? person['pgSpecie'] . ' - Maschio' : ((person['pgSesso'] == 'F') ? person['pgSpecie'] . ' - Femmina' : person['pgSpecie'] . ' - Terzo Genere' )"  />
+						
+						<a tal:omit-tag="php:(person['pgID'] == 0)" tal:attributes="href string:javascript:schedaPOpen(${person/pgID}) ; title php:(userSL) ? 'ULTIMO LOGIN: ' . date('d-m-Y H:i:s',person['pgLastAct']) : ''"><span class="itu" tal:content="string: ${person/pgNomeSuff} ${person/pgUser}, ${person/pgNomeC}" /></a> 
+
+			
+			<!--<span tal:condition="php:(user.pgAuthOMA == 'A' || user.pgAuthOMA == 'SM')" class="morer" style="display:none; float:right;">
+				<a tal:attributes="href string:service.php?place=${place/placeID}&bavosize=${person/pgID}" style="border:1px solid yellow; color:white; font-size:10px; padding:2px;" onclick="return confirm('Conferma Operazione');" tal:condition="php:(user.pgAuthOMA == 'A' || user.pgAuthOMA == 'SM')">Bv</a>
+				<a tal:attributes="href string:service.php?place=${place/placeID}&delete=${person/pgID}" style="border:1px solid red; color:white; font-size:10px; padding:2px;" onclick="return confirm('Conferma Operazione');" tal:condition="php:(user.pgAuthOMA == 'A')">De</a>
+			</span>-->
+			
+					<span  tal:attributes="class php:(array_key_exists(repeat.sezione.key,ccol) ? ccol[repeat.sezione.key] : '')" style=" font-weight:bold;">></span> <span tal:content="structure person/incIncarico">INCARICO</span>
+
+					<span tal:condition="php:(person['pgPrestige'] GT 0)">[ <img tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/notori_image_${person/pgPrestige}.png ; title php:('<span class=\'' . (array_key_exists(repeat.sezione.key,ccol) ? 's'.ccol[repeat.sezione.key] : '') . '\' >' . prestigioLabels[person['pgPrestige']]['name'] . '</span><br/>' . prestigioLabels[person['pgPrestige']]['desc']) ; class php:(array_key_exists(repeat.sezione.key,ccol) ? 'tooltip im1 ' . ccol[repeat.sezione.key] : 'tooltip im1')" /> ]</span>
+						
+	 
+					</p>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -196,117 +251,9 @@
 	<p style="color:white;"><a class="interfaceLink" href="javascript:void(0);" onclick="javascript:jQuery('#newPNG').fadeIn();" tal:condition="php:(userM == 'yes')"> Aggiungi PnG</a></p>
 
 
+<div metal:use-macro="TEMPLATES/cdb_organigramma_metal.htm/newPNG" />
 
-<div id="newPNG" tal:condition="php:(userM == 'yes')" style="display:none; padding:10px; border:1px solid #444;">
-	
-	<form method="POST" tal:attributes="action string:crew.php?createPNG=true&equia=${equi}">
-	<table><tbody>
-	<tr><td class="neon" style="width:130px; font-weight:bold;">Cognome PnG</td><td><input id="pgName" name="pgSurname" style="width:340px;" /></td></tr>
-	<tr><td class="neon" style="width:130px; font-weight:bold;">Nome PnG</td><td><input id="pgName" name="pgName" style="width:340px;" /></td></tr>
-	<tr>
-		<td style="width:130px; font-weight:bold;">Specie PnG</td>
-		<td>
-		<select name="pgSpecie">
-			<option value="Andoriana">Andoriana</option>
-			<option value="Bajoriana">Bajoriana</option>
-			<option value="Benzita">Benzita</option>
-			<option value="Betazoide">Betazoide</option>
-			<option value="Boliana">Boliana</option>
-			<option value="Borg">Borg</option>
-			<option value="Breen">Breen</option>
-			<option value="Caitiana">Caitiana</option>
-			<option value="Capelliana">Capellana</option>
-			<option value="Cardassiana">Cardassiana</option>
-			<option value="Deltana">Deltana</option>
-			<option value="Denobulana">Denobulana</option>
-			<option value="El-Auriana">El-Auriana</option>
-			<option value="Elaysiana">Elaysiana</option>
-			<option value="Ferengi">Ferengi</option>
-			<option value="Fondatore">Fondatore</option>
-			<option value="Gorn">Gorn</option>
-			<option value="Grazerita">Grazerita</option>
-			<option value="Jem'Hadar">Jem'Hadar</option>
-			<option value="Klingon">Klingon</option>
-			<option value="Nausicaana">Nausicaana</option>
-			<option value="Ocampa">Ocampa</option>
-			<option value="Orioniana">Orioniana</option>
-			<option value="Risiana">Risiana</option>
-			<option value="Romulana">Romulana</option>
-			<option value="Sauriana">Sauriana</option>
-			<option value="Sconosciuta">Sconosciuta</option>
-			<option value="Talariana">Talariana</option>
-			<option value="Talassiana">Talassiana</option>
-			<option value="Tellarita">Tellarita</option>
-			<option value="Tholiana">Tholiana</option>
-			<option value="Trill">Trill</option>
-			<option value="Tzenkethi">Tzenkethi</option>
-			<option value="Umana">Umana</option>
-			<option value="Umana-Betazoide">Umana-Betazoide</option>
-			<option value="Umana-Vulcaniana">Umana-Vulcaniana</option>
-			<option value="Umana-Klingon">Umana-Klingon</option>
-			<option value="Vorta">Vorta</option>
-			<option value="Vulcaniana">Vulcaniana</option>
-			<option value="Xenita">Xenita</option>
-			<option value="Zakdorn">Zakdorn</option>
-			<option value="Zaldan">Zaldan</option>
-		</select>		
-	</td></tr>
-	
-	<tr><td style="width:130px; font-weight:bold;">Sesso</td><td>
-			<select name="pgSesso" id="pgSesso" style="width:130px;">
-							<option value="M">Maschio</option>
-							<option value="F">Femmina</option>
-			</select>
-	</td></tr>
-	
-
-	<tr><td style="width:130px; font-weight:bold;">Unità</td><td>
-			<select name="assegnazione">
-			<option tal:repeat="location locations" tal:attributes="value repeat/location/key ; selected php:(repeat.location.key == equi) ? 'selected' : false" tal:content="location"/>
-			</select>
-
-
-	</td></tr>
-<tr><td style="width:130px; font-weight:bold;">Grado / Sezione</td><td>
-<select name="rankCode">
-	<optgroup tal:repeat="ranker ranks" tal:attributes="label repeat/ranker/key">
-	<option tal:repeat="rnk ranker" tal:attributes="value repeat/rnk/key" tal:content="rnk/note"/>
-	</optgroup>
-</select>
-</td></tr>
-
-<tr><td style="width:130px; font-weight:bold;">Sezione</td><td>
-<input id="sectionWhat" style="width:340px;" class="neon" placeholder="Sezione" type="text" name="pgSezione" />
-</td></tr>
-
-
-
-	<tr><td style="width:130px; font-weight:bold;">Incarico</td><td>
-						
-			
-
-			<input style="width:340px;" id="divisionWhat" class="neon" placeholder="Divisione" type="text" name="pgDivisione" /> [ Opzionale ]<br/> 
-			<input style="width:340px;" id="departmentWhat" class="neon" placeholder="Dipartimento" type="text" name="pgDipartimento" /><br/>
-			<input style="width:340px;" class="neon" placeholder="Incarico" type="text" name="pgIncarico" />
-	</td></tr>
-	
-
-	<tr tal:condition="php:(userSM == 'yes')"><td style="width:130px; font-weight:bold;">Crea Scheda PNG</td><td>
-						
-			Crea Scheda PnG <input type="checkbox" name="creaScheda" /> <br />
-			Password: <input type="password" style="width:300px;" name="passScheda" />  <br />
-	</td></tr>
-	
-
-	</tbody></table>
-	<input type="submit" style="margin-top:10px; margin-left:30px; font-size:13px; padding:4px;" value="Invia">INVIA</input>
-	</form>
-	<button style="position:absolute; bottom:7px; right:7px;" onclick="javascript:jQuery('#newPNG').fadeOut(150);">X</button>
 </div>
-
-
-
-	</div>
 
 </div>
 

@@ -12,7 +12,7 @@
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js" />
-	<script type="text/javascript" src="TEMPLATES/js/multitool.js" />
+	<script type="text/javascript" src="TEMPLATES/js/multitool.js?v=3.3" />
 	
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 
@@ -37,9 +37,58 @@
 		#padderList div.active, #padderList div:hover {background-color:#1b5c82; color:white;}
 		#connDiv table td {padding:4px; font-size:13px;   border-bottom:1px solid #FC0;} 
 		#connDiv table tr.head td {font-weight:bold; background-color:#555;} 
+		.yesConn{background-color:#d4d234;}
+		.yesPlay{background-color:#5ab52d;}
+		.no{background-color:#b52d2d;}
+		.noblack{background-color:#000000;}
+		.timeline-pol{
+  overflow-x: auto;
+  border:1px solid #777;
+}
 
+.timeline-pol2{
+  overflow-x: auto;
+  padding:2px;
+  width: intrinsic;           /* Safari/WebKit uses a non-standard name */
+  width: -moz-max-content;    /* Firefox/Gecko */
+  width: -webkit-max-content; /* Chrome */
+}
 
+.timeline-pol2 table td 
+{height:10px; text-align:left; height:10px; float:left; margin:0px; border-left:1px solid #777; width:10px; font-size:10px;}
+.timeline-pol2 table td img {height:12px;}
 	</style>
+
+	<script type="text/javascript">
+		function load_playrecord_vector(ida){
+			
+			
+			jQuery('#player_record_btn_'+ida).html('... caricamento ...').removeClass('interfaceLinkGreen');
+			jQuery.ajax(
+			{
+			url: 'multitool.php?s=ajax_getactivityrecord',
+			dataType : 'json',
+			data: {pgID: ida},
+			success: function(e){
+				gen='';
+				for (var d in e.reverse()){
+					var classer = 'no';
+					if(e[d].played) { classer='yesPlay'; }
+					else if (e[d].connected) { classer='yesConn'; }
+					gen += '<p style="float:left; margin:0px; width:10px; height:10px;" class="'+classer+'" title="'+e[d].kk+'" />';
+					}
+					jQuery('#player_record_btn_'+ida).fadeOut(100,function(){
+						jQuery('#player_record_'+ida).append(gen);	
+					});
+
+
+				
+			},
+			type: 'POST'
+			});
+		}
+	</script>
+
 </head>
 <body style="background-color:black; overflow:hidden;  padding:-5px;">
 
@@ -51,16 +100,22 @@
 
 		<p style="font-size:14px;"><a onclick="window.open ('multitool.php?s=stor','prestav', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=490,height=605');" href="javascript:void(0);" class="interfaceLink">&raquo; TUTTI I PUNTI</a></p>
 
+		<p style="font-size:14px;" ><a href="javascript:void(0);" class="interfaceLink" onclick="window.open ('multitool.php?s=timeline','prestav', config='scrollbars=yes,status=no,location=no,resizable=no');" >&raquo; TIMELINE (Beta)</a></p>
+
+		<p style="font-size:14px;" ><a href="javascript:void(0);" class="interfaceLink" onclick="jQuery('#valedictorians').toggle();" >&raquo; MEDAGLIE CONTROLLATE</a></p>
 
 		<p style="font-size:14px;"  tal:condition="exists:bonusM"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#masterEvents').toggle();" >&raquo; EVENTI MASTER </a></p>    
 
 		<p style="font-size:14px;"  tal:condition="exists:bonusSM"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#closingTool').toggle();" >&raquo; GESTORE SESSIONI </a></p>  
 
 		<!-- _________________________- -->
-		<p style="font-size:14px;"  tal:condition="exists:bonusSM"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#approvals').toggle();" >&raquo; APPROVAZIONE BG </a></p>
+		<p style="font-size:14px;"  tal:condition="exists:bonusA"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#approvals').toggle();" >&raquo; APPROVAZIONE BG </a></p>
 
 		<p style="font-size:14px;"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#lastpgs').toggle();" >&raquo; TOOL ULTIMI PG </a></p>
 
+		<p style="font-size:14px;" tal:condition="exists:bonusA"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#piallachat').toggle();" >&raquo; TOOL PIALLA CHAT</a></p>
+
+		<p style="font-size:14px;"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#presenzaStaff').toggle();" >&raquo; TOOL PRESENZA STAFF</a></p>
 
 	</div>
 
@@ -79,29 +134,35 @@
 					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;"> App. BG</td> 
 					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;" colspan="2">Messaggi Staff</td>
 				</tr>
-				<tr tal:repeat="person resLastPGS"> 
-				<td style="text-align:left;">
-					<img tal:attributes="src string:TEMPLATES/img/ranks/${person/ordinaryUniform}.png" style="vertical-align:middle;" />
-					<a tal:attributes="onclick string:javascript:schedaPOpen(${person/pgID})" class="interfaceLink" href="javascript:void(0);" tal:content="person/pgUser"></a>
-				</td>
-			
-				<td style="border:1px solid #111;"><img tal:attributes="src php:(person['pgLock']) ? 'TEMPLATES/img/interface/red_dot_icon.png' : 'TEMPLATES/img/interface/green_dot_icon.png'" /></td>
+				<tbody tal:repeat="person resLastPGS"> 
+					<tr>
+					<td style="text-align:left;">
+						<img tal:attributes="src string:TEMPLATES/img/ranks/${person/ordinaryUniform}.png" style="vertical-align:middle;" />
+						<a tal:attributes="onclick string:javascript:schedaPOpen(${person/pgID})" class="interfaceLink" href="javascript:void(0);" tal:content="person/pgUser"></a>
+					</td>
+				
+					<td style="border:1px solid #111;"><img tal:attributes="src php:(person['pgLock']) ? 'TEMPLATES/img/interface/red_dot_icon.png' : 'TEMPLATES/img/interface/green_dot_icon.png'" /></td>
 
 
-				<td style="border:1px solid #111;"><img tal:attributes="src php:(person['pgAlloggio'] != '') ? 'TEMPLATES/img/interface/green_dot_icon.png' : 'TEMPLATES/img/interface/red_dot_icon.png' ; title php:(person['pgAlloggio'] != '') ? 'Alloggio assegnato' : 'Alloggio non ancora assegnato, i Masters possono assegnare gli alloggi.'" /></td>
+					<td style="border:1px solid #111;"><img tal:attributes="src php:(person['pgAlloggio'] != '') ? 'TEMPLATES/img/interface/green_dot_icon.png' : 'TEMPLATES/img/interface/red_dot_icon.png' ; title php:(person['pgAlloggio'] != '') ? 'Alloggio assegnato' : 'Alloggio non ancora assegnato, i Masters possono assegnare gli alloggi.'" /></td>
 
-				<td style="border:1px solid #111;"><img tal:attributes="src php:(person['pgIncarico']) ? 'TEMPLATES/img/interface/green_dot_icon.png' : 'TEMPLATES/img/interface/red_dot_icon.png'" /></td>
+					<td style="border:1px solid #111;"><img tal:attributes="src php:(person['pgIncarico']) ? 'TEMPLATES/img/interface/green_dot_icon.png' : 'TEMPLATES/img/interface/red_dot_icon.png'" /></td>
 
-				<td style="border:1px solid #111;"><img tal:attributes="src php:(person['pgBackground']) ? 'TEMPLATES/img/interface/green_dot_icon.png' : 'TEMPLATES/img/interface/red_dot_icon.png'" />
+					<td style="border:1px solid #111;"><img tal:attributes="src php:(person['pgBackground']) ? ((person['pgBackground'] == 2) ? 'TEMPLATES/img/interface/green_dot_icon.png' : 'TEMPLATES/img/interface/yellow_dot_icon.png') : 'TEMPLATES/img/interface/red_dot_icon.png' ; title php:(person['pgBackground']) ? ((person['pgBackground'] == 2) ? 'Approvato' : 'Atteso sigillo papale GM/Admin - Guide OK') : 'In revisione alle guide'" />
 
-				</td>
-				<td style="border:1px solid #111;"><a class="interfaceLink" href="javascript:void(0)" tal:condition="php:(person['commpadd'])" tal:attributes="onclick string:ajax_getProfilingPadds(${person/pgID})">[ <span tal:content="person/commpadd" /> ]</a>
-				</td>
+					</td>
+					<td style="border:1px solid #111;"><a class="interfaceLink" href="javascript:void(0)" tal:condition="php:(person['commpadd'])" tal:attributes="onclick string:ajax_getProfilingPadds(${person/pgID})">[ <span tal:content="person/commpadd" /> ]</a>
+					</td>
 
-				<td style="border:1px solid #111;"><a class="interfaceLink" href="javascript:void(0)" tal:attributes="onclick string:if(confirm('Attenzione: i Padd inviati da questo tool, così come le risposte inviate, saranno visibili a tutto lo staff tramite il multi-tool. Ciò permane anche se la conversazione procede tramite -Padd normali- dopo il messaggio iniziale' ) ){ window.open('padd.php?s=seR&to=${person/pgUser}&sub=&guider=1','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403')}">[ Nuovo ]</a>
-				</td> 
+					<td style="border:1px solid #111;"><a class="interfaceLink" href="javascript:void(0)" tal:attributes="onclick php:'if(confirm(\'Attenzione: i Padd inviati da questo tool, così come le risposte inviate, saranno visibili a tutto lo staff tramite il multi-tool. Ciò permane anche se la conversazione procede tramite -Padd normali- dopo il messaggio iniziale\' ) ){ window.open(\'padd.php?s=seR&to=' . addslashes(person['pgUser']) . '&sub=&guider=1\',\'padd\', config=\'scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403\')}'">[ Nuovo ]</a> <a tal:condition="php:(person['pgBackground'] != 1)" class="interfaceLinkBlue" tal:attributes="href string:multitool.php?s=preapproveBackground&pgID=${person/pgID}">[Pre-approva]</a>
+					</td> 
 
-				</tr>
+					</tr>
+					<tr>
+						<td tal:attributes="id string:player_record_${person/pgID}"> <a tal:attributes="id string:player_record_btn_${person/pgID} ; onclick string:javascript:load_playrecord_vector(${person/pgID});" href="javascript:void(0);" class="interfaceLinkGreen"> [Vedi Attività] </a>
+						</td>
+					</tr>
+				</tbody>
 			</table>
 
 
@@ -115,12 +176,30 @@
 
 				<select name='place' style="width:400px;"><option tal:repeat="location locations" tal:attributes="value repeat/location/key" tal:content="location"/></select> <br /><br />
 	
-				<textarea type="text" name="eventText" placeholder="Testo Evento Master" style="width:400px; height:170px;" /><br /><br />
+				<textarea maxlength="750" type="text" name="eventText" placeholder="Testo Evento Master" style="width:400px; height:170px;" /><br /><br />
 				<input type="submit" value="Inserisci" />
 			</form>
 		</div>
 
+		 
 
+		<div id="valedictorians"  style="display:none; border:1px solid orange; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:left;">
+				<table>
+				
+					<tr style="background-color:#444; font-weight:bold;"> <td style="width:30px;"> Medaglia </td> <td> PG </td> <td> Assegnata nell'Anno </td></tr>
+					<tr tal:repeat="assignee valedictsAssignee">
+						<td>
+							<img tal:attributes="src string:TEMPLATES/img/ruolini/medaglie/${assignee/medImage} ; title assignee/medName" class="tooltip" style="margin-left:2px; margin-top:2px;" />
+						</td>
+						<td style="text-align:left;"><img tal:attributes="src string:TEMPLATES/img/ranks/${assignee/ordinaryUniform}.png" style="vertical-align:middle;" />
+							<img style="vertical-align:middle; vertical-align:middle;" tal:attributes="src php:(assignee['pgSesso'] == 'M') ? 'TEMPLATES/img/specie/' . assignee['pgSpecie'] . '_m.png' : ((assignee['pgSesso'] == 'F') ? 'TEMPLATES/img/specie/' . assignee['pgSpecie'] . '_f.png' : 'TEMPLATES/img/specie/' . assignee['pgSpecie'] . '_t.png' ) ; title php:(assignee['pgSesso'] == 'M') ? assignee['pgSpecie'] . ' - Maschio' : ((assignee['pgSesso'] == 'F') ? assignee['pgSpecie'] . ' - Femmina' : assignee['pgSpecie'] . ' - Terzo Genere' )"  />
+							<a tal:attributes="onclick string:javascript:schedaPOpen(${assignee/pgID})" class="interfaceLink" href="javascript:void(0);" tal:content="assignee/pgUser"></a>
+						</td>
+						<td><span tal:content="assignee/dotazioneAlt" /></td>
+						</tr>
+				</table>
+		</div>
+		
 		<div tal:condition="exists:bonusSM" id="closingTool" style="display:none; border:1px solid orange; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
 			
 			<table>
@@ -191,15 +270,37 @@
 
 			<a href="#" onclick="blockList()" class="interfaceLinks"><div style="border:1px solid #2e7ec8; margin-top:20px; margin-left:20px; margin-right:20px; padding:7px; text-align:center;">BLOCCA QUESTI PG</div></a>
 
-			<a href="#" tal:condition="exists:bonusSM" onclick="bavoList()" class="interfaceLinks"><div style="border:1px solid #2e7ec8; margin-top:20px; margin-left:20px; margin-right:20px; padding:7px; text-align:center;">BAVOSIZZA QUESTI PG</div></a>
+			<a href="#" tal:condition="exists:bonusA" onclick="bavoList()" class="interfaceLinks"><div style="border:1px solid #2e7ec8; margin-top:20px; margin-left:20px; margin-right:20px; padding:7px; text-align:center;">BAVOSIZZA QUESTI PG</div></a>
 
-			<a href="#" tal:condition="exists:bonusSM" onclick="delList()" class="interfaceLinks"><div style="border:1px solid #2e7ec8; margin-top:20px; margin-left:20px; margin-right:20px; padding:7px; text-align:center;">CANCELLA QUESTI PG</div></a>
+			<a href="#" tal:condition="exists:bonusA" onclick="delList()" class="interfaceLinks"><div style="border:1px solid #2e7ec8; margin-top:20px; margin-left:20px; margin-right:20px; padding:7px; text-align:center;">CANCELLA QUESTI PG</div></a>
 
 			<div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-top:20px; margin-right:20px;  margin-left:20px; padding:5px; text-align:center;">
 			Assegna a tutti: <select id="setSecl">
-				<option tal:repeat="con php:range(1,9)" tal:content="string: SECLAR ${con}" tal:attributes="value con"/>
+				<option tal:repeat="con php:range(0,9)" tal:content="string: SECLAR ${con}" tal:attributes="value con"/>
 			</select>&nbsp;&nbsp;<input type="submit" value="VAI" onclick="setSeclar(jQuery('#setSecl').val());" />
 			</div>
+
+			<div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-top:20px; margin-right:20px;  margin-left:20px; padding:5px; text-align:center;">
+			Notorietà per tutti a Liv: <select id="setPrestige">
+				<option tal:repeat="con php:range(0,10)" tal:content="php:prestigioLabels[con]['name']" tal:attributes="value con"/>
+			</select>&nbsp;&nbsp;<input type="submit" value="VAI" onclick="setPrestige(jQuery('#setPrestige').val(),jQuery('#reason').val());" /><br />
+			Con la motivazione: <input type="text" class="neon" id="reason" placeholder="Ragione" style="width:250px;" />
+
+			</div>
+
+
+			<div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-top:20px; margin-right:20px;  margin-left:20px; padding:5px; text-align:center;"> Assegna a tutti l'oggetto: <select id="oID">
+				<option tal:repeat="con allServiceObjects" tal:content="con/oName" tal:attributes="value con/oID"/>
+			</select>&nbsp;&nbsp;<input type="submit" value="VAI" onclick="giveObjects(jQuery('#oID').val());" />
+			</div>
+
+
+			<div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-top:20px; margin-right:20px;  margin-left:20px; padding:5px; text-align:center;"> Espropria a tutti l'oggetto: <select id="oID">
+				<option tal:repeat="con allServiceObjects" tal:content="con/oName" tal:attributes="value con/oID"/>
+			</select>&nbsp;&nbsp;<input type="submit" value="VAI" onclick="espropriaObjects(jQuery('#oID').val());" />
+			</div>
+
+
 
 			<div style="clear:both; height:10px;" />
 			<div style="border:1px solid #2e7ec8; padding:5px; margin-left:20px; text-align:center; margin-right:20px;" tal:condition="exists:bonusM" >Assegna a tutti lo Stato di Salute&nbsp;&nbsp;<input type="text" id="medStatus" placeholder="Stato di Salute"  style="width:360px;" onfocus="this.select()" />&nbsp;&nbsp;<input type="submit" value="VAI" onclick="setSalute(jQuery('#medStatus').val());" /></div><div style="clear:both;" />
@@ -242,8 +343,7 @@
 
 		</div>	
 
-
-		<div id="approvals" tal:condition="exists:bonusSM" tal:attributes="style php:((isSet(viewApprovals)) ? 'display:block' : 'display:none' )"> 
+		<div id="approvals" tal:condition="exists:bonusA" tal:attributes="style php:((isSet(viewApprovals)) ? 'display:block' : 'display:none' )"> 
 			
 			<div style="width:400px;">
 				<a tal:repeat="approBG pendingBGS" tal:content="repeat/approBG/key" style="margin-left:5px; border-left:2px solid #333; " class="interfaceLink" tal:attributes="onclick string:jQuery('#tyl_${repeat/approBG/key}').toggle();" />
@@ -251,38 +351,178 @@
 
 			<div tal:repeat="approBG pendingBGS" tal:attributes="id string:tyl_${repeat/approBG/key}" style="display:none; width:100%;">
 				<div tal:repeat="approval approBG">
-						<p class="approvalDiv" tal:attributes="onclick string:jQuery('#modi_${approval/pgID}').toggle();">
-							<img tal:attributes="src string:TEMPLATES/img/ranks/${approval/ordinaryUniform}.png" style="vertical-align:middle;" />
-							<a tal:attributes="onclick string:javascript:schedaPOpen(${approval/pgID})" class="interfaceLink" href="javascript:void(0);" tal:content="approval/pgUser"></a> Ultima Modifica: <span tal:content="php:date('d-m-y H:i',approval['tim'])">  </span>
-							[ <span tal:content="php: ((approval['supervision']) ? ((approval['supervision'] == 3) ? 'Jean' : 'Moreno') : '') " style="font-weight:bold;"> </span> ]
-						</p>
+						<table><tr><td>
+							<p class="approvalDiv" tal:attributes="onclick string:jQuery('#modi_${approval/pgID}').toggle();">
+								<img tal:attributes="src string:TEMPLATES/img/ranks/${approval/ordinaryUniform}.png" style="vertical-align:middle;" />
+								<a tal:attributes="onclick string:javascript:schedaPOpen(${approval/pgID})" class="interfaceLink" href="javascript:void(0);" tal:content="approval/pgUser"></a> Ultima Modifica: <span tal:content="php:date('d-m-y H:i',approval['tim'])">  </span>
+								[ <span tal:content="php: ((approval['supervision']) ? ((approval['supervision'] == 3) ? 'Jean' : 'Moreno') : '') " style="font-weight:bold;"> </span> ]
+							</p>
 
-						<div style="display:none;" tal:attributes="id string:modi_${approval/pgID}" tal:condition="exists:approval/approdiff" >
+							<div style="display:none;" tal:attributes="id string:modi_${approval/pgID}" tal:condition="exists:approval/approdiff" >
 
-						<p><img src="TEMPLATES/img/interface/personnelInterface/div_aspetto.png" /></p>
-						<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure approval/approdiff/pgBiometrics" />
+							<p><img src="TEMPLATES/img/interface/personnelInterface/div_aspetto.png" /></p>
+							<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure approval/approdiff/pgBiometrics" />
 
-						<p><img src="TEMPLATES/img/interface/personnelInterface/div_biografia.png" /></p>
-						<div style="margin-right:5px; font-size:13px; text-align:justify" class="backkander" tal:content="structure approval/approdiff/pgBackground" />
+							<p><img src="TEMPLATES/img/interface/personnelInterface/div_biografia.png" /></p>
+							<div style="margin-right:5px; font-size:13px; text-align:justify" class="backkander" tal:content="structure approval/approdiff/pgBackground" />
 
-						<p><img src="TEMPLATES/img/interface/personnelInterface/div_psicologia.png" /></p>
-						<div style="margin-right:5px; font-size:13px; text-align:justify" class="backkander" tal:content="structure approval/approdiff/pgCarattere" />
+							<p><img src="TEMPLATES/img/interface/personnelInterface/div_psicologia.png" /></p>
+							<div style="margin-right:5px; font-size:13px; text-align:justify" class="backkander" tal:content="structure approval/approdiff/pgCarattere" />
 
-						<p><img src="TEMPLATES/img/interface/personnelInterface/div_famiglia.png" /></p>
-						<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure approval/approdiff/pgFamily" />
+							<p><img src="TEMPLATES/img/interface/personnelInterface/div_famiglia.png" /></p>
+							<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure approval/approdiff/pgFamily" />
 
-						<p><img src="TEMPLATES/img/interface/personnelInterface/div_seclar7.png" /></p>
-						<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure approval/approdiff/pgIlSegreto" />
+							<p><img src="TEMPLATES/img/interface/personnelInterface/div_seclar7.png" /></p>
+							<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure approval/approdiff/pgIlSegreto" />
 
-						<p><img src="TEMPLATES/img/interface/personnelInterface/div_altro.png" /></p>
-						<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure approval/approdiff/pgVarie" />
-						
-						</div>
-						<div style="clear:both" />
-						<a tal:attributes="href string:multitool.php?s=approveBackground&pgID=${approval/pgID}" class="interfaceLinkGreen"> [ - APPROVA - ] </a> <a tal:attributes="title php:((approval['lastReminder']) ? 'Ultimo Reminder in data: '.date('d/m/y H:i',approval['lastReminder']) : '') ; onclick php:((approval['lastReminder']) ? 'return confirm(\'Sicuro di voler inviare un nuovo reminder?\');;' : 'return true;;') ; href string:multitool.php?s=remindBackground&pgID=${approval/pgID}" class="interfaceLinkBlue"> [ - INVIA REMINDER - ] </a>  <a tal:attributes="href string:multitool.php?s=achiAssignBackground&pgID=${approval/pgID}&what=14" class="interfaceLink"> [ - ACH. BG - ] </a>  <a tal:attributes="href string:multitool.php?s=achiAssignBackground&pgID=${approval/pgID}&what=44" class="interfaceLink"> [ - ACH. RUOL - ] </a>
+							<p><img src="TEMPLATES/img/interface/personnelInterface/div_altro.png" /></p>
+							<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure approval/approdiff/pgVarie" />
+							
+							</div>
+							<div style="clear:both" />
+							<a tal:attributes="href string:multitool.php?s=approveBackground&pgID=${approval/pgID}" class="interfaceLinkGreen"> [ - APPROVA - ] </a> <a tal:attributes="title php:((approval['lastReminder']) ? 'Ultimo Reminder in data: '.date('d/m/y H:i',approval['lastReminder']) : '') ; onclick php:((approval['lastReminder']) ? 'return confirm(\'Sicuro di voler inviare un nuovo reminder?\');;' : 'return true;;') ; href string:multitool.php?s=remindBackground&pgID=${approval/pgID}" class="interfaceLinkBlue"> [ - INVIA REMINDER - ] </a>  <a tal:attributes="href string:multitool.php?s=achiAssignBackground&pgID=${approval/pgID}&what=14" class="interfaceLink"> [ - ACH. BG - ] </a>  <a tal:attributes="href string:multitool.php?s=achiAssignBackground&pgID=${approval/pgID}&what=44" class="interfaceLink"> [ - ACH. RUOL - ] </a>
+						</td></tr></table>
 					</div>
 				</div>
-			</div>
+		</div>
+
+		<div id="piallachat" tal:condition="exists:bonusA" style="display:none">  
+
+			<script type="text/javascript">
+		function delchat(ida){
+			if(confirm('Sei sicuro di voler eliminare questa linea di chat? Jean, sei sicuro??'))
+
+			{
+					jQuery.ajax(
+				{
+				url: 'multitool.php?s=ajax_deleteChatLine',
+				dataType : 'json',
+				data: {IDE: ida},
+				success: function(e){
+					if (e == 'ok')
+						jQuery('#IDEline_'+ida).fadeOut(100);
+				},
+				type: 'POST'
+				});
+			}
+		}
+		function fullScreen(chat)
+			{
+				var wi = screen.availWidth - 10;
+				var au = screen.availHeight - 30;
+				window.open("chat.php?amb="+chat, "fed_main", "width=" + wi + ",height=" + au + ",top=0,left=0,location=no,menubar=no,resizable=yes,scrollbar=yes");
+			}
+	</script>
+
+
+			<style type="text/css">
+
+				span.actionReport{
+					color:#AAA; 
+					width:auto;
+					font-size:bold;
+					border:1px solid #AAA;
+					padding:5px;
+					margin:2px;
+					font-size:10px;
+					border-radius:5px;
+				}
+				span.action_type_DICE{
+					color:#9fff09; 
+					border:1px solid #9fff09;
+
+				}
+				span.action_type_DICERSPEC{
+					color:#cf2263; 
+					border:1px solid #cf2263;
+
+				}
+				span.action_type_AUDIO,span.action_type_AUDIOE{
+
+					color:#561385; 
+					border:1px solid #561385;
+				}
+
+				span.action_type_MASTER{
+					color:red; 
+					border:1px solid red;
+				}
+				span.action_type_MASTERSPEC{
+					color:#c67729; 
+					border:1px solid #c67729;
+				}
+
+				span.action_type_DIRECT{
+					color:white; 
+					border:1px solid white;
+				}
+			</style>
+			<link href="TEMPLATES/css/interface.css" rel="stylesheet" type="text/css" /> 
+			<table style="width:100%;">
+				<tr>
+					<td>ID</td><td>Owner</td> <td>Ambient</td> <td>Length</td> <td>Type</td><td></td>
+				</tr>
+				<tbody tal:attributes="id string:IDEline_${action/IDE}" tal:repeat="action lastchats" style="margin-top:5px;">
+				<tr>
+					<td style="width:28px; text-align:center; background-color:#333; padding:2px; border:1px solid #AAA;"><a href="javascript:void(0);" class="interfaceLink" tal:attributes="onclick string:javascript:jQuery(IDE_${action/IDE}).toggle()" tal:content="action/IDE"></a> </td>
+					<td style="width:120px;" > <img tal:attributes="src string:TEMPLATES/img/ranks/${action/ordinaryUniform}.png" style="vertical-align:middle;" /> <a tal:attributes="onclick string:schedaPOpen(${action/pgID});" href="javascript:void(0)" class="interfaceLink" tal:content="action/pgUser" /></td>
+					<td style="width:100px;"><a tal:content="action/ambient" class="interfaceLink" tal:attributes="href string:javascript:fullScreen('${action/ambient}')" /></td>
+					<td style="width:20px;"><p style="margin:2px; text-align:center; border: 1px solid #FFCC00; border-radius:5px;" tal:content="action/realLen">Len </p></td>
+					<td style="width:20px;"><span tal:content="action/type" tal:attributes="class string:actionReport action_type_${action/type}"></span></td>
+					<td style="width:7px;"><a href="javascript:void(0)" tal:attributes="onclick string:delchat(${action/IDE});" style="border:1px solid red; border-radius:5px; padding:2px; color:#888">X</a></td>
+				</tr>
+				<tr>
+					<td colspan="6" style="border:1px solid #333; text-align:center;"> <div tal:content="structure action/chat" style="display:none; text-align:justify;" tal:attributes="id string:IDE_${action/IDE}" /></td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div id="presenzaStaff" tal:attributes="style php:((isSet(presenzaStaff)) ? 'display:block' : 'display:none')"> 
+			<style>
+				.cclass{width:50px; height:20px; padding:3px; text-align:center; }
+				.cclass span {font-weight:bold;}
+				.present{background-color:#42ba0c;}
+				.uncert{background-color:#eca908;}
+				.absent{background-color:#d71212;}
+				.ndsent{background-color:#555555;} 
+			</style>
+
+			<table>
+				<tbody tal:repeat="user presentiTW">
+					<tr>
+						<td style="width:160px;">
+							<img tal:attributes="src php:'TEMPLATES/img/ranks/' . presentimeta[repeat.user.key]['ordinaryUniform'] .'.png'" style="vertical-align:middle;" />
+							<a tal:attributes="onclick php:'javascript:schedaPOpen(' . presentimeta[repeat.user.key]['pgID'] . ')'" class="interfaceLink" href="javascript:void(0);" tal:content="php:presentimeta[repeat.user.key]['pgUser']"></a>
+						</td>
+						<td tal:repeat="day user" tal:attributes="class php:((day==2) ? 'cclass present' : ((day==1) ? 'cclass uncert' : ((day==-1) ? 'cclass absent' : 'cclass ndsent')) )">
+							<span tal:content="php:DDAYMAP[repeat.day.key]" />
+						</td> 
+					</tr>
+					<tr tal:condition="php:presentimeta[repeat.user.key]['pgID'] == me">
+
+						<form action="multitool.php?s=setMyPresence" method="POST">
+							<td><p style="margin:0px; text-align:right"><input type="submit" value="[ IMPOSTA ]">[ VAI ]</input></p></td>
+							<td tal:repeat="day user">
+								<select class="neon cclass" tal:attributes="name string:ppres_${repeat/day/key}">
+									<option tal:attributes="selected php:((day==2) ? 'selected' : '' )" value="2">Si</option>
+									<option tal:attributes="selected php:((day==1) ? 'selected' : '' )" value="1">Forse</option>
+									<option tal:attributes="selected php:((day==-1) ? 'selected' : '' )" value="-1">No</option>
+									<option tal:attributes="selected php:((day==0) ? 'selected' : '' )" value="0">--</option>
+								</select>
+							</td>
+							
+						</form>
+					</tr>
+				</tbody>
+
+			</table>
+
+			
+
+			
+
+		</div>
 
 
 	</div>

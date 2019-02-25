@@ -42,10 +42,10 @@ elseif(isSet($_GET['propose']))
 		$toUser = $currentUser->pgUser;
 		
 		$cString = addslashes("L'utente $toUser a appena inserito in replicatore un cibo degli $prop_foodSpecie:<br /><br /><p style='text-align:center'><span style='font-weight:bold'>$prop_foodTitle</span><br /><img src='$prop_foodImage' style='border:1px solid #AAA; padding:5px; width:150px;' /> Accedi al tool admin replicatore per approvare o modificare.</p><br /> $prop_foodDescript");
-		
-		$p1->sendPadd('OFF: REPLICATORE',$cString);
-		$p2->sendPadd('OFF: REPLICATORE',$cString);
 		 
+		$p1->sendNotification("Nuovo cibo Replicatore","$toUser ha appena inserito in replicatore un cibo degli $prop_foodSpecie",$_SESSION['pgID'],$prop_foodImage,'repliOpen');
+		$p2->sendNotification("Nuovo cibo Replicatore","$toUser ha appena inserito in replicatore un cibo degli $prop_foodSpecie",$_SESSION['pgID'],$prop_foodImage,'repliOpen');
+	 
 		header("location:replicator.php?success=true&loc=".$_POST['loc']); 
 }
 
@@ -149,7 +149,7 @@ elseif(isSet($_GET['approval']))
 		{
 			$fileName = substr(time(),4,4).basename($getRecord['foodImage']);
 			copy(trim($getRecord['foodImage']), "miki/imaReplicatore/$fileName");
-			$imaUrl = "http://miki.startrekfederation.it/imaReplicatore/$fileName";
+			$imaUrl = "https://miki.startrekfederation.it/imaReplicatore/$fileName";
 			mysql_query("UPDATE fed_food SET active = 1, foodImage = '$imaUrl' WHERE foodID = $foodID");
 			if(mysql_affected_rows() && strpos(trim($getRecord['foodImage']), 'miki.startrekfederation.it/SigmaSys/'))
 			{
@@ -158,29 +158,42 @@ elseif(isSet($_GET['approval']))
 				fclose($handle);
 			}
 		}
-		else mysql_query("UPDATE fed_food SET active = 1 WHERE foodID = $foodID");
+		else {
+			mysql_query("UPDATE fed_food SET active = 1 WHERE foodID = $foodID");
+			$imaUrl=$getRecord['foodImage'];
+		}
 		
-		
+
 		$to = $getRecord['presenter'];
 		$title=$getRecord['foodName'];
-		$foodImage=$getRecord['foodImage'];
-		$toUser = (PG::getSomething($to,'username'));
-		
-		$cString = addslashes("Ciao $toUser!<br /> La tua proposta di inserimento in replicatore:<br /><br /><p style='text-align:center'><span style='font-weight:bold'>$title</span><br /><img src='$foodImage' style='border:1px solid #AAA; padding:5px; width:150px;' /></p><br />è stata valutata ed approvata, ed è quindi ora disponibile nel menu del replicatore.<br /><br />Ti è stato accreditato <span style='color:darkcyan; font-weight:bold;'>1 FP</span> per il contributo.<br /><br />Grazie e buon gioco!<br />Il Team di Star Trek: Federation");
-		
-		mysql_query("INSERT INTO fed_pad (paddFrom, paddTo, paddTitle, paddText, paddTime, paddRead) VALUES (".$_SESSION['pgID'].", $to, 'Approvazione Proposta','$cString',$curTime,0)"); 
-		
+		$curUser = $currentUser->pgUser; 
 		$approvedUser = new PG($to);
-		$approvedUser->addPoints(3,'FOOD','Proposta cibo Replicatore','Proposta cibo Replicatore',$assigner=518);
+		$approvedUser->addPoints(2,'FOOD','Proposta cibo Replicatore','Proposta cibo Replicatore',$assigner=518);
+		$approvedUser->sendNotification("Proposta replicatore approvata","$curUser ha approvato la tua proposta per $title",$_SESSION['pgID'],$imaUrl,'repliOpen');
+
 		
 		header('location:replicator.php?admin=true'); exit;
 	}
 	
 	if($mode == 'delete')
-	{
-		mysql_query("DELETE FROM fed_food WHERE foodID = $foodID");
-		header('location:replicator.php?admin=true'); exit;
+	{	
+		$imago=$getRecord['foodImage'];
+		$namao=$getRecord['foodName'];
+		$reason=$_POST['reason'];
+		$descriptio=$getRecord['foodDescription'];
+
+		$to = $getRecord['presenter'];
+		
+		$curUser = $currentUser->pgUser; 
+		$approvedUser = new PG($to);
+		
+		$approvedUser->sendPadd("Proposta replicatore respinta","$curUser ha rigettato la tua proposta per $namao: <hr /> <p style=\"text-align:center\"><img src=\"$imago\" style=\"border:1px solid #FFCC00; max-width:250px;\"></img></p> <table><tr><td style=\"font-weight:bold;\">URL:</td><td style=\"font-weight:bold;\">$imago</td></tr><tr> <td style=\"font-weight:bold;\">Descrizione</td><td>$descriptio</td> </tr> <tr><td style=\"font-weight:bold;\">Ragione</td><td>$reason</td></tr></table>",$_SESSION['pgID'],$currentUser->pgAvatarSquare);
+		
+		mysql_query("DELETE FROM fed_food WHERE foodID = $foodID"); 
+		echo json_encode(array('OK'));
+
 	}
+ 
 	if($mode == 'revise')
 	{
 		$template = new PHPTAL('TEMPLATES/replicator_admin_edit.htm');

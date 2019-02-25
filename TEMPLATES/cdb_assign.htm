@@ -56,7 +56,7 @@
 	<div id="cdbContainer" >
 	
 	<div metal:use-macro="TEMPLATES/metal.htm/cdbIntro" />
-	<div style="font-size:12px; margin-left:5px; text-transform:uppercase; "><a href="cdb.php" class="interfaceLink">CDB</a> <span style="color:red; font-size:11px;">></span> <a class="interfaceLink" href="crew.php">EQUIPAGGI</a> <a style="margin-left:40px; display:none" class="interfaceLink" href="people.php">(- Nuovi PG -)</a> <a tal:condition="php:(userSM == 'yes')" style="cursor:pointer; margin-left:20px;" class="interfaceLink" onclick="javascript:jQuery('#newPNG').fadeIn(300);" >(- Crea un PnG -)</a></div>
+	<div style="font-size:12px; margin-left:5px; text-transform:uppercase; "><a href="cdb.php" class="interfaceLink">CDB</a> <span style="color:red; font-size:11px;">></span> <a class="interfaceLink" href="crew.php">EQUIPAGGI</a></div>
 	
 	<div style="width:auto; border:1px solid white; margin-top:10px; height:120px;">
 		<div style="float:left; width:200px; height:100%;"><img id="littleAssign" /></div>
@@ -74,81 +74,11 @@
 	
 	<div style="margin-top:20px;">
 	
-	<a tal:repeat="place places" tal:attributes="href string:crew.php?equi=${place/placeID}"><div class="littleShipLogo" tal:attributes="title place/placeName ; onmouseover string:javascript:setLittle('TEMPLATES/img/logo/${place/placeLittle}','${place/placeNameE}','${place/placeMotto}','${place/placeClass}','${place/catGDB}','${place/catDISP}','${place/catRAP}','${place/commander}','${place/uniform}');" onmouseout="jQuery('#cdber').css('display','none')"><img tal:attributes="src string:TEMPLATES/img/logo/${place/placeLogo}" width="130px" /></div></a>
+	<a tal:repeat="place places" tal:attributes="href string:crew.php?equi=${place/placeID}"><div class="littleShipLogo" tal:attributes="title place/placeName ; onmouseover string:javascript:setLittle('TEMPLATES/img/logo/${place/placeLittle}','${place/placeNameE}','${place/placeMotto}','${place/placeClass}','${place/catGDB}','${place/catDISP}','${place/catRAP}','${place/commander}','${place/uniform}');" onmouseout="jQuery('#cdber').css('display','none')"><img tal:attributes="src string:TEMPLATES/img/logo/${place/placeLogo}" width="150px" /></div></a>
 	
 	</div>
 	
-	<div id="newPNG" tal:condition="php:(userSM == 'yes')" style="z-index:10;display:none;top:50%;left:50%;position:absolute;padding:15px;font-size:12px;background-color:rgba(0,0,0);background-color:rgba(0,0,0,0.7);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#B2000000,endColorstr=#B2000000);width:280px;height:190px;
-	margin-left:-160px;	margin-top:-110px;border:2px solid #444;">
-	<p style="font-size:20px; text-align:left; margin-left:10px; font-weight:bold; background-color:black;">Creazione PNG</p>
-	<form method="POST" action="service.php?createPNG=true">
-	<table><tbody>
-	<tr><td style="width:130px; font-weight:bold;">Cognome PnG</td><td><input id="pgName" name="pgName" style="width:140px;" /></td></tr>
-	<tr>
-		<td style="width:130px; font-weight:bold;">Specie PnG</td>
-		<td>
-		<select name="specie">
-			<option value="Andoriana">Andoriana</option>
-			<option value="Bajoriana">Bajoriana</option>
-			<option value="Benzita">Benzita</option>
-			<option value="Betazoide">Betazoide</option>
-			<option value="Boliana">Boliana</option>
-			<option value="Borg">Borg</option>
-			<option value="Breen">Breen</option>
-			<option value="Caitiana">Caitiana</option>
-			<option value="Capelliana">Capellana</option>
-			<option value="Cardassiana">Cardassiana</option>
-			<option value="Deltana">Deltana</option>
-			<option value="Denobulana">Denobulana</option>
-			<option value="El-Auriana">El-Auriana</option>
-			<option value="Elaysiana">Elaysiana</option>
-			<option value="Ferengi">Ferengi</option>
-			<option value="Fondatore">Fondatore</option>
-			<option value="Gorn">Gorn</option>
-			<option value="Grazerita">Grazerita</option>
-			<option value="Jem'Hadar">Jem'Hadar</option>
-			<option value="Klingon">Klingon</option>
-			<option value="Nausicaana">Nausicaana</option>
-			<option value="Ocampa">Ocampa</option>
-			<option value="Orioniana">Orioniana</option>
-			<option value="Risiana">Risiana</option>
-			<option value="Romulana">Romulana</option>
-			<option value="Sauriana">Sauriana</option>
-			<option value="Sconosciuta">Sconosciuta</option>
-			<option value="Talariana">Talariana</option>
-			<option value="Talassiana">Talassiana</option>
-			<option value="Tellarita">Tellarita</option>
-			<option value="Tholiana">Tholiana</option>
-			<option value="Trill">Trill</option>
-			<option value="Tzenkethi">Tzenkethi</option>
-			<option value="Umana">Umana</option>
-			<option value="Umana-Betazoide">Umana-Betazoide</option>
-			<option value="Umana-Vulcaniana">Umana-Vulcaniana</option>
-			<option value="Umana-Klingon">Umana-Klingon</option>
-			<option value="Vorta">Vorta</option>
-			<option value="Vulcaniana">Vulcaniana</option>
-			<option value="Xenita">Xenita</option>
-			<option value="Zakdorn">Zakdorn</option>
-			<option value="Zaldan">Zaldan</option>
-		</select>
-						
-	</td></tr>
-	
-	<tr><td style="width:130px; font-weight:bold;">Sesso</td><td>
-			<select name="pgSesso" id="pgSesso" style="width:130px;">
-							<option value="M">Maschio</option>
-							<option value="F">Femmina</option>
-			</select>
-	</td></tr>
-	
-	<tr><td style="width:130px; font-weight:bold;">Password PnG</td><td><input name="password" /></td></tr>
-	</tbody></table>
-	<input type="submit" style="margin-top:10px;" value="Invia">INVIA</input>
-	</form>
-	<button style="position:absolute; bottom:7px; right:7px;" onclick="javascript:jQuery('#newPNG').fadeOut(150);">X</button>
-	</div>
-
-	</div>
+	 </div>
 	
 
 </div>

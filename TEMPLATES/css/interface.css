@@ -317,13 +317,20 @@ background-repeat:no-repeat;
 
 #btnStatus
 {
-	background-image:url('../img/interface/mainInterface/status.png');
+	background-image:url('../img/interface/mainInterface/STATUSsprite.png');
 	width:100px;
-	height:33px;
+	height:37px;
+	background-position:center bottom;
 	position:absolute;
-	top:6px;
+	top:3px;
 	right:291px;
 	z-index:4;
+}
+
+#btnStatus.notify
+{
+
+	background-position:center top;
 }
 
 #federation_chatDiv
@@ -359,7 +366,7 @@ background-repeat:no-repeat;
 	background-color:black;
 }
 
-#reminderAvatar{width:100px; height:130px; top:160px;}
+#reminderAvatar{width:100px; height:135px; top:160px;}
 #reminderBrevs{width:100px; padding-left:3px; text-align:center; bottom:160px;}
 #reminderClima{width:100px; height:40px; top:40px;}
 #topLocations{position:absolute;top:0px;width:100px;border:1px solid yellow;}
@@ -491,6 +498,7 @@ text-align:center;
 border:1px solid #555;
 background-color:rgba(0,0,0);
 background-color:rgba(0,0,0,0.85);
+font-family:Verdana;
 filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#D8000000,endColorstr=#D8000000);
 }
 
@@ -851,17 +859,22 @@ padding:5px;
 }
 
 .diceOutcomeBox div.FC p.bar{
-	background-color:#971e1e;
+	background-color:#42105f;
 	
 }
 
+.diceOutcomeBox div.DF p.bar{
+	background-color:#c1bf25;
+	
+}
 .diceOutcomeBox div.SC p.bar{
 	background-color:#1e7597;	
 }
 
 .diceOutcomeBox p.label{text-align:right; margin:0px; margin-top:4px; font-size:12px;}
 
-.diceOutcomeBox div.FC p.label::after{color:#971e1e; content:'[ Fall. Critico ]';}
+.diceOutcomeBox div.DF p.label::after{color:#c1bf25; content:'[ Fortuna Critica ]';}
+.diceOutcomeBox div.FC p.label::after{color:#42105f; content:'[ Fall. Critico ]';}
 .diceOutcomeBox div.F p.label::after{color:#d72b2b; content:'[ Fallimento ]';}
 .diceOutcomeBox div.S p.label::after{color:#35971e; content:'[ Successo ]';}
 .diceOutcomeBox div.SC p.label::after{color:#1e7597; content:'[ Succ. Critico ]';}
@@ -870,6 +883,11 @@ padding:5px;
 
 .diceOutcomeBox span.bmal::before{content:'[';}
 .diceOutcomeBox span.bmal::after{content:']';}
+
+.diceOutcomeBox div.DF span.bmal::before, .diceOutcomeBox div.DF span.bmal::after{
+	color:#c1bf25;
+}
+
 
 .diceOutcomeBox div.S span.bmal::before, .diceOutcomeBox div.S span.bmal::after{
 	color:#35971e;
@@ -882,7 +900,7 @@ padding:5px;
 }
 
 .diceOutcomeBox div.FC span.bmal::before, .diceOutcomeBox div.FC span.bmal::after{
-	color:#971e1e;
+	color:#42105f;
 	
 }
 
@@ -1118,15 +1136,15 @@ float:left;
 
 #pstAdva
 {
-	width:560px;
-	height:350px;
-	position:absolute;
-	left:50%;
-	margin-left:-380px;
-	font-family:arial;
-	padding-top:95px;
+	    width: 590px;
+    height: 350px;
+    position: absolute;
+    left: 50%;
+    margin-left: -397px;
+    font-family: arial;
+    margin-top: 113px;
 	background-color:rgba(1,1,1);
-	background-color:rgba(1,1,1,0.7);
+	background-color:rgba(1,1,1,0.8);
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#B2010101,endColorstr=#B2010101);
 }
 
@@ -1145,3 +1163,18 @@ float:left;
 #guidePanel a.interfaceLinkBlue, #guidePanel a.interfaceLink, #guidePanel a.interfaceLinkGreen,#guidePanel a.interfaceLinkRed  {
 	font-size:14px !important;
 }
+
+#statusBox{display:none; border:1px solid #123258; z-index:5; padding:5px;  position:absolute; top:50px; right:300px; height:500px; width:425px; background-color:rgba(0,0,0,0.8); padding:10px; 	-moz-box-shadow: 0px 0px 20px #0099ff;
+    -webkit-box-shadow: 0px 0px 20px #0099ff;
+    box-shadow: 0px 0px 20px #0099ff;} 
+#statusContainer{height:460px; overflow-y: scroll; width:100%;} 
+#statusContainer > div{ margin-top:10px; clear:both; cursor: pointer}
+#statusContainer div div.di{ float:left;}
+#statusContainer div div.dt{ float:left; width:86%; float:right; }
+
+#statusContainer span.dater{color:#AAA; vertical-align:middle; font-style:italic; font-size:12px;}
+#statusContainer img{ width:40px; height:40px; }
+#statusContainer p{ font-size:14px; font-family:Arial;  margin:0px; margin-left:5px;}
+#statusContainer p.sub{ font-size:12px; font-style:italic; color:#EEE; font-family:Arial;  margin:0px; margin-left:5px;}
+
+#statusContainer > div:hover{ background-color:rgba(81,145,166,0.7);}

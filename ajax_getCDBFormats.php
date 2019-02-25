@@ -18,11 +18,13 @@ $sel = explode(',',$term);
 $lisOuser="";
 foreach ($sel as $auth)
 {
-	if($auth!='') $lisOuser .= "'".trim($auth)."',";
+	if($auth!='' && $auth!=' '){
+		$lisOuser .= "'".trim($auth)."',";
+	}
+
 } 
 $lisOuser = substr(trim($lisOuser),0,-1);
-
-
+ 
 
 $colr = array('Comando e Strategia' => 'RED', 'Difesa e Sicurezza' => 'GREEN', 'Operazioni' => 'YELLOW', 'Scientifica e Medica' => 'GREEN', 'Medica' => 'GREEN', 'Medicina Civile' => 'GREEN', 'Scienze' => 'GREEN', 'Navigazione' => 'BLUE');
 
@@ -40,7 +42,12 @@ $usersString="";
 
 if($lisOuser != '')
 {
-	$res = mysql_query("SELECT UCASE(pgUser) as pgUser, UCASE(pgNomeC) as pgNomeC, UCASE(pgNomeSuff) as pgNomeSuff, pgSezione,incIncarico,pgGrado,ordinaryUniform,placeName,rankerprio FROM pg_users,pg_incarichi,pg_places,pg_ranks WHERE prio = rankCode AND pgPlace = placeID AND pg_users.pgID = pg_incarichi.pgID AND incMain = 1 AND pgUser IN ($lisOuser) ORDER BY rankerprio DESC"); 
+	$res = mysql_query("(SELECT UCASE(pgUser) as pgUser, UCASE(pgNomeC) as pgNomeC, UCASE(pgNomeSuff) as pgNomeSuff, pgSezione,incIncarico,pgGrado,ordinaryUniform,placeName,rankerprio FROM pg_users,pg_incarichi,pg_places,pg_ranks WHERE prio = rankCode AND pgPlace = placeID AND pg_users.pgID = pg_incarichi.pgID AND incMain = 1 AND pgUser IN ($lisOuser) )
+		UNION (
+		SELECT UCASE(pngSurname) as pgUser, UCASE(pngName) as pgNomeC, '' as pgNomeSuff, pngSezione,pngIncarico,rGrado,ordinaryUniform,placeName,rankerprio FROM png_incarichi,pg_places,pg_ranks WHERE prio = pngRank AND pngPlace = placeID AND pngSurname IN ($lisOuser) GROUP BY pngSurname
+		)
+
+		ORDER BY rankerprio DESC"); 
 	if(!mysql_error()){
 	while($resA = mysql_fetch_array($res))
 	{
@@ -237,7 +244,7 @@ $usersString
 <blockquote> __Disposizione__ </blockquote>";
 }
 
-elseif ($rapType=="Q9"){
+elseif ($rapType=="Q9" || $rapType=="Q10"){
 $outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE SCIENTIFICA E MEDICA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
 
 [CENTER][IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_med.r.png[/IMG] [IMG]https://miki.startrekfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG]  [IMG]https://miki.startrekfederation.it/SigmaSys/logo/nl_sci.r.png[/IMG][/CENTER]

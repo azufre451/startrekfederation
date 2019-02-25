@@ -1,5 +1,5 @@
-﻿<?php
-
+<?php
+chdir('../');
 include('includes/app_include.php');
  
  
@@ -27,9 +27,9 @@ $for2 = $date+604800+604800;
 
 $SITA = "<p style=\"font-family:monospace\">-----------  Rapporto Pulizia  --------------<br />Esecuzione in data: ".date('d-m-y h:i:s',time()).'<br />-------------------------------------------<br /><br />';
 
-mysql_query("DELETE FROM federation_chat WHERE time < $eightMonth");
+//mysql_query("DELETE FROM federation_chat WHERE time < $eightMonth");
 
-$SITA .= "> Cancello <span style=\"font-weight:bold;color:#096bd0\">".mysql_affected_rows()."</span> righe di chat più vecchie di CINQUE mesi<br />";
+$SITA .= "> Cancello <span style=\"font-weight:bold;color:#096bd0\">".mysql_affected_rows()."</span> righe di chat più vecchie di OTTO mesi<br />";
 
 mysql_query("DELETE FROM fed_sussurri WHERE time < $oneMonth AND susTo IN (0,6)");
 
@@ -79,7 +79,7 @@ if ($tolist)
 // BAVOSIZZAZIONI
 
 
-$res= mysql_query("SELECT pgID FROM pg_users, federation_chat WHERE sender = pgID AND pgAuthOMA <> 'BAN' AND png = 0 AND pgBavo=0 GROUP BY pgID HAVING MAX(time) < $oneMonth");
+$res= mysql_query("SELECT pgID FROM pg_users, federation_chat WHERE sender = pgID AND pgAuthOMA NOT IN ('BAN','A','M','G','SM') AND png = 0 AND pgBavo=0 GROUP BY pgID HAVING MAX(time) < $oneMonth");
 $SITAbavo = "";
 $tabavosize = 0; 
 
@@ -92,7 +92,7 @@ while($ra = mysql_fetch_array($res))
 }
 
 if ($tabavosize)
-	$SITA .= "> Bavosizzo <span style=\"font-weight:bold;color:#096bd0\">$tabavosize</span> PG inattivi (non giocanti in ON) da più di UN mese:<p style=\"margin:15px;\">$SITAbavo<br />Ora sono tutti dei vermi verminosi.<br />";
+	$SITA .= "> Bavosizzo <span style=\"font-weight:bold;color:#096bd0\">$tabavosize</span> PG inattivi (non giocanti in ON) da più di UN mese:<p style=\"margin:15px;\">$SITAbavo<br /> SONO TORNATA.<br />";
 
 
 
@@ -110,7 +110,7 @@ while($ra = mysql_fetch_array($res))
 }
 
 if ($tadelete)
-	$SITA .= "> Cancello <span style=\"font-weight:bold;color:#096bd0\">$tadelete</span> PG inattivi e bavosizzati da più di DUE mesi:<p style=\"margin:15px;\">$SITAcanc<br />";
+	$SITA .= "> Cancello <span style=\"font-weight:bold;color:#096bd0\">$tadelete</span> PG inattivi e bavosizzati da più di DUE mesi:<p style=\"margin:15px;\">$SITAcanc<br /> Pagami.";
 
 
 

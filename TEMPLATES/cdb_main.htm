@@ -5,8 +5,8 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/cdb.css?v=1.2.1" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 
@@ -41,7 +41,7 @@
 	<form action="cdb.php" method="POST">
 		<input name="cdbCartellaCreate" style="width:300px;" placeholder="Crea nuovo topic" required="required" type="text" class='neon' />  <input style="margin-left:10px; padding:5px;" type="submit" value="CREA" />
 		
-		<select style="margin-left:10px;" name="cdbColor" tal:condition="php:user.pgAuthOMA == 'SM' OR user.pgAuthOMA == 'A'"> 
+		<select  style="margin-left:10px;" name="cdbColor" tal:condition="php:user.pgAuthOMA == 'SM' OR user.pgAuthOMA == 'A'"> 
 			<option value="">- COLORE -</option> 
 			<option value="topic_ext_red">ROSSO</option> 
 			<option value="topic_ext_yellow">GIALLO</option> 
@@ -66,7 +66,7 @@
 		
 		
 		<select style="margin-left:10px;" name="cdbSeclar">
-			<option tal:condition="php:(showSearchMaster)" tal:repeat="con php:range(1,9)" tal:attributes="value con" tal:content="string: SECLAR ${con}" />
+			<option tal:condition="php:(showSearchMaster)" tal:repeat="con php:range(0,9)" tal:attributes="value con" tal:content="string: SECLAR ${con}" />
 			<option tal:condition="php:user.pgAuthOMA == 'N' OR user.pgAuthOMA == 'O' OR user.pgAuthOMA == 'G'" tal:repeat="con php:range(1,user.pgSeclar)" tal:attributes="value con" tal:content="string: SECLAR ${con}" />
 		</select>
 		
@@ -79,7 +79,7 @@
 <table style="width:96%; margin-left:auto; margin-right:auto; " align="center">
 <tr><td style="border:1px solid #555; padding:4px; text-align:center" colspan="4"><img src="TEMPLATES/img/interface/importanti.png" /></td></tr>
 	<tr tal:repeat="topic topicsI" class="topicline">
-		<td style="width:20px;"><img tal:attributes="src php:(user.pgLastVisit GE topic['lastTstamp']) ? 'TEMPLATES/img/interface/indicator_off.gif' : (topic['lastTopicEvent'] == 'EDIT' ? 'TEMPLATES/img/interface/indicator_blue_on.gif' : 'TEMPLATES/img/interface/indicator_on.gif') ; title php:(user.pgLastVisit GE topic['lastTstamp']) ? 'Nessun Aggiornamento' : (topic['lastTopicEvent'] == 'EDIT' ? 'Uno o più post modificati' : 'Uno o più post inseriti')" /></td>
+		<td style="width:20px;"><img tal:attributes="src php:(topic['seen']) ? 'TEMPLATES/img/interface/indicator_off.gif' : (topic['lastTopicEvent'] == 'EDIT' ? 'TEMPLATES/img/interface/indicator_blue_on.gif' : 'TEMPLATES/img/interface/indicator_on.gif') ; title php:(topic['seen']) ? 'Nessun Aggiornamento' : (topic['lastTopicEvent'] == 'EDIT' ? 'Uno o più post modificati' : 'Uno o più post inseriti')" /></td>
 		<td class="topicTitle"><a tal:attributes="href string:cdb.php?topic=${topic/ID}; class string:topicImportant ${topic/classExt}" tal:content="topic/title"></a></td>
 		<td class="topic topicUser" tal:content="topic/lastU" />
 		<td class="topic topicDate" tal:content="topic/lastT" />
@@ -91,7 +91,7 @@
 <table style="width:96%; margin-left:auto; margin-right:auto; " align="center">
 <tr><td style="border:1px solid #555; padding:4px; text-align:center" colspan="4"><img src="TEMPLATES/img/interface/annunci.png" /></td></tr>
 	<tr tal:repeat="topic topicsA" class="topicline">
-		<td style="width:20px;"><img tal:attributes="src php:(user.pgLastVisit GE topic['lastTstamp']) ? 'TEMPLATES/img/interface/indicator_off.gif' : (topic['lastTopicEvent'] == 'EDIT' ? 'TEMPLATES/img/interface/indicator_blue_on.gif' : 'TEMPLATES/img/interface/indicator_on.gif') ; title php:(user.pgLastVisit GE topic['lastTstamp']) ? 'Nessun Aggiornamento' : (topic['lastTopicEvent'] == 'EDIT' ? 'Uno o più post modificati' : 'Uno o più post inseriti')" /></td>
+		<td style="width:20px;"><img tal:attributes="src php:(topic['seen']) ? 'TEMPLATES/img/interface/indicator_off.gif' : (topic['lastTopicEvent'] == 'EDIT' ? 'TEMPLATES/img/interface/indicator_blue_on.gif' : 'TEMPLATES/img/interface/indicator_on.gif') ; title php:(topic['seen']) ? 'Nessun Aggiornamento' : (topic['lastTopicEvent'] == 'EDIT' ? 'Uno o più post modificati' : 'Uno o più post inseriti')" /></td>
 		<td class="topicTitle"><a tal:attributes="href string:cdb.php?topic=${topic/ID}; class string:topicAnnounce ${topic/classExt}" tal:content="topic/title"></a></td>
 		<td class="topic topicUser" tal:content="topic/lastU" />
 		<td class="topic topicDate" tal:content="topic/lastT" />
@@ -103,7 +103,7 @@
 <div id="impN" class="topicDiv"  tal:condition="php:(count(topicsN) > 0)">
 <table style="width:96%; margin-left:auto; margin-right:auto; " align="center">
 	<tr tal:repeat="topic topicsN" class="topicline">
-		<td style="width:20px;"><img tal:attributes="src php:(user.pgLastVisit GE topic['lastTstamp']) ? 'TEMPLATES/img/interface/indicator_off.gif' : (topic['lastTopicEvent'] == 'EDIT' ? 'TEMPLATES/img/interface/indicator_blue_on.gif' : 'TEMPLATES/img/interface/indicator_on.gif') ; title php:(user.pgLastVisit GE topic['lastTstamp']) ? 'Nessun Aggiornamento' : (topic['lastTopicEvent'] == 'EDIT' ? 'Uno o più post modificati' : 'Uno o più post inseriti')" /></td>
+		<td style="width:20px;"><img tal:attributes="src php:(topic['seen']) ? 'TEMPLATES/img/interface/indicator_off.gif' : (topic['lastTopicEvent'] == 'EDIT' ? 'TEMPLATES/img/interface/indicator_blue_on.gif' : 'TEMPLATES/img/interface/indicator_on.gif') ; title php:(topic['seen']) ? 'Nessun Aggiornamento' : (topic['lastTopicEvent'] == 'EDIT' ? 'Uno o più post modificati' : 'Uno o più post inseriti')" /></td>
 		<td class="topicTitle"><a tal:attributes="href string:cdb.php?topic=${topic/ID}; class string:topicNormal ${topic/classExt}" tal:content="topic/title"></a></td>
 		<td class="topic topicUser" tal:content="topic/lastU" />
 		<td class="topic topicDate" tal:content="topic/lastT" />

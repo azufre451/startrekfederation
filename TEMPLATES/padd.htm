@@ -32,6 +32,13 @@
 		}
 
 		jQuery(function(){
+
+			jQuery('.tooltip, img').tooltip({
+          		content: function () {
+              	return jQuery(this).prop('title');
+          	}
+      		});
+
 			jQuery( "#users")
 			// don't navigate away from the field on tab when selecting an item
 			.bind( "keydown", function( event ) {
@@ -108,7 +115,14 @@
 				jQuery(aggregator+'.incoming.read > .unselectedPadd').removeClass('unselectedPadd').addClass('selectedPadd');
 			} 
 </script>
-
+<style>
+	.offPadd_1:after{color:#4991c3; content:'[OFF]'; font-size:9px; margin-left:5px;}
+	.offPadd_1:hover:after{text-decoration: none !important; color:white;}
+	.offPadd_2:after{color:#FFCC00; content:'[AUTO]'; font-size:9px; margin-left:5px;}
+	.offPadd_2:hover:after{text-decoration: none !important; color:white;}
+	.offPadd_3:after{color:#31F367; content:'[REV. BG]'; font-size:9px; margin-left:5px;}
+	.offPadd_3:hover:after{text-decoration: none !important; color:white;}
+</style>
 </head>
 
 <body style="background-color:black; overflow:hidden;">
@@ -124,22 +138,20 @@
 <div id="messaSend" class="radiusBordered12" style="font-variant:small-caps; display:none; font-size:16px; position:absolute; top:50%; left:50%; width:300px; border:1px solid #777; height:20px; margin-left:-155px; margin-right:-15px; background-color:black; padding:5px; text-align:center; font-size:13px" tal:condition="exists:paddSent">Padd Inviato</div>
 <script type="text/javascript" tal:condition="exists:paddSent">jQuery('#messaSend').fadeIn(1000); setTimeout("jQuery('#messaSend').fadeOut(500)",2500);</script>
 
-<div id="newPadd" tal:attributes="style php:(submode=='se') ? 'display:block;;' : 'display:none;;' ; class php:(user.pgSpecie=='Romulana') ? 'paddRomulanMain padderMain radiusBordered' : 'paddMain padderMain radiusBordered'">
+<div id="newPadd" tal:attributes="style php:(submode=='se') ? 'display:block;;' : 'display:none;;'" class="paddMain padderMain radiusBordered">
 <div class="innerPadd" style="margin-right:auto;margin-left:auto; width:510px; overflow:hidden;">
 
 
 <form action="padd.php?s=newP" method="POST">
 
 <table cellspacing="0px">
-	<tr><td style="border:1px dotted #333; width:140px;">DESTINATARI</td><td class="newPaddtd"><input id="users" name="users" style="width:400px;"/></td></tr>
+	<tr><td style="border-bottom:1px dotted #333; width:140px;">A:</td><td class="newPaddtd"><input type="text" class="neon" id="users" name="users" style="width:400px;"/></td></tr>
 	<tr style="height:20px;"><td /><td class="newPaddtd" style="font-size:11px; color:#777;">(&Egrave; possibile selezionare pi&ugrave; di un contatto) - Es. "Picard, Barclay, Janeway..."</td></tr>
-	<tr><td style="width:140px; border:1px dotted #333;">TITOLO</td><td class="newPaddtd"><input maxlength="25" name="titolo" style="width:400px;"/></td></tr>
+	<tr><td style="width:140px; border-bottom:1px dotted #333;">OGGETTO</td><td class="newPaddtd"><input type="text" class="neon" maxlength="25" name="titolo" style="width:400px;"/></td></tr>
 	<tr style="height:20px;" />
-	<tr><td style="width:140px; border:1px dotted #333; ">TESTO</td><td class="newPaddtd"><textarea name="testo" style="width:400px; height:160px;"/></td></tr>
-
-	<tr tal:condition="exists:isAdmin"><td style="width:140px; border:1px dotted #333; "></td><td class="newPaddtd"><input type="checkbox" name="forceMail"></input> Forza mail (mod)</td></tr>
-
-	<tr><td colspan="2" style="text-align:center;"><input style="width:50px;" type="submit" value="INVIA" /></td></tr>
+	<tr><td style="width:140px; border-bottom:1px dotted #333; ">TESTO</td><td class="newPaddtd"><textarea name="testo" style="width:400px; height:150px;"/></td></tr>
+  
+	<tr><td colspan="2" style="text-align:center;"><input tal:condition="exists:isAdmin" type="checkbox" name="forceMail"></input><span tal:condition="exists:isAdmin"> Forza mail (mod)</span> <input style="width:50px;" type="submit" value="INVIA" /></td></tr>
 
 </table>
 
@@ -154,7 +166,7 @@
 <table>
 	<tr tal:repeat="padd incoming/0" tal:attributes="id string:padd_${padd/ID}">
 		<td style="width:15px;" class="incoming unread"><div class="unselectedPadd" title="seleziona" tal:attributes="id padd/ID ; onclick string: javascript:togglePaddIndicator(this);"  style="cursor:pointer;"/> </td>
-		<td style="width:300px;" class="tdMessageNew"><a class="topcNormal tdMessageNew" tal:attributes="href string:padd.php?s=read&paddID=${padd/ID} ; title padd/paddText" tal:content="padd/title" /></td>
+		<td style="width:300px;" class="tdMessageNew"><a tal:attributes="href string:padd.php?s=read&paddID=${padd/ID} ; title padd/paddText ; class php:( (padd['paddType']) ? 'tooltip offPadd_' . padd['paddType'] . '  tdMessageNew' : 'tdMessageNew')" tal:content="padd/title" /></td>
 		<td style="width:200px;" class="tdMessageNew" tal:content="padd/time"></td>
 		<td style="width:150px;" class="tdMessageNew" tal:content="padd/from"></td>
 		
@@ -164,7 +176,7 @@
 <table>
 	<tr tal:repeat="padd incoming/1" tal:attributes="id string:padd_${padd/ID}">
 		<td style="width:15px;" class="incoming read"><div class="unselectedPadd" title="seleziona" tal:attributes="id padd/ID ; onclick string: javascript:togglePaddIndicator(this);" style="cursor:pointer;"/> </td>
-		<td style="width:300px;" class="tdMessage"><a class="topicNormal" tal:attributes="href string:padd.php?s=read&paddID=${padd/ID} ; title padd/paddText" tal:content="padd/title" /></td>
+		<td style="width:300px;" class="tdMessage"><a tal:attributes="href string:padd.php?s=read&paddID=${padd/ID} ; title padd/paddText ; class php:( (padd['paddType']) ? 'topicNormal tooltip offPadd_' . padd['paddType'] : 'topicNormal tooltip')" tal:content="padd/title" /></td>
 		<td style="width:200px;" class="tdMessage" tal:content="padd/time"></td>
 		<td style="width:150px;" class="tdMessage" tal:content="padd/from"></td>
 	</tr>
@@ -183,16 +195,18 @@
 <table>
 	<tr tal:repeat="padd outgoing/0" tal:attributes="id string:padd_${padd/ID}">
 		<td style="width:15px;" class="outgoing read"><div class="unselectedPadd" title="seleziona" tal:attributes="id padd/ID ; onclick string: javascript:togglePaddIndicator(this);" style="cursor:pointer;"/> </td>
-		<td style="width:300px;" class="tdMessageNew"><a class="topicNormal" tal:attributes="href string:padd.php?s=read&paddID=${padd/ID}" tal:content="padd/title" /></td>
+		<td style="width:300px;" class="tdMessageNew"><a tal:attributes="href string:padd.php?s=read&paddID=${padd/ID} ; class php:( (padd['paddType']) ? 'offPadd_' . padd['paddType'] . '  topicNormal' : 'topicNormal')" tal:content="padd/title" /></td>
 		<td style="width:200px;" class="tdMessageNew" tal:content="padd/time"></td>
 		<td style="width:150px;" class="tdMessageNew" tal:content="padd/to"></td>
 	</tr>
 </table>
+<span style="font-weight: bold;">Letti:</span>
 <hr tal:condition="php:count(incoming[1])" />
+
 <table>
 	<tr tal:repeat="padd outgoing/1" tal:attributes="id string:padd_${padd/ID}">
 		<td style="width:15px;" class="outgoing unread"><div class="unselectedPadd" title="seleziona" tal:attributes="id padd/ID ; onclick string: javascript:togglePaddIndicator(this);" style="cursor:pointer;"/> </td>
-		<td style="width:300px;" class="tdMessage"><a class="topicNormal" tal:attributes="href string:padd.php?s=read&paddID=${padd/ID}" tal:content="padd/title" /></td>
+		<td style="width:300px;" class="tdMessage"><a tal:attributes="href string:padd.php?s=read&paddID=${padd/ID} ; class php:( (padd['paddType']) ? 'offPadd_' . padd['paddType'] . '  topicNormal' : 'topicNormal')" tal:content="padd/title" /></td>
 		<td style="width:200px;" class="tdMessage" tal:content="padd/time"></td>
 		<td style="width:150px;" class="tdMessage" tal:content="padd/to"></td>
 	</tr>

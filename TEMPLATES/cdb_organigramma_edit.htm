@@ -1,0 +1,274 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<meta name="google" value="notranslate" />
+
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
+
+	<title>STAR TREK FEDERATION - CDB</title>
+
+	<script>
+		function orgaView(ida){
+			jQuery('.sliding').fadeOut(120).promise().done( function(){jQuery('#orga_'+ida).fadeIn(120);});
+
+		}
+
+		function opng(ide){
+
+			if (ide.checked)
+				jQuery('.pngLine, .fpngLine').fadeIn(120);
+			else jQuery('.pngLine, .fpngLine').fadeOut(120);
+		}
+			
+		jQuery(function(){
+			jQuery('.sectionWhat').autocomplete({source: "ajax_gradiGedder.php?sezioni=do",	minLength: 2});
+			jQuery('.departmentWhat').autocomplete({source: "ajax_gradiGedder.php?dipartimenti=do",	minLength: 2});
+			jQuery('.divisionWhat').autocomplete({source: "ajax_gradiGedder.php?divisioni=do",	minLength: 2});
+			jQuery('.groupWhat').autocomplete({source: "ajax_gradiGedder.php?gruppi=do",	minLength: 2});
+			
+			jQuery('.tooltip').tooltip({
+          content: function () {
+              return jQuery(this).prop('title');
+          	}
+      		});
+	
+
+		});
+	
+	</script>
+	<style>
+
+	p{font-family:Helvetica;}
+
+	.ui-tooltip {
+	font-size:12px;
+	text-align:justify;
+  }
+  	.ui-tooltip-content span {
+	font-weight:bold;
+  }
+  .im1{vertical-align: middle}
+
+		.sbtn{
+			border:1px solid #777;
+			border-radius:6px;
+			color:#666;
+			font-size:12px;
+			height:15px;
+			line-height: 15px;
+			width:80px;
+			padding:2px 5px;
+			font-weight:bold; 
+			padding:5px;
+			margin-left:5px;
+			text-align:center;
+			text-transform: uppercase;
+
+		}
+		.sbtn:hover{background-color:#FFF; color:black !important;}
+
+		.sccolRed, a.ccolRed,p.ccolRed{ color:red; }
+		.sccolGre, a.ccolGre,p.ccolGre{ color:#6fbf22; }
+		.sccolYelo, a.ccolYelo,p.ccolYelo{ color:#FFCC00; }
+		.sccolBlue, a.ccolBlue,p.ccolBlue{ color:#2264bf; }
+		.sccolTeal, a.ccolTeal,p.ccolTeal{ color:teal; }
+
+		.blockbulk{margin-left:20px; border:1px solid #5fc0f8; padding:10px; width:500px;}
+		
+
+ 		 input:required + span::before {content:'*'; color:red;}
+	</style>
+</head>
+
+<body style="background-repeat:no-repeat; background-color:black; background-position:top center;">
+
+
+<div id="federation_interfaceContainer">
+	<div id="leftCol" style="width:123px;">
+		<div id="leftC1" />
+		<div id="leftC3" />
+	</div>
+	
+	<div id="supCol">
+		
+		<div metal:use-macro="TEMPLATES/metal.htm/cdbHeading" />
+
+	</div>
+	
+	<div id="fillerBax">
+		<div id="barbot1" />
+	</div>
+	<div id="cdbContainer" >
+		<div metal:use-macro="TEMPLATES/metal.htm/cdbIntro" />
+
+		<div style="font-size:12px;  margin-left:5px; text-transform:uppercase; "><a href="cdb.php" class="interfaceLink">CDB</a> <span style="color:red; font-size:11px;">></span> <a class="interfaceLink" tal:attributes="href string:crew.php">EQUIPAGGI</a> <span style="color:red; font-size:11px;">></span> <a style="text-transform:uppercase;" class="interfaceLink" tal:content="place/placeName" tal:attributes="href string:crew.php?equi=${equi}" /> <span style="color:red; font-size:11px;">></span> <span style="text-transform:uppercase;" class="interfaceLink" tal:content="string:MODIFICA INCARICO PNG ${thisIncarico/pngName} ${thisIncarico/pngSurname}"></span> </div>
+
+		<div style="width:auto; border:1px solid white; margin-top:10px; height:120px;">
+				<div style="float:left; width:200px; height:100%;"><img src="TEMPLATES/img/logo/${place/placeLittle}" /></div>
+				<div style="margin-right:20px;  text-align:center; font-family:Arial; font-variant:small-caps; font-width:bold; margin-left:210px; height:100%;">
+					<p style="font-size:28px;" tal:content="place/placeName"/>
+					<p style="font-size:18px; font-style:italic;" tal:content="place/placeMotto"/> 
+					<p style="font-size:14px; text-align:right; position:relative; font-style:italic;" tal:content="structure place/placeClass"/>
+					<p style="font-size:14px; text-align:right;  font-style:italic;">
+						<img tal:attributes="src string:TEMPLATES/img/ranks/${place/uniform}.png" style="vertical-align:middle;" />
+						<span tal:content="structure place/commander" />
+					</p>
+				</div>	
+			
+				<div id='cdber' style="position:absolute; top:90px; left:210px; text-align:right;">
+					<p style="margin:0px; margin-top:5px;"><a tal:attributes="href string:cdb.php?cat=${place/catGDB}"><img src="TEMPLATES/img/interface/tdisposizioni_2.png" /></a></p>		
+					<p style="margin:0px; margin-top:5px;"><a tal:attributes="href string:cdb.php?cat=${place/catDISP}"><img src="TEMPLATES/img/interface/tgiornale_2.png" /></a></p>
+				</div>
+		</div>
+
+		<div id="local" style="width:550px; margin:auto">
+		<p style="font-weight:bold; color: #5fc0f8; margin:5px;width:auto;">Modifica Incarico <span style="color:white;">(solo questo incarico)</span> / <a class="interfaceLinkRed" tal:attributes="href string:crew.php?amendPNG=deleteIncarico&equia=${equi}&pngID=${thisIncarico/pngID}" onclick="return confirm('Conferma cancellazione?')">  [ - Cancella Incarico - ]</a> </p>
+		<div class="blockbulk">
+			<form method="POST" tal:attributes="action string:crew.php?amendPNG=edit&equia=${equi}">
+			<table>
+				<tr>
+					<td style="width:130px; font-weight:bold;">Unità</td><td>
+						<select style="width:340px;" class="neon" name="assegnazione">
+						<option tal:repeat="location locations" tal:attributes="value repeat/location/key ; selected php:(repeat.location.key == equi) ? 'selected' : false" tal:content="location"/>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td style="width:130px; font-weight:bold;">Sezione</td>
+					<td>
+						<input required="required" tal:attributes="value thisIncarico/pngSezione" style="width:340px;" class="neon sectionWhat" placeholder="Sezione" type="text" name="pgSezione" /><span class="requi" />
+					</td>
+				</tr>
+				<tr>
+					<td style="width:130px; font-weight:bold;">Incarico</td><td>
+									
+						<input style="width:340px;" tal:attributes="value thisIncarico/pngDivisione" class="neon divisionWhat" placeholder="Divisione" type="text" name="pgDivisione" /><br/> 
+						<input required="required" style="width:340px;" tal:attributes="value thisIncarico/pngDipartimento" class="neon departmentWhat" placeholder="Dipartimento" type="text" name="pgDipartimento" /><span class="requi" /><br/>
+						<input style="width:340px;" tal:attributes="value thisIncarico/pngIncGroup" class="neon groupWhat" placeholder="Gruppo/Unità" type="text" name="incGroup" /><br/>
+						<input style="width:340px;" tal:attributes="value thisIncarico/pngIncarico" class="neon" placeholder="Incarico" type="text" required="required" name="pgIncarico" /><span class="requi" />
+						<input required="required" type="hidden" tal:attributes="value thisIncarico/pngID" name="pngID" />
+
+					</td>
+				</tr> 
+				<tr> 
+					<td colspan="2" style="text-align:right;"><input type="submit" style="padding:5px; width:120px; background-color:#0b7b6f; color:white; font-size:14px;" value="Invia">INVIA</input></td>
+
+				</tr>
+			</table>
+		</form>
+		</div>
+ 
+
+ 		<p style="font-weight:bold; color: #5fc0f8; margin:5px;width:auto;">Modifica Nome, Grado e Razza PnG <span style="color:white;">(su tutti gli incarichi)</span> / <a class="interfaceLinkRed" tal:attributes="href string:crew.php?amendPNG=deletePNG&equia=${equi}&pngID=${thisIncarico/pngID}" onclick="return confirm('Conferma cancellazione?')">  [ - Cancella il PNG e incarichi associati - ] </a> </p>
+		<div class="blockbulk">
+			<form method="POST" tal:attributes="action string:crew.php?amendPNG=editPerson&equia=${equi}">
+			<table>
+				<tr><td style="width:130px; font-weight:bold;">Cognome PnG</td><td><input  class="neon" tal:attributes="value thisIncarico/pngSurname" id="pgSurname" type="text" required="required" name="pgSurname" style="width:340px;" /><span class="requi" /></td></tr>
+				<tr><td style="width:130px; font-weight:bold;">Nome PnG</td><td><input class="neon" tal:attributes="value thisIncarico/pngName"  id="pgName" type="text"  name="pgName" style="width:340px;" /></td></tr>
+				<tr>
+					<td style="width:130px; font-weight:bold;">Razza PnG</td>
+					<td>
+						<select class="neon" name="pgSpecie">
+							<option tal:repeat="species allSupportedSpecies" tal:attributes="value species ; selected php:((thisIncarico['pngSpecie'] == species) ? 'selected' : '')" tal:content="species" />
+						</select>		
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="width:130px; font-weight:bold;">Sesso</td><td>
+						<select class="neon" name="pgSesso" id="pgSesso" style="width:130px;">
+							<option tal:attributes="selected php:((thisIncarico['pngSesso'] == 'M') ? 'selected' : '')" value="M">Maschio</option>
+							<option tal:attributes="selected php:((thisIncarico['pngSesso'] == 'F') ? 'selected' : '')" value="F">Femmina</option>
+						</select>
+					</td>
+				</tr> 
+
+				<tr>
+					<td style="width:130px; font-weight:bold;">Grado / Sezione</td><td>
+					<select class="neon" name="rankCode">
+						<optgroup tal:repeat="ranker ranks" tal:attributes="label repeat/ranker/key">
+						<option tal:repeat="rnk ranker" tal:attributes="value repeat/rnk/key ; selected php:((repeat.rnk.key == thisIncarico['pngRank']) ? 'selected' : '') " tal:content="rnk/note"/>
+						</optgroup>
+					</select>
+					</td>			
+				</tr>
+
+				<tr> 
+					<td colspan="2" style="text-align:right">
+						<input type="hidden" tal:attributes="value thisIncarico/pngID" name="pngID" />
+						<input type="submit" style="padding:5px; width:120px; background-color:#0b7b6f; color:white; font-size:14px;" value="Invia">INVIA</input></td>
+				</tr>
+			</table>
+		</form>
+
+		</div>
+
+		<p style="font-weight:bold; color: #5fc0f8; margin:5px;width:auto;">Tutti gli incarichi del PNG / <a href="javascript:void(0)" onclick="jQuery('#addInca').toggle();" class="interfaceLinkGreen"> [ - Aggiungi Incarico - ]</a></p>
+
+
+	
+
+		
+		<div class="blockbulk" style="display:none;" id="addInca">
+
+			<form method="POST" tal:attributes="action string:crew.php?amendPNG=add&equia=${equi}">
+			<table>
+	 
+			<tr>
+				<td style="width:130px; font-weight:bold;">Unità</td><td>
+				<select class="neon" name="assegnazione">
+				<option tal:repeat="location locations" tal:attributes="value repeat/location/key ; selected php:(repeat.location.key == equi) ? 'selected' : false" tal:content="location"/>
+				</select>
+				</td>
+			</tr>
+			 
+
+			<tr><td style="width:130px; font-weight:bold;">Sezione</td><td>
+			<input style="width:340px;" class="neon sectionWhat" tal:attributes="value thisIncarico/pngSezione" placeholder="Sezione" required="required" type="text" name="pgSezione" /><span class="requi" />
+			</td></tr>
+
+
+
+			<tr><td style="width:130px; font-weight:bold;">Incarico</td><td>
+								
+					
+
+					<input style="width:340px;" class="neon divisionWhat" placeholder="Divisione" type="text" name="pgDivisione" />  <br/> 
+					<input style="width:340px;" required="required" class="neon departmentWhat" placeholder="Dipartimento" type="text" name="pgDipartimento" /><span class="requi" /><br/>
+					<input style="width:340px;" class="neon  groupWhat" placeholder="Gruppo/Unità" type="text" name="incGroup" /><br/>
+					<input style="width:340px;" required="required"  class="neon" placeholder="Incarico" type="text" name="pgIncarico" /><span class="requi" />
+			</td>
+			</tr>
+			<tr> 
+				<td colspan="2" style="text-align:right">
+					<input type="hidden" tal:attributes="value thisIncarico/pngID" name="pngID" />
+					<input type="submit" style="padding:5px; width:120px; background-color:#257b0b; color:white; font-size:14px;" value="Invia">INVIA</input></td>
+			</tr>
+
+			</table>
+		</form>
+		</div>
+ 
+ 		<div class="blockbulk" tal:condition="exists:otherIncarichi">
+			<p tal:repeat="inc otherIncarichi" tal:attributes="style php:(inc['pngID'] == thisIncarico['pngID'] ? 'background-color:red':'')">
+				<a tal:attributes="href string:crew.php?editAssign=${inc/pngID}&equia=${inc/pngPlace} "><img src="TEMPLATES/img/interface/edit.png" style="vertical-align:middle;"/></a> <img src="TEMPLATES/img/ranks/${inc/ordinaryUniform}.png" /> <span style="" tal:content="inc/pngIncarico" /> - <span style="" tal:content="inc/placeName" />
+			</p>
+		</div> 
+
+</div>
+
+</div>
+</div>
+</body>
+</html>

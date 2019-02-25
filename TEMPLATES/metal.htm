@@ -1,4 +1,90 @@
 ﻿<html>
+
+
+<div id="pstAdva" style="display:none;" metal:define-macro="postAdva">
+	
+	<div style="padding:5px; border-radius:12px; width:95%; margin-left:auto; margin-right:auto; border:1px solid #777;" class="radiusBordered12">
+	<p class="smallTitle">All'attenzione di...</p>
+	<table cellspacing="0px">
+	<tr><td class="newPaddtd" style="text-align:center;">
+		<textarea placeholder="Inserisci i nomi dei personaggi da includere nel trafiletto PRESENTI / ALL'ATTENZIONE DI del post. Se non selezioni nessun template, apparirà solo la lista PG con le mostrine" id="users" name="users" style="width:95%; height:45px;" onfocus="this.select();"></textarea></td>
+	</tr>
+	<tr><td> <span style="font-size:11px; font-weight:bold; margin-left:20px; margin-right:30px;">TEMPLATE</span>
+		<select class="neon" id="scRapp">
+		<optgroup label="Generici">
+		<option value="00">- Nessun Template Rapporti (Solo lista PG) -</option>
+		<option value="Q1">Rapporti Quest / Extraquest</option>
+		</optgroup>
+		<optgroup label="Comando e Strategia">
+			<option value="Q2">Generico Sezione Comando e Strategia</option>
+			<option value="Q16">Ufficio del Capitano</option>
+			<option value="Q16b">Ufficio del Primo Ufficiale</option>
+		</optgroup>
+		<optgroup label="Difesa Sicurezza"> 
+			<option value="Q4">Generico Sezione Difesa e Sicurezza</option>
+			<option value="Q15">Ufficio del Capo della Sicurezza</option>
+			<option value="Q6">Disposizioni Dipartimento Sicurezza</option>
+		</optgroup>
+
+		<optgroup label="Navigazione">
+		<option value="QN1">Ufficio del C.A.G.</option>
+		<option value="QN2">Ufficio Gestione e Controllo Hangar Navette</option>
+		<option value="QN3">Coordinamento Controllo Volo</option>
+
+		<option value="QN4">Entry del Registro di Navigazione - Partenza</option>
+		<option value="QN5">Entry del Registro di Navigazione - Arrivo</option>
+		</optgroup>
+		
+
+		<optgroup label="Ingegneria">
+		<option value="Q14">Ufficio del CEO</option>
+		<option value="Q7">Generico Sezione Ingegneria</option>
+		<option value="Q8">Disposizioni Dipartimento Operazioni</option> 
+		</optgroup>
+		
+		<optgroup label="Scientifica e Medica">
+		<option value="Q13">Ufficio CSO</option>
+		<option value="Q9">Generico Sezione Scientifica</option>
+		<option value="Q17">UFFICIO CMO</option>
+		<option value="Q18">UFFICIO CNS</option>
+		<option value="Q10">Generico Sezione Medica</option>
+		</optgroup>
+		</select>
+	</td></tr>
+	<tr style="height:10px;"/>
+	<tr><td class="newPaddtd">
+		<p class="smallTitle">Stile Mostrine</p>
+
+		<div>
+			<form>
+			<input type="radio" name="format" id="format1" checked="checked" value="1" /> <span class="cdbPostLittleSize"><img src="https://startrekfederation.it/TEMPLATES/img/ranks/nfC13.png" alt="Capitano - Sezione Comando e Stategia" title="Capitano - Sezione Comando e Strategia" /><span class="cdbPostRed"> <b>CAPITANO HOPKINS, ISAAC</b></span> - Comandante di Vascello <span class="cdbPostGray">U.S.S. ENDEAVOUR NCC-76582 </span></span><br />
+			
+			<input type="radio" name="format" id="format2" value="2" /> <span class="cdbPostLittleSize"><img src="https://startrekfederation.it/TEMPLATES/img/ranks/nfC13.png" alt="Capitano - Sezione Comando e Strategia" title="Capitano - Sezione Comando e Strategia" /> <b>CAPITANO HOPKINS, ISAAC</b> <span class="cdbPostRed">&gt;</span> <span class="cdbPostGray">COMANDANTE DI VASCELLO</span></span><br />
+			
+			<input type="radio" name="format" id="format3" value="3" /> <span class="cdbPostLittleSize"><img src="https://startrekfederation.it/TEMPLATES/img/ranks/nfC13.png" alt="Capitano - Sezione Comando e Strategia" title="Capitano - Sezione Comando e Strategia" /><span class="cdbPostRed"> <b>CAPITANO HOPKINS, ISAAC</b></span></span><br />
+			<input type="radio" name="format" id="format4" value="4" /> <span class="cdbPostLittleSize"><img src="https://startrekfederation.it/TEMPLATES/img/ranks/nfC13.png" alt="Capitano - Sezione Comando e Strategia" title="Capitano - Sezione Comando e Strategia" /><span class="cdbPostRed"> <b>CAPITANO HOPKINS</b></span></span><br />
+			<input type="radio" name="format" id="format5" value="5" /> <span class="cdbPostLittleSize"><img src="https://startrekfederation.it/TEMPLATES/img/ranks/nfC13.png" alt="Capitano - Sezione Comando e Strategia" title="Capitano - Sezione Comando e Strategia" /><span class="cdbPostRed"> <b>HOPKINS</b></span></span><br />
+			</form>
+		</div>
+	</td></tr>
+	
+	<tr><td colspan="2" style="text-align:center;"><button onclick="window.open('miki/SigmaSys/embed_ranks.php','embedr', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=120,left=200,width=550,height=580');">MOSTRINE MANUALI</button>&nbsp;&nbsp;<button onclick="javascript:goTrasncript(jQuery('#scRapp').val(),jQuery('#users').prop('value'))">VAI</button>&nbsp;&nbsp;<button onclick="javascript:jQuery('#pstAdva').fadeOut(150);">CHIUDI</button></td></tr>
+	</table>
+	</div>
+		
+	<div style="padding:5px; border-radius:12px; width:95%; margin-left:auto; margin-top:10px; margin-right:auto; border:1px solid #777;" class="radiusBordered12">
+		<p class="smallTitle">Data Stellare</p>
+		<p class="dateContainer" style="text-align:left;"><span class="smallTitle" style="margin:0px; margin-left:20px;">Data:</span>
+			<input type="text" class="neon" id="inputDateD" onkeydown="if (!isNumberKey(event)) return false;" onkeyup="if(this.value.length == 2 && this.value >= 0 && this.value <= 31) jQuery('#inputDateM').select();"  style="width:20px;" tal:attributes="value php:date('d',curTime)" /> / 
+			<input class="neon" type="text" id="inputDateM" onkeydown="if (!isNumberKey(event)) return false;" onkeyup="if(this.value.length == 2 && this.value >= 0 && this.value <= 12) jQuery('#inputDateY').select();" style="width:20px;" tal:attributes="value php:date('m',curTime)"/> /
+			<input class="neon"  type="text" id="inputDateY" onkeydown="if (!isNumberKey(event)) return false;" onkeyup="if(this.value.length == 4 && this.value >= 0 && this.value <= 9999) jQuery('#inputDateH').select();" style="width:40px;" tal:attributes="value php:date('Y',curTime)+bounceYear"/>&nbsp;&nbsp;<span class="smallTitle" style="margin:0px; margin-left:20px;">Ora:</span>
+
+			<input class="neon"  tal:attributes="value php:date('H',curTime)" type="text" id="inputDateH" onkeydown="if (!isNumberKey(event)) return false;" onkeyup="if(this.value.length == 2 && this.value >= 0 && this.value <= 23) jQuery('#inputDateI').select();" style="width:20px;"/> : 
+			<input class="neon"  tal:attributes="value php:date('i',curTime)" type="text" id="inputDateI" onkeydown="if (!isNumberKey(event)) return false;" onkeyup="if(this.value.length == 2 && this.value >= 0 && this.value <= 59) jQuery('#stardateBtn').focus();" style="width:20px;"/> <button id="stardateBtn" onclick="javascript:goStardate(jQuery('#inputDateD').prop('value'),jQuery('#inputDateM').prop('value'),jQuery('#inputDateY').prop('value'),jQuery('#inputDateH').prop('value'),jQuery('#inputDateI').prop('value'))" style="margin:0px; margin-left:20px;">INSERISCI</button>
+		</p>
+	</div>
+</div>
+
 <div tal:condition="php:(isSet(debug) && debug==true)" metal:define-macro="versionBox">
 	<div id="versionBox" style="z-index:10; border:1px solid white; width:300px; font-size:11px; color:black; height:100px; position:absolute; bottom:80px; right:80px; background-color:#EEE; opacity:0.4;  filter: alpha(opacity = 40); text-align:center;">
 		<b>INFORMAZIONE DI SERVIZIO</b><br />
@@ -23,18 +109,6 @@
 			<a href="calendar.php"><div id="calendarioBTN" /></a>
 			<a href="cdb.php?calls=1"><div id="sondaggiBTN" /></a>
 		</div>
-</div>
-
-<div metal:define-macro="mostrinStyle">
-		<form>
-		<input type="radio" name="format" id="format1" checked="checked" value="1" /> <span class="cdbPostLittleSize"><img src="https://startrekfederation.it/TEMPLATES/img/ranks/nfC13.png" alt="Capitano - Sezione Comando e Stategia" title="Capitano - Sezione Comando e Strategia" /><span class="cdbPostRed"> <b>CAPITANO HOPKINS, ISAAC</b></span> - Comandante di Vascello <span class="cdbPostGray">U.S.S. ENDEAVOUR NCC-76582 </span></span><br />
-		
-		<input type="radio" name="format" id="format2" value="2" /> <span class="cdbPostLittleSize"><img src="https://startrekfederation.it/TEMPLATES/img/ranks/nfC13.png" alt="Capitano - Sezione Comando e Strategia" title="Capitano - Sezione Comando e Strategia" /> <b>CAPITANO HOPKINS, ISAAC</b> <span class="cdbPostRed">&gt;</span> <span class="cdbPostGray">COMANDANTE DI VASCELLO</span></span><br />
-		
-		<input type="radio" name="format" id="format3" value="3" /> <span class="cdbPostLittleSize"><img src="https://startrekfederation.it/TEMPLATES/img/ranks/nfC13.png" alt="Capitano - Sezione Comando e Strategia" title="Capitano - Sezione Comando e Strategia" /><span class="cdbPostRed"> <b>CAPITANO HOPKINS, ISAAC</b></span></span><br />
-		<input type="radio" name="format" id="format4" value="4" /> <span class="cdbPostLittleSize"><img src="https://startrekfederation.it/TEMPLATES/img/ranks/nfC13.png" alt="Capitano - Sezione Comando e Strategia" title="Capitano - Sezione Comando e Strategia" /><span class="cdbPostRed"> <b>CAPITANO HOPKINS</b></span></span><br />
-		<input type="radio" name="format" id="format5" value="5" /> <span class="cdbPostLittleSize"><img src="https://startrekfederation.it/TEMPLATES/img/ranks/nfC13.png" alt="Capitano - Sezione Comando e Strategia" title="Capitano - Sezione Comando e Strategia" /><span class="cdbPostRed"> <b>HOPKINS</b></span></span><br />
-		</form>
 </div>
 
 <div metal:define-macro="allMostrine">
@@ -62,7 +136,7 @@
 					<img src="TEMPLATES/img/interface/index/cc_saf.png" alt="supporto" title="Questo GdR supporta parzialmente Safari" />
 					<a href="http://twitter.com/STFederation" target="_blank"><img src="TEMPLATES/img/interface/index/twitter_logo.png" class="radiusBordered5" style="margin-left:12px;" alt="Twitter" title="Seguici su Twitter!" /></a>
 				
-					<p>Star Trek: Federation &egrave; un progetto ideato da Moreno Zolfo e Igor Sontacchi &copy; 2012-2018 - Tutti i diritti riservati.<br />I marchi e i loghi di Star Trek sono propriet&agrave; di CBS Inc. Non si intende offendere alcun copyright.</p>
+					<p>Star Trek: Federation &egrave; un progetto ideato da Moreno Zolfo e Igor Sontacchi &copy; 2012-2019 - Tutti i diritti riservati.<br />I marchi e i loghi di Star Trek sono propriet&agrave; di CBS Inc. Non si intende offendere alcun copyright.</p>
 					</div>
 </div>
 

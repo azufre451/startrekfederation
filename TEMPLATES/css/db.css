@@ -73,6 +73,20 @@ margin-right:20px;
 	border:1px solid #333;
 }
 
+#mdmacontent img.alignCenter{
+	display: block;
+	margin:auto;
+	border:1px solid #333;
+}
+
+#mdmacontent img.smallSize{
+	width:150px;
+	display: inline-block;
+	float:right; 
+	margin-left:25px;
+	border:1px solid #333;
+}
+
 #mdmacontent p.quote{
 	text-align:right;
 	font-style: italic;
@@ -239,14 +253,16 @@ margin-left:10px;
 	margin-right:auto;
 	font-weight:bold;
 	font-variant:small-caps;
+	clear:both;
 }
 
 
 #mdmacontent h3
 {
-	color:#FFCC00; 
+	color:#2d90c8; 
 	font-weight:bold;
 	font-variant:small-caps;
+	border-bottom: 1px solid #2d90c8;
 }
 
 #mdmacontent h3.label
@@ -267,6 +283,12 @@ text-transform:uppercase;
 #mdmacontent h3.label.white{border:1px solid #444; background-color:white;}
 #mdmacontent h3.label.blue{border:1px solid #0090ff; background-color:#2e4aa4;}
 #mdmacontent h3.label.orange{border:1px solid #ffce0c; background-color:orange;}
+
+#mdmacontent h3.colorLabel.red{color:red; border-bottom-color: red;}
+#mdmacontent h3.colorLabel.yellow{color:#dedb08; border-bottom-color: #dedb08}
+#mdmacontent h3.colorLabel.green{color:#0be82a; border-bottom-color: #0be82a}  
+#mdmacontent h3.colorLabel.blue{color:#2e4aa4; border-bottom-color: #2e4aa4} 
+
 
 #cdbHeader
 {

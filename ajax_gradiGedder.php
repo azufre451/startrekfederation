@@ -7,13 +7,12 @@ include('includes/validate_class.php');
 
 $term = addslashes($_GET['term']);
 
-if (isSet($_GET['sezioni'])) $q = "SELECT DISTINCT Rsezione as pTerm FROM pg_ranks WHERE Rsezione LIKE '$term%'";
-if (isSet($_GET['divisioni'])) $q = "(SELECT incDivisione as pTerm FROM pg_incarichi WHERE incDivisione LIKE '$term%') UNION DISTINCT  (SELECT pngDivisione as pTerm FROM png_incarichi WHERE pngDivisione LIKE '$term%')";
+if (isSet($_GET['sezioni'])) $q = "SELECT DISTINCT Rsezione as pTerm FROM pg_ranks WHERE Rsezione LIKE '%$term%'";
+if (isSet($_GET['divisioni'])) $q = "(SELECT incDivisione as pTerm FROM pg_incarichi WHERE incDivisione LIKE '%$term%') UNION DISTINCT  (SELECT pngDivisione as pTerm FROM png_incarichi WHERE pngDivisione LIKE '%$term%')";
+if (isSet($_GET['gruppi'])) $q = "(SELECT incGroup as pTerm FROM pg_incarichi WHERE incGroup LIKE '$term%') UNION DISTINCT  (SELECT pngIncGroup as pTerm FROM png_incarichi WHERE pngIncGroup LIKE '%$term%')";
 
-
-else if (isSet($_GET['dipartimenti'])) $q = "(SELECT incDipartimento as pTerm FROM pg_incarichi WHERE incDipartimento LIKE '$term%') UNION DISTINCT  (SELECT pngDipartimento as pTerm FROM png_incarichi WHERE pngDipartimento LIKE '$term%')";
-
-
+else if (isSet($_GET['dipartimenti'])) $q = "(SELECT incDipartimento as pTerm FROM pg_incarichi WHERE incDipartimento LIKE '%$term%') UNION DISTINCT  (SELECT pngDipartimento as pTerm FROM png_incarichi WHERE pngDipartimento LIKE '%$term%')";
+ 
 
 $res = mysql_query($q); 
 $aar = array();

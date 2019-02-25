@@ -45,7 +45,7 @@
 
 			.autocomplete({
 				source: function( request, response ) {
-					$.getJSON( "ajax_userGetter.php", {
+					$.getJSON( "ajax_userGetter.php?wpng=1", {
 						term: extractLast( request.term )
 					}, response );
 				},
@@ -75,7 +75,7 @@
 			});
 			
 			 $( "#usersMaster" ).autocomplete({
-			 source: "ajax_UserSearch.php?filter=PNG",
+			 source: "ajax_userGetter.php?epng_only=1",
 			 minLength: 2,
 			 });
 			 
@@ -213,70 +213,7 @@
 <div id="formFor" style="margin-top:30px; margin-left:auto; margin-right:auto;" tal:condition="php:(topicLock == 0)" align="center">
 
 <!-- POSTADVA -->
-<div id="pstAdva" style="display:none;">
-	
-	<div style="padding:5px; border-radius:12px; width:95%; margin-left:auto; margin-right:auto; border:1px solid #777;" class="radiusBordered12">
-	<p class="smallTitle">All'attenzione di...</p>
-	<table cellspacing="0px">
-	<tr><td class="newPaddtd" style="text-align:center;">
-		<textarea placeholder="Inserisci i nomi dei personaggi da includere nel trafiletto PRESENTI / ALL'ATTENZIONE DI del post. Se non selezioni nessun template, apparirà solo la lista PG con le mostrine" id="users" name="users" style="width:95%; height:40px;" onfocus="this.select();"></textarea></td>
-	</tr>
-	<tr><td> <span style="font-size:11px; font-weight:bold; margin-left:20px; margin-right:30px;">TEMPLATE</span>
-		<select id="scRapp">
-		<optgroup label="Generici">
-		<option value="00">- Nessun Template Rapporti (Solo lista PG) -</option>
-		<option value="Q1">Rapporti Quest / Extraquest</option>
-		</optgroup>
-		<optgroup label="Comando e Strategia">
-			<option value="Q2">Generico Sezione Comando e Strategia</option>
-			<option value="Q16">Ufficio del Capitano</option>
-			<option value="Q16b">Ufficio del Primo Ufficiale</option>
-		</optgroup>
-		<optgroup label="Difesa Sicurezza"> 
-			<option value="Q4">Generico Sezione Difesa e Sicurezza</option>
-			<option value="Q15">Ufficio del Capo della Sicurezza</option>
-			<option value="Q6">Disposizioni Dipartimento Sicurezza</option>
-		</optgroup>
-
-		<optgroup label="Navigazione">
-		<option value="QN1">Ufficio del C.A.G.</option>
-		<option value="QN2">Ufficio Gestione e Controllo Hangar Navette</option>
-		<option value="QN3">Coordinamento Controllo Volo</option>
-
-		<option value="QN4">Entry del Registro di Navigazione - Partenza</option>
-		<option value="QN5">Entry del Registro di Navigazione - Arrivo</option>
-		</optgroup>
-		
-
-		<optgroup label="Ingegneria">
-		<option value="Q14">Ufficio del CEO</option>
-		<option value="Q7">Generico Sezione Ingegneria</option>
-		<option value="Q8">Disposizioni Dipartimento Operazioni</option> 
-		</optgroup>
-		
-		<optgroup label="Scientifica e Medica">
-		<option value="Q13">Ufficio CSO</option>
-		<option value="Q9">Generico Sezione Scientifica</option>
-		<option value="Q17">UFFICIO CMO</option>
-		<option value="Q18">UFFICIO CNS</option>
-		<option value="Q10">Generico Sezione Medica</option>
-		</optgroup>
-		</select>
-	</td></tr>
-	<tr style="height:10px;"/>
-	<tr><td class="newPaddtd">
-		<div metal:use-macro="TEMPLATES/metal.htm/mostrinStyle" />
-	</td></tr>
-	
-	<tr><td colspan="2" style="text-align:center;"><button onclick="window.open('miki/SigmaSys/embed_ranks.php','embedr', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=120,left=200,width=550,height=580');">MOSTRINE MANUALI</button>&nbsp;&nbsp;<button onclick="javascript:goTrasncript(jQuery('#scRapp').val(),jQuery('#users').prop('value'))">VAI</button>&nbsp;&nbsp;<button onclick="javascript:jQuery('#pstAdva').fadeOut(150);">CHIUDI</button></td></tr>
-	</table>
-	</div>
-		
-	<div style="padding:5px; border-radius:12px; width:95%; margin-left:auto; margin-top:10px; margin-right:auto; border:1px solid #777;" class="radiusBordered12">
-		<p class="smallTitle">Data Stellare</p>
-		<p class="dateContainer" style="text-align:left;"><span class="smallTitle" style="margin:0px; margin-left:20px;">Data:</span> <input type="text" id="inputDateD" onkeydown="if (!isNumberKey(event)) return false;" onkeyup="if(this.value.length == 2 && this.value >= 0 && this.value <= 31) jQuery('#inputDateM').select();"  style="width:20px;" tal:attributes="value php:date('d',curTime)" /> / <input type="text" id="inputDateM" onkeydown="if (!isNumberKey(event)) return false;" onkeyup="if(this.value.length == 2 && this.value >= 0 && this.value <= 12) jQuery('#inputDateY').select();" style="width:20px;" tal:attributes="value php:date('m',curTime)"/> / <input type="text" id="inputDateY" onkeydown="if (!isNumberKey(event)) return false;" onkeyup="if(this.value.length == 4 && this.value >= 0 && this.value <= 9999) jQuery('#inputDateH').select();" style="width:40px;" tal:attributes="value php:date('Y',curTime)"/>&nbsp;&nbsp;<span class="smallTitle" style="margin:0px; margin-left:20px;">Ora:</span> <input type="text" id="inputDateH" onkeydown="if (!isNumberKey(event)) return false;" onkeyup="if(this.value.length == 2 && this.value >= 0 && this.value <= 23) jQuery('#inputDateI').select();" style="width:20px;"/> : <input type="text" id="inputDateI" onkeydown="if (!isNumberKey(event)) return false;" onkeyup="if(this.value.length == 2 && this.value >= 0 && this.value <= 59) jQuery('#stardateBtn').focus();" style="width:20px;"/> <button id="stardateBtn" onclick="javascript:goStardate(jQuery('#inputDateD').prop('value'),jQuery('#inputDateM').prop('value'),jQuery('#inputDateY').prop('value'),jQuery('#inputDateH').prop('value'),jQuery('#inputDateI').prop('value'))" style="margin:0px; margin-left:20px;">INSERISCI</button></p>
-	</div>
-</div>
+<div metal:use-macro="TEMPLATES/metal.htm/postAdva" />
 
 <p style="text-align:left; margin-left:7px;"> <img src="TEMPLATES/img/interface/aggiungi_post.png" /> <img tal:attributes="src string:TEMPLATES/img/seclar/seclar${topicSeclar}.png" id="addPostImage" /></p>
 <form id="formContent" action="cdb.php?addPost=do"  method="POST">
@@ -290,14 +227,14 @@
 </tr>
 <tr>
 	<td>
-		<textarea name="postContent" id="postContent" style="width:550px; height:350px; font-family:Arial;"></textarea>
-		<p id="peopleListMirrorContain" style="display:none; font-size:13px;"> Il post verrà segnalato a: <span id="peopleListMirror" /> con un padd automatico</p>
+		<textarea name="postContent" id="postContent" style="width:590px; height:350px; font-family:Helvetica;"></textarea>
+		<p id="peopleListMirrorContain" style="width:550px;margin-top:3px; display:none; font-size:13px; font-family:Helvetica"> Il post verrà segnalato a: <span id="peopleListMirror" /> con un padd automatico</p>
 			<input type="hidden" style="border:0" id="pepoleList" name="peopleList" value="" />
 	</td>
 	<td style="text-align:center; vertical-align:middle;"> 
-		<input type="button" value="B" style="width:30px; margin-left:10px;" href="" onclick="bbstyle(0)" />
-		<input type="button" value="I" style="width:30px; margin-left:10px;" href="" onclick="bbstyle(2)" />
-		<input type="button" value="U" style="width:30px; margin-left:10px;" href="" onclick="bbstyle(4)" /><br /><br />
+		<input type="button" value="B" style="width:32px; margin-left:10px;" href="" onclick="bbstyle(0)" />
+		<input type="button" value="I" style="width:32px; margin-left:10px;" href="" onclick="bbstyle(2)" />
+		<input type="button" value="U" style="width:32px; margin-left:10px;" href="" onclick="bbstyle(4)" /><br /><br />
 
 		<input type="button" value="ROSSO" style="color:red; width:50px; margin-left:10px; font-size:10px;" href="" onclick="bbstyle(14)" />
 		<input type="button" value="GIALLO" style="color:yellow; width:50px; margin-left:10px; font-size:10px;" href="" onclick="bbstyle(16)" /> 
@@ -317,14 +254,14 @@
 		<input type="button" value="A" style="width:30px; margin-left:10px; font-size:12px;" href="" onclick="bbstyle(28)">CENTER</input> 
 		<input type="button" value="A" style="width:30px; margin-left:10px; font-size:16px;" href="" onclick="bbstyle(30)">DESTRA</input><br /><br />
 
-		<input type="button" value="AVANZATE" style="width:90px; margin-left:10px; font-size:16px;" href="" onclick="javascript:jQuery('#pstAdva').toggle(150)">DESTRA</input><br /><br />
+		<input type="button" value=" AVANZATE " style="width:90px; margin-left:10px; font-size:16px;" href="" onclick="javascript:jQuery('#pstAdva').toggle(150)">DESTRA</input><br /><br />
 
-		<table style="text-align:left; margin-left:20px; font-size:11px; font-weight:bold;"><tr><td>STILE FIRMA:</td><td><select style="width:90px;" name="postFirma">
+		<table style="text-align:left; margin-left:20px; font-size:11px; font-weight:bold;"><tr><td>STILE FIRMA:</td><td><select  class="neon"  style="width:90px;" name="postFirma">
 		<option value="corta">CORTA</option>
 		<option value="lunga">LUNGA</option>
 		</select></td></tr>
 		<tr><td>SECLAR:</td><td>
-		<select style="width:90px;" onchange="javascript:$('#addPostImage').prop('src','TEMPLATES/img/seclar/seclar'+this.value+'.png');" name="postSeclar">
+		<select class="neon" style="width:90px;" onchange="javascript:$('#addPostImage').prop('src','TEMPLATES/img/seclar/seclar'+this.value+'.png');" name="postSeclar">
 			<option tal:repeat="con php:range(topicSeclar,9)" tal:attributes="value con" tal:content="string: SECLAR ${con}" />
 			</select></td></tr></table>
 

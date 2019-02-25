@@ -80,8 +80,22 @@ $calEvents=array();
 	$categories = array();
 	while ($reseR = mysql_fetch_array($rese))
 		$categories[] = $reseR;
-		
-	$calEvents[$date][] = array('Tevent' =>$rea,'cats' => $categories);
+	
+	$eventID=$rea['evID'];
+
+	$presArr=mysql_query("SELECT pgUser,calendar_events_attendance.pgID,time,notes,pgAvatarSquare FROM calendar_events_attendance,pg_users WHERE evID = '$eventID' AND pg_users.pgID = calendar_events_attendance.pgID");
+  	echo mysql_error();
+	$presences=[];
+	$ipar=0;
+	while($pres = mysql_fetch_assoc($presArr))
+		{
+			$presences[]=$pres;
+			if ($pres['pgID'] == $_SESSION['pgID'])
+				$ipar=1;
+		}
+	
+
+	$calEvents[$date][] = array('Tevent' =>$rea,'cats' => $categories,'pres'=>$presences,'ipar'=>$ipar);
 	//echo "<pre>".var_dump($categories)."</pre>";exit;
 	}
 
@@ -103,7 +117,7 @@ $calEvents=array();
 	$template->calEvents = $calEvents;
 	$template->places = $places;
 	$template->categoriesAvail = $categoriesAvail;
-
+	$template->gameOptions = $gameOptions;
 
 	$template->SM = (PG::mapPermissions('SM',$currentUser->pgAuthOMA)) ? 'yes' : 'no'; 
 	$template->M = (PG::mapPermissions('M',$currentUser->pgAuthOMA)) ? 'yes' : 'no'; 
@@ -118,6 +132,7 @@ $calEvents=array();
 	echo $e;
 	}
 }	
+
 include('includes/app_declude.php');
 
 ?>

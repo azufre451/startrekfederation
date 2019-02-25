@@ -48,12 +48,16 @@ while($chatLi = mysql_fetch_array($chatLines))
 $template->htmlLiner = $htmlLiner;
 $template->maxVIS = $MAX;
 
-	$resPgPresenti = mysql_query('SELECT pgID, pgAvatar, pgUser,pgMostrina,pgAuthOMA FROM pg_users WHERE pgID <> '.$_SESSION['pgID'].' AND pgLastAct >= '.($curTime-1800).' ORDER BY pgUser ASC');
+	$resPgPresenti = mysql_query('SELECT pgID, pgAvatar, pgUser,pgLock,pgMostrina,pgAuthOMA FROM pg_users WHERE pgID <> '.$_SESSION['pgID'].' AND pgLastAct >= '.($curTime-1800).' ORDER BY pgUser ASC');
 	$pgArray=array();
 	
 	while($resPG = mysql_fetch_array($resPgPresenti))
 		{
-			if (PG::mapPermissions('A',$resPG['pgAuthOMA']))
+			
+			if ($resPG['pgLock'])
+				$atcl = 'L';
+
+			elseif (PG::mapPermissions('A',$resPG['pgAuthOMA']))
 				$atcl = 'A';
 			
 

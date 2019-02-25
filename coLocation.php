@@ -3,6 +3,8 @@ session_start();
 if (!isSet($_SESSION['pgID']))  header("Location:index.php?login=do");
     include('includes/app_include.php');
 	include('includes/validate_class.php');
+
+	include('includes/notifyClass.php');
 	include("includes/PHPTAL/PHPTAL.php"); //NEW 
 	
 if ($_GET['get'] == 'quarters') $template = new PHPTAL('TEMPLATES/quarter.htm');
@@ -18,7 +20,7 @@ if(mysql_affected_rows()) $currentLocation = mysql_fetch_array($currentLocationQ
 else header('Location:main.php');
 // illumin. dbase
 mysql_query("(SELECT 1 FROM cdb_cats,cdb_topics WHERE catCode = topicCat AND catSuper IN ('FL','CIV','HE') AND topicLastTime > ".$currentUser->pgLastVisit.") UNION (SELECT 1 FROM cdb_cats,cdb_topics WHERE catCode = topicCat AND catSuper = '".$currentUser->pgAssign."' AND topicLastTime > ".$currentUser->pgLastVisit.");");
-$template->setDBOn = (mysql_affected_rows()) ? true : false;
+
 // illumin, padd
 mysql_query("SELECT 1 FROM fed_pad WHERE paddDeletedTo = 0 AND paddTo = ".($currentUser->ID)." AND paddRead = 0 AND paddTitle NOT LIKE '::special::%'");
 $template->incomingPadd = (mysql_affected_rows()) ? true : false;
@@ -75,6 +77,8 @@ else if ($_GET['get'] == 'holodeck')
 	while ($la = mysql_fetch_array($limi))$limitrofi[$la['ambientLevel_deck']][] = $la;
 }
 
+$template->incomingNoti = (NotificationEngine::getMyNotifications($currentUser->ID)> 0) ? true : false;
+$template->setDBOn = (NotificationEngine::getCDBUpdates($currentUser->ID,$currentUser->pgLocation)> 0) ? true : false;
 
 $template->places = $limitrofi;
 
@@ -88,6 +92,8 @@ $template->gameName = $gameName;
 $template->gameVersion = $gameVersion;
 $template->debug = $debug;
 $template->gameServiceInfo = $gameServiceInfo;
+$template->gameOptions = $gameOptions;
+
 if (PG::mapPermissions('G',$currentUser->pgAuthOMA)) $template->isStaff = true;
 
 	try

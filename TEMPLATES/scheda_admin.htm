@@ -11,6 +11,13 @@
 	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 	
 	<title>SCHEDA ADMIN</title>	
+	<style>
+		p.yesConn{background-color:#d4d234;}
+		p.yesPlay{background-color:#5ab52d;}
+		p.yesMas{background-color: #3478d4;}
+		p.no{ background-color: #b52d22;}
+	
+	</style>
 	<script type="text/javascript">
 	function paddOpen(who){window.open('padd.php?s=seR&to='+who+'&sub=','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
 	
@@ -19,6 +26,35 @@
 		jQuery('#averterBox').fadeIn();
 		jQuery('#averter').html(ida);
 		
+	}
+
+	function load_playrecord_vector(ida){
+			
+			
+			jQuery('#player_record_btn').html('... caricamento ...').removeClass('interfaceLinkGreen');
+			jQuery.ajax(
+			{
+			url: 'scheda.php',
+			dataType : 'json',
+			data: {pgID: ida, s: 'ajax_getactivityrecord'},
+			success: function(e){
+				gen='';
+				for (var d in e.reverse()){
+					var classer = 'no';
+					if(e[d].mastered) { classer='yesMas'; }
+					else if(e[d].played) { classer='yesPlay'; }
+					else if (e[d].connected) { classer='yesConn'; }
+					gen += '<p style="float:left; margin:0px; width:10px; height:10px;" class="'+classer+'" title="'+e[d].kk+'" />';
+					}
+					jQuery('#player_record_btn').fadeOut(100,function(){
+						jQuery('#player_record').append(gen);	
+					});
+
+
+				
+			},
+			type: 'GET'
+			});
 	}
 	</script>
 	
@@ -91,6 +127,7 @@
 <option value="Talariana">Talariana</option>
 <option value="Talassiana">Talassiana</option>
 <option value="Tellarita">Tellarita</option>
+<option value="Terosiana">Terosiana</option>
 <option value="Tholiana">Tholiana</option>
 <option value="Trill">Trill</option>
 <option value="Tzenkethi">Tzenkethi</option>
@@ -98,8 +135,10 @@
 <option value="Umana-Betazoide">Umana-Betazoide</option>
 <option value="Umana-Vulcaniana">Umana-Vulcaniana</option>
 <option value="Umana-Klingon">Umana-Klingon</option>
+
 <option value="Vorta">Vorta</option>
 <option value="Vulcaniana">Vulcaniana</option>
+<option value="Vulcaniana-Romulana">Vulcaniana-Romulana</option>
 <option value="Xenita">Xenita</option>
 <option value="Zakdorn">Zakdorn</option>
 <option value="Zaldan">Zaldan</option>
@@ -148,22 +187,32 @@
 	<input type="text" placeholder="Punti" tal:attributes="value pgUpgradePoints" name="points" style="width:40px;" /> 
 
 	<!--<select name="type" style="width:120px;"><option value="skills">UP Abilità</option><option value="specials">UP Speciali</option><option value="social">UP Sociali</option></select>-->
-	<input type="submit" value="VAI" />
+	<input type="submit" value="VAI" style="background-color:green; font-weight:bold; color:white;" />
 </form>
 </div>
+
+<div style="border:1px solid #2e7ec8; margin-top:10px; padding:4px;"><span style="font-weight:bold;">IMPOSTA LUCKYPOINTS</span>
+<form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setSpecialistPoints" method="POST">
+	<img src="TEMPLATES/img/interface/stopicon.png" style="width:25px; vertical-align:middle;" /> <input type="text" placeholder="Punti" tal:attributes="value pgSpecialistPoints" name="points" style="width:40px;" /> <img src="TEMPLATES/img/interface/stopicon.png" style="width:25px; vertical-align:middle;" />
+
+	<!--<select name="type" style="width:120px;"><option value="skills">UP Abilità</option><option value="specials">UP Speciali</option><option value="social">UP Sociali</option></select>-->
+
+	<input type="submit" value="VAI" style="background-color:red; font-weight:bold; color:white;" />
+</form>
+</div>
+
 <div style="border:1px margin-top:10px; background-color: 1px solid #2e7ec8;">
-	<form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=editCar" method="POST">
-		<p tal:repeat="c caratt"> 
+	<form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=resetandeditCar" method="POST">
+		<p tal:repeat="c caratt" style="float:left;"> 
 			<span tal:content="repeat/c/key" />: <select tal:attributes="name string:edi_${repeat/c/key}"><option tal:repeat="k php:range(0,15)" tal:attributes="value k; selected php:(k EQ c) ? 'selected' : ''" tal:content="k"></option></select>
 		</p>
-		<div style="clear:both" />
-		<input type="submit" value="VAI" />
+		<input style="background-color:#282f8c; padding:2px; font-weight:bold; color:white;" type="submit" value="Reset and restore (ab + razza + UP)" />
 	</form>					
 </div>
 
-<a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=resetAbilToRace" onclick="javascript: return confirm('Sicuro? Contatta Moreno prima di usare questo comando!');"><div style="border:1px solid #2e7ec8; margin-top:10px;">Carica Profilo Abilità di Razza</div></a> 
+<!--<a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=resetAbilToRace" onclick="javascript: return confirm('Sicuro? Contatta Moreno prima di usare questo comando!');"><div style="border:1px solid #2e7ec8; margin-top:10px;">Carica Profilo Abilità di Razza</div></a>
 
-<a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=resetAbilTotal" onclick="javascript: return confirm('Sicuro?');"><div style="border:1px solid #2e7ec8; margin-top:10px;" >Reset Totale Abilità</div></a> 
+<a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=resetAbilTotal" onclick="javascript: return confirm('Sicuro?');"><div style="border:1px solid #2e7ec8; margin-top:10px;" >Reset Totale Abilità</div></a> -->
 
 </div>
 
@@ -178,16 +227,23 @@
 	<div style="margin-top:5px; border:1px solid #2e7ec8;">
 		AGGIUNGI ENCOMI / NASTRINI
 		<form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setNastrini" method="POST">
-		<select name="nastrini" style="width:100%;"><option tal:repeat="nas nastrini" tal:attributes="value nas/medID" tal:content="nas/medName" /></select>
+		<select class="neon" name="nastrini" style="width:95%;"><option tal:repeat="nas nastrini" tal:attributes="value nas/medID" tal:content="nas/medName" /></select>
+		
+		Anno: <select class="neon" name="dataA"><option tal:repeat="year php:range(2290,thisYear)" tal:attributes="value year ; selected php:(year==thisYear) ? 'selected': false" tal:content="year" /></select>
+		<br />
 		<input type="submit" value="VAI" />
 		</form>
 		
+		<!--
 		<a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=refirst">
 			<div style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;">Riabilita Sondaggio</div>
 			</a>
+
 		<a tal:attributes="href string:scheda.php?s=toggleMasCap&pgID=${selectedUser}">
-			<div style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;" tal:content="php:(isMasCapableEnable==true) ? 'DISABILITA MASCAP' : 'ABILITA MASCAP'">--</div>
+			<div style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;" tal:content="php:(isMasCapableEnable==true) ? 'DISABILITA MASCAP' : 'ABILITA MASCAP'"></div>
 			</a>
+		-->
+
 		<a tal:attributes="href string:scheda.php?s=kavanagh&pgID=${selectedUser}">
 			<div style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;">Kavanagh</div>
 			</a>
@@ -201,9 +257,7 @@
 		<a tal:attributes="href string:scheda.php?s=logout&pgID=${selectedUser}">
 			<div style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;">Sbatti fuori (logout)</div>
 			</a>
-	<a tal:attributes="href string:scheda.php?s=matto&pgID=${selectedUser}">
-			<div style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;">Matto</div>
-			</a>
+ 
 
 		<a tal:attributes="href string:scheda.php?s=document&pgID=${selectedUser}">
 			<div style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;">Padd Benvenuto</div>
@@ -221,6 +275,9 @@
 			<a tal:attributes="href string:kgb.php?target=${selectedUser}" target="_blank">
 			<div style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:280px;">RIVELA I TUOI SEGRETI</div>
 			</a>
+	</div>
+
+	<div style="clear: both; padding:5px;" id="player_record"> <a id="player_record_btn" tal:attributes="onclick string:javascript:load_playrecord_vector(${selectedUser});" href="javascript:void(0);" class="interfaceLinkGreen"> [Svela Attività] </a>
 	</div>
 	
 	<div style="clear: both; padding:5px;">

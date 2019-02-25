@@ -84,6 +84,8 @@ include('includes/validate_class.php');
 			else if($food == 343) mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','sandiego',".time().",'AUDIO')");
 			else if($food == 334) mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','ballor',".time().",'AUDIO')");
 			else if($food == 348) mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','bibbia',".time().",'AUDIO')");
+			else if($food == 368) mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','tumancia',".time().",'AUDIO')");
+			
 
 
 
@@ -99,8 +101,8 @@ include('includes/validate_class.php');
 		$targetpgID = $vali->numberOnly($_POST['chatLine']);
 		if ($targetpgID == $_SESSION['pgID'] || PG::mapPermissions("SM",$user->pgAuthOMA))
 		{
-			$stringC = "<p class=\"directiveRemove\">".addslashes(PG::getSomething($targetpgID,'username'))."</p>";
-			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$stringC',".time().",'NORMAL',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
+			$stringC = "<p data-timecode=\"$curTime\" class=\"directiveRemove\">".addslashes(PG::getSomething($targetpgID,'username'))."</p>";
+			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$stringC',".time().",'OFF',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 		}
 		 
 	}

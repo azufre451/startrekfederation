@@ -4,6 +4,9 @@ if (!isSet($_SESSION['pgID'])) {header("location:index.php?login=do"); exit; }
 
 include('includes/app_include.php');
 include('includes/validate_class.php');
+
+include('includes/notifyClass.php');
+
 include("includes/PHPTAL/PHPTAL.php"); //NEW 
 include('includes/markerClass.php');
 
@@ -124,19 +127,20 @@ elseif($currentAmbient['ambientType'] == 'SALA_TEL' || $currentAmbient['ambientT
 	$template->locationsA = $locArray;
 	}
 }
-
-$template->listenerURL = ($currentAmbient['ambientType'] == 'SALA_OLO') ? 'ajax_sendChatLineOlo.php' : 'ajax_sendChatLine.php';
 $template->getterURL = ($currentAmbient['ambientType'] == 'ALLOGGIO') ? 'ajax_chatGetterN.php' : 'ajax_chatGetter.php';
 
 // illumin. dbase
 mysql_query("(SELECT 1 FROM cdb_cats,cdb_topics WHERE catCode = topicCat AND catSuper IN ('FL','CIV','HE') AND topicLastTime > ".$currentUser->pgLastVisit.") UNION (SELECT 1 FROM cdb_cats,cdb_topics WHERE catCode = topicCat AND catSuper = '".$currentUser->pgAssign."' AND topicLastTime > ".$currentUser->pgLastVisit.");");
-$template->setDBOn = (mysql_affected_rows()) ? true : false;
+ 
 
 mysql_query("SELECT 1 FROM fed_pad WHERE paddDeletedTo = 0 AND paddTo = ".($currentUser->ID)." AND paddRead = 0 AND paddTitle NOT LIKE '::special::%'");
 $template->incomingPadd = (mysql_affected_rows()) ? true : false;
 
 mysql_query("SELECT 1 FROM fed_sussurri WHERE susTo = ".($currentUser->ID)." AND reade = 0");
 $template->incomingSuss = (mysql_affected_rows() > 0) ? true : false;
+
+$template->incomingNoti = (NotificationEngine::getMyNotifications($currentUser->ID)> 0) ? true : false;
+$template->setDBOn = (NotificationEngine::getCDBUpdates($currentUser->ID,$currentUser->pgLocation)> 0) ? true : false;
 
 // position and users
 
@@ -172,13 +176,15 @@ $adminCondition = (PG::mapPermissions("SM",$currentUser->pgAuthOMA)) ? '' : "AND
 $chatLines = mysql_query("SELECT IDE,chat,time,type,privateAction,dicerAbil,dicerOutcome,sender FROM federation_chat WHERE ambient = '$ambient' AND time > $maxTime AND (type <> 'SPECIFIC' OR sender = ".$_SESSION['pgID'].") $adminCondition ORDER BY time ASC");
 
 $diceOutcomes = array();
-$htmlLiner=''; $MAX = 0; 
+$htmlLiner=''; $MAX = 0; $lastTime = 0;
 while($chatLi = mysql_fetch_array($chatLines))
 {
 	if($chatLi['type'] != 'AUDIO' && $chatLi['type'] != 'AUDIOE' && $chatLi['type'] != 'SERVICE' && !$chatLi['privateAction']) $htmlLiner .= $chatLi['chat'];
 	
 	if(!isSet($minID)) $minID = $chatLi['IDE'];
 	if($chatLi['IDE'] > $MAX) $MAX = $chatLi['IDE'];
+	if($chatLi['time'] > $lastTime && $chatLi['sender'] != $_SESSION['pgID']) $lastTime = $chatLi['time'];
+
 
 	if ($chatLi['type'] == 'DICERSPEC' && $chatLi['dicerAbil'] != ''){
 		
@@ -187,9 +193,9 @@ while($chatLi = mysql_fetch_array($chatLines))
 		$abi = $a->abilDict[$chatLi['dicerAbil']];
 		$stat = $a->explaindice($chatLi['dicerAbil']);
 		$ara = $stat['ara'];
-		$locale = array('F' => 'Fallimento','FC' => 'Fallimento Critico', 'S' => 'Successo', 'SC' => 'Successo Critico');
+		$locale = array('F' => 'Fallimento','FC' => 'Fallimento Critico', 'S' => 'Successo', 'SC' => 'Successo Critico', 'DF' => 'Fortuna Critica');
 
-		$diceOutcomes[] = array('recID'=>$chatLi['IDE'],'pgID'=>$chatLi['sender'],'pgUser' => PG::getSomething($chatLi['sender'],'username'),'outcome' => $chatLi['dicerOutcome'], 'abID' => $chatLi['dicerAbil'], 'abName' => $abi['abName'], 'abImage' => $abi['abImage'],'threshold' => $stat['vs'],'outcomeW' => $locale[$ara[$chatLi['dicerOutcome']]]);
+		$diceOutcomes[] = array('recID'=>$chatLi['IDE'],'pgID'=>$chatLi['sender'],'pgUser' => PG::getSomething($chatLi['sender'],'username'),'outcome' => (($chatLi['dicerOutcome'] == 99) ? "*" : $chatLi['dicerOutcome']), 'abID' => $chatLi['dicerAbil'], 'abName' => $abi['abName'], 'abImage' => $abi['abImage'],'threshold' => $stat['vs'],'outcomeW' => (($chatLi['dicerOutcome'] == 99) ? "Fortuna" : $locale[$ara[$chatLi['dicerOutcome']]] ));
 	} 
 
 }
@@ -199,15 +205,18 @@ $template->diceEvents = $diceOutcomes;
 $template->htmlLiner = $htmlLiner;
 //echo $htmlLiner;exit;
 $template->maxVIS = $MAX;
+$template->lastTime = $lastTime;
+
 $template->minID = isSet($minID) ? $minID : 0;
 $template->getAudio = $currentUser->audioEnable;
-
+$template->residualLuckyPoints=PG::getSomething($currentUser->ID,'upgradePoints')['pgSpecialistPoints'];
 $template->user = $currentUser;
 $template->currentStarDate = $currentStarDate;
 $template->leastOlo = (PG::mapPermissions("O",$currentUser->pgAuthOMA)) ? true : false;
 if (PG::mapPermissions('G',$currentUser->pgAuthOMA)) $template->isStaff = true;
 if (PG::mapPermissions('JM',$currentUser->pgAuthOMA) && (PG::mapPermissions('SL',$currentUser->pgAuthOMA) || PG::isMasCapable($currentUser->ID))) $template->isMasteringJuniorMasterOrMod = true;
 if (PG::mapPermissions('M',$currentUser->pgAuthOMA)) $template->isMaster = true;
+if (PG::mapPermissions('SM',$currentUser->pgAuthOMA)) $template->isSuperMaster = true;
 
 if (PG::mapPermissions('SM',$currentUser->pgAuthOMA) || $currentAmbient['locID'] == PG::getSomething($_SESSION['pgID'],'pgAlloggioRealID')) $template->protectable = true;
 

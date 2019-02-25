@@ -58,19 +58,6 @@ a:hover
 
 
 
-input[type=text].neon{ 
-	border:0px;
-	border-bottom:1px solid #666;
-	padding:5px 3px;
-}
-
-input[type=text].neon:hover, input[type=text].neon:active, input[type=text].neon:focus{ 
-	border-color:red;
-	outline: none;
-}
-
-
-
 .interfaceLink,.interfaceLinkBlue,.interfaceLinkRed,.interfaceLinkGreen
 {
 	
@@ -239,6 +226,22 @@ input:hover, select:hover, textarea:hover, button:hover
 	color:white;
 	border:1px solid white;
 }
+
+
+input[type=text].neon{ 
+	border:0px;
+	border-bottom:1px solid #666;
+	padding:5px 3px;
+}
+
+input[type=text].neon:hover, input[type=text].neon:active, input[type=text].neon:focus{ 
+	border-color:red;
+	outline: none;
+}
+select.neon{border:0px; border-bottom:1px solid #0f2b4b;}
+select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-bottom:1px solid red;}
+
+
 
 .radiusBordered
 {
@@ -462,3 +465,44 @@ display:none;
 }
 #success,.avvisoG{border:2px solid #00FF00; color:#00FF00;cursor:pointer;}
 #error,.avvisoR{border:2px solid red; color:red;}
+
+.xButton{position:absolute; top:2px; right:2px; height:15px; width:15px; background-color:black; text-align:center; cursor:pointer; border:1px solid #AAA; padding:2px;}
+.xButton{
+	background: #4f0000;
+	background: -webkit-gradient(linear, left top, left bottom, from(#050000), to(#4f0000));
+	background: -webkit-linear-gradient(top, #050000, #4f0000);
+	background: -moz-linear-gradient(top, #050000, #4f0000);
+	background: -ms-linear-gradient(top, #050000, #4f0000);
+	background: -o-linear-gradient(top, #050000, #4f0000);
+   padding: 3px;
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   vertical-align:middle;
+   border-radius: 8px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: white;
+   font-size: 14px;
+   font-family: Georgia, serif;
+   text-decoration: none;
+   vertical-align: middle;
+   cursor:pointer;
+   width:15px;
+   height:15px;
+}
+.xButton:hover{
+   background: #000000;
+   color: #ccc;
+   }
+
+.xButton:after
+{
+	content: "";
+    width: 15px;
+    height: 15px;
+    background: url("../img/interface/personnelInterface/deleteicon.png");
+    background-size:cover;  
+    display: inline-block;
+}

@@ -38,7 +38,7 @@
 			<div  style="margin-top:40px;">
 				<a tal:repeat="cat subcats" tal:attributes="href string:cdb.php?cat=${cat/ID}" style="color:orange;">
 					<div style="margin-top:5px;  padding:5px;  border:1px solid #666;">
-						<p style="font-size:18px; margin:0px; font-weight:bold; font-family:Arial;"><img tal:attributes="src php:(user.pgLastVisit LT cat['last']) ? 'TEMPLATES/img/interface/indicator_on.gif' : 'TEMPLATES/img/interface/indicator_off.gif'" /> <span tal:content="cat/name"/></p>
+						<p style="font-size:18px; margin:0px; font-weight:bold; font-family:Arial;"><img tal:attributes="src php:(cat['tosee']) ? 'TEMPLATES/img/interface/indicator_on.gif' : 'TEMPLATES/img/interface/indicator_off.gif'" /> <span tal:content="cat/name"/></p>
 						<p style="margin: 0px; margin-top:3px; font-family:Arial; font-style:italic; margin-left:20px; color:white;" tal:content="cat/desc" />
 					</div>
 				</a>

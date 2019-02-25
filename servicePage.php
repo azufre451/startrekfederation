@@ -59,6 +59,9 @@ elseif(isSet($_GET['prevMos']))
 	$pgSesso = strtolower($currentUser->pgSesso);
 	
 	$aar = array(); 
+
+
+
 	$aar['DLT'] = $mostrina;
 	$aar['DLU'] = $uniform;
 	$aar['DLS'] = $pgSesso;
@@ -67,9 +70,103 @@ elseif(isSet($_GET['prevMos']))
 	exit;
 }
 
+elseif(isSet($_GET['getMyObj']))
+{
+	$objs=array('SERVICE'=>array(),'PERSONAL'=>array());
+	$rel=mysql_query("SELECT fed_objects.oID,oName,oType FROM fed_objects,fed_objects_ownership WHERE fed_objects.oID=fed_objects_ownership.oID AND fed_objects.oID NOT IN (SELECT ref FROM pg_current_dotazione WHERE owner = ".$_SESSION['pgID'].") AND owner = ".$_SESSION['pgID']);
+	echo mysql_error();
+	while($ral = mysql_fetch_assoc($rel))
+	{
+		$objs[$ral['oType']][]=$ral;
+	}
+
+	echo json_encode($objs);
+	exit;
+}
+elseif(isSet($_GET['remDot']))
+{
+	$iRem = $vali->numberOnly($_POST['iRem']); 
+	$oID = $vali->numberOnly($_POST['oID']); 
+
+	mysql_query("DELETE FROM pg_current_dotazione WHERE owner = ".$_SESSION['pgID']." AND ref = $oID AND recID = $iRem");
+	if(mysql_affected_rows())
+	{
+		$rt=mysql_fetch_assoc(mysql_query("SELECT oID,oName,oType FROM fed_objects WHERE oID = $oID"));
+
+		echo json_encode(array('STA' => 'OK','RT'=>$rt)); 
+	}
+	exit;
+}
+
+elseif(isSet($_GET['addDot']))
+{
+	$iAdd = $vali->numberOnly($_POST['iAdd']);
+	mysql_query("SELECT 1 FROM fed_objects_ownership WHERE oID = $iAdd AND owner = ".$_SESSION['pgID']);
+	if(mysql_affected_rows())
+	{
+		mysql_query("INSERT INTO pg_current_dotazione (owner,type,ref) VALUES (".$_SESSION['pgID'].",'OBJECT',$iAdd)");
+		if(mysql_affected_rows())
+		{
+			$rt=mysql_fetch_assoc(mysql_query("SELECT recID,oID, oName, oImage,oLittleImage FROM fed_objects,pg_current_dotazione WHERE oID = ref AND owner = ".$_SESSION['pgID']." AND  fed_objects.oID = $iAdd"));
+			$rt['image'] = ($rt['oLittleImage'] != '') ? $rt['oLittleImage'] : $rt['oImage'];
+			echo json_encode(array('STA' => 'OK','RT'=>$rt)); 
+		}
+	}
+	
+	exit;
+}
+
+elseif(isSet($_GET['getDot']))
+{
+
+	if(isSet($_GET['me'])){
+		$id = $_SESSION['pgID'];
+	}
+	else{
+		$id = $_POST['pgID'];
+		$currentUser = new PG ($id);
+	}
+
+
+	$currentUni = mysql_fetch_array(mysql_query("SELECT uniform,descript FROM pg_uniforms,pg_users WHERE pgID = $id AND pgMostrina = mostrina"));
+	 
+	$currentUniform = $currentUni['uniform']; 
+	$currentDescript = $currentUni['descript'];
+
+
+	$aar = array(
+		'DATA' => array(
+			'ABITI' => array(),
+			'OBJECT' => array(),
+			'MEDAL' => array(),
+		),
+		'currentUniform' => $currentUniform,
+		'currentDescript' => $currentDescript,
+		'pgMostrina' => $currentUser->pgMostrina,
+
+		'pgGrado' => $currentUser->pgGrado,
+		'pgSesso' => $currentUser->pgSesso,
+		'pgSpecie' => $currentUser->pgSpecie,
+		'pgSezione' => $currentUser->pgSezione
+	); 
+	$ral=mysql_query("SELECT * FROM pg_current_dotazione LEFT JOIN fed_objects ON ref = oID WHERE owner = $id");
+	while($rel = mysql_fetch_assoc($ral)){
+		if ($rel['type'] == 'OBJECT') $rel['image'] = ($rel['oLittleImage'] != '') ? $rel['oLittleImage'] : $rel['oImage'];
+		$rel['oName'] = (strlen($rel['oName']) > 40 ) ? substr($rel['oName'],0,37).'...' : $rel['oName'];
+		$aar['DATA'][$rel['type']][] = $rel;
+	}
+ 
+	echo json_encode($aar); 
+	exit;
+
+}
 elseif(isSet($_GET['setMos']))
 {
 	$emo = $_POST['emoSel'];
+	$civDetail = addslashes($_POST['civDetail']);
+	$civimage = addslashes($_POST['civimage']);
+
+
 	$id = $_SESSION['pgID'];
 	
 	$myA = mysql_fetch_assoc(mysql_query("SELECT rankCode FROM pg_users WHERE pgID = $id"));
@@ -88,7 +185,17 @@ elseif(isSet($_GET['setMos']))
 	else if ($emo == "FLY") $query ="UPDATE pg_users SET pgMostrina = 'nfFLY' WHERE pgID = $id";
 	else if ($emo == "ENG") $query ="UPDATE pg_users SET pgMostrina = 'nfENG' WHERE pgID = $id";
 	else if ($emo == "MED") $query ="UPDATE pg_users SET pgMostrina = 'nfMED' WHERE pgID = $id";
-	else $query ="UPDATE pg_users SET pgMostrina = 'CIV' WHERE pgID = $id";
+	else{ 
+		$query ="UPDATE pg_users SET pgMostrina = 'CIV' WHERE pgID = $id";
+		
+		if ($civDetail != '' || $civimage != ''){
+			mysql_query("DELETE FROM pg_current_dotazione WHERE type = 'ABITI' AND owner = $id");
+			mysql_query("INSERT INTO pg_current_dotazione (owner,type,descr,image) VALUES($id,'ABITI','$civDetail','$civimage')");
+			
+			echo mysql_error();	
+		}
+
+	}
 	
 	mysql_query($query);
 	 

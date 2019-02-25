@@ -1,9 +1,47 @@
 function cdbOpenToTopic(ida){window.open ('cdb.php?topic='+ida,'cdb', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1000,height=660');}
-	
-		jQuery(function(){			
-	
-			
-			// $( "#where" ).autocomplete({
+  
+
+function editStory(storyID)
+{
+   jQuery.ajax(
+          {
+            url: 'scheda.php?s=getStory',
+            data: {storyID:storyID},
+            type: 'POST',
+            dataType : 'json',
+            success : function(e){
+
+              jQuery('#story_rank option').attr('selected',false);
+              jQuery('#story_rank option[value="'+e['prio']+'"]').attr('selected','selected');
+              
+
+              jQuery('#story_dataG option').attr('selected',false);
+              jQuery('#story_dataG option[value="'+e['day']+'"]').attr('selected','selected');
+              
+
+              jQuery('#story_dataM option').attr('selected',false);
+              jQuery('#story_dataM option[value="'+e['month']+'"]').attr('selected','selected');
+              
+
+              jQuery('#story_dataA option').attr('selected',false);
+              jQuery('#story_dataA option[value="'+e['year']+'"]').attr('selected','selected');
+              
+              jQuery('#story_what').attr('value',e['what']);
+              jQuery('#where').attr('value',e['wherer']);
+
+              jQuery('#storyEdit').attr('value',e['storyID']);
+              jQuery('#rankAdder').fadeIn();
+
+            },
+            timeout:4500
+          }
+  );
+}
+
+    jQuery(function(){      
+  
+      
+      // $( "#where" ).autocomplete({
       // minLength: 2,
       // source: "ajax_searchShip.php",
       // focus: function( event, ui ) {
@@ -17,15 +55,15 @@ function cdbOpenToTopic(ida){window.open ('cdb.php?topic='+ida,'cdb', config='sc
  
         // return false;
       // }
-    // })	
-	// .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+    // }) 
+  // .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
       // return $( "<li>" )
         // .append( "<a>" + item.label + "<br />" + item.desc + "</a>" )
         // .appendTo( ul );
     // };
-	 
- 
-    $( "#where" ).autocomplete({
+  
+    if($("#where").length){
+       jQuery( "#where" ).autocomplete({
       minLength: 1,
       source: 'ajax_searchShip.php',
       focus: function( event, ui ) {
@@ -38,15 +76,52 @@ function cdbOpenToTopic(ida){window.open ('cdb.php?topic='+ida,'cdb', config='sc
  
         return false;
       }
-    })
-    .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+    }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
       return $( "<li>" )
         .append( "<a>" + item.label + "<br />&nbsp;&nbsp;&nbsp;&nbsp;" + item.desc + "</a>" )
         .appendTo( ul );
-    };		
-			
-			
-	});
-	
-	
-		
+    };    
+
+
+    }
+   
+      
+  jQuery('.tooltipClass').tooltip({
+
+    content: function () {
+        return '<div><p>Altri incarichi associati:</p>'+this.getAttribute("title")+'</div>';
+    }
+  });    
+  jQuery('.tooltip').tooltip();   
+  });
+  
+  function getOthers(me,unit,year,pgid){
+ 
+    utp='';
+     jQuery.ajax(
+          {
+            url: 'ajax_getSSTO.php',
+            data: {a_year:year, a_unit: unit,a_pgid:pgid},
+            type: 'POST',
+            dataType : 'json',
+            timeout:4500
+          }).then(function( e ) {
+
+              jQuery.each(e, function(q,v) {
+                
+                pgUser = e[q]['pgUser'];
+                ordinaryUniform = e[q]['ordinaryUniform'];
+                pgID = e[q]['pgID'];
+                what = e[q]['what'];
+                utp+='<p style="margin:0px;"><img src="TEMPLATES/img/ranks/'+ordinaryUniform + '.png"></img>  <a href="javascript:void(0);" class="interfaceLink" onclick="schedaPOpen('+pgID+')">' + pgUser + '</a> - <span style="color:#CCC; font-size:11px; text-transform:uppercase">'+what+'</span> </p>';
+
+              });
+
+              if (utp == '')
+                utp='Nessuno :-(';
+
+              jQuery('#ntpa_show').html(utp);
+
+              jQuery('#ntpa_show_box').fadeIn();
+          });      
+    }

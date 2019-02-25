@@ -33,10 +33,10 @@ height:200px;
 	[247,141,237,90,'SCHEDA PG','La tua scheda personale. All\'interno saranno riassunte tutte le informazioni del tuo personaggio, compresi il background e le abilità acquisite. Alcune sezioni della scheda sono riservate ai master e gli admin, non ti preoccupare se non puoi accedervi.','top','left','arrowLeft'],
 	[250,141,195,90,'TASTO CHARTS','Con il pulsante <span class="evidenceYelo">CHARTS</span> accedi alle mappe stellari di Star Trek che ti permettono di visualizzare il settore in cui ti trovi, di cercare basi e pianeti e di avere essenziali informazioni su di essi. Le charts di Federation sono una grande mappa di 10.000x10.000 pixel completamente navigabile su cu sono evidenziate le unità ed i pianeti che possiedono location giocabili al momento!','bottom','left','arrowLeft'],
 	[90,600,45,820,'TI TROVI QUI','In questa sezione è indicato il nome dell\'unità, stazione o pianeta in cui ti trovi. Quando la nave si trova nei pressi di un pianeta, o di un\'altra nave, viene visualizzato il comando <span class="evidenceYelo">SBARCO</span>: tramite questo comando potrai cambiare unità facilmente.','top','left','arrowTop'],
-	[85,730,40,350,'STATUS NAVE','Il pulsante <span class="evidenceYelo">STATUS</span> riassume lo stato attuale dell\'unità in cui ti trovi ed offre un link rapido alla sua posizione sulle charts.','top','right','arrowTop'],
-	[85,630,40,230,'COMPUTER DI BORDO (CDB)','Uno dei maggiori strumenti di Federation è il sistema di bacheche. Come una sorta di forum le bacheche si dividono in varie categorie che riflettono sezioni dedicate a specifice comunicazioni nel gioco ed altre orientate alla community ed i suoi giocatori.','top','right','arrowTop'],
-	[85,550,40,160,'DATABASE','Il database di Federation è la raccolta della documentazione inerente al gioco. Dall\'ambientazione alle regole della Flotta Stellare, dal regolamento alle guide alle specie giocabili e non. Il sistema è dotato di un sistema di ricerca ed un comodo salvataggio del testo in formato pdf.','top','right','arrowTop'],
-	[85,600,220,170,'REMINDER','Il reminder è un semplicissimo strumento che ti ricorda brevemente con quale personaggio sei loggato, utile specialmente a chi è autorizzato a muovere personaggi non giocanti, oltre che il suo grado e livello di sicurezza. Sopra di essi la Data Stellare, comoda da copiare durante la stesura dei rapporti. Trovi qui anche il comando di modifica dell\'uniforme. ','top','right','arrowRight'],
+	[85,730,40,350,'STATUS','Il pulsante <span class="evidenceYelo">STATUS</span> apre la lista delle notifiche che tu (come giocatore) o il tuo PG ricevete in gioco. Per esempio, quando vieni menzionato nelle bacheche, oppurue quando la tua scheda viene aggiornata per effetto di un evento master, troverai qui una notifica e il pulsante si illuminerà di rosso.','top','right','arrowTop'],
+	[85,630,40,230,'COMPUTER DI BORDO (CDB)','Uno dei maggiori strumenti di Federation è il sistema di bacheche. Come una sorta di forum le bacheche si dividono in varie categorie che riflettono sezioni dedicate a specifice comunicazioni nel gioco ed altre orientate alla community ed i suoi giocatori. Quando il pulsante è illuminato, significa che ci sono nuovi post da leggere.','top','right','arrowTop'],
+	[85,550,40,160,'DATABASE','Il database di Federation è la raccolta della documentazione inerente al gioco. Dall\'ambientazione alle regole della Flotta Stellare, dal regolamento alle guide alle specie giocabili e non. Il sistema è dotato di un sistema di ricerca che puoi usare per navigare la documentazione.','top','right','arrowTop'],
+	[85,600,220,170,'REMINDER','Il reminder è un semplicissimo strumento che ti ricorda brevemente con quale personaggio sei loggato, utile specialmente a chi è autorizzato a muovere personaggi non giocanti, oltre che il suo grado e livello di sicurezza. Sopra di essi la Data Stellare, comoda da copiare durante la stesura dei rapporti. Cliccando qui puoi anche <span style="color:#FFCC00"> modificare uniforme/vestiario e dotazione personale del tuo PG</span>, accedendo agli oggetti che il tuo personaggio possiede.','top','right','arrowRight'],
 	[250,600,300,150,'GUIDA','Un momento di smarrimento improvviso? Non ricordi come funzionano alcuni elementi dell\'interfaccia? Questo pulsante ti permette di accedere ad un menu di aiuto, contenente diversi tutoriali di gioco (incluso questo)!','bottom','right','arrowRight'],
 	[250,600,150,150,'SUSSURRI','I sussurri sono una chat per i giocatori rigorosamente OFF. Sussurri è comune a tutte le chat e permette quindi a tutti i giocatori, anche giocanti in luoghi differenti, di rimanere in contatto con il resto della community. Una chat "Accoglienza" è dedicata ai nuovi giocatori come te, troverai il link sotto l\'elenco dei giocatori. Non dimenticare di presentarti alla community!','bottom','right','arrowRight'],
 	
@@ -87,7 +87,7 @@ height:200px;
 		jQuery('#tutorialBox').css('margin','0px');
 		
 		window.moveTo(0, 0);
-		window.resizeTo(screen.availWidth, screen.availHeight);
+		window.resizeTo(screen.width, screen.height);
 		
 	}	
 	
@@ -104,7 +104,7 @@ height:200px;
 	<p style="position:absolute; top:10px; right:10px; display:none;" id="terminaAl"><a href="javascript:void(0);" onclick="terminateR()" class="interfaceLinkRed"> [ TERMINA ]</a></p> 
 <hr />	
  <p id="tutorialContent" style="margin:0px; font-family:Helvetica; font-size:14px;">Complimenti! Hai terminato la fase di iscrizione con successo.<br />
- <span style="display:block; text-align:center;">Il tuo grado attuale è <br /> <img tal:attributes="src string:TEMPLATES/img/ranks/${user/pgMostrina}.png" /> <span tal:content="user/pgGrado"/><br/> <span tal:condition="php:user.pgGrado != 'Civile'" tal:content="string: (${user/pgSezione})" /></span><br/> Prima di iniziare la tua avventura ti suggeriamo di dare un'occhiata all'interfaccia di gioco. Questo tutorial ti guiderà passo passo.</p>
+ <span style="display:block; text-align:center;">Il tuo grado attuale è <br /> <img tal:attributes="src string:TEMPLATES/img/ranks/${user/pgMostrina}.png" /> <span tal:content="user/pgGrado"/> - <span tal:condition="php:user.pgGrado != 'Civile'" tal:content="string: (${user/pgSezione})" /></span><br/> Prima di iniziare la tua avventura ti suggeriamo di dare un'occhiata all'interfaccia di gioco. Questo tutorial ti guiderà passo passo.</p>
  <input id="tutorialStep" value="0" type="hidden" /> 
 </div>
 

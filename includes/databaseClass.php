@@ -16,8 +16,6 @@
 	{
 		mysql_close();
 	}
-	
-
 }
 
 class abilDescriptor
@@ -47,6 +45,17 @@ class abilDescriptor
 	
 	public function __construct($id) 
 	{
+	
+		$this->read_abilTable(); 
+		$this->user = $id;
+		$this->populate();
+		
+	}
+	
+	private function populate(){
+		$id = $this->user;
+
+		$this->userUpgradePoints = PG::getSomething($id,'upgradePoints');
 		$r = mysql_query("SELECT abID, abName, abDescription, abImage, abClass, abDiff,abDepString, (SELECT value FROM pg_abilita_levels WHERE pg_abilita_levels.abID = pg_abilita.abID AND pgID = $id) as value, abLevelDescription_1,abLevelDescription_2,abLevelDescription_3,abLevelDescription_4,abLevelDescription_5 FROM pg_abilita WHERE 1");
 		
 		while($s = mysql_fetch_assoc($r)){
@@ -54,21 +63,15 @@ class abilDescriptor
 			$this->abilDict[$s['abID']]['levelperc'] = ceil((float)($s['value'])/15*100);
 			$this->abilDict[$s['abID']]['leveldesc'] = ($s['value'] > 0) ? $s['abLevelDescription_'.ceil($s['value']/3)] : 'Abilità attivata';
 		}
-	
-		$this->read_abilTable(); 
-		$this->user = $id;
-		$this->userUpgradePoints = PG::getSomething($id,'upgradePoints');
 	}
-	
+
 	public function getCars(){
 
 		$tr=array();
 		foreach($this->abilDict as $dicter){
 			if ($dicter['abClass'] == 'ABIL'){
 				$tr[$dicter['abID']] = $dicter['value'];
-
 			}
-
 		}
 		return $tr;
 	}
@@ -125,22 +128,28 @@ class abilDescriptor
 
 	public function reRollDice($abID,$val,$mod){
 		
-		$ara = $this->explainDice($abID,$mod);
-		
-		return array('v'=>$val,'threshold'=>$ara['vs'],'mod'=>$mod,'outcome'=>$ara['ara'][(string)($val)]);
+		$ara = $this->explainDice($abID,$mod,($val == 99));
+		$valU = ($val == 99) ? "20" : $val;
+		$valL = ($val == 99) ? "*" : $val; 
+		return array('v'=>$valL,'threshold'=>$ara['vs'],'mod'=>$mod,'outcome'=>$ara['ara'][(string)($valU)]);
 	}
 
-	public function rollDice($abID){
-		$val = rand(1,20);
+	public function rollDice($abID,$lucky=0){
+		$val = mt_rand(1,20);
+
+		if($val == 1){
+			$val = (mt_rand(0,10) > 3) ? 1 : mt_rand(1,20);
+		}
+
 		$res = mysql_fetch_assoc(mysql_query("SELECT pgScalogna FROM pg_users WHERE pgID =".	$this->user));
 		if ($res['pgScalogna'] == '1'){$val = 1;}
 		
-		$ara = $this->explainDice($abID);
+		$ara = $this->explainDice($abID,0,$lucky);
 
 		return array('v'=>$val,'threshold'=>$ara['vs'],'outcome'=>$ara['ara'][(string)($val)]);
 	}
 
-	public function explainDice($abID,$mod=0){
+	public function explainDice($abID,$mod=0,$lucky=0){
 
 		if(!is_null($this->abilDict[$abID]['value']))
 		{
@@ -170,9 +179,10 @@ class abilDescriptor
 			//$strr.='<li>Bonus per lancio caratteristica singola: 2</li>';
 		}
 
-		$ara=array(1=>'FC');
+		$ara=array(1=> (($lucky) ? 'DF' : 'FC'));
 		for ($i = 2; $i <= 20; $i++){
-			if ($i < $totValor) $ara[$i] = 'S';
+			if ($lucky){ $ara[$i] = 'DF';}
+			elseif ($i < $totValor) $ara[$i] = 'S';
 			elseif ( $i == $totValor) $ara[$i] = 'SC';
 			else {$ara[$i] = "F";}
 		}
@@ -256,8 +266,66 @@ class abilDescriptor
 	}
 
 
+
+	public function resetAndRestore($initialDistribution)
+	{
+
+		$me = new PG($this->user);
+		$uID = $me->ID; 
+
+		
+		$this->reset(); 
+
+		$this->superSet(
+			array(
+				array('IQ',$initialDistribution['IQ']),
+				array('DX',$initialDistribution['DX']),
+				array('HT',$initialDistribution['HT']),
+				array('PE',$initialDistribution['PE']),
+				array('WP',$initialDistribution['WP'])
+			)
+		);
+		
+
+
+		$msgString = 'AB-Reset: ';
+		foreach($initialDistribution as $amenderK => $amenderV)
+			$msgString.=' '.$amenderK.'('.$amenderV.')';
+
+		
+		//SET PUNTI
+		$tpt = 700+floor( PG::getSomething($uID,"totalPoints") / 12);
+		mysql_query("UPDATE pg_users SET pgUpgradePoints = $tpt WHERE pgID = $uID");
+
+
+		//SET RAZZA
+		$this->populate();
+		$this->superImposeRace($me->pgSpecie);
+
+		$msgString.=' '.$tpt . ' UP, razza ' . $me->pgSpecie;
+		$me->addNote($msgString);
+	}
+
+
+	public function preload_objects()
+	{
+		$me = $this->ID;
+		//PADD
+		mysql_query("DELETE FROM fed_objects_ownership WHERE owner = $me AND oID IN (SELECT oID FROM fed_objects WHERE oType ='SERVICE')");
+		mysql_query("INSERT INTO fed_objects_ownership(oID,owner) VALUES (1,$me),(124,$me)");
+		
+//		if($this->pgSezione == 'Scientifica e Medica')
+//		{
+//
+//		//}
+//		//if($this->pgSezione == 'Difesa e Sicurezza')
+//		//{	
+//		//
+//		}
+
+	}
 	public function superImposeRace($race)
-	{ 
+	{  
 
 		$t['Umana']= array(	array(38,0),array(31,1),array(5,0) );
 		$t['Vulcaniana']=  array(array(60,2),array(59,1),array(61,1),array(56,0),array(5,0));
@@ -265,6 +333,9 @@ class abilDescriptor
 		$t['Trill'] =array(array(21,1),array(20,1),array(9,0),array(35,2),array(5,0));
 		$t['Andoriana'] = array(array(10,2),array(21,1),array(17,1),array(52,2),array(4,3),array(5,0));
 		$t['Bajoriana'] = array(array(7,1),array(12,3),array(18,1),array(21,2),array(19,0),array(5,0));
+		$t['Boliana'] = array(array(7,2),array(11,2),array(35,2),array(34,0),array(20,2), array(19,1), array(5,0));
+		$t['Terosiana'] = array(array(42,1),array(18,1),array(8,2),array(11,2), array(5,0));
+
 
 		
 		$r['Vulcaniana']=  array(array('WP',1),array('HT',1)); // 11 + 15 = 26 (79)
@@ -272,7 +343,9 @@ class abilDescriptor
 		$r['Trill'] =array(array('IQ',1),array('HT',2)); // 20 + 15+19 = 54 (100)
 		$r['Andoriana'] = array(array('DX',1),array('HT',1)); // 15+15 = 30 (84)
 		$r['Bajoriana'] = array(array('WP',2),array('PE',1)); // 11+11 = 22 (84)
- 
+ 		$r['Boliana'] = array(array('DX',-2),array('PE',2),array('WP',1)); // 11+11 = 22 (84)
+ 		$r['Terosiana'] = array(array('DX',2),array('WP',1),array('HT',-1)); // 11+11 = 22 (84)
+
 		/*foreach ($r as $ke => $va){
 			echo $ke.'<br />';
 			print_r($va).'<br />';
@@ -308,7 +381,6 @@ class abilDescriptor
 			PG::setSomething($this->user,'UP',$points+50);
 		}
 
-		
 	}
 
 	public function superSet($differential)
@@ -317,7 +389,7 @@ class abilDescriptor
 		foreach($differential as $amender){
 				$abeID = $amender[0];
 				$amend = $amender[1];  
-				$uID = $this->user;
+				$uID = $this->user; 
 
 				mysql_query("DELETE FROM pg_abilita_levels WHERE pgID = $uID AND abID = '$abeID'");
 				mysql_query("INSERT INTO pg_abilita_levels(pgID, abID, value) VALUES ($uID,'$abeID',$amend)");
@@ -354,7 +426,7 @@ class Ambient
 {	
 	public static function getAmbient($ambientID)
 	{
-		$res = mysql_query("SELECT locID,ambientType, locName,ambientLocation,ambientLevel_deck,descrizione,image,imageMap, locationable,ambientLight,ambientLightColor,ambientTemperature,ambientAudio,chatPwd FROM fed_ambient WHERE locID = '$ambientID'");
+		$res = mysql_query("SELECT locID,ambientType, locName,ambientLocation,ambientLevel_deck,descrizione,image,icon,imageMap, locationable,ambientLight,ambientLightColor,ambientTemperature,ambientAudio,chatPwd,planetSub FROM fed_ambient WHERE locID = '$ambientID'");
 		$resa = mysql_fetch_array($res);
 		return $resa;
 	}
@@ -409,6 +481,34 @@ class Ambient
 		}
 		else return 0; 
 	}
+
+	public static function getActiveSessionMedian($ambientID){
+		$res = mysql_query("SELECT federation_sessions.*, pgUser FROM federation_sessions,pg_users WHERE pgID = sessionOwner AND sessionPlace = '$ambientID' AND sessionStatus = 'ONGOING'");
+		if(mysql_affected_rows())
+		{ 
+			$resa = mysql_fetch_array($res); 
+			
+			$iniTime=$resa['sessionStart']; $imaTime=time(); 
+			
+			$resAVG=mysql_query("SELECT realLen FROM federation_chat WHERE ambient = '$ambientID' AND time BETWEEN $iniTime AND $imaTime AND type = 'DIRECT'"); 
+			$utpl=array();
+			while($resAVGL=mysql_fetch_assoc($resAVG))
+			{
+				$utpl[] = $resAVGL['realLen']; 
+			}			
+			
+
+			sort($utpl);
+			$count = count($utpl);
+			$median=0;
+			if ($count > 0)
+				$median = ($count%2) ? $utpl[($count-1)/2] : ($utpl[$count/2-1]+$utpl[($count/2)])/2;
+			
+			return $median;
+		}
+		else return 0; 
+	}
+
 	
 	public static function getAllActions($ambientID){
 		$res = mysql_query("SELECT federation_sessions.*, pgUser FROM federation_sessions,pg_users WHERE pgID = sessionOwner AND sessionPlace = '$ambientID' AND sessionStatus = 'ONGOING'");
@@ -418,8 +518,9 @@ class Ambient
 			
 			$iniTime=$resa['sessionStart']; $imaTime=time(); 
 			
-			$resAct=mysql_query("SELECT realLen,IDE, sender,type,time FROM federation_chat WHERE ambient = '$ambientID' AND time BETWEEN $iniTime AND $imaTime AND type IN('DIRECT','MASTER') "); 
+			$resAct=mysql_query("SELECT realLen,IDE, sender,type,time FROM federation_chat WHERE ambient = '$ambientID' AND time BETWEEN $iniTime AND $imaTime AND type IN('DIRECT','MASTER','OFF') ORDER BY time"); 
 			$resActions = array();
+			
 			while($resActL=mysql_fetch_assoc($resAct)){
 				$resActions[] = $resActL;
 			}
@@ -465,18 +566,20 @@ class Ambient
 	}
 	
 	public static function openSession($ambientID,$owner,$label,$master,$private=0,$timer=8,$maxchar=0){
-		$curTime = time();
+		$curTime = time(); 
 		$col= ($master) ? 'masterAction' : 'auxAction';
-		$sessionTimerA = ($timer != 8) ? "| Tempo max di attesa fra un\'azione e l\'altra: $timer minuti <img src=\"TEMPLATES/img/interface/personnelInterface/info.png\" title=\"Dovrai inviare la tua azione entro $timer minuti dall\'ultima azione inserita in chat, altrimenti non ti saranno assegnati gli FP per quell\' azione\" />" : '';
+		$timerParticle = ($master) ? 'm' : '';
 
-		$sessionCharrerA = ($maxchar != 0) ? " | Numero massimo di caratteri per azione: $maxchar" : '';
+		$sessionTimerA = "<img style=\"vertical-align:middle; width:25px;\" title=\"Dovrai azionare entro questo tempo massimo, altrimenti non ti saranno assegnati gli FP\" src=\"TEMPLATES/img/interface/sessions/timing_".$timer.$timerParticle.".jpg\" />";
+
+		$sessionCharrerA = ($maxchar != 0) ? "<img style=\"vertical-align:middle; width:25px; margin-left:5px;\" title=\"Limite caratteri: $maxchar\" src=\"TEMPLATES/img/interface/sessions/chr_limit.jpg\" /> " : ''; 
 
 		$res = mysql_query("INSERT INTO federation_sessions(sessionPlace,sessionStart,sessionStatus,sessionOwner,sessionLabel,sessionMaster,sessionPrivate,	sessionIntervalTime,sessionMaxChars) VALUES ('$ambientID',$curTime,'ONGOING',$owner,'$label',$master,$private,$timer,$maxchar)"); 
 		//echo "INSERT INTO federation_sessions(sessionPlace,sessionStart,sessionStatus,sessionOwner,sessionLabel,sessionMaster,sessionPrivate,	//sessionIntervalTime,sessionMaxChars) VALUES ('$ambientID',$curTime,'ONGOING',$owner,'$label',$master,$private,$timer,$maxchar)";
 
 		if(mysql_affected_rows()){ 
 			
-			$string = '<div style="position:relative;" class="'.$col.'"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Azione automatica di risposta del tool sessioni" /> Sessione Avviata </div>&Egrave; stata avviata una nuova sessione: '.$label.' '.$sessionTimerA.$sessionCharrerA.'</div>';   
+			$string = '<div style="position:relative;" class="'.$col.'"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Azione automatica di risposta del tool sessioni" /> Sessione Avviata </div> &Egrave; stata avviata una nuova sessione: '.$label . ' | ' .  $sessionTimerA.$sessionCharrerA.'</div>';   
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$ambientID','$string',".time().",'OFF')");
 			
 			return 1;
@@ -630,22 +733,28 @@ class PG
 		$myAssign = $this->pgAssign;
 
 
-		$rek=mysql_query("SELECT recID,incDipartimento,incDivisione,incSezione,incIncarico,incMain,pgPlace,placeName FROM pg_incarichi,pg_places WHERE placeID = pgPlace AND pgID = $myID ORDER BY incMain DESC");
+		$rek=mysql_query("SELECT recID,incDipartimento,incDivisione,incSezione,incIncarico,incGroup,incMain,incActive,pgPlace,placeName FROM pg_incarichi,pg_places WHERE placeID = pgPlace AND pgID = $myID ORDER BY incMain DESC");
 		while($rekA = mysql_fetch_assoc($rek))
 			$inca[] = $rekA;
 
-
-		if(count($inca) >= 1)
+		$incaF = array();
+		for($k=0; $k < count($inca); $k++)
 		{
-			$this->pgIncarico = $inca[0]['incIncarico'];
-			$this->pgDipartimento = $inca[0]['incDipartimento'];
-			$this->pgAssign = $inca[0]['pgPlace'];
+			if($inca[$k]['incActive'])
+				$incaF[]=$inca[$k];
+		}
+
+		if(count($incaF) >= 1)
+		{
+			$this->pgIncarico = $incaF[0]['incIncarico'];
+			$this->pgDipartimento = $incaF[0]['incDipartimento'];
+			$this->pgAssign = $incaF[0]['pgPlace'];
 			$this->pgIncarichi = $inca;
 			
-			if(count($inca) > 1){
+			if(count($incaF) > 1){
 				$this->metapgIncarico = 'Altri incarichi:<hr/><ul>';
-				for($k=1; $k < count($inca); $k++)
-					$this->metapgIncarico .= '<li>'.$inca[$k]['incIncarico'].' - '.$inca[$k]['placeName'].'</li>';
+				for($k=1; $k < count($incaF); $k++)
+					$this->metapgIncarico .= '<li>'.$incaF[$k]['incIncarico'].' - '.$incaF[$k]['placeName'].'</li>';
 				$this->metapgIncarico .= '</ul>';
 			}
 		}
@@ -717,11 +826,30 @@ class PG
 		mysql_query("SELECT 1 FROM pg_brevetti_assign WHERE owner = ".$this->ID." AND brev IN $tr");
 		return mysql_affected_rows();
 	}
-	
-	public function sendPadd($subject,$text,$from = '518',$guider=0,$forceMail=0)
+	public function sendNotification($text,$subtext,$from = '518',$image='',$linker='',$uri='')
 	{
 		$myID = $this->ID;
 		$curTime = time();
+
+		$textE=addslashes($text);
+		$textS=addslashes($subtext);
+		mysql_query("INSERT INTO pg_personal_notifications (owner,text,image,time,linker,URI,subtext) VALUES ($myID,'$textE','$image',$curTime,'$linker','$uri','$textS')");
+ 
+	}
+
+
+	public function sendPadd($subject,$text,$from = '518',$type=0,$forceMail=0)
+	{
+		$myID = $this->ID;
+		$curTime = time();
+
+		
+		if ($type != 0)
+			$paddType=$type;
+		else 
+			$paddType = ($from == '518' || $from == '1580' || $from == '702' ) ? 2 : ( ( (strpos(strtoupper($subject),'OFF ') !== false) || (strpos(strtoupper($subject),'OFF:') !== false) || (strpos(strtoupper($subject),'//OFF') !== false)  )  ? 1 : 0);
+
+
 		if($from == '518'){
 			$aft = '<p style=\" color:#AAA; font-style:italic;\">Questo è un messaggio automatico.</p>';
 		}
@@ -729,7 +857,7 @@ class PG
 
 		$textE=addslashes($text);
 		
-		mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,bgRevision) VALUES ($from,$myID,'$subject','<p style=\"font-size:13px; margin-left:10px; margin-right:10px;\">$textE</p>$aft',$curTime,0,$guider)");
+		mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,paddType) VALUES ($from,$myID,'$subject','<p style=\"font-size:13px; margin-left:10px; margin-right:10px;\">$textE</p>$aft',$curTime,0,$paddType)");
 		if(mysql_error()){echo mysql_error();exit;}
 		if(!isSet($this->paddMail)){
 			$resa = mysql_fetch_assoc(mysql_query("SELECT paddMail,email FROM pg_users WHERE pgID = $myID"));
@@ -781,9 +909,26 @@ class PG
 				$cString = addslashes("Congratulazioni!!<br />Hai ottenuto 1 Upgrade Point!<br /><br /><p style='text-align:center'><span style='font-weight:bold'>Puoi usarli per aumentare le tue caratteristiche nella Scheda PG!</span></p><br />Il Team di Star Trek: Federation");
 				$eString = addslashes("Upgrade Points!::Hai ottenuto un Upgrade Point!"); 
 				
-				mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (518,$me,'OFF: Upgrade Points!','$cString',$curTime,0,''),(518,$me,'::special::achiev','$eString',$curTime,0,'TEMPLATES/img/interface/personnelInterface/starIcon.png')");
+				mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField,paddType) VALUES (518,$me,'OFF: Upgrade Points!','$cString',$curTime,0,'',2),(518,$me,'::special::achiev','$eString',$curTime,0,'TEMPLATES/img/interface/personnelInterface/starIcon.png',2)");
+				
+
 			}
 		}
+
+		for($i = 0; $i < $p; $i++)
+		{	
+			if(($pointsPre+$i) % 400 == 0)
+			{
+				mysql_query("UPDATE pg_users SET pgSpecialistPoints = pgSpecialistPoints+1 WHERE pgID = $me");
+				
+				$cString = addslashes("Congratulazioni!!<br />Hai ottenuto 1 Punto Fortuna Critica!<br /><br /><p style='text-align:center'><span style='font-weight:bold'>Puoi usarlo per ottenere un successo critico a tua discrezione su qualunque dado!</span></p><br />Il Team di Star Trek: Federation");
+				$eString = addslashes("Lucky Point!::Hai ottenuto un punto Fortuna Critica!"); 
+				
+				mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField,paddType) VALUES (518,$me,'OFF: Fortuna Critica!','$cString',$curTime,0,'',2),(518,$me,'::special::achiev','$eString',$curTime,0,'TEMPLATES/img/interface/personnelInterface/starIcon.png',2)");
+				$this->sendNotification("Lucky Point","Hai ottenuto un Lucky Point!",$_SESSION['pgID'],"TEMPLATES/img/interface/index/blevinrevin_02.png",'schedaOpen');
+			}
+		}
+
 	}
 
 	public function bavosize(){
@@ -852,8 +997,56 @@ class PG
 		
 		$curTime = time();
 		mysql_query("INSERT INTO pg_notestaff (pgFrom,pgTo,what,timeCode) VALUES ($from,$thisID,'$thisString',$curTime)"); 
-		
+	}
 
+	public function getPlayRecord($days=15,$type=Null){
+
+			$rpr = array();
+
+			$thisMid=mktime(0,0,1,date('m'),date('d'),date('y'));
+			for ($k = 0; $k < $days; $k++)
+			{
+				$startMid = $thisMid-($k*24*60*60);
+				$endMid = $startMid+(24*60*60);
+				$played = 0;
+				$mastered=0;
+				$connected=0;
+				$syn="Non ha loggato";
+
+				if(PG::mapPermissions("M",$this->pgAuthOMA) && $type=='master')
+					mysql_query("SELECT 1 FROM federation_chat WHERE sender = ".$this->ID." AND type IN ('MASTER','MASTERSPEC') AND time BETWEEN $startMid AND $endMid");
+				
+				if(PG::mapPermissions("M",$this->pgAuthOMA) && mysql_affected_rows() && $type=='master'){ 
+					$played = 1;
+					$mastered=1;
+					$connected=1;
+					$syn="Ha masterato";
+				}
+				else
+				{
+
+					mysql_query("SELECT 1 FROM federation_chat WHERE sender = ".$this->ID." AND time BETWEEN $startMid AND $endMid");
+					if(mysql_affected_rows()){ 
+						$played = 1;
+						$connected=1;
+						$syn="Ha giocato";
+					}
+					else{
+						$played=0;
+
+						mysql_query("SELECT 1 FROM connlog WHERE user = ".$this->ID." AND time BETWEEN $startMid AND $endMid");
+						if(mysql_affected_rows())
+						{
+							$connected=1;
+							$syn="Ha loggato in gioco";
+						}
+
+					}
+				}
+
+				$rpr[$k] = array('kk'=>$k.' giorni fa:'.$syn,'played'=>$played,'mastered'=>$mastered, 'connected'=>$connected);
+			}
+			return $rpr;
 	}
 
 	public static function getHangar($id)
@@ -887,12 +1080,12 @@ class PG
 		echo mysql_error();
 	}
 	
-	public static function sendModerationL($pgL,$moder)
+	/*public static function sendModerationL($pgL,$moder)
 	{
 		$string = '<p class="offAction" title="Moderazione">'."[Moderazione (questo avviso lo vedi solo tu)] ".ucfirst(ltrim($moder)).'</p>';
 		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES((SELECT pgID FROM pg_users WHERE pgUser = '$pgL'),(SELECT pgRoom FROM pg_users WHERE pgUser = '$pgL'),'$string',".time().",'SPECIFIC')");
 		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",(SELECT pgRoom FROM pg_users WHERE pgID = '".$_SESSION['pgID']."'),'$string',".time().",'SPECIFIC')");
-	}
+	}*/
 
 	
 	public static function setIncarico($pgID,$testo)
@@ -941,7 +1134,7 @@ class PG
 	{
 		if($var == "BG")
 		{
-			$res = mysql_query("SELECT * FROM pg_users_bios WHERE valid = 1 AND pgID = $id ORDER BY recID DESC LIMIT 1");
+			$res = mysql_query("SELECT * FROM pg_users_bios WHERE valid = 2 AND pgID = $id ORDER BY recID DESC LIMIT 1");
 			if(mysql_affected_rows()) $re = mysql_fetch_array($res); 
 			else $re = NULL;
 			return $re;
@@ -961,7 +1154,7 @@ class PG
 
 		if($var == "lastBG")
 		{
-			$res = mysql_query("SELECT * FROM pg_users_bios WHERE pgID = $id AND valid = '0' ORDER BY recID DESC LIMIT 1");
+			$res = mysql_query("SELECT * FROM pg_users_bios WHERE pgID = $id AND valid < '2' ORDER BY recID DESC LIMIT 1");
 			if(mysql_affected_rows()) $re = mysql_fetch_array($res); 
 			else $re = NULL;
 			return $re;
@@ -977,7 +1170,7 @@ class PG
 		
 		elseif($var == 'prestavolto')
 		{ 
-			$res = mysql_query("SELECT TIMESTAMPDIFF(MONTH, FROM_UNIXTIME(iscriDate), NOW()) as iscriDiff,iscriDate ,pgOffAvatarN,pgOffAvatarC FROM pg_users WHERE pgID = $id");
+			$res = mysql_query("SELECT TIMESTAMPDIFF(MONTH, FROM_UNIXTIME(iscriDate), NOW()) as iscriDiff,iscriDate ,pgOffAvatarN,pgOffAvatarC,pgPrestige FROM pg_users WHERE pgID = $id");
 			if(mysql_affected_rows()){
 				$re = mysql_fetch_array($res);
 				if((int)$re['iscriDate'] < 1492383822)
@@ -1178,7 +1371,7 @@ class PG
 		elseif ($red == "M") return "Master Ordinario";
 		elseif ($red == "JM") return "Junior Master";
 		elseif ($red == "G") return "Guida";
-		elseif ($red == "O") return "Entertainer";
+		elseif ($red == "O") return "Olomaster";
 		elseif ($red == "N") return "Giocatore";
 		return false;
 	}
@@ -1186,11 +1379,11 @@ class PG
 	public static function returnMapsStringFORDB($actual)
 	{	// O M SM A
 			
-		if ($actual == "A") return "'A','MM','SM','M','SL','JM','G','N'";
-		elseif ($actual == "SM") return "'G','SM','MM','SL','M','JM','N'";
-		elseif ($actual == "MM") return "'G','MM','JM','SL','N'";
-		elseif ($actual == "M") return "'G','M','JM','SL','N'";
-		elseif ($actual == "JM") return "'G','JM','N'";
+		if ($actual == "A") return "'A','MM','SM','M','SL','JM','G','O','N'";
+		elseif ($actual == "SM") return "'G','SM','MM','SL','M','JM','O','N'";
+		elseif ($actual == "MM") return "'G','MM','JM','SL','O','N'";
+		elseif ($actual == "M") return "'G','M','JM','O','SL','N'";
+		elseif ($actual == "JM") return "'G','JM','O','N'";
 		elseif ($actual == "G") return "'G','O','N'";
 		elseif ($actual == "O") return "'O','N'";
 		elseif ($actual == "N") return "'N'";
@@ -1204,7 +1397,9 @@ class timeHandler
 {
 	public static function timestampToGiulian($time)
 	{
-		return date("d/m",$time)."/".(date("Y",$time)+379)." ".self::extrapolateHour($time);
+		if (date('d/m/Y') == date('d/m/Y',$time) )
+			return "Oggi ".self::extrapolateHour($time);
+		else return date("d/m",$time)."/".(date("Y",$time)+379)." ".self::extrapolateHour($time);
 	} 
 	
 	public static function extrapolateDay  ($time)
@@ -1243,7 +1438,7 @@ class Mailer
 	
 	public static function notificationMail($text,$refU){
 	$string = "TimeStamp: ".date('d/m/Y ore H:i:s',time())."\n MODIFICA CRITICA ESEGUITA\n\n".$text."\n\n"."REFERENZE: User:".$refU->pgUser;
-	mail("moreno@startrekfederation.it","[FED] Notifica",$string,"From:notify@startrekfederation.it");
+	mail("staff@startrekfederation.it","[FED] Notifica",$string,"From:noreply@startrekfederation.it");
 	}
 }
 ?>

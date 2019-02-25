@@ -25,13 +25,16 @@ function cmp($a, $b) {
 		}
 
 $start_time = getmicrotime();
- 
+
+
+$allSupportedSpecies=array('Andoriana','Bajoriana','Benzita','Betazoide','Boliana','Borg','Breen','Caitiana','Capellana','Cardassiana','Deltana','Denobulana','El-Auriana','Elaysiana','Ferengi','Fondatore','Gorn','Grazerita','Jem\'Hadar','Klingon','Nausicaana','Ocampa','Orioniana','Risiana','Romulana','Sauriana','Sconosciuta','Talariana','Talassiana','Tellarita','Terosiana ','Tholiana','Trill','Tzenkethi','Umana','Umana-Betazoide','Umana-Vulcaniana','Umana-Klingon','Vorta','Vulcaniana','Vulcaniana-Romulana','Xenita','Zakdorn','Zaldan');
 
 session_start();
 if (!isSet($_SESSION['pgID'])){ header("Location:index.php?login=do"); exit;}
 
 include('includes/app_include.php');
 include('includes/validate_class.php');
+include('includes/prestige.php');
 include("includes/PHPTAL/PHPTAL.php"); //NEW
 PG::updatePresence($_SESSION['pgID']);
 
@@ -42,13 +45,118 @@ $vali = new validator();
 if(isSet($_GET['delAssign']))
 {
 	$equia = $vali->killchars($_GET['equia']);
-	$ida = $vali->numberOnly($_GET['delAssign']);
 
-	mysql_query("DELETE FROM png_incarichi WHERE pngID = $ida");
 	header('Location:crew.php?equi='.$equia);
 
 }
-if(isSet($_GET['equi']))
+
+else if (isSet($_GET['amendPNG']))
+{
+	$mode = $_GET['amendPNG'];
+	$equi = $_GET['equia'];
+	if(!PG::mapPermissions('M',$currentUser->pgAuthOMA)) exit;
+	if ($mode == 'add')
+	{
+		$pngIncarico = addslashes($_POST['pgIncarico']);
+		$pngSezione = addslashes($_POST['pgSezione']);
+		$pngDivisione = addslashes($_POST['pgDivisione']);
+		$pngDipartimento = addslashes($_POST['pgDipartimento']);
+		$pngIncGroup = addslashes($_POST['incGroup']);
+		$pngPlace = addslashes($_POST['assegnazione']);
+		$pngID = $vali->numberOnly($_POST['pngID']);
+
+		$pre=mysql_fetch_assoc(mysql_query(("SELECT pngName,pngSurname,pngRank,pngSesso,pngSpecie FROM png_incarichi WHERE pngID = $pngID")));
+		if(mysql_affected_rows())
+
+			mysql_query("INSERT INTO png_incarichi (pngName,pngSurname,pngRank,pngIncarico,pngSezione,pngDivisione,pngDipartimento,pngIncGroup,pngPlace,pngSesso,pngSpecie) VALUES ('".addslashes($pre['pngName'])."','".addslashes($pre['pngSurname'])."',".addslashes($pre['pngRank']).",'$pngIncarico','$pngSezione','$pngDivisione','$pngDipartimento','$pngIncGroup','$pngPlace','".addslashes($pre['pngSesso'])."','".addslashes($pre['pngSpecie'])."') ");
+		
+		header('Location:crew.php?editAssign='.$pngID.'&equia='.$equi);
+		exit;
+	}
+	if ($mode == 'edit')
+	{
+		if(!PG::mapPermissions('M',$currentUser->pgAuthOMA)) exit;
+		$pngIncarico = addslashes($_POST['pgIncarico']);
+		$pngSezione = addslashes($_POST['pgSezione']);
+		$pngDivisione = addslashes($_POST['pgDivisione']);
+		$pngDipartimento = addslashes($_POST['pgDipartimento']);
+		$pngIncGroup = addslashes($_POST['incGroup']);
+		$pngPlace = addslashes($_POST['assegnazione']);
+		$pngID = $vali->numberOnly($_POST['pngID']);
+
+		mysql_query("UPDATE png_incarichi SET pngIncarico = '$pngIncarico', pngSezione='$pngSezione', pngDivisione='$pngDivisione', pngDipartimento='$pngDipartimento',pngIncGroup='$pngIncGroup',pngPlace='$pngPlace' WHERE pngID = '$pngID'");
+	}
+
+	elseif ($mode == 'editPerson')
+	{
+		$pngSurname=addslashes($_POST['pgSurname']);
+		$pngName=addslashes($_POST['pgName']);
+		$pngSpecie=addslashes($_POST['pgSpecie']);
+		$pngSesso=addslashes($_POST['pgSesso']);
+		$rankCode=$vali->numberOnly($_POST['rankCode']);
+		$pngID = $vali->numberOnly($_POST['pngID']);
+
+		$pre=mysql_fetch_assoc(mysql_query("SELECT pngName,pngSurname FROM png_incarichi WHERE pngID = $pngID"));
+		if(mysql_affected_rows())
+		{
+			mysql_query("UPDATE png_incarichi SET pngName = '$pngName', pngSurname='$pngSurname', pngSpecie='$pngSpecie', pngSesso='$pngSesso',pngRank='$rankCode' WHERE pngName = '".addslashes($pre['pngName'])."' AND pngSurname = '".addslashes($pre['pngSurname'])."'");
+		}
+	}
+
+	elseif($mode == 'deleteIncarico')
+	{
+		$ida = $vali->numberOnly($_GET['pngID']);
+		mysql_query("DELETE FROM png_incarichi WHERE pngID = $ida");
+	}
+
+
+	elseif($mode == 'deletePNG')
+	{
+		$ida = $vali->numberOnly($_GET['pngID']);
+		$pre=mysql_fetch_assoc(mysql_query("SELECT pngName,pngSurname FROM png_incarichi WHERE pngID = $ida"));
+		
+		mysql_query("DELETE FROM png_incarichi WHERE pngName = '".addslashes($pre['pngName'])."' AND pngSurname = '".addslashes($pre['pngSurname'])."'");
+	}
+ 
+	header('Location:crew.php?equi='.$equi);
+	exit;
+
+
+} 
+elseif(isSet($_GET['editAssign']))
+{
+
+	$template = new PHPTAL('TEMPLATES/cdb_organigramma_edit.htm');
+	$equia = $vali->killchars($_GET['equia']);
+	$ida = $vali->numberOnly($_GET['editAssign']);
+
+
+	$crew = mysql_query("SELECT placeID, placeMotto, placeName, placeLogo, place_littleLogo1, placeClass, catGDB, catDISP, catRAP, pgGrado,pgUser,pgNomeC,ordinaryUniform FROM pg_places LEFT JOIN (pg_users JOIN pg_ranks ON rankCode = prio) ON pgID = placeCommander WHERE placeID = '$equia'");
+	
+		while($reissA = mysql_fetch_array($crew))
+		$place = array('placeName' => $reissA['placeName'], 'placeMotto' => $reissA['placeMotto'], 'placeClass' => $reissA['placeClass'], 'placeLittle' => $reissA['place_littleLogo1'],'placeLogo' => $reissA['placeLogo'], 'placeID' => $reissA['placeID'], 'catRAP' => $reissA['catRAP'], 'catGDB' => $reissA['catGDB'], 'catDISP' => $reissA['catDISP'],'commander' => ($reissA['pgGrado'] != NULL) ? $reissA['pgGrado'].' '.$reissA['pgNomeC'].' '.$reissA['pgUser'] : '','uniform' => ($reissA['pgGrado'] != NULL) ? $reissA['ordinaryUniform'] : '');
+		$template->place=$place;
+
+	$rus = mysql_fetch_assoc(mysql_query("SELECT * FROM png_incarichi,pg_ranks WHERE prio = pngRank AND pngID = $ida"));
+
+	$pngName = addslashes($rus['pngName']);
+	$pngSurname = addslashes($rus['pngSurname']);
+	$rusOthers = mysql_query("SELECT ordinaryUniform,placeName,png_incarichi.* FROM png_incarichi,pg_ranks,pg_places WHERE pngPlace=placeID AND prio = pngRank AND pngName = '$pngName' AND pngSurname = '$pngSurname'");
+	
+	if (mysql_affected_rows())
+	{
+		$otherIncarichi=array();
+		while($rusOtherR = mysql_fetch_assoc($rusOthers))
+			$otherIncarichi[] = $rusOtherR;
+		$template->otherIncarichi = $otherIncarichi;
+	}
+
+	$template->thisIncarico = $rus;
+	$template->equi = $equia;
+
+}
+
+elseif(isSet($_GET['equi']))
 {		
 
 		$equi = addslashes($vali->killchars($_GET['equi']));
@@ -61,13 +169,13 @@ if(isSet($_GET['equi']))
 
 		
 
-		$ccols = array('Comando e Strategia' => 'ccolRed','Difesa e Sicurezza' => 'ccolGre','Operazioni' => 'ccolYelo','Navigazione' => 'ccolBlue','Scientifica e Medica' => 'ccolTeal');
+		$ccols = array('Comando e Strategia' => 'ccolRed','Difesa e Sicurezza' => 'ccolGre','Ingegneria e Operazioni' => 'ccolYelo','Navigazione' => 'ccolBlue','Scientifica e Medica' => 'ccolTeal');
 
-		$cclogs = array('Comando e Strategia' => 'nl_com.png','Difesa e Sicurezza' => 'nl_sec.png','Operazioni' => 'nl_ops.png','Navigazione' => 'nl_nav.png','Scientifica e Medica' => 'nl_sci.png','Comando Civile' => 'logo_tycho.png');
+		$cclogs = array('Comando e Strategia' => 'nl_com.png','Difesa e Sicurezza' => 'nl_sec.png','Ingegneria e Operazioni' => 'nl_ops.png','Navigazione' => 'nl_nav.png','Scientifica e Medica' => 'nl_sci.png','Comando Civile' => 'logo_tycho.png');
 
-		$clab = array('Comando e Strategia' => 'COM / STR','Difesa e Sicurezza' => 'DIF / SIC','Operazioni' => 'OPS / ING','Navigazione' => 'NAV','Scientifica e Medica' => 'SCI / MED','Comando Civile' => 'COMANDO');
+		$clab = array('Comando e Strategia' => 'COM / STR','Difesa e Sicurezza' => 'DIF / SIC','Ingegneria e Operazioni' => 'OPS / ING','Navigazione' => 'NAV','Scientifica e Medica' => 'SCI / MED','Comando Civile' => 'COMANDO');
 
-		$crew = mysql_query("(SELECT recID,pg_users.pgID,pgNomeC,pgNomeSuff, pgSpecie, pgSesso, pgUser, pgGrado,pgLastAct, pgSezione, pgIncarico,pgLock, ordinaryUniform, png, pg_incarichi.incSezione, pg_incarichi.incDivisione, pg_incarichi.incDipartimento,pg_incarichi.incIncarico, rankerprio FROM pg_users,pg_ranks,pg_incarichi WHERE pg_users.pgID = pg_incarichi.pgID AND prio = rankCode AND pgLock=0 AND pg_incarichi.pgPlace = '$equi' AND (pgAuthOMA <> 'BAN' OR png=1) ORDER BY rankerprio DESC, pgUser ASC) UNION (SELECT pngID as recID,0 as pgID,pngName as pgNomeC,'' as pgNomeSuff, pngSpecie as pgSpecie, pngSesso as pgSesso, pngSurname as pgUser, Rgrado as pgGrado, '0' as pgLastAct, Rsezione as pgSezione, pngIncarico as pgIncarico, '0' as pgLock, ordinaryUniform, '1' as png, pngSezione as incSezione, pngDivisione as incDivisione, pngDipartimento as incDipartimento, pngIncarico as incIncarico,rankerprio FROM pg_ranks,png_incarichi WHERE prio = pngRank AND pngPlace = '$equi' ORDER BY rankerprio DESC, pngSurname ASC)");
+		$crew = mysql_query("(SELECT recID,pg_users.pgID,pg_users.pgPrestige as pgPrestige,pgNomeC,pgNomeSuff, pgSpecie, pgSesso, pgUser, pgGrado,pgLastAct, pgSezione, pgIncarico,pgLock, ordinaryUniform, png, pg_incarichi.incSezione, pg_incarichi.incDivisione, pg_incarichi.incDipartimento,pg_incarichi.incGroup,pg_incarichi.incIncarico, rankerprio FROM pg_users,pg_ranks,pg_incarichi WHERE pg_users.pgID = pg_incarichi.pgID AND prio = rankCode AND pgLock=0 AND pg_incarichi.pgPlace = '$equi' AND (pgAuthOMA <> 'BAN' OR png=1) AND incActive=1 ORDER BY rankerprio DESC, pgUser ASC) UNION (SELECT pngID as recID,0 as pgID,-1 as pgPrestige,pngName as pgNomeC,'' as pgNomeSuff, pngSpecie as pgSpecie, pngSesso as pgSesso, pngSurname as pgUser, Rgrado as pgGrado, '0' as pgLastAct, Rsezione as pgSezione, pngIncarico as pgIncarico, '0' as pgLock, ordinaryUniform, '1' as png, pngSezione as incSezione, pngDivisione as incDivisione, pngDipartimento as incDipartimento, pngIncGroup as incGroup, pngIncarico as incIncarico,rankerprio FROM pg_ranks,png_incarichi WHERE prio = pngRank AND pngPlace = '$equi' ORDER BY rankerprio DESC, pngSurname ASC)");
 		 
 		//SELECT 0 as pgID,pngName as pgNomeC, pngSpecie as pgSpecie, pngSesso as pgSesso, pngSurname as pgUser, 'T' as pgGrado, 'TA' as pgSezione, pngIncarico as pgIncarico, '0' as pgLock, ordinaryUniform, 1 as png, pg_incarichi.* FROM pg_users,pg_ranks,pg_incarichi WHERE pg_users.pgID = pg_incarichi.pgID AND prio = rankCode AND pgLock=0 AND pgAssign = '$equi' ORDER BY rankerprio DESC, pgUser ASC
  
@@ -77,6 +185,12 @@ if(isSet($_GET['equi']))
 
 
 			
+			if($rtp['hasCrew'] == 1)
+				{
+					$rCrew['incDivisione'] ='-';
+					$rCrew['incDipartimento'] ='-';
+					$rCrew['incGroup'] ='-';
+				}
 			if (!array_key_exists($rCrew['incSezione'],$personale))
 				$personale[$rCrew['incSezione']] = array();
 
@@ -86,7 +200,10 @@ if(isSet($_GET['equi']))
 			if (!array_key_exists($rCrew['incDipartimento'],$personale[$rCrew['incSezione']][$rCrew['incDivisione']]))
 				$personale[$rCrew['incSezione']][$rCrew['incDivisione']][$rCrew['incDipartimento']] = array();
 
-			$personale[$rCrew['incSezione']][$rCrew['incDivisione']][$rCrew['incDipartimento']][] = $rCrew; 
+			if (!array_key_exists($rCrew['incGroup'],$personale[$rCrew['incSezione']][$rCrew['incDivisione']][$rCrew['incDipartimento']]))
+				$personale[$rCrew['incSezione']][$rCrew['incDivisione']][$rCrew['incDipartimento']][$rCrew['incGroup']] = array();
+
+			$personale[$rCrew['incSezione']][$rCrew['incDivisione']][$rCrew['incDipartimento']][$rCrew['incGroup']][] = $rCrew; 
 		}
 
 
@@ -94,10 +211,18 @@ if(isSet($_GET['equi']))
 		foreach ($personale as $sez=>$k)
 			foreach ($k as $div=>$j)
 			{
+				uksort($personale, 'cmp2');  
 				uksort($personale[$sez][$div], 'cmp2');  
-				foreach ($j as $dip=>$per)
+				foreach ($j as $dip=>$dipgroup)
 				{
-					uasort($personale[$sez][$div][$dip], 'cmp');  
+					#uasort($personale[$sez][$div][$dipgroup], 'cmp');  
+					ksort($personale[$sez][$div][$dip]);  
+
+					foreach ($dipgroup as $dipgru=>$per)
+					{
+						
+						uasort($personale[$sez][$div][$dip][$dipgru], 'cmp');  
+					}
 				}
 			} 
 		
@@ -138,6 +263,8 @@ else if (isSet($_GET['createPNG']))
 	$pgSezione = addslashes($_POST['pgSezione']);
 	$pgDivisione = addslashes($_POST['pgDivisione']);
 	$pgDipartimento = addslashes($_POST['pgDipartimento']);
+	$pgIncGroup = addslashes($_POST['incGroup']);
+	
 	$pngRankCode = $vali->numberOnly($_POST['rankCode']);
 	$assegnazione = addslashes($_POST['assegnazione']);
 
@@ -147,7 +274,7 @@ else if (isSet($_GET['createPNG']))
 	{
 		if(!PG::mapPermissions('M',$currentUser->pgAuthOMA)) exit;
 
-		mysql_query("INSERT INTO png_incarichi (pngName,pngSurname,pngRank,pngIncarico,pngSezione,pngDivisione,pngDipartimento,pngPlace,pngSesso,pngSpecie) VALUES ('$pgName','$pgSurname',$pngRankCode,'$pgIncarico','$pgSezione','$pgDivisione','$pgDipartimento','$assegnazione','$pgSesso','$pgSpecie') ");
+		mysql_query("INSERT INTO png_incarichi (pngName,pngSurname,pngRank,pngIncarico,pngSezione,pngDivisione,pngDipartimento,pngIncGroup,pngPlace,pngSesso,pngSpecie) VALUES ('$pgName','$pgSurname',$pngRankCode,'$pgIncarico','$pgSezione','$pgDivisione','$pgDipartimento','$pgIncGroup','$assegnazione','$pgSesso','$pgSpecie') ");
 	}
 	else{
 		
@@ -203,6 +330,8 @@ else if (isSet($_GET['createPNG']))
 
 	header('Location:crew.php?equi='.$equi);
 }
+
+
 else 
 {
 		$template = new PHPTAL('TEMPLATES/cdb_assign.htm');
@@ -234,7 +363,7 @@ else
 	$sects=array();
 	$my = mysql_query("SELECT DISTINCT CONCAT(aggregation,CONCAT(' - ',Rsezione)) as ktl, Rsezione FROM pg_ranks WHERE aggregation  IN ('Civili ','Ristorazione','Flotta Civile','Corpo Diplomatico','Ingegneria Civile','Stampa','Medicina Civile','Musicisti','Federazione Unita dei Pianeti','Scienze','Teatro e Recitazione','Danza','Intrattenimento e Animazione','Klingon ','Politica - Altri','Forze di Difesa ','Flotta Stellare') ORDER BY aggregation");
 	while($myA = mysql_fetch_array($my))
-	$sects[$myA['Rsezione']] = $myA['ktl'];
+		$sects[$myA['Rsezione']] = $myA['ktl'];
 
 
 $template->flavour = 'uniq';
@@ -243,6 +372,7 @@ $template->ranks = $ranks;
 $template->sects = $sects;
 $template->locations=$locArray;
 $template->user = $currentUser;
+$template->prestigioLabels = $prestigioLabels;
 $template->userSM = (PG::mapPermissions('SM',$currentUser->pgAuthOMA)) ? 'yes' : 'no' ;
 $template->userM = (PG::mapPermissions('M',$currentUser->pgAuthOMA)) ? 'yes' : 'no' ;
 
@@ -250,6 +380,7 @@ $template->userSL = (PG::mapPermissions('SL',$currentUser->pgAuthOMA)) ? true : 
  $template->currentDate = $currentDate;
  $template->currentStarDate = $currentStarDate;
  $template->gameOptions = $gameOptions;
+ $template->allSupportedSpecies=$allSupportedSpecies;
 // $template->gameName = $gameName;
 // $template->gameVersion = $gameVersion;
 // $template->debug = $debug;

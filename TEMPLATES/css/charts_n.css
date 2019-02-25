@@ -40,7 +40,8 @@
 
 #Abtn{background-image:url('../img/charts/A.png'); width:73px; height:40px;}
 #Bbtn{background-image:url('../img/charts/B.png'); width:131px; height:40px;}
-
+#alphaBTN{background-image:url('../img/charts/alfa-map.png'); width:82px; height:40px;}
+#deltaBTN{background-image:url('../img/charts/delta-map.png'); width:82px; height:40px;}
 
 a.iLink{font-weight:bold; font-size:13px; color:white; vertical-align:middle;}
 a.iLink:hover{color:#FC0;}

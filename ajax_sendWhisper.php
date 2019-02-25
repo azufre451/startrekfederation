@@ -74,6 +74,9 @@ include('includes/validate_class.php');
 		$arrayIma = array('LOL','(bho)','(cry)','(bleah)','(uplook)','(love)','(sodout)','(edwards)');
 		$aima = array('<img src="/TEMPLATES/img/interface/smileys/sm_lol.gif" alt="LOL" />','<img src="/TEMPLATES/img/interface/smileys/bho.gif" alt="bah" />','<img src="/TEMPLATES/img/interface/smileys/cry.gif" alt="CRY" />','<img src="/TEMPLATES/img/interface/smileys/puke.gif" alt="puke" />','<img src="/TEMPLATES/img/interface/smileys/uplook.gif" alt="bah" />','<img src="/TEMPLATES/img/interface/smileys/2heart.gif" alt="Love" />','<img src="/TEMPLATES/img/interface/smileys/soldout.gif" alt="sout" />','<img src="/TEMPLATES/img/interface/smileys/assimilaz.gif" alt="borg" />');
 		$string = str_replace($arrayIma,$aima,$string);
+		
+			    
+			    
 		if($chatTo != 0 && $chatTo != 7)
 		{
 			
@@ -83,6 +86,7 @@ include('includes/validate_class.php');
 			$Col=stringToColorCode($fromUser);
 
 			$string = '<p class="susChat"><span class=\"susPrivate\">'.date('H:i',$time)."</span> <span class=\"susChatMPUserO\">$fromUser</span> <span style=\"color:$Col\"; class=\"susChatMPSeparator\">--&gt;</span>  <span class=\"susChatMPUserO\">$toUser:</span> <span class=\"susPrivate\">$string</span></p>";
+		
 		}
 		else 
 		{		$fromUser = addslashes($user->pgUser);
@@ -92,6 +96,18 @@ include('includes/validate_class.php');
 		}
 		
 		mysql_query('INSERT INTO fed_sussurri (susFrom,susTo,time,chat,reade) VALUES('.$_SESSION['pgID'].",'$chatTo',$time,'$string',0)");
+		
+		if(strpos(strtolower($string), 'telegram') !== false && PG::mapPermissions('G',$user->pgAuthOMA))
+		{
+		        $toUser = addslashes(PG::getSomething($_SESSION['pgID'],'username'));
+		    	$stringk = '<p class="susChat"><span class=\"susPrivate\">'.date('H:i',$time)."</span> <span class=\"susChatMPUserO\">Kavanagh</span> <span style=\"color:$Col\"; class=\"susChatMPSeparator\">--&gt;</span>  <span class=\"susChatMPUserO\">$toUser:</span> <span class=\"susPrivate\">L\'amministrazione ricorda allo staff che l\'utilizzo di strumenti esterni a STF per la gestione dei contatti con l\'utenza non è consigliata (ed è generalmente disincentivata).</span></p>";
+		
+		    mysql_query('INSERT INTO fed_sussurri (susFrom,susTo,time,chat,reade) VALUES(394,'.$_SESSION['pgID'].",$time,'$stringk',0)"); 
+		}
+		   
+
+
+		     
 		PG::updatePresence($_SESSION['pgID']);
 		
 

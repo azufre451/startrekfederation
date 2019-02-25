@@ -62,6 +62,25 @@
 			else
 				jQuery('#federation_montUL').prop('class','paddOFF');
 			
+	 
+			if(data['NPR'] >= 1)
+			{
+			
+
+				if(!jQuery('#btnStatus').hasClass('notify'))
+				{
+					//notifyDesktop(data['NPtitle'],data['NPavatar'],paddOpen,'Nuovo DPADD');
+
+					if (document.getElementById('audioNotify')) document.getElementById('audioNotify').play();
+					jQuery('#btnStatus').addClass('notify');
+					jQuery('#btnStatus').prop('title',data['NPR']+' nuove notifiche');
+				}
+			}
+			else
+				jQuery('#btnStatus').removeClass('notify');
+			
+
+
 			if(data['NOTIFY'])
 			{
 				notifyDesktop(data['NOTIFY']['TEXT'],data['NOTIFY']['IMG'],function(){},data['NOTIFY']['TITLE']);

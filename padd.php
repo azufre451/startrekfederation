@@ -1,6 +1,13 @@
 <?php
 session_start();
 
+function stripBBCode($text_to_search) {
+ $pattern = '|[[\/\!]*?[^\[\]]*?]|';
+ $replace = '';
+ return preg_replace($pattern, $replace, $text_to_search);
+}
+
+
 if (!isSet($_SESSION['pgID'])){echo "Errore di Login. Ritorna alla homepage ed effettua il login correttamente!"; exit;}
     
 include('includes/app_include.php');
@@ -53,8 +60,9 @@ if($mode == 'newP')
 		
 		$titolo = htmlentities($_POST['titolo'],ENT_COMPAT, 'UTF-8');
 		$testo = htmlentities($_POST['testo'],ENT_COMPAT, 'UTF-8');
+		$testo = $_POST['testo'];
 		
-		$guider = (isSet($_GET['guider'])) ? 1 : 0;
+		$guider = (isSet($_GET['guider'])) ? 3 : 0;
 
 		if(trim($titolo=="")) $titolo= "NESSUN OGGETTO";
 		
@@ -97,7 +105,7 @@ else if ($mode == 'read')
 { 
 	$template = new  PHPTAL('TEMPLATES/padd_show.htm');
 	$paddID = $vali->numberOnly($_GET['paddID']);
-	$paddQ = mysql_query("SELECT padID, paddTitle, paddText, paddFrom, paddTo, paddTime, fromPGT.pgAvatarSquare , toPGT.pgUser as ToPG, fromPGT.pgUser as FromPG,fromPGT.pgSpecie as pgSpecie,fromPGT.pgSesso as pgSesso, toPGT.pgID as ToPGID, fromPGT.pgID as FromPGID, bgRevision, ordinaryUniform FROM fed_pad, pg_users  AS fromPGT, pg_users AS toPGT, pg_ranks WHERE prio = fromPGT.rankCode AND (paddDeletedFrom <> 1 OR paddDeletedTo <> 1) AND padID =$paddID AND toPGT.pgID = paddTo AND fromPGT.pgID = paddFrom AND (paddTo = ".$_SESSION['pgID']." OR paddFrom = ".$_SESSION['pgID'].")");
+	$paddQ = mysql_query("SELECT padID, paddTitle, paddText, paddFrom, paddTo, paddTime, fromPGT.pgAvatarSquare, fromPGT.pgAuthOMA as pgATOMA , toPGT.pgUser as ToPG, fromPGT.pgUser as FromPG,fromPGT.pgSpecie as pgSpecie,fromPGT.pgSesso as pgSesso, toPGT.pgID as ToPGID, fromPGT.pgID as FromPGID, paddType, ordinaryUniform FROM fed_pad, pg_users  AS fromPGT, pg_users AS toPGT, pg_ranks WHERE prio = fromPGT.rankCode AND (paddDeletedFrom <> 1 OR paddDeletedTo <> 1) AND padID =$paddID AND toPGT.pgID = paddTo AND fromPGT.pgID = paddFrom AND (paddTo = ".$_SESSION['pgID']." OR paddFrom = ".$_SESSION['pgID'].")");
 	
 	if(mysql_affected_rows())
 	{
@@ -142,6 +150,12 @@ else if($mode == 'delHer')
 	if(PG::mapPermissions('M',$currentUser->pgAuthOMA)) mysql_query("DELETE FROM fed_news WHERE newsID = $ref");
 	
 	header('Location:padd.php?s=tr'); 
+}
+
+else if ($mode == 'notif'){
+
+	$template = new  PHPTAL('TEMPLATES/padd_noti.htm');
+	
 }
 
 else if ($mode == 'sh' || ($mode == 'shM' && PG::mapPermissions('M',$currentUser->pgAuthOMA)))
@@ -411,7 +425,7 @@ else {
 	
 		$template->submode = isSet($_GET['h']) ? $_GET['h'] : 'in' ;
 		
-		$res = mysql_query("SELECT padID,paddTitle,paddFrom,paddText,paddTime,paddRead, pgUser FROM fed_pad,pg_users WHERE paddTitle NOT LIKE '::special::%' AND paddFrom=pgID AND paddTo = ".$_SESSION['pgID']." AND paddDeletedTo <> 1 ORDER BY paddRead ASC, paddTime DESC");
+		$res = mysql_query("SELECT padID,paddTitle,paddFrom,paddText,paddTime,paddRead,paddType, pgUser FROM fed_pad,pg_users WHERE paddTitle NOT LIKE '::special::%' AND paddFrom=pgID AND paddTo = ".$_SESSION['pgID']." AND paddDeletedTo <> 1 ORDER BY paddRead ASC, paddTime DESC");
 		$incumingArray = array(0 => array(),1 => array());
 			
 		while($resA = mysql_fetch_array($res))
@@ -420,10 +434,12 @@ else {
 		'from' => $resA['pgUser'],
 		'time' => timeHandler::timestampToGiulian($resA['paddTime']),
 		'title' => $resA['paddTitle'],
-		'paddText' => substr($resA['paddText'],0,150)
+		'paddType' => $resA['paddType'],
+		'paddText' => substr($resA['paddText'],0,150).'...'
+		
 		);
 		
-		$res = mysql_query("SELECT padID, paddTitle,paddTo,paddText,paddTime,paddRead, pgUser FROM fed_pad,pg_users WHERE paddTo=pgID AND paddFrom = ".$_SESSION['pgID']." AND paddDeletedFrom <> 1 ORDER BY paddRead ASC, paddTime DESC");
+		$res = mysql_query("SELECT padID, paddTitle,paddTo,paddText,paddTime,paddRead,paddType, pgUser FROM fed_pad,pg_users WHERE paddTo=pgID AND paddFrom = ".$_SESSION['pgID']." AND paddDeletedFrom <> 1 ORDER BY paddRead ASC, paddTime DESC");
 		$outcumingArray = array(0 => array(),1 => array());
 		while($resA = mysql_fetch_array($res))
 		$outcumingArray[$resA['paddRead']][] = array(
@@ -431,7 +447,10 @@ else {
 		'to' => $resA['pgUser'],
 		'time' => timeHandler::timestampToGiulian($resA['paddTime']),
 		'title' => $resA['paddTitle'],
-		'paddText' => $resA['paddText']
+		'paddType' => $resA['paddType'],
+
+		'paddText' => substr($resA['paddText'],0,150).'...'
+		
 		);
 		$template->incoming = $incumingArray;
 		$template->outgoing = $outcumingArray;

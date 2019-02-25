@@ -54,9 +54,9 @@
 
 
 	<form action="cdb.php?topicEe" method="POST">
-		<img src="TEMPLATES/img/interface/titolo.png" /><input name="cdbTitle" style="width:200px;" tal:attributes="value topicTitle" type="text"/>
+		<img src="TEMPLATES/img/interface/titolo.png" /><input class="neon"  name="cdbTitle" style="width:200px;" tal:attributes="value topicTitle" type="text"/>
 		
-		<select style="margin-left:10px;" name="cdbColor"> 
+		<select class="neon" style="margin-left:10px;" name="cdbColor"> 
 			<option value="">- COLORE -</option> 
 			<option value="topic_ext_red">ROSSO</option> 
 			<option value="topic_ext_yellow">GIALLO</option> 
@@ -68,14 +68,14 @@
 			<option value="topic_ext_white">BIANCO</option> 
 		</select>
 		
-		<select style="margin-left:10px;" name="cdbType"> 
+		<select  class="neon" style="margin-left:10px;" name="cdbType"> 
 			<option value="N" tal:attributes="selected php:(topicType == 'N') ? 'selected' : null">NORMALE</option> 
 			<option value="A" tal:attributes="selected php:(topicType == 'A') ? 'selected' : null">ANNUNCIO</option> 
 			<option value="I" tal:attributes="selected php:(topicType == 'I') ? 'selected' : null">IMPORTANTE</option> 
 		</select>
 		
-		<select style="margin-left:10px;" name="cdbSeclar">
-			<option tal:repeat="con php:range(1,9)" tal:attributes="value con" tal:content="string: SECLAR ${con}" />
+		<select  class="neon" style="margin-left:10px;" name="cdbSeclar">
+			<option tal:repeat="con php:range(0,9)" tal:attributes="value con" tal:content="string: SECLAR ${con}" />
 		</select>
 		<input style="margin-left:10px;" type="submit" value="ESEGUI" />
 		<input type="hidden" name="cdbID" tal:attributes="value topicID" />

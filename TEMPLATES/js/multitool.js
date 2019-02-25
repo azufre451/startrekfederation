@@ -92,7 +92,22 @@ jQuery(function(){
 	{
 		if(jQuery('#users').val() != '' && confirm('Sei sicuro di riassegnare il seclar a tutti i PG selezionati?')) jQuery.post('multitool.php?s=setSeclar', {listof: jQuery('#users').prop('value'), seclar: ida}, confirmer, 'json');
 	}
+
+	function setPrestige(ida,oda)
+	{
+		if(jQuery('#users').val() != '' && confirm('Sei sicuro di riassegnare il prestigio a tutti i PG selezionati?')) jQuery.post('multitool.php?s=setPrestige', {listof: jQuery('#users').prop('value'), prestigeLevel: ida, reason: oda}, confirmer, 'json');
+	}
 	
+	function giveObjects(ida)
+	{
+		if(jQuery('#users').val() != '' && confirm('Sei sicuro di assegnare gli oggetti a tutti?')) jQuery.post('multitool.php?s=addServiceObj', {listof: jQuery('#users').prop('value'), obID: ida}, confirmer, 'json');
+	}
+	function espropriaObjects(ida)
+	{
+		if(jQuery('#users').val() != '' && confirm('Sei sicuro di assegnare gli oggetti a tutti?')) jQuery.post('multitool.php?s=removeServiceObj', {listof: jQuery('#users').prop('value'), obID: ida}, confirmer, 'json');
+	}
+	
+
 	function setSalute(ida)
 	{
 		if(jQuery('#users').val() != '' && confirm('Sei sicuro di modificare lo status di salute a tutti i PG selezionati? (Viene inviato un Padd ad ogni PG)')) jQuery.post('multitool.php?s=setSalute', {listof: jQuery('#users').prop('value'), salute: ida}, confirmer, 'json');

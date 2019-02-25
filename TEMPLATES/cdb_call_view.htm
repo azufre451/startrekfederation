@@ -62,7 +62,7 @@
 	
 	<div tal:condition="exists:errorCallLowPerm" id="messager" style="border:2px solid #333; background-color:black; border-radius:12px; width:300px; height:120px; position:absolute; z-index:10; top:50%; left:50%; margin-left:-150px; margin-top:-60px;">
 		<p style="margin:0px; background-color:#570000; color:red; font-weight:bold; border-radius:12px 12px 0px 0px; font-size:24px; text-align:center;"> Attenzione </p>
-		<p style="margin:20px; text-align:center;"> Non puoi votare un sondaggio di una quest a cui non hai partecipato!<br/> Sono necessarie almeno 3 sessioni <br /> <a href="javascript:void(0)" onclick="javascript:document.getElementById('messager').style.display = 'none'; document.getElementById('sondaggioMain').style.opacity = 100;" class="interfaceLink"> Torna al sondaggio </a></p>
+		<p style="margin:20px; text-align:center;"> Non puoi votare un sondaggio di una quest a cui non hai partecipato (almeno 5 sessioni) <br /> <a href="javascript:void(0)" onclick="javascript:document.getElementById('messager').style.display = 'none'; document.getElementById('sondaggioMain').style.opacity = 100;" class="interfaceLink"> Torna al sondaggio </a></p>
 	</div> 
 	
 	<div tal:omit-tag="not:exists:errorCall" id="sondaggioMain" style="opacity:0.3; z-index:-10;">
@@ -74,7 +74,7 @@
 	<div>
 	<div style="float:left; width:500px; border;1px solid orange;">
 		<form action="service.php?addCallComment=true" method="POST">
-			<textarea name="testoComm" id="testoComm" maxlength="250" placeholder="La tua opinione è importante. Facci sapere come la pensi con un commento o con un consiglio!" style="height:32px; width:100%;"  onkeyup="javascript:sX(event);"/>
+			<textarea name="testoComm" id="testoComm" maxlength="250" placeholder="La tua opinione è importante. Facci sapere come la pensi con un commento o con un consiglio!" style="height:50px; width:100%;"  onkeyup="javascript:sX(event);"/>
 			<input type="submit" style="float:right; margin-top:5px;" value="Invia Commento" /> <p style="margin:0px; margin-top:5px; margin-right:5px; float:right;"><span id="counter" style="color:#333; font-weight:bold; font-family:Helvetica">0</span> <span style="color:#AAA; font-weight:bold; font-family:Helvetica">/ 250</span> <input type="hidden" name="callID"  tal:attributes="value call/call_id"/></p>
 		</form><br/>
 		<b>Commenti al Sondaggio:</b>

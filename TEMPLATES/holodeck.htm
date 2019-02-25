@@ -5,16 +5,18 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" /> 
+	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" /> 
 	
 	<link id="alerter" tal:attributes="href string:TEMPLATES/css/${alertCSS}.css" rel="stylesheet" type="text/css" />
 	 
 	
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
-	<script type="text/javascript" src="TEMPLATES/js/mapCore.js?v=1.4.5"/>
-	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+		<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+
+	<script type="text/javascript" src="TEMPLATES/js/mapCore.js?v=${gameOptions/numericVersion}"/>
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 	
 	<title>STAR TREK FEDERATION</title>
 </head>	
@@ -83,7 +85,7 @@
 
 	<a href="#" onClick="javascript:cdbOpen();"><div tal:condition="php:(setDBOn==false)" id="btnComputer" /><div tal:condition="php:(setDBOn==true)" id="btnComputer_a" /></a>
 	<a href="#" onClick="javascript:dbOpen();"><div id="btnDatabase" /></a>
-	<a href="javascript:statusOpen();"><div id="btnStatus" /></a>
+	<a href="javascript:statusBoxOpen();"><div id="btnStatus" tal:attributes="class php:(incomingNoti == true) ? 'notify' : ''"/></a>
 </div>
 
 	<div id="limOverNavfore" style="text-align:center; background-color:black;" class="radiusBordered35" >
@@ -96,7 +98,7 @@
 	
 <div metal:use-macro="TEMPLATES/metal_panels.htm/alertPanel" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/wordrobePanel" />
-
+ 
 <div metal:use-macro="TEMPLATES/guidar.htm/guidePanel" />
 <div metal:use-macro="TEMPLATES/audioSegments.htm/audioNotifier" />
 <div metal:use-macro="TEMPLATES/audioSegments.htm/whisperPaddAlert" />

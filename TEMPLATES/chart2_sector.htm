@@ -5,9 +5,9 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/leaflet.css?v=1.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/charts_n.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/leaflet.css?v=${gameOptions/numericVersion}." rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/charts_n.css?v=${gameOptions/numericVersion}." rel="stylesheet" type="text/css" />
 
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" /> 
 	
@@ -15,10 +15,11 @@
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
-	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 	<script type="text/javascript" src="TEMPLATES/js/jquery.overscroll.js"></script>
 	<script tal:content="string:jQuery(function(){initiate(${yPos/0},${yPos/1});}); "/>
-	<script type="text/javascript" src="TEMPLATES/js/charts.js" />
+	<script tal:condition="php:(subChart == 'D')" src="TEMPLATES/js/chart_delta.js?v=${gameOptions/numericVersion}.55" />
+	<script tal:condition="php:(subChart == 'A')" src="TEMPLATES/js/charts.js?v=${gameOptions/numericVersion}" />
 	
 	<style type="text/css">
 		.ui-autocomplete {
@@ -46,7 +47,9 @@
 
 <div id="mainDatabase" style="position:relative;">
 
-	<div style="position:absolute; top:0px; right:91px; z-index:10;" >
+	<div style="position:absolute; top:0px; right:80px; z-index:10;" >
+		<a tal:condition="php:(subChart == 'D')" href="chart.php?ct=A"><div id="alphaBTN" class="btn" /></a>
+		<a tal:condition="php:(subChart == 'A')" href="chart.php?ct=D"><div id="deltaBTN" class="btn" /></a>
 		<div id="Bbtn" class="btn" tal:attributes="onclick string:javascript:setPosition(${yPos/0},${yPos/1});" />
 		<div id="Abtn" class="btn" onclick="jQuery('#searcher').fadeIn(200);" />
 	</div>

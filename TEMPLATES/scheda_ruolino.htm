@@ -18,7 +18,21 @@
 	<title>STAR TREK FEDERATION - SCHEDA</title>	
 	<script type="text/javascript">
 	
-	
+	function checksum(){
+		var tot=0; 
+		jQuery('.editer').each(function(){
+			tot+=parseInt(jQuery(this).prop('value'));
+		});
+		if (tot != 23)
+			{
+				alert('Attenzione: la somma dei valori delle caratteristiche iniziali deve essere uguale a 23! Nel tuo caso il totale è di '+tot);
+				return false;
+			}
+		else
+			{
+				return true;
+			}
+	}
 	function paddOpen(who){window.open ('padd.php?s=seR&to='+who+'&sub=','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
 	
 	function removeItem(ider,pgi)
@@ -68,10 +82,19 @@
 	<style>
 	.ui-tooltip {
     font-family:Helvetica;
-	font-size:15px;
-	font-variant:small-caps;
+	font-size:13px; 
 	max-width:55%;
   }
+
+
+p.bonus{margin-top:1px dashed #333; margin-top:5px;}
+p.bonus img{
+  width:35px; vertical-align:middle; margin-left:5px; 
+}
+p.bonus span {
+  font-family:federationFont; font-size:18px; margin-left:5px; letter-spacing: 0.1sem;
+}
+
  
 	</style>
 </head>
@@ -110,30 +133,174 @@
 			</div>
 		</div>
 
-	<p style="position:absolute; bottom:-14px; z-index:10; left:0px;" tal:condition="php:(!userData.png)"><a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=bvadd" class="interfaceLink"><img src="TEMPLATES/img/interface/personnelInterface/scheda_modifica_btn.png" /></a></p>
+	<p style="position:absolute; bottom:-14px; z-index:10; left:0px;"  tal:condition="php:(editable=='yes' && !userData.png)"><a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=bvadd" class="interfaceLink"><img src="TEMPLATES/img/interface/personnelInterface/scheda_modifica_btn.png" /></a></p>
+	
+	<p tal:condition="php:editable=='yes'" style="position:absolute; bottom:14px; z-index:10; right:40px;">
+		<a href="javascript:void(0);" onclick="javascript:jQuery('#sReset').fadeIn();"> <button title="Reset" class=" plusButtonRed" style="vertical-align:middle;"><img src="TEMPLATES/img/interface/personnelInterface/deleteicon.png" style="width:20px;" /></button></a>
+	</p>
+
 </div>
 </div>
 
-<div id="brevAdder">
+<div tal:condition="php:editable=='yes'" id="sReset" class="popup" style="width:430px; height:260px; margin-top:-130px; margin-left:-215px; background-color:rgba(0,0,0,0.85); z-index:10" >
 	
-	<p style="margin:0px; margin-top:5px; font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;font-size: 25px;text-align: center;text-shadow: 0 0 5px #00C6FF;font-weight:bold;"> Abilitazioni e Conoscenze </p>
-	
-	<p style="margin:0px; margin-left:10px; margin-right:10px; text-align:justify; font-size:13px;">Incrementa le conoscenze del personaggio e ottieni i relativi brevetti (dovrai sostenere un esame in ON per confermare la conoscenza dei temi trattati dal brevetto del tuo PG). Il numero di punti spendibili nelle aree dipende dal totale di FP acquisiti. Un consiglio: delinea un percorso coerente per il tuo personaggio, e cerca di specializzarlo in pochi ambiti, così da poter essere utile in situazioni ad alta specificità. Ricorda anche che alcuni brevetti sono necessari per ricoprire alcune posizioni in ON. Per ogni dubbio, lo Staff è a tua completa disposizione. <span style="color:red; font-weight:bold;">E' possibile riallocare i punti</span> che non concorrono alla formazione dei brevetti, consultando lo staff e non per più di 3 volte</p>
-	
-	<p style="margin:0px; margin-left:10px; margin-right:10px; text-align:justify; font-size:13px;">Consulta le <a href="#" onclick="javascript:dbOpenToTopic(243);" class="interfaceLink">Regole dei Brevetti</a></p>
+	<p style="margin:0px; margin-top:5px; font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;font-size: 25px;text-align: center;text-shadow: 0 0 5px #00C6FF;font-weight:bold;">  Reset Abilità <br />
+		<span tal:condition="not:exists:restrictEditCar" style="font-size:13px; text-shadow: 0 0 0px #00C6FF"> disponibile solo fino all'approvazione del BG </span>
+		<span tal:condition="exists:restrictEditCar" style="font-size:13px; text-shadow: 0 0 0px #00C6FF"> non disponibile (puoi chiedere un reset straordinario)</span>
+	</p>
+	<hr />
 
+		<form onsubmit="javascript:return checksum();" tal:omit-tag="exists:restrictEditCar" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=resetandeditCar" method="POST">
+		
+
+			<div style="float:left; width:150px;   padding:5px;">
+
+			<p style="margin:0px; margin-top:3px; font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;font-size: 13px; text-align: center;text-shadow: 0 0 0px #00C6FF;font-weight:bold;"> <span tal:condition="not:exists:restrictEditCar">Imposta questi valori:</span> <span tal:condition="exists:restrictEditCar">Valori:</span>  </p>
+			<hr style="border-color:#555;" />
+			<table style="width:100%">
+			<tr tal:repeat="c abi/ABIL"> 
+				<td> <img tal:attributes="title c/abDescription ; src string:TEMPLATES/img/interface/personnelInterface/abilita/${c/abImage}" style="width:23px;" class="tooltip" /> </td>
+				<td><span style="font-size:12px; font-weight:bold;"  tal:content="c/abName" /></td>
+				<td style="font-size:14px; font-weight:bold;"> <select  tal:condition="not:exists:restrictEditCar"  class="editer" tal:attributes="name string:edi_${c/abID}"><option tal:repeat="k php:range(1,8)" tal:attributes="value k; selected php:(k EQ 4) ? 'selected' : ''" tal:content="k"></option></select>
+
+				<span tal:condition="exists:restrictEditCar" tal:content="c/level" />
+			</td></tr>
+			</table>
+
+			
+	
+			</div>
+			<div style="float:left; width:20px;   padding:5px;">
+				<p style="margin:0px; margin-top:3px; margin-top:57px; font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;font-size: 33px; text-align: center;text-shadow: 0 0 0px #00C6FF;font-weight:bold;">
+					+
+				</p>
+			</div>
+			
+			<div style="float:left; width:210px;   padding:5px;">
+				<p style="margin:0px; margin-top:3px; font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;font-size: 13px; text-align: center;text-shadow: 0 0 0px #00C6FF;font-weight:bold;"> Bonus di razza <span style="color:#1f80c4; font-weight:normal; font-style:italic;" tal:content="string:(${pgSpecie})"/>:</p>
+				<hr style="border-color:#555;" />
+			 
+
+			 	<p class="bonus" tal:condition="php:(pgSpecie == 'Umana')">
+					<img src="TEMPLATES/img/interface/personnelInterface/abilita/op_informatiche.png" class="tooltip"  title="Tutti i PG ottengono un bonus all'utilizzo delle consolle elettroniche"/><span>+1</span>   
+					<img src="TEMPLATES/img/interface/personnelInterface/abilita/leadership.png" class="tooltip" title="Gli umani ottengono un bonus alle capacità leadership" /><span>+1</span>  <br />
+					<img src="TEMPLATES/img/interface/personnelInterface/abilita/culturealiene.png" class="tooltip"  title="Gli umani ottengono un bonus alle capacità di dialogare e confrontarsi con le culture aliene"/><span>+2</span>   &nbsp;					
+					<span class="tooltip" title="Gli umani ottengono un bonus alla versatilità pari a 50 UP">+50 UP</span> 
+				</p>
+
+
+				<p class="bonus" tal:condition="php:(pgSpecie == 'Trill')">
+					<img src="TEMPLATES/img/interface/personnelInterface/abilita/op_informatiche.png" class="tooltip"  title="Tutti i PG ottengono un bonus all'utilizzo delle consolle elettroniche"/><span>+1</span>   
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/costituzione.png" title="In quanto capaci di sopportare ferite e veleni meglio delle altre razze, I Trill ottengono un bonus alla Costituzione" /><span>+2</span> 
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/intelletto.png" title="I Trill posseggono un intelletto estremamente versatile, e sono generalmente molto istruiti. Ottengono pertanto un bonus all'intelletto" /><span>+1</span>  <br />
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/diplomazia.png" title="Per la loro capacità di dialogare con le altre culture, e per i mille segreti diplomatici di cui il popolo Trill è custode, i membri della Razza Trill ottengono un bonus in Diplomazia" /><span>+3</span> 
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/percepire_intenzione.png" title="I Trill non sono un popolo losco... ma sono abili osservatori: è più difficile mentigli ed ingannarli" /><span>+2</span>   
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/storia_letteratura.png" title="I Trill sono un popolo di artisti con una lunghissima tradizione pittorica e letteraria, proprio grazie ai Simbionti che trasmettono i ricordi alle generazioni successive" /><span>+1</span> <br />
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/sopravvivenza.png" title="Abili conoscitori della natura e dei suoi pericoli, I Trill godono di un piccolo bonus nella sopravvivenza" /><span>+2</span>
+				</p>
+
+
+				<p class="bonus" tal:condition="php:(pgSpecie == 'Vulcaniana' || pgSpecie == 'Umana-Vulcaniana')">
+					<img src="TEMPLATES/img/interface/personnelInterface/abilita/op_informatiche.png" class="tooltip"  title="Tutti i PG ottengono un bonus all'utilizzo delle consolle elettroniche"/><span>+1</span>   
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/telepatia.png" title="La Telepatia vulcaniana è in grado di operare solo a brevi distanze o per contatto. La razza ottiene un bonus di +3 come abilità congenita." /><span>+3</span>  
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/costituzione.png" title="I Vulcaniani hanno una costituzione più forte rispetto alle altre razze" /><span>+1</span> <br />
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/willpower.png" title="I Vulcaniani godono di una forza di volontà più sviluppata rispetto alle altre razze, e per questo ottengono un bonus nella caratteristica corrispondente"/><span>+1</span> 
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/artimarziali.png" title="Essendo addestrati fin da bambini alle arti marziali come tecnica di difesa, i Vulcaniani godono di un bonus in tutte le discipline relative"/><span>+1</span>  
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/scuto_mentale.png" title="In quanto razza telepate, i Vulcaniani sono particolarmente abili nel bloccare i tentativi altrui di esercitare la telepatia." /><span>+2</span> <br />
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/autoipnosi.png" title="Come risultato delle intense sedute di meditazione cui i Vulcaniani si sottopongono giornalmente, la capacità di autoipnosi e di regressione dei vulcaniani gode di un bonus di +2" /><span>+2</span>
+				</p>
+
+
+				<p class="bonus" tal:condition="php:(pgSpecie == 'Andoriana')">
+					<img src="TEMPLATES/img/interface/personnelInterface/abilita/op_informatiche.png" class="tooltip"  title="Tutti i PG ottengono un bonus all'utilizzo delle consolle elettroniche"/><span>+1</span>   
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/costituzione.png" title="Gli Andoriani sono abituati ai climi estremamente rigidi del loro pianeta natale, Andoria. Godono quindi di un bonus alla Costituzione" /><span>+1</span>  
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/destrezza.png" title="Abituati a maneggiare temibili armi bianche e a tenersi in equilibrio sul ghiaccio, gli Andoriani godono di un bonus alla Destrezza" /><span>+1</span> <br/>
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/interrogatorio.png" title="Alti e temibili, gli Andoriani godono inevitabilmente di un bonus nella persuasione e nell'interrogatorio" /><span>+2</span>   
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/armibianche.png" title="Maestri indiscussi delle armi bianche, gli Andoriani sono addestrati fin da bambini e godono quindi di un bonus sostanziale" /><span>+3</span>   
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/musica.png" title="Andoria, nonostante la freddezza del clima, è una delle scene musicali più calde della galassia. E' molto probabile che un andoriano abbia buone nozioni musicali." /><span>+4</span> <br /> 
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/mischia.png" title="Le abilità nella mischia degli andoriani sono note... in parte grazie alle storie che di loro circolano, in parte per la loro stazza e imponenza" /><span>+3</span>   
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/sopravvivenza.png" title="Abituati ai freddi ghiacci di Andoria, gli Andoriani ricevono un addestramento di base alla sopravvivenza" /><span>+1</span>
+				</p>
+
+				<p class="bonus" tal:condition="php:(pgSpecie == 'Betazoide' || pgSpecie == 'Umana-Betazoide')">
+					<img src="TEMPLATES/img/interface/personnelInterface/abilita/op_informatiche.png" class="tooltip"  title="Tutti i PG ottengono un bonus all'utilizzo delle consolle elettroniche"/><span>+1</span>  
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/willpower.png" title="La predisposizione alla grande empatia propria dei Betazoidi si traduce in una maggiore temperanza mentale. I personaggi di questa razza ottengono un bonus alla forza di volontà." /><span>+3</span> 
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/costituzione.png" title="I betazoidi hanno una salute più cagionevole rispetto alle altre razze. Soffrono quindi di un malus alla Costituzione" /><span>-1</span> <br /> 
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/percepire_intenzione.png" title="I Betazoidi sono una razza empatica e possono percepire le emozioni altrui. Di conseguenza, l'abilità relativa gode di un bonus di +1" /><span>+1</span> 
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/telepatia.png" title="I Betazoidi sono una razza telepatica: godono quindi di un grosso bonus alla telepatia." /><span>+3</span> 
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/scuto_mentale.png" title="Grazie all'addestramento intensivo che i Betazoidi ricevono sin da bambini, i Betazoidi posseggono particolari barriere mentali che impediscono agli altri di leggere la loro mente con facilità." /><span>+3</span>
+				</p>
+
+				<p class="bonus" tal:condition="php:(pgSpecie == 'Bajoriana')">
+					<img src="TEMPLATES/img/interface/personnelInterface/abilita/op_informatiche.png" class="tooltip"  title="Tutti i PG ottengono un bonus all'utilizzo delle consolle elettroniche"/><span>+1</span>  
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/willpower.png" title="Le sofferenze patite dai Bajoriani durante i lunghi anni dell'occupazione Cardassiana valgono alla razza un bonus in Forza di Volontà. I lussi di una vita agiata e l'idea di poter essere felici ogni giorno sono stati un miraggio per troppo tempo" /><span>+3</span>  
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/percezione.png" title="I Bajoriani hanno una percezione più marcata rispetto alle altre razze" /><span>+2</span> <br />
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/arte.png" title="I Bajoriani erano noti per essere grandi e apprezzati artisti in tutto il quadrante, prima della guerra" /><span>+2</span>  
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/sopravvivenza.png" title="I tempi duri dell'occupazione hanno lasciato poco scampo a parecchi Bajoriani. I sopravvissuti sono decisamente abili nell'arte di arrangiarsi e di sopravvivere" /><span>+3</span>  
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/acrobatica.png" title="I Bajoriani sono in grado di compiere salti e gesti particolarmente scenografici... una qualità anche questa acquisita dalla Guerra di Occupazione" /><span>+2</span> <br />
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/furtivita.png" title="Grazie all'addestramento ottenuto nella Resistenza Bajoriana, moltissimi bajoriani sono in grado di avvicinarsi furtivamente al nemico" /><span>+4</span>  
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/contraffazione.png" title="La contraffazione di valuta e di altri beni di valore è una qualità nota dei Bajoriani nati sotto la Resistenza" /><span>+1</span>
+
+				</p> 
+				<p class="bonus" tal:condition="php:(pgSpecie == 'Boliana')">
+					<img src="TEMPLATES/img/interface/personnelInterface/abilita/op_informatiche.png" class="tooltip"  title="Tutti i PG ottengono un bonus all'utilizzo delle consolle elettroniche"/><span>+1</span> 
+
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/destrezza.png" title="Tozzi e impacciati, i Boliani non sono certo noti per la loro padronanza nei movimenti e nel controllo del corpo: soffriranno di un malus di -2 in Destrezza e in tutte le abilità associate." /><span>-2</span>  
+
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/percezione.png" title="I Boliani sono attenti osservatori del mondo che li circonda e ottengono un bonus in percezione." /><span>+2</span> <br />
+
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/willpower.png" title="Empatici e determinati nell'aiutare il prossimo, i Boliani godono di un bonus in forza di volontà." /><span>+1</span> 
+
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/arte.png" title="L'arte boliana è nota in tutto il quadrante per pregevolezza e attenzione ai dettagli. Non tutti i boliani sono artisti, ma beneficiano di una conoscenza artistica superiore grazie ad un'istruzione attenta alla cultura." /><span>+2</span>  
+
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/economia.png" title="Noti come i commercianti della Federazione, i Boliani sono animati da uno spiccato spirito imprenditoriale e mercantile: godono pertanto di conoscenze innate in economia" /><span>+2</span> <br />
+
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/politica.png" title="La politica boliana è estremamente complessa e appassionante... perlomeno per i Boliani, che ne fanno un frequente argomento di conversazione e di dibattito" /><span>+1</span>  
+
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/diplomazia.png" title="La loquacità Boliana è in grado di persuadere e convincere come poche cose nel Quadrante: i boliani sono dei gran chiaccheroni e, spesso, anche ottimi oratori." /><span>+2</span>
+
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/percepire_intenzione.png" title="I Boliani sono ottimi membri di ogni squadra affiatata, grazie alla loro capacità di capire quali sono le necessità degli altri e di relazionarsi con il prossimo" /><span>+2</span>
+
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/contraffazione.png" title="Il contatto con denaro e risorse fin dall'infanzia stimola nei Boliani capacità di contraffazione, che non necessariamente finiscono per dar luogo ad attività criminose. Ma non si sa mai..." /><span>+1</span>
+
+				</p>
+
+				<p class="bonus" tal:condition="php:(pgSpecie == 'Terosiana')">
+					<img src="TEMPLATES/img/interface/personnelInterface/abilita/op_informatiche.png" class="tooltip"  title="Tutti i PG ottengono un bonus all'utilizzo delle consolle elettroniche"/><span>+1</span> 
+
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/destrezza.png" title="I terosiani sono abili nuotatori e, generalmente, cultori della forma fisica e dello sport. Ciò gli conferisce un senso dell'equilibrio spiccato e un'elevato controllo dei movimenti." /><span>+2</span>  
+
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/costituzione.png" title="A causa della gravità ridotta di Terosia, i terosiani sono generalmente esili e mal sopportano ambienti a gravità più elevata. L'attenzione alla forma fisica migliora leggermente la loro costituzione, che tuttavia rimane più cagionevole rispetto alle altre razze." /><span>-1</span> <br />
+
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/willpower.png" title=" Il popolo terosiano, dopo le tante disgrazie della sua storia, ha imparato a riprendersi e migliorarsi ogni volta. Ciò conferisce ai terosiani una forza di volontà più robusta rispetto ad altre razze." /><span>+1</span>  
+
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/economia.png" title="Terosia è parte di una importante rete mercantile: in conseguenza di ciò, economia e leggi di mercato sono insegnate fin dalla scuola primaria. Non tutti i terosiani sono mercanti, ma tutti hanno una spiccata attitudine al commercio." /><span>+2</span> <br />
+
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/cucina.png" title="La cucina Terosiana è famosa in ogni dove per equilibrio e sapore. Lo sviluppo tardivo delle tecniche di replicazione alimentare ha fatto il resto: ogni buon Terosiano sa preparare almeno qualche piatto tradizionale in autonomia." /><span>+2</span>  
+
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/acrobatica.png" title="I terosiani sono naturalmente predisposti alla grazia dei movimenti, grazie ad un senso dell'equilibrio più sviluppato della norma." /><span>+1</span>
+
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/astronomia.png" title="Il contatto con tantissime altre culture ha un impatto positivo sulla conoscenza dei terosiani circa molti settori dello spazio adiacente. Inoltre, la Geografia Astronomica è la seconda materia più importante insegnata nella scuola dell'obbligo" /><span>+1</span> 
+
+				</p>
+
+			</div>
+			
+
+		<div style="clear: both" />
+		<div>
+			<p tal:condition="not:exists:restrictEditCar" style="margin:0;font-style:italic;">NB: La somma deve essere uguale a <span style="color:#FFCC00; font-weight:bold;">23</span></p>
+			<div style="position:absolute; bottom:12px; right:12px; height:25px; width:105px;">
+				<input tal:condition="not:exists:restrictEditCar" style="cursor:pointer; background-color:#282f8c; width:100px; padding:2px; font-weight:bold; color:white;" type="submit" value="Reset" /> 
+			</div>
+
+		</div>
+		</form>	
+ 
 	
 	
-	<div  style="position:absolute; top:2px; right:2px; height:15px; width:15px; background-color:black; text-align:center; cursor:pointer; border:1px solid #AAA; padding:2px;" onclick="jQuery('#brevAdder').fadeOut(100);">X</div>
-	</div> 
+	<div style="position:absolute; top:5px; right:15px; cursor:pointer;" onclick="jQuery('#sReset').fadeOut(100);"> <button title="Chiudi" class=" plusButtonRed" style="vertical-align:middle;"><img src="TEMPLATES/img/interface/personnelInterface/deleteicon.png" style="width:20px;" /></button> </div>
+</div> 
 	
-<div id="abilAdder">
-	
-	<p style="margin:0px; margin-top:5px; font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;font-size: 25px;text-align: center;text-shadow: 0 0 5px #00C6FF;font-weight:bold;"> Abilità Personali </p>
-	
-	<p style="margin:0px; margin-left:10px; margin-right:10px; text-align:justify; font-size:13px;">Le abilità personali sono elementi di caratterizzazione aggiuntiva in aree non strettamente operative, ed orientate princiaplmente alla cultura personale del personaggio. <span style="color:#2266c3; font-weight:bold;">E' possibile riallocare i punti</span> che non concorrono alla formazione dei brevetti, consultando lo staff e non per più di 3 volte</p>
-	
-	<div  style="position:absolute; top:2px; right:2px; height:15px; width:15px; background-color:black; text-align:center; cursor:pointer; border:1px solid #AAA; padding:2px;" onclick="jQuery('#abilAdder').fadeOut(100);">X</div>
-	</div>
-</body>
+ </body>
 </html>

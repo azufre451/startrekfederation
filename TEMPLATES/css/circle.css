@@ -1280,12 +1280,12 @@ font-size:18px;
 } 
 
 
-#exDicer .dicer_FC{ background-color: #971e1e; }
+#exDicer .dicer_FC{ background-color: #42105f; }
 #exDicer .dicer_F{ background-color: #d72b2b; }
 #exDicer .dicer_S{ background-color: #35971e; }
-#exDicer .dicer_SC{ background-color: #1e7597; }
+#exDicer .dicer_SC,#exDicer .dicer_DF{ background-color: #1e7597; }
 
-.col_FC{color: #971e1e; }
+.col_FC{color: #42105f; }
 .col_F{color: #d72b2b; }
 .col_S{color: #35971e; }
 .col_SC{color: #1e7597; }

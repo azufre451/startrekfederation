@@ -3,6 +3,7 @@ session_start();
 if (!isSet($_SESSION['pgID'])){header('Location:login.php');
  exit;
 }include('includes/app_include.php');
+include('includes/notifyClass.php');
 
 
 $ambient = $_POST['ambient'];
@@ -33,10 +34,11 @@ if(mysql_affected_rows()){
 	$isMasCapable = $aarA['isMasCapable'];
 }
 
-$resSession = mysql_query("SELECT sessionMaxChars FROM federation_sessions WHERE sessionStatus = 'ONGOING' AND sessionMaxChars <> 0 AND sessionPlace = '$ambient'");
+$resSession = mysql_query("SELECT sessionMaxChars,sessionIntervalTime FROM federation_sessions WHERE sessionStatus = 'ONGOING' AND sessionPlace = '$ambient'");
 if (mysql_affected_rows()){
 	$rea = mysql_fetch_assoc($resSession);
-	$aar['MC'] = $rea['sessionMaxChars'];
+	if ($rea['sessionMaxChars'] != 0) $aar['MC'] = $rea['sessionMaxChars'];
+	$aar['IT'] = ($rea['sessionIntervalTime'] != 0) ? $rea['sessionIntervalTime'] : 999;
 }
 
 $maxTime = time()-3600;
@@ -49,10 +51,17 @@ $diceOutcomes= array();
 $chatLines = mysql_query("SELECT IDE,chat,sender,time,type,dicerOutcome,dicerAbil,dicerThr FROM federation_chat WHERE ambient = '$ambient' AND IDE > $last AND time > $maxTime AND (type <> 'SPECIFIC' OR sender = ".$_SESSION['pgID'].") $adminCondition ORDER BY time ASC");
 $htmlLiner='';
  $MAX = 0;
+ $lastTime=0;
+
 while($chatLi = mysql_fetch_array($chatLines)){
 	if($chatLi['type'] != 'AUDIO' && $chatLi['type'] != 'AUDIOE') $htmlLiner .= $chatLi['chat'];
 	else if($getAudio && ($chatLi['type'] == 'AUDIO' || $chatLi['type'] == 'AUDIOE')) $htmlLiner .= "<script>playSound('".$chatLi['chat']."','".(($chatLi['type'] == 'AUDIOE') ? 'extern' : '')."');</script>";
 	if ($chatLi['IDE'] > $MAX) 	$MAX = $chatLi['IDE'];
+
+	if ($chatLi['time'] > $lastTime && $chatLi['sender'] != $_SESSION['pgID']) $lastTime = $chatLi['time'];
+
+	//echo $chatLi['time'] . 'by ' . $chatLi['sender'] . ' ('.$maxTime.')' ;
+	
 	if ($chatLi['type'] == 'DICERSPEC' && $chatLi['dicerAbil'] != ''){
 		
 
@@ -60,15 +69,19 @@ while($chatLi = mysql_fetch_array($chatLines)){
 		$abi = $a->abilDict[$chatLi['dicerAbil']];
 		$stat = $a->explaindice($chatLi['dicerAbil']);
 		$ara = $stat['ara'];
-		$locale = array('F' => 'Fallimento','FC' => 'Fallimento Critico', 'S' => 'Successo', 'SC' => 'Successo Critico');
+		$locale = array('F' => 'Fallimento','FC' => 'Fallimento Critico', 'S' => 'Successo', 'SC' => 'Successo Critico','DF' => 'Fortuna Critica');
 
-		$diceOutcomes[] = array('recID'=>$chatLi['IDE'],'pgID'=>$chatLi['sender'],'pgUser' => PG::getSomething($chatLi['sender'],'username'),'outcome' => $chatLi['dicerOutcome'], 'abID' => $chatLi['dicerAbil'], 'abName' => $abi['abName'], 'abImage' => $abi['abImage'],'threshold' => $stat['vs'],'outcomeW' => $locale[$ara[$chatLi['dicerOutcome']]]);
+		$diceOutcomes[] = array('recID'=>$chatLi['IDE'],'pgID'=>$chatLi['sender'],'pgUser' => PG::getSomething($chatLi['sender'],'username'),'outcome' => (($chatLi['dicerOutcome'] == 99) ? "*" : $chatLi['dicerOutcome']), 'abID' => $chatLi['dicerAbil'], 'abName' => $abi['abName'], 'abImage' => $abi['abImage'],'threshold' => $stat['vs'],'outcomeW' => (($chatLi['dicerOutcome'] == 99) ? "Fortuna" : $locale[$ara[$chatLi['dicerOutcome']]] ));
 	} 
 }
+
+$notifications=NotificationEngine::getMyNotifications($_SESSION['pgID']);
+if($notifications){ $aar['NPR'] = $notifications;}
 
 $aar['DICER'] = $diceOutcomes; 
 $aar['CH'] = $htmlLiner;
 $aar['LCH'] = $MAX;
+$aar['LCT'] = $lastTime;
 echo json_encode($aar);
 include('includes/app_declude.php');
 //echo var_dump($aar);

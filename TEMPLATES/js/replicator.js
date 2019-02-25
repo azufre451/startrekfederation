@@ -48,6 +48,23 @@ jQuery(function(){
 			});  
 			
 		} 
+
+		function sendElimination(foodID)
+		{
+			jQuery.ajax(
+			{
+
+			url: "replicator.php?approval=true&s=delete&foodID="+foodID,
+			data:{reason: prompt("Ragione per il respingimento")},
+			type: 'POST',
+			success: function(e){jQuery('#trelem_'+foodID).fadeOut(200)},
+			dataType : 'json' 
+			}
+			); 
+
+
+			
+		}
 		function updateFood(name,descript,image)
 		{
 			

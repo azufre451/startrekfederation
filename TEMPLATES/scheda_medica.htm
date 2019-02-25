@@ -77,7 +77,7 @@
 			</div>
 			<div class="visiMainBlock"> 
 				<p  style="margin:0px; color: #0077c3; float:left; margin-left:5px;"> <a tal:attributes="href string:scheda.php?s=meRem&recID=${med/recid}&pgID=${userData/ID}" tal:condition="php:(smasterPanel)"> <img src="TEMPLATES/img/interface/delete.png" /></a> <a tal:attributes="href string:scheda.php?s=meEdi&recID=${med/recid}&pgID=${userData/ID}" tal:condition="php:((isSet(showMedEdit) && (med['type'] == 'MED' || med['type'] == 'rMED')) || (isSet(showPsiEdit) && (med['type'] == 'PSI' || med['type'] == 'rPSI')) )" title="Modifica"> <img src="TEMPLATES/img/interface/edit_icon.png" /></a> <span tal:content="med/time"/></p>  <p style="margin:0px; margin-right:5px;  float:right;" tal:content="med/medic" /> 
-				<p  style="font-weight:normal; margin:0px; clear:both; margin-left:5px;" tal:content="med/medDiagnosi"/><p tal:condition="php:(med['medCode'] != NULL)" style="float:left; margin-left:10px; margin:0px; margin-top:3px; font-size:10px;" tal:attributes="class php:(med['medCode'] == 'ROSSO') ? 'cdbPostRed' : (med['medCode'] == 'GIALLO' ? 'cdbPostYellowr' : (med['medCode'] == 'VERDE' ? 'cdbPostGreen' : (med['medCode'] == 'BIANCO' ? 'cdbPostWhite' : (med['medCode'] == 'ARANCIONE' ? 'cdbPostYellow' : (med['medCode'] == 'BLU' ? 'cdbPostBlue' : 'cdbPostGray'))))) " tal:content="string:[COD. ${med/medCode}]">[ COD. ]</p><p style="float:right; margin-right:10px; margin:0px; margin-top:3px; "> <a class="interfaceLink" href="javascript:void(0);" tal:attributes="onclick string:toggleVisit(${med/recid}) ; id string:toggle_${med/recid}" style="font-size:10px;"> [ ESPANDI ]</a></p>
+				<p  style="font-weight:normal; margin:0px; clear:both; margin-left:5px;" tal:content="structure med/medDiagnosi"/><p tal:condition="php:(med['medCode'] != NULL)" style="float:left; margin-left:10px; margin:0px; margin-top:3px; font-size:10px;" tal:attributes="class php:(med['medCode'] == 'ROSSO') ? 'cdbPostRed' : (med['medCode'] == 'GIALLO' ? 'cdbPostYellowr' : (med['medCode'] == 'VERDE' ? 'cdbPostGreen' : (med['medCode'] == 'BIANCO' ? 'cdbPostWhite' : (med['medCode'] == 'ARANCIONE' ? 'cdbPostYellow' : (med['medCode'] == 'BLU' ? 'cdbPostBlue' : 'cdbPostGray'))))) " tal:content="string:[COD. ${med/medCode}]">[ COD. ]</p><p style="float:right; margin-right:10px; margin:0px; margin-top:3px; "> <a class="interfaceLink" href="javascript:void(0);" tal:attributes="onclick string:toggleVisit(${med/recid}) ; id string:toggle_${med/recid}" style="font-size:10px;"> [ ESPANDI ]</a></p>
 			</div><div style="clear:both;"/>
 			
 			<div tal:attributes="id string:visi_${med/recid}" class="extededMedical">
@@ -137,8 +137,9 @@
 			<p style="text-align:center;">  <input type="submit" value="[ - INVIA - ]">Invia!</input></p> 
 		</form>
 		
-		
-		<div style="position:absolute; top:2px; right:2px; height:15px; width:15px; background-color:black; text-align:center; cursor:pointer; border:1px solid #AAA; padding:2px;" onclick="jQuery('#adderInfoMed').fadeOut(100);">X</div>
+		 
+		<div class="xButton" onclick="jQuery('#adderInfoMed').fadeOut(100);"></div>
+
 	</div>
 	
 <div class="popup" id="adderInfoPsi" tal:condition="exists:showPsiEdit">
@@ -154,8 +155,7 @@
 			<p style="text-align:center;">  <input type="submit" value="[ - INVIA - ]">Invia!</input></p> 
 		</form>
 		
-		
-		<div style="position:absolute; top:2px; right:2px; height:15px; width:15px; background-color:black; text-align:center; cursor:pointer; border:1px solid #AAA; padding:2px;" onclick="jQuery('#adderInfoPsi').fadeOut(100);">X</div>
+		<div class="xButton" onclick="jQuery('#adderInfoPsi').fadeOut(100);"></div>
 	</div>
 
 </body>

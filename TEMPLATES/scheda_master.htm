@@ -5,8 +5,8 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/personnel.css?v=1.6" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/personnel.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" /> 
@@ -27,6 +27,9 @@
 			jQuery('#sectionWhat').autocomplete({source: "ajax_gradiGedder.php?sezioni=do",	minLength: 2});
 			jQuery('#departmentWhat').autocomplete({source: "ajax_gradiGedder.php?dipartimenti=do",	minLength: 2});
 			jQuery('#divisionWhat').autocomplete({source: "ajax_gradiGedder.php?divisioni=do",	minLength: 2});
+			jQuery('#divisionWhat').autocomplete({source: "ajax_gradiGedder.php?divisioni=do",	minLength: 2});
+			
+			jQuery('#groupWhat').autocomplete({source: "ajax_gradiGedder.php?gruppi=do",	minLength: 2});
 
 		});
 	
@@ -35,8 +38,11 @@
 	<style>
 			.ui-autocomplete {max-height: 135px;overflow-y: auto;overflow-x: hidden;padding-right: 1px;}
 		.ui-autocomplete li {padding:2px;font-size:12px;}
+
+		tr.activePrincTR td.csp{ background-color:#3674c8;}
+		tr.activeSecTR td.csp{ background-color:#000000;}
+		tr.inactiveTR td.csp{ font-size:10px; color:#BBB;}
 		</style>
-	<link href="TEMPLATES/css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" type="text/css"/>
 	 
 	
 </head>
@@ -46,28 +52,26 @@
 <div metal:use-macro="TEMPLATES/metal.htm/schedaIntro" />
 
 <div id="mainContainer" >
-<p style="text-align:center; font-size:16px;"> PANNELLO GESTIONE UTENTE (Plus: <span tal:condition="exists:bonusM">Master</span><span tal:condition="exists:bonusSM">Global Master</span>)<br />
-<span style="font-weight:bold; margin:0px; text-align:center;color:orange; font-size:13px; font-family:courier;"> TRK: <span style="color:white;" tal:content="string:${pgTrek} %"></span> PbC: <span style="color:white;" tal:content="string:${pgPBC} %">100%</span> Ranking: <span style="color:white;" tal:condition="exists:valueofPG" tal:content="string:${valueofPG} pt">100%</span></span>
-</p>
+<p style="text-align:center; font-size:16px;"> PANNELLO GESTIONE UTENTE (Plus: <span tal:condition="exists:bonusM">Master</span><span tal:condition="exists:bonusSM">Global Master</span>)</p>
 
 
 <a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=lock"><div style="border:1px solid #2e7ec8; width:130px; float:left; margin-left:20px; margin-right:0px; padding:7px; text-align:center;" tal:content="php:(lock==true) ? 'SBLOCCA PG' : 'BLOCCA PG'">BLOCCA/SBLOCCA PG</div></a>
 
 <div tal:condition="exists:bonusSM" style="border:1px solid #2e7ec8; width:155px; float:right; margin-right:20px;  margin-left:5px; padding:5px; text-align:center;">
-<form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setSeclar"><select name="setSeclar">
-	<option tal:repeat="con php:range(1,9)" tal:attributes="value con; selected php:(con == userData.pgSeclar) ? 'selected' : false" tal:content="string: SECLAR ${con}" />
+<form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setSeclar"><select class="neon" name="setSeclar">
+	<option tal:repeat="con php:range(0,9)" tal:attributes="value con; selected php:(con == userData.pgSeclar) ? 'selected' : false" tal:content="string: SECLAR ${con}" />
 </select>&nbsp;&nbsp;<input type="submit" value="VAI" /></form>
 </div>
 
 <div style="clear:both; height:10px;" />
-<div style="border:1px solid #888; padding:5px; margin-left:20px; text-align:center; margin-right:20px;" tal:condition="exists:bonusM"><form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setSalute">Stato Salute&nbsp;&nbsp;<input type="text" name="medStatus" tal:attributes="value saluteStatus" style="width:360px;" onfocus="this.select()" />&nbsp;&nbsp;<input type="submit" value="VAI" /></form></div><div style="clear:both;" />
+<div style="border:1px solid #888; padding:5px; margin-left:20px; text-align:center; margin-right:20px;" tal:condition="exists:bonusM"><form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setSalute">Stato Salute&nbsp;&nbsp;<input class="neon" type="text" name="medStatus" tal:attributes="value saluteStatus" style="width:360px;" onfocus="this.select()" />&nbsp;&nbsp;<input type="submit" value="VAI" /></form></div><div style="clear:both;" />
 <div style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;" tal:condition="exists:bonusSL">
 
 <form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=creAllo"><img style="margin-left:20px;" src="TEMPLATES/img/interface/personnelInterface/alloggio_w.png" />
 <br />
-<select name="alloLocation"><option tal:repeat="location locations" tal:attributes="value repeat/location/key;" tal:content="location"/></select>&nbsp;&nbsp;
-Numero: <input type="text" name="alloNum" style="width:30px;" onfocus="this.select()" />&nbsp;&nbsp;
-Ponte: <input type="text" name="alloDeck" onfocus="this.select()" style="width:30px; text-align:center; font-weight:bold;" />&nbsp;&nbsp;&nbsp;
+<select class="neon" name="alloLocation"><option tal:repeat="location locations" tal:attributes="value repeat/location/key;" tal:content="location"/></select>&nbsp;&nbsp;
+Numero: <input type="text" class="neon" name="alloNum" style="width:30px;" onfocus="this.select()" />&nbsp;&nbsp;
+Ponte: <input type="text" class="neon" name="alloDeck" onfocus="this.select()" style="width:30px; text-align:center; font-weight:bold;" />&nbsp;&nbsp;&nbsp;
 <input type="submit" value="CREA" /></form>
 
 <div style="width:80%; margin-left:auto; margin-right:auto;"><table style="width:100%;">
@@ -81,7 +85,7 @@ Ponte: <input type="text" name="alloDeck" onfocus="this.select()" style="width:3
 </div>
 
 <div tal:condition="php:(!userData.png)" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
-<form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=addPoints">Punteggi : &nbsp;&nbsp;<select name="addPoints">
+<form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=addPoints">Punteggi : &nbsp;&nbsp;<select class="neon" name="addPoints">
 	<optgroup label="Punti Ordinari QUEST">
 	<option value="a1">1 pt - Insufficiente</option>
 	<option value="a2">2 pt - Scadente</option>
@@ -131,7 +135,7 @@ Ponte: <input type="text" name="alloDeck" onfocus="this.select()" style="width:3
 
 <div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
 <form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setRanker">Mostrina&nbsp;&nbsp;
-<select name="rankCode">
+<select class="neon" name="rankCode">
 	<optgroup tal:repeat="ranker ranks" tal:attributes="label repeat/ranker/key">
 	<option tal:repeat="rnk ranker" tal:attributes="value repeat/rnk/key ; selected php:(repeat.rnk.key == rankCode) ? 'selected' : false" tal:content="rnk/note"/>
 	</optgroup>
@@ -140,16 +144,41 @@ Ponte: <input type="text" name="alloDeck" onfocus="this.select()" style="width:3
 </form>
 </div>
 
+<div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+<form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setPrestige" method="POST">Modifica Prestigio: &nbsp;&nbsp;
+
+	<select class="neon" name="points" style="width:120px;">
+		<option tal:attributes="value val; selected php:((val == pgPrestige) ? 'selected' : '')" tal:content="php:prestigioLabels[val]['name']" tal:repeat="val php:range(0,10)"></option>
+	</select>
+	<input type="text" class="neon" name="reason" placeholder="Ragione" style="width:250px;" />
+
+	<input type="submit" value="VAI" style="background-color:blue; font-weight:bold; color:#FFCC00;" />
+</form>
+</div>
+
+<div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+<form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=addServiceObject" method="POST">Assegna Oggetto Speciale (se non ce l'ha): &nbsp;&nbsp;
+
+	<select class="neon" name="oID" style="width:120px;">
+		<option tal:attributes="value val/oID" tal:content="val/oName" tal:repeat="val allServiceObjects"></option>
+	</select>
+	
+	<input type="submit" value="VAI" style="background-color:blue; font-weight:bold; color:#FFCC00;" />
+</form>
+</div>
+
+
 <div tal:condition="exists:bonusSM" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
 
 <a name="setIncarichi"/>
 <form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setIncarico"><span style="font-weight:bold;">Aggiungi Assegnazione e Incarico</span><br /><br />
-	<select name="assegnazione">
+	<select class="neon" name="assegnazione" style="width:400px;">
 	<option tal:repeat="location locations" tal:attributes="value repeat/location/key ; selected php:(repeat.location.key == userData.pgAssign) ? 'selected' : false" tal:content="location"/></select><br/>
 	
 	<input class="neon" id="sectionWhat" placeholder="Sezione" tal:attributes="value userData/pgSezione" type="text" name="incSezione"  style="width:400px;" /><br/>
 	<input class="neon" id="divisionWhat" placeholder="Divisione" type="text" name="incDivisione"  style="width:400px;" /><br/>
 	<input class="neon" id="departmentWhat" placeholder="Dipartimento" type="text" name="incDipartimento"  style="width:400px;" /><br/>
+	<input class="neon" id="groupWhat" placeholder="Gruppo/Squadra (opzionale: Alpha,Valchirie etc...)" type="text" name="incGroup"  style="width:400px;" /><br/>
 	<input class="neon" placeholder="Incarico" type="text" name="incIncarico" style="width:400px;"  /><br/>
 	<input type="checkbox" name="incMain" />Principale <input type="submit" value="VAI" /></form>
 
@@ -158,57 +187,74 @@ Ponte: <input type="text" name="alloDeck" onfocus="this.select()" style="width:3
 	Assegnazioni correnti:
 	<table>
 		<tr style="text-align:center; font-weight:bold; color:orange;" >
-			<td>Assegnazione</td>
-			<td>Sezione</td>
-			<td>Divisione</td>
-			<td>Dipartimento</td>
+			<td>UNIT</td>
+			<td>Sez</td>
+			<td>Div</td>
+			<td>Dip</td>
+			<td>Gruppo</td>
 			<td>Incarico</td>
 		</tr>
-		<tr tal:repeat="inca userData/pgIncarichi" tal:attributes="style php:(inca['incMain']) ? 'background-color:#3674c8' : ''">
-			<td tal:content="userData/pgAssign">Assegnazione</td>
-			<td tal:content="inca/incSezione">Sezione</td>
-			<td tal:content="inca/incDivisione">Divisione</td>
-			<td tal:content="inca/incDipartimento">Dipartimento</td>
-			<td tal:content="inca/incIncarico">Incarico</td>
-			<td> <a tal:attributes="href string:scheda.php?s=delIncarico&pgID=${userData/ID}&recID=${inca/recID}" style="color:red;">X</a> </td>
+		<tr tal:repeat="inca userData/pgIncarichi" tal:attributes="class php:((inca['incActive']) ? ((inca['incMain']) ? 'activePrincTR' : 'activeSecTR') : 'inactiveTR')">
+			<td class="csp" tal:content="inca/pgPlace">Assegnazione</td>
+			<td class="csp" tal:content="inca/incSezione">Sezione</td>
+			<td class="csp" tal:content="inca/incDivisione">Divisione</td>
+			<td class="csp" tal:content="inca/incDipartimento">Dipartimento</td>
+			<td class="csp" tal:content="inca/incGroup">Dipartimento</td>
+			<td class="csp" tal:content="inca/incIncarico">Incarico</td>
+			<td style="width:60px;">
+				<a tal:attributes="href string:scheda.php?s=delIncarico&pgID=${userData/ID}&recID=${inca/recID}"><img src="TEMPLATES/img/interface/delete.png" /></a>
+
+				<a tal:attributes="href string:scheda.php?s=togglePrincIncarico&pgID=${userData/ID}&recID=${inca/recID}">
+					<img src="TEMPLATES/img/interface/star_on.png" tal:condition="php:(inca['incMain'])" title="Rendi Secondario" />
+					<img src="TEMPLATES/img/interface/star_off.png" tal:condition="php:(!inca['incMain'])" title="Rendi Principale" />
+				</a>
+				<a tal:attributes="href string:scheda.php?s=toggleActIncarico&pgID=${userData/ID}&recID=${inca/recID}">
+					<img src="TEMPLATES/img/interface/no_access.png" tal:condition="php:(inca['incActive'])" title="Disattiva / Rendi invisibile" />
+					<img src="TEMPLATES/img/interface/ok_access.png" tal:condition="php:(!inca['incActive'])" title="Attiva / Rendi visibile" />
+				</a>
+			</td>
 		</tr>
 	</table>
 </div>
 
 <div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-left:20px; margin-right:20px;  margin-top:10px; padding:5px; text-align:center;">
 <form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setGrado">
-Grado: <input type="text" name="grado" style="width:180px;" tal:attributes="value userData/pgGrado" onfocus="this.select()" />&nbsp;&nbsp;Sezione: <input type="text" name="sezione" style="width:180px;" tal:attributes="value userData/pgSezione" onfocus="this.select()" /><br /><input type="submit" value="VAI" /></form>
+Grado: <input class="neon" type="text" name="grado" style="width:180px;" tal:attributes="value userData/pgGrado" onfocus="this.select()" />&nbsp;&nbsp;Sezione: <input class="neon" type="text" name="sezione" style="width:180px;" tal:attributes="value userData/pgSezione" onfocus="this.select()" /><br /><input type="submit" value="VAI" /></form>
 </div>
 
 <div tal:condition="exists:bonusSM" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
-	<div style="float:left; width:450px;">
-		<form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=addDotazione">LAUREE E NOTE<br />
-			<select name="tipologia"><option value="LAUR">LAUREA</option><option value="NOTA">NOTA</option></select>&nbsp;&nbsp;
-			<select onchange="javascript:upd(this.value);" name="image"><option tal:repeat="ima images" tal:attributes="value ima" tal:content="ima">IMMAGINE</option></select><br />
-			<input type="text" name="testo" style="width:350px;" value="Descrizione / Nome" onfocus="this.select()" />&nbsp;&nbsp;
+
+		<form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=addDotazione">Lauree e Note<br /><br />
+			<select class="neon" name="tipologia"><option value="LAUR">LAUREA</option><option value="NOTA">NOTA</option></select>&nbsp;&nbsp;
+			<select class="neon"  onchange="javascript:upd(this.value);" name="image"><option tal:repeat="ima images" tal:attributes="value ima" tal:content="ima">IMMAGINE</option></select>
+			<input class="neon" type="text" name="testo" style="width:230px;" value="Descrizione / Nome" onfocus="this.select()" />&nbsp;&nbsp;
 			<input type="submit" value="VAI" />
 		</form>
-	</div>
-	<div style="float:left; width:50px; margin-top:5px; height:50px; background-repeat:no-repeat;" id="brever"/><div style="clear:both;" />
+	<div style="float:left; width:50px; margin-top:5px; background-repeat:no-repeat;" id="brever"/><div style="clear:both;" />
 </div>
 
+<a name="noteStaff" />
 <div style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
 		Note dello Staff
 		
-
+		<div style="margin-top:15px; border-top:1px solid #666;">
 		<form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=addNote">
 			<input type="text" name="note" style="width:300px;" class="neon" placeholder="Aggiungi nota..." />
 			<input type="submit" value="VAI" />
 		</form>
+		</div>
 
+		<div style="margin-top:15px; border-top:1px solid #666;">
 		<table>
 		<tr tal:repeat="not note">
+			<td tal:condition="php:adminOstePanel"> <a tal:attributes="href string:scheda.php?s=deleteNoteStaff&sID=${not/recID}"> [X]</a></td>
 			<td tal:content="php:date('d-m-Y',not['timeCode'])" style="width:55px; font-size:10px; color:#FFCC00;" />
 			
 			<td tal:content="string:(${not/pgUser})" style="width:55px; font-size:10px; color:#888;"/>
 			<td style="width:300px; text-align:left;" tal:content="not/what" />
 		</tr>
 		</table>
+		</div>
 		
 </div>
 <p tal:condition="isLorenzo" style="margin:0px; color:orange;font-size:20px;font-weight:bold;text-align:center;"><iframe width="560" height="315" src="http://www.youtube.com/embed/qwD5r6xCxiM" frameborder="0"></iframe></p>

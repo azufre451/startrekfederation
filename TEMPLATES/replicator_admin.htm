@@ -12,7 +12,7 @@
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
-	<script type="text/javascript" src="TEMPLATES/js/replicator.js?v=1.1" />
+	<script type="text/javascript" src="TEMPLATES/js/replicator.js?v=1.4" />
  
 	<title>Replicatore</title>
 	<style>
@@ -26,7 +26,7 @@
 	<div>
 	<table style="width:100%;">
 		<tr class="intest"><td style="width:40px;"> ID </td><td style="width:40px;"> User </td> <td style="width:100px;"> Nome </td> <td> Descrizione - Specie <br/>(<span style="color:#FC0; font-weight:bold;">Alimento</span> / <span style="color:darkcyan; font-weight:bold;">Bevanda</span>) </td> <td style="width:150px;"> Image </td> <td style="width:100px;"> Controls </td></tr>
-		<tr class="outest" tal:repeat="elem food">
+		<tr class="outest" tal:repeat="elem food" tal:attributes="id string:trelem_${elem/foodID}">
 		<td style="width:40px;" tal:content="elem/foodID"/>
 		<td style="width:40px;" tal:content="elem/pgUser"/>
 		<td style="width:100px;" tal:content="elem/foodName"/>
@@ -35,10 +35,11 @@
 		<td style="width:90px; text-align:center;">
 			<a tal:attributes="href string:replicator.php?approval=true&s=approveFully&foodID=${elem/foodID}" tal:condition="php:(elem['foodImaSize'] == '390x230' && elem['foodName'] != '' && elem['foodDescription'] != '' && elem['foodSpecie'] != '')" class="interfaceLinkGreen">[ APPROVA ]</a><br />
 			<a tal:attributes="href string:replicator.php?approval=true&s=revise&foodID=${elem/foodID}" class="interfaceLinkBlue">[ MODIFICA ]</a><br />
-			<a tal:attributes="href string:replicator.php?approval=true&s=delete&foodID=${elem/foodID}" class="interfaceLinkRed">[ ELIMINA ]</a>
+			<a href="javascript:void(0);" tal:attributes="onclick string:sendElimination(${elem/foodID})" class="interfaceLinkRed">[ ELIMINA ]</a>
 		</td>
 		</tr>
 	</table>
 	</div>
 </body>
 </html>
+

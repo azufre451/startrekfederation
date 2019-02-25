@@ -7,8 +7,27 @@
 	<link href="TEMPLATES/css/padd.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 
-	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 	<title>FEDERATION - PADD</title>
+
+	<style>
+		.gani_M::before{color:#ff3600;}
+		.gani_A::before{color:#d7b52f;}
+		.gani_G::before{color:#31F367;}
+
+
+		.gani_M::before, .gani_G::before, .gani_A::before
+		{
+			font-size:11px; 
+			margin-right:2px;
+			font-style:italic;
+		 }
+
+		.gani_A::before {content: '[A]';}
+		.gani_M::before {content: '[M]';}
+		.gani_G::before {content: '[G]';}
+
+	</style>
 </head>
  
 <body style="background-color:black; overflow:hidden;">
@@ -16,7 +35,7 @@
 		<div id="intestLeft"><a title="Principale" href="padd.php"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/padd.png" /></a><a title="Tychonian Herald" href="padd.php?s=tr"><img class="iconelement" tal:attributes="src php:(tribuneNews == true) ? 'TEMPLATES/img/interface/paddInterface/tribune_news.png' : 'TEMPLATES/img/interface/paddInterface/tribune.png'" /></a><a title="Status Nave" href="padd.php?s=sh"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/nave.png" /></a><a title="Note" href="padd.php?s=no"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/note.png" /></a></div>
 		
 		<div id="intestLeftPost" >
-		<a tal:attributes="href php:'padd.php?s=seR&to=' . padd['FromPG'] . '&sub=' . padd['paddTitle'] . ((padd['bgRevision']) ? '&guider=1' : '')"><div class="btn" id="repBTN" style="width:70px;"/></a>
+		<a tal:attributes="href php:'padd.php?s=seR&to=' . padd['FromPG'] . '&sub=' . padd['paddTitle'] . ((padd['paddType'] == 3) ? '&guider=1' : '')"><div class="btn" id="repBTN" style="width:70px;"/></a>
 		<a href="padd.php?h=ou"> <div class="btn" id="sentBTN"/> </a>
 		<a href="padd.php?h=in"> <div class="btn" id="receivedBTN"/> </a>
 		<a tal:condition="php:(deletable==true)" tal:attributes="href string:padd.php?s=delInPad&paddID=${padd/padID}"> <div class="btn" id="delBTN"/> </a>
@@ -25,7 +44,7 @@
 		<div id="padder" tal:attributes="class php:(user.pgSpecie=='Romulana') ? 'paddRomulanMain radiusBordered' : 'paddMain radiusBordered'">
 			<div class="innerPadd">
 				<div style="width:auto; text-align:left; padding:5px; border:1px solid #222;" class="radiusBordered">
-					<a tal:attributes="onclick string:schedaPOpen(${padd/FromPGID})" class="interfaceLink" href="#" tal:content="padd/FromPG" /> <span style="color:#0077c3; font-weight:bold;">></span> <a tal:attributes="onclick string:schedaPOpen(${padd/ToPGID})" class="interfaceLink" href="#" tal:content="padd/ToPG" /> <p style="font-weight:bold; float:right; margin:0px; margin-right:5px; text-decoration:underline;" tal:content="padd/paddTitle" />
+					<a tal:attributes="onclick string:schedaPOpen(${padd/FromPGID})" class="interfaceLink" href="#" tal:content="padd/FromPG" /> <span tal:condition="php:(padd['pgATOMA'] == 'M' || padd['pgATOMA'] == 'SM' || padd['pgATOMA'] == 'A' || padd['pgATOMA'] == 'G')" tal:attributes="class string:tooltip gani_${padd/pgATOMA} ; title php:( (padd['pgATOMA'] == 'M') ? 'Master' : ((padd['pgATOMA'] == 'A') ? 'Admin' : ((padd['pgATOMA'] == 'G') ? 'Guida' : ((padd['pgATOMA'] == 'SM') ? 'Global Master' : '') )  )  ) " ></span> <span style="color:#0077c3; font-weight:bold;">></span> <a tal:attributes="onclick string:schedaPOpen(${padd/ToPGID})" class="interfaceLink" href="#" tal:content="padd/ToPG" /> <p style="font-weight:bold; float:right; margin:0px; margin-right:5px; text-decoration:underline;" tal:content="padd/paddTitle" />
 				</div>
 			<div style="width:135px; float:left; margin-top:10px;">
 			

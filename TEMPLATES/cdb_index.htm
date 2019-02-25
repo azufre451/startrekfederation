@@ -54,7 +54,9 @@
 	
 
 </head>
-
+<style>
+	.testoNews{margin:0px; font-size:13px; margin-top:10px; height:235px;  line-height:20px; padding-right:10px; overflow-y:auto; text-align:justify; font-family:Arial;}
+</style>
 <body>
 <div id="federation_interfaceContainer">
 	<div id="leftCol" style="width:123px;">
@@ -124,13 +126,13 @@
 			<div  style="margin-top:5px; padding:5px; padding-left:7px; border:0px solid #111;" class="radiusBordered_f">
 			<table id="longLocTable" style="width:100%;">
 			<tr tal:repeat="topic lastTopicsLOC" class="topicline">
-				<td style="width:20px;"><img tal:attributes="src php:(user.pgLastVisit GE topic['lastTstamp']) ? 'TEMPLATES/img/interface/indicator_off.gif' : (topic['lastTopicEvent'] == 'EDIT' ? 'TEMPLATES/img/interface/indicator_blue_on.gif' : 'TEMPLATES/img/interface/indicator_on.gif') ; title php:(user.pgLastVisit GE topic['lastTstamp']) ? 'Nessun Aggiornamento' : (topic['lastTopicEvent'] == 'EDIT' ? 'Uno o più post modificati' : 'Uno o più post inseriti')" /></td>
+				<td style="width:20px;"><img tal:attributes="src php:(topic['seen']) ? 'TEMPLATES/img/interface/indicator_off.gif' : (topic['lastTopicEvent'] == 'EDIT' ? 'TEMPLATES/img/interface/indicator_blue_on.gif' : 'TEMPLATES/img/interface/indicator_on.gif') ; title php:(user.pgLastVisit GE topic['lastTstamp']) ? 'Nessun Aggiornamento' : (topic['lastTopicEvent'] == 'EDIT' ? 'Uno o più post modificati' : 'Uno o più post inseriti')" /></td>
 				<td class="topicTitle">
-					<a tal:condition="php:topic['topicType'] == 'I'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicImportant ${topic/classExt}" tal:content="topic/titleL" style="font-size:11px;"></a>
-					<a tal:condition="php:topic['topicType'] == 'A'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicAnnounce ${topic/classExt}" tal:content="topic/titleL" style="font-size:11px;"></a>
-					<a tal:condition="php:topic['topicType'] == 'N'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicNormal ${topic/classExt}" tal:content="topic/titleL" style="font-size:11px;"></a>
+					<a tal:condition="php:topic['topicType'] == 'I'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicImportant ${topic/classExt}" tal:content="topic/titleL" style="font-size:12px;"></a>
+					<a tal:condition="php:topic['topicType'] == 'A'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicAnnounce ${topic/classExt}" tal:content="topic/titleL" style="font-size:12px;"></a>
+					<a tal:condition="php:topic['topicType'] == 'N'" tal:attributes="href string:cdb.php?topic=${topic/ID}; title topic/titleL; class string:topicNormal ${topic/classExt}" tal:content="topic/titleL" style="font-size:12px;"></a>
 				</td>
-				<td class="topic" style="width:180px; text-align:right;"><span style="font-size:11px;" tal:content="topic/lastU"/>, <span style="font-size:10px;" tal:content="topic/lastT"/></td>
+				<td class="topic" style="width:180px; text-align:right;"><span style="font-size:12px;" tal:content="topic/lastU"/>, <span style="font-size:10px;" tal:content="topic/lastT"/></td>
 			</tr>
 			</table>
 			
@@ -182,7 +184,7 @@
 			<ul id="caSli" style="width:100%; height:235px; padding:0px; margin:0px; ">
 			<li tal:repeat="not newsMas">
 				<p class="titoloarticolo" style="text-align:center; margin:0px; font-size:22px;" tal:content="not/title" />
-				<p class="testoNews" style="margin:0px; font-size:13px; margin-top:10px; height:235px;  line-height:20px; padding-right:10px; overflow-y:auto; text-align:justify"><span style="font-weight:bold;" tal:content="not/datum" />&nbsp;&nbsp;<span tal:content="structure not/content"/> <a class="interfaceLinkRed" tal:attributes="href string:cdb.php?deleteMasterEvent=${not/recID}" tal:condition="php:(showSearchMaster == 'yes')" onclick="javascript:return('Confermi l\'Operazione?');"> [Cancella] </a> </p>
+				<p class="testoNews"><span style="font-weight:bold;" tal:content="not/datum" />&nbsp;&nbsp;<span tal:content="structure not/content"/> <a class="interfaceLinkRed" tal:attributes="href string:cdb.php?deleteMasterEvent=${not/recID}" tal:condition="php:(showSearchMaster == 'yes')" onclick="javascript:return('Confermi l\'Operazione?');"> [Cancella] </a> </p>
 
 			</li>
 			</ul>	

@@ -6,15 +6,17 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/personnel.css?v=1.6" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/personnel.css?v=v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" href="TEMPLATES/css/gallerific/galleriffic-2.css" type="text/css" />
-	
-	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
-	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
-	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
-	<script src="TEMPLATES/js/galleria-1.2.9.js"></script>
+	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 
+	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" /> 
+	
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
+	<script src="TEMPLATES/js/galleria-1.2.9.js"></script>
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	<!-- <script type="text/javascript" src="TEMPLATES/js/lazyload.js"></script> -->
 	<title>STAR TREK FEDERATION - SCHEDA</title>
 	
@@ -23,8 +25,12 @@
 	
 	function viewAdder(){jQuery('#rankAdder').fadeIn(200);}
 	function viewRemover(){jQuery('#rankRemover').fadeIn(200);}	
+
+	function viewGiver(){jQuery('#objTransfer').fadeIn(200);}	
+
+
 	</script>
-		
+	<style type="text/css">.ui-autocomplete {max-height: 135px;overflow-y: auto;overflow-x: hidden; width:200px; padding-right: 1px;}</style>  
 </head>
 
 <body style="background-color:black; overflow:hidden; height:385px; padding:-5px;">
@@ -34,40 +40,81 @@
 
 <div id="mainContainer" >
 
-	<div style="text-align:center; padding:10px; width:580px; height:300px">
+	<div style="text-align:center; padding:10px;">
 	
-	<p style="text-align:center; margin:0px;"><img src="TEMPLATES/img/interface/personnelInterface/oggetti_l.png" /> <a href="javascript:viewAdder();"  id="viewAdderToggle" tal:condition="php:editable==true" class="interfaceLink" style="float:left;" >( Aggiungi )</a><a href="javascript:viewRemover();"  id="viewAdderToggle" tal:condition="php:editable==true" class="interfaceLink" style="float:right;" >( Rimuovi )</a></p>
 	
-	<div id="gallery" style="width:96%">
+	<p style="text-align:center; margin:0px;"><img src="TEMPLATES/img/interface/personnelInterface/oggetti_l.png" /></p>
+
+	<div id="gallery" style="width:auto">
             <a tal:repeat="obj objects" tal:attributes="href obj/image">
-                <img tal:attributes="id obj/recID ; src obj/image ; title obj/title ; alt obj/descript" />
+                <img tal:attributes="id obj/oID ; src obj/image ; title obj/title ; alt obj/descript" />
             </a>
 
 	</div>
 	
+	
+
+	<p style="position:absolute; bottom:10px; left:50%; margin-left:-300px;"><a href="javascript:viewAdder();"  id="viewAdderToggle" tal:condition="php:editable==true" class="interfaceLinkGreen" style="float:left;" ><button title="Aggiungi / Crea oggetto" class="plusButton" style="vertical-align:middle;"><img src="TEMPLATES/img/interface/personnelInterface/plusicon.png" style="width:20px;" /></button></a> 
+	<a href="javascript:viewGiver();"  id="viewAdderToggle" tal:condition="php:editable==true" class="interfaceLink" ><button title="Dona / Cedi oggetto" class="plusButtonBlue" style="vertical-align:middle; background"><img src="TEMPLATES/img/interface/personnelInterface/donateicon.png" style="width:20px;" /></button></a> 
+	<a href="javascript:viewRemover();"  id="viewAdderToggle" tal:condition="php:editable==true" class="interfaceLinkRed" ><button title="Rimuovi un oggetto" class="plusButtonRed" style="vertical-align:middle; background"><img src="TEMPLATES/img/interface/personnelInterface/minusicon.png" style="width:20px;" /></button></a>
+</p>
+
 	<div id="rankAdder" style="position:absolute; top:50%;left:50%; display:none; z-index:10; background-color:black; margin-left:-210px; margin-top:-70px; width:420px; padding:10px; border:2px solid #666;"><br /><table tal:condition="php:editable==true">
 	<form method="POST" action="scheda.php?s=addObj">
 		
-		<tr><td width="140px; font-size:10px;"><b>Oggetto:</b></td><td><input required="required" style="width:300px;" name="what" /></td></tr>
+		<tr><td width="140px; font-size:10px;"><b>Nome Oggetto:</b></td><td><input required="required" type="text" class="neon" style="width:300px;" name="what" /></td></tr>
+		<tr><td width="140px; font-size:10px;"><b>URL Immagine:</b></td><td><input class="neon" type="text" required="required" style="width:300px;" name="whatI" /></td></tr>
 		<tr><td width="140px; font-size:10px;"><b>Descrizione:</b></td><td><textarea style="width:300px;" name="whatD" /></td></tr>
-		<tr><td width="140px; font-size:10px;"><b>URL Immagine:</b></td><td><input required="required" style="width:300px;" name="whatI" /></td></tr>
-		<tr><td colspan="2" style="text-align:center;"><input type="submit" value="Vai!" /></td></tr>
+		<tr><td colspan="2" style="text-align:center;"><input type="submit" value="- Crea oggetto - " /></td></tr>
 	<input type="hidden" name="userSelector" tal:attributes="value selectedUser" />
-	</form><button style="position:absolute;top:5px; right:10px;" onclick="jQuery('#rankAdder').fadeOut(150);">X</button>
+	</form>
+
+	<div class="xButton" onclick="jQuery('#rankAdder').fadeOut(100);"></div>
+
+  
 	</table></div>
 	
-	<div id="rankRemover" style="position:absolute; top:70%;left:50%; display:none; z-index:10; background-color:black; margin-left:-210px; margin-top:-50px; width:420px; padding:10px; border:2px solid #666;">
-	 <button onclick="jQuery('#rankRemover').fadeOut(150);" style="float:right">X</button>
+	<div id="rankRemover" style="position:absolute; top:70%;left:50%; display:none; z-index:10; background-color:black; margin-left:-210px; margin-top:-50px; width:420px; padding:10px; border:2px solid #666;"> 
+	 
+
+	<div class="xButton" onclick="jQuery('#rankRemover').fadeOut(100);"></div> 
+
 	<form method="POST" onsubmit="return confirm('Sei Sicuro?')" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=remObj" tal:condition="php:editable==true">
 		
-		<select name="remover"><option tal:repeat="obj objects" tal:attributes="value obj/recID" tal:content="string: ${obj/title}" /></select>
-		 <input type="submit" value="Elimina!" />
+		<select class="neon"  name="remover"><option tal:repeat="obj objects" tal:attributes="value obj/recID" tal:content="string: ${obj/title}" /></select>
+		 <input type="submit" value=" - Elimina oggetto -" />
 	</form> </div>
 	
-	
+	<div id="objTransfer" style="position:absolute; top:70%;left:50%; display:none; z-index:10; background-color:black; margin-left:-210px; height:200px; margin-top:-100px; width:420px; padding:10px; border:2px solid #666;">
+	 
+
+	<div class="xButton" onclick="jQuery('#objTransfer').fadeOut(100);"></div>
+	  
+	 
+	<p style="margin-top:35px;">Quando trasferisci un oggetto, questo sarà inserito nell'inventario di un altro PG, che riceverà una notifica.</p>
+
+	<div style="margin-top:10px;">
+		<form method="POST" onsubmit="return confirm('Sei Sicuro di?')" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=movObj" tal:condition="php:editable==true">
+		
+		Oggetto da trasferire: <select class="neon" name="mover"><option tal:repeat="obj objects" tal:attributes="value obj/recID" tal:content="string: ${obj/title}" /></select><br />
+		Utente a cui trasferire l'oggetto: 		<input type="text" class="neon" id="users" name="userB" /><br /><br />
+		 <input type="submit" value="[ - Trasferisci Oggetto - ]" style="padding:3px;" />
+		</form> 
+	</div>
+
+
+	<script>
+		jQuery('#users').autocomplete({
+			source: "ajax_userGetter.php",
+			minLength: 2
+			}); 
+	</script>
+
+	</div>
 	
 	
 	</div>
+
 
 </div>
 </div>

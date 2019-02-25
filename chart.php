@@ -8,24 +8,32 @@ include("includes/PHPTAL/PHPTAL.php"); //NEW
 include('includes/markerClass.php');
 
 if(isSet($_SESSION['pgID'])) PG::updatePresence($_SESSION['pgID']);
+
 $vali = new validator();
- 
-	 $template = new PHPTAL('TEMPLATES/chart2_sector.htm');
+ 	
 	
+
+	$template = new PHPTAL('TEMPLATES/chart2_sector.htm');
+	$subChart = (isSet( $_GET['ct'])) ? ((  $_GET['ct'] == 'A' ) ?  $_GET['ct'] : 'D') : 'D';
+
 	$pgID = $_SESSION['pgID'];
 	$ra = mysql_fetch_array(mysql_query("SELECT placeName,pointerL,placeType, place_littleLogo1, placeClass FROM pg_places WHERE placeID = (SELECT pgLocation FROM pg_users WHERE pgID = $pgID)"));
 	
 	if($ra['pointerL'] != '')
-		$ipo = explode(';',$ra['pointerL']);
-		
+	{
+		$coords = explode(':',$ra['pointerL']); 
+		$ipo = explode(';',$coords[1]);
+	}	
 	else $ipo =  explode(';',"-1;-1");
 	 
 	$template->yPos = $ipo;
 	
-	$ra = mysql_query("SELECT DISTINCT pointerL FROM pg_places WHERE pointerL <> ''");
+	$ra = mysql_query("SELECT DISTINCT pointerL FROM pg_places WHERE pointerL NOT IN ('A:','D:') AND pointerL LIKE '$subChart:%' ");
 	$markers = array();
 	while ($res = mysql_fetch_array($ra))
-	{	$ele = explode(';',$res['pointerL']); 
+	{	
+		$coords = explode(':',$res['pointerL']); 
+		$ele = explode(';',$coords[1]); 
 		$markers[] = array($ele[0],$ele[1]);
 	}
 	
@@ -43,8 +51,8 @@ $vali = new validator();
 	// } 
 	
 	$template->markers = json_encode($markers);
-
-
+	$template->gameOptions = $gameOptions;
+	$template->subChart=$subChart;
 	try 
 	{
 		echo $template->execute();

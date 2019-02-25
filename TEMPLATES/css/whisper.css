@@ -63,16 +63,18 @@ img{
 .susChatMPUserA, .gani_A::after{color:#d7b52f;}
 .susChatMPUserG, .gani_G::after{color:#31F367;}
 
-.gani_M::after, .gani_G::after, .gani_A::after
+
+.gani_M::after, .gani_G::after, .gani_A::after,.gani_L::after
 {
 	font-size:11px; 
 	margin-left:4px;
 	font-style:italic;
  }
 
-
+.susChatMPUserL, .gani_L::after{color:white; border:1px solid red; padding:2px; font-size:8px !important; }
 .gani_A::after {content: '[A]';}
 .gani_M::after {content: '[M]';}
+.gani_L::after {content: 'LOCK';}
 .gani_G::after {content: '[G]';}
 	
 		

@@ -4,7 +4,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}.545ar4" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" /> 
 	<link href="TEMPLATES/css/circle.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link id="alerter" tal:attributes="href string:TEMPLATES/css/${alertCSS}.css" tal:condition="php:alertCSS != ''" rel="stylesheet" type="text/css" />
@@ -14,7 +14,7 @@
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
-	<script type="text/javascript" src="TEMPLATES/js/chatCore.js?v=${gameOptions/numericVersion}"/>
+	<script type="text/javascript" src="TEMPLATES/js/chatCore.js?v=${gameOptions/numericVersion}.332"/>
 	<script type="text/javascript" src="TEMPLATES/js/easyNotify.js"></script>
 	<script type="text/javascript" src="TEMPLATES/js/highlight.js"></script>
 
@@ -32,9 +32,19 @@
 
      <style>.ui-tooltip-content {
     font-family:Helvetica;
-	font-size:13px;
-	font-variant:small-caps;
-  	}</style>
+	font-size:12px; 
+  	}
+  .ui-tooltip {max-width: 400px;}
+  .tt_unidiv{float:left; width:100px; text-align:center;}
+  .tt_unidiv img.unif {width:100px;}
+  .tt_unidesc {float:left; text-align:left; width:270px; margin-left:5px;}
+  .tt_unidesc hr {width:80%; border:1px solid #555;}
+  .tt_equi span.etitle {display:block; text-align:center;}
+
+  .tt_elem {float:left; width:130px; margin:0px; text-align:center;}  
+  .tt_elem span{display:block;  margin-top:3px;}
+  .tt_elem img {width:42px; max-height:42px; vertical-align: middle; padding:2px; margin-top:3px;}
+</style>
 </head>
 
 <body style="background-color:black; background-image:url('TEMPLATES/img/main_login.jpg')">
@@ -108,11 +118,15 @@
 	</div> 
 
 	<div id="federation_interfaceCenterTitle">
-		<div style="text-align:center; font-family:helvetica; font-weight:bold; margin-top:10px; font-size:14px;"><span tal:content="placeName" id="placeName" /><br /><span tal:content="ambient/locName" style="font-variant:small-caps;" id="ambientName" /><a href="javascript:void(0);" onclick="javascript:jQuery('#locationInfo').fadeIn(150);" class="interfaceLink"> <img style="vertical-align:middle;" src="TEMPLATES/img/interface/personnelInterface/info.png"></img> </a>  <!--<a href="javascript:void(0);" onclick="javascript:jQuery('#locationMap').fadeIn(150);" tal:condition="php:(ambient['locationable'] == 1)" class="interfaceLink">(POS)</a>--> <a onclick="javascript:jQuery('#masterDicePanel').fadeIn(150);" tal:condition="exists:isMaster"> T </a> </div>
+		<div style="text-align:center; font-family:helvetica; font-weight:bold; margin-top:10px; font-size:14px;"><span tal:content="placeName" id="placeName" /><br /><span tal:content="ambient/locName" style="font-variant:small-caps;" id="ambientName" /><a href="javascript:void(0);" onclick="javascript:jQuery('#locationInfo').fadeIn(150);" class="interfaceLink"> <span class="tooltip"  style="color:#c1bf25; font-weight:bold;" title="Informazioni su questo ambiente">[?]</span>
+ </a>  <!--<a href="javascript:void(0);" onclick="javascript:jQuery('#locationMap').fadeIn(150);" tal:condition="php:(ambient['locationable'] == 1)" class="interfaceLink">(POS)</a>--> <a onclick="javascript:jQuery('#masterDicePanel').fadeIn(150);" tal:condition="exists:isMaster" title="Esiti Master" style="color:#ff3600; font-style:italic; font-size:12px; cursor: pointer"> [M] </a> </div>
 	</div>
 	<a href="#" onClick="javascript:cdbOpen();"><div tal:condition="php:(setDBOn==false)" id="btnComputer" /><div tal:condition="php:(setDBOn==true)" id="btnComputer_a" /></a>
 	<a href="#" onClick="javascript:dbOpen();"><div id="btnDatabase" /></a>
-	<a href="javascript:statusOpen();"><div id="btnStatus" /></a>
+
+	
+
+	<a href="javascript:statusBoxOpen();"><div id="btnStatus" tal:attributes="class php:(incomingNoti == true) ? 'notify' : ''"/></a>
 
 	<div id="federation_chatDiv" style="padding:10px;" tal:content="structure htmlLiner">
 		<div style="margin-left:10px; width:100%; height:20px; border:1px solid #333;"></div>
@@ -133,13 +147,15 @@
 				<input type="hidden" id="ambientID" tal:attributes="value ambient/locID" />
 				<input type="hidden" id="initialID" tal:attributes="value minID" />
 				<input type="hidden" id="lastID" tal:attributes="value maxVIS" />
+				<input type="hidden" id="lastTime" tal:attributes="value lastTime" />
+				
 				<input type="hidden" id="locID" tal:attributes="value ambient/locID" />
-				<input type="hidden" id="listenerURL" tal:attributes="value listenerURL" />
 				<input type="hidden" id="getAudio" tal:attributes="value getAudio" />
 				<input type="hidden" id="getterURL" tal:attributes="value getterURL" />
 				<input type="hidden" id="turnIndicatorNotified" value="0"/>
 				<input type="hidden" id="pgUser" tal:attributes="value user/pgUser"/> 
 				<input type="hidden" id="pgID" tal:attributes="value user/ID"/> 
+				
 				</div>
 				
 				<div id="buttonst" style="float: right; width: 180px; text-align:center; margin-top:-10px;">
@@ -181,7 +197,7 @@
 <div id="locationInfo" tal:attributes="style string:background-image:url('${ambient/image}')" class="popup blackOpacity">
 <p class="clockTitle blackOpacity" tal:content="ambient/locName" />
 <div id="locationDesc" class="blackOpacity radiusBordered12">
-<p style="margin:0px; text-align:center;"><a href="#" onclick="javascript:jQuery('#locationDesc').fadeOut(150); jQuery('#textShower').fadeIn(150); " class="interfaceLink">( Nascondi )</a> <a tal:condition="php:ambient['ambientType']=='SALA_OLO'" href="javascript:showRanker();" class="interfaceLink">( OLOMOSTRINE )</a></p>
+<p style="margin:0px; text-align:center;"><a href="#" onclick="javascript:jQuery('#locationDesc').fadeOut(150); jQuery('#textShower').fadeIn(150); " class="interfaceLink">( Nascondi )</a> <a href="#" onclick="javascript:jQuery('#locationDesc').fadeOut(150); jQuery('#textShower').fadeIn(150); jQuery('#locationEdit').fadeIn(150);  " class="interfaceLink" tal:condition="exists:isSuperMaster">( Modifica )</a> <a tal:condition="php:ambient['ambientType']=='SALA_OLO'" href="javascript:showRanker();" class="interfaceLink">( OLOMOSTRINE )</a></p>
 <p style="margin:0px;" tal:content="structure string:${ambient/descrizione}" tal:condition="php:(ambient['ambientType']!='DECKMAP')"/>
 
 <p tal:condition="php:(ambient['ambientType']=='DECKMAP')" style="margin:0px; margin-bottom:10px;">
@@ -190,15 +206,54 @@
 </p>
 </div>
 
-<button style="position:absolute; bottom:7px; right:30px; display:none;" id="textShower" onclick="javascript:jQuery('#locationDesc').fadeIn(150); jQuery('#textShower').fadeOut(150);">TESTO</button>
-<button style="position:absolute; bottom:7px; right:7px;" onclick="javascript:jQuery('#locationInfo').fadeOut(150);">X</button>
+<div id="locationEdit" tal:condition="exists:isSuperMaster" style="display:none; background-color: black; padding:5px; margin:auto; margin-top:10px;">
+		
+	<form method="POST" tal:attributes="action string:service.php?editMapLocation=${ambient/locID}">
+		<table>
+			<tr><td>Nome Localit&agrave;</td><td><input class="neon" maxlength="35" name="name" style="width:300px;" type="text" tal:attributes="value ambient/locName" /></td></tr>
+			<tr><td>Descrizione <span style="font-size:11px;">(HTML+BBCODE)</span></td><td><textarea name="descript" style="width:300px; height:80px;" tal:content="ambient/descrizione" /></td></tr>
+			<tr><td>URL Icona (http://)</td><td><input class="neon" name="icon" style="width:300px;" type="text" tal:attributes="value ambient/icon" /></td></tr>
+			<tr><td>URL Immagine Interna (http://)</td><td><input class="neon" name="internalImage" style="width:300px;" type="text" tal:attributes="value ambient/image" /></td></tr>
+			<tr><td>Tipologia</td><td><select name="typer">
+				<option tal:attributes="selected php:((ambient['ambientType'] == 'DEFAULT') ? 'selected' : false)" value="DEFAULT">Default</option>
+				<option tal:attributes="selected php:((ambient['ambientType'] == 'ALLOGGIO') ? 'selected' : false)" value="ALLOGGIO">Alloggio/Ufficio</option>
+				<option tal:attributes="selected php:((ambient['ambientType'] == 'NORMAL') ? 'selected' : false)" value="NORMAL">Normale</option>
+				<option tal:attributes="selected php:((ambient['ambientType'] == 'PLANCIA') ? 'selected' : false)" value="PLANCIA">Plancia</option>
+				<option tal:attributes="selected php:((ambient['ambientType'] == 'HANGAR') ? 'selected' : false)" value="HANGAR">Hangar di lancio</option>
+				<option tal:attributes="selected php:((ambient['ambientType'] == 'SALA_OLO') ? 'selected' : false)" value="SALA_OLO">Sala ologrammi</option>
+				<option tal:attributes="selected php:((ambient['ambientType'] == 'REPLICATORE') ? 'selected' : false)" value="REPLICATORE">Solo Replicatore</option>
+				<option tal:attributes="selected php:((ambient['ambientType'] == 'DECKMAP') ? 'selected' : false)" value="DECKMAP">Ponte</option>
+				<option tal:attributes="selected php:((ambient['ambientType'] == 'SALA_TEL') ? 'selected' : false)" value="SALA_TEL">Sala Teletrasporto</option>
+				<option tal:attributes="selected php:((ambient['ambientType'] == 'INFERMERIA') ? 'selected' : false)" value="INFERMERIA">Infermeria</option>
+				<option tal:attributes="selected php:((ambient['ambientType'] == 'SECRET') ? 'selected' : false)" value="SECRET">Il segreto</option>
+			</select> </td></tr>
+			<tr><td>Numero mappa:</td><td><select name="mappNo" >
+				<option tal:attributes="selected php:((ambient['planetSub'] == '1') ? 'selected' : false)" value="1">1</option> 
+				<option tal:attributes="selected php:((ambient['planetSub'] == '2') ? 'selected' : false)" value="2">2</option>
+				<option tal:attributes="selected php:((ambient['planetSub'] == '3') ? 'selected' : false)" value="3">3</option>
+			</select>, (irrilevante per non-pianeti) | Ponte: <input class="neon" maxlength="35" name="pontNo" style="width:100px;" type="text" tal:attributes="value ambient/ambientLevel_deck" /> </td>
+
+			</tr>
+
+			<tr><td><input type="submit" value="INVIA" style="width:60px;" /></td><td><span style="color:#FF0006; font-weight:bold;">ATTENZIONE</span></td></tr>
+
+		</table>
+	</form>
+
+</div>
+
+<button style="position:absolute; bottom:7px; right:30px; display:none;" id="textShower" onclick="javascript:jQuery('#locationDesc').fadeIn(150); jQuery('#textShower').fadeOut(150);">VEDI DESCRIZIONE</button>
+
+<div class="xButton" onclick="jQuery('#locationInfo').fadeOut(100);"></div>
+
+
 </div>
 
 <div id="dicePanel" class="popup blackOpacity">
 
 	<p class="clockTitle blackOpacity" style="text-align:center;  margin:0px; margin-bottom:20px; font-size:22px;">Lancia un dado</p>
 
-	<select onchange="javascript:diceChanger()" id="selectedDiceSkill" ><optgroup tal:repeat="cat php:abilDescriptor::getAllAbil()" tal:attributes="label php:abilDescriptor::translate(repeat.cat.key)"><option tal:repeat="ab cat" tal:attributes="value ab/abID" tal:content="ab/abName"></option></optgroup></select>
+	<select class="neon" onchange="javascript:diceChanger()" id="selectedDiceSkill" ><optgroup tal:repeat="cat php:abilDescriptor::getAllAbil()" tal:attributes="label php:abilDescriptor::translate(repeat.cat.key)"><option tal:repeat="ab cat" tal:attributes="value ab/abID" tal:content="ab/abName"></option></optgroup></select>
 
 	<div style="clear:both"></div>
 	<div class="abilDiceBox">
@@ -242,8 +297,10 @@
 	</div>
 
 	<div style="float:left; margin-top:20px; margin-left:20px; width:352px; display:none;" id="exDicer">
+
 	<div class="table">
-			<p style="font-weight:bold;"> <img id="strDicer" class="tooltip" style="cursor:pointer; vertical-align:middle;" src="TEMPLATES/img/interface/personnelInterface/info.png"></img> Previsione sul lancio del d20:  </p>
+
+			<p style="font-weight:bold;"> <span class="tooltip" id="strDicer"  style="color:#c1bf25; font-weight:bold;">[?]</span>  Previsione sul lancio del d20:  </p>
 			<div tal:repeat="t php:range(1,10)" tal:attributes="id string:dicer_${t}"><p tal:content="t"></p>  </div>	
 			<div tal:repeat="t php:range(11,20)" tal:attributes="id string:dicer_${t}"><p tal:content="t"></p>  </div>
 
@@ -252,13 +309,13 @@
 	<div style="margin-top:20px">
 			<input onclick="javascript:rollDice();" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:#1e7597;" value="Lancia il Dado!" class="ui-button ui-widget ui-state-default ui-corner-all" />
 	</div>
+
+
+	<div tal:condition="php:(residualLuckyPoints)" id="dicerLuckOpt" style="font-size:15px; position:absolute;bottom:10px; right:10px; width:auto;"> <input type="checkbox" onclick="javascript:diceChanger()"  id="abUsePoint" /> Puoi usare <span style="color: #c1bf25; font-weight:bold;" tal:content="residualLuckyPoints" /> punto/i <span style="color: #c1bf25; font-weight:bold;">"Fortuna Critica"</span>  <span class="tooltip" title="Usando questa opzione la tua azione avrà successo critico in maniera automatica, indipendentemente dal dado. Usa i punti fortuna con attenzione: sono assegnati raramente!" style="color:#c1bf25; font-weight:bold;">[?]</span></div> 
 	</div>
 
+	<div class="xButton" onclick="jQuery('#dicePanel').fadeOut(100);"></div>
 
-
-
-
-	<button style="position:absolute; top:7px; right:7px;" onclick="javascript:jQuery('#dicePanel').fadeOut(150);">X</button>
 
 </div>
 
@@ -269,13 +326,12 @@
 <div metal:use-macro="TEMPLATES/metal_panels.htm/olorankerPanel" tal:condition="php:(ambient['ambientType']=='SALA_OLO') && leastOlo" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/climatePanel" tal:condition="php:(ambient['ambientType']=='ALLOGGIO')" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/commPanel" tal:condition="php:(ambient['ambientType']=='PLANCIA')" />
-<!--<div metal:use-macro="TEMPLATES/metal_panels.htm/privatePanel" />-->
 <div metal:use-macro="TEMPLATES/metal_panels.htm/sessionsPanel" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/alertPanelChat" />
 
-<div metal:use-macro="TEMPLATES/metal_panels.htm/wordrobePanel" />
+<div metal:use-macro="TEMPLATES/metal_panels.htm/dotazionePanel" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/masterDicePanel" tal:condition="exists:isMaster" />
-
+<div metal:use-macro="TEMPLATES/metal_panels.htm/statusBox" />
 
 <div metal:use-macro="TEMPLATES/guidar.htm/guidePanel" />
 <div metal:use-macro="TEMPLATES/audioSegments.htm/audioNotifier" /> 

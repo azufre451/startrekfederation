@@ -14,9 +14,14 @@ $aar = array();
 
 $curPGID=$_SESSION['pgID'];
  
-$resPgPresenti = mysql_query("SELECT pgID, pgUser, pgMostrina,pgAuthOMA FROM pg_users,pg_ranks WHERE pgLastAct >= ".($curTime-1800)." AND rankCode = prio AND pgAuthOMA <> 'BAN' AND pgID <> '$curPGID' ORDER BY pgUser");
+$resPgPresenti = mysql_query("SELECT pgID, pgUser, pgMostrina,pgAuthOMA,pgLock FROM pg_users,pg_ranks WHERE pgLastAct >= ".($curTime-1800)." AND rankCode = prio AND pgAuthOMA <> 'BAN' AND pgID <> '$curPGID' ORDER BY pgUser");
   
-while($pgPres = mysql_fetch_assoc($resPgPresenti)){	$aar[] = array('pgID'=> $pgPres['pgID'],'label'=> $pgPres['pgUser'],'role'=> $pgPres['pgAuthOMA'],'pgMostrina'=> $pgPres['pgMostrina']);}
+while($pgPres = mysql_fetch_assoc($resPgPresenti)){	$aar[] = array('pgID'=> $pgPres['pgID'],'label'=> $pgPres['pgUser'],'role'=> 
+	($pgPres['pgLock']) ? 'L' : ( (PG::mapPermissions('A',$pgPres['pgAuthOMA'])) ? 'A' : ( (PG::mapPermissions('M',$pgPres['pgAuthOMA'])) ? 'M' : ( ( PG::mapPermissions('G',$pgPres['pgAuthOMA']) ) ? 'G' : '')   ) ) 
+	,'pgMostrina'=> $pgPres['pgMostrina']);}
+
+
+
 
 $aar['PGP'] = $aar;
 

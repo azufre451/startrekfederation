@@ -1,0 +1,90 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js" />
+	<script type="text/javascript" src="TEMPLATES/js/multitool.js?v=3.3" />	 
+	<style>
+		
+		.ongoing{display:block; background-color: #945416; color: white; padding:2px; border: 1px solid white;}
+		.closed{display:block; background-color: black; color: white; padding:2px; border: 1px solid white;}
+		.forced{display:block; background-color: #961c1c; color: white; padding:2px; border: 1px solid white;}
+		.masterPriv{display:block; background-color: #73279f; color: white; padding:2px; border: 1px solid white;}
+		.master{display:block; background-color: #960101; color: white; padding:2px; border: 1px solid white;}
+		.nomaster{display:block; background-color: #0c4580; color: white; padding:2px; border: 1px solid white;}
+
+		.approvalDiv{background-color:#333; border:1px solid #333; padding:5px;}
+		.approvalDiv:hover{background-color:#945416; cursor: pointer;}
+
+		#approvals ins {text-decoration: none; background-color:green !important;}
+		#approvals del {text-decoration: none; background-color:#960101 !important;}
+
+		#padderList div {cursor:pointer; border:1px solid #222; margin-top:3px; font-size:13px;}
+		#padderList div.active, #padderList div:hover {background-color:#1b5c82; color:white;}
+		#connDiv table td {padding:4px; font-size:13px;   border-bottom:1px solid #FC0;} 
+		#connDiv table tr.head td {font-weight:bold; background-color:#555;} 
+		.yesConn{background-color:#d4d234;}
+		.yesPlay{background-color:#5ab52d;}
+		.no{background-color:#b52d2d;}
+		.noblack{background-color:#000000;}
+		.timeline-pol{
+  overflow-x: auto;
+  border:1px solid #777;
+}
+
+.timeline-pol2{
+  overflow-x: auto;
+  padding:2px;
+  width: intrinsic;           /* Safari/WebKit uses a non-standard name */
+  width: -moz-max-content;    /* Firefox/Gecko */
+  width: -webkit-max-content; /* Chrome */
+}
+
+.timeline-pol2 table td 
+{height:15px; text-align:left; height:16px; float:left; margin:0px; border-left:1px solid #777; width:15px; font-size:11px;}
+.timeline-pol2 table td img {height:15px;}
+	</style>
+
+
+</head>
+<body style="background-color:black; padding:-5px;">
+		<div id="careers"  style="margin-left:10px; margin-right:10px; padding:2px; margin-top:10px; text-align:left;">
+				<div tal:repeat="ship ppl">
+					<div tal:condition="php:(count(ppl[repeat.ship.key]) GT 5)"> 
+						
+						<p style="margin:0px;"><a href="javascript:void(0);" class="interfaceLink"  tal:content="string: &raquo; ${repeat/ship/key}" tal:attributes="onclick php:'javascript:jQuery(\'#carrT_' . repeat.ship.key . '\').toggle()'"></a></p>
+						
+						<div tal:attributes="id php:'carrT_' . repeat.ship.key" style="display:none;" class="timeline-pol">
+							<div class="timeline-pol2">
+
+								<table>
+									<tr tal:repeat="user ship" tal:attributes="id string:ppl_car_${repeat/user/key}_${repeat/ship/key}" onclick="jQuery(this).find('td').css('border-bottom','1px solid red').css('border-top','1px solid red')">
+										<td style="width:160px;">
+										<img tal:attributes="src php:'TEMPLATES/img/ranks/' . ppl_metadata[repeat.user.key]['ordinaryUniform'] .'.png'" style="vertical-align:middle;" />
+									<a tal:attributes="onclick php:'javascript:schedaPOpen(' . ppl_metadata[repeat.user.key]['pgID'] . ')'" class="interfaceLink" href="javascript:void(0);" tal:content="repeat/user/key"></a>
+								</td>
+										<td style="width:40px; color:#AAA; border:0px; text-align:right;">
+											<span tal:content="php:'(' . minmaxArray[repeat.ship.key]['min'] . ')'" />
+										</td>
+
+										<td tal:repeat="year user" tal:attributes="class php: (year GT 1) ? 'yesPlay': ((year GT 0) ? 'yesConn' : 'noblack'); title string:${repeat/user/key} ${repeat/year/key} ">
+										</td>
+
+										<td style="width:40px; color:#AAA; border:0px; text-align:left;">
+											<span tal:content="php:'(' . minmaxArray[repeat.ship.key]['max'] . ')'" />
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+		</div> 
+</body>
+</html>

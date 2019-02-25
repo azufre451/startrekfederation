@@ -60,7 +60,7 @@ var are;
 						ct = 'class="activ"';
 					else ct = '';
 
-					if( ea['role'] == 'M' || ea['role'] == 'G' || ea['role'] == 'A')
+					if( ea['role'] == 'M' || ea['role'] == 'G' || ea['role'] == 'A' || ea['role'] == 'L')
 						classStaff = 'class="gani_'+ea['role']+'"';
 					else classStaff = '';
 					jQuery('#onlineUserList').append('<div id="ST_'+ea['pgID']+'" onclick="setSendTo(this)" ondblclick="schedaPOpen('+ea['pgID']+')" '+ct+'><img src="TEMPLATES/img/ranks/'+ea['pgMostrina']+'.png" /> <span '+classStaff+'> '+ea['label']+'</span></div>');

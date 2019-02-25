@@ -75,7 +75,7 @@
 		}
 
 	</script>
-	 
+	
 </head>
 
 <body style="background-color:black; overflow:hidden; height:385px; padding:-5px;">
@@ -96,11 +96,11 @@
 <div id="schedaRight" style="margin-left:3px; margin-top:0px; width:360px; height:275px;">
 	<table cellspacing="2px" id="tabEredit">
 		<tbody>
-			<tr><td class="borderOne" colspan="2" style="text-align:right; height:30px; vertical-align:top; " > <input type="submit" onclick="return gotoOff();" id="toOff" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:#851818;" value="Scheda OFF" /> <input type="submit" onclick="javascript:window.open ('cambiaPWD.htm','pwd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=350,height=220'); return false;" class="cambiaPWD" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:#848518;" value="Cambia la Password" />  <input type="submit" id="mirko" value="MODIFICA" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:green;"/></td></tr>
-			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/nome.png" alt="Nome"/></td><td class="bdr"><input name="ediNome" tal:attributes="value string:${userData/pgNomeC}" style="width:80px;"/> <span tal:content="userData/pgUser" /> <input name="ediSuff" tal:attributes="value string:${userData/pgNomeSuff}" style="width:80px;" /></td></tr>
-			<tr><td class="borderOne"><img tal:attributes="src php:(userData.pgSesso == 'F') ? 'TEMPLATES/img/interface/personnelInterface/nata_luogo.png' : 'TEMPLATES/img/interface/personnelInterface/nato_luogo.png'" alt="Luogo di Nascita"/></td><td class="bdr"><input name="ediLuoN" tal:attributes="value string:${userData/pgLuoN}" style="width:98%;" /></td></tr>
-			<tr><td class="borderOne"><img tal:attributes="src php:(userData.pgSesso == 'F') ? 'TEMPLATES/img/interface/personnelInterface/nata_data.png' : 'TEMPLATES/img/interface/personnelInterface/nato_data.png'" alt="Data di Nascita"/></td><td class="bdr"><input name="ediDataN" tal:attributes="value string:${userData/pgDataN}" style="width:98%;" /></td></tr>
-			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/stato_civile.png" alt="Stato Civile"/></td><td class="bdr"><select name="ediStaCiv" style="width:98%;">
+			<tr><td class="borderOne" colspan="2" style="text-align:right; height:30px; vertical-align:top; " > <input type="submit" onclick="return gotoOff();" id="toOff" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:#851818;" value="Scheda OFF" /> <input type="submit" onclick="javascript:window.open ('cambiaPWD.htm','pwd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=350,height=220'); return false;" class="cambiaPWD" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:#848518;" value="Cambia la Password" />  <input type="submit" id="mirko" value="Conferma " style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:green;"/></td></tr>
+			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/nome.png" alt="Nome"/></td><td class="bdr"><input type="text" class="neon" name="ediNome" tal:attributes="value string:${userData/pgNomeC}" placeholder="Nome PG" style="width:80px;"/> <span tal:content="userData/pgUser" /> <input type="text" class="neon" placeholder="Suffisso"  name="ediSuff" tal:attributes="value string:${userData/pgNomeSuff}" style="width:80px;" /></td></tr>
+			<tr><td class="borderOne"><img tal:attributes="src php:(userData.pgSesso == 'F') ? 'TEMPLATES/img/interface/personnelInterface/nata_luogo.png' : 'TEMPLATES/img/interface/personnelInterface/nato_luogo.png'" alt="Luogo di Nascita"/></td><td class="bdr"><input type="text" class="neon" name="ediLuoN" tal:attributes="value string:${userData/pgLuoN}" style="width:98%;" /></td></tr>
+			<tr><td class="borderOne"><img tal:attributes="src php:(userData.pgSesso == 'F') ? 'TEMPLATES/img/interface/personnelInterface/nata_data.png' : 'TEMPLATES/img/interface/personnelInterface/nato_data.png'" alt="Data di Nascita"/></td><td class="bdr"><input type="text" class="neon" name="ediDataN" tal:attributes="value string:${userData/pgDataN}" style="width:98%;" /></td></tr>
+			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/stato_civile.png" alt="Stato Civile"/></td><td class="bdr"><select class="neon" name="ediStaCiv" style="width:98%;">
 			<option tal:condition="php:(userData.pgSesso == 'M' || userData.pgSesso == 'T')" tal:attributes="selected php:(userData.pgStatoCiv == 'Celibe') ? 'selected' : false" value="Celibe">Celibe</option>
 			<option tal:condition="php:(userData.pgSesso == 'M' || userData.pgSesso == 'T')" tal:attributes="selected php:(userData.pgStatoCiv == 'Sposato') ? 'selected' : false" value="Sposato">Sposato</option>
 			<option tal:condition="php:(userData.pgSesso == 'M' || userData.pgSesso == 'T')" tal:attributes="selected php:(userData.pgStatoCiv == 'Divorziato') ? 'selected' : false" value="Divorziato">Divorziato</option>
@@ -110,8 +110,8 @@
 			<option tal:condition="php:(userData.pgSesso == 'F' || userData.pgSesso == 'T')" tal:attributes="selected php:(userData.pgStatoCiv == 'Divorziata') ? 'selected' : false" value="Divorziata">Divorziata</option>
 			<option tal:condition="php:(userData.pgSesso == 'F' || userData.pgSesso == 'T')" tal:attributes="selected php:(userData.pgStatoCiv == 'Vedova') ? 'selected' : false" value="Vedova">Vedova</option>
 			</select></td></tr>
-			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/avatar.png" alt="Avatar"/></td><td class="bdr"><input name="ediAvatar" onchange="javascript:jQuery('#imago').css('background-image','url('+this.value+')')" tal:attributes="value string:${userData/pgAvatar}" placeholder="Avatar rettangolare 210px x 480px" style="width:98%;" /></td></tr>
-			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/mini_avatar.png" alt="Mini Avatar"/> </td><td class="bdr"><input name="ediAvatarSquare" id="ediAvatarSquare" placeholder="Avatar quadrato 100px x 100px" tal:attributes="value string:${userData/pgAvatarSquare}" style="width:98%;" /></td></tr>
+			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/avatar.png" alt="Avatar"/></td><td class="bdr"><input type="text" class="neon" name="ediAvatar" onchange="javascript:jQuery('#imago').css('background-image','url('+this.value+')')" tal:attributes="value string:${userData/pgAvatar}" placeholder="Avatar rettangolare 210px x 480px" style="width:98%;" /></td></tr>
+			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/mini_avatar.png" alt="Mini Avatar"/> </td><td class="bdr"><input type="text" class="neon" name="ediAvatarSquare" id="ediAvatarSquare" placeholder="Avatar quadrato 100px x 100px" tal:attributes="value string:${userData/pgAvatarSquare}" style="width:98%;" /></td></tr>
 			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/modifica_dat.png" alt="Modifica"/>				
 			</td><td class="bdr" style="font-size:11px; position:relative;">
 			
@@ -127,14 +127,15 @@
 			<a href="javascript:void(0);" onclick="javascript:setter('backgrounder')" tal:attributes="class php:(strlen(background['pgBackground']) > 1) ? 'interfaceLinkGreen' : 'interfaceLinkRed'"><p style="margin:2px;"> &raquo; Biografia</p></a>
 			<a href="javascript:void(0);" onclick="javascript:setter('personali')" tal:attributes="class php:(strlen(background['pgCarattere']) > 1) ? 'interfaceLinkGreen' : 'interfaceLinkRed'"><p style="margin:2px;"> &raquo; Carattere e Indole</p></a>
 			<a href="javascript:void(0);" onclick="javascript:setter('family')" tal:attributes="class php:(strlen(background['pgFamily']) > 1) ? 'interfaceLinkGreen' : 'interfaceLinkRed'"><p style="margin:2px;"> &raquo; Famiglia</p></a>
-			<a href="javascript:void(0);" onclick="javascript:setter('ilsegreto')" tal:attributes="class php:(strlen(background['pgIlSegreto']) > 1) ? 'interfaceLinkGreen' : 'interfaceLinkRed'"><p style="margin:2px;"> &raquo; Il Segreto <span style="color:white">[Visibile Solo allo Staff]</span></p></a>
+			<a href="javascript:void(0);" onclick="javascript:setter('ilsegreto')" tal:attributes="class php:(strlen(background['pgIlSegreto']) > 1) ? 'interfaceLinkGreen' : 'interfaceLinkRed'"><p style="margin:2px;"> &raquo; Il Segreto <span style="font-size:10px; color:white">[Visibile solo a Admin e Glob. Master]</span></p></a>
 			<a href="javascript:void(0);" onclick="javascript:setter('vars')" tal:attributes="class php:(strlen(background['pgVarie']) > 1) ? 'interfaceLinkGreen' : 'interfaceLinkRed'"><p style="margin:2px;"> &raquo; Varie</p></a>
 			<a href="javascript:void(0);" onclick="javascript:setter('quarters')" class="interfaceLink"><p style="margin:2px;" tal:condition="php:(showAllo == 'SI')">&raquo; Alloggio Personale</p></a>
 			</td></tr>
 
 			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/background_status.png" alt="Stato"/></td><td class="bdr">
-				<p style="color:white; padding:5px; border-radius:5px; text-align:center; width:110px; font-weight:bold; font-size:11px; margin:auto; background-color:#0a9100" tal:condition="php:(background['valid'])">APPROVATO</p>
-				<p style="color:white; padding:5px; border-radius:5px; text-align:center;  width:110px; font-weight:bold; font-size:11px; margin:auto; background-color:#910000" tal:condition="php:(!background['valid'])">IN APPROVAZIONE</p>
+				<p style="color:white; padding:5px; border-radius:5px; text-align:center; width:150px; font-weight:bold; font-size:11px; margin:auto; background-color:#0a9100" tal:condition="php:(background['valid'] == 2)">APPROVATO</p>
+				<p style="color:white; padding:5px; border-radius:5px; text-align:center;  width:150px; font-weight:bold; font-size:11px; margin:auto; background-color:#005591" tal:condition="php:(background['valid'] == 1)">IN APPROVAZIONE (admin)</p>
+				<p style="color:white; padding:5px; border-radius:5px; text-align:center;  width:150px; font-weight:bold; font-size:11px; margin:auto; background-color:#910000" tal:condition="php:(background['valid'] == 0)">IN REVISIONE (guide)</p>
 			</td>
 
 			 </tr>
@@ -156,7 +157,7 @@
 
 - Nello scegliere la Fotografia da mettere in scheda o le foto con cui arricchire il Background del vostro personaggio è necessario un po' di buon gusto: Evitate foto in cui il personaggio è nudo o comunque poco vestito, non è necessario che sia in uniforme, ma che sia comunque 'vestito' e in pose consone." /></p><hr/></td></tr>
 			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/email.png" alt="Email Registrata"/></td><td class="bdr"><span tal:content="email" /></td></tr>
-			<tr><td class="borderOne" style="vertical-align:top;"><img src="TEMPLATES/img/interface/personnelInterface/opzioni.png" alt="Opzioni"/></td><td class="bdr"><input type="checkbox" name="ediMailVali" tal:attributes="checked php:(paddMail) ? 'checked' : NULL" value="1" /> Inviami i Padd via Mail<br /><input type="checkbox" id="audioEnableSet" name="audioEnableSet" tal:attributes="checked php:(audioEnable) ? 'checked' : NULL" value="1" onclick="setChecker21()" /> Attiva Effetti Audio<br /><p style="margin:0px; margin-left:25px;"><input type="checkbox" id="audioextEnableSet" name="audioextEnableSet" tal:attributes="checked php:(audioextEnable) ? 'checked' : NULL ; disabled php:(audioEnable) ? NULL : 'disabled'" value="1" />Notifiche di cambio di pagina</p><input type="checkbox" id="audioEnvEnableSet" name="audioEnvEnableSet" tal:attributes="checked php:(audioEnvEnable) ? 'checked' : NULL" value="1" />Audio di sottofondo ambienti<br />
+			<tr><td class="borderOne" style="vertical-align:top;"><img src="TEMPLATES/img/interface/personnelInterface/opzioni.png" alt="Opzioni"/></td><td class="bdr"><input type="checkbox" name="ediMailVali" tal:attributes="checked php:(paddMail) ? 'checked' : NULL" value="1" /> Inviami i Padd via Mail<br /><input type="checkbox" id="audioEnableSet" name="audioEnableSet" tal:attributes="checked php:(audioEnable) ? 'checked' : NULL" value="1" onclick="setChecker21()" /> Attiva Effetti Audio<br /><p style="margin:0px; margin-left:25px;"><input type="checkbox" id="audioextEnableSet" name="audioextEnableSet" tal:attributes="checked php:(audioextEnable) ? 'checked' : NULL ; disabled php:(audioEnable) ? NULL : 'disabled'" value="1" />Ripeti effetti audio al cambio pagina</p><input type="checkbox" id="audioEnvEnableSet" name="audioEnvEnableSet" tal:attributes="checked php:(audioEnvEnable) ? 'checked' : NULL" value="1" />Audio di sottofondo ambienti<br />
 			
 			<p>Personalizzazione CSS Chat: <a class="interfaceLinkRed" href="scheda.php?s=resetCSS">[ RESET ]</a></p>
 			<div style="margin-left:15px;">
@@ -205,7 +206,7 @@
 </div>
 
 <div style="clear:both" />
-<div id="files" style="margin-left:20px; margin-top:60px;"><input type="hidden" tal:attributes="value selectedUser" name="ediID" />
+<div id="files" style="margin-left:20px; margin-top:82px;"><input type="hidden" tal:attributes="value selectedUser" name="ediID" />
 
 <p id="biometrics"  class="modifier" style="background-color:black; display:none">
 <img src="TEMPLATES/img/interface/personnelInterface/div_aspetto.png" />

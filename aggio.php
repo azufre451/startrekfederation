@@ -1,10 +1,10 @@
-﻿<?php
-session_start();
+﻿<?php session_start();
 if (!isSet($_SESSION['pgID'])){header('Location:login.php'); exit;}
 
 include('includes/app_include.php');
+include('includes/notifyClass.php');
 
-
+$me=$_SESSION['pgID'];
 $aar = array();
 
 
@@ -12,6 +12,10 @@ $aar = array();
 $res =mysql_fetch_assoc ( mysql_query('SELECT padID,paddTitle,pgAvatarSquare FROM fed_pad,pg_users WHERE paddFrom = pg_users.pgID AND  paddDeletedTo = 0 AND paddTo = '.($_SESSION['pgID']).' AND paddRead = 0 AND paddTitle NOT LIKE "::special::%" ORDER BY paddTime DESC LIMIT 1 ') ) ;
 
 if(mysql_affected_rows()){ $aar['NP'] = 1; $aar['NPtitle'] = $res['paddTitle']; $aar['NPavatar'] = $res['pgAvatarSquare'];}
+ 
+$notifications=NotificationEngine::getMyNotifications($_SESSION['pgID']);
+if($notifications){ $aar['NPR'] = $notifications;}
+ 
 
 
 $resNotify = mysql_query('SELECT paddText,extraField FROM fed_pad WHERE paddTo = '.($_SESSION['pgID']).' AND paddRead = 0 AND paddTitle LIKE "::special::%" LIMIT 1');

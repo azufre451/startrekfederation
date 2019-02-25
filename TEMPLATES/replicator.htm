@@ -45,7 +45,7 @@
 		.elements{height: 544px; overflow-y:auto; padding-left:15px; padding-top:10px;}
 
 		#menuSelector > div {float:left; width:110px;  border-right:1px dashed #AAA; margin-left:10px; }
-		#menuSelector p, p.littleLabel {font-weight:bold; padding-bottom:5px; font-family:tahoma; margin:0px; color:#0077c3; text-align:center; font-size:11px;}
+		#menuSelector p, p.littleLabel {font-weight:bold; padding-bottom:5px; font-family:tahoma; margin:0px; color:#0077c3; text-align:center; font-size:13px;}
 		#menuSelector { margin:auto; width:360px; }
 		
 		#menuSelector div div.button{cursor:pointer; background-position:bottom left; width:95px; height:26px; }
@@ -131,10 +131,16 @@
 		</div>
 		
 	</div>
+	
 	<div id="mln">
 	<div id="upperIni" class="upper">
 		<p class="title" style="text-align:center; margin:0px; margin-top:5px;"> Replicatore </p>
-		<p class="descriText"> Seleziona dal menu laterale la pietanza da replicare, e premi il tasto Replica. Puoi cambiare lo stile del menu usando i tasti qui sotto. Ciò che vuoi ordinare non è nel menu? Puoi compilare la barra qui sotto direttamente e replicare ciò che preferisci. <a href="javascript:void(0);" onclick="window.open('replicator.php?admin=true','replicatorA', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,height=615,width=860')" tal:condition="exists:isAdmin" class="interfaceLink">( - Admin - )</a></p>
+		<p> Seleziona dal menu laterale la pietanza da replicare, e premi il tasto Replica.
+		 Puoi cambiare lo stile del menu usando i tasti qui sotto. Ci&ograve; che vuoi 
+		 ordinare non &egrave; nel menu? Puoi compilare la barra qui sotto direttamente
+		  e replicare ci&ograve; che preferisci.
+		   <a href="javascript:void(0);" onclick="window.open('replicator.php?admin=true','replicatorA', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,height=615,width=860')" tal:condition="exists:isAdmin" class="interfaceLink">( - Admin - )</a>
+		</p>
 		
 		<div id="menuSelector">
 		<div style="margin:0px;" id="selector1">
@@ -171,17 +177,17 @@
 		<p class="title" style="text-align:center; margin:0px; margin-top:5px;"> Proponi qualcosa di nuovo </p>
 		<p> Per proporre allo Staff un nuovo piatto o bevanda, compila questi campi. Una volta inserito, il tuo contributo verrà inviato ad un amministratore che lo revisionerà. Potrà quindi essere replicato da tutti gli altri utenti. </p>
 		<form action="replicator.php?propose=do"  onsubmit="return checkImage();" method="POST">
-			<input name="prop_foodTitle" required="required" style="width:450px;" placeholder="Nome" class="radiusBordered5"></input><br/>
-			<p class="littleLabel" style="color:#AAA; font-style:italic;">Il nome del piatto o della bevanda</p>
-			<textarea name="prop_foodDescript"  style="width:450px; height:50px;" placeholder="Descrizione" class="radiusBordered5"></textarea><br/>
-			<p class="littleLabel" style="color:#AAA; font-style:italic;">Descrizione del piatto o della bevanda.</p>
-			<input name="prop_foodSpecie" required="required"  id="prop_foodSpecie" style="width:450px;" placeholder="Specie" class="radiusBordered5"></input><br/> 
-			<p class="littleLabel" required="required" style="color:#AAA; font-style:italic;">Di quale specie è caratteristico il piatto (nome al plurale, es: Umani)?</p>
+			<input type="text" name="prop_foodTitle" required="required" style="width:450px;" placeholder="Nome" class="neon"></input><br/>
+			<p class="littleLabel" style="color:#EEE;">Il nome del piatto o della bevanda</p>
+			<textarea name="prop_foodDescript"  style="width:450px; height:50px;" placeholder="Descrizione" class="neon"></textarea><br/>
+			<p class="littleLabel" style="color:#EEE;">Descrizione del piatto o della bevanda.</p>
+			<input type="text" name="prop_foodSpecie" required="required"  id="prop_foodSpecie" style="width:450px;" placeholder="Specie" class="neon"></input><br/> 
+			<p class="littleLabel" required="required" style="color:#EEE;">Di quale specie &egrave; caratteristico il piatto (nome al plurale, es: Umani)?</p>
 			
 			 
-			<input name="prop_foodImage" id="prop_foodImage" required="required" style="width:450px;" placeholder="Url Immagine" class="radiusBordered5"></input><br/> 
-			<p class="littleLabel" style="color:#AAA; font-style:italic;">L'immagine del piatto deve essere di dimensioni 390 x 230</p>
-			<p style="text-align:center;"><select name="prop_foodType" style="width:150px;" placeholder="Url Immagine" class="radiusBordered5">
+			<input type="text" name="prop_foodImage" id="prop_foodImage" required="required" style="width:450px;" placeholder="Url Immagine" class="neon"></input><br/> 
+			<p class="littleLabel" style="color:#EEE;">L'immagine del piatto deve essere di dimensioni <span style="color:#FFCC00">390 x 230</span></p>
+			<p style="text-align:center;"><select name="prop_foodType" style="width:150px;" placeholder="Url Immagine" class="neon">
 			<option value="a">Alimento</option>
 			<option value="b">Bevanda</option>
 			</select>  <input type="submit" value="[ - INVIA - ]">Invia!</input></p>
@@ -189,7 +195,7 @@
 		</form>
 		
 		
-		<div style="position:absolute; top:2px; right:2px; height:15px; width:15px; background-color:black; text-align:center; cursor:pointer; border:1px solid #AAA; padding:2px;" onclick="jQuery('#adderInfo').fadeOut(100);">X</div>
+		<div class="xButton" onclick="jQuery('#adderInfo').fadeOut(100);"></div>
 	</div>
 	 
 	

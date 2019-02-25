@@ -20,7 +20,7 @@
 
 <body style="background-image:url('TEMPLATES/img/main_login_redox.jpg')">
 
-<div tal:condition="exists:banReason" id="banMessage" style="position:absolute; top:50%; left:50%; width:700px; height:400px; padding:10px; border:1px solid #333; background-color:rgb(0,0,0); z-index:10; margin-left:-360px; margin-top:-210px; overflow-y: auto; display:none;">
+<div tal:condition="exists:banReason" id="banMessage" style="position:absolute; top:50%; left:50%; width:700px; height:400px; padding:10px; border:1px solid #333; background-color:rgb(0,0,0); z-index:10; margin-left:-360px; margin-top:-210px; overflow-y: auto; display:none; font-family:Helvetica;">
 
 
 		<link href="TEMPLATES/css/padd.css" rel="stylesheet" type="text/css" />
@@ -36,7 +36,7 @@
 
 		</style>
 	<p tal:content="structure banReason/content"></p>
-	<a href="javascript:void();" onclick="jQuery('#banMessage').fadeOut();" class="interfaceLink"> Chiudi </a></div>
+	<a href="javascript:void();" onclick="jQuery('#banMessage').fadeOut();" class="interfaceLink"> Chiudi questo messaggio</a></div>
 
 <div id="allContainer" style="position:absolute; top:50%; left:50%; width:1037px; height:650px; margin-left:-518px; margin-top:-325px;">
 
@@ -44,9 +44,12 @@
 
 <div id="centralContainer">
 <div align="center" tal:condition="exists:error" style="color:red; font-weight:bold;">ERRORE NEI DATI DI LOGIN<hr style="color:red" noshade="no" /></div>
-<div align="center" tal:condition="exists:banReason" style="color:red; font-weight:bold;">E' IN VIGORE UN PROVVEDIMENTO DI BAN. IMPOSSIBILE EFFETTUARE IL LOGIN FINO AL <span tal:content="php:date('d/m/y h:i',banReason['expiry'])"></span><br />
+<div align="center" tal:condition="exists:banReason" style="color:red; font-weight:bold;">
+	 <span tal:condition="php:(banReason['expiry']>0)" tal:content="php:'E\' IN VIGORE UN PROVVEDIMENTO DI BAN. IMPOSSIBILE EFFETTUARE IL BAN FINO AL ' . date('d/m/y H:i',banReason['expiry'])"></span>
+	 <span tal:condition="php:(banReason['expiry']==0)"> E' IN VIGORE UN PROVVEDIMENTO DI BAN PERMANENTE</span>
+	 <br />
 
-	<a href="javascript:void();" onclick="jQuery('#banMessage').toggle();" class="interfaceLink"> Clicca qui per leggere il messaggio di Ban </a> - Puoi contattarci a <a class="interfaceLinkBlue" href="mailto:staff@startrekfederation.it">staff@startrekfederation.it</a>
+	<a href="javascript:void();" onclick="jQuery('#banMessage').toggle();" class="interfaceLink"> Clicca qui per leggere il MESSGGIO DI BAN </a> - Puoi contattarci a <a class="interfaceLinkBlue" href="mailto:staff@startrekfederation.it">staff@startrekfederation.it</a>
 <hr style="color:red" noshade="no" /></div>
 <div align="center" tal:condition="exists:logged_out" style="color:#FFCC00; font-variant:small-caps; font-weight:bold;">Logout eseguito! Grazie per aver giocato e a presto!<hr style="color:#555" noshade="no" /></div>
 <div id="superLoginDiv" tal:attributes="style string:background-image:url('${backLoginImage}');">

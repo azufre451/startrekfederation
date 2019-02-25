@@ -76,7 +76,24 @@
 	</tr>
 	
 	<tr><td style="height:10px" colspan="4"/></tr>
-	<tr><td class="postContent" colspan="4" tal:content="structure post/content" /></tr>
+	<tr>
+
+		<td class="postContent" colspan="4" tal:content="structure post/content" tal:condition="php:(post['accessible'])" />
+
+
+		<td class="postContent" colspan="4" tal:condition="php:!post['accessible']">
+		<div style="width:100%; height:280px; background-image:url('TEMPLATES/img/interface/cdbInterface/shadowPost.jpg');">
+		<br/>
+		<div style="background-color:rgba(0,0,0,0.5);">
+			<div style="text-align:center;" align="center"><span class="cdbPostYellow cdbPostLittleSize">- COMANDO DELLA FLOTTA STELLARE -</span></div><br /><br />
+			<div style="text-align:center;" align="center"><img src="https://miki.startrekfederation.it/SigmaSys/logo/starfleet.png"/></div><br /><br />
+			<div style="text-align:center;" align="center"><img tal:attributes="src string:TEMPLATES/img/seclar/seclar${post/postSeclar}.png"></img></div> <br />
+			<div style="text-align:center;" align="center"><span class="cdbPostRed cdbPostLittleSize">- INFORMAZIONE RISERVATA -</span></div> 
+		</div>
+		</div>
+		</td>
+
+	</tr>
 	<tr><td class="postContent signature" colspan="4" tal:content="structure post/signature" /></tr>
 </table>
 </div>

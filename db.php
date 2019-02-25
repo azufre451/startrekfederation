@@ -9,6 +9,20 @@ include("includes/md/Parsedown.php"); //NEW
 include('includes/bbcode.php');
 include("includes/md/ParsedownExtra.php"); //NEW 
 
+function numberToRomanRepresentation($number) {
+    $map = array('M' => 1000, 'CM' => 900, 'D' => 500, 'CD' => 400, 'C' => 100, 'XC' => 90, 'L' => 50, 'XL' => 40, 'X' => 10, 'IX' => 9, 'V' => 5, 'IV' => 4, 'I' => 1);
+    $returnValue = '';
+    while ($number > 0) {
+        foreach ($map as $roman => $int) {
+            if($number >= $int) {
+                $number -= $int;
+                $returnValue .= $roman;
+                break;
+            }
+        }
+    }
+    return $returnValue;
+}
 
 
 if(isSet($_SESSION['pgID'])) PG::updatePresence($_SESSION['pgID']);
@@ -312,7 +326,7 @@ $qstring='';
 $key = explode(' ',$keyer);
 foreach($key as $ale){$qstring .= '+'.$ale.' ';}
 }
-$ele = mysql_query("SELECT ID, title,tag,type, (MATCH (content) AGAINST ('$qstring' IN BOOLEAN MODE)) AS priority, (MATCH (title) AGAINST ('$qstring' IN BOOLEAN MODE)) AS titlePrio FROM db_elements WHERE MATCH (content) AGAINST ('$qstring' IN BOOLEAN MODE) $sectionFilter ORDER BY titlePrio DESC, priority");
+$ele = mysql_query("SELECT ID, title,tag,type, (MATCH (content) AGAINST ('$qstring' IN BOOLEAN MODE)) AS priority, (MATCH (title) AGAINST ('$qstring' IN BOOLEAN MODE)) AS titlePrio FROM db_elements WHERE catID < 50 AND MATCH (content) AGAINST ('$qstring' IN BOOLEAN MODE) $sectionFilter ORDER BY titlePrio DESC, priority");
 
 		$template = new PHPTAL('TEMPLATES/db_cat.htm');
 		$template->catName = "RICERCA DI \"".strtoupper($keyer)."\"";
@@ -334,13 +348,18 @@ else if(isSet($_GET['shipRegister']))
 	$template = new PHPTAL('TEMPLATES/db_shipRegister.htm');
 	$cat = mysql_query("SELECT * FROM fed_ships,fed_ships_classes,fed_ships_fleets WHERE fleetno = fleet AND fed_ships_classes.class = fed_ships.class ORDER BY name");
 	$shipsFleet = array();
-	while($res = mysql_fetch_array($cat)){
-		if (!isSet($shipsFleet[$res['fleet']])) $shipsFleet[$res['fleet']] = array();
-		$shipsFleet[$res['fleet']][] = $res;
-		if($res['admiral']) $admirals[$res['fleet']] = $res;
+	while($res = mysql_fetch_assoc($cat)){
+		
+		$romanFleet = numberToRomanRepresentation((int)($res['fleet']));
+		if (!isSet($shipsFleet[$romanFleet])) $shipsFleet[$romanFleet] = array();
+
+		$shipsFleet[$romanFleet][] = $res;
+
+		if($res['admiral']) $admirals[$romanFleet] = $res;
 	} 
 	
 	ksort($shipsFleet);
+	//echo "<HTML><pre>".print_r($shipsFleet["I"][0]['ouniform'])."</pre></HTML>";exit;
 	$template->shipsFleet = $shipsFleet;
 	$template->admirals = $admirals;
  
@@ -349,6 +368,8 @@ else if(isSet($_GET['shipRegister']))
 	while($res = mysql_fetch_array($cat)){
 		$neu = str_replace(' ','-',$res['class']);
 		if (!isSet($shipsClasses[$neu])) $shipsFleet[$neu] = array();
+
+		$res['romanFleet'] = numberToRomanRepresentation((int)($res['fleetno']));
 		$shipsClasses[$neu][] = $res; 
 	} 
 	
@@ -362,6 +383,7 @@ else if(isSet($_GET['shipRegister']))
 		elseif(strstr($res['name'],'R.T.S.')) $namae = explode('R.T.S. ',$res['name']);
 		
 		if (!isSet($shipsLetters[strtoupper(substr($namae[1],0,1))])) $shipsFleet[strtoupper(substr($namae[1],0,1))] = array();
+		$res['romanFleet'] = numberToRomanRepresentation((int)($res['fleetno']));
 		$shipsLetters[strtoupper(substr($namae[1],0,1))][] = $res; 
 	} 
 	
@@ -374,6 +396,7 @@ else if(isSet($_GET['shipRegister']))
 	while($res = mysql_fetch_array($cat)){
 		$neu = str_replace(' ','-',$res['descript']);
 		if (!isSet($shipsTypes[$neu])) $shipsTypes[$neu] = array();
+		$res['romanFleet'] = numberToRomanRepresentation((int)($res['fleetno']));
 		$shipsTypes[$neu][] = $res; 
 	} 
 	$template->shipsTypes = $shipsTypes; 

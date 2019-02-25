@@ -16,23 +16,19 @@ mysql_query('SET NAMES utf8');
 //$formats = array(".jpg",".png",".gif",".bmp");
 //$baseSite = "http://genesis.digital-destiny.org/SigmaSys/";
 
-$gameName = "v. 1.7.2 - Quiescent Tortoise";
-$gameVersion = "1.7.2 - Quiescent Tortoise";
+$gameName = "v. 1.8 - Rampant Unicorn";
+$gameVersion = "1.8 - Rampant Unicorn";
+//1.8 Rampant Unicorn
 
-
-$gameOptions = array('numericVersion' => "1.7.2.7");
+$gameOptions = array('numericVersion' => "1.8.1");
 
 $debug=true;
 $tips=true;
 
-$thisYear = 2018;
+$thisYear = 2019;
 $bounceYear = 379;
 
-
-$gameServiceInfo = "
-	Star Trek: Federation<br /> 
-		Codename Quiescent Tortoise<br />
-		BETA TEST<br />";
+$gameServiceInfo = 0;
 
 $curTime = time();		
 $lapConstant = ((date("Y",$curTime) % 4) == 0) ? 0.00003162315 : 0.00003170979; 

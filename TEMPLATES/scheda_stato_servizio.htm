@@ -7,19 +7,38 @@
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/personnel.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" /> 
+	
+
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
-	<script type="text/javascript" src="TEMPLATES/js/sservice.js?v=2" /> 
+	<script type="text/javascript" src="TEMPLATES/js/sservice.js?v=13 " /> 
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js" />
+
 	<title>STAR TREK FEDERATION - SCHEDA</title>				
- <style type="text/css">.ui-autocomplete {max-height: 135px;overflow-y: auto;overflow-x: hidden;padding-right: 1px;}
-		.ui-autocomplete li {height:45px;padding:2px;font-size:12px;} 
-		
- 
-  } 
+ <style type="text/css">
+
+ 	.ui-autocomplete {}
+		.ui-autocomplete li {height:45px;padding:2px;font-size:12px; width:100%;}
+
+
+	.ui-tooltip {
+	font-size:13px !important;
+	text-align:justify;
+ 	max-width: 400px !important;   
+  }
+
+	.ui-tooltip p{margin:5px; font-weight:bold; font-family:Helvetica; font-size:15px;}
+
+  	
   #where-description {
     margin: 0;
     padding: 0;
   }
+
+
+
 	</style>
 </head>
 <body style="background-color:black; overflow:hidden;  padding:-5px;">
@@ -35,7 +54,7 @@
 	
 	<tr style="text-align:left;" tal:repeat="story stories/SERVICE">
 	<td style="width:200px; text-align:center; border-bottom:1px solid #333; ">
-	<p tal:content="php:str_pad(substr(story['timer'],8,2),2,'0',STR_PAD_LEFT) . '/' . str_pad(substr(story['timer'],5,2),2,'0',STR_PAD_LEFT) . '/' . substr(story['timer'],0,4)" style="color:#52b4e1; font-family:Verdana; font-size:11px; margin:0px;" />
+	<p tal:content="php:str_pad(substr(story['timer'],8,2),2,'0',STR_PAD_LEFT) . '/' . str_pad(substr(story['timer'],5,2),2,'0',STR_PAD_LEFT) . '/' . substr(story['timer'],0,4)" style="margin:0px;" class="dateFormat" />
 	<p tal:content="story/placeName" style="margin:0px;"  />
 	</td>
 	<td style=" border-bottom:1px solid #333; text-align:justify;"><span tal:content="structure story/text" /> <a tal:condition="php:(story['postLink'] != '')" href="javascript:void(0);" tal:attributes="onclick string:cdbOpenToTopic('${story/postLink}')" title="Riferimento"><img src="TEMPLATES/img/interface/personnelInterface/external_link.png"/></a></td>
@@ -49,7 +68,7 @@
 	<table style="width:100%">	
 	<tr tal:attributes="class php: repeat.story.odd ? 'examLeft' : 'examRight'" tal:repeat="story stories/EXAM">
 	
-	<td class="t1" tal:content="php:str_pad(substr(story['timer'],8,2),2,'0',STR_PAD_LEFT) . '/' . str_pad(substr(story['timer'],5,2),2,'0',STR_PAD_LEFT) . '/' . substr(story['timer'],0,4)" />
+	<td class="t1 dateFormat" tal:content="php:str_pad(substr(story['timer'],8,2),2,'0',STR_PAD_LEFT) . '/' . str_pad(substr(story['timer'],5,2),2,'0',STR_PAD_LEFT) . '/' . substr(story['timer'],0,4)" />
 	
 	<td class="t2"><img style="max-width:30px;" tal:attributes="src string:TEMPLATES/img/ruolini/brevetti/${story/image}" tal:condition="php:(story['image']!='')"/></td>
 	
@@ -84,16 +103,20 @@
 		<tr class="ruolinoRow">
 			<td><img src="TEMPLATES/img/interface/personnelInterface/grado.jpg"/></td>
 			<td><img src="TEMPLATES/img/interface/personnelInterface/data.jpg"/></td>
-			<td><img src="TEMPLATES/img/interface/personnelInterface/incarico.jpg"/></td>
+			<td><img src="TEMPLATES/img/interface/personnelInterface/incarico.jpg" style="vertical-align: middle"/> <span class="tooltip" style="color:#FFCC00; font-weight:bold; font-family:Helvetica; font-size:12px;" title="Il ruolino di servizio serve per tenere traccia degli incarichi ricoperti dal personaggio nel tempo. Inserisci solo gli incarichi: promozioni, lauree e qualifiche non vanno inseriti nel ruolino: chiedi ad un membro dello staff per la compilazione delle sezioni qui sopra!"> [?] </span></td>
 			<td><img src="TEMPLATES/img/interface/personnelInterface/assegnazione.jpg"/></td>
 		</tr>
 		
 		<tr tal:repeat="story storiesRuol" class="ruolinoRow">
-			<td class="tds"><img tal:attributes="src string:TEMPLATES/img/ranks/${story/rankImage}.png ; title story/rankName" /></td>
-			<td class="tdsa" tal:content="php:str_pad(substr(story['dater'],5,2),2,'0',STR_PAD_LEFT) . '/' . substr(story['dater'],0,4)">Data</td>
-			<td class="tds" tal:content="story/what">Incarico</td>
-			<td class="tds" tal:content="story/wherer">Assegnazione</td>
-			<td class="tds" tal:condition="php:(masterPanel==true || editable == true)"><a tal:attributes="href string:scheda.php?s=removeStory&sID=${story/storyID}"><img src="TEMPLATES/img/interface/delete.png" /></a></td>
+			<td class="tds"><img class="tooltip" tal:attributes="src string:TEMPLATES/img/ranks/${story/rankImage}.png ; title story/rankName" /></td>
+			<td class="tdsa dateFormat">
+			<span tal:content="php:str_pad(substr(story['dater'],5,2),2,'0',STR_PAD_LEFT) . '/' . substr(story['dater'],0,4)">Data</span>
+			<a href="javascript:void(0);" class="interfaceLinkBlue" tal:attributes="onclick string:getOthers(this,'${story/wherer}','${story/dater}',${selectedUser})" style="font-size:10px;">[•]</a></td>
+			<td class="tds" tal:content="structure story/what">Incarico</td>
+			<td class="tds"><span tal:content="structure story/wherer">Assegnazione</span> 
+				<span class="tooltipClass" tal:condition="exists:story/associatedHTML" tal:content="string:[*]" tal:attributes="title story/associatedHTML" />
+			</td>
+			<td class="tds" style="width:30px;" tal:condition="php:(masterPanel==true || editable == true)"><a href="javascript:void(0)" style="cursor:pointer" tal:attributes="onclick string:editStory(${story/storyID})"><img src="TEMPLATES/img/interface/edit.png" title="Modifica" /></a><a title="Elimina" onclick="return confirm('Confermi l\'eliminazione?')" tal:attributes="href string:scheda.php?s=removeStory&sID=${story/storyID}"><img src="TEMPLATES/img/interface/delete.png" /></a></td>
 		</tr>
 	</table>
 	</div>
@@ -106,28 +129,37 @@
 </div>
 
 	<div id="stoAdder"  style="height:300px; margin-top:-150px;" tal:condition="php:smasterPanel==true">
-	<form method="POST" tal:attributes="action string:scheda.php?s=addssto&pgID=${selectedUser}"> 
+	<form method="POST"  tal:attributes="action string:scheda.php?s=addssto&pgID=${selectedUser}"> 
 	<table> 
 		<tr><td width="100px; font-size:10px;"><b>Testo:</b></td><td><textarea style="width:300px; height:80px;" name="what" /></td></tr>
-		<tr><td width="100px; font-size:10px;"><b>Unit:</b></td><td> <select name="placer"><option tal:repeat="location locations" tal:attributes="value repeat/location/key;" tal:content="location"/></select> </td></tr>
-		<tr><td width="100px; font-size:10px;"><b>Crosslink CDB:</b></td><td><input style="width:300px;" class="neon" name="cross" /></td></tr>
-		<tr><td width="100px; font-size:10px;"><b>Data:</b></td><td><select name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day ; selected php:(day == date('d') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataM"><option tal:repeat="day php:range(1,12)" tal:attributes="value day ;  selected php:(day == date('m') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataA"><option tal:repeat="day php:range(2290,2397)" tal:attributes="value day ; selected php:(day==2397) ? 'selected': false" tal:content="day" /></select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Vai" /></td></tr>
+		<tr><td width="100px; font-size:10px;"><b>Unit:</b></td><td> <select class="neon" name="placer"><option tal:repeat="location locations" tal:attributes="value repeat/location/key;" tal:content="location"/></select> </td></tr>
+		<tr><td width="100px; font-size:10px;"><b>Crosslink CDB:</b></td><td><input stype="text" style="width:300px;" class="neon" name="cross" /></td></tr>
+		<tr><td width="100px; font-size:10px;"><b>Data:</b></td><td><select class="neon" name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day ; selected php:(day == date('d') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataM"><option tal:repeat="day php:range(1,12)" tal:attributes="value day ;  selected php:(day == date('m') ? 'selected' : false)" tal:content="day" /></select> / <select class="neon" name="dataA"><option tal:repeat="day php:range(2290,thisYear)" tal:attributes="value day ; selected php:(day==thisYear) ? 'selected': false" tal:content="day" /></select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Vai" /></td></tr>
 	</table>
 	</form>
-	<div class="xButton" onclick="jQuery('#stoAdder').fadeOut(100);">X</div>
+	<div class="xButton" onclick="jQuery('#stoAdder').fadeOut(100);"></div>
+	
+	 
 	</div> 
 	
+	<div id="ntpa_show_box" style="width:500px; height:350px; margin-top:-175px; margin-left:-250px; position: absolute; display: none; background-color:rgba(0,0,0,0.9); left:50%; top:50%; font-family:Helvetica; padding:10px; border:1px solid #CCC;">
+		
+		<p style="margin-bottom:10px; border-bottom:1px solid #52b4e1; font-size:13px;"> Erano sulla stessa unità, lo stesso anno:</p>
+		<div id="ntpa_show" style="overflow-x:auto; height:280px;"> Nessuno :-( </div>
+		<div class="xButton" onclick="jQuery('#ntpa_show_box').fadeOut(100);"></div>
+	</div>
+
 	<div id="exaAdder" tal:condition="php:smasterPanel==true">
 	<table>
 	<form method="POST" tal:attributes="action string:scheda.php?s=addexam&pgID=${selectedUser}"> 
 	
-		<tr><td width="100px; font-size:10px;"><b>Testo:</b></td><td><input style="width:300px;" id="brevWhat" name="what" type="text" class="neon"/></td></tr>
-		<tr><td width="100px; font-size:10px;"><b>Esito:</b></td><td><select name="esit"><optgroup label="Esiti"><option value="110">CONSEGUITO</option><option value="111">NON APPROVATO</option></optgroup><optgroup label="Votazioni"><option tal:repeat="day php:range(0,100)" tal:attributes="value day" tal:content="string:${day} / 100" /></optgroup></select></td></tr>
-		<tr><td width="100px; font-size:10px;"><b>Data:</b></td><td><select name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day ; selected php:(day == date('d') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataM"><option tal:repeat="day php:range(1,12)" tal:attributes="value day ;  selected php:(day == date('m') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataA"><option tal:repeat="day php:range(2290,2397)" tal:attributes="value day ; selected php:(day==2397) ? 'selected': false" tal:content="day" /></select></td></tr>
+		<tr><td width="100px; font-size:10px;"><b>Testo:</b></td><td><input style="width:300px;" stype="text" id="brevWhat" name="what" type="text" class="neon"/></td></tr>
+		<tr><td width="100px; font-size:10px;"><b>Esito:</b></td><td><select class="neon" name="esit"><optgroup label="Esiti"><option value="110">CONSEGUITO</option><option value="111">NON APPROVATO</option></optgroup><optgroup label="Votazioni"><option tal:repeat="day php:range(0,100)" tal:attributes="value day" tal:content="string:${day} / 100" /></optgroup></select></td></tr>
+		<tr><td width="100px; font-size:10px;"><b>Data:</b></td><td><select class="neon" name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day ; selected php:(day == date('d') ? 'selected' : false)" tal:content="day" /></select> / <select class="neon" name="dataM"><option tal:repeat="day php:range(1,12)" tal:attributes="value day ;  selected php:(day == date('m') ? 'selected' : false)" tal:content="day" /></select> / <select  class="neon" name="dataA"><option tal:repeat="day php:range(2290,thisYear)" tal:attributes="value day ; selected php:(day==thisYear) ? 'selected': false" tal:content="day" /></select></td></tr>
 		<tr><td colspan="2" style="text-align:center;"><input type="submit" value="Vai" /></td></tr>
 	</form>
 	</table>
-	<div class="xButton" onclick="jQuery('#exaAdder').fadeOut(100);">X</div>
+	<div class="xButton" onclick="jQuery('#exaAdder').fadeOut(100);"></div>
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 	
@@ -139,22 +171,25 @@
 	</script>
 	</div> 
 	
-	<div id="rankAdder" tal:condition="php:editable==true">
+	<div id="rankAdder"  tal:condition="php:editable==true">
 	<table style="margin-top:20px; width:100%;">
-	<form method="POST" tal:attributes="action string:scheda.php?s=addStory&pgID=${selectedUser}">
+	<form method="POST" id="storyAdder" tal:attributes="action string:scheda.php?s=addStory&pgID=${selectedUser}">
 		 
 		
-		<tr><td width="100px; font-size:10px;"><span style="font-family:federationFont; font-size:20px; letter-spacing:1px;">Mostrina:</span></td><td colspan="2"><select name="rankCode" style="width:310px">
+		<tr><td width="100px; font-size:10px;"><span style="font-family:federationFont; font-size:20px; letter-spacing:1px;">Mostrina:</span></td><td colspan="2"><select id="story_rank" class="neon" name="rankCode" style="width:310px">
 			<optgroup tal:repeat="ranker ranks" tal:attributes="label repeat/ranker/key">
 				<option tal:repeat="rnk ranker" tal:attributes="value repeat/rnk/key; selected php:((repeat.rnk.key == rankCode) ? 'selected': '')" tal:content="rnk/note"/>
 			</optgroup>
 		</select></td></tr>
-		<tr><td width="100px; font-size:10px;"><span style="font-family:federationFont; font-size:20px; letter-spacing:1px;">Incarico:</span></td><td><input type='text'  placeholder="Incarico" class="neon" style="width:310px;" name="what" /></td></tr>
-		<tr><td width="100px; font-size:10px;"><span style="font-family:federationFont; font-size:20px; letter-spacing:1px;">Data:</span></td><td><select name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day" tal:content="day" /></select> / <select name="dataM"><option tal:repeat="day php:range(1,12)" tal:attributes="value day" tal:content="php:monty[day]" /></select> / <select name="dataA"><option tal:repeat="day php:range(2290,2397)" tal:attributes="value day ; selected php:(day==2397) ? 'selected': false" tal:content="day" /></select></td></tr>
+		<tr><td width="100px; font-size:10px;"><span style="font-family:federationFont; font-size:20px; letter-spacing:1px;">Incarico:</span></td><td><input type='text' id="story_what" placeholder="Incarico" class="neon" style="width:310px;" name="what" /></td></tr>
+		<tr><td width="100px; font-size:10px;"><span style="font-family:federationFont; font-size:20px; letter-spacing:1px;">Data:</span></td><td><select class="neon" id="story_dataG" name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day" tal:content="day" /></select> / <select  class="neon" id="story_dataM" name="dataM"><option tal:repeat="day php:range(1,12)" tal:attributes="value day" tal:content="php:monty[day]" /></select> / <select class="neon" id="story_dataA" name="dataA"><option tal:repeat="day php:range(2290,thisYear)" tal:attributes="value day ; selected php:(day==thisYear) ? 'selected': false" tal:content="day" /></select></td></tr>
+		
+		<tr><td width="100px; font-size:10px;"><span style="font-family:federationFont; font-size:20px; letter-spacing:1px;">Data Fine:</span></td><td><select class="neon" name="dataFG"><option value="0">--</option><option tal:repeat="day php:range(1,31)" tal:attributes="value day" tal:content="day" /></select> / <select class="neon" name="dataFM"><option value="0">--</option><option tal:repeat="day php:range(1,12)" tal:attributes="value day" tal:content="php:monty[day]" /></select> / <select class="neon" name="dataFA"><option value="0">--</option><option tal:repeat="day php:range(2290,thisYear)" tal:attributes="value day" tal:content="day" /></select> <span style="color:#AAA; font-style:italic; font-size:13px;">(opzionale)</span></td></tr>
+
 		<tr><td width="100px; font-size:10px;"><span style="font-family:federationFont; font-size:20px; letter-spacing:1px;">Unit&agrave;</span></td><td>
 		 
 		<input type='text' class="neon" id="where" name="where" placeholder="Unità di Assegnazione" style="width:320px;"/>   
-
+		<input type="hidden" value="0" id="storyEdit" name="storyEdit"></input>
 
 
 		 
@@ -164,7 +199,7 @@
 	<input type="hidden" name="userSelector" tal:attributes="value selectedUser" />
 	</form>
 	</table>
-	<div class="xButton" onclick="jQuery('#rankAdder').fadeOut(100);">X</div>
+	<div class="xButton" onclick="jQuery('#rankAdder').fadeOut(100); jQuery('#storyEdit').attr('value','0');"></div>
 	</div>
 </body>
 </html>

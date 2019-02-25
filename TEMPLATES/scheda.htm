@@ -94,6 +94,9 @@
 					<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/sezione.png" alt="Sezione"/></td><td class="bdr" tal:content="userData/pgSezione"></td></tr><tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/dipartimento.png" alt="Dipartimento"/></td><td class="bdr" tal:content="userData/pgDipartimento"></td></tr>
 					<tr tal:condition="php:userData.pgSpecie != 'Romulana'"><td class="borderOne" ><img src="TEMPLATES/img/interface/personnelInterface/acc_seclar.png" alt="Accesso Seclar"/></td><td class="bdr"><img tal:attributes="src string:TEMPLATES/img/seclar/seclar${userData/pgSeclar}.png" /></td></tr>
 					<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/autorizzazione.png" alt="Autorizzazione"/></td><td class="bdr" tal:condition="php:userData.pgSpecie == 'Romulana'" style="vertical-align:bottom; font-size:11px; text-transform:uppercase; font-family:'romulanFaceM'" tal:content="php:(userData.pgAuth != '') ? userData.pgUser . ' ' .  userData.pgAuth : ''" onmouseover="javascript:jQuery(this).css('font-family','arial');" onmouseout="javascript:jQuery(this).css('font-family','romulanFaceM');"></td><td class="bdr" tal:condition="php:userData.pgSpecie != 'Romulana'" style="vertical-align:bottom; font-size:11px; text-transform:uppercase;" tal:content="php:(userData.pgAuth != '') ? userData.pgUser . ' ' .  userData.pgAuth : ''"></td></tr>
+					<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/notorieta_l2.png" alt="Notorietà"/></td><td class="bdr tooltip" tal:attributes="title prestige/alt">
+						<img style="vertical-align:middle;" tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/notori_image_${prestige/level}.png" /> <span tal:content="prestige/name" style="font-size:12px; color:#AAA; font-style:italic;" /> 
+					</td></tr>
 				</tbody>
 			</table> 
 	
@@ -102,7 +105,7 @@
 				
 			</div>
 			
-			<div tal:condition="php:(count(commendations['LAUR']) > 0)" class="accessoryDiv_e ">  
+			<div tal:condition="php:(count(commendations['LAUR']) > 0 || count(commendations['NOTA']) > 0)" class="accessoryDiv_e ">  
 				<!-- LAUREE  -->
 			<img tal:repeat="lau commendations/LAUR" tal:attributes="src string:TEMPLATES/img/ruolini/lauree/${lau/icon} ; title lau/alt ; ondblclick php:(masterPanel== true) ? 'javascript:removeDotazione(' . lau['recID'] . ',' . selectedUser . ')':''" class="tooltip" style="margin-left:4px;"/>
 			
@@ -139,11 +142,13 @@
 		</div>
  
 		<div id="subBandaOff">
-		<p style="float:left;margin-right:10px;"><a onclick="showOn();" href="javascript:void(0);" class="interfaceLink">(- Indietro -)</a>
-		<a onclick="window.open ('shadow_scheda.php?s=stor','prestav', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=490,height=605');" href="javascript:void(0);" class="interfaceLink" tal:condition="php:(masterPanel)">(- TuttiPunti -)</a></p>
+		<p style="float:left;margin-right:10px;"><a onclick="showOn();" href="javascript:void(0);" class="interfaceLink"><img src="TEMPLATES/img/interface/indietro_fed.png" /></a>
+		<a tal:attributes="href string:getLog.php?getAllPlayerLogs=${userData/ID}" tal:condition="php:editable=='yes'" target="_blank" class="interfaceLink"><img src="TEMPLATES/img/interface/estrai_fed.png" /></a>
+
+		 </p>
 		
 		<p class="borderOne" style="width:80px;"><img src="TEMPLATES/img/interface/personnelInterface/prestavolto.png" alt="Prestavolto"/></p> 
-		<p class="bdr" tal:condition="php:(prestavolto['pgOffAvatarC'] != '')" style="width:auto; padding-left:10px; padding-right:10px;" tal:content="string:${prestavolto/pgOffAvatarN} ${prestavolto/pgOffAvatarC} "></p> 
+		<p tal:condition="php:(prestavolto['pgOffAvatarC'] != '')" style="width:auto; padding-left:10px; padding-right:10px; font-size:14px;" tal:content="string:${prestavolto/pgOffAvatarN} ${prestavolto/pgOffAvatarC} "></p> 
 		<p class="bdr"  style="width:auto; float:right; padding-left:10px; padding-right:10px;" tal:content="extendedRole"></p>
 		</div><div style="clear:both;" />
 

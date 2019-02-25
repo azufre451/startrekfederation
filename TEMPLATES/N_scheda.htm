@@ -94,6 +94,9 @@
 					<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/sezione.png" alt="Sezione"/></td><td class="bdr" tal:content="userData/pgSezione"></td></tr><tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/dipartimento.png" alt="Dipartimento"/></td><td class="bdr" tal:content="userData/pgDipartimento"></td></tr>
 					<tr tal:condition="php:userData.pgSpecie != 'Romulana'"><td class="borderOne" ><img src="TEMPLATES/img/interface/personnelInterface/acc_seclar.png" alt="Accesso Seclar"/></td><td class="bdr"><img tal:attributes="src string:TEMPLATES/img/seclar/seclar${userData/pgSeclar}.png" /></td></tr>
 					<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/autorizzazione.png" alt="Autorizzazione"/></td><td class="bdr" tal:condition="php:userData.pgSpecie == 'Romulana'" style="vertical-align:bottom; font-size:11px; text-transform:uppercase; font-family:'romulanFaceM'" tal:content="php:(userData.pgAuth != '') ? userData.pgUser . ' ' .  userData.pgAuth : ''" onmouseover="javascript:jQuery(this).css('font-family','arial');" onmouseout="javascript:jQuery(this).css('font-family','romulanFaceM');"></td><td class="bdr" tal:condition="php:userData.pgSpecie != 'Romulana'" style="vertical-align:bottom; font-size:11px; text-transform:uppercase;" tal:content="php:(userData.pgAuth != '') ? userData.pgUser . ' ' .  userData.pgAuth : ''"></td></tr>
+					<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/notorieta.png" alt="Notorietà"/></td><td class="bdr">
+						<img tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/notori_${prestige/level}.png; title prestige/desc" />
+					</td></tr>
 				</tbody>
 			</table> 
 	

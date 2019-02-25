@@ -4,6 +4,8 @@ $a = microtime();
 if (!isSet($_SESSION['pgID'])) { header("Location:http://www.startrekfederation.it"); exit;}
     
 include('includes/app_include.php');
+include('includes/notifyClass.php');
+
 include('includes/validate_class.php');
 include("includes/PHPTAL/PHPTAL.php"); //NEW
 
@@ -31,7 +33,7 @@ else if($currentLocation['attracco'] == '' && $pointerL != '')
 
 if($currentLocation['placeType'] == 'Pianeta')
 {
-	$loca = mysql_query("SELECT locID, locName, planetSub, icon, (SELECT COUNT(*) FROM pg_users WHERE pgRoom = locID AND pgLastAct >= ".($curTime-1800).") as counterPG FROM fed_ambient WHERE ambientType <> 'DEFAULT' AND ambientLocation = '".$currentLocation['placeID']."' ORDER BY locName");
+	$loca = mysql_query("SELECT locID, locName, planetSub, icon, (SELECT COUNT(*) FROM pg_users WHERE pgRoom = locID AND pgLastAct >= ".($curTime-1800).") as counterPG FROM fed_ambient WHERE ambientType <> 'DEFAULT' AND placeHidden = 0 AND ambientLocation = '".$currentLocation['placeID']."' ORDER BY locName");
 	
 	$locationsPlanet= array();
 	$locationsPlanet[1]= array();
@@ -58,9 +60,6 @@ if($currentLocation['placeType'] == 'Pianeta')
 //$sba = mysql_query("SELECT count(*) FROM pg_places WHERE sector = ");
 
 // illumin. dbase
-mysql_query("(SELECT 1 FROM cdb_cats,cdb_topics WHERE catCode = topicCat AND catSuper IN ('FL','CIV','HE') AND topicLastTime > ".$currentUser->pgLastVisit.") UNION (SELECT 1 FROM cdb_cats,cdb_topics WHERE catCode = topicCat AND catSuper = '".$currentUser->pgAssign."' AND topicLastTime > ".$currentUser->pgLastVisit.");");
-
-$template->setDBOn = (mysql_affected_rows()) ? true : false;
 
 mysql_query("SELECT 1 FROM fed_pad WHERE paddDeletedTo = 0 AND paddTo = ".($currentUser->ID)." AND paddRead = 0 AND paddTitle NOT LIKE '::special::%'");
 $template->incomingPadd = (mysql_affected_rows()) ? true : false;
@@ -72,8 +71,29 @@ $acurTime = $curTime-3600;
 $nexTime = $curTime+43200;
 $res = mysql_query("SELECT evID,event,date,sender,place,pgUser,placeName FROM calendar_events,pg_places,pg_users WHERE pgID = sender AND placeID = place AND date BETWEEN $acurTime AND $nexTime AND place = '$toLocation' ORDER BY date");
 $events = array();
-while($ra = mysql_fetch_assoc($res)) $events[] = $ra;
+while($ra = mysql_fetch_assoc($res))
 
+{
+	
+	$eventID=$ra['evID'];
+
+	$presArr=mysql_query("SELECT pgUser,calendar_events_attendance.pgID,time,notes,pgAvatarSquare FROM calendar_events_attendance,pg_users WHERE evID = '$eventID' AND pg_users.pgID = calendar_events_attendance.pgID");
+  	
+	$presences=[];
+	$ipar=0;
+	while($pres = mysql_fetch_assoc($presArr))
+		{
+			$presences[]=$pres;
+			if ($pres['pgID'] == $_SESSION['pgID'])
+				$ipar=1;
+		}
+	$ra['presences'] = $presences;
+	$ra['ipar'] = $ipar;
+	$events[] = $ra;
+}
+  
+$template->incomingNoti = (NotificationEngine::getMyNotifications($currentUser->ID)> 0) ? true : false;
+$template->setDBOn = (NotificationEngine::getCDBUpdates($currentUser->ID,$currentUser->pgLocation)> 0) ? true : false;
 
 $template->events = $events;
 $template->curTime = $curTime;

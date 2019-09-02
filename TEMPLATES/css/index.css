@@ -124,7 +124,7 @@ margin-left:0px; margin-right:0px;
 
 .sex_female:hover,.sex_female.active{background-color:#cba299; border-color:#f1d2ca;}
 
-
+.race{ background-color: rgba(0,0,0,0.6)}
 .race:hover,.race.active{background-color:#184746; border-color:#DDD;}
 
 .race p{font-size:1.2em;}
@@ -147,9 +147,9 @@ margin-left:0px; margin-right:0px;
 
 
 
-.species_spec{text-align:justify; font-size:1.3em; display:none; border-left:1px solid #848fa9; margin-top:15px; padding-left:20px; margin-left:10px;}
+.species_spec,.sections_spec{text-align:justify; font-size:1.1em; display:none; border-left:1px solid #848fa9; line-height:1.1em; margin-top:20px; padding-left:25px; margin-left:15px;}
 
-.sections_spec{text-align:justify; font-size:1.3em; display:none; border-left:1px solid #854a42; margin-top:15px; padding-left:20px; margin-left:10px;}
+
 
  
 

@@ -4,11 +4,14 @@
 		jQuery(function()
 		{
 			are = setInterval("ccc();",7000);
+			setInterval("localizeRefreshAuto();",20000);
 			setInterval(function(){ $('.lamp').each( function(){ $(this).css('visibility' , $(this).css('visibility') === 'hidden' ? '' : 'hidden') } ); }, 350);
 
 			jQuery("#federation_chatDiv").scrollTop(jQuery("#federation_chatDiv")[0].scrollHeight);	
 		});
 		
+		jQuery(window).keyup(swish);
+
 		$(window).resize(function() {
 			resizeBar();
 		});
@@ -411,8 +414,7 @@
 			var pitapa = (window.event) ? e.keyCode : e.which;
 			if(pitapa == 13)
 			{
-				sendChat();
-				//alert('goo');
+				sendChat(); 
 				return false;
 			}
 			

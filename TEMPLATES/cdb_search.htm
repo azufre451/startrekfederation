@@ -5,21 +5,34 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/cdb.css?v=1.2.1" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
+
+	<link href="TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	<script type="text/javascript" src="TEMPLATES/js/caret.js"></script>
-	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
+	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/datepicker.css" rel="stylesheet" type="text/css" />
 
 	<title>STAR TREK FEDERATION - CDB</title>
 	<script>
+
+		jQuery(function(){ jQuery('.tooltip').tooltip({content: function () {return $(this).prop('title');}}); });
 		function setView(ida){
 		jQuery('.topicTable:visible').fadeOut(0);
 		jQuery('#'+ida).fadeIn(200);
 		
 		jQuery('#topiTitle').html(jQuery('#leaf_'+ida).val());
 		}</script>
+
+		<style>
+	.ui-tooltip {
+	font-size:12px;
+	text-align:justify;
+  }</style>
 </head>
 
 <body>
@@ -50,8 +63,7 @@
 
 <div style="width:200px; padding:10px; position:fixed; top:60px; left:40px; height:530px; overflow:auto; border:1px solid #333;"><p tal:repeat="topic topics" style="font-weight: bold; text-transform: uppercase;font-family: Helvetica; line-height:20px; font-size: 12px;">
 	<a tal:condition="php:topic['topicType'] == 'I'" tal:attributes="title topic/title; class string:topicImportant ${topic/classExt}; onclick  string:setView(${topic/topicID}); id string:leaf_${topic/topicID}" tal:content="topic/title" style="font-size:11px; cursor:pointer;"></a>
-	<a tal:condition="php:topic['topicType'] == 'A'" tal:attributes="title topic/title; class string:topicAnnounce ${topic/classExt}; onclick  string:setView(${topic/topicID})" tal:content="topic/title"  style="font-size:11px; cursor:pointer;"></a>
-	<a tal:condition="php:topic['topicType'] == 'N'" tal:attributes="title topic/title; class string:topicNormal ${topic/classExt}; onclick  string:setView(${topic/topicID})" tal:content="topic/title" style="font-size:11px; cursor:pointer;"></a>
+	<a tal:condition="php:topic['topicType'] != 'I'" tal:attributes="title topic/title; class string:topicNormal ${topic/classExt}; onclick  string:setView(${topic/topicID})" tal:content="topic/title" style="font-size:11px; cursor:pointer;"></a>
 </p></div>
 
 <div style="float:right; width:680px; margin-top:20px; height:540px; overflow-x:auto;">

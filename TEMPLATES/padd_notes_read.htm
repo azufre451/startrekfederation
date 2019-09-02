@@ -3,16 +3,28 @@
 
 
 <head>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/padd.css?v=1.5.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
-	 
 	
+	<link href="TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/padd.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
+	
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+
+	<script>
+			jQuery(function(){
+			jQuery('.tooltip').tooltip({
+          			content: function (){
+          						return $(this).prop('title');
+          					}
+					});	
+			});
+	</script>
+	
 	<title>FEDERATION - PADD</title>	
 	
 <script type="text/javascript">
@@ -23,6 +35,8 @@
 		}
 </script>
 </head>
+
+<style>.ui-tooltip {font-size:12px; text-align:justify;}</style>
 
 <body style="background-color:black; overflow:hidden;">
 
@@ -79,7 +93,7 @@
 <div class="paddMain radiusBordered" style="height:300px;">
 <div class="innerPadd">
 	<p style="text-align:center; font-size:16px; font-weight:bold; border-bottom:1px solid #999;" tal:content="title" />
-	<p style="text-align:justify;" tal:content="structure text" />
+	<p style="text-align:justify; width:auto; margin:10px;" tal:content="structure text"  />
 </div>
 </div>
 

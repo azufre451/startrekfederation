@@ -14,10 +14,10 @@
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
-	<script type="text/javascript" src="TEMPLATES/js/chatCore.js?v=${gameOptions/numericVersion}.332"/>
+	<script type="text/javascript" src="TEMPLATES/js/chatCore.js?v=${gameOptions/numericVersion}"/>
 	<script type="text/javascript" src="TEMPLATES/js/easyNotify.js"></script>
 	<script type="text/javascript" src="TEMPLATES/js/highlight.js"></script>
-
+ 
 	<title>STAR TREK: FEDERATION</title>
 	
 	<style tal:content="user/customCSS" tal:condition="php:(user.customCSS != '')" />
@@ -198,7 +198,7 @@
 <p class="clockTitle blackOpacity" tal:content="ambient/locName" />
 <div id="locationDesc" class="blackOpacity radiusBordered12">
 <p style="margin:0px; text-align:center;"><a href="#" onclick="javascript:jQuery('#locationDesc').fadeOut(150); jQuery('#textShower').fadeIn(150); " class="interfaceLink">( Nascondi )</a> <a href="#" onclick="javascript:jQuery('#locationDesc').fadeOut(150); jQuery('#textShower').fadeIn(150); jQuery('#locationEdit').fadeIn(150);  " class="interfaceLink" tal:condition="exists:isSuperMaster">( Modifica )</a> <a tal:condition="php:ambient['ambientType']=='SALA_OLO'" href="javascript:showRanker();" class="interfaceLink">( OLOMOSTRINE )</a></p>
-<p style="margin:0px;" tal:content="structure string:${ambient/descrizione}" tal:condition="php:(ambient['ambientType']!='DECKMAP')"/>
+<p style="margin:0px; font-family:Helvetica; font-size:14px; margin-top:10px;" tal:content="structure string:${ambient/descrizione}" tal:condition="php:(ambient['ambientType']!='DECKMAP')"/>
 
 <p tal:condition="php:(ambient['ambientType']=='DECKMAP')" style="margin:0px; margin-bottom:10px;">
 	<p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:18px;;">Accedi a:</p>
@@ -332,6 +332,8 @@
 <div metal:use-macro="TEMPLATES/metal_panels.htm/dotazionePanel" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/masterDicePanel" tal:condition="exists:isMaster" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/statusBox" />
+<div metal:use-macro="TEMPLATES/metal_panels.htm/localizeBox" />
+<div metal:use-macro="TEMPLATES/metal_panels.htm/remindStaffPresence" tal:condition="exists:presenceForce" />
 
 <div metal:use-macro="TEMPLATES/guidar.htm/guidePanel" />
 <div metal:use-macro="TEMPLATES/audioSegments.htm/audioNotifier" /> 

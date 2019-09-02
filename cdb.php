@@ -4,13 +4,34 @@ if (!isSet($_SESSION['pgID'])){ header("Location:index.php?login=do"); exit;}
 
 include('includes/app_include.php');
 include('includes/validate_class.php');
-include('includes/bbcode.php');
+//include('includes/bbcode.php');
 
 
 
 
 include('includes/cdbClass.php');
 include("includes/PHPTAL/PHPTAL.php"); //NEW 
+
+
+function cmp_topics($a, $b) { 
+	
+    if ($a == $b) {
+      	return 0;
+   }
+   elseif($a == 'I'){
+   	return -1;
+   }
+   elseif($b == 'I'){
+   	return 1;
+   }
+   elseif($a == 'N'){
+   	return 1;
+   }
+   elseif($b == 'N'){
+   	return -1;
+   }
+   return (strstr($a,$b)) ? -1 : 1;
+}
 
 PG::updatePresence($_SESSION['pgID']);
 $currentUser = new PG($_SESSION['pgID']);
@@ -31,7 +52,8 @@ if(isSet($_POST['cdbCartellaCreate']))
 		$colorExtension = $vali->killChars(htmlentities(addslashes($_POST['cdbColor'])));
 		$seclar = $vali->numberOnly($_POST['cdbSeclar']);
 		//$order = $vali->numberOnly($_POST['cdbOrder']);
-		$type = $vali->killChars(htmlentities(addslashes($_POST['cdbType'])));
+		$type = ($_POST['cdbType'] == '') ? 'N' : strtoupper($vali->killChars(htmlentities(addslashes($_POST['cdbType']))));
+		$type = str_replace('IMPORTANTI','I',$type);
 		$cat = $vali->numberOnly($_POST['catCode']);
 		
 		
@@ -51,7 +73,16 @@ if(isSet($_POST['cdbCartellaCreate']))
 		exit;
 	}
 }
+else if (isSet($_GET['getallgroups'])){
+	$nan = $vali->numberOnly($_GET['getallgroups']);
+	$ltp=array('IMPORTANTI');
+	$rese=mysql_query("SELECT DISTINCT topicType FROM cdb_topics WHERE topicType NOT IN ('N','I') AND topicCat = (SELECT topicCat FROM cdb_topics WHERE topicID = $nan)");
+	while($res=mysql_fetch_assoc($rese))
+		$ltp[] = $res['topicType'];
 
+	echo json_encode($ltp);
+	exit;
+} 
 else if(isSet($_GET['topicEe']))
 {
 	$nan = $vali->numberOnly($_POST['cdbID']);
@@ -62,7 +93,8 @@ else if(isSet($_GET['topicEe']))
 		$GlobalUserSecBypass = $vali->killChars((addslashes($_POST['GlobalUserSecBypass'])));
 		
 		$seclar = $vali->numberOnly($_POST['cdbSeclar']);
-		$type = $vali->killChars((addslashes($_POST['cdbType'])));
+		$type = ($_POST['cdbType'] == '') ? 'N' : strtoupper( $vali->killChars((addslashes($_POST['cdbType']))));
+		$type = str_replace('IMPORTANTI','I',$type);
 		$topicID = $vali->numberOnly($_POST['cdbID']);
 		
 	mysql_query("UPDATE cdb_topics SET lastTopicEvent='CREATE',topicTitle = '$title', topicType = '$type', topicSeclar = $seclar, topicColorExt = '$colorExtension', topicLastTime = (SELECT GREATEST(time,lastEdit) FROM cdb_posts WHERE topicID = $nan ORDER BY time DESC LIMIT 1), topicLastUser = IFNULL((SELECT owner FROM cdb_posts WHERE topicID = $nan ORDER BY time DESC LIMIT 1), ".$_SESSION['pgID'].") WHERE topicID = $topicID");
@@ -387,7 +419,7 @@ else if (isSet($_GET['addPost']))
 	$usersMaster = addslashes($_POST['usersMaster']);
 	$usersMasterID = mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$usersMaster' AND png=1");
 	if(mysql_affected_rows())
-		{ $ider = mysql_fetch_array($usersMasterID);
+		{ $ider = mysql_fetch_assoc($usersMasterID);
 			  $masterPnG = new PG($ider['pgID']);
 			  $masterPnG->getIncarichi();
 			
@@ -399,7 +431,7 @@ else if (isSet($_GET['addPost']))
 			mysql_query("UPDATE cdb_topics SET lastTopicEvent='CREATE',topicLastUser = ".$masterPnG->ID.", topicLastTime = ".time()." WHERE topicID = $topicCode");
 		}
 	else{
-		$usersMasterID = mysql_query("SELECT Rgrado,pngIncarico,pngName,pngSurname,pngDipartimento,placeName FROM png_incarichi,pg_ranks,pg_places WHERE prio = pngRank AND placeID = pngPlace AND pngSurname = '$usersMaster' ORDER BY pngID ASC");
+		$usersMasterID = mysql_query("SELECT Rgrado,pngIncarico,pngName,pngSurname,pngDipartimento,placeName FROM png_incarichi,pg_ranks,pg_places WHERE prio = pngRank AND placeID = pngPlace AND pngSurname = '$usersMaster'  AND prioritary = 1 ORDER BY pngID ASC");
 		if(mysql_affected_rows())
 		{
 			$rese = mysql_fetch_assoc($usersMasterID);
@@ -447,22 +479,30 @@ else if (isSet($_GET['addPost']))
 				$to=trim($to);
 				if($to!="") 
 				{	
-					$idsA = mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '".addslashes($to)."'"));
-					$toP = new PG($idsA['pgID'],2);
-					$nt = ($title == '') ? 'Nessun titolo' : $title;
-					
-					
-					$overSeclar="";
-					$seclarColor='#2f8ad0';
-					if((int)($toP->pgSeclar) < (int)($seclar))
-					{	mysql_query("INSERT IGNORE INTO cdb_posts_seclarExceptions (pgID, postID) VALUES (".$toP->ID.",'$postIDCo')"); 
-						$overSeclar = "Il post è stato inserito a <span style=\"color:red; font-weight:bold;\">SECLAR $seclar</span> ma puoi visualizzarlo ugualmente, essendone destinatario";
-						$seclarColor = '#FF0000';
-					}
+					$ids=mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '".addslashes($to)."'");
+					if (mysql_affected_rows())
+					{
 
-				
-					$smallTitle = substr($title,0,50);
-					mysql_query("INSERT INTO pg_personal_notifications (owner,text,subtext,image,time,URI,linker) VALUES (".$toP->ID.",'<b>Sei stato citato in CDB</b>: $smallTitle','[ - <span style=\"font-size:11px; color:$seclarColor;\"> SECLAR $seclar</span> - ]','".$currentUser->pgAvatarSquare."',$curTime,'$topicCode#$postIDCo','cdbOpenToTopic')"); 
+
+						$idsA = mysql_fetch_assoc($ids);
+
+						$toP = new PG($idsA['pgID'],2);
+						$nt = ($title == '') ? 'Nessun titolo' : $title;
+						
+						
+						$overSeclar="";
+						$seclarColor='#2f8ad0';
+						if((int)($toP->pgSeclar) < (int)($seclar))
+						{	mysql_query("INSERT IGNORE INTO cdb_posts_seclarExceptions (pgID, postID) VALUES (".$toP->ID.",'$postIDCo')"); 
+							$overSeclar = "Il post è stato inserito a <span style=\"color:red; font-weight:bold;\">SECLAR $seclar</span> ma puoi visualizzarlo ugualmente, essendone destinatario";
+							$seclarColor = '#FF0000';
+						}
+
+					
+						$smallTitle = addslashes(substr($title,0,50));
+
+						mysql_query("INSERT INTO pg_personal_notifications (owner,text,subtext,image,time,URI,linker) VALUES (".$toP->ID.",'<b>Sei stato citato in CDB</b>: $smallTitle','[ - <span style=\"font-size:11px; color:$seclarColor;\"> SECLAR $seclar</span> - ]','".$currentUser->pgAvatarSquare."',$curTime,'$topicCode#$postIDCo','cdbOpenToTopic')"); 
+					}
 
 						
 
@@ -670,7 +710,7 @@ else if(isSet($_POST['searchKey']))
 			'title' => $title,
 			'pgUser' => $resA['pgUser'],
 			'pgUserID' => $resA['pgID'],
-			'content' => str_replace($bbCode,$htmlCode,$resA['content']),
+			'content' => CDB::bbcode($resA['content']),
 			'time' => timeHandler::timestampToGiulian($resA['time']),
 			'accessible' => ($resA['postSeclar'] <= $currentUser->pgSeclar || PG::mapPermissions('SM',$currentUser->pgAuthOMA) ||  $resA['owner'] == $currentUser->ID || $resA['coOwner'] == $currentUser->ID ) ? 1 : CDB::checkPostAccess($resA['postID'],$currentUser), 
 
@@ -679,13 +719,14 @@ else if(isSet($_POST['searchKey']))
 			'signature' => $resA['signature'],
 			'topicID' => $resA['topicID'],
 			'userdel' => $udel
-			);
+			); 
 			
 			$topics[$resA['topicID']] = array('topicID' => $resA['topicID'], 'title' => $resA['topicTitle'],'topicType' => $resA['topicType'],'classExt'=>$resA['topicColorExt']); 
 			$s = true;
 		}
 		}
 		$template->posts = $posts;
+		 
 		$template->topics = $topics;
 	}
 	
@@ -705,7 +746,7 @@ else if(isSet($_POST['searchKey']))
 			'title' => $title,
 			'pgUser' => $resA['pgUser'],
 			'pgUserID' => $resA['pgID'],
-			'content' => str_replace($bbCode,$htmlCode,$resA['content']),
+			'content' => CDB::bbcode($resA['content']),
 			'time' => timeHandler::timestampToGiulian($resA['time']),
 			'accessible' => ($resA['postSeclar'] <= $currentUser->pgSeclar || PG::mapPermissions('SM',$currentUser->pgAuthOMA) ||  $resA['owner'] == $currentUser->ID || $resA['coOwner'] == $currentUser->ID ) ? 1 : CDB::checkPostAccess($resA['postID'],$currentUser), 
 			'postSeclar' => $resA['postSeclar'],
@@ -762,7 +803,7 @@ else if(isSet($_GET['meSearch']))
 			'title' => $title,
 			'pgUser' => $resA['pgUser'],
 			'pgUserID' => $resA['pgID'],
-			'content' => str_replace($bbCode,$htmlCode,$resA['content']),
+			'content' => CDB::bbcode($resA['content']),
 			'time' => timeHandler::timestampToGiulian($resA['time']),
 			'postSeclar' => $resA['postSeclar'],
 			'postNote' => $resA['postNotes'],
@@ -973,21 +1014,27 @@ else if (isSet($_GET['cat']))
 	{
 		$me=$_SESSION['pgID'];
 
-		$res = mysql_query("SELECT pg_visualized_elements.time as seen,topicID,lastTopicEvent,topicTitle,topicLastTime,pgUser,topicType,topicColorExt FROM pg_users,cdb_topics LEFT JOIN pg_visualized_elements ON (pg_visualized_elements.pgID = '$me' AND type = 'CDB' AND what = topicID) WHERE topicCat = $category AND topicLastUser=pg_users.pgID ORDER BY topicLastTime DESC");
+		$res = mysql_query("SELECT pg_visualized_elements.time as seen,topicID,lastTopicEvent,topicTitle,topicLastTime,pgUser,topicType,IF(topicType = 'I',0,topicLock) as topicLock,topicColorExt FROM pg_users,cdb_topics LEFT JOIN pg_visualized_elements ON (pg_visualized_elements.pgID = '$me' AND type = 'CDB' AND what = topicID) WHERE topicCat = $category AND topicLastUser=pg_users.pgID ORDER BY topicLock,topicLastTime DESC");
 
-		$topics = array('I' => array(),'A' => array(),'N' => array() );
+		$topics = array();
 
 		while ($reso = mysql_fetch_array($res))
 		{
-			$topics[$reso['topicType']][] = array("ID" => $reso['topicID'], "title" => $reso['topicTitle'], "lastT" => timeHandler::timestampToGiulian($reso['topicLastTime']),"lastTopicEvent" => $reso['lastTopicEvent'], 	"lastU" => $reso['pgUser'], "classExt" => $reso['topicColorExt'], "lastTstamp" => $reso['topicLastTime'],'seen' => (($reso['seen'] || $reso['topicLastTime'] < $limiL) ? true : false) );
+			if (!array_key_exists($reso['topicType'],$topics))
+				$topics[$reso['topicType']] = array();
+
+			$topics[strtoupper($reso['topicType'])][] = array("ID" => $reso['topicID'],'topicType'=>strtoupper($reso['topicType']), "title" => $reso['topicTitle'],'topicLock'=>$reso['topicLock'], "lastT" => timeHandler::timestampToGiulian($reso['topicLastTime']),"lastTopicEvent" => $reso['lastTopicEvent'], 	"lastU" => $reso['pgUser'], "classExt" => $reso['topicColorExt'], "lastTstamp" => $reso['topicLastTime'],'seen' => (($reso['seen'] || $reso['topicLastTime'] < $limiL) ? true : false) );
 		}
 
 	}
 	else {header("Location:cdb.php"); exit;}
 	
-	$template->topicsI = $topics['I'];
-	$template->topicsA = $topics['A'];
-	$template->topicsN = $topics['N'];
+	uksort($topics, 'cmp_topics'); 
+	//uasort() 
+	$template->topics = $topics;
+	//$template->topicsI = $topics['I'];
+	//$template->topicsA = $topics['A'];
+	//$template->topicsN = $topics['N'];
 
 	$template->currentCat = $category;
 	$template->currentCatNAme = $catName;
@@ -1014,35 +1061,37 @@ else if (isSet($_GET['news']))
 		$me=$currentUser->ID;
 
 		$currentLocation = (PG::getLocation($currentUser->pgLocation));
-		 $res = mysql_query("SELECT pg_visualized_elements.time as seen,topicID,lastTopicEvent,topicTitle,topicLastTime,pgUser,topicType,topicColorExt FROM pg_users,cdb_topics LEFT JOIN pg_visualized_elements ON (pg_visualized_elements.pgID = $me AND type = 'CDB' AND what = topicID) WHERE topicLastUser=pg_users.pgID AND (topicCat IN (".$currentLocation['catGDB'].",".$currentLocation['catDISP'].",".$currentLocation['catRAP'].")) ORDER by topicLastTime DESC LIMIT 15");
+		 $res = mysql_query("SELECT pg_visualized_elements.time as seen,topicID,lastTopicEvent,topicTitle,topicLastTime,pgUser,topicType,topicLink, IF(topicType='I',0,topicLock) as topicLock,topicColorExt FROM pg_users,cdb_topics LEFT JOIN pg_visualized_elements ON (pg_visualized_elements.pgID = $me AND type = 'CDB' AND what = topicID) WHERE topicLastUser=pg_users.pgID AND (topicCat IN (".$currentLocation['catGDB'].",".$currentLocation['catDISP'].",".$currentLocation['catRAP'].")) ORDER by topicLastTime DESC LIMIT 15");
 
 		$topics['LOCAL'] = array();
 		while ($reso = mysql_fetch_array($res))
-			$topics['LOCAL'][] = array("ID" => $reso['topicID'],"lastTopicEvent" => $reso['lastTopicEvent'], "title" => $reso['topicTitle'], "lastT" => timeHandler::timestampToGiulian($reso['topicLastTime']), "lastU" => $reso['pgUser'], 'topicType' => $reso['topicType'], "classExt" => $reso['topicColorExt'], "lastTstamp" => $reso['topicLastTime'],'seen' => (($reso['seen'] || $reso['topicLastTime'] < $limiL) ? true : false) );
+			$topics['LOCAL'][] = array("ID" => $reso['topicID'],"lastTopicEvent" => $reso['lastTopicEvent'], "title" => $reso['topicTitle'], "lastT" => timeHandler::timestampToGiulian($reso['topicLastTime']), "lastU" => $reso['pgUser'], 'topicType' => $reso['topicType'],"topicType"=>$reso['topicType'],'topicLink' => $reso['topicLink'],"topicLock" => $reso['topicLock'], "classExt" => $reso['topicColorExt'], "lastTstamp" => $reso['topicLastTime'],'seen' => (($reso['seen'] || $reso['topicLastTime'] < $limiL) ? true : false) );
 		
 		// FLOTTA
-		$res = mysql_query('SELECT pg_visualized_elements.time as seen,topicID,lastTopicEvent,topicTitle,topicLastTime,pgUser,topicType,topicColorExt FROM pg_users,cdb_cats,cdb_topics LEFT JOIN pg_visualized_elements ON (pg_visualized_elements.pgID = '.$me.' AND type = \'CDB\' AND what = topicID) WHERE topicLastUser=pg_users.pgID AND topicCat = catCode AND catSuper = \'FL\' ORDER BY topicLastTime DESC LIMIT 10');
+		$res = mysql_query('SELECT pg_visualized_elements.time as seen,topicID,lastTopicEvent,topicTitle,topicLastTime,pgUser,topicType,topicLink, IF(topicType=\'I\',0,topicLock) as topicLock,topicColorExt FROM pg_users,cdb_cats,cdb_topics LEFT JOIN pg_visualized_elements ON (pg_visualized_elements.pgID = '.$me.' AND type = \'CDB\' AND what = topicID) WHERE topicLastUser=pg_users.pgID AND topicCat = catCode AND catSuper = \'FL\' ORDER BY topicLastTime DESC LIMIT 10');
 
 		while ($reso = mysql_fetch_array($res))
-			$topics['FL'][] = array("ID" => $reso['topicID'], "title" => $reso['topicTitle'],"lastTopicEvent" => $reso['lastTopicEvent'], "lastT" => timeHandler::timestampToGiulian($reso['topicLastTime']), "lastU" => $reso['pgUser'], 'topicType' => $reso['topicType'], "classExt" => $reso['topicColorExt'], "lastTstamp" => $reso['topicLastTime'],'seen' => (($reso['seen'] || $reso['topicLastTime'] < $limiL) ? true : false));
+			$topics['FL'][] = array("ID" => $reso['topicID'], "title" => $reso['topicTitle'],"lastTopicEvent" => $reso['lastTopicEvent'], "lastT" => timeHandler::timestampToGiulian($reso['topicLastTime']), "lastU" => $reso['pgUser'], 'topicType' => $reso['topicType'],"topicType"=>$reso['topicType'],'topicLink' => $reso['topicLink'],"topicLock" => $reso['topicLock'], "classExt" => $reso['topicColorExt'], "lastTstamp" => $reso['topicLastTime'],'seen' => (($reso['seen'] || $reso['topicLastTime'] < $limiL) ? true : false));
 
-		$res = mysql_query('SELECT pg_visualized_elements.time as seen,topicID,lastTopicEvent,topicTitle,topicLastTime,pgUser,topicType,topicColorExt FROM pg_users,cdb_cats,cdb_topics LEFT JOIN pg_visualized_elements ON (pg_visualized_elements.pgID = '.$me.' AND type = \'CDB\' AND what = topicID) WHERE topicLastUser=pg_users.pgID AND topicCat = catCode AND catSuper = \'CIV\' ORDER BY topicLastTime DESC LIMIT 10');
+		$res = mysql_query('SELECT pg_visualized_elements.time as seen,topicID,lastTopicEvent,topicTitle,topicLastTime,pgUser,topicType,topicLink, IF(topicType=\'I\',0,topicLock) as topicLock,topicColorExt FROM pg_users,cdb_cats,cdb_topics LEFT JOIN pg_visualized_elements ON (pg_visualized_elements.pgID = '.$me.' AND type = \'CDB\' AND what = topicID) WHERE topicLastUser=pg_users.pgID AND topicCat = catCode AND catSuper = \'CIV\' ORDER BY topicLastTime DESC LIMIT 10');
 		while ($reso = mysql_fetch_array($res))
-			$topics['CIV'][] = array("ID" => $reso['topicID'], "title" => $reso['topicTitle'],"lastTopicEvent" => $reso['lastTopicEvent'], "lastT" => timeHandler::timestampToGiulian($reso['topicLastTime']), "lastU" => $reso['pgUser'], 'topicType' => $reso['topicType'], "classExt" => $reso['topicColorExt'], "lastTstamp" => $reso['topicLastTime'],'seen' => (($reso['seen'] || $reso['topicLastTime'] < $limiL) ? true : false));
+			$topics['CIV'][] = array("ID" => $reso['topicID'], "title" => $reso['topicTitle'],"lastTopicEvent" => $reso['lastTopicEvent'], "lastT" => timeHandler::timestampToGiulian($reso['topicLastTime']), "lastU" => $reso['pgUser'], 'topicType' => $reso['topicType'],"topicType"=>$reso['topicType'],'topicLink' => $reso['topicLink'],"topicLock" => $reso['topicLock'], "classExt" => $reso['topicColorExt'], "lastTstamp" => $reso['topicLastTime'],'seen' => (($reso['seen'] || $reso['topicLastTime'] < $limiL) ? true : false));
 
-		$res = mysql_query('SELECT pg_visualized_elements.time as seen,restrictions,lastTopicEvent,topicID,topicTitle,topicLastTime,pgUser,topicType,topicColorExt FROM pg_users,cdb_cats,cdb_topics LEFT JOIN pg_visualized_elements ON (pg_visualized_elements.pgID = '.$me.' AND type = \'CDB\' AND what = topicID) WHERE topicLastUser=pg_users.pgID AND topicCat = catCode AND catSuper = \'HE\' AND restrictions IN (' . PG::returnMapsStringFORDB($currentUser->pgAuthOMA). ') ORDER BY topicLastTime DESC LIMIT 10');
+		$res = mysql_query('SELECT pg_visualized_elements.time as seen,restrictions,lastTopicEvent,topicID,topicTitle,topicLastTime,pgUser,topicType,topicLink, IF(topicType=\'I\',0,topicLock) as topicLock,topicColorExt FROM pg_users,cdb_cats,cdb_topics LEFT JOIN pg_visualized_elements ON (pg_visualized_elements.pgID = '.$me.' AND type = \'CDB\' AND what = topicID) WHERE topicLastUser=pg_users.pgID AND topicCat = catCode AND catSuper = \'HE\' AND restrictions IN (' . PG::returnMapsStringFORDB($currentUser->pgAuthOMA). ') ORDER BY topicLastTime DESC LIMIT 10');
 		while ($reso = mysql_fetch_array($res))
-		$topics['HE'][] = array("ID" => $reso['topicID'], "title" => $reso['topicTitle'], "lastT" => timeHandler::timestampToGiulian($reso['topicLastTime']), "lastU" => $reso['pgUser'],"lastTopicEvent" => $reso['lastTopicEvent'], 'topicType' => $reso['topicType'], "classExt" => $reso['topicColorExt'], "lastTstamp" => $reso['topicLastTime'],'seen' => (($reso['seen'] || $reso['topicLastTime'] < $limiL) ? true : false));
+		$topics['HE'][] = array("ID" => $reso['topicID'], "title" => $reso['topicTitle'], "lastT" => timeHandler::timestampToGiulian($reso['topicLastTime']), "lastU" => $reso['pgUser'],"lastTopicEvent" => $reso['lastTopicEvent'], 'topicType' => $reso['topicType'],"topicType"=>$reso['topicType'],'topicLink' => $reso['topicLink'],"topicLock" => $reso['topicLock'], "classExt" => $reso['topicColorExt'], "lastTstamp" => $reso['topicLastTime'],'seen' => (($reso['seen'] || $reso['topicLastTime'] < $limiL) ? true : false));
 		
 
-		$res = mysql_query('SELECT pg_visualized_elements.time as seen,topicID,lastTopicEvent,topicTitle,restrictions,topicLastTime,pgUser,topicType,topicColorExt FROM pg_users,cdb_cats,cdb_topics LEFT JOIN pg_visualized_elements ON (pg_visualized_elements.pgID = '.$me.' AND type = \'CDB\' AND what = topicID)  WHERE topicLastUser=pg_users.pgID AND topicCat = catCode AND catSuper = \'MA\' AND catCode <> 47 AND restrictions IN (' .PG::returnMapsStringFORDB($currentUser->pgAuthOMA) .') ORDER BY topicLastTime DESC LIMIT 15');
+		$res = mysql_query('SELECT pg_visualized_elements.time as seen,topicID,lastTopicEvent,topicTitle,restrictions,topicLastTime,pgUser,topicType,topicLink,IF(topicType=\'I\',0,topicLock) as topicLock,topicColorExt FROM pg_users,cdb_cats,cdb_topics LEFT JOIN pg_visualized_elements ON (pg_visualized_elements.pgID = '.$me.' AND type = \'CDB\' AND what = topicID)  WHERE topicLastUser=pg_users.pgID AND topicCat = catCode AND catSuper = \'MA\' AND catCode <> 47 AND restrictions IN (' .PG::returnMapsStringFORDB($currentUser->pgAuthOMA) .') ORDER BY topicLastTime DESC LIMIT 15');
 
 		while ($reso = mysql_fetch_array($res))
 		{	
-			$topics['MA'][] = array("ID" => $reso['topicID'], "title" => $reso['topicTitle'],"lastTopicEvent" => $reso['lastTopicEvent'], "lastT" => timeHandler::timestampToGiulian($reso['topicLastTime']), "lastU" => $reso['pgUser'], 'topicType' => $reso['topicType'], "classExt" => $reso['topicColorExt'], "lastTstamp" => $reso['topicLastTime'],'seen' => (($reso['seen'] || $reso['topicLastTime'] < $limiL) ? true : false));	
+			$topics['MA'][] = array("ID" => $reso['topicID'], "title" => $reso['topicTitle'],"lastTopicEvent" => $reso['lastTopicEvent'], "lastT" => timeHandler::timestampToGiulian($reso['topicLastTime']), "lastU" => $reso['pgUser'], 'topicType' => $reso['topicType'],"topicType"=>$reso['topicType'],'topicLink' => $reso['topicLink'],"topicLock" => $reso['topicLock'], "classExt" => $reso['topicColorExt'], "lastTstamp" => $reso['topicLastTime'],'seen' => (($reso['seen'] || $reso['topicLastTime'] < $limiL) ? true : false));	
 			$masters = true;
 		}	
 	if (isSet($masters)) $template->showMA = true;
+
+	
 	$template->topics = $topics;
 } 
 

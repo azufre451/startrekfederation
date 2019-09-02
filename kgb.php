@@ -2,6 +2,7 @@
 if (!isSet($_SESSION['pgID'])){echo "AUTORIZZAZIONI NON SUFFICIENTI! TRASSONE!";  exit;}
 include('includes/app_include.php');
 include('includes/validate_class.php');
+include('includes/cdbClass.php');
 include("includes/PHPTAL/PHPTAL.php"); //NEW
 if (!PG::mapPermissions('A',PG::getOMA($_SESSION['pgID']))) {echo "AUTORIZZAZIONI NON SUFFICIENTI2! TRASSONE!"; exit;}
 
@@ -24,7 +25,7 @@ $paddQ = mysql_query("SELECT padID, paddTitle, paddText, paddFrom, paddTo, paddT
 	{
 		while($padd = mysql_fetch_array($paddQ))
 		{
-			$padd['pcontent'] = nl2br($padd['paddText']);
+			$padd['pcontent'] = CDB::bbcode($padd['paddText']);
 			$padd['phour'] = date('H',$padd['paddTime']);
 			$padd['pmin'] = date('i',$padd['paddTime']);
 			$padd['pday'] = timeHandler::extrapolateDay($padd['paddTime']); 
@@ -41,6 +42,7 @@ $template->conns = $conns;
 $template->padds = $padds;
 $template->focus = $focus;
 $template->sussurri = $htmlLiner;
+$template->gameOptions = $gameOptions;
 
 	try 
 	{

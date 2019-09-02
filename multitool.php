@@ -3,6 +3,7 @@ session_start();
 
 include('includes/app_include.php');
 include('includes/validate_class.php');
+include('includes/cdbClass.php');
 include("includes/PHPTAL/PHPTAL.php");
 PG::updatePresence($_SESSION['pgID']);
 
@@ -159,6 +160,7 @@ Di seguito trovi alcune risorse utili per scrivere il BG. Lo staff è a tua disp
 if($mode == "preapproveBackground")
 {
 	if (!PG::mapPermissions('G',$currentUser->pgAuthOMA)) exit;
+	if ($currentUser->pgAuthOMA == 'M') exit;
 
 	$pgID = $vali->numberOnly($_GET['pgID']);
 	$targetUser = new PG($pgID);
@@ -260,7 +262,8 @@ if($mode == "getProfilingPadds")
 	while($atpl = mysql_fetch_assoc($res))
 	{
 
-		$atpl['pcontent'] = nl2br($atpl['paddText']);
+		
+		$atpl['pcontent'] = cdb::bbcode($atpl['paddText']);
 		$atpl['phour'] = date('H',$atpl['paddTime']);
 		$atpl['pmin'] = date('i',$atpl['paddTime']);
 		$atpl['pday'] = timeHandler::extrapolateDay($atpl['paddTime']); 
@@ -1020,10 +1023,11 @@ foreach(range($candT-1,0,-1) as $p)
 }
 
 $template->DDAYMAP=$DDAYMAP;
-
+$template->gameOptions = $gameOptions;
 $template->presentiTW = $presentiTW;
 $template->presentimeta = $presentimeta;
 $template->me=$currentUser->ID;
+$template->meRole=$currentUser->pgAuthOMA;
 if($mode == 'mypresence') 
 	$template->presenzaStaff = true;
 

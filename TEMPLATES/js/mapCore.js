@@ -7,10 +7,16 @@
 		
 		jQuery(function()
 		{
+			setInterval("localizeRefreshAuto();",20000);
 			setInterval("ccc();",7000);
 			setInterval('lamp()',600);
 			jQuery('#messageOfStatus').fadeIn(700);
 		});
+
+
+		jQuery(window).keyup(swish);
+
+
 	
 		
 		// nota Moreno. Funzione SETTER dei parametri di configurazione della ghiera esterna.

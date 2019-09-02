@@ -71,7 +71,8 @@
 <br />
 <select class="neon" name="alloLocation"><option tal:repeat="location locations" tal:attributes="value repeat/location/key;" tal:content="location"/></select>&nbsp;&nbsp;
 Numero: <input type="text" class="neon" name="alloNum" style="width:30px;" onfocus="this.select()" />&nbsp;&nbsp;
-Ponte: <input type="text" class="neon" name="alloDeck" onfocus="this.select()" style="width:30px; text-align:center; font-weight:bold;" />&nbsp;&nbsp;&nbsp;
+Ponte: <input type="text" class="neon" name="alloDeck" onfocus="this.select()" style="width:30px; text-align:center; font-weight:bold;" /><br /><br />
+Template: <select type="text" class="neon" name="alloType"><optgroup tal:repeat="allotype alloTypes" tal:attributes="label repeat/allotype/key"><option tal:repeat="allotypeThis allotype" tal:attributes="value allotypeThis/typeID"  tal:content="allotypeThis/alloName"></option> </optgroup></select><br /><br />
 <input type="submit" value="CREA" /></form>
 
 <div style="width:80%; margin-left:auto; margin-right:auto;"><table style="width:100%;">
@@ -231,6 +232,20 @@ Grado: <input class="neon" type="text" name="grado" style="width:180px;" tal:att
 			<input type="submit" value="VAI" />
 		</form>
 	<div style="float:left; width:50px; margin-top:5px; background-repeat:no-repeat;" id="brever"/><div style="clear:both;" />
+</div>
+
+
+<a name="doppi" />
+<div style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+		Altri utenti collegati
+
+		<p tal:repeat="dop doppi" style="margin:2px; text-align:left;">
+			<img tal:attributes="src string:TEMPLATES/img/ranks/${dop/ordinaryUniform}.png" style="vertical-align: middle" /> <a class="interfaceLink" tal:attributes="href string:scheda.php?pgID=${dop/pgID}&s=master" tal:content="dop/pgUser" />
+				<span tal:condition="php:dop['pgType']=='OLD'" style="color:#FC0; font-size:11px;"> [Ex pg] </span>
+				<span tal:condition="php:dop['pgType']=='DOPPIO'" style="color:#0683b1; font-size:11px;"> [Doppio]</span>
+				<span tal:condition="php:(!dop['pgType'] or dop['pgType']=='MAIN')" style="color:#42b106; font-size:11px;"> [Principale]</span>
+		</p>
+			
 </div>
 
 <a name="noteStaff" />

@@ -102,7 +102,7 @@
 	<a tal:attributes="href string:main.php?l=${pla/placeID}" class="interfaceLink"  tal:repeat="pla places">
 		<div class="overNaviLimitrElement radiusBordered35" tal:attributes="onmouseover string:javascript:setIco('${pla/placeMap1}')">
 			<img tal:attributes="src string:TEMPLATES/img/logo/${pla/place_littleLogo1}" /><br />
-			<span style="font-weight:bold;" tal:content="pla/placeName" />
+			<span style="font-weight:bold;" tal:attributes="class php:(strlen(pla['placeName']) GE 25) ? 'reducedFont' : ''" tal:content="pla/placeName" />
 		</div>
 	</a>
 	
@@ -113,7 +113,7 @@
 
 <div metal:use-macro="TEMPLATES/metal_panels.htm/dotazionePanel" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/statusBox" />
-
+<div metal:use-macro="TEMPLATES/metal_panels.htm/localizeBox" />
 <div metal:use-macro="TEMPLATES/guidar.htm/guidePanel" />
 <div metal:use-macro="TEMPLATES/audioSegments.htm/audioNotifier" />
 <div metal:use-macro="TEMPLATES/audioSegments.htm/whisperPaddAlert" />

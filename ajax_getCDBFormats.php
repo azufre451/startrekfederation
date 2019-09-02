@@ -42,9 +42,9 @@ $usersString="";
 
 if($lisOuser != '')
 {
-	$res = mysql_query("(SELECT UCASE(pgUser) as pgUser, UCASE(pgNomeC) as pgNomeC, UCASE(pgNomeSuff) as pgNomeSuff, pgSezione,incIncarico,pgGrado,ordinaryUniform,placeName,rankerprio FROM pg_users,pg_incarichi,pg_places,pg_ranks WHERE prio = rankCode AND pgPlace = placeID AND pg_users.pgID = pg_incarichi.pgID AND incMain = 1 AND pgUser IN ($lisOuser) )
+	$res = mysql_query("(SELECT UCASE(pgUser) as pgUser, UCASE(pgNomeC) as pgNomeC, UCASE(pgNomeSuff) as pgNomeSuff, pgSezione,incIncarico,pgGrado,ordinaryUniform,placeName,rankerprio FROM pg_users LEFT JOIN pg_incarichi ON pg_users.pgID = pg_incarichi.pgID LEFT JOIN pg_places ON pgPlace = placeID LEFT JOIN pg_ranks ON prio = rankCode WHERE (incMain = 1 OR ISNULL(incMain)) AND pgUser IN ($lisOuser) )
 		UNION (
-		SELECT UCASE(pngSurname) as pgUser, UCASE(pngName) as pgNomeC, '' as pgNomeSuff, pngSezione,pngIncarico,rGrado,ordinaryUniform,placeName,rankerprio FROM png_incarichi,pg_places,pg_ranks WHERE prio = pngRank AND pngPlace = placeID AND pngSurname IN ($lisOuser) GROUP BY pngSurname
+		SELECT UCASE(pngSurname) as pgUser, UCASE(pngName) as pgNomeC, '' as pgNomeSuff, pngSezione,pngIncarico,rGrado,ordinaryUniform,placeName,rankerprio FROM png_incarichi,pg_places,pg_ranks WHERE prioritary = 1 AND prio = pngRank AND pngPlace = placeID AND pngSurname IN ($lisOuser) GROUP BY pngSurname
 		)
 
 		ORDER BY rankerprio DESC"); 

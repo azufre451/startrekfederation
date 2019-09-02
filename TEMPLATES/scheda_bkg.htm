@@ -8,108 +8,127 @@
 
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/personnel.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
-	 
+	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 	
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 
-	<title>STAR TREK FEDERATION - SCHEDA</title>	
-	<script type="text/javascript">
-	function paddOpen(who){window.open ('padd.php?s=seR&to='+who+'&sub=','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
+
+	<title>STAR TREK FEDERATION - SCHEDA
+	</title>	
+ 
+	<style>.backkander >
+		img {max-width:280px;}
+		.ui-tooltip {font-size:12px; text-align:justify;}
+
+	</style>
+	<script>jQuery(function(){
+			jQuery('.tooltip').tooltip({
+          			content: function (){
+          						return $(this).prop('title');
+          					}
+					});	
+			});
 	</script>
-	
-	<style>.backkander > img {max-width:280px;}</style>
 </head>
 
 <body style="background-color:black; overflow:hidden; height:385px; padding:-5px;">
 
-<div id="schedaContainer">
+	<div id="schedaContainer">
 
-<div metal:use-macro="TEMPLATES/metal.htm/schedaIntro" />
+		<div metal:use-macro="TEMPLATES/metal.htm/schedaIntro" />
 
-<a tal:omit-tag="not:exists:showRevBackground" href="javascript:void(0);" onclick="jQuery('#Background, #adv15').fadeOut(120).promise().done( function(){jQuery('#revBackground').fadeIn(120);});" class="interfaceLink" ><div id="adv15" tal:condition="exists:revBackground" style="position:absolute; bottom:18px; background-color:#b30000; font-size:12px; font-weight:bold; text-align: center; left:16px; width:93%; padding:3px 0px; color:#AAA"> Attenzione: Esiste una versione più recente del background che è attualmente in revisione da parte dello Staff (apparirà qui solo dopo l'approvazione). <span tal:condition="exists:showRevBackground">Clicca qui per vedere la bozza</span></div></a>
- 
+		<a tal:omit-tag="not:exists:showRevBackground" href="javascript:void(0);" onclick="jQuery('#Background, #adv15').fadeOut(120).promise().done( function(){jQuery('#revBackground').fadeIn(120);});" class="interfaceLink" >
+			<div id="adv15" tal:condition="exists:revBackground" style="position:absolute; bottom:18px; background-color:#b30000; font-size:12px; font-weight:bold; text-align: center; left:16px; width:93%; padding:3px 0px; color:#AAA">
+				Attenzione: Esiste una versione più recente del background che è attualmente in revisione da parte dello Staff (apparirà qui solo dopo l'approvazione).
+				<span tal:condition="exists:showRevBackground">Clicca qui per vedere la bozza </span>
+			</div>
+		</a>
 
-<div id="mainContainer">
+		<div id="mainContainer">
 
+			<div tal:condition="php:(userData.png == true)">
+				<p style="text-align:center; font-style:italic; font-weight:bold; padding:5px; margin-left:20px; margin-right:20px; border:1px solid #2ba1f4 ">Questo è un PnG: Personaggio non Giocante ad uso ambientativo
+			<span style="font-size:11px;">Rappresenta uno strumento di gestione per arricchire il gioco,
+			in attesa di un personaggio giocante abile all'incarico di questo PnG</span></p>
+			</div>
 
-<div tal:condition="php:(userData.png == true)"><p style="text-align:center; font-style:italic; font-weight:bold; padding:5px; margin-left:20px; margin-right:20px; border:1px solid #2ba1f4 ">Questo è un PnG: Personaggio non Giocante ad uso ambientativo
-<span style="font-size:11px;">Rappresenta uno strumento di gestione per arricchire il gioco,
-in attesa di un personaggio giocante abile all'incarico di questo PnG</span></p></div>
+			<div style="clear: both">
+				<div tal:condition="exists:background" id="Background">
+					<div style="clear:both; text-align:center;">
+						<a href="#fis"><img src="TEMPLATES/img/interface/personnelInterface/bg_aspetto.png" alt="Aspetto Fisico" title="Aspetto Fisico" /></a> 
+						<a href="#bac"><img src="TEMPLATES/img/interface/personnelInterface/bg_biografia.png" alt="Biografia" title="Biografia" /></a> 
+						<a href="#car"><img src="TEMPLATES/img/interface/personnelInterface/bg_psicologia.png" alt="Profilo Psicologico" title="Profilo Psicologico" /></a> <br />
+					  	<a href="#fam"><img src="TEMPLATES/img/interface/personnelInterface/bg_famiglia.png" alt="Famiglia" title="Famiglia" /></a> 
+						<a href="#ilSegreto"><img src="TEMPLATES/img/interface/personnelInterface/bg_seclar.png"  tal:condition="exists:showIlSegreto" alt="Seclar 7" title="Seclar 7" /></a> 
+						<a href="#var"><img src="TEMPLATES/img/interface/personnelInterface/bg_altro.png" alt="Varie" title="Varie" /></a> 
+					</div>
 
-<div tal:condition="exists:background"  id="Background">
-<div style="clear:both; text-align:center;">
-	<a href="#fis"><img src="TEMPLATES/img/interface/personnelInterface/bg_aspetto.png" alt="Aspetto Fisico" title="Aspetto Fisico" /></a> 
-	<a href="#bac"><img src="TEMPLATES/img/interface/personnelInterface/bg_biografia.png" alt="Biografia" title="Biografia" /></a> 
-	<a href="#car"><img src="TEMPLATES/img/interface/personnelInterface/bg_psicologia.png" alt="Profilo Psicologico" title="Profilo Psicologico" /></a> <br />
-  	<a href="#fam"><img src="TEMPLATES/img/interface/personnelInterface/bg_famiglia.png" alt="Famiglia" title="Famiglia" /></a> 
-	<a href="#ilSegreto"><img src="TEMPLATES/img/interface/personnelInterface/bg_seclar.png"  tal:condition="exists:showIlSegreto" alt="Seclar 7" title="Seclar 7" /></a> 
+					<a name="fis" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_aspetto.png" /></p>
+					<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure background/pgBiometrics" />
+
+					<a name="bac" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_biografia.png" /></p>
+					<div style="margin-right:5px; font-size:13px; text-align:justify" class="backkander" tal:content="structure background/pgBackground" />
+
+					<a name="car" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_psicologia.png" /></p>
+					<div style="margin-right:5px; font-size:13px; text-align:justify" class="backkander" tal:content="structure background/pgCarattere" />
+
+					<a name="fam" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_famiglia.png" /></p>
+					<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure background/pgFamily" />
+
+					<section tal:condition="exists:showIlSegreto"><a name="ilSegreto" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_seclar7.png" /></p>
+					<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure background/pgIlSegreto" />
+					</section>
+
+					<a name="var" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_altro.png" /></p>
+					<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure background/pgVarie" />
+				</div>
+			</div>
+			
 	
-	<a href="#var"><img src="TEMPLATES/img/interface/personnelInterface/bg_altro.png" alt="Varie" title="Varie" /></a> 
-</div>
 
 
-<a name="fis" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_aspetto.png" /></p>
-<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure background/pgBiometrics" />
-
-<a name="bac" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_biografia.png" /></p>
-<div style="margin-right:5px; font-size:13px; text-align:justify" class="backkander" tal:content="structure background/pgBackground" />
-
-<a name="car" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_psicologia.png" /></p>
-<div style="margin-right:5px; font-size:13px; text-align:justify" class="backkander" tal:content="structure background/pgCarattere" />
-
-<a name="fam" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_famiglia.png" /></p>
-<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure background/pgFamily" />
-
-<section tal:condition="exists:showIlSegreto"><a name="ilSegreto" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_seclar7.png" /></p>
-<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure background/pgIlSegreto" />
-</section>
-
-<a name="var" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_altro.png" /></p>
-<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure background/pgVarie" />
-</div>
+			<div style="clear: both">
+				<div tal:condition="exists:revBackground" id="revBackground" style="display:none">
+					<div style="clear:both; text-align:center;">
+						<a href="#fis"><img src="TEMPLATES/img/interface/personnelInterface/bg_aspetto.png" alt="Aspetto Fisico" title="Aspetto Fisico" /></a> 
+						<a href="#bac"><img src="TEMPLATES/img/interface/personnelInterface/bg_biografia.png" alt="Biografia" title="Biografia" /></a> 
+						<a href="#car"><img src="TEMPLATES/img/interface/personnelInterface/bg_psicologia.png" alt="Profilo Psicologico" title="Profilo Psicologico" /></a> <br />
+					  	<a href="#fam"><img src="TEMPLATES/img/interface/personnelInterface/bg_famiglia.png" alt="Famiglia" title="Famiglia" /></a> 
+						<a href="#ilSegreto"><img src="TEMPLATES/img/interface/personnelInterface/bg_seclar.png"  tal:condition="exists:showIlSegreto" alt="Seclar 7" title="Seclar 7" /></a> 
+						
+						<a href="#var"><img src="TEMPLATES/img/interface/personnelInterface/bg_altro.png" alt="Varie" title="Varie" /></a> 
+					</div>
 
 
+					<a name="fis" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_aspetto.png" /></p>
+					<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure revBackground/pgBiometrics" />
 
-<div tal:condition="exists:revBackground" id="revBackground" style="display:none;">
-<div style="clear:both; text-align:center;">
-	<a href="#fis"><img src="TEMPLATES/img/interface/personnelInterface/bg_aspetto.png" alt="Aspetto Fisico" title="Aspetto Fisico" /></a> 
-	<a href="#bac"><img src="TEMPLATES/img/interface/personnelInterface/bg_biografia.png" alt="Biografia" title="Biografia" /></a> 
-	<a href="#car"><img src="TEMPLATES/img/interface/personnelInterface/bg_psicologia.png" alt="Profilo Psicologico" title="Profilo Psicologico" /></a> <br />
-  	<a href="#fam"><img src="TEMPLATES/img/interface/personnelInterface/bg_famiglia.png" alt="Famiglia" title="Famiglia" /></a> 
-	<a href="#ilSegreto"><img src="TEMPLATES/img/interface/personnelInterface/bg_seclar.png"  tal:condition="exists:showIlSegreto" alt="Seclar 7" title="Seclar 7" /></a> 
-	
-	<a href="#var"><img src="TEMPLATES/img/interface/personnelInterface/bg_altro.png" alt="Varie" title="Varie" /></a> 
-</div>
+					<a name="bac" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_biografia.png" /></p>
+					<div style="margin-right:5px; font-size:13px; text-align:justify" class="backkander" tal:content="structure revBackground/pgBackground" />
 
+					<a name="car" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_psicologia.png" /></p>
+					<div style="margin-right:5px; font-size:13px; text-align:justify" class="backkander" tal:content="structure revBackground/pgCarattere" />
 
-<a name="fis" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_aspetto.png" /></p>
-<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure revBackground/pgBiometrics" />
+					<a name="fam" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_famiglia.png" /></p>
+					<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure revBackground/pgFamily" />
 
-<a name="bac" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_biografia.png" /></p>
-<div style="margin-right:5px; font-size:13px; text-align:justify" class="backkander" tal:content="structure revBackground/pgBackground" />
+					<section tal:condition="exists:showIlSegreto"><a name="ilSegreto" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_seclar7.png" /></p>
+					<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure revBackground/pgIlSegreto" />
+					</section>
 
-<a name="car" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_psicologia.png" /></p>
-<div style="margin-right:5px; font-size:13px; text-align:justify" class="backkander" tal:content="structure revBackground/pgCarattere" />
-
-<a name="fam" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_famiglia.png" /></p>
-<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure revBackground/pgFamily" />
-
-<section tal:condition="exists:showIlSegreto"><a name="ilSegreto" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_seclar7.png" /></p>
-<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure revBackground/pgIlSegreto" />
-</section>
-
-<a name="var" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_altro.png" /></p>
-<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure revBackground/pgVarie" />
-</div>
-
-
-</div>
-</div>
-
-
-
-
+					<a name="var" /><p><img src="TEMPLATES/img/interface/personnelInterface/div_altro.png" /></p>
+					<div style="margin-right:5px; font-size:13px; text-align:justify"  class="backkander" tal:content="structure revBackground/pgVarie" />
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
+
+
+

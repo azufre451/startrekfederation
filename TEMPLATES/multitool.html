@@ -5,14 +5,16 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/personnel.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	
+	<link href="TEMPLATES/css/personnel.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/cdb_styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 
-	<script type="text/javascript" src="TEMPLATES/js/initiator.js" />
-	<script type="text/javascript" src="TEMPLATES/js/multitool.js?v=3.3" />
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}" />
+	<script type="text/javascript" src="TEMPLATES/js/multitool.js?v=${gameOptions/numericVersion}" />
 	
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 
@@ -30,7 +32,7 @@
 		.approvalDiv{background-color:#333; border:1px solid #333; padding:5px;}
 		.approvalDiv:hover{background-color:#945416; cursor: pointer;}
 
-		#approvals ins {text-decoration: none; background-color:green !important;}
+		#approvals ins {text-decoration: none; background-color:green !important;} 
 		#approvals del {text-decoration: none; background-color:#960101 !important;}
 
 		#padderList div {cursor:pointer; border:1px solid #222; margin-top:3px; font-size:13px;}
@@ -57,9 +59,22 @@
 .timeline-pol2 table td 
 {height:10px; text-align:left; height:10px; float:left; margin:0px; border-left:1px solid #777; width:10px; font-size:10px;}
 .timeline-pol2 table td img {height:12px;}
+
+
+
+ 
+
 	</style>
 
 	<script type="text/javascript">
+
+					jQuery(function(){
+			jQuery('.tooltip').tooltip({
+          			content: function (){
+          						return $(this).prop('title');
+          					}
+					});	
+			});
 		function load_playrecord_vector(ida){
 			
 			
@@ -156,7 +171,7 @@
 
 
 
-						<a tal:condition="php:(person['pgBackground'] != 1)" class="interfaceLinkGreen" tal:attributes="href string:multitool.php?s=preapproveBackground&pgID=${person/pgID}"> <img src="TEMPLATES/img/interface/ok_access.png" title="Pre-Approva BG" /> </a>
+						<a tal:condition="php:(person['pgBackground'] != 1 && meRole != 'M')" class="interfaceLinkGreen" tal:attributes="href string:multitool.php?s=preapproveBackground&pgID=${person/pgID}"> <img src="TEMPLATES/img/interface/ok_access.png" title="Pre-Approva BG" /> </a>
 					<a tal:condition="php:(person['pgLock'])" tal:attributes="href string:multitool.php?s=setUnlock&pgID=${person/pgID}"> <img src="TEMPLATES/img/interface/lock.png" title="Sblocca PG" /> </a>
 					
 

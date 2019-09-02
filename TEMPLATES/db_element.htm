@@ -7,8 +7,9 @@
 	<link rel="shortcut icon" href="favicon.ico" />
 	
 	<link tal:attributes="href string:TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
-	<link tal:attributes="href string:TEMPLATES/css/db.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" /> 
 
+	<link tal:attributes="href string:TEMPLATES/css/db.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" /> 
+	<link tal:attributes="href string:TEMPLATES/css/cdb_styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 	
 	<link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet" />
@@ -21,8 +22,18 @@
 	<script type="text/javascript">
 		jQuery(function(){
 			jQuery('button').button();
+		
+		jQuery('.tooltip').tooltip({
+          			content: function (){
+          						return $(this).prop('title');
+          					}
+		});	
 		});
 	</script>
+
+
+	<style>.ui-tooltip {font-size:12px; text-align:justify;}</style>
+
 	<title tal:content="string:${title} - Star Trek: Federation GDR">FEDERATION - DATABASE</title>	
 	<meta name="description" tal:content="description" />
 	<meta name="keywords" tal:content="metaKeywords" />

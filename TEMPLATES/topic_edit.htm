@@ -24,6 +24,7 @@
 		
 
 		jQuery(function(){
+			jQuery( "#cdbType").autocomplete({source: "cdb.php?getallgroups="+jQuery('#cdbID').attr('value'),	minLength: 2});
 			jQuery( ".users")
 			// don't navigate away from the field on tab when selecting an item
 
@@ -119,11 +120,7 @@
 			<option value="topic_ext_white">BIANCO</option> 
 		</select>
 		
-		<select  class="neon" style="margin-left:10px;" name="cdbType"> 
-			<option value="N" tal:attributes="selected php:(topicType == 'N') ? 'selected' : null">NORMALE</option> 
-			<option value="A" tal:attributes="selected php:(topicType == 'A') ? 'selected' : null">ANNUNCIO</option> 
-			<option value="I" tal:attributes="selected php:(topicType == 'I') ? 'selected' : null">IMPORTANTE</option> 
-		</select>
+		<input type='text' class="neon" style="margin-left:10px;" name="cdbType" id="cdbType" tal:attributes='value topicType' placeholder='Gruppo' />
 		
 		<select  class="neon" style="margin-left:10px;" name="cdbSeclar">
 			<option tal:repeat="con php:range(0,9)" tal:attributes="value con" tal:content="string: SECLAR ${con}" />
@@ -134,7 +131,7 @@
 
 
 		<input style="margin-left:10px;" type="submit" value="ESEGUI" />
-		<input type="hidden" name="cdbID" tal:attributes="value topicID" />
+		<input type="hidden" id="cdbID" name="cdbID" tal:attributes="value topicID" />
 	</form>
 
 

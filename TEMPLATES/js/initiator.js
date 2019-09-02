@@ -19,6 +19,7 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 		case 49: jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv1").fadeIn('fast'); break;
 		case 50: jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv2").fadeIn('fast'); break;
 		case 51: jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv3").fadeIn('fast'); break;
+		case 27: jQuery(".popup, .escape_popup").fadeOut('fast'); break;
 	}
 	}
 	
@@ -82,6 +83,99 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 			dataType : 'json',
 			timeout:4500
 			}); 
+	}
+
+	function localizeRefreshAuto(){if (jQuery('#localizeBox').is(':visible')) {localizeRefresh();}}
+
+	function localizeRefresh(){
+
+		
+		var saveList = []
+		jQuery('.locBlock:visible').each(function(){
+	  		saveList.push(jQuery(this).attr('id').replace('loc_',''));
+		});
+		
+		jQuery.ajax(
+			{
+			url: 'ajax_localize.php?ts='+new Date().getMilliseconds(),
+			success: function(e){
+				
+
+				
+				strhtml = '';
+				ttp=0;
+				jQuery('#localizeBoxContainer').html('');
+				jQuery.each(e,function(k){
+
+					ship=k; 
+					strhtml += '<a class="interfaceLink" style="cursor:pointer" onclick="jQuery(\'#loc_'+k+'\').toggle();"><div class="locControl");"> \
+						<div class="locControl_ship"> <img src="TEMPLATES/img/logo/'+e[k][0]['assign_logo']+'" style="width:100px; vertical-align:middle;" /> <div class="online">'+e[k].length+'</div> </div> \
+						<div><p class="locControl_shipName">'+e[k][0]['ship_name']+'</p></div> \
+					</div></a><div style=\"clear:both;\"/>';
+
+
+					save= saveList.includes(k) ? 'style="display:block;"' : '';
+
+					strhtml += '<div id="loc_'+k+'" class="locBlock" '+save+'>';
+					
+					jQuery.each(e[k],function(p){
+						pg = e[k][p];
+						ttp+=1;
+
+						if(pg['user_sesso'] == 'M')
+						{  
+							pgs='TEMPLATES/img/specie/' + pg['pgSpecie'] + '_m.png';
+							pgt='Maschio';
+						}
+						else if(pg['user_sesso'] == 'F')
+						{
+							pgs='TEMPLATES/img/specie/' + pg['pgSpecie'] + '_f.png';
+							pgt='Femmina';
+						}
+						else{
+							pgs='TEMPLATES/img/specie/' + pg['pgSpecie'] + '_t.png';
+							pgt='Terzo Genere';
+						}
+
+						if (pg['ambientType'] != 'DEFAULT') goable = '<a href=javascript:void(0);" onclick=\"javascript:fullScreen(\''+pg['pgPlaceI']+'\');\"><span>'+pg['place_name']+'</span></a>';
+						else goable = '<span>'+pg['place_name']+'</span>';
+
+
+						if (pg['pgIC']) presence = '<img title="Il giocatore è attivo nella chat" src="TEMPLATES/img/interface/personnelInterface/online.png" />';
+						else presence = '<img title="Il giocatore non è attivo nella chat" src="TEMPLATES/img/interface/personnelInterface/offline.png" />';
+
+						if (pg['locked'] == 1)
+							lockValue = '<span class="radiusBordered5 lockedIcon">LOCK</span>';
+						else lockValue ='';
+
+
+						strhtml += '<p class="userRow leftCol"><img src="TEMPLATES/img/ranks/'+pg['rank_mostrina']+'.png" title="'+pg['user_grado']+' - Sezione '+pg['user_sezione']+'" ><img src="'+pgs+'" title="'+pgt+'"></img> '+lockValue+'<a class="interfaceLink" href="javascript:void(0);" onclick="schedaPOpen('+pg['ID']+');">'+pg['pgUser']+'</a></p> <p class="userRow rightCol">'+goable+presence+'</p><div style="clear:both"/>';
+					});
+					strhtml += '</div>';
+
+					
+					jQuery('#localizeBoxContainer').append(strhtml);
+					
+					
+					strhtml='';
+				});
+				jQuery('#localizeBoxTail').html(ttp+' PG Connessi');
+			}, 
+			type: 'POST',
+			dataType : 'json',
+			timeout:4500
+			});
+	}
+
+			function fullScreen(chat)
+			{
+				var wi = screen.availWidth - 10;
+				var au = screen.availHeight - 30;
+				window.open("chat.php?amb="+chat, "fed_main", "width=" + wi + ",height=" + au + ",top=0,left=0,location=no,menubar=no,resizable=yes,scrollbar=yes");
+			}
+
+	function locOpen(){
+		jQuery.when(localizeRefresh()).then(function(){jQuery('#localizeBox').toggle('blind',100)});
 	}
 	
 

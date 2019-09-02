@@ -13,7 +13,7 @@
 	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	<script type="text/javascript" src="TEMPLATES/js/caret.js"></script>
-	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/datepicker.css" rel="stylesheet" type="text/css" />
 
@@ -306,7 +306,7 @@
 
 </form>	
 </div>
-<div tal:condition="php:(topicLock == 1)" style="color:red; font-weight:bold; text-align:center;">[  TOPIC BLOCCATO ]</div>
+<div tal:condition="php:(topicLock == 1)" style="color:red; font-family:Roddenberry; letter-spacing: 2px; text-align:center;">[ CARTELLA CHIUSA ]</div>
 
 
 	</div>

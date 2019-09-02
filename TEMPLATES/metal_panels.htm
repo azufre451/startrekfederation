@@ -35,6 +35,15 @@
 
 </div>
 
+<div metal:define-macro="remindStaffPresence">
+	<div class="popup radiusBordered12" style="width:600px; height:55px; margin-top:-27px; background-color:rgba(255,0,0,0.7); color:white; display: block; border:1px solid red; margin-left:-300px;" id="remindStaffPresence" tal:condition="php:(date('w') GT '1' )">
+	
+	<p style="font-family:Helvetica; font-weight:bold; font-size:14px; text-align:center; margin:5px;">Attenzione: non hai ancora segnalato nulla nel tool Presenza Staff <br /><br />
+	<a style="text-decoration: underline; cursor:pointer; font-size:15px;" class="interfaceLink" onclick="javascript:metaPOpen('',masterShadow);">Compila</a></p>
+	
+	</div>
+</div>
+
 <div metal:define-macro="replicatorPanel">
 	<script>function retooltip(){$('img.imageRepli').tooltip();}</script>
 </div>
@@ -316,7 +325,7 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 		
 		 
 		<hr/>
-		<p style="font-size:1.3em"> Apri una nuova sessione...</p>
+		<p style="font-size:1.2em"> Apri una nuova sessione:</p>
 		<input type="text" class="neon" style="width:90%" id="sessionLabel" placeholder="Titolo della sessione" /><br/>
 		<p style="text-align:left; margin-left:10px;" tal:condition="exists:isMasteringJuniorMasterOrMod"><input type="checkbox" id="masterCheck" /> Sessione Master</p>
 		<p style="text-align:left; margin-left:35px;" tal:condition="exists:isMasteringJuniorMasterOrMod" > accesso riservato a: <input type="text" placeholder="Tutti" id="tusers" class="neon" name="tusers" onfocus="this.select();" /> </p>
@@ -345,7 +354,7 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 			</select>
 		</p>
 		<p style="clear:both;">
-		<a class="interfaceLinkBlue" href="javascript:void(0);" onclick="javascript:openSession()">[ - Apri la sessione - ]</a>
+		<a class="interfaceLinkBlue" style="font-size:12px;" href="javascript:void(0);" onclick="javascript:openSession()">[ - Apri la sessione - ]</a>
 		</p>
 		
 	</div>
@@ -436,7 +445,7 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 
 <div metal:define-macro="statusBox" >
 
-	<div id="statusBox">
+	<div id="statusBox" class="escape_popup">
 		<p style="text-align:center; margin:4px; font-size:20px; font-weight:bold; font-family:federationFont; letter-spacing: 0.1em;"> Notifiche</p>
 		<div id="statusContainer">
 		</div>
@@ -444,6 +453,16 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 		<div style="text-align:center"><a href="javascript:void(0);" class="interfaceLinkBlue" onclick="javascript:statusOpen();"> APRI STATO NAVE </a></div>
 	</div>
 </div>
+
+
+<div metal:define-macro="localizeBox" >
+	<div id="localizeBox" class="escape_popup">
+		<div id="localizeBoxHead">ONLINE</div>
+		<div id="localizeBoxContainer" />
+		<div id="localizeBoxTail"></div>
+	</div>
+</div>
+
 
 
 <div metal:define-macro="reminderST" id="reminderST" class="reminder" tal:content="string:D.S. ${currentStarDate}" />

@@ -10,7 +10,7 @@ print "<br />Umani (+53)<br />";
 print $a->calculateVariationCost(array(
 	array(38,0),
 	array(31,1),
-	)) +54; 
+	)) +50; 
 
 
 print "<br />BAJ<br />";
@@ -98,6 +98,19 @@ print $a->calculateVariationCost(array(
 	array('DX',3),
 	array('WP',5),
 	array('PE',6)
+	));
+
+print "<br />Xenex<br />";
+
+print $a->calculateVariationCost(array(
+	array(12,1),
+	array(21,2),
+	array(52,1),
+	array(56,1), 
+	array('IQ',3),# 5 -2
+	array('DX',6),# 5 +1
+	array('WP',6),# 4 +1
+	array('PE',6) # 4 +2
 	));
 
 

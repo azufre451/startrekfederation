@@ -18,7 +18,7 @@
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 	<script type="text/javascript" src="TEMPLATES/js/jquery.overscroll.js"></script>
 	<script tal:content="string:jQuery(function(){initiate(${yPos/0},${yPos/1});}); "/>
-	<script tal:condition="php:(subChart == 'D')" src="TEMPLATES/js/chart_delta.js?v=${gameOptions/numericVersion}.55" />
+	<script tal:condition="php:(subChart == 'D')" src="TEMPLATES/js/chart_delta.js?v=${gameOptions/numericVersion}.57" />
 	<script tal:condition="php:(subChart == 'A')" src="TEMPLATES/js/charts.js?v=${gameOptions/numericVersion}" />
 	
 	<style type="text/css">

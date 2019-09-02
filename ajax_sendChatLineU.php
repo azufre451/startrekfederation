@@ -142,6 +142,21 @@ include('includes/validate_class.php');
 			$string = str_replace('%','',$string);
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'AUDIOE',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))"); 
 		}
+
+
+		/*else if(strpos($string,'video::') !== false && (PG::mapPermissions('M',PG::getOMA($_SESSION['pgID'])) || PG::isMasCapable($_SESSION['pgID'])))
+		{ 
+			$string = str_replace('video::','',$string);
+
+			
+
+			$cString=addslashes('<div style="position:relative;" data-timecode="'.$curTime.'" data-loctag="'.$stag.'" class="masterAction">
+				<div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Inviata da: '.$sended.' ('.date('H:i').')\nResponso di un Master o Junior Master alle azioni del/i personaggio/i o utilizzata per descrizioni ambientali di singole location di gioco."/> Responso Master</div>'."<div style=\"float:left; width:40px;\" data-timecode=\"$curTime\" data-video=\"$string\" data-autoplay=\"0\" data-loop=\"1\" id=\"youtube-audio\"></div><div style=\"float:left; width:300px; vertical-align:middle; \">Video YT: $string</div> <div style=\"clear:both;\" /><script src=\"TEMPLATES/js/ytaudio.js\"></script>".'</div>');
+
+			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$cString',".time().",'MASTER',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))"); 
+		}
+		
+*/
 		
 
 		

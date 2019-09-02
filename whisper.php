@@ -7,6 +7,8 @@ include('includes/validate_class.php');
 include("includes/PHPTAL/PHPTAL.php");
 mysql_query('UPDATE fed_sussurri SET reade = 1 WHERE reade=0 AND susTo = '.$_SESSION['pgID']);
 
+$currentUser = new PG($_SESSION['pgID']);
+
 if(isSet($_GET['justFocus'])) exit;
 
 $vali = new validator();  
@@ -86,6 +88,15 @@ $template->maxVIS = $MAX;
 						
 			$pgArray[$resPG['pgID']] = array('label' => $resPG['pgUser'],'role' => $atcl,'pgMostrina'=>$resPG['pgMostrina']);
 		}
+
+
+
+	if (PG::mapPermissions('G',$currentUser->pgAuthOMA)){ 
+
+		mysql_query("SELECT 1 FROM pg_users_presence WHERE pgID = ".$currentUser->ID." AND value <> 0");
+		if (!mysql_affected_rows()) $template->presenceForce = true;
+	}
+
 
 	$template->people = $pgArray;
 	$template->coPeople = count($pgArray)+2;

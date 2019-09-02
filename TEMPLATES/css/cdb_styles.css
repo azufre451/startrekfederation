@@ -1,0 +1,83 @@
+
+.interfaceLink,.interfaceLinkBlue,.interfaceLinkRed,.interfaceLinkGreen,.interfaceLinkYellow,.internalCdbLink
+{	
+	font-size:13px;
+	font-weight:bold;
+	font-family:Arial;
+}
+.ui-tooltip {font-size:12px; text-align:justify;}
+
+.interfaceLink{color:#fffbe8;}
+a.interfaceLink:hover{color:orange;}
+
+.interfaceLinkBlue{color:#0077c3;}
+a.interfaceLinkBlue:hover{color:#5a9bc4;}
+
+.interfaceLinkRed{color:#dc0000;}
+a.interfaceLinkRed:hover{color:#eb5d5d;}
+
+.interfaceLinkGreen{color:#06a211;}
+a.interfaceLinkGreen:hover{color:#59cd61;}
+
+.interfaceLinkYellow{color:#FFCC00;}
+a.interfaceLinkYellow:hover{color:orange;}
+
+.internalCdbLink{color:#FFCC00;}
+.internalCdbLink::before{content:'[ ';}
+.internalCdbLink::after{content:' ]';}
+
+
+a.topic{font-size:12px; font-family:Helvetica;}
+.topicImportant a{color:red;}
+.topicAnnounce a {color:orange;}
+.topicNormal a{color:#fffbe8;} 
+.topicNormal a:hover {	text-decoration:underline;}
+.topicImportant a:hover{text-decoration:underline;}
+.topicNormal a.topicLock, .topicNormal a.topicLock + span{font-style:italic;; color:#AAA;; font-size:11px}
+.topicNormal a.topicLock + span::after{content:'(CHIUSO)'; color:#d42a2a; margin-left:5px; text-decoration: none;}
+a.topic_ext_red {color:red !important;}
+a.topic_ext_teal{color:teal !important;}
+a.topic_ext_yellow{color:yellow !important;}
+a.topic_ext_orange{color:orange !important;}
+a.topic_ext_green{color:#0bba50 !important;}
+a.topic_ext_violet{color:#bb20cd !important;}
+a.topic_ext_indigo{color:#4978ff !important;}
+a.topic_ext_white{color:white !important;}
+
+.cdbPostRed{color:red;}
+.cdbPostBlue{color:#0077c3;}
+.cdbPostGreen{color:#009966;}
+.cdbPostYellow{color:#FFCC00;}
+.cdbPostWhite{color:white;}
+.cdbPostGray{color:#999;}
+.cdbPostLittleSize{font-size:11px;}
+.cdbPostNormalSize{font-size:13px;}
+.cdbPostBigSize{font-size:16px;}
+   
+a.dbLink{
+	color:#2d90c8;
+	font-size:12px;
+	text-decoration: underline;
+}
+
+a.dbLink:hover{color:#abd2e8;}
+
+a.dbLink::before{
+content:'';
+background: url('../img/interface/personnelInterface/abilita/storia_letteratura.png');/*url of image*/
+height: 20px;/*height of image*/
+width: 20px;/*width of image*/
+background-size:100%;
+display:inline-block;
+vertical-align: middle;
+margin-right:10px;
+}
+
+p.quoter{
+	margin:5px 25px;
+	background-color:#333;
+	border-left:2px solid #666;
+	padding:10px;
+	
+
+}

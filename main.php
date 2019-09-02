@@ -114,7 +114,11 @@ $template->note = nl2br($currentLocation['note']);
 
 
 $template->user = $currentUser;
-if (PG::mapPermissions('G',$currentUser->pgAuthOMA)) $template->isStaff = true;
+if (PG::mapPermissions('G',$currentUser->pgAuthOMA)){ 
+	$template->isStaff = true;
+	mysql_query("SELECT 1 FROM pg_users_presence WHERE pgID = ".$currentUser->ID." AND value <> 0");
+	if (!mysql_affected_rows()) $template->presenceForce = true;
+}
 	 
 if (PG::mapPermissions('JM',$currentUser->pgAuthOMA)) $template->mapAdd2 = true;
  

@@ -12,7 +12,7 @@ if (!isSet($_SESSION['pgID'])){echo "Errore di Login. Ritorna alla homepage ed e
     
 include('includes/app_include.php');
 include('includes/validate_class.php');
-include('includes/bbcode.php');
+include('includes/cdbClass.php');
 include("includes/PHPTAL/PHPTAL.php");
 PG::updatePresence($_SESSION['pgID']);
 
@@ -96,6 +96,7 @@ if($mode == 'newP')
 
 			if (isSet($_GET['guider'])) $paddType = 3;
 			if (isSet($_POST['paddType'])){
+				
 				if($_POST['paddType'] == "4" && PG::mapPermissions('M',$currentUser->pgAuthOMA))
 					$paddType=4;
 				elseif($_POST['paddType'] == "3" && PG::mapPermissions('G',$currentUser->pgAuthOMA))
@@ -127,7 +128,7 @@ else if ($mode == 'read')
 	{
 		$padd = mysql_fetch_assoc($paddQ); 
 		$template->padd = $padd;
-		$template->pcontent = str_replace($bbCode,$htmlCode,$padd['paddText']);
+		$template->pcontent = cdb::bbcode($padd['paddText']);
 		
 		//$template->pcontent = nl2br($padd['paddText']);
 
@@ -288,7 +289,7 @@ else if($mode == 'tr' || $mode == 'ta')
 	$news = mysql_query("SELECT * FROM fed_news WHERE aggregator = '$particle' ORDER BY newsTime DESC $limit");
 	$newsArr=array();
 	while($newsA = mysql_fetch_array($news))
-	$newsArr[] = array('ID' => $newsA['newsID'],'title' => $newsA['newsTitle'], 'subtitle' => $newsA['newsSubTitle'], 'text' => str_replace($bbCode,$htmlCode,$newsA['newsText']), 'time' => (strftime('%e', $newsA['newsTime']).' '.ucfirst(strftime('%B', $newsA['newsTime'])).' '.(date('Y', $newsA['newsTime'])+379)));
+	$newsArr[] = array('ID' => $newsA['newsID'],'title' => $newsA['newsTitle'], 'subtitle' => $newsA['newsSubTitle'], 'text' => CDB::bbcode($newsA['newsText']), 'time' => (strftime('%e', $newsA['newsTime']).' '.ucfirst(strftime('%B', $newsA['newsTime'])).' '.(date('Y', $newsA['newsTime'])+379)));
 	
 	$template->masterable = (PG::mapPermissions('M',$currentUser->pgAuthOMA)) ? true : false;
 	$template->adminable = (PG::mapPermissions('A',$currentUser->pgAuthOMA)) ? true : false;
@@ -342,7 +343,7 @@ else if ($mode == 'readNote')
 		$template->ID = $res['noteID'];
 		$template->title = $res['title'];
 		$text = $res['text'];
-		$template->text = str_replace($bbCode,$htmlCode,$text);
+		$template->text = CDB::bbcode($text);
 		$template->textP = $text;
 	}
 }
@@ -404,7 +405,7 @@ else if($mode == 'readTribune')
 	 $template->ID = $newsA['newsID'];
 	 $template->title = $newsA['newsTitle'];
 	 $template->subtitle = $newsA['newsSubTitle'];
-	 $template->text = str_replace($bbCode,$htmlCode,$newsA['newsText']);
+	 $template->text = CDB::bbcode($newsA['newsText']);
 	 $template->time = (strftime('%e', $newsA['newsTime']).' '.ucfirst(strftime('%B', $newsA['newsTime'])).' '.(date('Y', $newsA['newsTime'])+379));
 	 
 	$template->masterable = (PG::mapPermissions('M',$currentUser->pgAuthOMA)) ? true : false;

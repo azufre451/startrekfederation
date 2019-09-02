@@ -101,7 +101,7 @@
 	<div id="limOverNavi" class="radiusBordered35" />
 	<div id="limOverNavfore" class="radiusBordered35" >
 	<a tal:attributes="href string:main.php?l=${pla/placeID}" class="interfaceLink"  tal:repeat="pla places">
-		<div class="overNaviLimitrElement radiusBordered35" tal:attributes="onmouseover string:javascript:setIco('${pla/placeMap1}')">
+		<div tal:attributes="class php:(count(places) GE 10) ? 'overNaviLimitrElementHC radiusBordered35' : 'overNaviLimitrElement radiusBordered35' ; onmouseover string:javascript:setIco('${pla/placeMap1}')">
 			<img tal:attributes="src string:TEMPLATES/img/logo/${pla/place_littleLogo1}" /><br />
 			<span tal:content="pla/placeName" />
 		</div>
@@ -110,7 +110,7 @@
 	</div>
 	
 <div metal:use-macro="TEMPLATES/metal_panels.htm/alertPanel" />
-
+<div metal:use-macro="TEMPLATES/metal_panels.htm/localizeBox" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/dotazionePanel" />
 <div metal:use-macro="TEMPLATES/guidar.htm/guidePanel" />
 <div metal:use-macro="TEMPLATES/audioSegments.htm/audioNotifier" />

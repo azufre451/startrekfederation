@@ -93,18 +93,25 @@
 					}
 					
 					function selectDivision(ida,divi){
-						jQuery('.selectable.division').removeClass('active');
-						jQuery(ida).addClass('active'); 
-						jQuery('.divihandler').hide();
-						jQuery('#divi_'+divi).show();
-						
-						var ari = { "sfC":'nfCduty_small', "sfT":'nfTduty_small', "sfI":'nfOduty_small', "sfS":'nfSduty_small', "sfN":'nfNduty_small', "bar":'civbarm',  "ing":'civingm',  "sci":'civscim',  "com":'nfFLY_small','civ':'civpolm','jou':'civgiom'};
-						 
-						jQuery('#select_grado').val(jQuery('#divi_'+divi).val());
-						jQuery('#select_gradoimage').val(jQuery('#divi_'+divi).val().split('_')[1]);
-						
-						jQuery('#select_uniform').val(ari[divi]);
-						jQuery('#select_sezione').val(divi);
+
+						if (jQuery(ida).hasClass('selectable'))
+						{
+							jQuery('.selectable.division').removeClass('active');
+							jQuery(ida).addClass('active'); 
+							jQuery('.divihandler').hide();
+							jQuery('#divi_'+divi).show();
+							
+							var ari = { "sfC":'nfCduty_small', "sfT":'nfTduty_small', "sfI":'nfOduty_small', "sfS":'nfSduty_small', "sfN":'nfNduty_small', "bar":'civbarm',  "ing":'civingm',  "sci":'civscim',  "com":'nfFLY_small','civ':'civpolm','jou':'civgiom'};
+							 
+							jQuery('#select_grado').val(jQuery('#divi_'+divi).val());
+							jQuery('#select_gradoimage').val(jQuery('#divi_'+divi).val().split('_')[1]);
+							
+							jQuery('#select_uniform').val(ari[divi]);
+							jQuery('#select_sezione').val(divi);
+						}
+						else{
+							alert('Questa sezione al momento non è selezionabile in fase di iscrizione. Puoi comunque contattare lo staff di gioco una volta iscritto per valutare la possibilità di giocare in questo ruolo!')
+						}
 					}
 					
 					function selectRace(ida,race)
@@ -139,7 +146,7 @@
 						jQuery('#mirror_uniform').attr('src','TEMPLATES/img/uniformi/'+jQuery('#select_uniform').val()+'.png');
 						jQuery('#mirror_razza').attr('src','TEMPLATES/img/specie/'+jQuery('#select_razza').val()+'_'+jQuery('#select_sesso').val()+'.png');
 						jQuery('#mirror_razza_t').html(jQuery('#select_razza').val());
-						if (jQuery('#select_gradoimage').val() != '') jQuery('#mirror_grado').attr('src','http://miki.startrekfederation.it/SigmaSys/PIPSN/'+jQuery('#select_gradoimage').val()+'.png');
+						if (jQuery('#select_gradoimage').val() != '') jQuery('#mirror_grado').attr('src','https://miki.startrekfederation.it/SigmaSys/PIPSN/'+jQuery('#select_gradoimage').val()+'.png');
 						else jQuery('#mirror_grado').hide();
 						
 						jQuery('#REG #page1, #REG #page3').fadeOut(200).promise().done( function(){jQuery('#REG #page2, #REG #bpage2').fadeIn(100);});
@@ -264,6 +271,21 @@
   font-size:14px;
   }
 
+  .unselectable{position: relative; cursor:default;}
+  .unselectable::before{content:'- Non disponibile -';
+
+    color:#ffb500; font-weight: bold; font-size:13px;
+    background-color: rgba(0,0,0,0.8);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding-top:10px;
+    height:26px;
+
+    border-radius: inherit;
+     }
+
 		</style>
 
 	</head>
@@ -323,8 +345,8 @@
 				<div style="padding-left:50px;padding-right:50px;" id="page1">
 					<p class="title" style="margin:auto; text-align:center; margin-bottom:20px;">Registra un nuovo personaggio</p> 
 					
-					<p class="t1_content">Star Trek: Federation ti offre l'opportunità di giocare da subito un personaggio dell'ambientazione a tua scelta: personalizza il tuo personaggio utilizzando il menu sottostante.</p>
-					<p class="t1_content">Non sei sicuro? Non preoccuparti: potrai effettuare modifiche anche in seguito!</p>
+					<p class="t1_content">Star Trek: Federation ti offre l'opportunità di giocare da subito un personaggio scegliendone ruolo e razza.</p>
+					<p class="t1_content">Puoi personalizzare qui il tuo personaggio<br />Non sei sicuro? Non preoccuparti: potrai modificare questi parametri in seguito contattando lo Staff!</p>
 				 		
 						<div class="menureg head" style="float:left;">Inserici il tuo indirizzo E-mail</div> 
 						<input class="menureg" style="float:left; margin-left:10px; width:55%;" id="select_email" type="email" placeholder="mario.rossi@sito.it" name="select_email" />
@@ -332,7 +354,7 @@
 						
 						<hr />
 
-						<p class="t1_content">In Star Trek: Federation impersonerai un personaggio distante da casa su una Base Stellare nel profondo dello spazio. Scegli il destino del tuo <span class="enf">Personaggio Primario</span> fra le sequenti opzioni:</p>
+						<p class="t1_content">In Star Trek: Federation impersonerai un personaggio distante da casa su una Nave Stellare nel profondo dello spazio. Scegli il destino del tuo personaggio fra le sequenti opzioni:</p>
 						
 						   
 						<div class="container" style="width:45%; float:left;">
@@ -353,17 +375,17 @@
 							 	 
 							<div class="menureg top head">Ruolo del Personaggio</div> 
 											 
-							<div class="rectChoice division selectable d1" onclick="selectDivision(this,'sfC')"><p>Militare<br/>Sez. Comando / Strategia</p></div>   
-							<div class="rectChoice division selectable d2" onclick="selectDivision(this,'sfT')"><p>Militare<br/>Sez. Difesa / Sicurezza </p></div>  
-							<div class="rectChoice division selectable d3" onclick="selectDivision(this,'sfI')"><p>Militare<br/>Sez. Ingegneria</p></div>   
-							<div class="rectChoice division selectable d4" onclick="selectDivision(this,'sfS')"><p>Militare<br/>Sez. Scientifica / Medica </p></div>
-							<div class="rectChoice division selectable d5" onclick="selectDivision(this,'sfN')"><p>Militare<br/>Sez. Navigazione</p></div>   
-							<div class="rectChoice division selectable d6" onclick="selectDivision(this,'bar')"><p>Commerciante<br />o Barista</p></div>
-							<div class="rectChoice division selectable d7" onclick="selectDivision(this,'ing')"><p style="line-height: 30px;">Ingegnere Civile</p></div>
-							<div class="rectChoice division selectable d8" onclick="selectDivision(this,'sci')"><p style="line-height: 30px;">Scienziato Civile</p></div>
-							<div class="rectChoice division selectable d9" onclick="selectDivision(this,'com')"><p style="line-height: 30px;">Pilota commerciale</p></div>  
-							<div class="rectChoice division selectable d9" onclick="selectDivision(this,'jou')"><p style="line-height: 30px;">Giornalista</p></div>  
-							<div class="rectChoice division selectable d10" onclick="selectDivision(this,'civ')"><p style="line-height: 30px;">Altro</p></div>  
+							<div class="rectChoice division selectable d1" onclick="selectDivision(this,'sfC')"><p>Flotta Stellare<br/>Sez. Comando / Strategia</p></div>   
+							<div class="rectChoice division selectable d2" onclick="selectDivision(this,'sfT')"><p>Flotta Stellare<br/>Sez. Difesa / Sicurezza </p></div>  
+							<div class="rectChoice division selectable d3" onclick="selectDivision(this,'sfI')"><p>Flotta Stellare<br/>Sez. Ingegneria</p></div>   
+							<div class="rectChoice division selectable d4" onclick="selectDivision(this,'sfS')"><p>Flotta Stellare<br/>Sez. Scientifica / Medica </p></div>
+							<div class="rectChoice division selectable d5" onclick="selectDivision(this,'sfN')"><p>Flotta Stellare<br/>Sez. Navigazione</p></div>   
+							<div class="rectChoice division unselectable d6" onclick="selectDivision(this,'bar')"><p>Commerciante<br />o Barista</p></div>
+							<div class="rectChoice division unselectable d7" onclick="selectDivision(this,'ing')"><p style="line-height: 30px;">Ingegnere Civile</p></div>
+							<div class="rectChoice division unselectable d8" onclick="selectDivision(this,'sci')"><p style="line-height: 30px;">Scienziato Civile</p></div>
+							<div class="rectChoice division unselectable d9" onclick="selectDivision(this,'com')"><p style="line-height: 30px;">Pilota commerciale</p></div>  
+							<div class="rectChoice division unselectable d9" onclick="selectDivision(this,'jou')"><p style="line-height: 30px;">Giornalista</p></div>  
+							<div class="rectChoice division unselectable d10" onclick="selectDivision(this,'civ')"><p style="line-height: 30px;">Altro</p></div>  
 							 
 						</div>
 						
@@ -373,7 +395,7 @@
 								<div class="squareChoice race selectable" onclick="selectRace(this,'Umana')"> <img src="TEMPLATES/img/specie/tUmana_m.png" class="race_place grayScale"/><img src="TEMPLATES/img/specie/tUmana_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/tUmana_f.png" class="race_fem"/><p>Umani</p></div>    
 								<div class="squareChoice race selectable" onclick="selectRace(this,'Vulcaniana')"> <img src="TEMPLATES/img/specie/Vulcaniana_m.png" class="race_place grayScale"/> <img src="TEMPLATES/img/specie/Vulcaniana_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/Vulcaniana_f.png" class="race_fem"/><p>Vulcaniani</p></div>    
 								<div class="squareChoice race selectable" onclick="selectRace(this,'Trill')"> <img src="TEMPLATES/img/specie/Trill_m.png" class="race_place grayScale"/> <img src="TEMPLATES/img/specie/Trill_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/Trill_f.png" class="race_fem"/><p>Trill</p></div>    
-								<div class="squareChoice race selectable" onclick="selectRace(this,'Betazoide')"> <img src="TEMPLATES/img/specie/Betazoide_m.png" class="race_place grayScale"/> <img src="TEMPLATES/img/specie/Betazoide_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/Betazoide_f.png" class="race_fem"/><p>Betazoidi</p></div>    
+								<div class="squareChoice race selectable" onclick="selectRace(this,'Terosiana')"> <img src="TEMPLATES/img/specie/Terosiana_m.png" class="race_place grayScale"/> <img src="TEMPLATES/img/specie/Terosiana_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/Terosiana_f.png" class="race_fem"/><p>Terosiani</p></div>    
 								<div class="squareChoice race selectable" onclick="selectRace(this,'Andoriana')"> <img src="TEMPLATES/img/specie/Andoriana_m.png" class="race_place grayScale"/> <img src="TEMPLATES/img/specie/Andoriana_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/Andoriana_f.png" class="race_fem"/><p>Andoriani</p></div>    
 								<div class="squareChoice race selectable" onclick="selectRace(this,'Bajoriana')"> <img src="TEMPLATES/img/specie/Bajoriana_m.png" class="race_place grayScale"/> <img src="TEMPLATES/img/specie/Bajoriana_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/Bajoriana_f.png" class="race_fem"/><p>Bajoriani</p></div>  
 								</div><div style="clear:both" />
@@ -415,8 +437,8 @@
 								<optgroup label="Ufficiali">
 									<!--<option value="839_o4">Tenente Comandante, Sezione Operazioni (Flotta Stellare)</option>
 									<option value="834_o3">Tenente, Sezione  Operazioni  (Flotta Stellare)</option>-->
-									<option value="829_o2">Sottotenente, Sezione  Operazioni  (Flotta Stellare)</option>
-									<option value="824_o1">Guardiamarina, Sezione  Operazioni  (Flotta Stellare)</option>
+									<option value="829_o2">Sottotenente, Sezione  Ingegneria e Operazioni  (Flotta Stellare)</option>
+									<option value="824_o1">Guardiamarina, Sezione  Ingegneria e Operazioni  (Flotta Stellare)</option>
 								</optgroup>
 								
 								<optgroup label="Sottufficiali">
@@ -529,6 +551,7 @@
 									<span> Bonus di Razza: </span> 
 								<img src="TEMPLATES/img/interface/personnelInterface/abilita/leadership.png" class="tooltip" title="Gli umani ottengono un bonus alle capacità leadership" /><span>+1</span> 
 								<img src="TEMPLATES/img/interface/personnelInterface/abilita/culturealiene.png" class="tooltip"  title="Gli umani ottengono un bonus alle capacità di dialogare e confrontarsi con le culture aliene"/><span>+2</span> 
+								<span style="margin-left:20px; display:inline-block;">+50 UP</span> 
 								</p>
 								</div>
 								
@@ -573,6 +596,7 @@
 							</p>
 							</div>
 								
+								<!--
 								<div class="species_spec" id="sp_Betazoide">Attenti, sensibili, onesti. I betazoidi sono una razza di telepati ed empatici dall'aspetto del tutto simile a quello di un essere umano se non per la costante e regolare caratteristica di possedere oggi dalle iridi completamente nere. Le loro doti sociali e psioniche ne fanno ottimo personale medico, sia chirurgico che psicologico. Ogni betazoide viene educato all'uso delle proprie capacità telepatiche che possono raggiungere grandi distanze ma che sono più solitamente usate come mezzo di comunicazione ordinario tra betazoidi. Allo stesso modo la proprie capacità empatiche gli permettono di sentire le emozioni, e farle riflette su se stessi, delle persone intorno a loro quindi ogni giovane betazoide è addestrato alla gestione di simili situazioni. Ogni betazoide addestrato segue un codice comportamentale che gli vieta di abusare del proprio potere per entrare coattamente nelle menti altrui.
 
 								<p class="bonus">
@@ -584,13 +608,35 @@
 									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/scuto_mentale.png" title="Grazie all'addestramento intensivo che i Betazoidi ricevono sin da bambini, i Betazoidi posseggono particolari barriere mentali che impediscono agli altri di leggere la loro mente con facilità." /><span>+3</span>
 									</p>
 								</div>
+							    -->
+
+								<div class="species_spec" id="sp_Terosiana">I Terosiani sono una razza nativa del pianeta Terosia, nel Quadrante Delta. Sono bipedi, dalla statura simile a quella umana, abili nuotatori, e hanno una pelle che può variare dal blu (più diffuso), al giallo, al rosso. I Terosiani sono in grado di muoversi e sviluppare una forza ed una agilità di gran lunga superiori sott’acqua, grazie alla pelle idrodinamica e alla loro particolare conformazione scheletrica e muscolare. I Terosiani soffrono in maniera marcata le temperature  calde (oltre i trenta gradi), mentre sopportano in maniera eccellente il freddo (fino a -30 gradi). All’altezza dell’osso sacro, sviluppano una piccola coda, essenziale al loro equilibrio, che cresce sino a raggiungere la sua massima estensione intorno ai 25 anni. Ad eccezione dei capelli, i Terosiani sono completamente glabri; sono inoltre dotati di un poderoso udito. I Terosiani sono stati estremamente importanti per l'esplorazione della Federazione nel Quadrante Delta, divendando prima protettorato federale, e poi membro della Federazione. La società Terosiana è allineata su posizioni prettamente matriarcali e consumistiche. Recentemente, diversi Terosiani sono entrati nei ranghi della Flotta Stellare, sia con arruolamenti diretti, che tramite la nuova sede dell'Accademia della Flotta Stellare su Terosia.
+
+								<p class="bonus">
+									<span> Bonus di Razza: </span> 
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/destrezza.png" title="I terosiani sono abili nuotatori e, generalmente, cultori della forma fisica e dello sport. Ciò gli conferisce un senso dell'equilibrio spiccato e un'elevato controllo dei movimenti." /><span>+2</span>  
+
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/costituzione.png" title="A causa della gravità ridotta di Terosia, i terosiani sono generalmente esili e mal sopportano ambienti a gravità più elevata. L'attenzione alla forma fisica migliora leggermente la loro costituzione, che tuttavia rimane più cagionevole rispetto alle altre razze." /><span>-1</span>
+
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/willpower.png" title=" Il popolo terosiano, dopo le tante disgrazie della sua storia, ha imparato a riprendersi e migliorarsi ogni volta. Ciò conferisce ai terosiani una forza di volontà più robusta rispetto ad altre razze." /><span>+1</span>  
+
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/economia.png" title="Terosia è parte di una importante rete mercantile: in conseguenza di ciò, economia e leggi di mercato sono insegnate fin dalla scuola primaria. Non tutti i terosiani sono mercanti, ma tutti hanno una spiccata attitudine al commercio." /><span>+2</span> 
+
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/cucina.png" title="La cucina Terosiana è famosa in ogni dove per equilibrio e sapore. Lo sviluppo tardivo delle tecniche di replicazione alimentare ha fatto il resto: ogni buon Terosiano sa preparare almeno qualche piatto tradizionale in autonomia." /><span>+2</span>  
+
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/acrobatica.png" title="I terosiani sono naturalmente predisposti alla grazia dei movimenti, grazie ad un senso dell'equilibrio più sviluppato della norma." /><span>+1</span>
+
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/astronomia.png" title="Il contatto con tantissime altre culture ha un impatto positivo sulla conoscenza dei terosiani circa molti settori dello spazio adiacente. Inoltre, la Geografia Astronomica è la seconda materia più importante insegnata nella scuola dell'obbligo" /><span>+1</span> 
+									</p>
+								</div>
+
 								
 								<div class="species_spec" id="sp_Bajoriana">Religiosi, testardi, orgogliosi. I Bajoriani sono una delle ultime specie ad essersi unite alla Federazione Unita dei Pianeti, dopo la Guerra con il Dominio e dopo anni di occupazione del loro pianeta e delle loro colonie da parte della vicina Unione Cardassiana. La fede religiosa è radicata nei bajoriani più di molte altre razze, vedono ai loro dei, i Profeti, delle guide che prestabiliscono gli eventi perché seguano un preciso percorso per il bene comune. I Vedek ed il Kai sono guide spirituali con una forte influenza anche sulla vita politica bajoriana e per anni sono stati uno dei freni per l'annessione di Bajor nello spazio federale, testardi ed orgogliosi i bajoriani si dimostrano spesso adatti ad incarichi nei sottodipartimenti di Tattica e Sicurezza. Esteriormente sono del tutto simili ad un essere umano, a parte per la caratteristica forma delle creste nasali. 
 
 								<p class="bonus">
 									<span> Bonus di Razza: </span> 
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/willpower.png" title="Le sofferenze patite dai Bajoriani durante i lunghi anni dell'occupazione Cardassiana valgono alla razza un bonus in Forza di Volontà. I lussi di una vita agiata e l'idea di poter essere felici ogni giorno sono stati un miraggio per troppo tempo" /><span>+3</span>
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/percezione.png" title="I Bajoriani hanno una percezione più marcata rispetto alle altre razze" /><span>+2</span>
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/willpower.png" title="Le sofferenze patite dai Bajoriani durante i lunghi anni dell'occupazione Cardassiana valgono alla razza un bonus in Forza di Volontà. I lussi di una vita agiata e l'idea di poter essere felici ogni giorno sono stati un miraggio per troppo tempo" /><span>+2</span>
+									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/percezione.png" title="I Bajoriani hanno una percezione più marcata rispetto alle altre razze" /><span>+1</span>
 									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/arte.png" title="I Bajoriani erano noti per essere grandi e apprezzati artisti in tutto il quadrante, prima della guerra" /><span>+2</span>
 									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/sopravvivenza.png" title="I tempi duri dell'occupazione hanno lasciato poco scampo a parecchi Bajoriani. I sopravvissuti sono decisamente abili nell'arte di arrangiarsi e di sopravvivere" /><span>+3</span>
 									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/acrobatica.png" title="I Bajoriani sono in grado di compiere salti e gesti particolarmente scenografici... una qualità anche questa acquisita dalla Guerra di Occupazione" /><span>+2</span>

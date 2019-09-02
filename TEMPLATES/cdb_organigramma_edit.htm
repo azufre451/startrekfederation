@@ -262,7 +262,14 @@
  
  		<div class="blockbulk" tal:condition="exists:otherIncarichi">
 			<p tal:repeat="inc otherIncarichi" tal:attributes="style php:(inc['pngID'] == thisIncarico['pngID'] ? 'background-color:red':'')">
-				<a tal:attributes="href string:crew.php?editAssign=${inc/pngID}&equia=${inc/pngPlace} "><img src="TEMPLATES/img/interface/edit.png" style="vertical-align:middle;"/></a> <img src="TEMPLATES/img/ranks/${inc/ordinaryUniform}.png" /> <span style="" tal:content="inc/pngIncarico" /> - <span style="" tal:content="inc/placeName" />
+				<a tal:attributes="href string:crew.php?amendPNG=deleteIncarico&equia=${equi}&pngID=${inc/pngID}" onclick="return confirm('Conferma cancellazione?')"><img src="TEMPLATES/img/interface/delete.png" style="vertical-align:middle;"/></a> 
+
+				<a tal:attributes="href string:crew.php?editAssign=${inc/pngID}&equia=${inc/pngPlace} " ><img src="TEMPLATES/img/interface/edit.png" style="vertical-align:middle;"/></a> 
+
+				<a tal:attributes="href string:crew.php?amendPNG=togglePriority&equia=${equi}&pngID=${inc/pngID}" ><img tal:condition="php:(!inc['prioritary'])" src="TEMPLATES/img/interface/star_off.png" style="vertical-align:middle;"/> <img tal:condition="php:(inc['prioritary'])" src="TEMPLATES/img/interface/star_on.png" style="vertical-align:middle;"/></a> 
+
+
+				<img src="TEMPLATES/img/ranks/${inc/ordinaryUniform}.png" /> <span style="" tal:content="inc/pngIncarico" /> - <span style="" tal:content="inc/placeName" />
 			</p>
 		</div> 
 

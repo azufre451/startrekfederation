@@ -20,7 +20,17 @@
 	<title>FEDERATION - SUSSURRI</title>
 
 	<style>
-		
+			.popup
+	{
+	z-index:10;
+	display:none;
+	top:50%;
+	left:50%;
+	position:absolute;
+	padding:15px;
+	font-size:12px;
+	}
+
 
 	</style>
 </head>
@@ -80,6 +90,6 @@
 		</table></center>
 		<div class="closeBTN" onclick="jQuery('#whisperInfo').fadeOut(100);">X</div>
 </div>
-
+<div metal:use-macro="TEMPLATES/metal_panels.htm/remindStaffPresence" tal:condition="exists:presenceForce" />
 </body>
 </html>

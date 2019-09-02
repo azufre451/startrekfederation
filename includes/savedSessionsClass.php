@@ -361,8 +361,11 @@ class Session
 			exit;
 		}
 		else{
+			if(isSet($this->htmlLiner))
 
-			return $this->htmlLiner;
+				return $this->htmlLiner;
+			else return '';
+			
 		}
 	}
 }

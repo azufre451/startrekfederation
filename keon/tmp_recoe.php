@@ -1,4 +1,5 @@
 <?php
+exit;
 chdir('../');
 session_start();
 include('includes/app_include.php');

@@ -7,6 +7,12 @@ return ( ( float)$usec + ( float)$sec);
 } 
 
 function cmp($a, $b) {
+
+
+		if ( (preg_match('#^Capo#i', $a['pgIncarico']) === 1) || (preg_match('#^Comandante#i', $a['pgIncarico']) === 1) || (preg_match('#^Responsabile#i', $a['pgIncarico']) === 1)) return -1;
+
+		if ( (preg_match('#^Capo#i', $b['pgIncarico']) === 1) || (preg_match('#^Comandante#i', $b['pgIncarico']) === 1) || (preg_match('#^Responsabile#i', $b['pgIncarico']) === 1)) return 1;
+
    		if ($a['rankerprio'] == $b['rankerprio']) {
    		 	if ($a['png'] != $b['png']) 
 
@@ -27,7 +33,7 @@ function cmp($a, $b) {
 $start_time = getmicrotime();
 
 
-$allSupportedSpecies=array('Andoriana','Bajoriana','Benzita','Betazoide','Boliana','Borg','Breen','Caitiana','Capellana','Cardassiana','Deltana','Denobulana','El-Auriana','Elaysiana','Ferengi','Fondatore','Gorn','Grazerita','Jem\'Hadar','Klingon','Nausicaana','Ocampa','Orioniana','Risiana','Romulana','Sauriana','Sconosciuta','Talariana','Talassiana','Tellarita','Terosiana','Tholiana','Trill','Tzenkethi','Umana','Umana-Betazoide','Umana-Vulcaniana','Umana-Klingon','Vorta','Vulcaniana','Vulcaniana-Romulana','Xenita','Zakdorn','Zaldan');
+$allSupportedSpecies=array('Andoriana','Bajoriana','Benzita','Betazoide','Boliana','Borg','Breen','Caitiana','Capellana','Cardassiana','Deltana','Denobulana','El-Auriana','Elaysiana','Ferengi','Fondatore','Gorn','Grazerita','Jem\'Hadar','Kelpiana','Klingon','Nausicaana','Ocampa','Orioniana','Risiana','Romulana','Sauriana','Sconosciuta','Talariana','Talassiana','Tellarita','Terosiana','Tholiana','Trill','Tzenkethi','Umana','Umana-Betazoide','Umana-Vulcaniana','Umana-Klingon','Vorta','Vulcaniana','Vulcaniana-Romulana','Xenita','Zakdorn','Zaldan');
 
 session_start();
 if (!isSet($_SESSION['pgID'])){ header("Location:index.php?login=do"); exit;}
@@ -85,6 +91,8 @@ else if (isSet($_GET['amendPNG']))
 		$pngID = $vali->numberOnly($_POST['pngID']);
 
 		mysql_query("UPDATE png_incarichi SET pngIncarico = '$pngIncarico', pngSezione='$pngSezione', pngDivisione='$pngDivisione', pngDipartimento='$pngDipartimento',pngIncGroup='$pngIncGroup',pngPlace='$pngPlace' WHERE pngID = '$pngID'");
+		header("Location:crew.php?editAssign=$pngID&equia=$equi");
+		exit;
 	}
 
 	elseif ($mode == 'editPerson')
@@ -101,6 +109,8 @@ else if (isSet($_GET['amendPNG']))
 		{
 			mysql_query("UPDATE png_incarichi SET pngName = '$pngName', pngSurname='$pngSurname', pngSpecie='$pngSpecie', pngSesso='$pngSesso',pngRank='$rankCode' WHERE pngName = '".addslashes($pre['pngName'])."' AND pngSurname = '".addslashes($pre['pngSurname'])."'");
 		}
+		header("Location:crew.php?editAssign=$pngID&equia=$equi");
+		exit;
 	}
 
 	elseif($mode == 'deleteIncarico')
@@ -116,6 +126,17 @@ else if (isSet($_GET['amendPNG']))
 		$pre=mysql_fetch_assoc(mysql_query("SELECT pngName,pngSurname FROM png_incarichi WHERE pngID = $ida"));
 		
 		mysql_query("DELETE FROM png_incarichi WHERE pngName = '".addslashes($pre['pngName'])."' AND pngSurname = '".addslashes($pre['pngSurname'])."'");
+	}
+
+	elseif($mode == 'togglePriority')
+	{
+		$ida = $vali->numberOnly($_GET['pngID']);
+				
+		mysql_query("UPDATE png_incarichi SET prioritary = !prioritary WHERE pngID = '$ida'");
+		header("Location:crew.php?editAssign=$ida&equia=$equi");
+		exit;
+		
+
 	}
  
 	header('Location:crew.php?equi='.$equi);

@@ -47,7 +47,7 @@ if (isSet($_GET['getAllPlayerLogs']))
 		 		if ($sessionToAdd->sessionIniTime > 0 && $sessionToAdd->sessionStopTime > 0 )
 		 		{
 					if ($res === TRUE) {
-					$formattedFileName = date('Y',$sessionToAdd->sessionIniTime).'_'.date('m',$sessionToAdd->sessionIniTime).'_'.date('d',$sessionToAdd->sessionIniTime).'_'.$sessionToAdd->locName.'.html';
+					$formattedFileName = date('Y',$sessionToAdd->sessionIniTime).'_'.date('m',$sessionToAdd->sessionIniTime).'_'.date('d',$sessionToAdd->sessionIniTime).'_'.str_replace(':','_',$sessionToAdd->locName).'.html';
 
 				    $zip->addFromString($formattedFileName, $sessionToAdd->getText(0,PG::mapPermissions("SM",$user->pgAuthOMA)));
 					}

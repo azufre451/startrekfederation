@@ -347,6 +347,7 @@ class abilDescriptor
 		$t['Terosiana'] = array(array(42,1),array(18,1),array(8,2),array(11,2));
 		$t['Caitiana'] = array(array(10,1),array(12,3),array(21,2));
 		$t['Koyar'] = array(array(60,2),array(61,1),array(12,2),array(11,1),array(21,0));
+		$t['Xenita'] = array(array(12,1),array(21,2),array(52,1),array(56,1));
 		
 		$r['Vulcaniana']=  array(array('WP',1),array('HT',1)); // 11 + 15 = 26 (79)
 		$r['Betazoide'] = array(array('HT',-1),array('WP',2)); // -3 +11+16 = 24 (79)
@@ -357,6 +358,7 @@ class abilDescriptor
  		$r['Terosiana'] = array(array('DX',2),array('WP',1),array('HT',-1)); // 11+11 = 22 (84)
  		$r['Caitiana'] = array(array('DX',1),array('PE',2),array('HT',-2)); // (85)
  		$r['Koyar'] = array(array('HT',-1),array('DX',+1),array('WP',+2));
+ 		$r['Xenita'] = array(array('IQ',-2),array('DX',+1),array('WP',+1),array('PE',+2));
 
 		/*foreach ($r as $ke => $va){
 			echo $ke.'<br />';

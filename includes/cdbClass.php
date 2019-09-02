@@ -41,6 +41,98 @@ class CDB
 		return 0;
 	}
 
+	public static function formatCDBLink($a)
+	{
+		//echo var_dump($a)."ZZZ<br/>";
+		$ref=CDB::getPostFullLink($a[1]);
+		if ($ref){
+
+			$sec='<b>SECLAR</b> - '.$ref['seclar'];
+
+
+			return "<a href=\"".$ref['link']."\" title=\" ► ". $ref['catName'] . " > ".$ref['topicTitle']." <hr/> <b>".$ref['author']. "</b> - ".$ref['dater']." <br/ /> ".$sec." \" class=\"tooltip internalCdbLink\">".(($ref['title'] != '') ? $ref['title'] : 'LINK')."</a>" ;
+		}
+		
+		else return ''; 
+	}
+
+
+
+	public static function formatCDBLinkExternal($a)
+	{
+		//echo var_dump($a)."ZZZ<br/>";
+		$ref=CDB::getPostFullLink($a[1]);
+		if ($ref){
+
+			$sec='<b>SECLAR</b> - '.$ref['seclar'];
+
+			#https://startrekfederation.it/cdb.php?topic=1501&page=1#10414
+			#cdb.php?topic=
+			$semiLink= str_replace('$ref[\'link\']','',$ref['link']);
+			#cdbOpenToTopic('$semiLink')
+
+
+			return "<a onclick=\"cdbOpenToTopic('".$semiLink."');\" href=\"javascript:void(0);\" title=\" ► ". $ref['catName'] . " > ".$ref['topicTitle']." <hr/> <b>".$ref['author']. "</b> - ".$ref['dater']." <br/ /> ".$sec." \" class=\"tooltip internalCdbLink\">".(($ref['title'] != '') ? $ref['title'] : 'LINK')."</a>" ;
+		}
+		else return ''; 
+	}
+
+	public static function formatDBLink($a)
+	{
+		//echo var_dump($a)."ZZZ<br/>";
+		$ref=CDB::getDBLink($a[1]);
+		if ($ref){
+
+
+		
+			 #cdbOpenToTopic('$semiLink')
+
+			return "<a onclick=\"dbOpenToTopic('".$ref['ID']."');\" href=\"javascript:void(0);\" title=\" ► <b><span class='".$ref['coloring']."'>". $ref['catName'] . " </span> > ".( (trim($ref['tag']) != '') ? '['.$ref['tag'] . '] - ' : '').$ref['title']. "</b>\" class=\"tooltip dbLink\">".((trim($ref['tag']) != '') ? $ref['tag'] . ' - '. $ref['title'] : $ref['title'])."</a>" ;
+		}
+		else return ''; 
+	}
+
+	public static function replaceBBcodes($text)
+	{
+	    	$tRet = '';
+			// BBcode array
+			$find = array('~\[POST\](.*?)\[/POST\]~s');
+			// HTML tags to replace BBcode
+			
+			//print_r(preg_search('~\[POST\](.*?)\[/POST\]~s', $text));exit;
+			// Replacing the BBcodes with corresponding HTML tags
+			if (basename($_SERVER['PHP_SELF']) == 'cdb.php') 
+				$tRet = preg_replace_callback($find, 'self::formatCDBLink', $text);
+			else
+				$tRet = preg_replace_callback($find, 'self::formatCDBLinkExternal', $text);
+
+			$find = array('~\[DB\](.*?)\[/DB\]~s');
+				$tRet = preg_replace_callback($find, 'self::formatDBLink', $tRet);
+
+			return $tRet;
+
+	}
+
+	public static function reduced_bbCode($str){ 
+
+		$bbCode = array("[I]","[/I]","[U]","[/U]","\n");
+		$htmlCode = array("<i>","</i>","<u>","</u>","<br />");
+
+		return str_replace($bbCode,$htmlCode,htmlspecialchars($str));
+	}
+
+	public static function replaceBBcodes_db($text,$mode='internal')
+	{
+	    	
+			// BBcode array
+			$find = array('~\[DB\](.*?)\[/DB\]~s');
+			// HTML tags to replace BBcode
+			
+			// Replacing the BBcodes with corresponding HTML tags
+			return  preg_replace_callback($find, 'self::formatDBLink', $text);
+	}
+
+
 
 
 	public static function bbcode($str){
@@ -71,16 +163,41 @@ class CDB
 	"<span class=\"cdbPostLittleSize\">","<span class=\"cdbPostNormalSize\">",
 	"<span class=\"cdbPostBigSize\">","</span>","</span>","<br />","<img src=\"","\"/>","<a target=\"_blank\" class=\"interfaceLink\" href=\"","\">LINK</a>",'script','script','<script','</script>','<p class="quoter">','</p>','<span class="obrindApproval">OK</span>',);
 
-		//replaceBBcodes
-		if(preg_match("/\[POST\]/", $str))
-		{
-			return str_replace($bbCode,$htmlCode,replaceBBcodes($str));
-			//return str_replace($bbCode,$htmlCode,$str);
+		//replaceBBcodes 
+		if (is_array($str)){
+
+			if(preg_grep("/\[POST\]/", $str) || preg_grep("/\[DB\]/", $str) )
+			{
+						$q=array();
+						foreach($str as $k=>$v)
+							$q[$k] = str_replace($bbCode,$htmlCode,self::replaceBBcodes($v));	
+						return $q;
+			}
+			else return str_replace($bbCode,$htmlCode,$str);
 
 		}
+
+		elseif (preg_match("/\[POST\]/", $str) | preg_match("/\[DB\]/", $str) ){
+			return str_replace($bbCode,$htmlCode,self::replaceBBcodes($str));
+		}
+
 		else return str_replace($bbCode,$htmlCode,$str);
+
+		
 	}
 
+
+	public static function getDBLink($DBID){
+		$res=mysql_query("SELECT ID, title,tag,coloring,catName FROM db_elements,db_cats WHERE db_elements.catID = db_cats.catID AND ID = '$DBID' OR IDF = '$DBID' LIMIT 1 ");
+		if(mysql_affected_rows())
+		{
+			
+		
+			return mysql_fetch_assoc($res);
+		}
+		else
+			return 0;
+	}
 
 	public static function getPostFullLink($postID){
 

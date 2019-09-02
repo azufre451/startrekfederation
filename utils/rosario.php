@@ -86,13 +86,13 @@ $tabavosize = 0;
 while($ra = mysql_fetch_array($res))
 {
 	$tbavo = new PG($ra['pgID']);
-	$tbavo->bavosize();
+	//$tbavo->bavosize();
 	$tabavosize+=1;
 	$SITAbavo .= '<a onclick="javascript:schedaPOpen('.$tbavo->ID.');" style="font-weight:bold;" class="interfaceLink" href="#">'.$tbavo->pgUser.'</a> (inattivo dal '.date('d-m-y',$tbavo->pgLastAct).')<br />';
 }
 
 if ($tabavosize)
-	$SITA .= "> Bavosizzo <span style=\"font-weight:bold;color:#096bd0\">$tabavosize</span> PG inattivi (non giocanti in ON) da più di UN mese:<p style=\"margin:15px;\">$SITAbavo<br /> SONO TORNATA.<br />";
+	$SITA .= "> Dovrei bavosizzare <span style=\"font-weight:bold;color:#096bd0\">$tabavosize</span> PG inattivi (non giocanti in ON) da più di UN mese:<p style=\"margin:15px;\">$SITAbavo<br /> Ma ho deciso di prendermi le ferie arretrate degli ultimi 3 anni.<br />";
 
 
 
@@ -104,13 +104,13 @@ $tadelete = 0;
 while($ra = mysql_fetch_array($res))
 {
 	$tdelete = new PG($ra['pgID']);
-	$tdelete->delete();
+	/*$tdelete->delete();*/
 	$tadelete+=1;
 	$SITAcanc .= '<a onclick="javascript:schedaPOpen('.$tdelete->ID.');" style="font-weight:bold;" class="interfaceLink" href="#">'.$tdelete->pgUser.'</a> (inattivo dal '.date('d-m-y',$tdelete->pgLastAct).')<br />';
 }
 
 if ($tadelete)
-	$SITA .= "> Cancello <span style=\"font-weight:bold;color:#096bd0\">$tadelete</span> PG inattivi e bavosizzati da più di DUE mesi:<p style=\"margin:15px;\">$SITAcanc<br /> Pagami.";
+	$SITA .= "> Dovrei cancellare questi <span style=\"font-weight:bold;color:#096bd0\">$tadelete</span> PG inattivi e bavosizzati da più di DUE mesi:<p style=\"margin:15px;\">$SITAcanc<br /> Ma ho deciso di prendermi le ferie arretrate degli ultimi 3 anni.";
 
 
 

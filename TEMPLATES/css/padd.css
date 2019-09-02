@@ -206,6 +206,16 @@ a.topicNormal:hover
     margin-bottom: 0;
 }
 
+.radiusBordered
+{
+	-moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -khtml-border-radius: 20px;
+	border-radius:20px;
+	behavior: url(border-radius.htc);
+}
+
+
 .statusContainer
 {
 position:absolute;

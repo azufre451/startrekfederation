@@ -89,12 +89,12 @@
 							<td class="newPaddtd"><textarea name="testo" style="width:400px; height:160px;"/></td>
 						</tr>
 						<tr>
-							
-							<td colspan="2" style="text-align:center;">
-								<select class="neon" name="paddType">
+							<input type="hidden" name="paddType" id="paddType" tal:condition="php:(prevType==3)" tal:attributes="value string:3" />
+							<td colspan="2" style="text-align:center;" >
+								<select class="neon" name="paddType" tal:condition="php:(prevType!=3)">
 								<option tal:attributes="selected php:((prevType==0) ? 'selected' : '')" value="0">ON-Game</option>
 								<option tal:attributes="selected php:((prevType==1) ? 'selected' : '')" value="1">OFF-Game</option>
-								<option tal:attributes="selected php:((prevType==3) ? 'selected' : '')" tal:condition="exists:isGuide" value="3">Guide/Revisioni</option>
+								<option tal:condition="exists:isGuide" value="3">Guide/Revisioni</option>
 								<option tal:attributes="selected php:((prevType==4) ? 'selected' : '')" tal:condition="exists:isMaster" value="4">Evento Master</option>
 								<option tal:condition="exists:isAdmin" value="1S">OFF-Game-Forzamail</option>
 								</select>

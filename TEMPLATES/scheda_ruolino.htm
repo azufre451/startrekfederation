@@ -181,8 +181,7 @@ p.bonus span {
 				<hr style="border-color:#555;" />
 			 
 
-			 	<p class="bonus" tal:condition="php:(pgSpecie == 'Umana')">
-					<img src="TEMPLATES/img/interface/personnelInterface/abilita/op_informatiche.png" class="tooltip"  title="Tutti i PG ottengono un bonus all'utilizzo delle consolle elettroniche"/><span>+1</span>   
+			 	<p class="bonus" tal:condition="php:(pgSpecie == 'Umana')">  
 					<img src="TEMPLATES/img/interface/personnelInterface/abilita/leadership.png" class="tooltip" title="Gli umani ottengono un bonus alle capacità leadership" /><span>+1</span>  <br />
 					<img src="TEMPLATES/img/interface/personnelInterface/abilita/culturealiene.png" class="tooltip"  title="Gli umani ottengono un bonus alle capacità di dialogare e confrontarsi con le culture aliene"/><span>+2</span>   &nbsp;					
 					<span class="tooltip" title="Gli umani ottengono un bonus alla versatilità pari a 50 UP">+50 UP</span> 
@@ -190,7 +189,6 @@ p.bonus span {
 
 
 				<p class="bonus" tal:condition="php:(pgSpecie == 'Trill')">
-					<img src="TEMPLATES/img/interface/personnelInterface/abilita/op_informatiche.png" class="tooltip"  title="Tutti i PG ottengono un bonus all'utilizzo delle consolle elettroniche"/><span>+1</span>   
 					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/costituzione.png" title="In quanto capaci di sopportare ferite e veleni meglio delle altre razze, I Trill ottengono un bonus alla Costituzione" /><span>+2</span> 
 					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/intelletto.png" title="I Trill posseggono un intelletto estremamente versatile, e sono generalmente molto istruiti. Ottengono pertanto un bonus all'intelletto" /><span>+1</span>  <br />
 					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/diplomazia.png" title="Per la loro capacità di dialogare con le altre culture, e per i mille segreti diplomatici di cui il popolo Trill è custode, i membri della Razza Trill ottengono un bonus in Diplomazia" /><span>+3</span> 
@@ -199,9 +197,22 @@ p.bonus span {
 					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/sopravvivenza.png" title="Abili conoscitori della natura e dei suoi pericoli, I Trill godono di un piccolo bonus nella sopravvivenza" /><span>+2</span>
 				</p>
 
+				<p class="bonus" tal:condition="php:(pgSpecie == 'Xenita')">
+					
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/willpower.png" title="Grazie ad una storia fatta di battaglie per la liberazione di un popolo oppresso, e di grandi privazioni dovute alla guerra di secessione, gli Xeniti godono di una forza di volontà superiore rispetto alle altre razze"/><span>+1</span> 
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/destrezza.png" title="Da sempre combattenti più o meno improvvisati, gli Xeniti sono più abili nei movimenti e nell'agilità in generale" /><span>+1</span>
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/percezione.png" title="Molti sostengono che la percezione visiva e uditiva aumentata abbia salvato gli Xeniti durante la loro lotta per la liberazione dal dominio di Danter.  " /><span>+2</span>
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/intelletto.png" title="A causa di un sistema scolastico solo recentemente riformato, gli Xeniti sono generalmente più abili combattenti, che abili intellettuali" /><span>-2</span>  
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/sopravvivenza.png" title="La capacità degli Xeniti di sopravvivere agli eventi estremi e alle situazioni più impensabili è cosa nota. Per questo, inizi con un bonus consistente in questa abilità." /><span>+3</span>
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/furtivita.png" title="Alcuni Xeniti sono meglio di altri nel passare inosservati, ma generalmente la cosa ti riesce meglio di tante altre razze" /><span>+2</span> 
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/armibianche.png" title="Bloccati per anni in una guerra di liberazione combattuta con armi di fortuna, molti Xeniti sono stati addestrati all'uso delle armi bianche fin da piccoli. Altri apprezzano semplicemente questo retaggio culturale ormai parte di Xenex" /><span>+2</span> 
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/nab_schivata.png" title="Un guerriero liberatore non può sopravvivere se non è capace a schivare i colpi dei nemici. Per questo gli Xeniti hanno un bonus nell'abilità di schivata." /><span>+2</span>
+				</p>
+
+
 
 				<p class="bonus" tal:condition="php:(pgSpecie == 'Vulcaniana' || pgSpecie == 'Umana-Vulcaniana')">
-					<img src="TEMPLATES/img/interface/personnelInterface/abilita/op_informatiche.png" class="tooltip"  title="Tutti i PG ottengono un bonus all'utilizzo delle consolle elettroniche"/><span>+1</span>   
+					
 					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/telepatia.png" title="La Telepatia vulcaniana è in grado di operare solo a brevi distanze o per contatto. La razza ottiene un bonus di +3 come abilità congenita." /><span>+3</span>  
 					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/costituzione.png" title="I Vulcaniani hanno una costituzione più forte rispetto alle altre razze" /><span>+1</span> <br />
 					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/willpower.png" title="I Vulcaniani godono di una forza di volontà più sviluppata rispetto alle altre razze, e per questo ottengono un bonus nella caratteristica corrispondente"/><span>+1</span> 
@@ -211,8 +222,7 @@ p.bonus span {
 				</p>
 
 
-				<p class="bonus" tal:condition="php:(pgSpecie == 'Andoriana')">
-					<img src="TEMPLATES/img/interface/personnelInterface/abilita/op_informatiche.png" class="tooltip"  title="Tutti i PG ottengono un bonus all'utilizzo delle consolle elettroniche"/><span>+1</span>   
+				<p class="bonus" tal:condition="php:(pgSpecie == 'Andoriana')"> 
 					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/costituzione.png" title="Gli Andoriani sono abituati ai climi estremamente rigidi del loro pianeta natale, Andoria. Godono quindi di un bonus alla Costituzione" /><span>+1</span>  
 					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/destrezza.png" title="Abituati a maneggiare temibili armi bianche e a tenersi in equilibrio sul ghiaccio, gli Andoriani godono di un bonus alla Destrezza" /><span>+1</span> <br/>
 					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/interrogatorio.png" title="Alti e temibili, gli Andoriani godono inevitabilmente di un bonus nella persuasione e nell'interrogatorio" /><span>+2</span>   
@@ -223,7 +233,7 @@ p.bonus span {
 				</p>
 
 				<p class="bonus" tal:condition="php:(pgSpecie == 'Betazoide' || pgSpecie == 'Umana-Betazoide')">
-					<img src="TEMPLATES/img/interface/personnelInterface/abilita/op_informatiche.png" class="tooltip"  title="Tutti i PG ottengono un bonus all'utilizzo delle consolle elettroniche"/><span>+1</span>  
+					 
 					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/willpower.png" title="La predisposizione alla grande empatia propria dei Betazoidi si traduce in una maggiore temperanza mentale. I personaggi di questa razza ottengono un bonus alla forza di volontà." /><span>+2</span> 
 					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/costituzione.png" title="I betazoidi hanno una salute più cagionevole rispetto alle altre razze. Soffrono quindi di un malus alla Costituzione" /><span>-1</span> <br /> 
 					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/percepire_intenzione.png" title="I Betazoidi sono una razza empatica e possono percepire le emozioni altrui. Di conseguenza, l'abilità relativa gode di un bonus di +1" /><span>+1</span> 
@@ -253,9 +263,8 @@ p.bonus span {
 				</p>
 
 				<p class="bonus" tal:condition="php:(pgSpecie == 'Bajoriana')">
-					<img src="TEMPLATES/img/interface/personnelInterface/abilita/op_informatiche.png" class="tooltip"  title="Tutti i PG ottengono un bonus all'utilizzo delle consolle elettroniche"/><span>+1</span>  
-					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/willpower.png" title="Le sofferenze patite dai Bajoriani durante i lunghi anni dell'occupazione Cardassiana valgono alla razza un bonus in Forza di Volontà. I lussi di una vita agiata e l'idea di poter essere felici ogni giorno sono stati un miraggio per troppo tempo" /><span>+3</span>  
-					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/percezione.png" title="I Bajoriani hanno una percezione più marcata rispetto alle altre razze" /><span>+2</span> <br />
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/willpower.png" title="Le sofferenze patite dai Bajoriani durante i lunghi anni dell'occupazione Cardassiana valgono alla razza un bonus in Forza di Volontà. I lussi di una vita agiata e l'idea di poter essere felici ogni giorno sono stati un miraggio per troppo tempo" /><span>+2</span>  
+					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/percezione.png" title="I Bajoriani hanno una percezione più marcata rispetto alle altre razze" /><span>+1</span> <br />
 					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/arte.png" title="I Bajoriani erano noti per essere grandi e apprezzati artisti in tutto il quadrante, prima della guerra" /><span>+2</span>  
 					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/sopravvivenza.png" title="I tempi duri dell'occupazione hanno lasciato poco scampo a parecchi Bajoriani. I sopravvissuti sono decisamente abili nell'arte di arrangiarsi e di sopravvivere" /><span>+3</span>  
 					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/acrobatica.png" title="I Bajoriani sono in grado di compiere salti e gesti particolarmente scenografici... una qualità anche questa acquisita dalla Guerra di Occupazione" /><span>+2</span> <br />
@@ -264,8 +273,7 @@ p.bonus span {
 
 				</p> 
 				<p class="bonus" tal:condition="php:(pgSpecie == 'Boliana')">
-					<img src="TEMPLATES/img/interface/personnelInterface/abilita/op_informatiche.png" class="tooltip"  title="Tutti i PG ottengono un bonus all'utilizzo delle consolle elettroniche"/><span>+1</span> 
-
+				
 					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/destrezza.png" title="Tozzi e impacciati, i Boliani non sono certo noti per la loro padronanza nei movimenti e nel controllo del corpo: soffriranno di un malus di -2 in Destrezza e in tutte le abilità associate." /><span>-2</span>  
 
 					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/percezione.png" title="I Boliani sono attenti osservatori del mondo che li circonda e ottengono un bonus in percezione." /><span>+2</span> <br />
@@ -287,7 +295,6 @@ p.bonus span {
 				</p>
 
 				<p class="bonus" tal:condition="php:(pgSpecie == 'Caitiana')">
-					<img src="TEMPLATES/img/interface/personnelInterface/abilita/op_informatiche.png" class="tooltip"  title="Tutti i PG ottengono un bonus all'utilizzo delle consolle elettroniche"/><span>+1</span> 
 
 					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/destrezza.png" title="Il corpo longilineo, una percezione uditiva e visiva superiore e la coda rendono i Caitiani molto più abili nei movimenti e nella coordinazione" /><span>+1</span>  
 
@@ -304,7 +311,6 @@ p.bonus span {
 				</p>
 
 				<p class="bonus" tal:condition="php:(pgSpecie == 'Terosiana')">
-					<img src="TEMPLATES/img/interface/personnelInterface/abilita/op_informatiche.png" class="tooltip"  title="Tutti i PG ottengono un bonus all'utilizzo delle consolle elettroniche"/><span>+1</span> 
 
 					<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/destrezza.png" title="I terosiani sono abili nuotatori e, generalmente, cultori della forma fisica e dello sport. Ciò gli conferisce un senso dell'equilibrio spiccato e un'elevato controllo dei movimenti." /><span>+2</span>  
 

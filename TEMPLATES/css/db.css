@@ -4,7 +4,8 @@ body{
   
 	font-family:Helvetica, sans-serif;
 	background-repeat:no-repeat;
-}
+} 
+
 
 #mainDatabase
 {
@@ -21,19 +22,7 @@ body{
     text-shadow: 0 0 5px #00C6FF;
 	font-weight:bold;
 }
-
-.cdbPostRed{color:red;}
-.cdbPostBlue{color:#0077c3;}
-.cdbPostGreen{color:#009966;}
-.cdbPostYellow{color:#FFCC00;}
-.cdbPostLYellow{color:yellow;}
-.cdbPostWhite{color:white;}
-.cdbPostGray{color:#999;}
-
-.cdbPostLittleSize{font-size:11px;}
-.cdbPostNormalSize{font-size:13px;}
-.cdbPostBigSize{font-size:16px;}
-
+ 
 
 /***/
 

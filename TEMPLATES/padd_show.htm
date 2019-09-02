@@ -3,14 +3,31 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	
+	<link href="TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/padd.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
-
+	
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
+	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+
+	<script>
+			jQuery(function(){
+			jQuery('.tooltip').tooltip({
+          			content: function (){
+          						return $(this).prop('title');
+          					}
+					});	
+			});
+	</script>
+
 	<title>FEDERATION - PADD</title>
 
-	<style>
+	<style> 
+		.ui-tooltip {font-size:12px; text-align:justify;}
+
 		.gani_M::before{color:#ff3600;}
 		.gani_A::before{color:#d7b52f;}
 		.gani_G::before{color:#31F367;}
@@ -31,7 +48,7 @@ p.paddMessage{margin-left:10px; font-size:13px; margin-right:10px;}
 
 p.paddMessage.autoPadd::after{content:'[ Questo è un messaggio automatico ]'; color:'#FFCC00'; font-style:italic; display: block; margin-top:10px;}
 
-p.paddMessage.offPadd::after{content:'Messaggio OFF-Game: i contenuti di questo messaggio non sono relativi alle situazioni di gioco, e coinvolgono invece i giocatori'; color:'#AAA'; font-style:italic; display: block; margin-top:10px; font-size:12px;}
+p.paddMessage.offPadd::after{content:'Messaggio OFF-Game: i contenuti di questo messaggio non sono relativi alle situazioni di gioco, e coinvolgono invece i giocatori'; color:'#AAA'; font-style:italic; display: block; clear:both; margin-top:10px; font-size:12px;}
 
 p.paddMessage.masterPadd::before{content:'~ Evento Master ~'; color:'#ff3600'; font-weight:bold; display: block; text-align:center; width: 55%;  border-top:1px solid #ff3600;   border-bottom:1px solid #ff3600; padding: 5px 0px; margin: 5px auto; font-size:14px;}
 
@@ -52,7 +69,7 @@ p.paddMessage.masterPadd::after{content:'Evento Master: questo messaggio contien
 		<a tal:condition="php:(deletable==true)" tal:attributes="href string:padd.php?s=delInPad&paddID=${padd/padID}"> <div class="btn" id="delBTN"/> </a>
 		<a tal:attributes="href string:padd.php?s=savePad&paddID=${padd/padID}" > <div class="btn" id="saveBTN"/> </a></div>
 		
-		<div id="padder" tal:attributes="class php:(user.pgSpecie=='Romulana') ? 'paddRomulanMain radiusBordered' : 'paddMain radiusBordered'">
+		<div id="padder" class="paddMain radiusBordered">
 			<div class="innerPadd">
 				<div style="width:auto; text-align:left; padding:5px; border:1px solid #222;" class="radiusBordered">
 					<a tal:attributes="onclick string:schedaPOpen(${padd/FromPGID})" class="interfaceLink" href="#" tal:content="padd/FromPG" /> <span tal:condition="php:(padd['pgATOMA'] == 'M' || padd['pgATOMA'] == 'SM' || padd['pgATOMA'] == 'A' || padd['pgATOMA'] == 'G')" tal:attributes="class string:tooltip gani_${padd/pgATOMA} ; title php:( (padd['pgATOMA'] == 'M') ? 'Master' : ((padd['pgATOMA'] == 'A') ? 'Admin' : ((padd['pgATOMA'] == 'G') ? 'Guida' : ((padd['pgATOMA'] == 'SM') ? 'Global Master' : '') )  )  ) " ></span> <span style="color:#0077c3; font-weight:bold;">></span> <a tal:attributes="onclick string:schedaPOpen(${padd/ToPGID})" class="interfaceLink" href="#" tal:content="padd/ToPG" /> <p style="font-weight:bold; float:right; margin:0px; margin-right:5px; text-decoration:underline;" tal:content="padd/paddTitle" />

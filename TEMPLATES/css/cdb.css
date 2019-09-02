@@ -1,328 +1,137 @@
+@font-face{
+font-family:'enterpriseFont';
+src: url('../Enterprise.eot') format('eot');
+src: url('../Enterprise.woff') format("woff");
+src: url('../Enterprise.woff2') format("woff2");
+src: url('../Enterprise.ttf') format('truetype');
+}
+
 body
 {	 
 	background-repeat:no-repeat;
-
 	background-color:black;
-
-	
 	background-position:top center;
-
 	background-color:black;
-
 	color:white;
-
 	scrollbar-base-color:black;
-
 	width:400px;
-
 	overflow:hidden;
-
 }
-
-img{border:0px;
-}
-
+img{border:0px;}
 a
 {
 	text-decoration:none;
-
 	color:#fffbe8;
-
 }
-
-
 p
 {
 	margin:0px;
-
 }
-
-a.topicNormal:hover 
-{
-	text-decoration:underline;
-
-}
-a.topicAnnounce:hover{text-decoration:underline;
-}
-a.topicImportant:hover{text-decoration:underline;
-}
-
-
-.interfaceLink,.interfaceLinkBlue,.interfaceLinkRed,.interfaceLinkGreen,.interfaceLinkYellow,.internalCdbLink
-{
-	
-	font-size:13px;
-
-	font-weight:bold;
-
-	font-family:Arial;
-
-}
-
-.interfaceLink{color:#fffbe8;
-}
-a.interfaceLink:hover{color:orange;
-}
-
-.interfaceLinkBlue{color:#0077c3;
-}
-a.interfaceLinkBlue:hover{color:#5a9bc4;
-}
-
-.interfaceLinkRed{color:#dc0000;
-}
-a.interfaceLinkRed:hover{color:#eb5d5d;
-}
-
-.interfaceLinkGreen{color:#06a211;
-}
-a.interfaceLinkGreen:hover{color:#59cd61;
-}
-
-.interfaceLinkYellow{color:#FFCC00;
-}
-a.interfaceLinkYellow:hover{color:orange;
-}
-
-.internalCdbLink{
-	color:#FFCC00;
-}
-
-.internalCdbLink::before{
-	content:'[ ';
-}
-
-.internalCdbLink::after{
-	content:' ]';
-}
-
 table
 {
 	color:#fffde0;
 }
 
-img{border:0px;
-}
-
-.topicImportant{color:red;
-}
-.topicAnnounce{color:orange;
-}
-.topicNormal{color:#fffbe8;
-} 
-.topic{font-size:12px;
- font-family:Helvetica;
-}
-.topic_ext_red {color:red;
-}
-.topic_ext_teal{color:teal;
-}
-.topic_ext_yellow{color:yellow;
-}
-.topic_ext_orange{color:orange;
-}
-.topic_ext_green{color:#0bba50;
-}
-.topic_ext_violet{color:#bb20cd;
-}
-.topic_ext_indigo{color:#4978ff;
-} 
-.topic_ext_white{color:white;
-} 
-
 tr.topicline
 {
 	font-size:12px;
-
 	font-family:Helvetica;
-
 	width:100%;
-
 }
-
 td.topicTitle
 {
 	width:auto;
-
 	text-transform:uppercase;
-
 	font-weight:bold;
-
 }
-
 .littleLink < a
 {
 	font-size:11px;
-
 }
-
 .topicTitolo
 {
 	text-transform:uppercase;
-
 	font-weight:bold;
-
 	font-size:12px;
-
 	font-family:Helvetica;
-
 }
-
 td.topicDate
 {
 	width:120px;
-
 	font-style:italic;
-
 }
-
 td.topicUser
 {
 	width:120px;
-
 	font-style:italic;
-
 }
-
 div.topicDiv
 {
-	
 	width:97%;
-
 	border:1px solid #466974;
-
 	padding:5px;
-
 	margin:5px;
-
 	margin-top:20px;
-
 }
-
 input, select, textarea, button
 {
 	color:#999;
-
 	border:1px solid #999;
-
 	background-color:black;
-
     font-family: Arial;
-
     font-size: 12px;
-
     padding: 1px;
-
 }
-
-textarea {font-size:13px;
-}
-input:focus, select:focus, textarea:focus, button:focus
-{
-	color:white;
-
-	border:1px solid white;
-
-}
-
-input:hover, select:hover, textarea:hover, button:hover
-{
-	color:white;
-
-	border:1px solid white;
-
-}
- 
-input[type=text].neon{ 
-	border:0px;
-	border-bottom:1px solid #666;
-	padding:5px 3px;
-}
-
-input[type=text].neon:hover, input[type=text].neon:active, input[type=text].neon:focus{ 
-	border-color:red;
-	outline: none;
-}
-select.neon{border:0px; border-bottom:1px solid #0f2b4b;}
-select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-bottom:1px solid red;}
-
-
-
 .borderTopic
 {
 	border-top:1px solid #888;
-
 	border-bottom:1px solid #888;
-
 }
-
 
 .postDate
 {
 	font-size:11px;
-
 	color:#ffc600;
-
 	font-family:helvetica;
-
 	letter-spacing:2px;
-
 	text-align:center;
-
 	margin-top:10px;
-
 	border-right:1px dotted #777;
-
 }
-
-
 
 .postTitle
 {
 	color:#FFCC33;
-
 	font-family:arial;
-
 	font-size:13px;
-
 	font-weight:bold;
-
 	padding-left:10px;
-
 }
  
 .postContent
 {
 	font-size:13px;
-
 	color:#fffbe8;
-
 	font-family:arial;
-
 	text-align:justify;
-
 	padding:20px;
-
 	padding-left:10px;
-
 	border-left:1px dashed #444;
-
 	border-right:1px dashed #444;
-
 	padding-bottom:20px;
-
 }
 
 .postContent p{margin:0px;}
+
 .postContent p.quoter{
 	margin:5px 25px;
-
 
 	border-left:2px solid #666;
 	padding-left:10px;
 	padding-top: 15px;
 	padding-bottom:15px;
 }
+
 .postContent p.quoter:before{
 	content:'"'; 
 	text-decoration: italic;
@@ -342,54 +151,21 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
 .signature
 {
 	color:#0077c3;
-
 	text-align:center;
-
 	font-weight:bold;
-
 	padding-bottom:5px;
-
 	font-style:italic;
-
 }
 
 .signatureCDB
 {
 	color:#0077c3;
-
 	text-align:center;
-
 	font-weight:bold;
-
 	font-style:italic;
-
 	width:260px;
-
 	margin-left:auto;
-
 	margin-right:auto;
-
-}
-
-
-.cdbPostRed{color:red;
-}
-.cdbPostBlue{color:#0077c3;
-}
-.cdbPostGreen{color:#009966;
-}
-.cdbPostYellow{color:#FFCC00;
-}
-.cdbPostWhite{color:white;
-}
-.cdbPostGray{color:#999;
-}
-
-.cdbPostLittleSize{font-size:11px;
-}
-.cdbPostNormalSize{font-size:13px;
-}
-.cdbPostBigSize{font-size:16px;
 }
 
 
@@ -397,19 +173,12 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
 .paginatore, .activePaginatore
 {
 	border: 1px solid #eee;
-
 	float:left;
-
 	font-size:10px;
-
 	text-align:center;
-
 	border-radius:25px;
-
 	width:19px;
-
 	height:15px;
-
 	margin-left:4px;
  
 }
@@ -417,30 +186,23 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
 .blackgradient
 {
 	background-color:rgba(1,1,1);
-
 	background-color:rgba(1,1,1,0.7);
-
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#B2010101,endColorstr=#B2010101);
+}
+.radiusBordered_f{border-radius:12px;}
+.activePaginatore {border-color:orange;}
+.activePaginatore a {color:#ffe138;}
+.paginatore{border-color:#466974;}
+.little {font-size:11px;}
 
+.littleShipLogo{
+	width:150px;
+	height:150px;
+	float:left;
+	padding:2px;
+	margin-left:10px;
 }
 
-.radiusBordered_f{border-radius:12px;
-}
-.activePaginatore {border-color:orange;
-}
-.activePaginatore a {color:#ffe138;
-}
-.paginatore{border-color:#466974;
-}
-
-.little {font-size:11px;
-}
-.littleShipLogo{width:150px;
- height:150px;
- float:left;
- padding:2px;
- margin-left:10px;
-}
 .smallTitle{font-variant:small-caps;
  font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;
  font-size: 16px;
@@ -451,13 +213,13 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
  margin-top:5px;
  margin-right:20px;
 }
+
 .dateContainer input {font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;
  font-size: 12px;
  font-weight: bold;
  text-align: center;
   text-shadow: 0 0 5px #00C6FF;
 }
-
 .forumBox{
 	margin-top:10px;
 	height:65px;
@@ -467,9 +229,7 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
 	width:350px;
 }
  
-
 .forumBox {position:relative;}
-
 .notifierBox
 {
 	position: absolute;
@@ -483,45 +243,32 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
 }
 
 .notifierBox p{width:100%; line-height:15px; text-align:center; margin:auto; font-family:Arial;  font-weight:bold; font-size:13px;}
-
 .forumBox.CIV {border-color:#110144;}
 .forumBox.CIV .notifierBox{ background-color: #110144; border-color:#2a21e0;}
 .forumBox.CIV .notifierBox p{ text-shadow: 1px 1px 8px #2a21e0; }
-
 .forumBox.CIV:hover {border-color:#2a21e0;}
 .forumBox.CIV:hover .notifierBox {background-color:#2a21e0;}
-
 
 .forumBox.FL {border-color:#310303;}
 .forumBox.FL .notifierBox{ background-color: #310303; border-color:#a50c0c;}
 .forumBox.FL .notifierBox p{ text-shadow: 1px 1px 8px #a50c0c; }
-
 .forumBox.FL:hover {border-color:#a50c0c;}
 .forumBox.FL:hover .notifierBox {background-color:#a50c0c;}
-
 
 .forumBox.HE {border-color:#483801;}
 .forumBox.HE .notifierBox{ background-color: #483801; border-color:#b08902;}
 .forumBox.HE .notifierBox p{ text-shadow: 1px 1px 8px #b08902; }
-
 .forumBox.HE:hover {border-color:#b08902;}
 .forumBox.HE:hover .notifierBox {background-color:#b08902;}
-
-
 
 .forumBox.MA {border-color:#01291E;}
 .forumBox.MA .notifierBox{ background-color: #01291E; border-color:#007a53;}
 .forumBox.MA .notifierBox p{ text-shadow: 1px 1px 8px #007a53; }
-
 .forumBox.MA:hover {border-color:#007a53;}
 .forumBox.MA:hover .notifierBox {background-color:#007a53;}
-
-
-.notifierBox.zero{} 
 .obrindApproval
 {
 display:inline-block;
-
 background-color:#17740f;
 border-radius:7px 7px 7px 7px;
 padding:0px;
@@ -534,7 +281,6 @@ font-weight:bold;
 margin-top:5px;
 padding-right:5px;
 }
-
 .obrindApproval::before
 {
 display:inline-block;
@@ -551,4 +297,77 @@ height:14px;
 width:40px;
 font-size:10px;
 content:'OBRIND';	
+}
+
+.interfaceLink,.interfaceLinkBlue,.interfaceLinkRed,.interfaceLinkGreen,.interfaceLinkYellow,.internalCdbLink
+{	
+	font-size:13px;
+	font-weight:bold;
+	font-family:Arial;
+}
+
+.interfaceLink{color:#fffbe8;}
+a.interfaceLink:hover{color:orange;}
+
+.interfaceLinkBlue{color:#0077c3;}
+a.interfaceLinkBlue:hover{color:#5a9bc4;}
+
+.interfaceLinkRed{color:#dc0000;}
+a.interfaceLinkRed:hover{color:#eb5d5d;}
+
+.interfaceLinkGreen{color:#06a211;}
+a.interfaceLinkGreen:hover{color:#59cd61;}
+
+.interfaceLinkYellow{color:#FFCC00;}
+a.interfaceLinkYellow:hover{color:orange;}
+
+.internalCdbLink{color:#FFCC00;}
+.internalCdbLink::before{content:'[ ';}
+.internalCdbLink::after{content:' ]';}
+
+
+a.topic{font-size:12px; font-family:Helvetica;}
+.topicImportant a{color:red;}
+.topicAnnounce a {color:orange;}
+.topicNormal a{color:#fffbe8;} 
+.topicNormal a:hover {	text-decoration:underline;}
+.topicImportant a:hover{text-decoration:underline;}
+.topicNormal a.topicLock, .topicNormal a.topicLock + span{font-style:italic;; color:#AAA;; font-size:11px}
+.topicNormal a.topicLock + span::after{content:'(CHIUSO)'; color:#d42a2a; margin-left:5px; text-decoration: none;}
+a.topic_ext_red {color:red !important;}
+a.topic_ext_teal{color:teal !important;}
+a.topic_ext_yellow{color:yellow !important;}
+a.topic_ext_orange{color:orange !important;}
+a.topic_ext_green{color:#0bba50 !important;}
+a.topic_ext_violet{color:#bb20cd !important;}
+a.topic_ext_indigo{color:#4978ff !important;}
+a.topic_ext_white{color:white !important;}
+
+.cdbPostRed{color:red;}
+.cdbPostBlue{color:#0077c3;}
+.cdbPostGreen{color:#009966;}
+.cdbPostYellow{color:#FFCC00;}
+.cdbPostWhite{color:white;}
+.cdbPostGray{color:#999;}
+.cdbPostLittleSize{font-size:11px;}
+.cdbPostNormalSize{font-size:13px;}
+.cdbPostBigSize{font-size:16px;}
+   
+a.dbLink{
+	color:#2d90c8;
+	font-size:12px;
+	text-decoration: underline;
+}
+
+a.dbLink:hover{color:#abd2e8;}
+
+a.dbLink::before{
+content:'';
+background: url('../img/interface/personnelInterface/abilita/storia_letteratura.png');/*url of image*/
+height: 20px;/*height of image*/
+width: 20px;/*width of image*/
+background-size:100%;
+display:inline-block;
+vertical-align: middle;
+margin-right:10px;
 }

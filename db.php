@@ -6,7 +6,7 @@ include('includes/validate_class.php');
 include("includes/PHPTAL/PHPTAL.php"); //NEW 
 include("includes/md/Parsedown.php"); //NEW 
 
-include('includes/bbcode.php');
+include('includes/cdbClass.php');
 include("includes/md/ParsedownExtra.php"); //NEW 
 
 function numberToRomanRepresentation($number) {
@@ -62,7 +62,7 @@ if(isSet($_GET['dopdf']))
 "<span style=\"font-size:13px; font-weight:bold;\">","<span style=\"font-size:13px;\">",
 "<span style=\"font-size:16px; font-weight:bold;\">","</span>","</span>","<br />","<img src=\"","\"/>","<a target=\"_blank\" class=\"interfaceLink\" href=\"","\">LINK</a>",'script','script');
 
-		$content = str_replace($bbCode,$htmldCode,$resA['content']);
+		$content = CDB::bbcode($resA['content']);
 	}
 	$user = PG::getSomething($_SESSION['pgID'],'username');
 	$date = date('d/m/Y');
@@ -306,7 +306,7 @@ else if(isSet($_GET['element']) || isSet($_GET['litref']))
 		$template->catName = $resA['catName'];
 		$template->catImage = $resA['catImage'];
 		$template->title = $resA['title'];
-		$template->content = ($resA['skipBB']) ? $resA['content'] : (($resA['enableMD']) ? $Parsedown->text($resA['content']) : str_replace($bbCode,$htmlCode,$resA['content'])) ; 
+		$template->content = ($resA['skipBB']) ? $resA['content'] : (($resA['enableMD']) ? $Parsedown->text($resA['content']) : CDB::bbcode($resA['content'])) ; 
 		$template->searchable = (isSet($_SESSION['pgID'])) ? true : false;
 
 	}

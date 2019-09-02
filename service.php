@@ -248,7 +248,8 @@ if (isSet($_GET['setAlert']))
 {
 	$g = $_GET['setAlert'];
 	$place = addslashes($_GET['place']);
-	if($g == 'red' || $g=='intruder' || $g == 'yellow' || $g == 'blue' || $g == 'green' || $g = 'grey')
+	
+	if($g == 'red' || $g=='intruder' || $g == 'yellow' || $g == 'blue' || $g == 'green' || $g == 'grey' || $g == 'quarantine')
 	{
 		if($g=='red') mysql_query("UPDATE fed_ambient SET ambientLightColor='#d10000' WHERE ambientLocation='$place'");
 		else if($g=='yellow') mysql_query("UPDATE fed_ambient SET ambientLightColor='#e8cd05' WHERE ambientLocation='$place'");
@@ -262,7 +263,7 @@ if (isSet($_GET['setAlert']))
 		if(PG::mapPermissions('M',$currentUser->pgAuthOMA))
 		mysql_query("UPDATE pg_places SET placeAlert = '$toset' WHERE placeID = '$place'");
 		
-		$string = '<p class="globalAction">Su tutta la nave si attiva '.str_replace(array('redAlert','yellowAlert','blueAlert','greenAlert','greyAlert','intruderAlert'),array('l\\\'allarme Rosso','l\\\'allarme Giallo','la condizione Blu','la condizione Verde','la condizione di Quarantena. Voce del Computer: Attenzione Procedura di Quarantena attivata. Da questo momento risulta in vigore la procedura di quarantena di Livello Tre. Tutto il personale ottemperi al protocollo di quarantena. Tutte le autorizzazioni di sbarco e imbarco sono revocate con effetto immediato.','L\\\'allarme Intruso'),$toset).'</p>';
+		$string = '<p class="globalAction">Su tutta la nave si attiva '.str_replace(array('redAlert','yellowAlert','blueAlert','greenAlert','greyAlert','quarantineAlert','intruderAlert'),array('l\\\'allarme Rosso','l\\\'allarme Giallo','la condizione Blu','la condizione Verde','La condizione Grigia: tutti i sistemi non vitali vengono disattivati e l\\\'illuminazione viene ridotta al minimo.','la condizione di Quarantena. Voce del Computer: < Attenzione Procedura di Quarantena attivata. Da questo momento risulta in vigore la procedura di quarantena di Livello Tre. Tutte le autorizzazioni di sbarco e imbarco sono revocate con effetto immediato. Il personale non in servizio deve fare ritorno ai propri alloggi. Questa non √® un\\\'esercitazione.>','L\\\'allarme Intruso'),$toset).'</p>';
 		$locations = mysql_query("SELECT locID FROM fed_ambient WHERE ambientLocation = '$place'"); 
 		 
 		 
@@ -295,7 +296,7 @@ else if (isSet($_GET['bavosize']))
 	
 	$pg = new PG($to);
 	$pgName = $pg->pgUser;
-	//mail(PG::getSomething($to,'email'),"Star Trek Federation - Ti abbiamo perso di vista!","Ciao $pgName,\n\nSono passati due mesi dal tuo ultimo login in Star Trek: Federation. Per garantire uno sviluppo funzionale degli organigrammi di bordo, il tuo personaggio verr‡ spostato in altra locazione a partire da oggi. Ci auguriamo di rivederti presto fra noi, e ti assicuriamo che, in caso volessi tornare, il tuo PG sar‡ mantenuto attivo per altri 30 giorni. Al termine dei 30 giorni, il PG sar‡ eliminato dai nostri server.\n\n A presto\n\nIl team di Star Trek: Federation\n\nhttp://www.startrekfederation.it","From:staff@startrekfederation.it");
+	//mail(PG::getSomething($to,'email'),"Star Trek Federation - Ti abbiamo perso di vista!","Ciao $pgName,\n\nSono passati due mesi dal tuo ultimo login in Star Trek: Federation. Per garantire uno sviluppo funzionale degli organigrammi di bordo, il tuo personaggio verr√† spostato in altra locazione a partire da oggi. Ci auguriamo di rivederti presto fra noi, e ti assicuriamo che, in caso volessi tornare, il tuo PG sar√† mantenuto attivo per altri 30 giorni. Al termine dei 30 giorni, il PG sar√† eliminato dai nostri server.\n\n A presto\n\nIl team di Star Trek: Federation\n\nhttp://www.startrekfederation.it","From:staff@startrekfederation.it");
 	}
 	header("Location:crew.php?equi=$dest");
 	exit;

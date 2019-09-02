@@ -1127,7 +1127,6 @@ float:left;
 }
 
 .fpAdd{background-image:url('../img/interface/cdbInterface/plus_fp.png'); background-position:top center; width:23px; height:12px; margin-left:10px;}
-
 #principaleBTN:hover, #newsBTN:hover,#sondaggiBTN:hover,#calendarioBTN:hover, #assegnazioniBTN:hover, #diarioBTN:hover, #guidaBTN:hover,.fpAdd:hover{background-position:bottom center;}
 #principaleBTNbw{background-image:url('../img/interface/cdbInterface/bwA.png');background-position:top center;width:111px;height:34px;float:left;}
 #newsBTNbw{background-image:url('../img/interface/cdbInterface/bwB.png');background-position:top center;width:97px;height:34px;float:left;}
@@ -1136,7 +1135,7 @@ float:left;
 
 #pstAdva
 {
-	    width: 590px;
+	width: 590px;
     height: 350px;
     position: absolute;
     left: 50%;
@@ -1164,7 +1163,7 @@ float:left;
 	font-size:14px !important;
 }
 
-#statusBox{display:none; border:1px solid #123258; z-index:5; padding:5px;  position:absolute; top:50px; right:300px; height:500px; width:425px; background-color:rgba(0,0,0,0.8); padding:10px; 	-moz-box-shadow: 0px 0px 20px #0099ff;
+#statusBox{display:none; border:1px solid #123258; z-index:10; padding:5px;  position:absolute; top:50px; right:300px; height:500px; width:425px; background-color:rgba(0,0,0,0.8); padding:10px; 	-moz-box-shadow: 0px 0px 20px #0099ff;
     -webkit-box-shadow: 0px 0px 20px #0099ff;
     box-shadow: 0px 0px 20px #0099ff;} 
 #statusContainer{height:460px; overflow-y: scroll; width:100%;} 
@@ -1178,3 +1177,55 @@ float:left;
 #statusContainer p.sub{ font-size:12px; font-style:italic; color:#EEE; font-family:Arial;  margin:0px; margin-left:5px;}
 
 #statusContainer > div:hover{ background-color:rgba(81,145,166,0.7);}
+
+
+span.eventParticip{
+	margin-left:6px;
+	display:inline-block; 
+	width:30px;
+	height:30px;
+	box-shadow: 0px 0px 4px 1px white;
+}
+
+.eventParticip img{
+	vertical-align:middle;
+	width:100%;
+	height:100%;
+}
+
+span.eventParticip.Comando_e_Strategia{
+	box-shadow: 0px 0px 4px 1px #FF0000;
+}
+span.eventParticip.Ingegneria_e_Operazioni{    
+	box-shadow: 0px 0px 4px 1px #f3c719;
+}
+span.eventParticip.Scientifica_e_Medica{    
+	box-shadow: 0px 0px 4px 1px #29c1a6;
+}
+span.eventParticip.Difesa_e_Sicurezza{    
+	box-shadow: 0px 0px 4px 1px #70ae20;
+}
+span.eventParticip.Navigazione{    
+	box-shadow: 0px 0px 4px 1px #2b76e8;
+}
+
+
+.participationYes,.participationNo{
+	width:23px;
+	height:30px;
+	vertical-align: middle;
+	cursor:pointer;
+	background-size:100% 100%;
+	margin-top:10px; 
+	display:inline-block;
+}
+.participationYes img,.participationNo img{ vertical-align: middle;}
+.participationYes{background-image: url('../img/interface/cdbInterface/main_yes_presence.png');}
+.participationNo{background-image: url('../img/interface/cdbInterface/main_no_presence.png');}
+
+
+
+span.participationYes,span.participationNo{
+	display:inline-block;
+}
+

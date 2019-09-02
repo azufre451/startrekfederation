@@ -35,42 +35,6 @@ var myImg = "https://unsplash.it/600/600?image=777";
 	<title>STAR TREK FEDERATION</title>
 	
 	<style>@font-face{font-family:'federationFont';src: url('TEMPLATES/Roddenberry.eot');src: url('TEMPLATES/Roddenberry.ttf') format('truetype');} .hourCol{font-family:federationFont, Impact; vertical-align:middle; font-size:18px; color:#0077c3; width:40px;} .expiring{color:#FC0;}
-		
-	.eventParticip{
-		 margin:1px;
-		 display:inline-block; 
-		 width:30px;
-	}
-	.eventParticip img{
-		vertical-align:middle; width:100%;
-
-	}
-
-
-	span.participationYes,span.participationNo{
-
-		width:23px;
-		height:30px;
-		vertical-align: middle;
-		cursor:pointer;
-		background-size:100% 100%;
-		margin-top:10px; 
-		display:inline-block;
-
-	}
-	span.participationYes img,span.participationNo img{ vertical-align: middle;}
-	
-	span.participationYes{
-		
-		background-image: url('TEMPLATES/img/interface/cdbInterface/main_yes_presence.png');
-		
-	}
-
-	span.participationNo{
-		background-image: url('TEMPLATES/img/interface/cdbInterface/main_no_presence.png');
-		
-	}
-
 	</style>
 </head>
 
@@ -242,7 +206,7 @@ var myImg = "https://unsplash.it/600/600?image=777";
 			</tr>
 			<tr>
 				<td colspan="3" tal:attributes="id string:participationBox_${event/evID}">
-					<span class="eventParticip"  tal:repeat="person event/presences" tal:attributes="id string:participationBox_element_${person/pgID};">
+					<span tal:repeat="person event/presences" style="cursor:pointer" tal:attributes="id string:participationBox_element_${person/pgID}; class php:'eventParticip ' . str_replace(' ','_',person['pgSezione']); onclick string:schedaPOpen('${person/pgID}')">
 						<img tal:attributes="src person/pgAvatarSquare ; title person/pgUser"/>
 					</span>
 				</td> 

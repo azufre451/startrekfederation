@@ -1,4 +1,4 @@
-﻿<?php session_start();
+<?php session_start();
 if (!isSet($_SESSION['pgID'])){header('Location:login.php'); exit;}
 
 include('includes/app_include.php');

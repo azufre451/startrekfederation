@@ -41,6 +41,20 @@ else
 $htmlLiner=''; $MAX = 0;
 while($chatLi = mysql_fetch_array($chatLines))
 {
+    
+    if ($chatLi['susTo'] == "0" || $chatLi['susTo'] == "7" ){
+       
+        if(strpos(strtolower($chatLi['chat']), '@') !== false)
+        { 
+            $me=PG::getSomething($_SESSION['pgID'],'username');
+            
+            if(strpos(strtolower($chatLi['chat']), "@".strtolower($me)) !== false){
+                
+                $chatLi['chat']= str_replace("@".$me,"<span class=\"tagMatch\">".$me."</span>",str_replace("@".strtolower($me),"<span class=\"tagMatch\">".$me."</span>",$chatLi['chat']));
+            }
+		}
+    }
+    
 	$htmlLiner.=$chatLi['chat'];
 	if($chatLi['IDE'] > $MAX) $MAX = $chatLi['IDE'];
 }

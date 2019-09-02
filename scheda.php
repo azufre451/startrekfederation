@@ -1,4 +1,4 @@
-<?php
+<?php 
 session_start();
 if (!isSet($_SESSION['pgID']))  header("Location:index.php?login=do");
     
@@ -217,7 +217,7 @@ elseif($mode == 'ssto')
 					$storiesRuol[$resA['pgGroup']]['associatedHTML'] = '';
 
 				}
-				$storiesRuol[$resA['pgGroup']]['associatedHTML'] .= '<p><img src="TEMPLATES/img/ranks/'.htmlentities($resA['rankImage']).'.png" /> <span style="color:#CCC; font-size:10px; text-transform:uppercase">'.htmlentities(substr($resA['dater'],0,4)).'</span>  <span style="color:#999; font-size:10px; text-transform:uppercase">'.htmlentities($resA['what']).'</span> </p>';
+				$storiesRuol[$resA['pgGroup']]['associatedHTML'] .= '<p><img src="TEMPLATES/img/ranks/'.$resA['rankImage'].'.png" /> <span style="color:#CCC; font-size:10px; text-transform:uppercase">'.substr($resA['dater'],0,4).'</span>  <span style="color:#999; font-size:10px; text-transform:uppercase">'.$resA['what'].'</span> </p>';
 			}
 		}
 
@@ -276,7 +276,7 @@ elseif($mode == 'addssto' || $mode == 'addexam')
 		$brevID = $bvQuery['brevID'];
 		$image= (mysql_affected_rows()) ?  $bvQuery['image']  : 'starfleet_brev.png';
 		$query = "INSERT INTO pg_service_stories (owner,timer,text,placer,extra,type,image) VALUES ($selectedUser,'$dateDef','$what',(SELECT pgAssign FROM pg_users WHERE pgID = $selectedUser),'$esit','EXAM','$image')"; 
-		if (PG::mapPermissions('SM',$currentUser->pgAuthOMA)) mysql_query("INSERT INTO pg_brevetti_assign (owner,brev,status) VALUES ($selectedUser,$brevID,1)"); 
+		if (PG::mapPermissions('SM',$currentUser->pgAuthOMA) && mysql_affected_rows()) mysql_query("INSERT INTO pg_brevetti_assign (owner,brev,status) VALUES ($selectedUser,$brevID,1)"); 
 		$esitL = ($esit <= 100) ? $esit : (($esit == 110) ? 'APPROVATO' : 'RESPINTO');
 		$paddTex = "È stato caricato nella tua scheda PG un nuovo esito per un esame sostenuto: \"$what\", con esito: $esitL.";
 		$padTit = 'OFF: NUOVO ESAME';
@@ -287,7 +287,7 @@ elseif($mode == 'addssto' || $mode == 'addexam')
 
 		$selectedDUser->sendPadd($padTit,$paddTex);
 	}
-	 
+	
 	header("Location:scheda.php?pgID=$selectedUser&s=ssto");
 }
 
@@ -516,7 +516,7 @@ elseif($mode == 'movObj')
 	$toUserID = $toUserQ['pgID'];
 	
 
-	if ($selectedUser == $_SESSION['pgID'] || $currentUser->pgAuthOMA == 'SM')
+	if ($selectedUser == $_SESSION['pgID'] || PG::mapPermissions('SM',$currentUser->pgAuthOMA))
 	{
 		$resae = mysql_query("SELECT * FROM fed_objects_ownership,fed_objects WHERE fed_objects_ownership.oID = fed_objects.oID AND owner = $selectedUser AND fed_objects_ownership.recID = $rem");
 		if (mysql_affected_rows())
@@ -566,7 +566,7 @@ elseif($mode == 'addStory')
 			if(mysql_affected_rows())
 			{
 				$te=mysql_fetch_assoc($tu);
-				if($te['pgID'] == $_SESSION['pgID'] || $currentUser->pgAuthOMA == 'A')
+				if($te['pgID'] == $_SESSION['pgID'] || PG::mapPermissions('SM',$currentUser->pgAuthOMA))
 				{
 					mysql_query("DELETE FROM pg_user_stories WHERE pgGroup = $storyEdit");
 					mysql_query("UPDATE pg_user_stories SET rankImage =  (SELECT ordinaryUniform FROM pg_ranks WHERE prio = $ranker), dater='$dateDef', what='$what',wherer='$where', rankNAme=(SELECT Note FROM pg_ranks WHERE prio = $ranker),timeStamp=$curTime WHERE storyID = $storyEdit");
@@ -598,7 +598,7 @@ elseif($mode == 'addStory')
 else if ($mode == 'removeStory')
 {
 	$w = $vali->numberOnly($_GET['sID']);
-	if ($currentUser->pgAuthOMA == 'A'){ mysql_query("DELETE FROM pg_user_stories WHERE (storyID = $w OR pgGroup = $w)"); }
+	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA)){ mysql_query("DELETE FROM pg_user_stories WHERE (storyID = $w OR pgGroup = $w)"); }
 	else mysql_query("DELETE FROM pg_user_stories WHERE (storyID = $w OR pgGroup = $w) AND pgID = ".$_SESSION['pgID']);
 	header("Location:scheda.php?pgID=".$_SESSION['pgID']."&s=ssto&l=1");
 }
@@ -1479,6 +1479,8 @@ elseif ($mode == 'setAutoma')
 	$pgID = $vali->numberOnly($_GET['pgID']);
 	$aut = addslashes($_POST['aut']);
 	
+	if($aut == 'A'){ $selectedDUser->sendPadd('OFF: BECCATO!',"Allarmi! Allarmi! Un admin verrà avvisato della violazione!"); exit;}
+
 	if($aut == 'O') $selectedDUser->sendPadd('OFF: Entertainer',"Ti è stato assegnato il ruolo di Entertainer / Olomaster, e hai ora la possibilità di inserire esiti in tutti gli ambienti del tipo Sala Ologrammi, utilizzando il comando:
 	
 	- Esito (testuale)
@@ -1825,6 +1827,7 @@ $template->smasterPanel = (PG::mapPermissions("SM",$currentUser->pgAuthOMA)) ? t
 $template->adminPanel = (PG::mapPermissions("A",$currentUser->pgAuthOMA)) ? true : false;
 $template->adminOstePanel = ($currentUser->pgUser =='Obrind' || $currentUser->pgUser == 'Kyleakeen') ? true : false;
 $template->editable = ($selectedUser == $_SESSION['pgID'] || $currentUser->pgAuthOMA == 'A') ? true : false;
+$template->editableSM = ($selectedUser == $_SESSION['pgID'] || $currentUser->pgAuthOMA == 'SM') ? true : false;
 
 $selectedOMA = $selectedDUser->pgAuthOMA; 
 

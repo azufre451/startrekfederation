@@ -27,7 +27,7 @@ function cmp($a, $b) {
 $start_time = getmicrotime();
 
 
-$allSupportedSpecies=array('Andoriana','Bajoriana','Benzita','Betazoide','Boliana','Borg','Breen','Caitiana','Capellana','Cardassiana','Deltana','Denobulana','El-Auriana','Elaysiana','Ferengi','Fondatore','Gorn','Grazerita','Jem\'Hadar','Klingon','Nausicaana','Ocampa','Orioniana','Risiana','Romulana','Sauriana','Sconosciuta','Talariana','Talassiana','Tellarita','Terosiana ','Tholiana','Trill','Tzenkethi','Umana','Umana-Betazoide','Umana-Vulcaniana','Umana-Klingon','Vorta','Vulcaniana','Vulcaniana-Romulana','Xenita','Zakdorn','Zaldan');
+$allSupportedSpecies=array('Andoriana','Bajoriana','Benzita','Betazoide','Boliana','Borg','Breen','Caitiana','Capellana','Cardassiana','Deltana','Denobulana','El-Auriana','Elaysiana','Ferengi','Fondatore','Gorn','Grazerita','Jem\'Hadar','Klingon','Nausicaana','Ocampa','Orioniana','Risiana','Romulana','Sauriana','Sconosciuta','Talariana','Talassiana','Tellarita','Terosiana','Tholiana','Trill','Tzenkethi','Umana','Umana-Betazoide','Umana-Vulcaniana','Umana-Klingon','Vorta','Vulcaniana','Vulcaniana-Romulana','Xenita','Zakdorn','Zaldan');
 
 session_start();
 if (!isSet($_SESSION['pgID'])){ header("Location:index.php?login=do"); exit;}

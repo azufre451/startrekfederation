@@ -28,7 +28,7 @@ else{
 $currentUser->setPresenceIntoChat($ambient);
 
 $currentLocation = PG::getLocation($currentUser->pgLocation);
-$template->alertCSS = str_replace('greenAlert',"",$currentLocation['placeAlert']);
+$template->alertCSS = $currentLocation['placeAlert'];
 
 // location
 

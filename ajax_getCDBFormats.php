@@ -26,7 +26,7 @@ foreach ($sel as $auth)
 $lisOuser = substr(trim($lisOuser),0,-1);
  
 
-$colr = array('Comando e Strategia' => 'RED', 'Difesa e Sicurezza' => 'GREEN', 'Operazioni' => 'YELLOW', 'Scientifica e Medica' => 'GREEN', 'Medica' => 'GREEN', 'Medicina Civile' => 'GREEN', 'Scienze' => 'GREEN', 'Navigazione' => 'BLUE');
+$colr = array('Comando e Strategia' => 'RED', 'Difesa e Sicurezza' => 'GREEN', 'Ingegneria e Operazioni' => 'YELLOW', 'Scientifica e Medica' => 'GREEN', 'Medica' => 'GREEN', 'Medicina Civile' => 'GREEN', 'Scienze' => 'GREEN', 'Navigazione' => 'BLUE');
 
 $actDate=timeHandler::timestampToGiulian($curTime);
 $curUser = new PG($_SESSION['pgID']);

@@ -38,8 +38,31 @@
          return false;
 		 
 		 }
+
+		function showlink(ida)
+		{
+
+			jQuery('#dialogLinker').attr('value','[POST]'+ida+'[/POST]');
+			 $( "#dialog-message" ).dialog({
+      modal: true,
+ 
+
+        buttons: {
+        "Copia": function(){ jQuery('#dialogLinker').select(); document.execCommand("copy"); jQuery('#dialog-message').dialog( "close" );}
+      }
+
+    });
+		}
+ 
  
 		jQuery(function(){
+			jQuery('.tooltip').tooltip({
+          content: function () {
+              return $(this).prop('title');
+          }
+      });
+
+
 			jQuery( "#users")
 			// don't navigate away from the field on tab when selecting an item
 
@@ -112,6 +135,11 @@
 				jQuery('#pstAdva').fadeOut(50);
 			}
 	</script>
+	<style>
+	.ui-tooltip {
+	font-size:12px;
+	text-align:justify;
+  }</style>
 </head>
 
 <body>
@@ -155,7 +183,13 @@
 	
 <div style="border:1px dotted #BBB; text-align:center; margin-top:10px; width:99%;" tal:repeat="post posts"><a tal:attributes="name post/ID" />
 
-<div style="position:relative;" tal:condition="exists:post/userdel"><div  style="position:absolute; font-size:11px; top:35px; right:28px; width:200px; height:20px;"><a class="interfaceLink" tal:attributes="href string:cdb.php?deletePost=${post/ID}" onclick="return confirm('Conferma operazione');" >ELIMINA <img src="TEMPLATES/img/interface/delete.png" /></a> | <a class="interfaceLink" tal:attributes="href string:cdb.php?postE=${post/ID}" ><img src="TEMPLATES/img/interface/edit_icon.png" /> MODIFICA</a></div></div>
+<div style="position:relative;">
+	<div  style="position:absolute; font-size:11px; top:35px; right:28px; width:280px; height:20px;">
+		<a class="interfaceLink" tal:condition="exists:post/userdel" tal:attributes="href string:cdb.php?deletePost=${post/ID}" onclick="return confirm('Conferma operazione');" >ELIMINA <img src="TEMPLATES/img/interface/delete.png" /></a> |
+		<a class="interfaceLink" tal:condition="exists:post/userdel" tal:attributes="href string:cdb.php?postE=${post/ID}" ><img src="TEMPLATES/img/interface/edit_icon.png" /> MODIFICA</a> |
+		<a class="interfaceLink" tal:attributes="onclick string:showlink(${post/ID});" href="javascript:void(0);" ><img src="TEMPLATES/img/interface/forum_link.png" /> LINK</a>
+	</div>
+</div>
 
 <div style="width:90%; margin-left:auto; margin-right:auto; margin-top:10px;" align="center">
 <table cellspacing="0" width="100%" style="width:100%; table-layout: fixed;">
@@ -279,6 +313,14 @@
 		
 	</div>
 </div>
+
+
+<div id="dialog-message" title="Link" style="display:none; font-size:16px;">
+  <p style="font-size:16px;">Per linkare questo post inserisci:<br />
+  <input class="neon" type="text" onclick="this.select();" id="dialogLinker"></input><span>in bacheca</span></p>
+  
+</div>
+
 
 </body>
 </html>

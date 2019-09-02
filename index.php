@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -7,8 +7,7 @@ include('includes/validate_class.php');
 
 include('includes/bbcode.php');
 include("includes/PHPTAL/PHPTAL.php"); //NEW
-
-
+ 
 
 if(isSet($_GET['readnews']))
 {

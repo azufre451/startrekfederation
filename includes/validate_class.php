@@ -103,23 +103,23 @@ function checkFile($filename) {
 
 // Function - Replaces All Numbers
 function stripNumber($text) {
-	$text = ereg_replace('[0-9]', '', $text);
+	$text = preg_replace('/[0-9]/', '', $text);
 	return $text;
 }
 
 function numberOnly($text) {
-	$text = ereg_replace('[^0-9]', '', $text);
+	$text = preg_replace('/[^0-9]/', '', $text);
 	return $text;
 }
 // Function - Replaces All Letters
 function stripLetters($text) {
-	$text = ereg_replace('([A-Za-z])', '', $text);
+	$text = preg_replace('/([A-Za-z])/', '', $text);
 	return $text;
 }
 
 // Function - Replaces All Whitespace
 function stripWhitespace($text) {
-	$text = ereg_replace('[  ]', '', $text);
+	$text = preg_replace('/[  ]/', '', $text);
 	return $text;
 }
 

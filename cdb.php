@@ -6,6 +6,9 @@ include('includes/app_include.php');
 include('includes/validate_class.php');
 include('includes/bbcode.php');
 
+
+
+
 include('includes/cdbClass.php');
 include("includes/PHPTAL/PHPTAL.php"); //NEW 
 
@@ -56,12 +59,48 @@ else if(isSet($_GET['topicEe']))
 	{
 		$title = 		  $vali->killChars((addslashes($_POST['cdbTitle'])));
 		$colorExtension = $vali->killChars((addslashes($_POST['cdbColor'])));
+		$GlobalUserSecBypass = $vali->killChars((addslashes($_POST['GlobalUserSecBypass'])));
+		
 		$seclar = $vali->numberOnly($_POST['cdbSeclar']);
 		$type = $vali->killChars((addslashes($_POST['cdbType'])));
 		$topicID = $vali->numberOnly($_POST['cdbID']);
 		
 	mysql_query("UPDATE cdb_topics SET lastTopicEvent='CREATE',topicTitle = '$title', topicType = '$type', topicSeclar = $seclar, topicColorExt = '$colorExtension', topicLastTime = (SELECT GREATEST(time,lastEdit) FROM cdb_posts WHERE topicID = $nan ORDER BY time DESC LIMIT 1), topicLastUser = IFNULL((SELECT owner FROM cdb_posts WHERE topicID = $nan ORDER BY time DESC LIMIT 1), ".$_SESSION['pgID'].") WHERE topicID = $topicID");
 	mysql_query("UPDATE cdb_posts SET postSeclar = $seclar WHERE topicID = $topicID AND postSeclar < $seclar");
+
+	$k3 = explode(',',addslashes($_POST['GlobalUserSecBypass']));
+		foreach ($k3 as $k3a){
+			$k3a = trim($k3a);
+			if($k3a != '')
+				{
+					$usr=mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$k3a'"));
+					if (mysql_affected_rows())
+					{
+						$usrID=$usr['pgID'];
+						mysql_query("DELETE FROM cdb_posts_seclarExceptions WHERE pgID = $usrID AND postID IN (SELECT ID FROM cdb_posts WHERE topicID = $topicID)");
+						mysql_query("INSERT INTO cdb_posts_seclarExceptions (pgID, postID) (SELECT '$usrID',ID  FROM cdb_posts WHERE topicID = $topicID)");
+					}
+				}
+			}
+
+		$k4 = explode(',',addslashes($_POST['GlobalUserSecBypassRemove']));
+		foreach ($k4 as $k4a){
+			$k4a = trim($k4a);
+			if($k4a != '')
+				{
+					$usr=mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$k4a'"));
+					if (mysql_affected_rows())
+					{
+						$usrID=$usr['pgID'];
+						mysql_query("DELETE FROM cdb_posts_seclarExceptions WHERE pgID = $usrID AND postID IN (SELECT ID FROM cdb_posts WHERE topicID = $topicID)");
+					}
+				}
+			}
+
+
+
+ 
+
 	header("Location:cdb.php?topic=$topicID");
 	}
 	else header("Location:cdb.php");
@@ -102,6 +141,17 @@ else if(isSet($_GET['topicE']))
 	$res = mysql_query("SELECT topicSeclar,topicID,topicTitle,topicType,topicColorExt,catCode,catName FROM cdb_topics,cdb_cats WHERE cdb_topics.topicCat = catCode AND topicID = $topicE");
 	$resA = mysql_fetch_array($res);
 		
+
+	$resSec = mysql_query("SELECT pgUser,IF((COUNT(*))=(SELECT COUNT(*) FROM cdb_posts WHERE topicID = $topicE), 1, 0) as hx,COUNT(*) as cnn FROM cdb_posts RIGHT OUTER JOIN (cdb_posts_seclarExceptions JOIN pg_users ON cdb_posts_seclarExceptions.pgID = pg_users.pgID) ON postID = ID WHERE topicID = $topicE GROUP BY pgUser HAVING hx = 1");
+	
+
+
+	$GlobalUserSecBypass='';
+	while($rasSec = mysql_fetch_assoc($resSec))
+		$GlobalUserSecBypass .= $rasSec['pgUser'].',';
+	
+
+	$template->GlobalUserSecBypass = $GlobalUserSecBypass;
 	$template->topicSeclar = $resA['topicSeclar'];
 	$template->topicID = $resA['topicID'];
 	$template->topicTitle = $resA['topicTitle'];
@@ -322,6 +372,15 @@ else if (isSet($_GET['addPost']))
 	$content = addslashes($_POST['postContent']);
 	$topicCode = $vali->numberOnly($_POST['topicID']);
 	$notes = $vali->killChars(addslashes($_POST['postNote']));
+
+
+	$resSec = mysql_query("SELECT pgID,IF((COUNT(*))=(SELECT COUNT(*) FROM cdb_posts WHERE topicID = $topicCode), 1, 0) as hx,COUNT(*) as cnn FROM cdb_posts RIGHT OUTER JOIN cdb_posts_seclarExceptions ON postID = ID WHERE topicID = $topicCode GROUP BY pgID HAVING hx = 1");
+	
+	$usersToClear=array();
+	while($rasSec = mysql_fetch_assoc($resSec))
+		$usersToClear[]=$rasSec['pgID'];
+
+
 	
 	if (PG::mapPermissions("M",$currentUser->pgAuthOMA) && ($_POST['usersMaster'] != ""))
 	{
@@ -345,8 +404,8 @@ else if (isSet($_GET['addPost']))
 		{
 			$rese = mysql_fetch_assoc($usersMasterID);
 
-			$pngName = ucfirst(strtolower($rese['pngName']));
-			$pngSurname = ucfirst(strtolower($rese['pngSurname']));
+			$pngName = ucfirst(strtolower(htmlentities($rese['pngName'])));
+			$pngSurname = ucfirst(strtolower(htmlentities($rese['pngSurname'])));
 			$pngplaceName = $rese['placeName'];
 			$pngIncarico = $rese['pngIncarico'];
 			$rank = $rese['Rgrado'];
@@ -373,12 +432,15 @@ else if (isSet($_GET['addPost']))
 
 
 	mysql_query("DELETE FROM pg_visualized_elements WHERE type ='CDB' AND what = $topicCode");
+	$POSTID=mysql_fetch_assoc(mysql_query("SELECT ID FROM cdb_posts WHERE title = '$title' ORDER BY time DESC LIMIT 1"));
+	$postIDCo=$POSTID['ID'];
+	foreach($usersToClear as $u)
+		mysql_query("INSERT INTO cdb_posts_seclarExceptions (pgID, postID) VALUES ('$u','$postIDCo')");
 
 
  	if (mysql_affected_rows() && $_POST['peopleList'] != '')
 	{  
-			$POSTID=mysql_fetch_assoc(mysql_query("SELECT ID FROM cdb_posts WHERE title = '$title' ORDER BY time DESC LIMIT 1"));
-			$postIDCo=$POSTID['ID'];
+			
 			$listPG=explode(',',trim($_POST['peopleList']));
 			foreach ($listPG as $to)
 			{
@@ -393,7 +455,7 @@ else if (isSet($_GET['addPost']))
 					$overSeclar="";
 					$seclarColor='#2f8ad0';
 					if((int)($toP->pgSeclar) < (int)($seclar))
-					{	mysql_query("INSERT INTO cdb_posts_seclarExceptions (pgID, postID) VALUES (".$toP->ID.",'$postIDCo')"); 
+					{	mysql_query("INSERT IGNORE INTO cdb_posts_seclarExceptions (pgID, postID) VALUES (".$toP->ID.",'$postIDCo')"); 
 						$overSeclar = "Il post è stato inserito a <span style=\"color:red; font-weight:bold;\">SECLAR $seclar</span> ma puoi visualizzarlo ugualmente, essendone destinatario";
 						$seclarColor = '#FF0000';
 					}
@@ -408,6 +470,10 @@ else if (isSet($_GET['addPost']))
 				}
 			}
 	}
+
+
+	
+
 
 	header("Location:cdb.php?topic=$topicCode");
 	exit;
@@ -485,6 +551,7 @@ else if (isSet($_GET['deletePost']))
 	if($currentUser->pgAuthOMA == "A" || ($postOwner == $_SESSION['pgID']) || $postCoOwner == $_SESSION['pgID'])
 	{
 		mysql_query("DELETE FROM cdb_posts WHERE ID = $deletePost");
+		mysql_query("DELETE FROM cdb_posts_seclarExceptions WHERE postID = $deletePost");
 		header("Location:cdb.php?topic=$topicID");
 		exit;
 	}
@@ -712,7 +779,23 @@ else if(isSet($_GET['meSearch']))
 	
 	if(!isSet($s)) { $template->over=true; $template->posts = array();}
 }
+else if  (isSet($_GET['test'])) 
+{
+//	echo var_dump(CDB::getPostFullLink('16220')); 
 
+
+	$bbtext = "this is a [post]16220[/post]";
+	$htmltext = replaceBBcodes($bbtext);
+
+	#$bbtext = "this is a [post]1622000[/post]";
+	#$htmltext = replaceBBcodes($bbtext);
+	echo $htmltext;
+
+
+	
+	exit;
+
+}
 else if(isSet($_GET['topic'])) 
 {
 	$template = new PHPTAL('TEMPLATES/cdb_topic.htm');
@@ -731,8 +814,8 @@ else if(isSet($_GET['topic']))
 	 } //REDIRECTION
 
 	 	$counterres = mysql_query("SELECT count(*) as contatore FROM cdb_posts WHERE topicID = $topic");
-	$counterresa = mysql_fetch_array($counterres);
-	$postNo = ($counterresa['contatore'] != 0) ? $counterresa['contatore'] : 1;
+		$counterresa = mysql_fetch_array($counterres);
+		$postNo = ($counterresa['contatore'] != 0) ? $counterresa['contatore'] : 1;
 	
 		$elementsPerPage = 15;
 		$pageNo = ceil($postNo / $elementsPerPage);		
@@ -792,7 +875,7 @@ else if(isSet($_GET['topic']))
 			'title' => $title,
 			'pgUser' => $resE['pgUser'],
 			'pgUserID' => $resE['pgID'],
-			'content' => str_replace($bbCode,$htmlCode,$resE['content']),
+			'content' => CDB::bbcode($resE['content']),
 			'time' => timeHandler::timestampToGiulian($resE['time']),
 			'lastEdit' => timeHandler::timestampToGiulian($resE['lastEdit']),
 			'postSeclar' => $resE['postSeclar'],
@@ -819,7 +902,7 @@ else if(isSet($_GET['topic']))
 			'title' => $title,
 			'pgUser' => $resA['pgUser'],
 			'pgUserID' => $resA['pgID'],
-			'content' => str_replace($bbCode,$htmlCode,$resA['content']),
+			'content' => CDB::bbcode($resA['content']),
 			'time' => timeHandler::timestampToGiulian($resA['time']),
 			'lastEdit' => timeHandler::timestampToGiulian($resA['lastEdit']),
 			'postSeclar' => $resA['postSeclar'], 

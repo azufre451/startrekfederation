@@ -11,6 +11,59 @@
 	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	<title>FEDERATION - PADD</title>
+
+	<script>
+			function split( val ) {
+			return val.split( /,\s*/ );
+		}
+		function extractLast( term ) {
+			return split( term ).pop();
+		}
+
+
+			jQuery(function(){
+
+			jQuery( "#users")
+			// don't navigate away from the field on tab when selecting an item
+			.bind( "keydown", function( event ) {
+				if ( event.keyCode === $.ui.keyCode.TAB &&
+						$( this ).data( "autocomplete" ).menu.active ) {
+					event.preventDefault();
+				}
+			})
+			.autocomplete({
+				source: function( request, response ) {
+					$.getJSON( "ajax_userGetter.php?extGropus=do", {
+						term: extractLast( request.term )
+					}, response );
+				},
+				search: function()
+				{
+					// custom minLength
+					var term = extractLast( this.value );
+					if ( term.length < 1 ) {
+						return false;
+					}
+				},
+				focus: function() {
+					// prevent value inserted on focus
+					return false;
+				},
+				select: function( event, ui ) {
+					var terms = split( this.value );
+					// remove the current input
+					terms.pop();
+					// add the selected item
+					terms.push( ui.item.value );
+					// add placeholder to get the comma-and-space at the end
+					terms.push( "" );
+					this.value = terms.join( ", " );
+					return false;
+				}
+			})
+			
+			});
+	</script>
 	</head><body style="background-color:black; overflow:hidden;">
 	
 	<div id="paddContainer"><div id="intestLeft"><a title="Principale" href="padd.php"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/padd.png" /></a><a title="Tychonian Herald" href="padd.php?s=tr"><img class="iconelement" tal:attributes="src php:(tribuneNews == true) ? 'TEMPLATES/img/interface/paddInterface/tribune_news.png' : 'TEMPLATES/img/interface/paddInterface/tribune.png'" /></a><a title="Status Nave" href="padd.php?s=sh"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/nave.png" /></a><a title="Note" href="padd.php?s=no"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/note.png" /></a></div>
@@ -21,4 +74,37 @@
 	</div>	
 	 
 	
-	<div id="newPadd" class="paddMain radiusBordered"><div class="innerPadd" style="margin-right:auto;margin-left:auto; width:510px; overflow:hidden;"><form tal:attributes="action php:((guider) ? 'padd.php?s=newP&guider=1' : 'padd.php?s=newP')  " method="POST"><table cellspacing="0px">	<tr><td style="border-bottom:1px dotted #333; width:140px;">A:</td><td class="newPaddtd"><input type="text" class="neon" readonly="readlonly" id="users" name="users" style="width:400px; border-color:#222" tal:attributes="value string:${to}"/></td></tr>	<tr><td style="width:140px; border-bottom:1px dotted #333;">OGGETTO</td><td class="newPaddtd"><input type="text" class="neon" maxlength="25" name="titolo" style="width:400px;" tal:attributes="value string:${sub}"/></td></tr>	<tr style="height:20px;" />	<tr><td style="width:140px; border-bottom:1px dotted #333; ">TESTO</td><td class="newPaddtd"><textarea name="testo" style="width:400px; height:160px;"/></td></tr>	<tr><td colspan="2" style="text-align:center;"><input style="width:50px;" type="submit" value="INVIA" /></td></tr></table></form></div></div></div></body></html> 
+	<div id="newPadd" class="paddMain radiusBordered">
+		<div class="innerPadd" style="margin-right:auto;margin-left:auto; width:510px; overflow:hidden;">
+			<form action='padd.php?s=newP' method="POST">
+				<table cellspacing="0px">
+					<tr>
+						<td style="border-bottom:1px dotted #333; width:140px;">A:</td>
+						<td class="newPaddtd"><input type="text" class="neon" id="users" name="users" style="width:400px; border-color:#222" tal:attributes="value string:${to},"/></td>
+					</tr>
+						<tr>
+							<td style="width:140px; border-bottom:1px dotted #333;">OGGETTO</td><td class="newPaddtd"><input type="text" class="neon" maxlength="25" name="titolo" style="width:400px;" tal:attributes="value string:${sub}"/></td></tr>	<tr style="height:20px;" />
+						<tr>
+							<td style="width:140px; border-bottom:1px dotted #333; ">TESTO</td>
+							<td class="newPaddtd"><textarea name="testo" style="width:400px; height:160px;"/></td>
+						</tr>
+						<tr>
+							
+							<td colspan="2" style="text-align:center;">
+								<select class="neon" name="paddType">
+								<option tal:attributes="selected php:((prevType==0) ? 'selected' : '')" value="0">ON-Game</option>
+								<option tal:attributes="selected php:((prevType==1) ? 'selected' : '')" value="1">OFF-Game</option>
+								<option tal:attributes="selected php:((prevType==3) ? 'selected' : '')" tal:condition="exists:isGuide" value="3">Guide/Revisioni</option>
+								<option tal:attributes="selected php:((prevType==4) ? 'selected' : '')" tal:condition="exists:isMaster" value="4">Evento Master</option>
+								<option tal:condition="exists:isAdmin" value="1S">OFF-Game-Forzamail</option>
+								</select>
+								<input style="width:50px;" type="submit" value="INVIA" />
+								</td>
+						</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+</div>
+</body>
+</html> 

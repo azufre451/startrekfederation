@@ -7,12 +7,63 @@
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link href="TEMPLATES/css/cdb.css?v=1.2" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
+	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />	
 	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 
 	<title>STAR TREK FEDERATION - MODIFICA</title>	
 	
+	<script type="text/javascript">
+		function split( val ) {
+			return val.split( /,\s*/ );
+		}
+		function extractLast( term ) {
+			return split( term ).pop();
+		}
+		
+
+		jQuery(function(){
+			jQuery( ".users")
+			// don't navigate away from the field on tab when selecting an item
+
+			.autocomplete({
+				source: function( request, response ) {
+					$.getJSON( "ajax_userGetter.php", {
+						term: extractLast( request.term )
+					}, response );
+				},
+				search: function()
+				{
+					// custom minLength
+					var term = extractLast( this.value );
+					if ( term.length < 3 ) {
+						return false;
+					}
+				},
+				focus: function() {
+					// prevent value inserted on focus
+					return false;
+				},
+				select: function( event, ui ) {
+					var terms = split( this.value );
+					// remove the current input
+					terms.pop();
+					// add the selected item
+					terms.push( ui.item.value );
+					// add placeholder to get the comma-and-space at the end
+					terms.push( "" );
+					this.value = terms.join( ", " );
+					return false;
+				}
+			});
+
+			})
+			
+
+	</script>	
 </head>
+
 
 <body>
 <div id="federation_interfaceContainer">
@@ -77,6 +128,11 @@
 		<select  class="neon" style="margin-left:10px;" name="cdbSeclar">
 			<option tal:repeat="con php:range(0,9)" tal:attributes="value con" tal:content="string: SECLAR ${con}" />
 		</select>
+		<p> Aggiungi Bypass a seclar in lettura per tutti i post a:<input type="text" id="GlobalUserSecBypass" class="users  neon" name="GlobalUserSecBypass" style="width:190px;" onfocus="this.select();" tal:attributes="value GlobalUserSecBypass"  /></p><br />
+		<p> Rimuovi Bypass al seclar in lettura per tutti i post a:<input type="text" id="GlobalUserSecBypassRemove" class="users  neon" name="GlobalUserSecBypassRemove" style="width:190px;" onfocus="this.select();" /></p><br />
+
+
+
 		<input style="margin-left:10px;" type="submit" value="ESEGUI" />
 		<input type="hidden" name="cdbID" tal:attributes="value topicID" />
 	</form>

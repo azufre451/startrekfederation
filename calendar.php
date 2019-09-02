@@ -83,7 +83,7 @@ $calEvents=array();
 	
 	$eventID=$rea['evID'];
 
-	$presArr=mysql_query("SELECT pgUser,calendar_events_attendance.pgID,time,notes,pgAvatarSquare FROM calendar_events_attendance,pg_users WHERE evID = '$eventID' AND pg_users.pgID = calendar_events_attendance.pgID");
+	$presArr=mysql_query("SELECT pgUser,calendar_events_attendance.pgID,time,notes,pgAvatarSquare,pgSezione FROM calendar_events_attendance,pg_users WHERE evID = '$eventID' AND pg_users.pgID = calendar_events_attendance.pgID");
   	echo mysql_error();
 	$presences=[];
 	$ipar=0;

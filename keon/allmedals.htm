@@ -1,0 +1,58 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="../TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="../TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="../TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+	<script type="text/javascript" src="../TEMPLATES/js/JQuery.js" />
+	<script type="text/javascript" src="../TEMPLATES/js/JQueryHelper.js" />
+	<script type="text/javascript" src="../TEMPLATES/js/JU.js" />
+	<script type="text/javascript" src="../TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
+
+	<title>STAR TREK FEDERATION - CDB</title>
+
+</head>
+
+<script> jQuery(function(){jQuery('.tooltip').tooltip();});</script>
+
+<body style="background-repeat:no-repeat; background-color:black; background-position:top center;">
+
+
+<div id="federation_interfaceContainer">
+	<div id="leftCol" style="width:123px;">
+		<div id="leftC1" />
+		<div id="leftC3" />
+	</div>
+	
+	<div id="supCol">
+		<div tal:condition="exists:user" metal:use-macro="../TEMPLATES/metal.htm/cdbHeading" />
+	</div>
+	
+	<div id="fillerBax">
+		<div id="barbot1" />
+	</div>
+	<div id="cdbContainer" >
+	<div tal:condition="exists:user" metal:use-macro="../TEMPLATES/metal.htm/cdbIntro" />
+
+	<div style="font-size:12px;  margin-left:5px; text-transform:uppercase; "><a href="cdb.php" class="interfaceLink">CDB</a> <span style="color:red; font-size:11px;">></span> <a class="interfaceLink" href="https://startrekfederation.it/keon/">SHOWCASE STF</a> <span style="color:red; font-size:11px;">></span> <span style="text-transform:uppercase;" class="interfaceLink">TEST MEDAGLIE</span></div>
+
+ 
+
+<div>
+	<div style="font-family:Helvetica; font-size:11px; margin:20px;">
+	<p tal:repeat="rnk allMedal" style="float:left; margin:1px">
+	<img tal:attributes="src string:../TEMPLATES/img/ruolini/medaglie/${rnk/medImage} ; title string:${rnk/medName} - ${rnk/medDescript}" class="tooltip"  />
+	</p>
+	
+</div>
+ 
+</div>
+</div>
+</div>
+</body>
+</html>

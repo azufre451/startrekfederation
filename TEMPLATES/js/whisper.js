@@ -21,6 +21,11 @@ var are;
 			timeout:4500
 			});  
 		}
+		
+		function selectUser(ida){
+		    nt=jQuery('#chatInput').prop('value');
+		    jQuery('#chatInput').prop('value',nt+' @'+ida+' ');
+		}
 
 		function upa()
 		{ // JQUERY YOUR SISTER!  

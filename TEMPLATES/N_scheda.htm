@@ -154,7 +154,7 @@
 	<div id="schedaOffLateralL" style="position:relative;">
 		<div style="position:absolute; top:0px; right:0px;"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Se credi di aver raggiunto i requisiti per l'ottenimento di un Achievement, e ancora non ti è stato appuntato, contatta un Amministratore!" /></div>
 
-		<a tal:omit-tag="php:(!adminPanel || achiv['owned'])" tal:attributes="onclick string:javascript:return confirmAchi('${achiv/text}') ; onmouseover string:javascript:avaBana('${achiv/adminImage}'); href string:scheda.php?pgID=${selectedUser}&s=assignAchi&achi=${achiv/ID}" tal:repeat="achiv achi"><div class="achievementDiv" tal:attributes="title achiv/text ; style string:background-image:url('${achiv/image}')"> <p tal:content="achiv/timer" class="subEti" tal:condition="php:(achiv['owned'])"/> </div></a>
+		<a tal:omit-tag="php:(!adminPanel || achiv['owned'])" tal:attributes="onclick string:javascript:return confirmAchi('${achiv/text}') ; onmouseover string:javascript:avaBana('${achiv/adminImage}'); href string:scheda.php?pgID=${selectedUser}&s=assignAchi&achi=${achiv/ID}" tal:repeat="achiv achi"><div class="tooltip achievementDiv" tal:attributes="title achiv/text ; style string:background-image:url('${achiv/image}')"> <p tal:content="achiv/timer" class="subEti" tal:condition="php:(achiv['owned'])"/> </div></a>
 		<script>
 			function confirmAchi(ida){return confirm('Assegnare veramente '+ida+'?');}
 			function avaBana(ida){if(ida != '') jQuery('#avatarBand').css('background-image','url(\''+ida+'\')');}

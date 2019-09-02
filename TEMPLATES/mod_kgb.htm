@@ -67,7 +67,12 @@
  			</tr>
  		</table>
  	</div> 
- 	<div id="padDiv" style="display:none; padding:10px; max-height:480px; overflow-y: auto; " > 
+ 	
+ 		<div id="padDiv" tal:condition="php:(focus.pgUser == 'Brennan' | focus.pgUser == 'Melkom')" style="display:none; padding:10px; max-height:480px; overflow-y: auto; " >
+ 		    <p style="font-style:italic; color:#DDD; font-size:15px; margn:20px; text-align:center;">&ldquo; O Dio onnpotente, tu che tieni nelle tue mani gli spiriti, liberaci dai lumi e dalle funeste arti dei nostri Padd, e rendici l'ignoranza, l'innocenza e la povertà, i soli beni che possan fare la nostra felicità e che sian preziosi nel suo cospetto &bdquo;</p>
+            <p style="font-style:italic; color:#BBB; font-size:15px; margn:20px; text-align:right;"> &ndash; Jean Jacques Rousseau - Discorso sulle Scienze e sulle Arti</p> 
+ 	    </div>
+ 	<div id="padDiv" tal:condition="php:(focus.pgUser != 'Brennan' & focus.pgUser != 'Melkom')" style="display:none; padding:10px; max-height:480px; overflow-y: auto; " > 
 
 	 	<div tal:repeat="padd padds">
 		

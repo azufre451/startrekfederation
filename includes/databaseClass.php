@@ -1,20 +1,30 @@
-<?php class Database
+<?php 
+function mysql_query($q){return Database::query($q);}
+function mysql_fetch_array($q){return mysqli_fetch_array($q);}
+function mysql_fetch_assoc($q){return mysqli_fetch_assoc($q);}
+function mysql_error(){return mysqli_error(Database::$link);}
+function mysql_affected_rows(){return mysqli_affected_rows(Database::$link);}
+
+class Database
 {
-	public static $db_Host; 
-	public static $db_User; 
-	public static $db_Pass; 
-	public static $db_Name; 
-	
-	public static function tdbConnect()
+	public static $link;
+
+	public static function tdbConnect($db_Host,$db_User, $db_Pass,$db_Name)
 	{
-		mysql_connect(self::$db_Host, self::$db_User, self::$db_Pass);
-		echo mysql_error();
-		mysql_select_db(self::$db_Name);
+		self::$link=mysqli_connect($db_Host,$db_User, $db_Pass,$db_Name);
 	}
 	
 	public static function tdbClose()
 	{
-		mysql_close();
+		mysqli_close(self::$link);
+	}
+
+	public static function query($query)
+	{
+		$QR = mysqli_query(self::$link,$query);
+		if(mysqli_error(self::$link))
+			echo mysqli_error(self::$link);
+		return $QR;
 	}
 }
 
@@ -25,7 +35,7 @@ class abilDescriptor
 	
 	
 	public static function translate($t){return self::$transArray[$t];}
-	public static function getAbil($id){ $ide=addslashes($id); $res = mysql_fetch_assoc(mysql_query("SELECT * FROM pg_abilita WHERE abID = '$ide' LIMIT 1")); if(!mysql_error()) return $res; }
+	public static function getAbil($id){ $ide=addslashes($id); $res = mysql_fetch_assoc(mysql_query("SELECT * FROM pg_abilita WHERE abID = '$ide' LIMIT 1")); if(!mysqli_error()) return $res; }
 	public static function getAllAbil(){
 		$res = mysql_query("SELECT * FROM pg_abilita ORDER BY abName");
 		$r=array();
@@ -327,16 +337,16 @@ class abilDescriptor
 	public function superImposeRace($race)
 	{  
 
-		$t['Umana']= array(	array(38,0),array(31,1),array(5,0) );
-		$t['Vulcaniana']=  array(array(60,2),array(59,1),array(61,1),array(56,0),array(5,0));
-		$t['Betazoide'] = array(array(61,2),array(20,0),array(60,2),array(5,0));
+		$t['Umana']= array(	array(38,0),array(31,1) );
+		$t['Vulcaniana']=  array(array(60,2),array(59,1),array(61,1),array(56,0));
+		$t['Betazoide'] = array(array(61,2),array(20,0),array(60,2));
 		$t['Trill'] =array(array(21,1),array(20,1),array(9,0),array(35,2),array(5,0));
-		$t['Andoriana'] = array(array(10,2),array(21,1),array(17,1),array(52,2),array(4,3),array(5,0));
-		$t['Bajoriana'] = array(array(7,1),array(12,3),array(18,1),array(21,2),array(19,0),array(5,0));
-		$t['Boliana'] = array(array(7,2),array(11,2),array(35,2),array(34,0),array(20,2), array(19,1), array(5,0));
-		$t['Terosiana'] = array(array(42,1),array(18,1),array(8,2),array(11,2), array(5,0));
-
-
+		$t['Andoriana'] = array(array(10,2),array(21,1),array(17,1),array(52,2),array(4,3));
+		$t['Bajoriana'] = array(array(7,1),array(12,3),array(18,1),array(21,2),array(19,0));
+		$t['Boliana'] = array(array(7,2),array(11,2),array(35,2),array(34,0),array(20,2), array(19,1));
+		$t['Terosiana'] = array(array(42,1),array(18,1),array(8,2),array(11,2));
+		$t['Caitiana'] = array(array(10,1),array(12,3),array(21,2));
+		$t['Koyar'] = array(array(60,2),array(61,1),array(12,2),array(11,1),array(21,0));
 		
 		$r['Vulcaniana']=  array(array('WP',1),array('HT',1)); // 11 + 15 = 26 (79)
 		$r['Betazoide'] = array(array('HT',-1),array('WP',2)); // -3 +11+16 = 24 (79)
@@ -345,6 +355,8 @@ class abilDescriptor
 		$r['Bajoriana'] = array(array('WP',2),array('PE',1)); // 11+11 = 22 (84)
  		$r['Boliana'] = array(array('DX',-2),array('PE',2),array('WP',1)); // 11+11 = 22 (84)
  		$r['Terosiana'] = array(array('DX',2),array('WP',1),array('HT',-1)); // 11+11 = 22 (84)
+ 		$r['Caitiana'] = array(array('DX',1),array('PE',2),array('HT',-2)); // (85)
+ 		$r['Koyar'] = array(array('HT',-1),array('DX',+1),array('WP',+2));
 
 		/*foreach ($r as $ke => $va){
 			echo $ke.'<br />';
@@ -849,15 +861,17 @@ class PG
 		else 
 			$paddType = ($from == '518' || $from == '1580' || $from == '702' ) ? 2 : ( ( (strpos(strtoupper($subject),'OFF ') !== false) || (strpos(strtoupper($subject),'OFF:') !== false) || (strpos(strtoupper($subject),'//OFF') !== false)  )  ? 1 : 0);
 
-
-		if($from == '518'){
-			$aft = '<p style=\" color:#AAA; font-style:italic;\">Questo è un messaggio automatico.</p>';
-		}
-		else $aft='';
+		$paddClass='';
+		if ($paddType == 4)
+			$paddClass="masterPadd";
+		if($paddType == 2)
+			$paddClass="autoPadd";
+		if($paddType == 1)
+			$paddClass="offPadd";
 
 		$textE=addslashes($text);
 		
-		mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,paddType) VALUES ($from,$myID,'$subject','<p style=\"font-size:13px; margin-left:10px; margin-right:10px;\">$textE</p>$aft',$curTime,0,$paddType)");
+		mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,paddType) VALUES ($from,$myID,'$subject','<p class=\"paddMessage $paddClass\">$textE</p>',$curTime,0,$paddType)");
 		if(mysql_error()){echo mysql_error();exit;}
 		if(!isSet($this->paddMail)){
 			$resa = mysql_fetch_assoc(mysql_query("SELECT paddMail,email FROM pg_users WHERE pgID = $myID"));
@@ -1420,11 +1434,11 @@ class timeHandler
 	public static function getOnline($var)
 	{
 		if($var == NULL)
-		$my = mysql_query("SELECT COUNT(*) AS conto FROM pg_users WHERE pgLastAct >= ".(time()-1800));
+		$my = Database::query("SELECT COUNT(*) AS conto FROM pg_users WHERE pgLastAct >= ".(time()-1800));
 		
-		else $my = mysql_query("SELECT COUNT(*) AS conto FROM pg_users WHERE pgLocation = '$var' AND pgLastAct >= ".(time()-1800));
+		else $my = Database::query("SELECT COUNT(*) AS conto FROM pg_users WHERE pgLocation = '$var' AND pgLastAct >= ".(time()-1800));
 		
-		$ra = mysql_fetch_array($my);
+		$ra = mysqli_fetch_array($my);
 		return $ra['conto'];
 	}
 }

@@ -57,7 +57,7 @@ include('includes/validate_class.php');
 		
 			if($food) 
 			{
-				$res = mysql_query("SELECT foodDescription,foodImage FROM fed_food WHERE foodID = $food"); 
+				$res = mysql_query("SELECT foodDescription,foodImage FROM fed_food WHERE foodID = $food");
 				if(mysql_affected_rows())
 				{	
 					$foodDe = mysql_fetch_assoc($res);
@@ -73,10 +73,34 @@ include('includes/validate_class.php');
 				$string = addslashes('<div style="position:relative;" class="auxAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Azione automatica di risposta ad un giocatore per aver consultato il computer di bordo o premuto un tasto automatizzato (luci, replicatori, biolettini etc.)." /> Comando Utente: Replicatore</div>'.$user->pgUser.' ordina '.$label.'</div>'); 
 			
 			
-			echo json_encode('ok');
+			
 			
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'NORMAL',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 			if(isSet($food)) mysql_query("INSERT INTO fed_food_replications (food,timer,user) VALUES($food,$curTime,".$_SESSION['pgID'].')'); 
+			
+			$rees = mysql_query("SELECT COUNT(*) FROM fed_food_replications WHERE user = ".$_SESSION['pgID']." HAVING COUNT(*) >= 100");
+			if(mysql_affected_rows()){
+			    
+			    $ruees = mysql_query("SELECT 1 FROM pg_achievement_assign WHERE owner = ".$_SESSION['pgID']." AND achi = 70");
+			    if(!mysql_affected_rows())
+			    {
+    			    mysql_query("INSERT INTO pg_achievement_assign (owner,achi,timer) VALUES (".$_SESSION['pgID'].",70,".time().")");
+    	
+    	            $qres = mysql_query("SELECT aText,aImage FROM pg_achievements WHERE aID = 70");
+    	            $qresA = mysql_fetch_array($qres);
+    	            $Descri =$qresA['aText'];
+    	            $ima =$qresA['aImage'];
+    	
+    	            $cString = addslashes("Congratulazioni!!<br />Hai sbloccato un nuovo achievement!<br /><br /><p style='text-align:center'><img src='TEMPLATES/img/interface/personnelInterface/$ima' /><br /><span style='font-weight:bold'>$Descri</span></p><br />Il Team di Star Trek: Federation");
+    	            $eString = addslashes("Hai un nuovo achievement!::$Descri");
+    	
+    	            mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,paddType) VALUES (518,".$_SESSION['pgID'].",'OFF: Nuovo Achievement!','$cString',".time().",0,1)"); 
+     
+    	            mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (518,".$_SESSION['pgID'].",'::special::achiev','$eString',".time().",0,'TEMPLATES/img/interface/personnelInterface/$ima')");
+			    }
+			}
+			
+			echo json_encode('ok');
 			
 			if($food == 34) mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','tasson',".time().",'AUDIO')");
 			else if($food == 321) mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','malkoth',".time().",'AUDIO')");

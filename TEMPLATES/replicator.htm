@@ -131,11 +131,10 @@
 		</div>
 		
 	</div>
-	
 	<div id="mln">
 	<div id="upperIni" class="upper">
 		<p class="title" style="text-align:center; margin:0px; margin-top:5px;"> Replicatore </p>
-		<p> Seleziona dal menu laterale la pietanza da replicare, e premi il tasto Replica.
+		<p class="descriText"> Seleziona dal menu laterale la pietanza da replicare, e premi il tasto Replica.
 		 Puoi cambiare lo stile del menu usando i tasti qui sotto. Ci&ograve; che vuoi 
 		 ordinare non &egrave; nel menu? Puoi compilare la barra qui sotto direttamente
 		  e replicare ci&ograve; che preferisci.
@@ -153,7 +152,7 @@
 		<p> RIDUCI</p>
 		<div id="menuAll2" class="button active" onclick="selecter(this)" />
 		<div id="menuLasts" class="button"  onclick="selecter(this)" title="Visualizza solo gli ultimi 10 elementi replicati (da te)" />
-		<div id="menuTop" class="button"  onclick="selecter(this)" title="Visualizza solo i 10 elementi più replicati (da tutti)"  />
+		<div id="menuTop" class="button"  onclick="selecter(this)" title="Visualizza solo i 10 elementi piu replicati (da tutti)"  />
 		</div>
 		<div id="selector3" style="border:0px;">
 		<p> RAGGRUPPA </p>
@@ -174,8 +173,12 @@
 	</div>
 	
 	<div class="popup" id="adderInfo">
-		<p class="title" style="text-align:center; margin:0px; margin-top:5px;"> Proponi qualcosa di nuovo </p>
-		<p> Per proporre allo Staff un nuovo piatto o bevanda, compila questi campi. Una volta inserito, il tuo contributo verrà inviato ad un amministratore che lo revisionerà. Potrà quindi essere replicato da tutti gli altri utenti. </p>
+		<p class="title" style="text-align:center; margin:0px; margin-top:5px;">
+		Proponi qualcosa di nuovo </p>
+
+		<p> Per proporre allo Staff un nuovo piatto o bevanda, 
+		compila questi campi. Una volta inserito, il tuo contributo verr&agrave;
+	inviato ad un amministratore che lo revisioner&agrave;. Potr&agrave; quindi essere replicato da tutti gli altri utenti. </p>
 		<form action="replicator.php?propose=do"  onsubmit="return checkImage();" method="POST">
 			<input type="text" name="prop_foodTitle" required="required" style="width:450px;" placeholder="Nome" class="neon"></input><br/>
 			<p class="littleLabel" style="color:#EEE;">Il nome del piatto o della bevanda</p>

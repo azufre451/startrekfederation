@@ -102,7 +102,7 @@ include('includes/validate_class.php');
 
 					$penalties[$var['sender']] += 0.75;
 
-					$ltime = $var['time']; continue;
+					$ltime = $var['time'];
 				}
 
 				$ppl = (string)$var['sender'];

@@ -27,6 +27,17 @@
 		.gani_M::before {content: '[M]';}
 		.gani_G::before {content: '[G]';}
 
+p.paddMessage{margin-left:10px; font-size:13px; margin-right:10px;}
+
+p.paddMessage.autoPadd::after{content:'[ Questo è un messaggio automatico ]'; color:'#FFCC00'; font-style:italic; display: block; margin-top:10px;}
+
+p.paddMessage.offPadd::after{content:'Messaggio OFF-Game: i contenuti di questo messaggio non sono relativi alle situazioni di gioco, e coinvolgono invece i giocatori'; color:'#AAA'; font-style:italic; display: block; margin-top:10px; font-size:12px;}
+
+p.paddMessage.masterPadd::before{content:'~ Evento Master ~'; color:'#ff3600'; font-weight:bold; display: block; text-align:center; width: 55%;  border-top:1px solid #ff3600;   border-bottom:1px solid #ff3600; padding: 5px 0px; margin: 5px auto; font-size:14px;}
+
+p.paddMessage.masterPadd::after{content:'Evento Master: questo messaggio contiene sviluppi di trama che coinvolgono il tuo personaggio. Giocare gli effetti di tali sviluppi non è facoltativo'; color:'#BBB'; font-style:italic; display: block; margin-top:10px; font-size:12px;}
+
+
 	</style>
 </head>
  
@@ -35,7 +46,7 @@
 		<div id="intestLeft"><a title="Principale" href="padd.php"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/padd.png" /></a><a title="Tychonian Herald" href="padd.php?s=tr"><img class="iconelement" tal:attributes="src php:(tribuneNews == true) ? 'TEMPLATES/img/interface/paddInterface/tribune_news.png' : 'TEMPLATES/img/interface/paddInterface/tribune.png'" /></a><a title="Status Nave" href="padd.php?s=sh"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/nave.png" /></a><a title="Note" href="padd.php?s=no"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/note.png" /></a></div>
 		
 		<div id="intestLeftPost" >
-		<a tal:attributes="href php:'padd.php?s=seR&to=' . padd['FromPG'] . '&sub=' . padd['paddTitle'] . ((padd['paddType'] == 3) ? '&guider=1' : '')"><div class="btn" id="repBTN" style="width:70px;"/></a>
+		<a tal:attributes="href php:'padd.php?s=seR&to=' . padd['FromPG'] . '&sub=' . padd['paddTitle'] . '&prevType=' . padd['paddType']"><div class="btn" id="repBTN" style="width:70px;"/></a>
 		<a href="padd.php?h=ou"> <div class="btn" id="sentBTN"/> </a>
 		<a href="padd.php?h=in"> <div class="btn" id="receivedBTN"/> </a>
 		<a tal:condition="php:(deletable==true)" tal:attributes="href string:padd.php?s=delInPad&paddID=${padd/padID}"> <div class="btn" id="delBTN"/> </a>
@@ -60,11 +71,9 @@
 			
 			</div>
 			
-			<div id="paddContent" class="radiusBordered">
+			<div id="paddContent" class="radiusBordered" tal:content="structure pcontent" />
 			
-					 <span tal:content="structure pcontent" />
-			
-			</div><div style="clear:both;" />
+			<div style="clear:both;" />
 			</div>
 			</div>
 	</div>

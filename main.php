@@ -68,7 +68,7 @@ mysql_query("SELECT 1 FROM fed_sussurri WHERE susTo = ".($currentUser->ID)." AND
 $template->incomingSuss = (mysql_affected_rows() > 0) ? true : false;
 
 $acurTime = $curTime-3600;
-$nexTime = $curTime+43200;
+$nexTime = $curTime+85200;
 $res = mysql_query("SELECT evID,event,date,sender,place,pgUser,placeName FROM calendar_events,pg_places,pg_users WHERE pgID = sender AND placeID = place AND date BETWEEN $acurTime AND $nexTime AND place = '$toLocation' ORDER BY date");
 $events = array();
 while($ra = mysql_fetch_assoc($res))
@@ -77,7 +77,7 @@ while($ra = mysql_fetch_assoc($res))
 	
 	$eventID=$ra['evID'];
 
-	$presArr=mysql_query("SELECT pgUser,calendar_events_attendance.pgID,time,notes,pgAvatarSquare FROM calendar_events_attendance,pg_users WHERE evID = '$eventID' AND pg_users.pgID = calendar_events_attendance.pgID");
+	$presArr=mysql_query("SELECT pgUser,calendar_events_attendance.pgID,time,notes,pgAvatarSquare,pgSezione FROM calendar_events_attendance,pg_users WHERE evID = '$eventID' AND pg_users.pgID = calendar_events_attendance.pgID");
   	
 	$presences=[];
 	$ipar=0;
@@ -86,6 +86,7 @@ while($ra = mysql_fetch_assoc($res))
 			$presences[]=$pres;
 			if ($pres['pgID'] == $_SESSION['pgID'])
 				$ipar=1;
+			
 		}
 	$ra['presences'] = $presences;
 	$ra['ipar'] = $ipar;
@@ -108,7 +109,7 @@ $template->Map2 = ($currentLocation['placeMapSupport2']);
 $template->Map3 = ($currentLocation['placeMapSupport3']);
 $template->placeMap2 = ($currentLocation['placeMap2']);
 $template->placeMap3 = ($currentLocation['placeMap3']);
-$template->alertCSS = str_replace('greenAlert',"",$currentLocation['placeAlert']);
+$template->alertCSS = $currentLocation['placeAlert'];
 $template->note = nl2br($currentLocation['note']);
 
 

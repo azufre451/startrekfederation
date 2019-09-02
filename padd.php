@@ -62,7 +62,6 @@ if($mode == 'newP')
 		$testo = htmlentities($_POST['testo'],ENT_COMPAT, 'UTF-8');
 		$testo = $_POST['testo'];
 		
-		$guider = (isSet($_GET['guider'])) ? 3 : 0;
 
 		if(trim($titolo=="")) $titolo= "NESSUN OGGETTO";
 		
@@ -93,8 +92,25 @@ if($mode == 'newP')
 			$idsA = mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$to'"));
 			$toP = new PG($idsA['pgID'],2);
 
-			$fm= (isSet($_POST['forceMail']) && PG::mapPermissions('A',$currentUser->pgAuthOMA)) ? 1 : 0;
-			$toP->sendPadd($titolo,$testo,$_SESSION['pgID'],$guider,$fm);
+			$fm=0;
+
+			if (isSet($_GET['guider'])) $paddType = 3;
+			if (isSet($_POST['paddType'])){
+				if($_POST['paddType'] == "4" && PG::mapPermissions('M',$currentUser->pgAuthOMA))
+					$paddType=4;
+				elseif($_POST['paddType'] == "3" && PG::mapPermissions('G',$currentUser->pgAuthOMA))
+					$paddType=3;
+				elseif($_POST['paddType'] == "1S" && PG::mapPermissions('SM',$currentUser->pgAuthOMA))
+					{
+						$fm=1;
+						$paddType=1;
+					}
+				elseif($_POST['paddType'] == 1 || $_POST['paddType'] == 0 )
+					$paddType=(int)($_POST['paddType']);
+			}
+			else $paddType=0;
+
+			$toP->sendPadd($titolo,$testo,$_SESSION['pgID'],$paddType,$fm);
 			}
 		} 
 	}
@@ -233,7 +249,8 @@ else if($mode == 'seR')
 	
 	$template->to = $_GET['to'];
 	$template->sub = ($_GET['sub'] != "") ? (strstr($_GET['sub'],'Re: ') ? $_GET['sub'] : 'Re: '.addslashes($_GET['sub']) ) : addslashes($_GET['sub']) ;
-	$template->guider = isSet($_GET['guider']) ? 1 : 0;
+	
+	$template->prevType = isSet($_GET['prevType']) ? $_GET['prevType'] : 0;
  }
 
 else if($mode == 'ds')
@@ -454,7 +471,7 @@ else {
 		);
 		$template->incoming = $incumingArray;
 		$template->outgoing = $outcumingArray;
-		if (PG::mapPermissions('A',$currentUser->pgAuthOMA)) $template->isAdmin = true;
+		
 
 		if (isSet($_GET['ps'])) $template->paddSent = true;
 		
@@ -469,7 +486,9 @@ else {
 	// $template->currentStarDate = $currentStarDate;
 		
 }
-
+if (PG::mapPermissions('G',$currentUser->pgAuthOMA)) $template->isGuide = true;
+if (PG::mapPermissions('M',$currentUser->pgAuthOMA)) $template->isMaster = true;
+if (PG::mapPermissions('A',$currentUser->pgAuthOMA)) $template->isAdmin = true;
 $aggregat = ($currentUser->pgSpecie == 'Romulana')? 'ROM' : 'FED';
 $tribuneLastNews = mysql_fetch_array(mysql_query("SELECT newsTime FROM fed_news WHERE aggregator = '$aggregat' ORDER BY newsTime DESC LIMIT 1"));
 

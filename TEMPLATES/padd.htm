@@ -122,6 +122,8 @@
 	.offPadd_2:hover:after{text-decoration: none !important; color:white;}
 	.offPadd_3:after{color:#31F367; content:'[REV. BG]'; font-size:9px; margin-left:5px;}
 	.offPadd_3:hover:after{text-decoration: none !important; color:white;}
+	.offPadd_4:after{color:#ff3600; content:'[EV. MASTER]'; font-size:9px; margin-left:5px;}
+	.offPadd_4:hover:after{text-decoration: none !important; color:white;}
 </style>
 </head>
 
@@ -151,7 +153,17 @@
 	<tr style="height:20px;" />
 	<tr><td style="width:140px; border-bottom:1px dotted #333; ">TESTO</td><td class="newPaddtd"><textarea name="testo" style="width:400px; height:150px;"/></td></tr>
   
-	<tr><td colspan="2" style="text-align:center;"><input tal:condition="exists:isAdmin" type="checkbox" name="forceMail"></input><span tal:condition="exists:isAdmin"> Forza mail (mod)</span> <input style="width:50px;" type="submit" value="INVIA" /></td></tr>
+	<tr><td colspan="2" style="text-align:center;">
+		<select class="neon" name="paddType">
+			<option value="0">ON-Game</option>
+			<option value="1">OFF-Game</option>
+			<option tal:condition="exists:isGuide" value="3">Guide/Revisioni</option>
+			<option tal:condition="exists:isMaster" value="4">Evento Master</option>
+			<option tal:condition="exists:isAdmin" value="1S">OFF-Game-Forzamail</option>
+		</select>
+
+		<input style="width:50px;" type="submit" value="INVIA" /></td></tr>
+
 
 </table>
 

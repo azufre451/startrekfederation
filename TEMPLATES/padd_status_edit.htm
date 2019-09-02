@@ -108,7 +108,18 @@
 			<table><tbody>
 				<tr>
 					<td style="width:100px;">CONDIZIONE</td>
-					<td colspan="3"><a tal:attributes="href string:service.php?setAlert=red&place=${place/placeID}"><img src="TEMPLATES/img/interface/paddInterface/redAlert.gif" /></a>&nbsp;&nbsp;&nbsp;<a tal:attributes="href string:service.php?setAlert=yellow&place=${place/placeID}"><img src="TEMPLATES/img/interface/paddInterface/yellowAlert.gif" /></a>&nbsp;&nbsp;&nbsp;<a tal:attributes="href string:service.php?setAlert=green&place=${place/placeID}"><img src="TEMPLATES/img/interface/paddInterface/greenAlert.gif" /></a>&nbsp;&nbsp;&nbsp;<a tal:attributes="href string:service.php?setAlert=blue&place=${place/placeID}"><img src="TEMPLATES/img/interface/paddInterface/blueAlert.gif" /></a>&nbsp;&nbsp;&nbsp;<a tal:attributes="href string:service.php?setAlert=grey&place=${place/placeID}"><img src="TEMPLATES/img/interface/paddInterface/greyAlert.gif" /></a></td>
+					<td colspan="3"><a tal:attributes="href string:service.php?setAlert=red&place=${place/placeID}"><img src="TEMPLATES/img/interface/paddInterface/redAlert.gif" title="Allarme Rosso" /></a>
+						&nbsp;&nbsp;&nbsp;
+						<a tal:attributes="href string:service.php?setAlert=yellow&place=${place/placeID}" ><img src="TEMPLATES/img/interface/paddInterface/yellowAlert.gif" title="Allarme Giallo"/></a>
+						&nbsp;&nbsp;&nbsp;
+						<a tal:attributes="href string:service.php?setAlert=green&place=${place/placeID}" ><img src="TEMPLATES/img/interface/paddInterface/greenAlert.gif" title="Condizione Verde"/></a>
+						&nbsp;&nbsp;&nbsp;
+						<a tal:attributes="href string:service.php?setAlert=blue&place=${place/placeID}" ><img src="TEMPLATES/img/interface/paddInterface/blueAlert.gif" title="Condizione Blu "/></a>
+						&nbsp;&nbsp;&nbsp;
+						<a tal:attributes="href string:service.php?setAlert=grey&place=${place/placeID}" ><img src="TEMPLATES/img/interface/paddInterface/greyAlert.gif" title="Condizione Grigia "/></a>
+						&nbsp;&nbsp;&nbsp;
+						<a tal:attributes="href string:service.php?setAlert=quarantine&place=${place/placeID}" title="Procedura di Quarantena"><img src="TEMPLATES/img/interface/paddInterface/greenAlert.gif" /></a>&nbsp;&nbsp;&nbsp;
+						<a tal:attributes="href string:service.php?setAlert=intruder&place=${place/placeID}" title="Allarme Intruso"><img src="TEMPLATES/img/interface/paddInterface/greenAlert.gif" /></a></td>
 				</tr> 
 			</tbody></table>
 		</div>	

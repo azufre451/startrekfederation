@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 if (!isSet($_SESSION['pgID'])){exit;}
 
@@ -92,7 +92,7 @@ include('includes/validate_class.php');
 		{		$fromUser = addslashes($user->pgUser);
 
 				$classer = (PG::mapPermissions('A',$user->pgAuthOMA)) ? 'susChatMPUserA' : ((PG::mapPermissions('M',$user->pgAuthOMA)) ? 'susChatMPUserM' : ((PG::mapPermissions('G',$user->pgAuthOMA)) ? 'susChatMPUserG' : 'susChatMPUser'));
-				$string = '<p class="susChat">'.date('H:i',$time)." <span class=\"$classer\">$fromUser:</span> $string</p>";
+				$string = '<p class="susChat">'.date('H:i',$time)." <span class=\"$classer\" onclick=\"selectUser(\'$fromUser\');\">$fromUser:</span> $string</p>";
 		}
 		
 		mysql_query('INSERT INTO fed_sussurri (susFrom,susTo,time,chat,reade) VALUES('.$_SESSION['pgID'].",'$chatTo',$time,'$string',0)");

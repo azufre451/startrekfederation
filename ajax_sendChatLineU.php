@@ -29,7 +29,8 @@ include('includes/validate_class.php');
 		{ 
 			$ambient = Ambient::getAmbient($amb);
 
-			$string[0] = '';
+			
+			$string = substr ($string,1);
 
 			if (PG::mapPermissions('M',PG::getOMA($_SESSION['pgID'])) || PG::isMasCapable($_SESSION['pgID']))
 			{
@@ -70,7 +71,8 @@ include('includes/validate_class.php');
 		{	
 			$vali=new validator();
 			$userSpecific= (isSet($_POST['userSpecific'])) ? $vali->numberOnly($_POST['userSpecific']): 0;
-			$string[0] = '';
+			
+			$string = substr ($string,1);
 			if($userSpecific != 0)
 			
 			$string = '<div style="position:relative;" class="offAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Inviata da: Moderazione\nAzione di moderazione che un Moderatore indirizza all\\\'attenzione del giocatore. Va interpretata come un avviso formale da parte della moderazione a correggere atteggiamenti che si allontanano dal regolamento di gioco o dai principi di netiquette. La moderazione pu&ograve; utilizzare questo strumento anche per suggerimenti pi&ugrave; bonari :-)"/> Moderazione (Privata)</div>'.ucfirst(ltrim($string)).'</div>'; 
@@ -145,7 +147,8 @@ include('includes/validate_class.php');
 		
 		else if($string[0] == '@' && (PG::mapPermissions('M',PG::getOMA($_SESSION['pgID'])) || PG::isMasCapable($_SESSION['pgID'])))
 		{
-			$string[0] = '';
+			
+			$string = substr ($string,1);
 			$sended = addslashes(PG::getSomething($_SESSION['pgID'],'username'));
 			$string = '<div style="position:relative;" class="globalAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Inviata da: '.$sended.' ('.date('H:i').')\nEvento che un Master estende a pi&ugrave; location di gioco. Quando inserito esso &egrave; visibile in tutte le location dell\\\'unit&agrave;." /> Evento Globale</div>'.ucfirst(ltrim($string)).'</div>';
 			

@@ -48,7 +48,7 @@ a.topicImportant:hover{text-decoration:underline;
 }
 
 
-.interfaceLink,.interfaceLinkBlue,.interfaceLinkRed,.interfaceLinkGreen,.interfaceLinkYellow
+.interfaceLink,.interfaceLinkBlue,.interfaceLinkRed,.interfaceLinkGreen,.interfaceLinkYellow,.internalCdbLink
 {
 	
 	font-size:13px;
@@ -82,6 +82,18 @@ a.interfaceLinkGreen:hover{color:#59cd61;
 .interfaceLinkYellow{color:#FFCC00;
 }
 a.interfaceLinkYellow:hover{color:orange;
+}
+
+.internalCdbLink{
+	color:#FFCC00;
+}
+
+.internalCdbLink::before{
+	content:'[ ';
+}
+
+.internalCdbLink::after{
+	content:' ]';
 }
 
 table

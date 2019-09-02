@@ -35,4 +35,32 @@ $htmlCode = array("<i>","</i>","<u>","</u>","<br />");
 return str_replace($bbCode,$htmlCode,htmlspecialchars($str));
 }
 
+
+	function formatCDBLink($a)
+	{
+	//echo var_dump($a)."ZZZ<br/>";
+	$ref=CDB::getPostFullLink($a[1]);
+	if ($ref){
+
+		$sec='<b>SECLAR</b> - '.$ref['seclar'];
+
+
+		return "<a href=\"".$ref['link']."\" title=\" ► ". $ref['catName'] . " > ".$ref['topicTitle']." <hr/> <b>".$ref['author']. "</b> - ".$ref['dater']." <br/ /> ".$sec." \" class=\"tooltip internalCdbLink\">".(($ref['title'] != '') ? $ref['title'] : 'LINK')."</a>" ;
+	}
+	else return ''; 
+	}
+
+function replaceBBcodes($text)
+{
+    	$text = strip_tags($text);
+		// BBcode array
+		$find = array('~\[POST\](.*?)\[/POST\]~s');
+		// HTML tags to replace BBcode
+		
+		// Replacing the BBcodes with corresponding HTML tags
+		return preg_replace_callback($find, 'formatCDBLink', $text);
+}
+
+
+
 ?>

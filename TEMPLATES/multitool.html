@@ -19,7 +19,7 @@
 	<!-- <script type="text/javascript" src="TEMPLATES/js/lazyload.js"></script> -->
 	<title>STAR TREK FEDERATION - SCHEDA</title>		 
 	<style>
-		
+		#lastpgs{ margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;}
 		.ongoing{display:block; background-color: #945416; color: white; padding:2px; border: 1px solid white;}
 		.closed{display:block; background-color: black; color: white; padding:2px; border: 1px solid white;}
 		.forced{display:block; background-color: #961c1c; color: white; padding:2px; border: 1px solid white;}
@@ -122,17 +122,17 @@
 	<div style="float:left; width:600px; height:520px; font-size:13px; font-family:Helvetica; overflow-y:auto; margin-left:30px; margin-top:40px;">
 
 
-		<div id="lastpgs" style="display:none; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;"> 
+		<div id="lastpgs" tal:attributes="style php:((isSet(viewLasts)) ? 'display:block' : 'display:none' )"> 
 
 			<table>
 
 				<tr>
-					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;"> Personaggio</td>
-					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;"> Lock</td>
-					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;"> Alloggio</td>
-					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;"> Incarico</td>
-					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;"> App. BG</td> 
-					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;" colspan="2">Messaggi Staff</td>
+					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;  width:150px;"> Personaggio</td>
+					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;  width:60px;"> Lock</td>
+					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;  width:60px;"> Alloggio</td>
+					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;  width:60px;"> Incarico</td>
+					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;  width:60px;"> App. BG</td> 
+					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;" colspan="2">Comandi Staff</td>
 				</tr>
 				<tbody tal:repeat="person resLastPGS"> 
 					<tr>
@@ -150,12 +150,20 @@
 
 					<td style="border:1px solid #111;"><img tal:attributes="src php:(person['pgBackground']) ? ((person['pgBackground'] == 2) ? 'TEMPLATES/img/interface/green_dot_icon.png' : 'TEMPLATES/img/interface/yellow_dot_icon.png') : 'TEMPLATES/img/interface/red_dot_icon.png' ; title php:(person['pgBackground']) ? ((person['pgBackground'] == 2) ? 'Approvato' : 'Atteso sigillo papale GM/Admin - Guide OK') : 'In revisione alle guide'" />
 
-					</td>
-					<td style="border:1px solid #111;"><a class="interfaceLink" href="javascript:void(0)" tal:condition="php:(person['commpadd'])" tal:attributes="onclick string:ajax_getProfilingPadds(${person/pgID})">[ <span tal:content="person/commpadd" /> ]</a>
-					</td>
-
-					<td style="border:1px solid #111;"><a class="interfaceLink" href="javascript:void(0)" tal:attributes="onclick php:'if(confirm(\'Attenzione: i Padd inviati da questo tool, così come le risposte inviate, saranno visibili a tutto lo staff tramite il multi-tool. Ciò permane anche se la conversazione procede tramite -Padd normali- dopo il messaggio iniziale\' ) ){ window.open(\'padd.php?s=seR&to=' . addslashes(person['pgUser']) . '&sub=&guider=1\',\'padd\', config=\'scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403\')}'">[ Nuovo ]</a> <a tal:condition="php:(person['pgBackground'] != 1)" class="interfaceLinkBlue" tal:attributes="href string:multitool.php?s=preapproveBackground&pgID=${person/pgID}">[Pre-approva]</a>
 					</td> 
+
+					<td style="border:1px solid #111; text-align:left;"><a class="interfaceLink" href="javascript:void(0)" tal:attributes="onclick php:'if(confirm(\'Attenzione: i Padd inviati da questo tool, così come le risposte inviate, saranno visibili a tutto lo staff tramite il multi-tool. Ciò permane anche se la conversazione procede tramite -Padd normali- dopo il messaggio iniziale\' ) ){ window.open(\'padd.php?s=seR&to=' . addslashes(person['pgUser']) . '&sub=&prevType=3\',\'padd\', config=\'scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403\')}'"> <img src="TEMPLATES/img/interface/envelope.png" title="Invia un Padd" /> </a> <a tal:condition="php:(person['pgBackground'] != 1)" tal:attributes="onclick php:((person['lastReminder']) ? 'return confirm(\'Sicuro di voler inviare UN ALTRO reminder?\');;' : 'return confirm(\'Sicuro di voler inviare un  reminder?\');;') ; href string:multitool.php?s=remindBackground&pgID=${person/pgID}" class="interfaceLinkBlue"> <img tal:attributes="title php:((person['lastReminder']) ? person['supervision'] . ' in data: '.date('d/m/y',person['lastReminder']) : 'Invia Reminder') ; src php:((person['lastReminder']) ? 'TEMPLATES/img/interface/exclamation_mark_active.png' : 'TEMPLATES/img/interface/exclamation_mark_inactive.png' )"  /> </a>
+
+
+
+						<a tal:condition="php:(person['pgBackground'] != 1)" class="interfaceLinkGreen" tal:attributes="href string:multitool.php?s=preapproveBackground&pgID=${person/pgID}"> <img src="TEMPLATES/img/interface/ok_access.png" title="Pre-Approva BG" /> </a>
+					<a tal:condition="php:(person['pgLock'])" tal:attributes="href string:multitool.php?s=setUnlock&pgID=${person/pgID}"> <img src="TEMPLATES/img/interface/lock.png" title="Sblocca PG" /> </a>
+					
+
+					</td> 
+					<td style="width:25px">
+						<a class="interfaceLink" href="javascript:void(0)" tal:condition="php:(person['commpadd'])" tal:attributes="onclick string:ajax_getProfilingPadds(${person/pgID})">[ <span tal:content="person/commpadd" /> ]</a>
+					</td>
 
 					</tr>
 					<tr>
@@ -355,7 +363,7 @@
 							<p class="approvalDiv" tal:attributes="onclick string:jQuery('#modi_${approval/pgID}').toggle();">
 								<img tal:attributes="src string:TEMPLATES/img/ranks/${approval/ordinaryUniform}.png" style="vertical-align:middle;" />
 								<a tal:attributes="onclick string:javascript:schedaPOpen(${approval/pgID})" class="interfaceLink" href="javascript:void(0);" tal:content="approval/pgUser"></a> Ultima Modifica: <span tal:content="php:date('d-m-y H:i',approval['tim'])">  </span>
-								[ <span tal:content="php: ((approval['supervision']) ? ((approval['supervision'] == 3) ? 'Jean' : 'Moreno') : '') " style="font-weight:bold;"> </span> ]
+								
 							</p>
 
 							<div style="display:none;" tal:attributes="id string:modi_${approval/pgID}" tal:condition="exists:approval/approdiff" >
@@ -380,7 +388,7 @@
 							
 							</div>
 							<div style="clear:both" />
-							<a tal:attributes="href string:multitool.php?s=approveBackground&pgID=${approval/pgID}" class="interfaceLinkGreen"> [ - APPROVA - ] </a> <a tal:attributes="title php:((approval['lastReminder']) ? 'Ultimo Reminder in data: '.date('d/m/y H:i',approval['lastReminder']) : '') ; onclick php:((approval['lastReminder']) ? 'return confirm(\'Sicuro di voler inviare un nuovo reminder?\');;' : 'return true;;') ; href string:multitool.php?s=remindBackground&pgID=${approval/pgID}" class="interfaceLinkBlue"> [ - INVIA REMINDER - ] </a>  <a tal:attributes="href string:multitool.php?s=achiAssignBackground&pgID=${approval/pgID}&what=14" class="interfaceLink"> [ - ACH. BG - ] </a>  <a tal:attributes="href string:multitool.php?s=achiAssignBackground&pgID=${approval/pgID}&what=44" class="interfaceLink"> [ - ACH. RUOL - ] </a>
+							<a tal:attributes="href string:multitool.php?s=approveBackground&pgID=${approval/pgID}" class="interfaceLinkGreen"> [ - APPROVA - ] </a> <a tal:attributes="href string:multitool.php?s=achiAssignBackground&pgID=${approval/pgID}&what=14" class="interfaceLink"> [ - ACH. BG - ] </a>  <a tal:attributes="href string:multitool.php?s=achiAssignBackground&pgID=${approval/pgID}&what=44" class="interfaceLink"> [ - ACH. RUOL - ] </a>
 						</td></tr></table>
 					</div>
 				</div>

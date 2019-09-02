@@ -34,42 +34,6 @@
 
 
 </script>
-<style>
-	.eventParticip{
-		 margin:1px;
-		 width:30px;
-
-		 display:inline-block;
-	}
-	.eventParticip:hover{
-		 border:1px solid red;
-		 margin:0px;
-	}
-	.eventParticip img{
-		vertical-align:middle; width:100%;
-	}
-
-	p.participationYes,p.participationNo{
-
-		width:151px;
-		height:20px;
-		cursor:pointer;
-		background-size:100% 100%;
-		margin-top:10px;
-
-	}
-
-	p.participationYes{
-		
-		background-image: url('TEMPLATES/img/interface/cdbInterface/cal_yes_presence.png');
-		
-	}
-
-	p.participationNo{
-		background-image: url('TEMPLATES/img/interface/cdbInterface/cal_no_presence.png');
-		
-	}
-</style>
 </head>
 
 <body style="background-repeat:no-repeat; background-color:black; background-position:top center;">
@@ -197,7 +161,7 @@
 					<p tal:condition="php:(count(event['pres']) == 0)" style="font-weight:bold; font-size:12px;">Ancora nessun partecipante:</p> 
 					
 					<p style="margin-left:15px; margin-top:8px;" tal:attributes="id string:participationBox_${event/Tevent/evID}">
-						<span class="eventParticip"  tal:repeat="person event/pres" tal:attributes="id string:participationBox_element_${person/pgID}">
+						<span tal:repeat="person event/pres" tal:attributes="id string:participationBox_element_${person/pgID}; class php:'eventParticip ' . str_replace(' ','_',person['pgSezione'])">
 							<img tal:attributes="src person/pgAvatarSquare ; title person/pgUser"/>
 						</span>
 					</p>

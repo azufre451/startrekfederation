@@ -14,6 +14,7 @@ error_reporting(E_ALL ^ E_DEPRECATED);
 $vali = new validator();
 $currentUser = new PG($_SESSION['pgID']);
 
+ 
 $prestigioLabels = array(
 0=>	  array('name'=>'Inesistente', 												'desc' => 'Nessuno conosce questo personaggio, né sembra possibile trovare alcuna traccia del suo passaggio: nessuno sembra averlo visto, né aver mai sentito parlare di lui in alcun modo. Tanto il suo nome quanto la sua vita passata sono totalmente avvolti nell’ombra. Ogni ricerca su qualunque database potrebbe non produrre alcun risultato: costui sembra, a tutti gli effetti, non esistere.', 'long_desc' => "Nessuno conosce questo personaggio, né sembra possibile trovare alcuna traccia del suo passaggio: nessuno sembra averlo visto, né aver mai sentito parlare di lui in alcun modo. Tanto il suo nome quanto la sua vita passata sono totalmente avvolti nell’ombra. Ogni ricerca su qualunque database potrebbe non produrre alcun risultato: costui sembra, a tutti gli effetti, non esistere."),
 1 =>  array('name'=>'Sconosciuto', 												'desc' => 'Questo personaggio è assolutamente sconosciuto. Non se ne sa molto, e solo un numero incredibilmente ristretto di persone sembrano aver sentito parlare di lui. Potrebbe essere estremamente difficile trovare dettagli sul suo nome o sulla sua vita passata: le informazioni si limiteranno ad una o due entry del tutto prive di valore.', 'long_desc' => "Questo personaggio è assolutamente sconosciuto. Non se ne sa molto, e solo un numero incredibilmente ristretto di persone sembrano aver sentito parlare di lui. Potrebbe essere estremamente difficile trovare dettagli sul suo nome o sulla sua vita passata: le informazioni si limiteranno ad una o due entry del tutto prive di valore."),
@@ -134,23 +135,25 @@ if($mode == "achiAssignBackground")
 if($mode == "remindBackground")
 {
 
-	if (!PG::mapPermissions('SM',$currentUser->pgAuthOMA)) exit;
+	if (!PG::mapPermissions('G',$currentUser->pgAuthOMA)) exit;
 
 	$pgID = $vali->numberOnly($_GET['pgID']);
 
 
 	$tp = new PG($pgID);
 	$usera = $tp->pgUser;
-	$tp->sendPadd('Attesa per approvazione BG',"Ciao $usera<br /><br />Ti comunichiamo che abbiamo visionato i dati relativi alla registrazione del PG ed il Background.<br /><br />Non abbiamo potuto procedere all'approvazione del BG, che è ancora privo di alcuni elementi molto importanti. Per questo ti chiederei di provvedere a completare le parti mancanti del Background non appena avrai un momento di tempo.<br /><br />
+	$tp->sendPadd('Attesa per approvazione BG',"Ciao $usera<br /><br />Ti comunichiamo che abbiamo visionato i dati relativi alla registrazione del PG ed il Background.<br /><br />Non abbiamo potuto procedere alla valutazione del BG, che è ancora privo di alcuni elementi molto importanti. Per questo ti chiederei di provvedere a completare le parti mancanti del Background non appena avrai un momento di tempo.<br /><br />
 Di seguito trovi alcune risorse utili per scrivere il BG. Lo staff è a tua disposizione qualora avessi delle domande sulla compilazione!<br /><br />
 &raquo; <a href=\"javascript:dbOpenToTopic(242)\" class=\"interfaceLink\"> Lauree, Medaglie e Stato di Servizio </a>
 &raquo; <a href=\"javascript:dbOpenToTopic(241)\" class=\"interfaceLink\"> Il Background del PG </a>
+
+	 Sentiti libero di contattare le Guide per informazioni sulla compilazione del BG
 
 	 Intanto buon gioco, <br /><br /><br />Lo staff",$_SESSION['pgID']);
 
 	mysql_query("UPDATE pg_users_bios SET lastReminder = ".time().", supervision = ".$_SESSION['pgID']." WHERE pgID = $pgID");
 
-	header("Location:multitool.php?viewApprovals=true");
+	header("Location:multitool.php?viewLasts=true");
 
 }
 if($mode == "preapproveBackground")
@@ -549,7 +552,7 @@ if($mode == 'timeline')
 			foreach($people as $pgID=>$years)
 			{
 				//if ($pgID != 'Rokan') continue;
-				mysql_query("SELECT ");
+				
 				foreach($years as $year=>$tval)
 				{
 					if ($tval == 0 & $year >= $minAssign[$pgID])
@@ -768,6 +771,17 @@ if($mode == "insertionForm")
 	$template = new PHPTAL('TEMPLATES/shadow_scheda_master_insert.htm');
 }
 
+if($mode == "setUnlock")
+{
+	if (!PG::mapPermissions('G',$currentUser->pgAuthOMA)) exit;
+	$vali=new validator();
+
+	$apg = $vali->numberOnly($_GET['pgID']);
+	mysql_query("UPDATE pg_users SET pgLock = 0 WHERE pgID = $apg");
+
+	header("Location:multitool.php?viewLasts=true");
+}
+
 if ($mode == 'ajax_getactivityrecord'){
 
 	$vali=new validator();
@@ -843,6 +857,7 @@ $template->prestigioLabels = $prestigioLabels;
 	$template->images=array_diff($images,array('.','..'));
 
 	if (isSet($_GET['viewApprovals'])) $template->viewApprovals = 1;
+	if (isSet($_GET['viewLasts'])) $template->viewLasts = 1;
   
 	$template->ranks = $ranks;
 	$template->locations = $locArray;
@@ -933,12 +948,13 @@ $template->prestigioLabels = $prestigioLabels;
 		$template->lastchats = $lastchats;
 	}
 
-	$lastPGS =  mysql_query("SELECT pgID,pgUser,ordinaryUniform,pgLock,(SELECT 1 FROM pg_alloggi WHERE pg_alloggi.pgID = pg_users.pgID LIMIT 1) as pgAlloggio,(SELECT 1 FROM pg_incarichi WHERE pg_incarichi.pgID = pg_users.pgID LIMIT 1) as pgIncarico, (SELECT valid FROM pg_users_bios WHERE pg_users_bios.pgID = pg_users.pgID AND valid > 0 LIMIT 1) as pgBackground, (SELECT COUNT(*) FROM fed_pad WHERE (paddTo = pgID OR paddFrom = pgID) AND paddType = 3) as commpadd FROM pg_users,pg_ranks WHERE rankCode = prio AND pgBavo =0 AND png=0 and pgAuthOMA <> 'BAN' AND pgLastAct > $oneMonthAgo AND iscriDate > $twoMonthAgo ORDER BY iscriDate DESC");
+	$lastPGS =  mysql_query("SELECT pg_users.pgID,pgUser,ordinaryUniform,pgLock,(SELECT 1 FROM pg_alloggi WHERE pg_alloggi.pgID = pg_users.pgID LIMIT 1) as pgAlloggio,(SELECT 1 FROM pg_incarichi WHERE pg_incarichi.pgID = pg_users.pgID LIMIT 1) as pgIncarico, valid as pgBackground, supervision, lastReminder, (SELECT COUNT(*) FROM fed_pad WHERE (paddTo = pg_users.pgID OR paddFrom = pg_users.pgID) AND paddType = 3) as commpadd FROM pg_users,pg_ranks,pg_users_bios WHERE pg_users_bios.pgID = pg_users.pgID AND rankCode = prio AND pgBavo =0 AND png=0 and pgAuthOMA <> 'BAN' AND ( (pgLastAct > $oneMonthAgo AND valid < 1) OR iscriDate > $oneMonthAgo) ORDER BY iscriDate DESC");
 
 	 
 	while($resa = mysql_fetch_assoc($lastPGS))
 	{
-		//$resa['playrecord'] = PG::getSomething($resa['pgID'],'playrecord');
+		if ($resa['lastReminder'])
+			$resa['supervision'] = PG::getSomething($resa['supervision'],'username');
 		$resLastPGS[] = $resa;	
 	}
 
@@ -949,7 +965,7 @@ $template->prestigioLabels = $prestigioLabels;
 
 	//STORYLINE
 	$valedictsAssignee=array();
-	$valedicts = mysql_query("SELECT dotazioneAlt,pgUser,ordinaryUniform,medName,medImage,pg_users.pgID as pgID,pgSesso,pgSpecie FROM pgDotazioni,pg_medals,pg_users,pg_ranks WHERE pg_users.pgID = pgDotazioni.pgID AND prio = rankCode AND medID = dotazioneIcon AND medID = 27 AND doatazioneType = 'MEDAL' ORDER BY dotazioneAlt");
+	$valedicts = mysql_query("SELECT dotazioneAlt,pgUser,ordinaryUniform,medName,medImage,pg_users.pgID as pgID,pgSesso,pgSpecie FROM pgDotazioni,pg_medals,pg_users,pg_ranks WHERE pg_users.pgID = pgDotazioni.pgID AND prio = rankCode AND medID = dotazioneIcon AND medID IN (27,72) AND doatazioneType = 'MEDAL' ORDER BY dotazioneAlt");
 	while($res = mysql_fetch_assoc($valedicts))
 		$valedictsAssignee[] = $res;
 
@@ -982,15 +998,25 @@ $cand= date('w',$curTime) -1;
 $candT= ($cand != -1) ? $cand : 6;
 
 $DDAYMAP = array(0=>'LUN', 1=>'MAR', 2=>'MER', 3=>'GIO', 4=>'VEN', 5=>'SAB', 6=>'DOM');
+
+
 $DDAYMAP[$candT] .= ' '.date('d');
 
-foreach(range($candT+1,6,1) as $p)
+if($candT < 6)
 {
-	$DDAYMAP[$p] .= ' '.date('d',$curTime+(24*60*60* ($p-$candT) ));
+	foreach(range($candT+1,6,1) as $p)
+	{
+		$DDAYMAP[$p] .= ' '.date('d',$curTime+(24*60*60* ($p-$candT) ));
+	}	
 }
+
+if($candT >0)
+{
 foreach(range($candT-1,0,-1) as $p)
 {	 
 	$DDAYMAP[$p] .= ' '.date('d',$curTime-(24*60*60* ($candT-$p) ));
+}
+
 }
 
 $template->DDAYMAP=$DDAYMAP;

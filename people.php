@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 session_start();
 if (!isSet($_SESSION['pgID'])){ header("Location:index.php?login=do"); exit;}
 

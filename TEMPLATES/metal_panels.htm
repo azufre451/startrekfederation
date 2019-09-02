@@ -504,9 +504,20 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 			data:{lister: JSON.stringify(tly) , amb: jQuery('#locID').prop('value') },
 			type: 'POST',
 			dataType : 'json',
-			timeout:4500,
-			success: noti
-			}); 
+			success: function(e){
+				jQuery.ajax(
+				{
+				url: jQuery('#getterURL').prop('value')+'?ts='+new Date().getMilliseconds(),
+				data:{ambient: jQuery('#ambientID').prop('value'), lastID: jQuery('#lastID').prop('value')},
+				success: selfUpdater, 
+				type: 'POST',
+				dataType : 'json',
+				}); 
+			},
+			timeout:4500
+			});
+
+			jQuery('#masterDicePanel').fadeOut(); 
 
 		}
 
@@ -526,7 +537,7 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 	</table>
 	</div>
 
-	<input onclick="distributeDice();" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:#1e7597;" value="Lancia l'Utente!" class="ui-button ui-widget ui-state-default ui-corner-all" />
+	<input onclick="distributeDice();" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:#1e7597; cursor:pointer;" value="Lancia l'Utente!" class="ui-button ui-widget ui-state-default ui-corner-all" />
 
 
 </div>

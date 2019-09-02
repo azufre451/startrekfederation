@@ -1,4 +1,4 @@
-﻿<?php  
+<?php  
 
 include('includes/app_include.php');
 include('includes/validate_class.php');

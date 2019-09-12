@@ -34,43 +34,56 @@ $pgSezione = $curUser->pgSezione;
 $curLocation = $curUser->getLocationOfUser();
 
 $curLocationName=$curLocation['placeName'];
+$curLocationID = $curLocation['placeID'];
 $curLocationNameU=strtoupper($curLocationName);
 
 $mySectionColor = (array_key_exists($pgSezione,$colr)) ?  $colr[$pgSezione] : 'GRAY';
 
 $usersString="";
 
+
+if(strpos($lisOuser,'[Ufficiali Superiori]') !== false)
+{
+	$tUnion = "UNION (SELECT UCASE(pgUser) as pgUser, UCASE(pgNomeC) as pgNomeC, UCASE(pgNomeSuff) as pgNomeSuff, pgSezione,incIncarico,pgGrado,ordinaryUniform,placeName,rankerprio FROM pg_users LEFT JOIN pg_incarichi ON pg_users.pgID = pg_incarichi.pgID LEFT JOIN pg_places ON pgPlace = placeID LEFT JOIN pg_ranks ON prio = rankCode WHERE incActive = 1 AND incDipartimento LIKE '%Ufficiali in Comando%' AND incIncarico NOT LIKE '%Vice%' AND pgPlace = '$curLocationID')
+		UNION
+		(SELECT UCASE(pngSurname) as pgUser, UCASE(pngName) as pgNomeC, '' as pgNomeSuff, pngSezione,pngIncarico,rGrado,ordinaryUniform,placeName,rankerprio FROM png_incarichi,pg_places,pg_ranks WHERE prio = pngRank AND pngPlace = placeID AND pngDipartimento LIKE 'Ufficiali in Comando' AND pngIncarico NOT LIKE '%Vice%' AND pngPlace = '$curLocationID' GROUP BY pngSurname
+		)"; 
+}
+else 
+	$tUnion = '';
+
 if($lisOuser != '')
 {
 	$res = mysql_query("(SELECT UCASE(pgUser) as pgUser, UCASE(pgNomeC) as pgNomeC, UCASE(pgNomeSuff) as pgNomeSuff, pgSezione,incIncarico,pgGrado,ordinaryUniform,placeName,rankerprio FROM pg_users LEFT JOIN pg_incarichi ON pg_users.pgID = pg_incarichi.pgID LEFT JOIN pg_places ON pgPlace = placeID LEFT JOIN pg_ranks ON prio = rankCode WHERE (incMain = 1 OR ISNULL(incMain)) AND pgUser IN ($lisOuser) )
 		UNION (
 		SELECT UCASE(pngSurname) as pgUser, UCASE(pngName) as pgNomeC, '' as pgNomeSuff, pngSezione,pngIncarico,rGrado,ordinaryUniform,placeName,rankerprio FROM png_incarichi,pg_places,pg_ranks WHERE prioritary = 1 AND prio = pngRank AND pngPlace = placeID AND pngSurname IN ($lisOuser) GROUP BY pngSurname
-		)
+		) $tUnion
 
 		ORDER BY rankerprio DESC"); 
-	if(!mysql_error()){
-	while($resA = mysql_fetch_array($res))
+	if(!mysql_error())
 	{
-		$pgUser = $resA['pgUser'];
-		$pgNomeC = $resA['pgNomeC'];
-		$pgNomeSuff = $resA['pgNomeSuff'];
-		$pgIncarico = $resA['incIncarico']; 
-		$pgGrado = strtoupper($resA['pgGrado']);
-		$placeName = $resA['placeName'];
-		$pgListSezione = $resA['pgSezione'];
-		$pgListColor = (array_key_exists($pgListSezione,$colr)) ?  $colr[$pgListSezione] : 'GRAY'; 
-		 
-		$pgMostrina = $resA['ordinaryUniform'].'.png';
-		if ($format == 1) $usersString .= "[IMG]TEMPLATES/img/ranks/".$pgMostrina."[/IMG] [SIZE=1][B][COLOR=".$pgListColor."]".$pgGrado." ".$pgUser.", ".$pgNomeC." ".$pgNomeSuff."[/COLOR][/B] - ".$pgIncarico." [COLOR=GRAY]".$placeName."[/COLOR][/SIZE]\n";
-		
-		elseif ($format == 2) $usersString .= "[IMG]TEMPLATES/img/ranks/".$pgMostrina."[/IMG] [SIZE=1][B]".$pgGrado." ".$pgUser.", ".$pgNomeC."[/B] ".$pgNomeSuff." [COLOR=".$pgListColor."]>[/COLOR] [COLOR=GRAY]".$pgIncarico."[/COLOR][/SIZE]\n";
-		
-		elseif ($format == 3) $usersString .= "[IMG]TEMPLATES/img/ranks/".$pgMostrina."[/IMG] [SIZE=1][COLOR=".$pgListColor."][B]".$pgGrado." ".$pgUser.", ".$pgNomeC." ".$pgNomeSuff."[/B][/COLOR][/SIZE]\n";
-		
-		elseif ($format == 4) $usersString .= "[IMG]TEMPLATES/img/ranks/".$pgMostrina."[/IMG] [SIZE=1][COLOR=".$pgListColor."][B]".$pgGrado." ".$pgUser."[/B][/COLOR][/SIZE]\n";
+		while($resA = mysql_fetch_array($res))
+			{
+				$pgUser = $resA['pgUser'];
+				$pgNomeC = $resA['pgNomeC'];
+				$pgNomeSuff = $resA['pgNomeSuff'];
+				$pgIncarico = $resA['incIncarico']; 
+				$pgGrado = strtoupper($resA['pgGrado']);
+				$placeName = $resA['placeName'];
+				$pgListSezione = $resA['pgSezione'];
+				$pgListColor = (array_key_exists($pgListSezione,$colr)) ?  $colr[$pgListSezione] : 'GRAY'; 
+				 
+				$pgMostrina = $resA['ordinaryUniform'].'.png';
+				if ($format == 1) $usersString .= "[IMG]TEMPLATES/img/ranks/".$pgMostrina."[/IMG] [SIZE=1][B][COLOR=".$pgListColor."]".$pgGrado." ".$pgUser.", ".$pgNomeC." ".$pgNomeSuff."[/COLOR][/B] - ".$pgIncarico." [COLOR=GRAY]".$placeName."[/COLOR][/SIZE]\n";
+				
+				elseif ($format == 2) $usersString .= "[IMG]TEMPLATES/img/ranks/".$pgMostrina."[/IMG] [SIZE=1][B]".$pgGrado." ".$pgUser.", ".$pgNomeC."[/B] ".$pgNomeSuff." [COLOR=".$pgListColor."]>[/COLOR] [COLOR=GRAY]".$pgIncarico."[/COLOR][/SIZE]\n";
+				
+				elseif ($format == 3) $usersString .= "[IMG]TEMPLATES/img/ranks/".$pgMostrina."[/IMG] [SIZE=1][COLOR=".$pgListColor."][B]".$pgGrado." ".$pgUser.", ".$pgNomeC." ".$pgNomeSuff."[/B][/COLOR][/SIZE]\n";
+				
+				elseif ($format == 4) $usersString .= "[IMG]TEMPLATES/img/ranks/".$pgMostrina."[/IMG] [SIZE=1][COLOR=".$pgListColor."][B]".$pgGrado." ".$pgUser."[/B][/COLOR][/SIZE]\n";
 
-		elseif ($format == 5) $usersString .= "[IMG]TEMPLATES/img/ranks/".$pgMostrina."[/IMG] [SIZE=1][B][COLOR=".$pgListColor."]".$pgUser."[/COLOR][/B][/SIZE]\n";
-		}
+				elseif ($format == 5) $usersString .= "[IMG]TEMPLATES/img/ranks/".$pgMostrina."[/IMG] [SIZE=1][B][COLOR=".$pgListColor."]".$pgUser."[/COLOR][/B][/SIZE]\n";
+			}
 	}
 }
  

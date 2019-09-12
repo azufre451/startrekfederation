@@ -190,11 +190,24 @@ elseif($mode == 'ssto')
 {
 	$template = new PHPTAL('TEMPLATES/scheda_stato_servizio.htm');
 	$template->thisYear = $thisYear+$bounceYear;
+
 	$res = mysql_query("SELECT recID,timer,text,placeName,postLink,type,extra,image FROM pg_service_stories,pg_places WHERE placeID = placer AND owner = $selectedUser ORDER BY timer DESC");
 	
 	$stories = array('SERVICE' => array(),'EXAM' => array());
 	while($resA = mysql_fetch_array($res)){
 		$resA['text'] = CDB::bbcode($resA['text']);
+		
+		if($resA['postLink'] != '')
+		{
+			if(strpos($resA['postLink'],'#') !== false)
+			{
+				$e = explode('#',$resA['postLink']);
+				$resA['postLink'] = CDB::formatCDBLinkExternal($e,$mode='small');
+			}
+			else
+				$resA['postLink'] = CDB::formatCDBLinkExternal(array('link',$resA['postLink']),$mode='small');
+		}
+
 		$stories[$resA['type']][] = $resA;
 	}
 
@@ -977,7 +990,7 @@ elseif($mode == 'admin')
 	$pgID = $vali->numberOnly($_GET['pgID']);
 	if (!PG::mapPermissions('A',$currentUser->pgAuthOMA)){Mailer::emergencyMailer("Tentativo di accesso a scheda admin del pg $pgID",$currentUser); header('Location:scheda.php');}
 	$template = new PHPTAL('TEMPLATES/scheda_admin.htm');
-	$res = mysql_query("SELECT png, email,pgScalogna,pgUpgradePoints,pgSpecialistPoints,pgPrestige FROM pg_users WHERE pgID = $pgID");
+	$res = mysql_query("SELECT png, email,pgSSF,pgUpgradePoints,pgSpecialistPoints,pgPrestige,pgLastURI FROM pg_users WHERE pgID = $pgID");
 	
 	if(mysql_affected_rows()) $resA = mysql_fetch_array($res);
 	else {header('Location:scheda.php'); exit;}
@@ -996,23 +1009,23 @@ elseif($mode == 'admin')
 	
 	$e= mysql_query("SELECT chat,time FROM  federation_chat WHERE  sender = $pgID ORDER BY time DESC LIMIT 1");
 	while ($d = mysql_fetch_array($e))
-	$lasts['chat'] = array(date("d-m-Y H:i:s",$d['time']),$d['chat'],'Ultima Chat');
+	$lasts['chat'] = array(date("d M H:i:s",$d['time']),$d['chat'],'Ultima Chat');
 	 
 	$e= mysql_query("SELECT * FROM  fed_sussurri WHERE  susFrom = $pgID ORDER BY time DESC LIMIT 1");
 	while ($d = mysql_fetch_array($e))
-	$lasts['sussurro'] = array(date("d-m-Y H:i:s",$d['time']),$d['chat'],'Ultimo Sussurro'); 
+	$lasts['sussurro'] = array(date("d M H:i:s",$d['time']),$d['chat'],'Ultimo Sussurro'); 
 	
 	$e= mysql_query("SELECT * FROM  connlog WHERE  user = $pgID ORDER BY time DESC LIMIT 1");
 	while ($d = mysql_fetch_array($e))
-	$lasts['conn'] = array(date("d-m-Y H:i:s",$d['time']),$d['IP'],'Ultimo Login'); 
+	$lasts['conn'] = array(date("d M H:i:s",$d['time']),$d['IP'],'Ultimo Login'); 
 	
 	$e= mysql_query("SELECT * FROM  cdb_posts WHERE  owner = $pgID OR coOwner = $pgID ORDER BY time DESC LIMIT 1");
 	while ($d = mysql_fetch_array($e))
-	$lasts['posts'] = array(date("d.m.Y H:i:s",$d['time']),$d['title'],'Ultimo Post');
+	$lasts['posts'] = array(date("d M H:i:s",$d['time']),$d['title'],'Ultimo Post');
 	
 	$e= mysql_query("SELECT * FROM  fed_pad WHERE  paddFrom = $pgID ORDER BY paddTime DESC LIMIT 1");
 	while ($d = mysql_fetch_array($e))
-	$lasts['padds'] = array(date("d.m.Y H:i:s",$d['paddTime']),$d['paddTitle'],'Ultimo Padd Inviato'); 
+	$lasts['padds'] = array(date("d M H:i:s",$d['paddTime']),$d['paddTitle'],'Ultimo Padd Inviato'); 
 	
 	$e= mysql_query("SELECT COUNT(*) as C FROM  cdb_posts WHERE owner = $pgID");
 	while ($d = mysql_fetch_array($e))
@@ -1022,6 +1035,8 @@ elseif($mode == 'admin')
 	while ($d = mysql_fetch_array($e))
 	$lasts['padd'] = array($d['C']*0.65,'-','Lunghezza Azioni (AVG)'); 
 	
+	$lasts['pgLastURI'] = array(date('d M H:i:s',$selectedDUser->pgLastAct),$resA['pgLastURI'],'LAST URL');
+
 	$e= mysql_query("SELECT pgUser,points,cause,causeE,causeM,timer FROM pg_users_pointStory,pg_users WHERE pgID = assigner AND owner = $pgID AND cause LIKE '%DISP%' ORDER BY timer DESC LIMIT 50");	
 	$pstory = array();
 	while ($d = mysql_fetch_array($e))
@@ -1036,7 +1051,7 @@ elseif($mode == 'admin')
 	$template->locations = $locArray;
 	$template->png = ($resA['png'] == 1) ? true : false;
 	$template->email = $resA['email'];
-	/**/
+	/**/ 
 	$template->isMasCapableEnable = PG::isMasCapable($pgID);
 
 	$carObj = new abilDescriptor($pgID);

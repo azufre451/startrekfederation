@@ -58,7 +58,7 @@ class CDB
 
 
 
-	public static function formatCDBLinkExternal($a)
+	public static function formatCDBLinkExternal($a,$mode='extended')
 	{
 		//echo var_dump($a)."ZZZ<br/>";
 		$ref=CDB::getPostFullLink($a[1]);
@@ -71,8 +71,15 @@ class CDB
 			$semiLink= str_replace('$ref[\'link\']','',$ref['link']);
 			#cdbOpenToTopic('$semiLink')
 
+			if ($mode=='extended')
+				$inset=(($ref['title'] != '') ? $ref['title'] : 'LINK');
+			elseif ($mode == 'small')
+				$inset='<img src="TEMPLATES/img/interface/personnelInterface/external_link.png"/>';
+			
+			return "<a onclick=\"cdbOpenToTopic('".$semiLink."');\" href=\"javascript:void(0);\" title=\" ► ". $ref['catName'] . " > ".$ref['topicTitle']." <hr/> <b>".$ref['author']. "</b> - ".$ref['dater']." <br/ /> ".$sec." \" class=\"tooltip internalCdbLink\">".$inset."</a>" ;
+			
 
-			return "<a onclick=\"cdbOpenToTopic('".$semiLink."');\" href=\"javascript:void(0);\" title=\" ► ". $ref['catName'] . " > ".$ref['topicTitle']." <hr/> <b>".$ref['author']. "</b> - ".$ref['dater']." <br/ /> ".$sec." \" class=\"tooltip internalCdbLink\">".(($ref['title'] != '') ? $ref['title'] : 'LINK')."</a>" ;
+
 		}
 		else return ''; 
 	}

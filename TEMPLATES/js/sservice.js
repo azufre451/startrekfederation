@@ -89,8 +89,16 @@ function editStory(storyID)
     content: function () {
         return '<div><p>Altri incarichi associati:</p>'+this.getAttribute("title")+'</div>';
     }
-  });		 
-	jQuery('.tooltip').tooltip();   
+  });	
+
+  jQuery('.tooltip').tooltip({
+
+    content: function () {
+        return '<div>'+this.getAttribute("title")+'</div>';
+    }
+  });
+
+ 
   });
 	
 	function getOthers(me,unit,year,pgid){

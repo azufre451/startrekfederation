@@ -782,14 +782,14 @@ class PG
 
 	public function setPresenceInto($where)
 	{
-		mysql_query("UPDATE pg_users SET pgCoord = '10;10',pgRoom = '$where', pgLocation = '$where', pgLastAct = ".time()." WHERE pgID = ".$this->ID);
+		mysql_query("UPDATE pg_users SET pgCoord = '10;10',pgRoom = '$where', pgLocation = '$where', pgLastAct = ".time().",pgLastURI = '".$_SERVER['REQUEST_URI']."' WHERE pgID = ".$this->ID);
 		$this->pgRoom = $where;
 		$this->pgLocation = $where;
 		
 	}
 	public function setPresenceIntoChat($where)
 	{
-		mysql_query("UPDATE pg_users SET pgRoom = '$where', pgLocation = (SELECT ambientLocation FROM fed_ambient WHERE locID = '$where'), pgLastAct = ".time()." WHERE pgID = ".$this->ID);
+		mysql_query("UPDATE pg_users SET pgRoom = '$where', pgLocation = (SELECT ambientLocation FROM fed_ambient WHERE locID = '$where'), pgLastAct = ".time().", pgLastURI = '".$_SERVER['REQUEST_URI']."' WHERE pgID = ".$this->ID);
 		$this->pgRoom = $where;
 		$sor = mysql_query("(SELECT ambientLocation FROM fed_ambient WHERE locID = '$where')");
 		$sorL = mysql_fetch_array($sor);
@@ -798,8 +798,7 @@ class PG
 	
 	public static function updatePresence($id)
 	{
-	  mysql_query("UPDATE pg_users SET pgLastAct = ".time()." WHERE pgID = $id");
-
+	  mysql_query("UPDATE pg_users SET pgLastAct = ".time().", pgLastURI = '".$_SERVER['REQUEST_URI']."' WHERE pgID = $id");
 	}
 	public static function getLocation($id)
 	{

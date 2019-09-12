@@ -96,20 +96,20 @@ if($mode == 'newP')
 
 			if (isSet($_GET['guider'])) $paddType = 3;
 			if (isSet($_POST['paddType'])){
+
 				
 				if($_POST['paddType'] == "4" && PG::mapPermissions('M',$currentUser->pgAuthOMA))
 					$paddType=4;
-				elseif($_POST['paddType'] == "3" && PG::mapPermissions('G',$currentUser->pgAuthOMA))
-					$paddType=3;
 				elseif($_POST['paddType'] == "1S" && PG::mapPermissions('SM',$currentUser->pgAuthOMA))
 					{
 						$fm=1;
 						$paddType=1;
 					}
-				elseif($_POST['paddType'] == 1 || $_POST['paddType'] == 0 )
+				elseif($_POST['paddType'] == 1 || $_POST['paddType'] == 0 || $_POST['paddType'] == 3)
 					$paddType=(int)($_POST['paddType']);
 			}
 			else $paddType=0;
+
 
 			$toP->sendPadd($titolo,$testo,$_SESSION['pgID'],$paddType,$fm);
 			}

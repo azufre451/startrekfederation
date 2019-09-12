@@ -49,7 +49,7 @@ if(isSet($_GET['registerUser']))
 	$passer = createRandomPassword();
 	$matri = createRandomMatricola(); 
 	$pwd = md5($passer);
-	$assignTOSHIP = 'USS9';
+	$assignTOSHIP = 'USS5';
 
 	$re1=mysql_query("SELECT 1 FROM pg_users WHERE email = '$emai'");
 	if (mysql_affected_rows() && $emai != 'png@startrekfederation.it'){echo json_encode(array('err'=>'ME')); exit;}
@@ -66,6 +66,8 @@ if(isSet($_GET['registerUser']))
 	$pgNew = new PG($pipo['pgID'],2);
 	$pgNewID = $pgNew->ID;
 
+
+	mysql_query("UPDATE pg_users SET mainPG = $pgNewID, pgType = 'MAIN' WHERE pgID = $pgNewID");
 	mysql_query("INSERT INTO pg_users_bios (pgID) VALUES ($pgNewID)");
 	
 	mysql_query("INSERT INTO pg_imbarchi (pgID,dateInsert,toAppear) VALUES ($pgNewID,".time().",1)");
@@ -152,7 +154,7 @@ $pgNew->sendPadd('Benvenuto!','<div style="text-align:center"><img src="http://m
 			mysql_query("INSERT INTO fed_objects_ownership(oID,owner) VALUES (98,$me)");
 
 		}
-		elseif($pgNew->pgSezione == 'Operazioni')
+		elseif($pgNew->pgSezione == 'Ingegneria e Operazioni')
 		{
 			mysql_query("INSERT INTO fed_objects_ownership(oID,owner) VALUES (120,$me),(129,$me)");
 			mysql_query("INSERT INTO fed_objects_ownership(oID,owner) VALUES (".$trics_ing[array_rand($trics_ing)].",$me)");
@@ -168,6 +170,7 @@ $pgNew->sendPadd('Benvenuto!','<div style="text-align:center"><img src="http://m
 
 
 		mysql_query("INSERT INTO fed_objects_ownership(oID,owner) VALUES (1,$me),(124,$me),(118,$me),(119,$me)");
+
 	
   
 	echo json_encode('OK');

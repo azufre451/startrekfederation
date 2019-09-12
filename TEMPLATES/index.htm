@@ -215,8 +215,13 @@
 					}
 
 					function doRegister(){
+
+						if(!jQuery('#terms_conditions_check').prop('checked'))
+						{
+							alert("Attenzione: devi accettare i termini e condizioni del sito prima di registrarti!");
+						}
  
-						if (parseInt(jQuery('#val_ht').val())+parseInt(jQuery('#val_dx').val())+parseInt(jQuery('#val_iq').val())+parseInt(jQuery('#val_pe').val())+parseInt(jQuery('#val_wp').val()) != 23){
+						else if (parseInt(jQuery('#val_ht').val())+parseInt(jQuery('#val_dx').val())+parseInt(jQuery('#val_iq').val())+parseInt(jQuery('#val_pe').val())+parseInt(jQuery('#val_wp').val()) != 23){
 
 								alert("Attenzione: la somma delle caratteristiche deve essere pari a 23!");
 						}
@@ -829,7 +834,11 @@
 									</div>
 								</div><div style="clear:both" />
 						<hr />
-						<p style="font-size:15px;"> Premendo il tasto "Registra il PG" dichiari di essere maggiorenne, di aver letto e di accettare il <a style="font-size:16px; color:#FFCC00" title="Regolamento" href="javascript:void(0);" onclick="dbOpenToTopicLit('REG2')" class="interfaceLink"> REGOLAMENTO </a> di gioco e la  <a style="font-size:16px; color:#FFCC00" class="interfaceLink" href="TEMPLATES/static/informativa.pdf" target="_blank">INFORMATIVA</a> sul trattamento dei dati</p>
+						<p style="font-size:15px; text-align:left;"> <input type="checkbox" id="terms_conditions_check" />  dichiaro di:
+							<ul style="font-size:15px; text-align:left;"><li>di essere maggiorenne</li>
+							<li>di aver letto e di accettare il <a style="font-size:16px; color:#FFCC00" title="Regolamento" href="javascript:void(0);" onclick="dbOpenToTopicLit('REG2')" class="interfaceLink"> REGOLAMENTO </a></li>
+							<li>di aver letto e di accettare l'<a style="font-size:16px; color:#FFCC00" class="interfaceLink" href="TEMPLATES/static/informativa.pdf" target="_blank">INFORMATIVA</a> sul trattamento dei dati.</li></ul>
+						</p>
 
 						 <div class="rectChoice buttonBack selectable" onclick="regPage('1');"><p style="line-height:32px;">Indietro</p></div> 
 						 <div class="rectChoice buttonGo selectable" onclick="return doRegister();"><p style="line-height:32px;">Registra il PG</p></div><br /> 

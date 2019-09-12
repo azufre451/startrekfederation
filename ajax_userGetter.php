@@ -18,6 +18,10 @@ else $q = "SELECT pgUser FROM pg_users WHERE pgUser LIKE '$term%'";
  $res = mysql_query($q);
 
 $aar = array();
+
+
+if (strpos('ufficiali superiori',strtolower($term)) !== false )
+	$aar[] = '[Ufficiali Superiori]';
 while ($row = mysql_fetch_array($res)) {
 $aar[] = $row['pgUser'];
 }

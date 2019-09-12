@@ -61,7 +61,13 @@
 	<p tal:content="php:str_pad(substr(story['timer'],8,2),2,'0',STR_PAD_LEFT) . '/' . str_pad(substr(story['timer'],5,2),2,'0',STR_PAD_LEFT) . '/' . substr(story['timer'],0,4)" style="margin:0px;" class="dateFormat" />
 	<p tal:content="story/placeName" style="margin:0px;"  />
 	</td>
-	<td style=" border-bottom:1px solid #333; text-align:justify;"><span tal:content="structure story/text" /> <a tal:condition="php:(story['postLink'] != '')" href="javascript:void(0);" tal:attributes="onclick string:cdbOpenToTopic('${story/postLink}')" title="Riferimento"><img src="TEMPLATES/img/interface/personnelInterface/external_link.png"/></a></td>
+	<td style=" border-bottom:1px solid #333; text-align:justify;"><span tal:content="structure story/text" />
+		
+		<span tal:condition="php:(story['postLink'] != '')" tal:content="structure story/postLink" />
+
+		<!--<a tal:condition="php:(story['postLink'] != '')" href="javascript:void(0);" tal:attributes="onclick string:cdbOpenToTopic('${story/postLink}')" title="Riferimento"><img src="TEMPLATES/img/interface/personnelInterface/external_link.png"/></a>-->
+
+	</td>
 	<td tal:condition="php:(smasterPanel)"><a tal:attributes="href string:scheda.php?s=removessto&sID=${story/recID}&pgID=${selectedUser}"><img src="TEMPLATES/img/interface/delete.png" /></a></td>	
 	</tr>
 	</table>

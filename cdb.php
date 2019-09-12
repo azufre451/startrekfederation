@@ -157,8 +157,17 @@ else if(isSet($_GET['disableTopic']))
 
 else if(isSet($_GET['resetnews']))
 {
-	mysql_query("UPDATE pg_users SET pgLastVisit = ".time()." WHERE pgID =".$_SESSION['pgID']);
-	header('Location:cdb.php');
+	
+		$currentLocation = (PG::getLocation($currentUser->pgLocation));
+		$me=$currentUser->ID;
+		$rm=$curTime-2592000;
+
+	#echo "";
+	mysql_query("INSERT IGNORE INTO pg_visualized_elements (type,what,pgID,time) (SELECT 'CDB',topicID,".$_SESSION['pgID'].",$curTime FROM (cdb_cats JOIN cdb_topics ON catCode = topicCat) LEFT JOIN pg_visualized_elements ON (pg_visualized_elements.pgID = $me AND type = 'CDB' AND what = topicID) WHERE restrictions IN (".PG::returnMapsStringFORDB($currentUser->pgAuthOMA).") AND ISNULL(pg_visualized_elements.time) AND topicLastTime > $rm);");
+
+	#mysql_query("SELECT topicID FROM cdb_topics WHERE (topicCat IN (".$currentLocation['catGDB'].",".$currentLocation['catDISP'].",".$currentLocation['catRAP'].")) ORDER by topicLastTime DESC LIMIT 15");
+	#mysql_query("UPDATE pg_users SET pgLastVisit = ".time()." WHERE pgID =".$_SESSION['pgID']);
+	header('Location:cdb.php?news=do');
 }
 
 else if(isSet($_GET['topicE']))
@@ -472,7 +481,22 @@ else if (isSet($_GET['addPost']))
 
  	if (mysql_affected_rows() && $_POST['peopleList'] != '')
 	{  
-			
+			$pgToSend = array();
+			if (strpos($_POST['peopleList'],'[Ufficiali Superiori]') !== false)
+			{
+
+				$curLocation = $currentUser->getLocationOfUser();
+
+				$curLocationID = $curLocation['placeID'];
+
+				$rus=mysql_query("SELECT pg_users.pgID FROM pg_users LEFT JOIN pg_incarichi ON pg_users.pgID = pg_incarichi.pgID LEFT JOIN pg_places ON pgPlace = placeID LEFT JOIN pg_ranks ON prio = rankCode WHERE incActive = 1 AND incDipartimento LIKE '%Ufficiali in Comando%' AND incIncarico NOT LIKE '%Vice%' AND pgPlace = '$curLocationID'");
+
+				while($ris = mysql_fetch_assoc($rus)){
+					$pgToSend[$ris['pgID']] = $ris['pgID'];
+				}
+
+			}
+
 			$listPG=explode(',',trim($_POST['peopleList']));
 			foreach ($listPG as $to)
 			{
@@ -485,30 +509,34 @@ else if (isSet($_GET['addPost']))
 
 
 						$idsA = mysql_fetch_assoc($ids);
+						
+						$pgToSend[$idsA['pgID']] = $idsA['pgID'];
 
-						$toP = new PG($idsA['pgID'],2);
-						$nt = ($title == '') ? 'Nessun titolo' : $title;
+					}	
+					
+ 
+				}
+			} 
+		foreach($pgToSend as $pgg)
+		{
+			$toP = new PG($pgg,2);
+			$nt = ($title == '') ? 'Nessun titolo' : $title;
 						
 						
-						$overSeclar="";
-						$seclarColor='#2f8ad0';
-						if((int)($toP->pgSeclar) < (int)($seclar))
-						{	mysql_query("INSERT IGNORE INTO cdb_posts_seclarExceptions (pgID, postID) VALUES (".$toP->ID.",'$postIDCo')"); 
-							$overSeclar = "Il post è stato inserito a <span style=\"color:red; font-weight:bold;\">SECLAR $seclar</span> ma puoi visualizzarlo ugualmente, essendone destinatario";
-							$seclarColor = '#FF0000';
-						}
+			$overSeclar="";
+			$seclarColor='#2f8ad0';
+				if((int)($toP->pgSeclar) < (int)($seclar))
+				{
+					mysql_query( "INSERT IGNORE INTO cdb_posts_seclarExceptions (pgID, postID) VALUES (".$toP->ID.",'$postIDCo')"); 
+					$overSeclar = "Il post è stato inserito a <span style=\"color:red; font-weight:bold;\">SECLAR $seclar</span> ma puoi visualizzarlo ugualmente, essendone destinatario";
+					$seclarColor = '#FF0000';
+				}
 
 					
-						$smallTitle = addslashes(substr($title,0,50));
+			$smallTitle = addslashes(substr($title,0,50));
 
-						mysql_query("INSERT INTO pg_personal_notifications (owner,text,subtext,image,time,URI,linker) VALUES (".$toP->ID.",'<b>Sei stato citato in CDB</b>: $smallTitle','[ - <span style=\"font-size:11px; color:$seclarColor;\"> SECLAR $seclar</span> - ]','".$currentUser->pgAvatarSquare."',$curTime,'$topicCode#$postIDCo','cdbOpenToTopic')"); 
-					}
-
-						
-
-					//$toP->sendPadd('[CDB] - '.$nt,"Ciao $to <br /><br />Il PG ".$currentUser->pgUser." ha inserito un nuovo post che probabilmente ti riguarda: <a class=\"interfaceLinkBlue\" href=\"javascript:void(0);\" onclick=\"javascript:cdbOpenToTopic('$topicCode#$postIDCo')\">$nt</a>. $overSeclar <br />Lo staff",'518'); 
-				}
-			}
+			mysql_query( "INSERT INTO pg_personal_notifications (owner,text,subtext,image,time,URI,linker) VALUES (".$toP->ID.",'<b>Sei stato citato in CDB</b>: $smallTitle','[ - <span style=\"font-size:11px; color:$seclarColor;\"> SECLAR $seclar</span> - ]','".$currentUser->pgAvatarSquare."',$curTime,'$topicCode#$postIDCo','cdbOpenToTopic')"); 
+		} 
 	}
 
 

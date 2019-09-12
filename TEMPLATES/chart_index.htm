@@ -1,0 +1,150 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/chart.css" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
+	 
+	
+	<script type="text/javascript" src="TEMPLATES/js/JQ.js"></script>
+	<script type="text/javascript" src="TEMPLATES/js/JU.js"></script>
+	<script type="text/javascript">
+		jQuery(function(){
+			jQuery('.introb').button();
+			
+			jQuery( "#systemSearcher" ).autocomplete({
+			source: "ajax_planetSearch.php",
+			minLength: 2,
+			});
+		});
+	</script>
+	
+	<style type="text/css">
+		.ui-autocomplete {
+		max-height: 120px;
+		overflow-y: auto;
+		overflow-x: hidden;
+		padding-right: 1px;
+	}
+	
+	.ui-autocomplete li {
+		height:25px;
+		padding:2px;
+		font-size:12px;
+	}
+	
+	* html .ui-autocomplete {
+		height: 120px;
+	}
+	</style>
+	
+	<title>FEDERATION - CHARTS </title>	
+</head>
+
+<body>
+
+<div id="mainDatabase">
+	<div tal:condition="php:(error==01)" style="border:1px solid red; padding:20px; font-size:16px; position:absolute; top:50%; left:50%; width:400px; height:10px; margin-left:-200px; margin-top:-25px; text-align:center;" class="radiusBordered">ERRORE. IL PUNTO SPECIFICATO NON ESISTE</div>
+	
+	<div id="mainMap" />
+	
+	<a href="chart.php?sectorMap=1"><div class="elementAle" style="top:38px; left:61px;" /></a>
+	<a href="chart.php?sectorMap=2"><div class="elementAle" style="top:38px; left:134px;" /></a>
+	<a href="chart.php?sectorMap=3"><div class="elementAle" style="top:38px; left:207px;" /></a>
+	<a href="chart.php?sectorMap=4"><div class="elementAle" style="top:38px; left:280px;" /></a>
+	<a href="chart.php?sectorMap=5"><div class="elementAle" style="top:38px; left:353px;" /></a>
+	<a href="chart.php?sectorMap=6"><div class="elementAle" style="top:38px; left:426px;" /></a>
+	<a href="chart.php?sectorMap=7"><div class="elementAle" style="top:38px; left:499px;" /></a>
+	<a href="chart.php?sectorMap=8"><div class="elementAle" style="top:38px; left:572px;" /></a>
+	<a href="chart.php?sectorMap=9"><div class="elementAle" style="top:38px; left:645px;" /></a>
+	<a href="chart.php?sectorMap=10"><div class="elementAle" style="top:38px; left:718px;" /></a>
+	<a href="chart.php?sectorMap=11"><div class="elementAle" style="top:38px; left:791px;;" /></a>
+	
+	<a href="chart.php?sectorMap=12"><div class="elementAle" style="top:111px; left:61px;" /></a>
+	<a href="chart.php?sectorMap=13"><div class="elementAle" style="top:111px; left:134px;" /></a>
+	<a href="chart.php?sectorMap=14"><div class="elementAle" style="top:111px; left:207px;" /></a>
+	<a href="chart.php?sectorMap=15"><div class="elementAle" style="top:111px; left:280px;" /></a>
+	<a href="chart.php?sectorMap=16"><div class="elementAle" style="top:111px; left:353px;" /></a>
+	<a href="chart.php?sectorMap=17"><div class="elementAle" style="top:111px; left:426px;" /></a>
+	<a href="chart.php?sectorMap=18"><div class="elementAle" style="top:111px; left:499px;" /></a>
+	<a href="chart.php?sectorMap=19"><div class="elementAle" style="top:111px; left:572px;" /></a>
+	<a href="chart.php?sectorMap=20"><div class="elementAle" style="top:111px; left:645px;" /></a>
+	<a href="chart.php?sectorMap=21"><div class="elementAle" style="top:111px; left:718px;" /></a>
+	<a href="chart.php?sectorMap=22"><div class="elementAle" style="top:111px; left:791px;" /></a>
+	
+	<a href="chart.php?sectorMap=23"><div class="elementAle" style="top:184px; left:61px;" /></a>
+	<a href="chart.php?sectorMap=24"><div class="elementAle" style="top:184px; left:134px;" /></a>
+	<a href="chart.php?sectorMap=25"><div class="elementAle" style="top:184px; left:207px;" /></a>
+	<a href="chart.php?sectorMap=26"><div class="elementAle" style="top:184px; left:280px;" /></a>
+	<a href="chart.php?sectorMap=27"><div class="elementAle" style="top:184px; left:353px;" /></a>
+	<a href="chart.php?sectorMap=28"><div class="elementAle" style="top:184px; left:426px;" /></a>
+	<a href="chart.php?sectorMap=29"><div class="elementAle" style="top:184px; left:499px;" /></a>
+	<a href="chart.php?sectorMap=30"><div class="elementAle" style="top:184px; left:572px;" /></a>
+	<a href="chart.php?sectorMap=31"><div class="elementAle" style="top:184px; left:645px;" /></a>
+	<a href="chart.php?sectorMap=32"><div class="elementAle" style="top:184px; left:718px;" /></a>
+	<a href="chart.php?sectorMap=33"><div class="elementAle" style="top:184px; left:791px;" /></a>
+	
+	<a href="chart.php?sectorMap=34"><div class="elementAle" style="top:257px; left:61px;" /></a>
+	<a href="chart.php?sectorMap=35"><div class="elementAle" style="top:257px; left:134px;" /></a>
+	<a href="chart.php?sectorMap=36"><div class="elementAle" style="top:257px; left:207px;" /></a>
+	<a href="chart.php?sectorMap=37"><div class="elementAle" style="top:257px; left:280px;" /></a>
+	<a href="chart.php?sectorMap=38"><div class="elementAle" style="top:257px; left:353px;" /></a>
+	<a href="chart.php?sectorMap=39"><div class="elementAle" style="top:257px; left:426px;" /></a>
+	<a href="chart.php?sectorMap=40"><div class="elementAle" style="top:257px; left:499px;" /></a>
+	<a href="chart.php?sectorMap=41"><div class="elementAle" style="top:257px; left:572px;" /></a>
+	<a href="chart.php?sectorMap=42"><div class="elementAle" style="top:257px; left:645px;" /></a>
+	<a href="chart.php?sectorMap=43"><div class="elementAle" style="top:257px; left:718px;" /></a>
+	<a href="chart.php?sectorMap=44"><div class="elementAle" style="top:257px; left:791px;" /></a>
+	
+	<a href="chart.php?sectorMap=45"><div class="elementAle" style="top:330px; left:61px;" /></a>
+	<a href="chart.php?sectorMap=46"><div class="elementAle" style="top:330px; left:134px;" /></a>
+	<a href="chart.php?sectorMap=47"><div class="elementAle" style="top:330px; left:207px;" /></a>
+	<a href="chart.php?sectorMap=48"><div class="elementAle" style="top:330px; left:280px;" /></a>
+	<a href="chart.php?sectorMap=49"><div class="elementAle" style="top:330px; left:353px;" /></a>
+	<a href="chart.php?sectorMap=50"><div class="elementAle" style="top:330px; left:426px;" /></a>
+	<a href="chart.php?sectorMap=51"><div class="elementAle" style="top:330px; left:499px;" /></a>
+	<a href="chart.php?sectorMap=52"><div class="elementAle" style="top:330px; left:572px;" /></a>
+	<a href="chart.php?sectorMap=53"><div class="elementAle" style="top:330px; left:645px;" /></a>
+	<a href="chart.php?sectorMap=54"><div class="elementAle" style="top:330px; left:718px;" /></a>
+	<a href="chart.php?sectorMap=55"><div class="elementAle" style="top:330px; left:791px;" /></a>
+	
+	<a href="chart.php?sectorMap=56"><div class="elementAle" style="top:403px; left:61px;" /></a>
+	<a href="chart.php?sectorMap=57"><div class="elementAle" style="top:403px; left:134px;" /></a>
+	<a href="chart.php?sectorMap=58"><div class="elementAle" style="top:403px; left:207px;" /></a>
+	<a href="chart.php?sectorMap=59"><div class="elementAle" style="top:403px; left:280px;" /></a>
+	<a href="chart.php?sectorMap=60"><div class="elementAle" style="top:403px; left:353px;" /></a>
+	<a href="chart.php?sectorMap=61"><div class="elementAle" style="top:403px; left:426px;" /></a>
+	<a href="chart.php?sectorMap=62"><div class="elementAle" style="top:403px; left:499px;" /></a>
+	<a href="chart.php?sectorMap=63"><div class="elementAle" style="top:403px; left:572px;" /></a>
+	<a href="chart.php?sectorMap=64"><div class="elementAle" style="top:403px; left:645px;" /></a>
+	<a href="chart.php?sectorMap=65"><div class="elementAle" style="top:403px; left:718px;" /></a>
+	<a href="chart.php?sectorMap=66"><div class="elementAle" style="top:403px; left:791px;" /></a>
+	
+	<a href="chart.php?sectorMap=67"><div class="elementAle" style="top:476px; left:61px;" /></a>
+	<a href="chart.php?sectorMap=68"><div class="elementAle" style="top:476px; left:134px;" /></a>
+	<a href="chart.php?sectorMap=69"><div class="elementAle" style="top:476px; left:207px;" /></a>
+	<a href="chart.php?sectorMap=70"><div class="elementAle" style="top:476px; left:280px;" /></a>
+	<a href="chart.php?sectorMap=71"><div class="elementAle" style="top:476px; left:353px;" /></a>
+	<a href="chart.php?sectorMap=72"><div class="elementAle" style="top:476px; left:426px;" /></a>
+	<a href="chart.php?sectorMap=73"><div class="elementAle" style="top:476px; left:499px;" /></a>
+	<a href="chart.php?sectorMap=74"><div class="elementAle" style="top:476px; left:572px;" /></a>
+	<a href="chart.php?sectorMap=75"><div class="elementAle" style="top:476px; left:645px;" /></a>
+	<a href="chart.php?sectorMap=76"><div class="elementAle" style="top:476px; left:718px;" /></a>
+	<a href="chart.php?sectorMap=77"><div class="elementAle" style="top:476px; left:791px;" /></a>
+	
+	<div style="position:absolute; text-align:center; top:30px; width:220px; left:910px;">
+		<form action="chart.php" method="GET"><input id="systemSearcher" name="goer" type="text" style="width:220px;" value="Ricerca" onfocus="this.value='';" class="radiusBordered12 searchField" /><br /><input type="submit" class="introb" style="margin-left:10px; margin-top:10px;  font-size:12px; letter-spacing:2px;" value="VAI" /></form>
+		
+		<div style="margin-top:40px; border:1px solid #333; padding:5px;"><button class="introb" style="width:40px; height:30px; padding:4px; font-size:12px;">&Gamma;</button> <button class="introb" style="width:40px; height:30px; padding:4px;  font-size:12px;">&Delta;</button><br /><button class="introb" style="margin-top:5px; width:85px; height:30px; padding:4px;  font-size:12px;">&Alpha; - &Beta;</button></div>
+	</div>
+</div>
+
+
+
+
+</body>
+</html>

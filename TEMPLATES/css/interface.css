@@ -592,18 +592,19 @@ background-repeat:no-repeat;
 
 #locationInfo,#locationMap
 {
-	width:500px;
-	height:300px;
-	margin-left:-250px;
-	margin-top:-150px;
+	width:700px;
+	height:420px;
+	margin-left:-350px;
+	margin-top:-210px;
 	border:2px solid #444;
 	background-size:100% auto;
 	background-position:center center;
 	background-repeat:no-repeat;
 }
 #locationInfo p.clockTitle{text-align:center; margin:0px; font-size:22px;}
-#locationInfo #locationDesc{text-align:justify; margin:0px; padding:8px; margin-top:20px; height:195px; overflow-y:auto;}
+#locationInfo #locationDesc{text-align:justify; margin:auto; width:85%; margin-top:70px; height:250px; overflow-y:auto;}
 
+#locationInfo #locationDesc p {margin:20px;}
 
 
 #locationMap{width:560px; height:420px; text-align:center; margin-left:-290px; margin-top:-210px; }

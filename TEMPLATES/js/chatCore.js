@@ -423,14 +423,14 @@
 			var lent = jQuery('#chatInput').val().length;
 			
 			if(lent > 2000) color = 0;
-			else if(lent > 1500) color = 24;
+			else if(lent > 1400) color = 24;
 			else if(lent > 1300) color = 54;
 			else 
 			{
-			if(lent <= 300) color = (lent*16/300)
-			if(lent <= 400) color = (lent*28/400)
-			if(lent <= 650) color = (lent*54/650)
-			if(lent <= 850) color = (lent*125/850)
+			if(lent <= 250) color = (lent*16/300)
+			if(lent <= 350) color = (lent*28/400)
+			if(lent <= 600) color = (lent*54/650)
+			if(lent <= 800) color = (lent*125/850)
 			else color = 125;
 			}
 			

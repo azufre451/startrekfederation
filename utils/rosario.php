@@ -219,19 +219,19 @@ foreach($ary as $pg => $rec)
 	}
 
 
-$VITA = "<p style=\"font-family:monospace\">-----------  Rapporto Qualità  --------------<br />Esecuzione in data: ".date('d-m-y h:i:s',time()).'<br />-------------------------------------------<br /><br />';
-$VITA .= "<br/>Nelle ultime 24 ore di gioco:<br/>";
+$VITA = "<p style=\"font-family:monospace\">-----------  Rapporto Procrastinante  --------------<br />Favellato in data: ".date('d-m-y h:i:s',time()).'<br />-------------------------------------------<br /><br />';
+$VITA .= "<br/>Nelle passanti 24 cicli di accomandita del bestiame:<br/>";
 
-$VITA .= "> Sono state aperte <span style=\"font-weight:bold;color:#096bd0\">$session24</span> sessioni<br />";
-$VITA .= "> Hanno giocato <span style=\"font-weight:bold;color:#096bd0\">$pg24</span> PG<br />";
-$VITA .= "> La lunghezza media caratteri è di: <span style=\"font-weight:bold;color:#096bd0\">$average24</span><br />";
-$VITA .= "> Numero di azioni: <span style=\"font-weight:bold;color:#096bd0\">$count24</span><br />";
-$VITA .= "> Sono stati inviati <span style=\"font-weight:bold;color:#096bd0\">$whispercount24</span> sussurri<br />&nbsp;&nbsp;&nbsp;(di cui <span style=\"font-weight:bold;color:#096bd0\">$whispercount24pvt</span> privati) <br />";
-$VITA .= "> I 5 giocatori più attivi sono stati: <p style=\"margin:10px;\">$bestPG</p><br />";
-$VITA .= "> I 5 giocatori più qualitativamente attivi sono stati: <p style=\"margin:10px;\">$bestPGQ</p>";
+$VITA .= "> Iniziassero <span style=\"font-weight:bold;color:#096bd0\">$session24</span> disamine di giuoco<br />";
+$VITA .= "> Hanno favellato <span style=\"font-weight:bold;color:#096bd0\">$pg24</span> gentigiocanti<br />";
+$VITA .= "> La prolissitudine dei prescenti ragguaglianti è di: <span style=\"font-weight:bold;color:#096bd0\">$average24</span><br />";
+$VITA .= "> <span style=\"font-weight:bold;color:#096bd0\">$count24</span> panzanitudini sono state affidate all'archivio degli Antichi<br />";
+$VITA .= "> <span style=\"font-weight:bold;color:#096bd0\">$whispercount24</span> panzane private sono state inviate<br />&nbsp;&nbsp;&nbsp;(di cui <span style=\"font-weight:bold;color:#096bd0\">$whispercount24pvt</span> Invacchiti tra vacca e vacca) <br />";
+$VITA .= "> I 5 blablatori più elucubranti sono stati: <p style=\"margin:10px;\">$bestPG</p><br />";
+$VITA .= "> I 5 blablatori più meritescenti: <p style=\"margin:10px;\">$bestPGQ</p>";
 
-$VITA .= "</p> La sacralità del nostro lavoro richiede il sacrificio di alcune libertà personali";
-$SITA .= "</p> Hasta luego, señor!";
+$VITA .= "<p>La sacralità del nostro antico Villaggio preconizza anche il nostro grande obiettivo<br />";
+$VITA .= " Giocatore che simma, la chat non insozzare <br /> Trama che traballa, admin non giocare <br /> Banks che esulta, master non accordare <br /> Background che olezza, guida non approvare!</p>";
 
   
 

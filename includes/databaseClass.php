@@ -20,7 +20,7 @@ class Database
 	}
 
 	public static function query($query)
-	{
+	{ 
 		$QR = mysqli_query(self::$link,$query);
 		if(mysqli_error(self::$link))
 			echo mysqli_error(self::$link);

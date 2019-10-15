@@ -9,6 +9,7 @@ include('includes/notifyClass.php');
 
 include("includes/PHPTAL/PHPTAL.php"); //NEW 
 include('includes/markerClass.php');
+include('includes/cdbClass.php');
 
 $vali = new validator();  
 $template = new PHPTAL('TEMPLATES/mainChat.htm');
@@ -35,7 +36,7 @@ $template->alertCSS = $currentLocation['placeAlert'];
 
 
 $currentAmbient = Ambient::getAmbient($ambient);
-
+$currentAmbient['descrizione'] = CDB::bbcode($currentAmbient['descrizione']);
 $template->placeName = strtoupper($currentLocation['placeName']);
 $template->ambient = $currentAmbient;
 

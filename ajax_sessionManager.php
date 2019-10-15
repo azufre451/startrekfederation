@@ -61,6 +61,8 @@ include('includes/validate_class.php');
 			
 		{
 			
+			$log="SESSION_ID\tACTION_ID\tUSER\tDATE\tTYPE\tMESSAGE\tV1\tV2\n";
+
 			$sectionsOngoing = Ambient::getActiveSession($ambientID);
 			//$avig = Ambient::getActiveSessionAVG($ambientID);
 			
@@ -68,6 +70,7 @@ include('includes/validate_class.php');
 
    
 			$offTargetACTS=0;
+			$allACTS=0;
 			if($avig < 600) $avig = 600;
 
 			$allacts = Ambient::getAllActions($ambientID);
@@ -79,28 +82,57 @@ include('includes/validate_class.php');
 			$ltime = 0;
 			$penalties = array();
 			$off_offset=0;
+			$playerLabels = array();
+			
 			foreach($allacts as $var)
 			{	  
 				if ($var['type'] == 'OFF' && !$off_offset)
 				{
 					continue;
 				}
+				if ($var['type'] == 'DIRECT')
+					$allACTS+=1;
+
 				$off_offset=1;
 
 				//echo $var['IDE'] . ") last-time: ".$ltime . ' this time: '. $var['time'] . ' span: ' . (((int)($sectionsOngoing['session']['sessionIntervalTime'])*60)) . ' thr: ' . ($ltime + ((int)($sectionsOngoing['session']['sessionIntervalTime'])*60)) . '
 
-				
+				if (!array_key_exists($var['sender'], $playerLabels)){
+						$playerLabels[$var['sender']] = PG::getSomething($var['sender'],'username');
+					}
+
 
 
 				if ( (int)($sectionsOngoing['session']['sessionIntervalTime']) > 0 && ($ltime != 0 && $var['time'] > $ltime + ((int)($sectionsOngoing['session']['sessionIntervalTime'])*60))){
 					
-					echo "Action ".$var['IDE']."for person".$var['sender'].' type:'. $var['type'] . ' exceeds timing constraint';
+					
 					$offTargetACTS+=1;
 
 					if (!array_key_exists($var['sender'], $penalties))
 						$penalties[$var['sender']] = 0;
 
-					$penalties[$var['sender']] += 0.75;
+
+					
+					$upperBound = $ltime + (int)($sectionsOngoing['session']['sessionIntervalTime'])*60;
+					$scarto = $var['time'] - $upperBound;
+
+					if ($scarto > 120)
+						$penalPlay = 1;
+					elseif ($scarto > 100)
+						$penalPlay = 0.75;
+					elseif ($scarto > 50)
+						$penalPlay = 0.5;
+					else
+						$penalPlay = 0.25;
+ 
+
+
+					$penalties[$var['sender']] += $penalPlay;
+					$log.=$sectionsOngoing['session']['sessionID'] . "\t".$var['IDE']."\t".$playerLabels[$var['sender']]."\t".date('H:i:s',$var['time'])."\t". $var['type'] . "\tOVERTIME\t".$scarto . "\t".$penalPlay."\n";
+ 
+
+					
+					
 
 					$ltime = $var['time'];
 				}
@@ -114,24 +146,30 @@ include('includes/validate_class.php');
 				if($var['type'] == 'DIRECT' || $var['type'] == 'OFF') 
 				{
 					//echo "Action ".$var['IDE']."for person".$var['sender'].' will be counted '.$var['realLen'];
+					$log.=$sectionsOngoing['session']['sessionID'] . "\t".$var['IDE']."\t".$playerLabels[$var['sender']]."\t".date('H:i:s',$var['time'])."\t". $var['type'] . "\tCOUNT\t".$var['realLen'] . "\t\n";
 
 					$person[$ppl][] = $var['realLen'];
 				}
 			}
 			$pointarray=array();
+
+
 		
 			foreach($person as $playerID => $player)
 			{	
+
+				
+
 				foreach ($player as $action)
 				{
 					if(!array_key_exists($playerID,$pointarray))	$pointarray[$playerID] = 0.0;
-					if($action > 500)
+					if($action > 400)
 					{
-						if($action >= 500 && $action <= $avig*1.1)
+						if($action >= 400 && $action <= $avig*1.2)
 						{
-							$pointarray[$playerID] += $action / (($avig*1.1) - 500) - (500 / (($avig*1.1) - 500));
+							$pointarray[$playerID] += $action / (($avig*1.2) - 400) - (400 / (($avig*1.2) - 400));
 						}
-						else if ($action > $avig*1.1) { $pointarray[$playerID]+=1; }
+						else if ($action > $avig*1.2) { $pointarray[$playerID]+=1; }
 					}
 				}
 			} 
@@ -185,24 +223,24 @@ include('includes/validate_class.php');
 				mysql_query("INSERT INTO federation_sessions_participation (pgID,sessionID,kind) VALUES(".$sectionsOngoing['session']['sessionOwner'].",".$sectionsOngoing['session']['sessionID'].",'MASTER')");
 				echo mysql_error();
 			}
-			 
-			echo "AAA <br />";
-			print_r($penalties);
+			   
 			foreach($pointarray as $playerID => $playerResult)
 			{
 				$playPenalty = array_key_exists($playerID,$penalties) ? $penalties[$playerID] : 0;
-				//echo "BBB <br />" . "<br/>";
-				//echo $playerID . "<br/>";
-				//echo $playerResult . "<br/>";
-				//echo round($playerResult) . "<br/>";
-				//echo "P:: " . $playPenalty . "<br/>";
-				//echo max(0,round($playerResult - $playPenalty)) . "<br/>";
-
+ 
 
 				$pta =  max(0,round($playerResult - $playPenalty));
 				$sessionLabel = addslashes($sectionsOngoing['session']['sessionLabel']);
+				$log.=$sectionsOngoing['session']['sessionID'] . "\t\t".$playerLabels[$playerID]."\t\t\t\tPOINTS_TOTAL\t".round($playerResult,2). " - ".round($playPenalty,2)."\t".$pta."\t\n";
+
 				if ($pta > -1){
-					$pgg = new PG($playerID);  
+					$pgg = new PG($playerID); 
+					if ($pta == 0 && $allACTS >= 4 && count($person[$playerID]) >= 4)
+					{
+						$pta=1;
+						$log.=$sectionsOngoing['session']['sessionID'] . "\t\t".$playerLabels[$playerID]."\t\t\t\tPOINTS_TOTAL_ADJ\t+1\t - ".round($playPenalty,2)."\t".$pta."\t\n";
+					}
+					 
 					$pgg->addPoints($pta,'QS',"Log:".$sectionsOngoing['session']['sessionID'],"Punti per sessione di gioco $sessionLabel",$_SESSION['pgID']);
 					mysql_query("INSERT INTO federation_sessions_participation (pgID,sessionID,kind) VALUES($playerID,".$sectionsOngoing['session']['sessionID'].",'PLAY')");
 					
@@ -210,6 +248,13 @@ include('includes/validate_class.php');
 				}
 			}
 			
+
+			$fp = fopen('sessions_logs.txt', 'a');
+
+	
+			fwrite($fp, $log);
+			fclose($fp);
+
 			Ambient::closeSession($ambientID);
 			Ambient::closePrivate($ambientID);
 		 

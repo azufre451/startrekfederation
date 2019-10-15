@@ -842,31 +842,9 @@ elseif($mode == 'master')
 		while ($logQE = mysql_fetch_array($logE))
 		$stringPNGDoppi.= ' '.$logQE['pgUser'].', ';
 		
-		
-		
-//		if(strpos($logQA['IP'], ':') !== false)
-//			$delim=':';//IPV6
-//		else
-//			$delim='.';
-//		$partialIP = explode($delim,$logQA['IP']);
-//	
-//		$partial2 = $partialIP[0].$delim.$partialIP[1];	
-//		
-//		$logS = mysql_query("SELECT DISTINCT pgUser FROM pg_users,connlog WHERE pgID = user AND png = 0 AND pgID <> $pgID AND IP LIKE '$partial2%'"); 
-//		
-//		while ($logQE = mysql_fetch_array($logS))
-//			{
-//			if (!array_key_exists($logQE['pgUser'],$partiaLusers)) $partiaLusers[$logQE['pgUser']] = 0;
-//			$partiaLusers[$logQE['pgUser']]++;
-//			}
+
 	}
-	
-//	foreach($partiaLusers as $key=>$elem)
-//		if($elem > 60) $stringPGPartial .= $key.', ';
-	
-	// $resBrevetti = mysql_query("SELECT image,brevID,descript FROM pg_brevetti ORDER BY image ASC");
-	// $availBrevetti = array();
-	// while($resEbrev=mysql_fetch_array($resBrevetti)) $availBrevetti[] = array('image' => $resEbrev['image'].' - '.substr($resEbrev['descript'],0,60), 'brevID' => $resEbrev['brevID']);
+
 	$selectedDUser->getIncarichi();
 
 	$allServiceObjects = array();
@@ -914,9 +892,23 @@ elseif($mode == 'master')
 	while ($til = mysql_fetch_assoc($resDoppi))
 		$resDoppiA[] = $til;
 
+
+
+	$res_extra=mysql_query("SELECT * FROM pg_extra_values WHERE pgID = $pgID");
+	$res_extras=array();
 	
+	while($res_extra_val = mysql_fetch_assoc($res_extra))
+	{
+		$res_extras[$res_extra_val['key']]=$res_extra_val;
+	}
+
+
+	
+	$template->res_extras = $res_extras;
+
 	$images = scandir('TEMPLATES/img/ruolini/lauree');
 	$template->images=array_diff($images,array('.','..'));
+
 	// $template->availBrevetti=$availBrevetti;
 	
 	
@@ -942,6 +934,25 @@ elseif($mode == 'master')
 	// $namea = PG::getSomething($_GET['pgID'],'username');
 	// mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",".$_GET['pgID'].",'::special::achiev','L\'ho sentita.::Evidentemente... la celebrità non è... tutto. Vero, signor $namea?',".time().",0,'http://miki.startrekfederation.it/minik.png')");
 // }
+
+elseif($mode=='edit_extras')
+{
+	if (!PG::mapPermissions('SM',$currentUser->pgAuthOMA)){header('Location:scheda.php'); exit;}
+
+	foreach($_POST as $key=>$element)
+	{
+		$key_to_add=addslashes($key); 
+		$val_to_add = $vali->numberOnly($element);
+
+		mysql_query("SELECT 1 FROM pg_extra_values WHERE pg_extra_values.key = '$key_to_add' AND pgID = ".$_GET['pgID']);
+		if(mysql_affected_rows())
+		{
+			mysql_query("UPDATE pg_extra_values SET value = $val_to_add WHERE pg_extra_values.key = '$key_to_add' AND pgID = ".$_GET['pgID']);
+		} 
+	}
+	header('Location:scheda.php?s=master&pgID='.$_GET['pgID']);
+	exit;
+}
 elseif($mode=='kavanagh')
 { 
 	//$selectedDUser->preload_objects();
@@ -1273,15 +1284,6 @@ elseif ($mode == 'creAllo')
 	$real=mysql_query("SELECT 1 FROM pg_alloggi WHERE pgID = $pgID");
 	$defa = (mysql_affected_rows()) ? 0 : 1;
 	
-
-
-
-	$descriSingo=addslashes("CATEGORIA C - Alloggi Singoli, finestrati.
-
-Riservati agli ufficiali o sottufficiali anziani, sono alloggi finestrati singoli, costituiti da una zona giorno ed una zona notte. Nel complesso sono piccoli appartamenti completi. L'arredamento standard comprende un tavolo con sedie, un divano a tre posti (il rivestimento di default &egrave; una ecopelle color blu notte),un tavolino basso in materiale plastico, un replicatore alimentare ed un mobile-mensola per riporre oggetti personali. La zona notte &egrave; costituita da un letto da una piazza e mezza, un comodino ed un armadio-cassettiera. La toilette &egrave; accessibile da una porticina a destra della camera da letto e contiene un piccolo lavandino, la doccia sonica e qualche mensola per riporre gli oggetti personali, oltre al WC.
-Le vetrate sono poste (sempre nell'arredamento normale) una dietro al divanetto ed una sul lato della testiera del letto.");
-
-	$descriPoli="CATEGORIA D - Alloggi Doppi per due persone <br />Questi alloggi sono composti da un piccolo soggiorno con un tavolo rettangolare, due sedie, un divanetto a due posti e un piccolo tavolino basso. A lato del divano &egrave; presente il replicatore, mentre le due stanze da letto sono separate, una sul lato destro ed una lato sinistro. Sono munite di un letto ad una piazza, un piccolo armadio per gli oggeti personali ed un comodino. La toilette &egrave; accessibile da una porticina nella stanza di destra e contiene un piccolo lavandino, la doccia sonica e qualche mensola per riporre gli oggetti personali, oltre al WC. Non vi sono finestre (l\'alloggio &egrave; interno)";
 	
 	if (PG::mapPermissions('SL',$currentUser->pgAuthOMA))
 	{
@@ -1303,7 +1305,7 @@ Le vetrate sono poste (sempre nell'arredamento normale) una dietro al divanetto 
 						$alloName = addslashes("Alloggio  $num - ".PG::getSomething($pgID,'username'));
 
 					$alloDescript=addslashes($rasA['alloDescript']);
-					$alloImage=addslashes($rasA['alloImage']);
+					$alloImage='TEMPLATES/img/ambients/alloggi/' . addslashes($rasA['alloImage']);
 
 					mysql_query("INSERT INTO fed_ambient (locID,locName,ambientLocation,ambientLevel_deck,ambientType,ambientNumber,image,locationable,descrizione) VALUES ('$locID','$alloName', '$alloLocation', '$alloDeck','ALLOGGIO',$num,'$alloImage',0,'$alloDescript')");
 					
@@ -1810,7 +1812,7 @@ $selectedDUser->getIncarichi();
 $band = ($prestavolto['iscriDiff'] >= '48') ? 'b0sw.png' : (($prestavolto['iscriDiff'] >= '36') ? 'b0s.png' : (($prestavolto['iscriDiff'] >= '24') ? 'b0k.png' : (($prestavolto['iscriDiff'] >= '12') ? 'b02.png' : (($prestavolto['iscriDiff'] >= '6') ? 'b003.png' : (($prestavolto['iscriDiff'] >= '3') ? 'b002.png' : 'b01.png')))));
 $subText = ($prestavolto['iscriDiff'] >= '48') ? 'Platinum' : (($prestavolto['iscriDiff'] >= '36') ? 'Gold' : (($prestavolto['iscriDiff'] >= '24') ? 'Silver' : (($prestavolto['iscriDiff'] >= '12') ? 'Bronze' : (($prestavolto['iscriDiff'] >= '6') ? 'Copper' : (($prestavolto['iscriDiff'] >= '3') ? 'Iron' : '')))));
 
-$resAchi = mysql_query("SELECT owner,aID,aImage,aText,aHidden,timer FROM pg_achievements LEFT JOIN pg_achievement_assign ON aID = achi AND owner IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $selectedUser)) ORDER BY owner DESC,timer DESC,aHidden ASC,aImage ASC");
+$resAchi = mysql_query("SELECT owner,aID,aImage,aText,aHidden,timer as rt FROM pg_achievements LEFT JOIN pg_achievement_assign ON aID = achi AND owner IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $selectedUser)) ORDER BY owner DESC,timer DESC,aHidden ASC,aImage ASC");
 
 
 $achi=array();
@@ -1824,8 +1826,8 @@ else if(PG::mapPermissions('A',$currentUser->pgAuthOMA) && !$reseAchi['aHidden']
 
 else $text=($reseAchi['aHidden']) ? '** Segreto ** Sii il primo ad ottenerlo!' : $reseAchi['aText'];
 
-if (!array_key_exists($reseAchi['aID'], $achi) or ( array_key_exists($reseAchi['aID'], $achi) and ($reseAchi['timer'] < $achi[$reseAchi['aID']]['timer']) ))
-	$achi[$reseAchi['aID']] = array('owned'=>isSet($reseAchi['owner']),'ID'=>$reseAchi['aID'],'text'=>$text,'image'=>(isSet($reseAchi['owner'])) ? 'TEMPLATES/img/interface/personnelInterface/'.$reseAchi['aImage'] : 'TEMPLATES/img/interface/personnelInterface/bloccato_n.png','adminImage'=> (PG::mapPermissions("A",$currentUser->pgAuthOMA)) ? 'TEMPLATES/img/interface/personnelInterface/'.$reseAchi['aImage'] : '','rt'=>$reseAchi['timer'],'timer' => date("d/m/y",$reseAchi['timer']));
+if (!array_key_exists($reseAchi['aID'], $achi) || ( array_key_exists($reseAchi['aID'], $achi) && ($reseAchi['rt'] < $achi[$reseAchi['aID']]['rt']) ))
+	$achi[$reseAchi['aID']] = array('owned'=>isSet($reseAchi['owner']),'ID'=>$reseAchi['aID'],'text'=>$text,'image'=>(isSet($reseAchi['owner'])) ? 'TEMPLATES/img/interface/personnelInterface/'.$reseAchi['aImage'] : 'TEMPLATES/img/interface/personnelInterface/bloccato_n.png','adminImage'=> (PG::mapPermissions("A",$currentUser->pgAuthOMA)) ? 'TEMPLATES/img/interface/personnelInterface/'.$reseAchi['aImage'] : '','rt'=>$reseAchi['rt'],'timer' => date("d/m/y",$reseAchi['rt']));
 }
 
 

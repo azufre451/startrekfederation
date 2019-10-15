@@ -229,7 +229,7 @@ class CDB
 				if($reseA['ID'] == $postID)
 				{
 					$pageNo = ceil($reseA['num'] / $elementsPerPage);		
-					return array('link'=>"cdb.php?topic=$topicID&page=$pageNo#$postID",'seclar'=>$reseA['postSeclar'],'dater'=> timeHandler::timestampToGiulian($reseA['time']) ,'author' => $reseA['pgUser'],'title'=>$reseA['title'],'topicTitle'=>$reseA['topicTitle'],'catName'=>$reseA['catName']);
+					return array('link'=>"cdb.php?topic=$topicID&page=$pageNo#$postID",'seclar'=>$reseA['postSeclar'],'dater'=> timeHandler::timestampToGiulian($reseA['time']) ,'author' => $reseA['pgUser'],'title'=>$reseA['title'],'topicTitle'=>str_replace('"','\'',$reseA['topicTitle']),'catName'=>$reseA['catName']);
 				}
 			}
 			return 0;

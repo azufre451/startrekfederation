@@ -20,7 +20,7 @@ $gameName = "v. 1.8.5 - Rampant Unicorn";
 $gameVersion = "1.8.5 - Rampant Unicorn";
 //1.8 Rampant Unicorn
 
-$gameOptions = array('numericVersion' => "1.8.617");
+$gameOptions = array('numericVersion' => "1.8.621");
 
 $debug=true;
 $tips=true;

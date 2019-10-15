@@ -235,6 +235,22 @@ Grado: <input class="neon" type="text" name="grado" style="width:180px;" tal:att
 </div>
 
 
+<div tal:condition="exists:bonusSM" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+
+		<form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=edit_extras">Campi Aggiuntivi<br /><br />
+			<table>
+				<tr tal:repeat="field res_extras">
+					<td tal:content="field/key"/>
+					<td><input tal:attributes="value field/value ; name field/key" tal:content="field/value" class="neon" type="text" /></td>
+				</tr>
+			</table>
+
+			<input type="submit" value="VAI" />
+		</form>
+	<div style="float:left; width:50px; margin-top:5px; background-repeat:no-repeat;" id="brever"/><div style="clear:both;" />
+</div>
+
+
 <a name="doppi" />
 <div style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
 		Altri utenti collegati

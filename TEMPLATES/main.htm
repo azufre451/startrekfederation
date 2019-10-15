@@ -224,6 +224,57 @@ var myImg = "https://unsplash.it/600/600?image=777";
 
 <div metal:use-macro="TEMPLATES/questionar.htm/sondaggio" />
 
+
+<div tal:condition="exists:melialPoints" id="pointBox" class="popup blackOpacity">
+	<style>
+		#pointBox{
+
+	    position: absolute;
+	    top: 50%;
+	    margin-top:-230px;
+	    left: 50%;
+        margin-left: -518px;
+	    height: 435px;
+	    width: 483px;
+	    display: block;
+	    border-radius: 12px;
+	    padding: 20px;
+	    border: 1px solid #eee;
+	    z-index: 10;
+		}
+		.point_person{width:100%; clear:both; margin-top:10px;}
+		.point_image{width:100px; float:left;}
+		.point_image img {vertical-align: middle;}
+		.point_bar{width:350px; margin-left:10px; float:left;}
+
+		.point_bar,.point_person,.point_bar .bar_label,.point_image img{height:30px;}
+
+		.point_bar .bar_label{width:30px; float:left; margin-top:10px; font-size:15px; font-weight: bold;line-height: 15px; margin-left:15px;}
+
+		.point_bar .bar{float:left; border:1px solid #ccc;  background-size: 20.00px 20.00px; height:12px; margin-top:10px; background-color:#52b4e1; border-radius:0px 5px 5px 0px;}
+
+		div.point_bar .bar.Comando_e_Strategia{background-image: linear-gradient(135deg, #910000 25%, #FF0000 25%, #FF0000 50%, #910000 50%, #910000 75%, #FF0000 75%, #FF0000 100%);}
+		div.point_bar .bar.Ingegneria_e_Operazioni{background-image: linear-gradient(135deg, #9a7e10 25%, #f3c719 25%, #f3c719 50%, #9a7e10 50%, #9a7e10 75%, #f3c719 75%, #f3c719 100%);}
+		div.point_bar .bar.Scientifica_e_Medica{background-image: linear-gradient(135deg, #29c1a6 25%, #1c8270 25%, #1c8270 50%, #29c1a6 50%, #29c1a6 75%, #1c8270 75%, #1c8270 100%);}
+		div.point_bar .bar.Difesa_e_Sicurezza{background-image: linear-gradient(135deg, #4e7a16 25%, #70ae20 25%, #70ae20 50%, #4e7a16 50%, #4e7a16 75%, #70ae20 75%, #70ae20 100%);}
+		div.point_bar .bar.Navigazione{ background-image: linear-gradient(135deg, #1a488e 25%, #2b76e8 25%, #2b76e8 50%, #1a488e 50%, #1a488e 75%, #2b76e8 75%, #2b76e8 100%);}
+
+	</style>
+	<div class="xButton" onclick="jQuery('#pointBox').fadeOut(100);"></div>
+	<p style="font-weight:bold; font-family:FederationFont; font-size:22px; text-align:center; letter-spacing: 1.1px; margin:0px;">CLASSIFICA PUNTI LIBERTÀ</p>
+	<div style="overflow-y:auto; height:400px;">
+		<div class="point_person" tal:repeat="person melialPoints">
+			<div class="point_image"> <img tal:attributes="src person/pgAvatarSquare" /> <a href="javascript:void(0);" tal:attributes="onclick string:schedaPOpen(${person/pgID})" tal:content="person/pgUser" class="interfaceLink" style="font-size:14px; margin-left:5px;"/>  </div>
+			<div class="point_bar" >
+				<div tal:attributes="style string:width:${person/nvalue}px ; class string:bar ${person/pgSezione}" ></div>
+				<div class="bar_label"  tal:content="php:(person['value'] GT 10000) ? (str_replace(',','.',round(person['value']/1000,1)) . 'k') : person['value']  "></div>
+				
+			</div>
+		 
+		</div>
+	</div>
+</div>
+
 <!--<div metal:use-macro="TEMPLATES/metal_panels.htm/wordrobePanel" />-->
 
 <div metal:use-macro="TEMPLATES/metal_panels.htm/remindStaffPresence" tal:condition="exists:presenceForce" />

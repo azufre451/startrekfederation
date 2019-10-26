@@ -251,6 +251,9 @@ $currentUser = new PG($_SESSION['pgID']);
  
 if (isSet($_GET['setAlert']))
 {
+	if(!PG::mapPermissions('M',$currentUser->pgAuthOMA))
+		exit;
+
 	$g = $_GET['setAlert'];
 	$place = addslashes($_GET['place']);
 	
@@ -259,13 +262,10 @@ if (isSet($_GET['setAlert']))
 		if($g=='red') mysql_query("UPDATE fed_ambient SET ambientLightColor='#d10000' WHERE ambientLocation='$place'");
 		else if($g=='yellow') mysql_query("UPDATE fed_ambient SET ambientLightColor='#e8cd05' WHERE ambientLocation='$place'");
 		else if($g=='green') mysql_query("UPDATE fed_ambient SET ambientLightColor='#ffeecb' WHERE ambientLocation='$place'");
-		else if($g=='grey') mysql_query("UPDATE fed_ambient SET ambientLight=2 WHERE ambientLocation='$place'");
+		else if($g=='grey' || $g=='quarantine'){ mysql_query("UPDATE fed_ambient SET ambientLight=2 WHERE ambientLocation='$place'");}
 		else if($g=='blue') mysql_query("UPDATE fed_ambient SET ambientLightColor='#3f79ba' WHERE ambientLocation='$place'");
 		
 		$toset = $g.'Alert';
-		
-		
-		if(PG::mapPermissions('M',$currentUser->pgAuthOMA))
 		mysql_query("UPDATE pg_places SET placeAlert = '$toset' WHERE placeID = '$place'");
 		
 		$string = '<p class="globalAction">Su tutta la nave si attiva '.str_replace(array('redAlert','yellowAlert','blueAlert','greenAlert','greyAlert','quarantineAlert','intruderAlert'),array('l\\\'allarme Rosso','l\\\'allarme Giallo','la condizione Blu','la condizione Verde','La condizione Grigia: tutti i sistemi non vitali vengono disattivati e l\\\'illuminazione viene ridotta al minimo.','la condizione di Quarantena. Voce del Computer: < Attenzione Procedura di Quarantena attivata. Da questo momento risulta in vigore la procedura di quarantena di Livello Tre. Tutte le autorizzazioni di sbarco e imbarco sono revocate con effetto immediato. Il personale non in servizio deve fare ritorno ai propri alloggi. Questa non è un\\\'esercitazione.>','L\\\'allarme Intruso'),$toset).'</p>';
@@ -279,7 +279,7 @@ if (isSet($_GET['setAlert']))
 				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$ambientTo','$string',".time().",'GLOBAL')");
 				
 				if($g == 'red') mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$ambientTo','redalert',".time().",'AUDIO')");
-				if($g == 'intruder') mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$ambientTo','intruderAlert',".time().",'AUDIO')");
+				if($g == 'intruder' || $g=='quarantine') mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$ambientTo','intruderAlert',".time().",'AUDIO')");
 		} 
 		header('Location:padd.php?s=sh');
 		exit;

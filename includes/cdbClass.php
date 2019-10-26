@@ -56,6 +56,21 @@ class CDB
 		else return ''; 
 	}
 
+	public static function formatSeclarPar($a,$user,$t1)
+	{
+ 
+
+
+		$SID=$a[1]; 
+
+
+		if ((int)($user->pgSeclar) >= $SID || self::checkPostAccess($t1,$user))
+			return "<span class=\"cdbPostRed cdbPostLittleSize\" style=\"font-weight:bold;\">[ - INIZIO SECLAR $SID - ]</span> ".$a[2]." <span class=\"cdbPostRed cdbPostLittleSize\" style=\"font-weight:bold;\">[ - FINE SECLAR $SID - ]</span>";
+		else
+			return "<span class=\"cdbPostGray\" style=\"text-decoration:italic\"> [ Per accedere a questo contenuto è necessario un accesso <span class=\"cdbPostRed cdbPostLittleSize\" style=\"font-weight:bold;\">SECLAR $SID</span> o superiore ] </span>";
+		
+	}
+
 
 
 	public static function formatCDBLinkExternal($a,$mode='extended')
@@ -99,9 +114,10 @@ class CDB
 		else return ''; 
 	}
 
-	public static function replaceBBcodes($text)
+	public static function replaceBBcodes($text,$user=NULL,$postID=NULL)
 	{
 	    	$tRet = '';
+ 
 			// BBcode array
 			$find = array('~\[POST\](.*?)\[/POST\]~s');
 			// HTML tags to replace BBcode
@@ -114,7 +130,12 @@ class CDB
 				$tRet = preg_replace_callback($find, 'self::formatCDBLinkExternal', $text);
 
 			$find = array('~\[DB\](.*?)\[/DB\]~s');
-				$tRet = preg_replace_callback($find, 'self::formatDBLink', $tRet);
+			$tRet = preg_replace_callback($find, 'self::formatDBLink', $tRet);
+
+
+			$find = array('~\[SECLAR=([0-9]?)\](.*?)\[/SECLAR\]~s');
+			$tRet = preg_replace_callback($find, function ($matches) use($user,$postID){ return CDB::formatSeclarPar($matches,$user,$postID);}, $tRet);
+
 
 			return $tRet;
 
@@ -128,6 +149,7 @@ class CDB
 		return str_replace($bbCode,$htmlCode,htmlspecialchars($str));
 	}
 
+/*
 	public static function replaceBBcodes_db($text,$mode='internal')
 	{
 	    	
@@ -138,11 +160,11 @@ class CDB
 			// Replacing the BBcodes with corresponding HTML tags
 			return  preg_replace_callback($find, 'self::formatDBLink', $text);
 	}
+*/
 
 
 
-
-	public static function bbcode($str){
+	public static function bbcode($str,$user=NULL,$postID=NULL){
 			$bbCode = array(
 	"[B]","[/B]",
 	"[I]","[/I]",
@@ -173,19 +195,19 @@ class CDB
 		//replaceBBcodes 
 		if (is_array($str)){
 
-			if(preg_grep("/\[POST\]/", $str) || preg_grep("/\[DB\]/", $str) )
-			{
+			if(preg_grep("/\[POST\]/", $str) || preg_grep("/\[DB\]/", $str) || preg_grep("/\[SECLAR=[0-9]?\]/", $str)  )
+			{ 
 						$q=array();
 						foreach($str as $k=>$v)
-							$q[$k] = str_replace($bbCode,$htmlCode,self::replaceBBcodes($v));	
+							$q[$k] = str_replace($bbCode,$htmlCode,self::replaceBBcodes($v,$user,$postID));	
 						return $q;
 			}
 			else return str_replace($bbCode,$htmlCode,$str);
 
 		}
 
-		elseif (preg_match("/\[POST\]/", $str) | preg_match("/\[DB\]/", $str) ){
-			return str_replace($bbCode,$htmlCode,self::replaceBBcodes($str));
+		elseif (preg_match("/\[POST\]/", $str) | preg_match("/\[DB\]/", $str) | preg_match("/\[SECLAR=[0-9]?\]/", $str) ){
+			return str_replace($bbCode,$htmlCode,self::replaceBBcodes($str,$user,$postID));
 		}
 
 		else return str_replace($bbCode,$htmlCode,$str);

@@ -35,6 +35,7 @@ function cmp_topics($a, $b) {
 
 PG::updatePresence($_SESSION['pgID']);
 $currentUser = new PG($_SESSION['pgID']);
+$_SESSION['pgSeclar'] = $currentUser->pgSeclar;
 
 $safeSeclarCats = array(14,15);
 
@@ -411,6 +412,18 @@ else if (isSet($_GET['addPost']))
 	$title = $vali->killChars(addslashes($_POST['postTitolo']));
 	$seclar = $vali->numberOnly($_POST['postSeclar']);
 	$content = addslashes($_POST['postContent']);
+	if(strpos($content,'[SECLAR=') !== false)
+	{
+		$content_subseclar = 1;
+		$matches = array(); 
+		preg_match_all('~\[SECLAR=([0-9]?)\].*\[/SECLAR\]~m',$content,$matches);
+		$maxReqSeclar=max($matches[1]);
+	}
+	
+
+
+
+
 	$topicCode = $vali->numberOnly($_POST['topicID']);
 	$notes = $vali->killChars(addslashes($_POST['postNote']));
 
@@ -525,10 +538,12 @@ else if (isSet($_GET['addPost']))
 						
 			$overSeclar="";
 			$seclarColor='#2f8ad0';
-				if((int)($toP->pgSeclar) < (int)($seclar))
+
+			$RealmaxReqSeclar = max(array($maxReqSeclar,$seclar));
+				if(((int)($toP->pgSeclar) < (int)($RealmaxReqSeclar)))
 				{
 					mysql_query( "INSERT IGNORE INTO cdb_posts_seclarExceptions (pgID, postID) VALUES (".$toP->ID.",'$postIDCo')"); 
-					$overSeclar = "Il post è stato inserito a <span style=\"color:red; font-weight:bold;\">SECLAR $seclar</span> ma puoi visualizzarlo ugualmente, essendone destinatario";
+					$overSeclar = "Il post contiene elementi fino a <span style=\"color:red; font-weight:bold;\">SECLAR $seclar</span> ma puoi visualizzarlo ugualmente, essendone destinatario";
 					$seclarColor = '#FF0000';
 				}
 
@@ -944,7 +959,7 @@ else if(isSet($_GET['topic']))
 			'title' => $title,
 			'pgUser' => $resE['pgUser'],
 			'pgUserID' => $resE['pgID'],
-			'content' => CDB::bbcode($resE['content']),
+			'content' => CDB::bbcode($resE['content'],$currentUser,$resE['ID']),
 			'time' => timeHandler::timestampToGiulian($resE['time']),
 			'lastEdit' => timeHandler::timestampToGiulian($resE['lastEdit']),
 			'postSeclar' => $resE['postSeclar'],
@@ -971,7 +986,7 @@ else if(isSet($_GET['topic']))
 			'title' => $title,
 			'pgUser' => $resA['pgUser'],
 			'pgUserID' => $resA['pgID'],
-			'content' => CDB::bbcode($resA['content']),
+			'content' => CDB::bbcode($resA['content'],$currentUser,$resA['ID']),
 			'time' => timeHandler::timestampToGiulian($resA['time']),
 			'lastEdit' => timeHandler::timestampToGiulian($resA['lastEdit']),
 			'postSeclar' => $resA['postSeclar'], 

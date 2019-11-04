@@ -958,11 +958,11 @@ class PG
 		mysql_query("UPDATE pg_users SET pgBavo = 1, pgLocation = 'BAVO', pgRoom ='BAVO' WHERE pgID = $pgID");
 		$this->sendPadd('Sospensione Account', "Ciao $pgName,
 
-			Sono passati 30 giorni dalla tua ultima giocata in Star Trek: Federation. Per garantire uno sviluppo funzionale degli organigrammi di bordo, il tuo personaggio verrà rimosso dal gioco attivo a partire da oggi. Ci auguriamo di rivederti presto fra noi, e ti assicuriamo che, in caso volessi tornare, il tuo PG sarà mantenuto attivo per altri 30 giorni. Al termine dei 30 giorni, il PG sarà eliminato dai nostri server.
+			Sono passati più 30 giorni dalla tua ultima giocata in Star Trek: Federation. Per garantire uno sviluppo funzionale degli organigrammi di bordo, il tuo personaggio è stato rimosso dal gioco attivo. Ci auguriamo di rivederti presto fra noi e ti assicuriamo che, in caso volessi tornare, il tuo PG sarà mantenuto attivo per altri 30 giorni. Al termine dei 30 giorni, il PG sarà eliminato dai nostri server.
 
 			A presto
 			Il team di Star Trek: Federation
-			http://www.startrekfederation.it");
+			http://www.startrekfederation.it",518,2,1);
 
 	}
 
@@ -1001,6 +1001,11 @@ class PG
 		mysql_query("DELETE FROM pg_users_pointStory WHERE owner = '$pgID';");
 		mysql_query("DELETE FROM pg_users_tutorial WHERE pgID = '$pgID';");
 		mysql_query("DELETE FROM pg_user_stories WHERE pgID = '$pgID';");
+		mysql_query("DELETE FROM pg_personal_notifications WHERE owner = '$pgID';");
+		mysql_query("DELETE FROM pg_visualized_elements WHERE pgID = '$pgID';");
+
+
+
 		mysql_query("UPDATE pg_users SET pgUser = CONCAT('$timeString',pgUser), pgLocation = 'BAVO', email = CONCAT('$timeString',email), pgRoom ='BAVO',pgIncarico = '-', pgAuthOMA='BAN', pgOffAvatarC = '', pgOffAvatarN='' WHERE pgID = $pgID");
 
 	}
@@ -1169,7 +1174,7 @@ class PG
 
 		if($var == "lastBG")
 		{
-			$res = mysql_query("SELECT * FROM pg_users_bios WHERE pgID = $id AND valid < '2' ORDER BY recID DESC LIMIT 1");
+			$res = mysql_query("SELECT pg_users_bios.*,pg_users.pgUser as edit_pgUser FROM pg_users_bios,pg_users WHERE pg_users_bios.pgID = $id AND pg_users.pgID = edituser AND valid < '2' ORDER BY recID DESC LIMIT 1");
 			if(mysql_affected_rows()) $re = mysql_fetch_array($res); 
 			else $re = NULL;
 			return $re;

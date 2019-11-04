@@ -86,13 +86,13 @@ $tabavosize = 0;
 while($ra = mysql_fetch_array($res))
 {
 	$tbavo = new PG($ra['pgID']);
-	$tbavo->bavosize();
+	//$tbavo->bavosize();
 	$tabavosize+=1;
 	$SITAbavo .= '<a onclick="javascript:schedaPOpen('.$tbavo->ID.');" style="font-weight:bold;" class="interfaceLink" href="#">'.$tbavo->pgUser.'</a> (inattivo dal '.date('d-m-y',$tbavo->pgLastAct).')<br />';
 }
 
 if ($tabavosize)
-	$SITA .= "> Bavosizzo <span style=\"font-weight:bold;color:#096bd0\">$tabavosize</span> PG inattivi (non giocanti in ON) da più di UN mese:<p style=\"margin:15px;\">$SITAbavo<br /><br />";
+	$SITA .= "> Dovrei bavosizzare <span style=\"font-weight:bold;color:#096bd0\">$tabavosize</span> PG inattivi (non giocanti in ON) da più di UN mese:<p style=\"margin:15px;\">$SITAbavo<br /> Ma ho deciso di prendermi le ferie arretrate degli ultimi 3 anni.<br />";
 
 
 

@@ -419,9 +419,6 @@ else if (isSet($_GET['addPost']))
 		preg_match_all('~\[SECLAR=([0-9]?)\].*\[/SECLAR\]~m',$content,$matches);
 		$maxReqSeclar=max($matches[1]);
 	}
-	else{
-		$maxReqSeclar=$seclar;
-	}
 	
 
 
@@ -756,7 +753,7 @@ else if(isSet($_POST['searchKey']))
 			'title' => $title,
 			'pgUser' => $resA['pgUser'],
 			'pgUserID' => $resA['pgID'],
-			'content' => CDB::bbcode($resA['content'],$currentUser,$resA['postID']),
+			'content' => CDB::bbcode($resA['content']),
 			'time' => timeHandler::timestampToGiulian($resA['time']),
 			'accessible' => ($resA['postSeclar'] <= $currentUser->pgSeclar || PG::mapPermissions('SM',$currentUser->pgAuthOMA) ||  $resA['owner'] == $currentUser->ID || $resA['coOwner'] == $currentUser->ID ) ? 1 : CDB::checkPostAccess($resA['postID'],$currentUser), 
 
@@ -792,7 +789,7 @@ else if(isSet($_POST['searchKey']))
 			'title' => $title,
 			'pgUser' => $resA['pgUser'],
 			'pgUserID' => $resA['pgID'],
-			'content' => CDB::bbcode($resA['content'],$currentUser,$resA['postID']),
+			'content' => CDB::bbcode($resA['content']),
 			'time' => timeHandler::timestampToGiulian($resA['time']),
 			'accessible' => ($resA['postSeclar'] <= $currentUser->pgSeclar || PG::mapPermissions('SM',$currentUser->pgAuthOMA) ||  $resA['owner'] == $currentUser->ID || $resA['coOwner'] == $currentUser->ID ) ? 1 : CDB::checkPostAccess($resA['postID'],$currentUser), 
 			'postSeclar' => $resA['postSeclar'],
@@ -849,7 +846,7 @@ else if(isSet($_GET['meSearch']))
 			'title' => $title,
 			'pgUser' => $resA['pgUser'],
 			'pgUserID' => $resA['pgID'],
-			'content' => CDB::bbcode($resA['content'],$currentUser,$resA['postID']),
+			'content' => CDB::bbcode($resA['content']),
 			'time' => timeHandler::timestampToGiulian($resA['time']),
 			'postSeclar' => $resA['postSeclar'],
 			'postNote' => $resA['postNotes'],

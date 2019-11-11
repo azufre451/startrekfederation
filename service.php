@@ -78,7 +78,7 @@ if(isSet($_GET['registerUser']))
 	mysql_query("INSERT INTO pg_users_pointStory (owner,points,cause,causeM,causeE,timer,assigner) VALUES ($pgNewID,10,'ISCR','Bonus iscrizione a STF','Bonus iscrizione a STF',".time().",1)");
 	
 	
-$pgNew->sendPadd('Benvenuto!','<div style="text-align:center"><img src="http://miki.startrekfederation.it/SigmaSys/logo/little_logo.png" /><br /><b>Benvenuto in Star Trek: Federation!</b></div><br />Ti inviamo questo padd come riassunto del materiale informativo presente presso i vari canali di gioco. In caso di perplessita\', non esitare a contattare le Guide o lo Staff di Star Trek: Federation!<br />
+$pgNew->sendPadd('Benvenuto!','<div style="text-align:center"><img src="https://nick.startrekfederation.it/SigmaSys/logo/little_logo.png" /><br /><b>Benvenuto in Star Trek: Federation!</b></div><br />Ti inviamo questo padd come riassunto del materiale informativo presente presso i vari canali di gioco. In caso di perplessita\', non esitare a contattare le Guide o lo Staff di Star Trek: Federation!<br />
 		
 	&raquo; <a href="javascript:dbOpenToTopic(186)" class="interfaceLink"> Ambientazione - La Federazione Unita dei Pianeti </a>
 	<p style="margin:0px; margin-left:30px; "> Nuovo all\'ambientazione di Star Trek? Qualche info la trovi qui! </p>
@@ -439,7 +439,7 @@ else if(isSet($_GET['comm']))
 			$toRoom = $rea['locID'];
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','$string',".time().",'ACTION')");
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','commbadge',".time().",'AUDIO')");
-			// mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','<audio autoplay=\"autoplay\"><source src=\"http://miki.startrekfederation.it/audioBase/commbadge.ogg\" type=\"audio/ogg\" /><source src=\"http://miki.startrekfederation.it/audioBase/commbadge.mp3\" type=\"audio/mpeg\" /></audio>',".time().",'AUDIO')");
+			// mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','<audio autoplay=\"autoplay\"><source src=\"https://nick.startrekfederation.it/audioBase/commbadge.ogg\" type=\"audio/ogg\" /><source src=\"https://nick.startrekfederation.it/audioBase/commbadge.mp3\" type=\"audio/mpeg\" /></audio>',".time().",'AUDIO')");
 			}
 		}
 	}
@@ -612,8 +612,8 @@ else if (isSet($_GET['addMapLocation']))
 	$icon = addslashes($_POST['icon']);
 	$ima = addslashes($_POST['internalImage']);
 	
-	if($icon == '') $icon = 'http://miki.startrekfederation.it/imaLocation/i_generic.png';
-	if($ima == '') $ima = 'http://miki.startrekfederation.it/imaLocation/c_generic.png';
+	if($icon == '') $icon = 'https://nick.startrekfederation.it/imaLocation/i_generic.png';
+	if($ima == '') $ima = 'https://nick.startrekfederation.it/imaLocation/c_generic.png';
 	$map = ($vali->numberOnly(addslashes($_POST['mappNo'])));
 	
 	if(PG::mapPermissions('JM',$currentUser->pgAuthOMA))
@@ -632,8 +632,8 @@ else if (isSet($_GET['editMapLocation']))
 	$ima = addslashes($_POST['internalImage']);
 	$typer = addslashes($_POST['typer']);
 	
-	if($icon == '') $icon = 'http://miki.startrekfederation.it/imaLocation/i_generic.png';
-	if($ima == '') $ima = 'http://miki.startrekfederation.it/imaLocation/c_generic.png';
+	if($icon == '') $icon = 'https://nick.startrekfederation.it/imaLocation/i_generic.png';
+	if($ima == '') $ima = 'https://nick.startrekfederation.it/imaLocation/c_generic.png';
 	$map = ($vali->numberOnly(addslashes($_POST['mappNo'])));
 	$deck = addslashes($_POST['pontNo']);
 	

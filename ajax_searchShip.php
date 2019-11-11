@@ -10,7 +10,7 @@ $res = mysql_query("(SELECT name,NCC,class,fleet FROM fed_ships WHERE status IN 
 $aar = array();
 while ($row = mysql_fetch_array($res)) {
 	$nam= ($row['NCC'] != '') ? $row['name'].', '.$row['NCC'] :  $row['name'];
-$aar[] = array('value' => $nam,'label' => $nam, 'desc' => 'Classe '.$row['class'].', '.$row['fleet'].'a Flotta','icon' => 'http://miki.startrekfederation.it/SigmaSys/personal/ostevik/Vars/test_intrepid.png');
+$aar[] = array('value' => $nam,'label' => $nam, 'desc' => 'Classe '.$row['class'].', '.$row['fleet'].'a Flotta','icon' => 'http://nick.startrekfederation.it/SigmaSys/personal/ostevik/Vars/test_intrepid.png');
 }
 echo json_encode($aar);
 //echo var_dump($aar);

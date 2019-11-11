@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html> 
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQ110h.js" />
+
+	<title>STAR TREK FEDERATION - LOGIN</title>
+	<script type="text/javascript" src="TEMPLATES/js/google.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+		$("#superLoginDiv").fadeIn(700);
+		})
+	</script>
+</head>
+
+<body style="background-image:url('TEMPLATES/img/main_login_redox.jpg')">
+
+<div id="allContainer" style="position:absolute; top:50%; left:50%; width:1037px; height:650px; margin-left:-518px; margin-top:-325px;">
+
+<div id="indi_header" onclick="window.location.href = 'index.php';" />
+
+<div id="centralContainer">
+<div align="center" tal:condition="exists:error" style="color:red; font-weight:bold;">ERRORE NEI DATI DI LOGIN<hr style="color:red" noshade="no" /></div>
+<div align="center" tal:condition="exists:logged_out" style="color:#FFCC00; font-variant:small-caps; font-weight:bold;">Logout eseguito! Grazie per aver giocato e a presto!<hr style="color:#555" noshade="no" /></div>
+<div id="superLoginDiv" tal:attributes="style string:background-image:url('${backLoginImage}');">
+
+<div id="loginDiv" class="radiusBordered12" style="z-index:2;">
+<form id="loginForm" action="login.php?action=doLogin" method="post">
+		<table>	
+			<tr><td style="width:100px; font-size:14px;">Nome PG</td><td><input autofocus="autofocus" type="text" style="width:120px;" name="loginUser"/></td></tr>
+			<tr><td style="width:100px; font-size:14px;">Password</td><td><input type="password" style="width:120px;" name="loginPass" /></td></tr>
+			<tr><td colspan="2" style="text-align:center; width:250px;"><br />
+			<input type="submit" style="width:70px;" value="INVIA">INVIA</input>&nbsp;&nbsp;<button onclick="javascript:window.open ('recuperaPWD.htm','pwd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=200,left=200,width=390,height=320'); return false;" style="width:150px;">RECUPERA PASSWORD</button></td></tr>
+			
+		</table>
+</form>
+</div>
+</div>
+
+<div style="float:left; width:340px; margin-left:10px; text-align:center;">
+	<div metal:use-macro="TEMPLATES/metal.htm/didYouKnow" />
+	<a href="http://www.gdr-online.com/star_trek_federation.asp" target="_blank"><img src="TEMPLATES/img/interface/index/gdr-online.png" style="border:1px solid #222; padding:5px;" alt="gdronline" title="La nostra pagina su GDR-Online" /></a>
+	<a href="http://www.kuro-rpg.net/" target="_blank"><img src="TEMPLATES/img/interface/index/kurorpg-banner.png" style="border:1px solid #222; padding:5px;" alt="kuro" /></a>
+	<a href="http://en.memory-alpha.org/wiki/Portal:Main" target="_blank"><img src="TEMPLATES/img/interface/index/memory-alpha.png" style="border:1px solid #222; padding:5px;" alt="kuro" title="Memory Alpha" /></a>
+	<a href="http://memory-beta.wikia.com/wiki/Main_Page" target="_blank"><img src="TEMPLATES/img/interface/index/memory-beta.png" style="border:1px solid #222; padding:5px;" alt="kuro" title="Memory Beta" /></a>
+</div>
+</div>
+</div>
+<!--<div metal:use-macro="TEMPLATES/metal.htm/versionBox" />-->
+
+</body>
+</html>

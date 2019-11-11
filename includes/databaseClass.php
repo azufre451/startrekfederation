@@ -888,7 +888,7 @@ class PG
 			$senderName = PG::getSomething($from,'username');
 				$subject = "[STF] $senderName >> ".$subject;
 				
-				$message = "<div style=\"text-align:center;\"><img src=\"http://miki.startrekfederation.it/SigmaSys/logo/little_logo.png\" /></div><p>$senderName ti ha inviato un dpadd<br /><b>Testo:</b> $text<br /><br />Accedi a <a href=\"http://www.startrekfederation.it\" target=\"_blank\">Star Trek: Federation</a> per consultare il padd!";
+				$message = "<div style=\"text-align:center;\"><img src=\"https://nick.startrekfederation.it/SigmaSys/logo/little_logo.png\" /></div><p>$senderName ti ha inviato un dpadd<br /><b>Testo:</b> $text<br /><br />Accedi a <a href=\"http://www.startrekfederation.it\" target=\"_blank\">Star Trek: Federation</a> per consultare il padd!";
 				
 				
 				$header = "From: $senderName <messaggistica@startrekfederation.it>\n";

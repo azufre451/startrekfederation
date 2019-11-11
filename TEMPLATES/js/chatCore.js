@@ -481,8 +481,8 @@
 		{
 			if (mode != 'extern')
 			{
-				jQuery('#au1').prop('src','https://miki.startrekfederation.it/audioBase/'+ida+'.ogg');
-				jQuery('#au2').prop('src','https://miki.startrekfederation.it/audioBase/'+ida+'.mp3');
+				jQuery('#au1').prop('src','https://nick.startrekfederation.it/audioBase/'+ida+'.ogg');
+				jQuery('#au2').prop('src','https://nick.startrekfederation.it/audioBase/'+ida+'.mp3');
 			}
 			else jQuery('#au1').prop('src',ida);
 			

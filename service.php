@@ -49,7 +49,7 @@ if(isSet($_GET['registerUser']))
 	$passer = createRandomPassword();
 	$matri = createRandomMatricola(); 
 	$pwd = md5($passer);
-	$assignTOSHIP = 'USS5';
+	$assignTOSHIP = 'USS10';
 
 	$re1=mysql_query("SELECT 1 FROM pg_users WHERE email = '$emai'");
 	if (mysql_affected_rows() && $emai != 'png@startrekfederation.it'){echo json_encode(array('err'=>'ME')); exit;}

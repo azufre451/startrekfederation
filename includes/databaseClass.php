@@ -651,6 +651,7 @@ class PG
 	public $pgIncarico;
 	public $pgRoom;
 	public $pgSeclar;
+	public $pgBavo;
 	public $pgAuthOMA;
 	public $pgLastAct;
 	public $pgNomeSuff;
@@ -665,7 +666,7 @@ class PG
 	public function __construct($id,$adv=0)
 	{ 
 		
-		$res = ($adv == 0) ? mysql_query("SELECT pgSesso,pgAssign,pgAvatar,pgAvatarSquare,pgFixYear,pgMatricola,pgMostrinaOlo,pgRoom,png,pgFirst,pgMostrina,pgLocation,pgNomeSuff,pgLock,pgStatoCiv,pgLastVisit,pgLastAct,pgUser,pgNomeC,pgDataN,pgLuoN,pgGrado,pgSezione,pgAuth,pgSeclar,pgSpecie,pgAuthOMA,audioEnable,audioEnvEnable FROM pg_users WHERE pgID = $id") : mysql_query("SELECT pgSesso,pgAssign,pgAvatar,pgAvatarSquare,pgFixYear,pgMatricola,pgMostrinaOlo,pgRoom,png,pgFirst,pgMostrina,pgLocation,pgNomeSuff,pgLock,pgStatoCiv,pgLastVisit,pgLastAct,pgUser,pgNomeC,pgDataN,pgLuoN,pgGrado,pgSezione,pgAuth,pgSeclar,pgSpecie,pgAuthOMA,audioEnable,audioEnvEnable, parlatCSS,actionCSS,otherCSS,paddMail,email FROM pg_users WHERE pgID = $id");
+		$res = ($adv == 0) ? mysql_query("SELECT pgSesso,pgAssign,pgAvatar,pgAvatarSquare,pgFixYear,pgMatricola,pgMostrinaOlo,pgRoom,png,pgFirst,pgMostrina,pgLocation,pgNomeSuff,pgLock,pgStatoCiv,pgLastVisit,pgLastAct,pgUser,pgNomeC,pgDataN,pgLuoN,pgGrado,pgSezione,pgAuth,pgSeclar,pgSpecie,pgAuthOMA,audioEnable,audioEnvEnable,pgBavo FROM pg_users WHERE pgID = $id") : mysql_query("SELECT pgSesso,pgAssign,pgAvatar,pgAvatarSquare,pgFixYear,pgMatricola,pgMostrinaOlo,pgRoom,png,pgFirst,pgMostrina,pgLocation,pgNomeSuff,pgLock,pgStatoCiv,pgLastVisit,pgLastAct,pgUser,pgNomeC,pgDataN,pgLuoN,pgGrado,pgSezione,pgAuth,pgSeclar,pgSpecie,pgAuthOMA,audioEnable,audioEnvEnable,pgBavo, parlatCSS,actionCSS,otherCSS,paddMail,email FROM pg_users WHERE pgID = $id");
 		
 
 		if(mysql_affected_rows()) $re = mysql_fetch_array($res); 
@@ -697,6 +698,7 @@ class PG
 		$this->audioEnable = $re['audioEnable'];
 		$this->audioextEnable = ($re['audioEnable'] > 1) ? 1 : 0;
 		$this->audioEnvEnable = ($re['audioEnvEnable']) ? 1 : 0;
+		$this->pgBavo = ($re['pgBavo']) ? 1 : 0;
 		
 		$this->ONLINE = ($this->pgLastAct < (time()-1800)) ? false : true;
 

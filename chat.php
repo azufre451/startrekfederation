@@ -15,10 +15,8 @@ $vali = new validator();
 $template = new PHPTAL('TEMPLATES/mainChat.htm');
 $currentUser = new PG($_SESSION['pgID'],1);
 
-if ($currentUser->pgLocation =='BAVO')
-{
-	$ambient = 'BAVO';
-}
+if ($currentUser->pgBavo)
+{	$ambient = 'BAVO';}
 
 else{
 

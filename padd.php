@@ -87,6 +87,24 @@ if($mode == 'newP')
 
 
 			}
+
+
+			elseif(strpos($to,'[Ufficiali Superiori]') !== false)
+			{
+
+				$curLocation = $currentUser->getLocationOfUser();
+				$curLocationID = $curLocation['placeID'];
+				$placeName = $curLocation['placeName'];
+				$testo = '<p>Padd inviato agli Ufficiali Superiori della <span style="color:#FC0; font-weight:bold;">'.$placeName.'</span></p><br />'.$testo;
+
+				$rus=mysql_query("SELECT pg_users.pgID FROM pg_users LEFT JOIN pg_incarichi ON pg_users.pgID = pg_incarichi.pgID LEFT JOIN pg_places ON pgPlace = placeID LEFT JOIN pg_ranks ON prio = rankCode WHERE incActive = 1 AND incDipartimento LIKE '%Ufficiali in Comando%' AND incIncarico NOT LIKE '%Vice%' AND pgPlace = '$curLocationID'");
+
+				while($ris = mysql_fetch_assoc($rus)){
+					$toP = new PG($ris['pgID'],2);
+					$toP->sendPadd($titolo,$testo,$_SESSION['pgID']); 
+				}
+
+			}
 			else{
 
 			$idsA = mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$to'"));

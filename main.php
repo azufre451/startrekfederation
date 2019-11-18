@@ -12,7 +12,7 @@ include("includes/PHPTAL/PHPTAL.php"); //NEW
 $template = new PHPTAL('TEMPLATES/main.htm'); 
 $currentUser = new PG($_SESSION['pgID']);
 if ($currentUser->pgAuthOMA == 'BAN'){header("Location:http://www.youtube.com/watch?v=wZZ7oFKsKzY"); exit;}
-$toLocation= (isSet($_GET['l'])) ? addslashes($_GET['l']) : $currentUser->pgLocation;
+$toLocation= (isSet($_GET['l']) && !$currentUser->pgBavo) ? addslashes($_GET['l']) : $currentUser->pgLocation;
 if($toLocation == '') $toLocation = 'BAVO';
 $currentUser->setPresenceInto($toLocation);
 

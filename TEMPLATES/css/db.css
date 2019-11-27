@@ -68,11 +68,21 @@ margin-right:20px;
 	border:1px solid #333;
 }
 
+#mdmacontent img.adaptw{
+	max-width:70%;
+}
+
 #mdmacontent img.smallSize{
 	width:150px;
 	display: inline-block;
 	float:right; 
 	margin-left:25px;
+	border:1px solid #333;
+}
+
+#mdmacontent img.mediumSize{
+	width:350px;
+	margin-top:0px;
 	border:1px solid #333;
 }
 

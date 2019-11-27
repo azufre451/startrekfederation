@@ -306,7 +306,7 @@ else if(isSet($_GET['element']) || isSet($_GET['litref']))
 		$template->catName = $resA['catName'];
 		$template->catImage = $resA['catImage'];
 		$template->title = $resA['title'];
-		$template->content = ($resA['skipBB']) ? $resA['content'] : (($resA['enableMD']) ? $Parsedown->text($resA['content']) : CDB::bbcode($resA['content'])) ; 
+		$template->content = ($resA['skipBB']) ? $resA['content'] : (($resA['enableMD']) ? CDB::bbcode($Parsedown->text($resA['content']),NULL,NULL,NULL) : CDB::bbcode($resA['content'])) ; 
 		$template->searchable = (isSet($_SESSION['pgID'])) ? true : false;
 
 	}

@@ -164,7 +164,7 @@ class CDB
 
 
 
-	public static function bbcode($str,$user=NULL,$postID=NULL){
+	public static function bbcode($str,$user=NULL,$postID=NULL,$newline_char="\n"){
 			$bbCode = array(
 	"[B]","[/B]",
 	"[I]","[/I]",
@@ -176,7 +176,7 @@ class CDB
 	"[COLOR=YELLOW]","[COLOR=WHITE]",
 	"[COLOR=GREEN]","[COLOR=GRAY]",
 	"[SIZE=1]","[SIZE=2]",
-	"[SIZE=3]","[/SIZE]","[/COLOR]","\n","[IMG]","[/IMG]",'[URL]','[/URL]','<script','</script>','<adminOsteScript14215','</adminOsteScript14215>','[QUOTE]','[/QUOTE]','[OB_OK]',);
+	"[SIZE=3]","[/SIZE]","[/COLOR]","[IMG]","[/IMG]",'[URL]','[/URL]','<script','</script>','<adminOsteScript14215','</adminOsteScript14215>','[QUOTE]','[/QUOTE]','[OB_OK]');
 
 
 	$htmlCode = array(
@@ -190,7 +190,14 @@ class CDB
 	"<span class=\"cdbPostYellow\">","<span class=\"cdbPostWhite\">",
 	"<span class=\"cdbPostGreen\">","<span class=\"cdbPostGray\">",
 	"<span class=\"cdbPostLittleSize\">","<span class=\"cdbPostNormalSize\">",
-	"<span class=\"cdbPostBigSize\">","</span>","</span>","<br />","<img src=\"","\"/>","<a target=\"_blank\" class=\"interfaceLink\" href=\"","\">LINK</a>",'script','script','<script','</script>','<p class="quoter">','</p>','<span class="obrindApproval">OK</span>',);
+	"<span class=\"cdbPostBigSize\">","</span>","</span>","<img src=\"","\"/>","<a target=\"_blank\" class=\"interfaceLink\" href=\"","\">LINK</a>",'script','script','<script','</script>','<p class="quoter">','</p>','<span class="obrindApproval">OK</span>');
+
+	if ($newline_char != NULL){
+		$bbCode[]=$newline_char;
+		$htmlCode[]='<br />';
+	}
+
+
 
 		//replaceBBcodes 
 		if (is_array($str)){

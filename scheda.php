@@ -375,7 +375,7 @@ else if ($mode == 'meAdd')
 		mysql_query("INSERT INTO pgMedica(pgID, medico, time, unita, type, medAnamnesi, medVisiv, medStrument, medDiagnosi, medTerapia, medDecorso, medCode,tdate) VALUES ($id,'$medicName',$curTime,'".addslashes($currentUser->pgLocation)."','$tType','$medicAnamnesi','$medicVisi','$medicStrum','$medicDiagnos','$medicTerap','$medicDecorso','$medicCode','$dateDef')");
 		//$selectedDUser->sendPadd('OFF: NUOVO REFERTO','Un nuovo referto medico è stato aggiunto alla tua scheda PG. Consulta la sezione "Scheda Medica" per vedere i dettagli.');
 		#$text,$subtext,$text,$from = '518',$image='
-		$selectedDUser->sendNotification("Nuovo referto medico","Un nuovo referto medico è stato aggiunto alla tua scheda PG",$_SESSION['pgID'],"https://miki.startrekfederation.it/SigmaSys/logo/nl_med.r.png",'schedaMedOpen');
+		$selectedDUser->sendNotification("Nuovo referto medico","Un nuovo referto medico è stato aggiunto alla tua scheda PG",$_SESSION['pgID'],"https://nick.startrekfederation.it/SigmaSys/logo/nl_med.r.png",'schedaMedOpen');
 
 		if (!$selectedDUser->png) $currentUser->addPoints(1,'MEDIC','Inserimento Referto Medico','Inserimento Referto Medico '.$selectedDUser->pgUser);
  
@@ -385,7 +385,7 @@ else if ($mode == 'meAdd')
 		{
 		mysql_query("INSERT INTO pgMedica(pgID, medico, time, unita, type, medAnamnesi, medDiagnosi, medTerapia,tdate) VALUES ($id,'$medicName',$curTime,'".addslashes($currentUser->pgLocation)."','$tType','$medicAnamnesi','$medicDiagnos','$medicTerap','$dateDef')");
 
-		$selectedDUser->sendNotification("Nuovo referto medico","Un nuovo referto psicologico è stato aggiunto alla tua scheda PG",$_SESSION['pgID'],"https://miki.startrekfederation.it/SigmaSys/logo/nl_med.r.png",'schedaMedOpen');
+		$selectedDUser->sendNotification("Nuovo referto medico","Un nuovo referto psicologico è stato aggiunto alla tua scheda PG",$_SESSION['pgID'],"https://nick.startrekfederation.it/SigmaSys/logo/nl_med.r.png",'schedaMedOpen');
 
 		if (!$selectedDUser->png) $currentUser->addPoints(2,'MEDIC','Inserimento Referto Psicologico','Inserimento Referto Psicologico '.$selectedDUser->pgUser);
 		} 
@@ -960,7 +960,7 @@ elseif($mode=='kavanagh')
 
 		
 	$namea = PG::getSomething($_GET['pgID'],'username');
-	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",".$_GET['pgID'].",'::special::achiev','L\'ho sentita...::Chi siete? Dove andate? Un asciugamano!',".time().",0,'https://miki.startrekfederation.it/SigmaSys/PNG/Kavanagh_001.png')");
+	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",".$_GET['pgID'].",'::special::achiev','L\'ho sentita...::Chi siete? Dove andate? Un asciugamano!',".time().",0,'https://nick.startrekfederation.it/SigmaSys/PNG/Kavanagh_001.png')");
 	header('Location:scheda.php?pgID='.$_GET['pgID']);
 }
 
@@ -977,7 +977,7 @@ elseif($mode=='logout')
 elseif($mode=='matto')
 { 
 	$namea = PG::getSomething($_GET['pgID'],'username');
-	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",".$_GET['pgID'].",'::special::achiev','Ehi tu...::Non fare il matto, dai...',".time().",0,'https://miki.startrekfederation.it/SigmaSys/personal/hopkins/v22/giphy-downsized.gif')");
+	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",".$_GET['pgID'].",'::special::achiev','Ehi tu...::Non fare il matto, dai...',".time().",0,'https://nick.startrekfederation.it/SigmaSys/personal/hopkins/v22/giphy-downsized.gif')");
 	header('Location:scheda.php?pgID='.$_GET['pgID']);
 }
 
@@ -985,7 +985,7 @@ elseif($mode=='matto')
 elseif($mode=='reminder') 
 { 
 	$namea = PG::getSomething($_GET['pgID'],'username');
-	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",".$_GET['pgID'].",'::special::achiev','È ora di azionare!::',".time().",0,'https://miki.startrekfederation.it/SigmaSys/PNG/Kavanagh_001.png')");
+	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",".$_GET['pgID'].",'::special::achiev','È ora di azionare!::',".time().",0,'https://nick.startrekfederation.it/SigmaSys/PNG/Kavanagh_001.png')");
 	header('Location:scheda.php?pgID='.$_GET['pgID']);
 }
 
@@ -1197,7 +1197,7 @@ elseif ($mode == 'setSalute')
 	if(!mysql_error()) 
 	{	
 		$toPG = new PG($pgID);
-		$toPG->sendNotification("Nuovo stato di Salute",$_POST['medStatus'],$_SESSION['pgID'],"https://miki.startrekfederation.it/SigmaSys/logo/nl_med.r.png",'schedaMedOpen');
+		$toPG->sendNotification("Nuovo stato di Salute",$_POST['medStatus'],$_SESSION['pgID'],"https://nick.startrekfederation.it/SigmaSys/logo/nl_med.r.png",'schedaMedOpen');
 
 	}
 
@@ -1211,7 +1211,7 @@ elseif ($mode == 'document')
 	$pgNew = new PG($pgID);
 
 	
-$pgNew->sendPadd('Benvenuto!','<div style="text-align:center"><img src="https://miki.startrekfederation.it/SigmaSys/logo/little_logo.png" /><br /><b>Benvenuto in Star Trek: Federation!</b></div><br />Ti inviamo questo padd come riassunto del materiale informativo presente presso i vari canali di gioco. In caso di perplessita\', non esitare a contattare le Guide o lo Staff di Star Trek: Federation!<br />
+$pgNew->sendPadd('Benvenuto!','<div style="text-align:center"><img src="https://nick.startrekfederation.it/SigmaSys/logo/little_logo.png" /><br /><b>Benvenuto in Star Trek: Federation!</b></div><br />Ti inviamo questo padd come riassunto del materiale informativo presente presso i vari canali di gioco. In caso di perplessita\', non esitare a contattare le Guide o lo Staff di Star Trek: Federation!<br />
 		
 	&raquo; <a href="javascript:dbOpenToTopic(186)" class="interfaceLink"> Ambientazione - La Federazione Unita dei Pianeti </a>
 	<p style="margin:0px; margin-left:30px; "> Nuovo all\'ambientazione di Star Trek? Qualche info la trovi qui! </p>

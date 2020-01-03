@@ -14,7 +14,7 @@
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}" />
-	<script type="text/javascript" src="TEMPLATES/js/multitool.js?v=${gameOptions/numericVersion}" />
+	<script type="text/javascript" src="TEMPLATES/js/multitool.js?v=${gameOptions/numericVersion}.2" />
 	
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 
@@ -302,6 +302,19 @@
 				<option tal:repeat="con php:range(0,9)" tal:content="string: SECLAR ${con}" tal:attributes="value con"/>
 			</select>&nbsp;&nbsp;<input type="submit" value="VAI" onclick="setSeclar(jQuery('#setSecl').val());" />
 			</div>
+
+			<div tal:condition="exists:bonusA" style="border:1px solid #888; margin-top:20px; margin-right:20px;  margin-left:20px; padding:5px; text-align:center;">
+			Assegna a tutti: 
+
+			<select class="neon" id="setMastr" style="width:60%;"><option tal:repeat="nas nastrini" tal:attributes="value nas/medID" tal:content="nas/medName" /></select>
+		
+			(<select class="neon" id="setMastrDate"><option tal:repeat="year php:range(2290,thisYear)" tal:attributes="value year ; selected php:(year==thisYear) ? 'selected': false" tal:content="year" /></select>)
+			<br />
+			
+
+			&nbsp;&nbsp;<input type="submit" value="VAI" onclick="setNastrin(jQuery('#setMastr').val(),jQuery('#setMastrDate').val());" />
+			</div>
+
 
 			<div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-top:20px; margin-right:20px;  margin-left:20px; padding:5px; text-align:center;">
 			Notorietà per tutti a Liv: <select id="setPrestige">

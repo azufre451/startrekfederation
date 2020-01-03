@@ -14,7 +14,7 @@
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
-	<script type="text/javascript" src="TEMPLATES/js/sservice.js?v=3.8" /> 
+	<script type="text/javascript" src="TEMPLATES/js/sservice.js?v=${gameOptions/numericVersion}" /> 
 	
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 
@@ -121,7 +121,11 @@
 			<td class="tds"><img class="tooltip" tal:attributes="src string:TEMPLATES/img/ranks/${story/rankImage}.png ; title story/rankName" /></td>
 			<td class="tdsa dateFormat">
 			<span tal:content="php:str_pad(substr(story['dater'],5,2),2,'0',STR_PAD_LEFT) . '/' . substr(story['dater'],0,4)">Data</span>
-			<a href="javascript:void(0);" class="interfaceLinkBlue" tal:attributes="onclick string:getOthers(this,'${story/wherer}','${story/dater}',${selectedUser})" style="font-size:10px;">[•]</a></td>
+			<a href="javascript:void(0);" class="interfaceLinkBlue" tal:attributes="onclick string:getOthers(this,'${story/wherer}','${story/dater}',${selectedUser})" style="font-size:10px;" tal:condition="not:exists:story/associatedHTML">[•]</a>
+
+			<a href="javascript:void(0);" class="interfaceLinkBlue" tal:attributes="onclick string:getOthers(this,'${story/wherer}','${story/dater}#${story/commonYear}',${selectedUser})" style="font-size:10px;" tal:condition="exists:story/associatedHTML">[•]</a>
+
+			</td>
 			<td class="tds" tal:content="structure story/what">Incarico</td>
 			<td class="tds"><span tal:content="structure story/wherer">Assegnazione</span> 
 				<span class="tooltipClass" tal:condition="exists:story/associatedHTML" tal:content="string:[*]" tal:attributes="title story/associatedHTML" />
@@ -154,7 +158,7 @@
 	
 	<div id="ntpa_show_box" style="width:500px; height:350px; margin-top:-175px; margin-left:-250px; position: absolute; display: none; background-color:rgba(0,0,0,0.9); left:50%; top:50%; font-family:Helvetica; padding:10px; border:1px solid #CCC;">
 		
-		<p style="margin-bottom:10px; border-bottom:1px solid #52b4e1; font-size:13px;"> Erano sulla stessa unità, lo stesso anno:</p>
+		<p style="margin-bottom:10px; border-bottom:1px solid #52b4e1; font-size:13px;"> Erano sulla stessa unità <span id="year_specifier"></span></p>
 		<div id="ntpa_show" style="overflow-x:auto; height:280px;"> Nessuno :-( </div>
 		<div class="xButton" onclick="jQuery('#ntpa_show_box').fadeOut(100);"></div>
 	</div>

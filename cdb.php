@@ -201,6 +201,7 @@ else if(isSet($_GET['topicE']))
 	$template->topicColorExt = $resA['topicColorExt'];
 	$template->catID = $resA['catCode'];
 	$template->catName = $resA['catName'];
+	$template->editMode = 'edit';
 	}
 	else{ header("Location:cdb.php");exit;}
 }

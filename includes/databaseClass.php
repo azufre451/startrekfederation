@@ -951,11 +951,11 @@ class PG
 	public function bavosize(){
 		$pgID = $this->ID;
 		$pgName = $this->pgUser;
-		mysql_query("DELETE FROM cdb_posts_seclarExceptions WHERE pgID = '$pgID';");
+		//mysql_query("DELETE FROM cdb_posts_seclarExceptions WHERE pgID = '$pgID';");
 		mysql_query("DELETE FROM fed_ambient_auth WHERE pgID = '$pgID';");
-		mysql_query("DELETE FROM fed_food_replications WHERE user = '$pgID';");
+		//mysql_query("DELETE FROM fed_food_replications WHERE user = '$pgID';");
 		mysql_query("DELETE FROM pg_incarichi WHERE pgID = '$pgID';");
-		mysql_query("DELETE FROM pg_achievement_assign WHERE owner = '$pgID';");
+		//mysql_query("DELETE FROM pg_achievement_assign WHERE owner = '$pgID';");
 		mysql_query("DELETE FROM pg_alloggi WHERE pgID = '$pgID';");
 		mysql_query("UPDATE pg_users SET pgBavo = 1, pgLocation = 'BAVO', pgRoom ='BAVO' WHERE pgID = $pgID");
 		$this->sendPadd('Sospensione Account', "Ciao $pgName,
@@ -1010,6 +1010,12 @@ class PG
 
 		mysql_query("UPDATE pg_users SET pgUser = CONCAT('$timeString',pgUser), pgLocation = 'BAVO', email = CONCAT('$timeString',email), pgRoom ='BAVO',pgIncarico = '-', pgAuthOMA='BAN', pgOffAvatarC = '', pgOffAvatarN='' WHERE pgID = $pgID");
 
+	}
+
+	public function addMedal($what,$dater)
+	{
+		$pgID = $this->ID;
+		mysql_query("INSERT INTO pgDotazioni (pgID,dotazioneIcon,doatazioneType,dotazioneAlt) VALUES ($pgID,'$what','MEDAL','$dater')");
 	}
 	
 	public function addNote($what,$from=518)

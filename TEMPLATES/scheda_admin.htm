@@ -76,6 +76,10 @@
 			<a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=invaliMail">
 			<div style="border:1px solid #2e7ec8; margin-left:10px; float:left; width:60px;">deMAIL</div>
 			</a> 
+
+			<a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=toggle_bavosize">
+			<div style="border:1px solid #3abd20; margin-top:2px; float:left; width:60px;" tal:content="php:(userData.pgBavo) ? 'sBAVO!' : 'BAVO!'"> </div>
+			</a>
 			<br />
 			<br />
 			

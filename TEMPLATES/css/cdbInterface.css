@@ -191,11 +191,12 @@ float:left;
 	width:560px;
 	height:350px;
 	position:absolute;
+	border:1px solid #444;
 	left:50%;
 	margin-left:-380px;
 	font-family:arial;
 	padding-top:95px;
 	background-color:rgba(1,1,1);
-	background-color:rgba(1,1,1,0.7);
+	background-color:rgba(1,1,1,0.6);
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#B2010101,endColorstr=#B2010101);
 }

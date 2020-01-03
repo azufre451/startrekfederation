@@ -113,10 +113,18 @@
 				if (jQuery('#format5').prop('checked')) formatID = 5;
 				
 				jQuery.post('ajax_getCDBFormats.php', {stringer: stringUse, format: formatID, rapType: rap}, settercdb, 'json');
+				
+				if (jQuery('#no-notify').prop('checked'))
+				{
 				jQuery('#pepoleList').attr('value',stringUse);
 				jQuery('#peopleListMirror').html(stringUse);
 				jQuery('#peopleListMirrorContain').fadeIn();
-				
+				}
+				else{
+					jQuery('#pepoleList').attr('value','');
+					jQuery('#peopleListMirror').html('');
+					jQuery('#peopleListMirrorContain').fadeOut();
+				}
 
 
 			}
@@ -261,7 +269,7 @@
 </tr>
 <tr>
 	<td>
-		<textarea name="postContent" id="postContent" style="width:590px; height:350px; font-family:Helvetica;"></textarea>
+		<textarea name="postContent" id="postContent" style="width:590px; height:410px; font-family:Helvetica;"></textarea>
 		<p id="peopleListMirrorContain" style="width:550px;margin-top:3px; display:none; font-size:13px; font-family:Helvetica"> Il post verrà segnalato a: <span id="peopleListMirror" /> con un padd automatico</p>
 			<input type="hidden" style="border:0" id="pepoleList" name="peopleList" value="" />
 	</td>

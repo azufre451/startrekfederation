@@ -294,6 +294,33 @@ if($mode == "setSeclar")
 }
 
 
+if($mode == "addMedals")
+{
+	if (!PG::mapPermissions('A',$currentUser->pgAuthOMA)) exit;
+	$sel=explode(',',$_POST['listof']);
+	$medal = $vali->numberOnly($_POST['medal']);
+	$timer = $vali->numberOnly($_POST['timer']);
+
+	$lisOuser="";
+
+	foreach ($sel as $auth)
+		if(trim($auth)!='')
+		{	
+			$tUser = trim(addslashes($auth));
+			$rea = mysql_fetch_array(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$tUser'"));
+			$pgID = $vali->numberOnly($rea['pgID']);
+			$selectedDUser = new PG($pgID);
+			$selectedDUser->addMedal($medal,$timer);
+			$selectedDUser->addNote("Aggiunta medaglia $medal",$currentUser->ID);
+		}
+			
+	echo json_encode(array('stat'=>true)); exit;
+	
+	//echo "UPDATE pg_users SET pgLock=1 WHERE pgUser IN ($lisOuser)"; exit;
+}
+
+
+
 if($mode == "setPrestige")
 {
 	if (!PG::mapPermissions('SM',$currentUser->pgAuthOMA)) exit;
@@ -1015,13 +1042,23 @@ if($candT < 6)
 
 if($candT >0)
 {
-foreach(range($candT-1,0,-1) as $p)
-{	 
-	$DDAYMAP[$p] .= ' '.date('d',$curTime-(24*60*60* ($candT-$p) ));
-}
+	foreach(range($candT-1,0,-1) as $p)
+	{	 
+		$DDAYMAP[$p] .= ' '.date('d',$curTime-(24*60*60* ($candT-$p) ));
+	}
 
 }
 
+
+
+$res = mysql_query("SELECT medID,medName FROM pg_medals WHERE 1 ORDER BY medPrio ASC");
+	$nasArray=array();
+	while($resD = mysql_fetch_array($res))
+		$nasArray[] = $resD;
+
+
+$template->thisYear = $thisYear+$bounceYear;
+$template->nastrini = $nasArray;
 $template->DDAYMAP=$DDAYMAP;
 $template->gameOptions = $gameOptions;
 $template->presentiTW = $presentiTW;

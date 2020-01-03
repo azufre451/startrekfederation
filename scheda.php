@@ -57,7 +57,6 @@ elseif($mode == 'bvadd')
 	if($selectedUser == $_SESSION['pgID'] || $currentUser->pgAuthOMA == 'A')
 	{
 
-
 		$template = new PHPTAL('TEMPLATES/scheda_ruolino_points.htm');
 		
 		$resPoints = PG::getSomething($selectedUser,'upgradePoints');
@@ -218,18 +217,19 @@ elseif($mode == 'ssto')
 	
 		while($resA = mysql_fetch_array($res))
 		{
-			
 			if (!$resA['pgGroup']){ 
 				$storiesRuol[$resA['storyID']] = $resA;
 			}
 			else
 			{
-				
 				if(!array_key_exists('associatedHTML',$storiesRuol[$resA['pgGroup']] ))
 				{
 					$storiesRuol[$resA['pgGroup']]['associatedHTML'] = '';
+					$storiesRuol[$resA['pgGroup']]['commonYear'] = '';
+
 
 				}
+				$storiesRuol[$resA['pgGroup']]['commonYear'] .= substr($resA['dater'],0,4).'#';
 				$storiesRuol[$resA['pgGroup']]['associatedHTML'] .= '<p><img src="TEMPLATES/img/ranks/'.$resA['rankImage'].'.png" /> <span style="color:#CCC; font-size:10px; text-transform:uppercase">'.substr($resA['dater'],0,4).'</span>  <span style="color:#999; font-size:10px; text-transform:uppercase">'.$resA['what'].'</span> </p>';
 			}
 		}
@@ -807,65 +807,65 @@ elseif($mode == 'master')
 	
 	if(PG::mapPermissions('MM',$currentUser->pgAuthOMA)){
 	
-	$res = mysql_query("SELECT png, email FROM pg_users WHERE pgID = $pgID");
-	
-	if(mysql_affected_rows()) $resB = mysql_fetch_array($res);
-	else {header('Location:scheda.php'); exit;}
-	
-	$logQ = mysql_query("SELECT IP FROM connlog WHERE user = $pgID ORDER BY time DESC");
-	
-	$stringDoppi = "";
-	$stringPNGDoppi = "";
-	$stringPGPartial = "";
-	$partiaLusers = array();
-	$encountered = array();
-	
-	while($logQA = mysql_fetch_array($logQ))
-	{
-	
-		if(!isSet($lastIP)) $lastIP = $logQA['IP'];
-		if(in_array($logQA['IP'],$encountered)) continue;
-		$encountered[] = $logQA['IP'];
+		$res = mysql_query("SELECT png, email FROM pg_users WHERE pgID = $pgID");
 		
+		if(mysql_affected_rows()) $resB = mysql_fetch_array($res);
+		else {header('Location:scheda.php'); exit;}
 		
-		$logE = mysql_query("SELECT DISTINCT pgUser FROM pg_users,connlog WHERE pgID = user AND pgID <> $pgID AND (pgID <> 1762 AND pgID <> 1677) AND png=0  AND IP = '".$logQA['IP']."'");
-		if(mysql_affected_rows()) $stringDoppi.= (PHP_EOL).' - '.$logQA['IP'];
+		$logQ = mysql_query("SELECT IP FROM connlog WHERE user = $pgID ORDER BY time DESC");
 		
+		$stringDoppi = "";
+		$stringPNGDoppi = "";
+		$stringPGPartial = "";
+		$partiaLusers = array();
+		$encountered = array();
 		
-		while ($logQE = mysql_fetch_array($logE))
-		$stringDoppi.= ' '.$logQE['pgUser'].', ';
+		while($logQA = mysql_fetch_array($logQ))
+		{
 		
+			if(!isSet($lastIP)) $lastIP = $logQA['IP'];
+			if(in_array($logQA['IP'],$encountered)) continue;
+			$encountered[] = $logQA['IP'];
+			
+			
+			$logE = mysql_query("SELECT DISTINCT pgUser FROM pg_users,connlog WHERE pgID = user AND pgID <> $pgID AND (pgID <> 1762 AND pgID <> 1677) AND png=0  AND IP = '".$logQA['IP']."'");
+			if(mysql_affected_rows()) $stringDoppi.= (PHP_EOL).' - '.$logQA['IP'];
+			
+			
+			while ($logQE = mysql_fetch_array($logE))
+			$stringDoppi.= ' '.$logQE['pgUser'].', ';
+			
 
-		$logE = mysql_query("SELECT DISTINCT pgUser FROM pg_users,connlog WHERE pgID = user AND pgID <> $pgID  AND png=1 AND IP = '".$logQA['IP']."'");
-		if(mysql_affected_rows()) $stringPNGDoppi.= (PHP_EOL).' - '.$logQA['IP'];
+			$logE = mysql_query("SELECT DISTINCT pgUser FROM pg_users,connlog WHERE pgID = user AND pgID <> $pgID  AND png=1 AND IP = '".$logQA['IP']."'");
+			if(mysql_affected_rows()) $stringPNGDoppi.= (PHP_EOL).' - '.$logQA['IP'];
+			
+			while ($logQE = mysql_fetch_array($logE))
+			$stringPNGDoppi.= ' '.$logQE['pgUser'].', ';
+			
+
+		}
+
+		$selectedDUser->getIncarichi();
+
+		$allServiceObjects = array();
 		
-		while ($logQE = mysql_fetch_array($logE))
-		$stringPNGDoppi.= ' '.$logQE['pgUser'].', ';
+		$re=mysql_query("SELECT oID,oName FROM fed_objects WHERE oType = 'SERVICE'");
+		while($res = mysql_fetch_assoc(($re)))
+		{
+			$allServiceObjects[] = $res;
+		}
+
+
 		
-
-	}
-
-	$selectedDUser->getIncarichi();
-
-	$allServiceObjects = array();
-	
-	$re=mysql_query("SELECT oID,oName FROM fed_objects WHERE oType = 'SERVICE'");
-	while($res = mysql_fetch_assoc(($re)))
-	{
-		$allServiceObjects[] = $res;
-	}
-
-
-	
-	$template->allServiceObjects = $allServiceObjects;
-	
-	$template->stringDoppi = $stringDoppi;
-	$template->stringPNGDoppi = $stringPNGDoppi;
-	$template->stringPGPartial = array(); //$stringPGPartial; 
-	$template->ip =  $lastIP;
-	$template->host =  gethostbyaddr($lastIP);
-	$template->png = ($resB['png'] == 1) ? true : false;
-	$template->email = $resB['email'];
+		$template->allServiceObjects = $allServiceObjects;
+		
+		$template->stringDoppi = $stringDoppi;
+		$template->stringPNGDoppi = $stringPNGDoppi;
+		$template->stringPGPartial = array(); //$stringPGPartial; 
+		$template->ip =  $lastIP;
+		$template->host =  gethostbyaddr($lastIP);
+		$template->png = ($resB['png'] == 1) ? true : false;
+		$template->email = $resB['email'];
 	}
 
 
@@ -903,6 +903,19 @@ elseif($mode == 'master')
 	}
 
 
+	$repli_food = mysql_query("SELECT foodName,timer, food as tr, ( SELECT COUNT(recID) FROM fed_food_replications WHERE food = tr AND user = $pgID ) as cnt FROM fed_food,fed_food_replications WHERE foodID = food AND user = $pgID  AND YEAR(FROM_UNIXTIME(timer)) = 2019 ORDER BY timer DESC LIMIT 25");
+
+	while($ftd = mysql_fetch_assoc($repli_food))
+	{
+		$replicated_foods[] = $ftd;
+	}
+
+
+	$repli_food_ov = mysql_fetch_assoc(mysql_query("SELECT COUNT(recID) as cnt FROM fed_food,fed_food_replications WHERE foodID = food AND user = $pgID AND YEAR(FROM_UNIXTIME(timer)) = 2019"));
+
+	$template->ov_replications = $repli_food_ov['cnt'];
+
+	$template->replicated_foods=$replicated_foods;
 	
 	$template->res_extras = $res_extras;
 
@@ -1348,6 +1361,17 @@ elseif ($mode == 'togglePrincIncarico'){
 
 }
 
+elseif ($mode == 'toggle_bavosize'){
+
+	$pgID = $vali->numberOnly($_GET['pgID']);
+	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
+		mysql_query("UPDATE pg_users SET pgBavo = !pgBavo WHERE pgID = '$pgID'"); 
+	header("Location:scheda.php?pgID=$pgID&s=admin");
+
+
+}
+
+
 elseif ($mode == 'toggleActIncarico'){
 
 	$recID = $vali->numberOnly($_GET['recID']);
@@ -1641,8 +1665,8 @@ $dataA = $vali->numberOnly($_POST['dataA']);
 
 	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
 	{	
-		mysql_query("INSERT INTO pgDotazioni (pgID,dotazioneIcon,doatazioneType,dotazioneAlt) VALUES ($pgID,'$nastrini','MEDAL','$dataA')");
-		$selectedDUser->addNote("Aggiunta metaglia $nastrini",$currentUser->ID);
+		$selectedDUser->addMedal($nastrini,$dataA);
+		$selectedDUser->addNote("Aggiunta medaglia $nastrini",$currentUser->ID);
 	}
 		
 	header("Location:scheda.php?pgID=$pgID");
@@ -1812,12 +1836,15 @@ $selectedDUser->getIncarichi();
 $band = ($prestavolto['iscriDiff'] >= '48') ? 'b0sw.png' : (($prestavolto['iscriDiff'] >= '36') ? 'b0s.png' : (($prestavolto['iscriDiff'] >= '24') ? 'b0k.png' : (($prestavolto['iscriDiff'] >= '12') ? 'b02.png' : (($prestavolto['iscriDiff'] >= '6') ? 'b003.png' : (($prestavolto['iscriDiff'] >= '3') ? 'b002.png' : 'b01.png')))));
 $subText = ($prestavolto['iscriDiff'] >= '48') ? 'Platinum' : (($prestavolto['iscriDiff'] >= '36') ? 'Gold' : (($prestavolto['iscriDiff'] >= '24') ? 'Silver' : (($prestavolto['iscriDiff'] >= '12') ? 'Bronze' : (($prestavolto['iscriDiff'] >= '6') ? 'Copper' : (($prestavolto['iscriDiff'] >= '3') ? 'Iron' : '')))));
 
-$resAchi = mysql_query("SELECT owner,aID,aImage,aText,aHidden,timer as rt FROM pg_achievements LEFT JOIN pg_achievement_assign ON aID = achi AND owner IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $selectedUser)) ORDER BY owner DESC,timer DESC,aHidden ASC,aImage ASC");
+$resAchi = mysql_query("SELECT owner,aID,aImage,aText,aHidden,category,timer as rt FROM pg_achievements LEFT JOIN pg_achievement_assign ON aID = achi AND owner IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $selectedUser)) ORDER BY owner DESC,timer DESC,aHidden ASC,aImage ASC");
 
 
 $achi=array();
 while($reseAchi = mysql_fetch_assoc($resAchi))
 {
+
+if(!array_key_exists($reseAchi['category'], $achi))
+	$achi[$reseAchi['category']] = array();
 
 if(isSet($reseAchi['owner'])) $text = $reseAchi['aText'];
 
@@ -1826,14 +1853,17 @@ else if(PG::mapPermissions('A',$currentUser->pgAuthOMA) && !$reseAchi['aHidden']
 
 else $text=($reseAchi['aHidden']) ? '** Segreto ** Sii il primo ad ottenerlo!' : $reseAchi['aText'];
 
-if (!array_key_exists($reseAchi['aID'], $achi) || ( array_key_exists($reseAchi['aID'], $achi) && ($reseAchi['rt'] < $achi[$reseAchi['aID']]['rt']) ))
-	$achi[$reseAchi['aID']] = array('owned'=>isSet($reseAchi['owner']),'ID'=>$reseAchi['aID'],'text'=>$text,'image'=>(isSet($reseAchi['owner'])) ? 'TEMPLATES/img/interface/personnelInterface/'.$reseAchi['aImage'] : 'TEMPLATES/img/interface/personnelInterface/bloccato_n.png','adminImage'=> (PG::mapPermissions("A",$currentUser->pgAuthOMA)) ? 'TEMPLATES/img/interface/personnelInterface/'.$reseAchi['aImage'] : '','rt'=>$reseAchi['rt'],'timer' => date("d/m/y",$reseAchi['rt']));
+if (!array_key_exists($reseAchi['aID'], $achi[$reseAchi['category']] ) || ( array_key_exists($reseAchi['aID'], $achi[$reseAchi['category']]) && ($reseAchi['rt'] < $achi[$reseAchi['category']][$reseAchi['aID']]['rt']) ))
+	$achi[$reseAchi['category']][$reseAchi['aID']] = array('owned'=>isSet($reseAchi['owner']),'ID'=>$reseAchi['aID'],'text'=>$text,'image'=>(isSet($reseAchi['owner'])) ? 'TEMPLATES/img/interface/personnelInterface/'.$reseAchi['aImage'] : 'TEMPLATES/img/interface/personnelInterface/bloccato_n.png','adminImage'=> (PG::mapPermissions("A",$currentUser->pgAuthOMA)) ? 'TEMPLATES/img/interface/personnelInterface/'.$reseAchi['aImage'] : '','rt'=>$reseAchi['rt'],'timer' => date("d/m/y",$reseAchi['rt']));
 }
 
 
 function cmp($a, $b) { if (!$a['owned'] && !$b['owned']) return -1; else return ($a['rt'] < $b['rt']);	}
-uasort($achi, 'cmp'); 
+foreach ($achi as $achiCat => $achiRecord)
+	uasort($achi[$achiCat], 'cmp'); 
 
+
+ksort($achi);
 $template->uniform = PG::getSomething($selectedUser,'uniform');
 
 

@@ -104,6 +104,14 @@ function editStory(storyID)
 	function getOthers(me,unit,year,pgid){
  
     utp='';
+    
+    eu='';
+    year.split('#').forEach( function(e) {u=e.split('-')[0]; if (u!='') eu+=u+'-';   }); 
+    eu=eu.substring(0,eu.length-1);
+    if (year.split('#').length > 1) jQuery('#year_specifier').html('nel periodo '+eu);
+    else jQuery('#year_specifier').html('nel '+eu);
+
+    
      jQuery.ajax(
           {
             url: 'ajax_getSSTO.php',

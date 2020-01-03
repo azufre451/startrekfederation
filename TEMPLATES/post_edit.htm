@@ -5,8 +5,8 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/cdb.css?v=1.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />	
 	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
@@ -198,7 +198,7 @@
 </tr>
 <tr>
 	<td>
-	<textarea name="postContent" id="postContent" rows="18" cols="85" style="font-family:Arial;" tal:content="editContent"></textarea>
+	<textarea name="postContent" id="postContent" rows="18" cols="85" style="width:680px; height:400px; font-family:Helvetica;" tal:content="editContent"></textarea>
 	</td>
 	<td style="vertical-align:top; text-align:center; vertical-align:middle;">
 		<input type="button" value="B" style="width:30px; margin-left:10px;" href="" onclick="bbstyle(0)" />

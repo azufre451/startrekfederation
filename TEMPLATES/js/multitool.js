@@ -92,6 +92,11 @@ jQuery(function(){
 	{
 		if(jQuery('#users').val() != '' && confirm('Sei sicuro di riassegnare il seclar a tutti i PG selezionati?')) jQuery.post('multitool.php?s=setSeclar', {listof: jQuery('#users').prop('value'), seclar: ida}, confirmer, 'json');
 	}
+	function setNastrin(ida,oda)
+	{
+		if(jQuery('#users').val() != '' && confirm('Sei sicuro assegnare la medaglia a tutti i PG selezionati?')) jQuery.post('multitool.php?s=addMedals', {listof: jQuery('#users').prop('value'), medal: ida, timer: oda}, confirmer, 'json');
+	}
+
 
 	function setPrestige(ida,oda)
 	{

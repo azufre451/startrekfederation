@@ -25,7 +25,7 @@ $gameOptions = array('numericVersion' => "1.8.621");
 $debug=true;
 $tips=true;
 
-$thisYear = 2019;
+$thisYear = 2020;
 $bounceYear = 379;
 
 

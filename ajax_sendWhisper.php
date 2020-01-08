@@ -106,6 +106,14 @@ include('includes/validate_class.php');
 		}
 		   
 
+	/*	if(strpos(strtolower($string), 'domanda') !== false && $chatTo == 1)
+		{
+		        $toUser = addslashes(PG::getSomething($_SESSION['pgID'],'username'));
+		    	$stringk = '<p class="susChat"><span class=\"susPrivate\">'.date('H:i',$time)."</span> <span class=\"susChatMPUserO\">Rezaei</span> <span style=\"color:$Col\"; class=\"susChatMPSeparator\">--&gt;</span>  <span class=\"susChatMPUserO\">$toUser:</span> <span class=\"susPrivate\">Certo $toUser, dimmi pure!</span></p>";
+		
+		    	mysql_query('INSERT INTO fed_sussurri (susFrom,susTo,time,chat,reade) VALUES(394,'.$_SESSION['pgID'].",$time,'$stringk',0)"); 
+		}*/
+		   
 
 		     
 		PG::updatePresence($_SESSION['pgID']);

@@ -321,9 +321,19 @@ a.interfaceLinkGreen:hover{color:#59cd61;}
 .interfaceLinkYellow{color:#FFCC00;}
 a.interfaceLinkYellow:hover{color:orange;}
 
-.internalCdbLink{color:#FFCC00;}
-.internalCdbLink::before{content:'[ ';}
-.internalCdbLink::after{content:' ]';}
+.internalCdbLink{
+	color:#FFCC00; 
+    text-decoration: underline;
+    line-height: 15px;
+}
+
+.internalCdbLink:hover{
+	color:#ffeb9a; 
+    text-decoration: underline;
+}
+
+.internalCdbLink::before{color:red; display:inline-block; vertical-align: middle; font-size:15px;  text-decoration:none; content:'〔 🢒'; margin-right:4px;}
+.internalCdbLink::after{color:red; display:inline-block;  vertical-align: middle; font-size:15px; text-decoration:none; content:'〕';}
 
 
 a.topic{font-size:12px; font-family:Helvetica;}

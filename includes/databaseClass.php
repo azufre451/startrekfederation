@@ -749,7 +749,7 @@ class PG
 		$myAssign = $this->pgAssign;
 
 
-		$rek=mysql_query("SELECT recID,incDipartimento,incDivisione,incSezione,incIncarico,incGroup,incMain,incActive,pgPlace,placeName FROM pg_incarichi,pg_places WHERE placeID = pgPlace AND pgID = $myID ORDER BY incMain DESC");
+		$rek=mysql_query("SELECT recID,incDipartimento,incDivisione,incSezione,incIncarico,incGroup,incMain,incActive,incHigh,pgPlace,placeName FROM pg_incarichi,pg_places WHERE placeID = pgPlace AND pgID = $myID ORDER BY incMain DESC");
 		while($rekA = mysql_fetch_assoc($rek))
 			$inca[] = $rekA;
 
@@ -975,17 +975,17 @@ class PG
 		mysql_query("UPDATE calendar_events SET 'sender' = 6 WHERE sender = '$pgID';");
 		mysql_query("UPDATE cdb_calls_comments SET 'owner' = 6 WHERE owner = '$pgID';");
 		mysql_query("UPDATE cdb_calls_results SET 'pgUser' = 6 WHERE pgUser = '$pgID';");
-		mysql_query("UPDATE cdb_posts SET 'owner' = 6 WHERE owner = '$pgID';");
-		mysql_query("UPDATE cdb_posts SET 'coOwner' = 6 WHERE coOwner = '$pgID';");
-		mysql_query("UPDATE cdb_topics SET 'topicLastUser' = 6 WHERE topicLastUser = '$pgID';");
-		mysql_query("UPDATE db_elements SET 'lvisit' = 6 WHERE lvisit = '$pgID';");
-		mysql_query("UPDATE federation_chat SET 'sender' = 6 WHERE sender = '$pgID';");
+		//mysql_query("UPDATE cdb_posts SET 'owner' = 6 WHERE owner = '$pgID';");
+		//mysql_query("UPDATE cdb_posts SET 'coOwner' = 6 WHERE coOwner = '$pgID';");
+		//mysql_query("UPDATE cdb_topics SET 'topicLastUser' = 6 WHERE topicLastUser = '$pgID';");
+		//mysql_query("UPDATE db_elements SET lvisit = 6 WHERE lvisit = '$pgID';");
+		mysql_query("UPDATE federation_chat SET sender = 6 WHERE sender = '$pgID';");
 		mysql_query("UPDATE federation_sessions SET 'sessionOwner' = 6 WHERE sessionOwner = '$pgID';");
-		mysql_query("UPDATE fed_pad SET 'paddFrom' = 6 WHERE paddFrom = '$pgID';");
-		mysql_query("UPDATE fed_pad SET 'paddTo' = 6 WHERE paddTo = '$pgID';");
-		mysql_query("UPDATE fed_sussurri SET 'susFrom' = 6 WHERE susFrom = '$pgID';");
-		mysql_query("UPDATE fed_sussurri SET 'susTo' = 6 WHERE susTo = '$pgID';");
-		mysql_query("UPDATE pg_notes SET 'owner' = 6 WHERE owner = '$pgID';");
+		//mysql_query("UPDATE fed_pad SET paddFrom = 6 WHERE paddFrom = '$pgID';");
+		//mysql_query("UPDATE fed_pad SET paddTo = 6 WHERE paddTo = '$pgID';");
+		//mysql_query("UPDATE fed_sussurri SET susFrom = 6 WHERE susFrom = '$pgID';"); 
+		//mysql_query("UPDATE fed_sussurri SET susTo = 6 WHERE susTo = '$pgID';");
+		mysql_query("UPDATE pg_notes SET owner = 6 WHERE owner = '$pgID';");
 		mysql_query("DELETE FROM cdb_posts_seclarExceptions WHERE pgID = '$pgID';");
 		mysql_query("DELETE FROM fed_ambient_auth WHERE pgID = '$pgID';");
 		mysql_query("DELETE FROM fed_food_replications WHERE user = '$pgID';");

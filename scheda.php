@@ -1358,7 +1358,15 @@ elseif ($mode == 'togglePrincIncarico'){
 	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
 		mysql_query("UPDATE pg_incarichi SET incMain = !incMain WHERE recID = '$recID'");
 	header("Location:scheda.php?pgID=$pgID&s=master#setIncarichi");
+}
 
+elseif ($mode == 'toggleHighIncarico'){
+
+	$recID = $vali->numberOnly($_GET['recID']);
+	$pgID = $vali->numberOnly($_GET['pgID']);
+	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
+		mysql_query("UPDATE pg_incarichi SET incHigh = !incHigh WHERE recID = '$recID'");
+	header("Location:scheda.php?pgID=$pgID&s=master#setIncarichi");
 }
 
 elseif ($mode == 'toggle_bavosize'){

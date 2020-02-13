@@ -16,11 +16,11 @@ Database::query('SET NAMES utf8');
 //$formats = array(".jpg",".png",".gif",".bmp");
 //$baseSite = "http://genesis.digital-destiny.org/SigmaSys/";
 
-$gameName = "v. 1.8.5 - Rampant Unicorn";
-$gameVersion = "1.8.5 - Rampant Unicorn";
+$gameName = "v. 1.8.6 - Triumphal Zebrafish";
+$gameVersion = "1.8.6 - Triumphal Zebrafish";
 //1.8 Rampant Unicorn
 
-$gameOptions = array('numericVersion' => "1.8.623");
+$gameOptions = array('numericVersion' => "1.8.626");
 
 $debug=true;
 $tips=true;

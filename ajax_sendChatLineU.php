@@ -139,8 +139,47 @@ include('includes/validate_class.php');
 
 		else if($string[0] == '%' && (PG::mapPermissions('M',PG::getOMA($_SESSION['pgID'])) || PG::isMasCapable($_SESSION['pgID'])))
 		{ 
-			$string = str_replace('%','',$string);
-			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'AUDIOE',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))"); 
+
+
+			if($string == "%%"){
+				mysql_query("DELETE FROM federation_chat WHERE ambient ='$amb' AND type = 'MPI'");
+				$string = '<div style="position:relative;" class="auxAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Messaggio di Servizio"/> Service </div>Multimedia ripuliti</div>'; 
+			
+				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'SPECIFIC')");
+				exit;
+			}
+
+			else{
+				$string = str_replace('%','',$string);
+				if(strpos($string,'youtube.com') !== false)
+				{
+					$actionType='MPI';
+					$epl=explode('v=',$string);
+					$stringToSend='YT|'.$epl[1];	
+				}
+
+				else if(strpos($string,'https://youtu.be/') !== false)
+				{
+					$actionType='MPI';
+					$epl=explode('youtu.be/',$string);
+					$stringToSend='YT|'.$epl[1];	
+				}
+
+				else if(strpos($string,'vimeo.com') !== false)
+				{
+					$actionType='MPI';
+					$epl=explode('vimeo.com/',$string);
+					$stringToSend='VM|'.$epl[1];	
+				}
+ 
+				else
+				{
+					$actionType='AUDIOE';
+					$stringToSend=$string;
+				}
+
+				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$stringToSend',".time().",'$actionType',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))"); 
+			}
 		}
 
 
@@ -254,27 +293,26 @@ include('includes/validate_class.php');
 			mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",".$_SESSION['pgID'].",'::special::achiev','L\'ho sentita.::Dieci punti a Serpeverde!',".time().",0,'TEMPLATES/img/interface/personnelInterface/$ima')");
 			}
 	
-		elseif($stringe == 'computer, che ore sono?')
+		elseif((strpos($stringe,'computer, che ore sono') !== false) or (strpos($stringe,'computer che ore sono') !== false))
 			{
 				$stringe = '<div style="position:relative;" class="auxAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Azione automatica di risposta ad un giocatore per aver consultato il computer di bordo o premuto un tasto automatizzato (luci, replicatori, biolettini etc.)." /> Comando Utente</div>Voce del Computer: &lt;Sono le ore '.date('H').', '.date('i').' minuti e '.date('s').' secondi&gt;</div>';  
 				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$stringe',".(time()+1).",'MASTER',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 			}
-			
-			elseif($stringe == 'computer, spegni le luci')
+			elseif((strpos($stringe,'computer, spegni le luci') !== false) or (strpos($stringe,'computer spegni le luci') !== false))
 			{
 				$stringe = '<div style="position:relative;" class="auxAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Azione automatica di risposta ad un giocatore per aver consultato il computer di bordo o premuto un tasto automatizzato (luci, replicatori, biolettini etc.)." /> Comando Utente</div>Le luci nella stanza si spengono</div>';  
 				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$stringe',".(time()+1).",'MASTER',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 				mysql_query("UPDATE fed_ambient SET ambientLight = 1 WHERE locID='$amb'");
 			}
 			
-			elseif($stringe == 'computer, accendi le luci')
+			elseif((strpos($stringe,'computer, accendi le luci') !== false) or (strpos($stringe,'computer accendi le luci') !== false))
 			{ 
 				$stringe = '<div style="position:relative;" class="auxAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Azione automatica di risposta ad un giocatore per aver consultato il computer di bordo o premuto un tasto automatizzato (luci, replicatori, biolettini etc.)." /> Comando Utente</div>Le luci nella stanza si accendono</div>';  
 				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$stringe',".(time()+1).",'MASTER',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 				mysql_query("UPDATE fed_ambient SET ambientLight = 5 WHERE locID='$amb'");
 			}
-			
-			elseif($stringe == 'computer, abbassa le luci')
+	
+			elseif((strpos($stringe,'computer, abbassa le luci') !== false) or (strpos($stringe,'computer abbassa le luci') !== false))
 			{
 				$stringe = '<div style="position:relative;" class="auxAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Azione automatica di risposta ad un giocatore per aver consultato il computer di bordo o premuto un tasto automatizzato (luci, replicatori, biolettini etc.)." /> Comando Utente</div>Le luci nella stanza si abbassano di intensit&agrave;</div>'; 
 				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$stringe',".(time()+1).",'MASTER',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");

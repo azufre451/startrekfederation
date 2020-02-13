@@ -246,7 +246,7 @@ Template: <select type="text" class="neon" name="alloType"><optgroup tal:repeat=
 				<td class="csp" tal:content="inca/incDipartimento">Dipartimento</td>
 				<td class="csp" tal:content="inca/incGroup">Dipartimento</td>
 				<td class="csp" tal:content="inca/incIncarico">Incarico</td>
-				<td style="width:60px;">
+				<td style="width:80px;">
 					<a tal:attributes="href string:scheda.php?s=delIncarico&pgID=${userData/ID}&recID=${inca/recID}"><img src="TEMPLATES/img/interface/delete.png" /></a>
 
 					<a tal:attributes="href string:scheda.php?s=togglePrincIncarico&pgID=${userData/ID}&recID=${inca/recID}">
@@ -256,6 +256,10 @@ Template: <select type="text" class="neon" name="alloType"><optgroup tal:repeat=
 					<a tal:attributes="href string:scheda.php?s=toggleActIncarico&pgID=${userData/ID}&recID=${inca/recID}">
 						<img src="TEMPLATES/img/interface/no_access.png" tal:condition="php:(inca['incActive'])" title="Disattiva / Rendi invisibile" />
 						<img src="TEMPLATES/img/interface/ok_access.png" tal:condition="php:(!inca['incActive'])" title="Attiva / Rendi visibile" />
+					</a>
+					<a tal:attributes="href string:scheda.php?s=toggleHighIncarico&pgID=${userData/ID}&recID=${inca/recID}">
+						<img src="TEMPLATES/img/interface/important_off.png" tal:condition="php:(!inca['incHigh'])" title="Rendi Incarico Rilevante" />
+						<img src="TEMPLATES/img/interface/important_on.png" tal:condition="php:(inca['incHigh'])" title="Rendi Incarico Irrilevante" />
 					</a>
 				</td>
 			</tr>

@@ -50,12 +50,21 @@ $diceOutcomes= array();
 //$masterCondition = '';
 $chatLines = mysql_query("SELECT IDE,chat,sender,time,type,dicerOutcome,dicerAbil,dicerThr FROM federation_chat WHERE ambient = '$ambient' AND IDE > $last AND time > $maxTime AND (type <> 'SPECIFIC' OR sender = ".$_SESSION['pgID'].") $adminCondition ORDER BY time ASC");
 $htmlLiner='';
+
+$mpi=array();
+
  $MAX = 0;
  $lastTime=0;
 
 while($chatLi = mysql_fetch_array($chatLines)){
-	if($chatLi['type'] != 'AUDIO' && $chatLi['type'] != 'AUDIOE') $htmlLiner .= $chatLi['chat'];
+	if($chatLi['type'] != 'AUDIO' && $chatLi['type'] != 'AUDIOE' && $chatLi['type'] != 'MPI') $htmlLiner .= $chatLi['chat'];
 	else if($getAudio && ($chatLi['type'] == 'AUDIO' || $chatLi['type'] == 'AUDIOE')) $htmlLiner .= "<script>playSound('".$chatLi['chat']."','".(($chatLi['type'] == 'AUDIOE') ? 'extern' : '')."');</script>";
+	else if($chatLi['type'] == 'MPI')
+		{
+			$rtp=explode('|',$chatLi['chat']);
+			$mpi[] = array('type'=>$rtp[0],'ref'=> $rtp[1]); 
+		}
+
 	if ($chatLi['IDE'] > $MAX) 	$MAX = $chatLi['IDE'];
 
 	if ($chatLi['time'] > $lastTime && $chatLi['sender'] != $_SESSION['pgID']) $lastTime = $chatLi['time'];
@@ -80,6 +89,7 @@ if($notifications){ $aar['NPR'] = $notifications;}
 
 $aar['DICER'] = $diceOutcomes; 
 $aar['CH'] = $htmlLiner;
+$aar['MPI'] = $mpi;
 $aar['LCH'] = $MAX;
 $aar['LCT'] = $lastTime;
 echo json_encode($aar);

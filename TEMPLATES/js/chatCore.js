@@ -277,7 +277,7 @@
 				if (document.getElementById('audioNotify')) document.getElementById('audioNotify').play();
 
 			}
-			
+
 			if(data['LCT']){ 
 				jQuery('#lastTime').val(data['LCT']);
 			}
@@ -389,6 +389,30 @@
 			if(data['COLOR']){
 				jQuery('#lightBar').css('background-color',data['COLOR']);
 				jQuery('#lightBar').css('box-shadow','0 0 5px '+data['COLOR']);
+			}
+
+			if(data['MPI'].length){
+ 				jQuery('#MPIbtn').fadeIn().addClass('btnnotify').removeClass('btnactive btnon');
+
+				if(jQuery('#lastID').prop('value') != data['LCH'])
+				{
+				if(jQuery('#initialID').val() == 0){
+					jQuery('#initialID').val(data['LCH']);
+					jQuery('#loggerbtn').show();
+				} 
+				jQuery('#lastID').prop('value',data['LCH']);
+				jQuery('#lastTime').prop('value',data['LCT']); 
+				
+					data['MPI'].forEach(function(v,k){
+
+						type=v['type'];
+						eref=v['ref']; 
+						if (type == 'YT')
+							jQuery('#multimediaInner').append( '<div><iframe style="width:100%;" src="https://www.youtube-nocookie.com/embed/'+eref+'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe></div>');
+						else if( type == 'VM')
+							jQuery('#multimediaInner').append( '<div style="padding:52.81% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/'+eref+'?color=ffffff&title=0&byline=0&portrait=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen" allowfullscreen="allowfullscreen"></iframe><script src="https://player.vimeo.com/api/player.js"></script></div>');
+					});
+				}
 			}
 
 			if("DICER" in data && data['DICER'].length > 0){

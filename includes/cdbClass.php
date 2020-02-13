@@ -190,7 +190,7 @@ class CDB
 	"<span class=\"cdbPostYellow\">","<span class=\"cdbPostWhite\">",
 	"<span class=\"cdbPostGreen\">","<span class=\"cdbPostGray\">",
 	"<span class=\"cdbPostLittleSize\">","<span class=\"cdbPostNormalSize\">",
-	"<span class=\"cdbPostBigSize\">","</span>","</span>","<img src=\"","\"/>","<a target=\"_blank\" class=\"interfaceLink\" href=\"","\">LINK</a>",'script','script','<script','</script>','<p class="quoter">','</p>','<span class="obrindApproval">OK</span>');
+	"<span class=\"cdbPostBigSize\">","</span>","</span>","<img src=\"","\"/>","<a target=\"_blank\" class=\"interfaceLink\" href=\"","\">LINK</a>",'script','script','<script','</script>','<div class="quoter">','</div>','<span class="obrindApproval">OK</span>');
 
 	if ($newline_char != NULL){
 		$bbCode[]=$newline_char;

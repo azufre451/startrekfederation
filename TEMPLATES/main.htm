@@ -199,7 +199,7 @@ var myImg = "https://unsplash.it/600/600?image=777";
 					
 					
 					<span tal:content="structure event/event" style="font-size:13px; vertical-align:middle;" />
-					<span tal:content="string:[${event/pgUser}]" style="font-size:11px; color:#AAA;" />
+					<span tal:content="string:[${event/pgUser}]" style="font-size:11px; text-transform: uppercase; color:#AAA;" />
 				</td>
 				<td>
 					<span href="javascript:void(0);" tal:attributes="class php:((event['ipar']) ? 'participationNo': 'participationYes'); title php:((event['ipar']) ? 'Annulla partecipazione': 'Conferma partecipazione'); onclick string:javascript:toggleMyPresence(${event/evID}) ; id string:participationMark_${event/evID}" />

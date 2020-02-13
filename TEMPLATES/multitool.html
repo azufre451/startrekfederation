@@ -207,10 +207,10 @@
 		 
 
 		<div id="valedictorians"  style="display:none; border:1px solid orange; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:left;">
-				<table>
+				<table tal:repeat="assigneegroup valedictsAssignee">
 				
 					<tr style="background-color:#444; font-weight:bold;"> <td style="width:30px;"> Medaglia </td> <td> PG </td> <td> Assegnata nell'Anno </td></tr>
-					<tr tal:repeat="assignee valedictsAssignee">
+					<tr tal:repeat="assignee assigneegroup">
 						<td>
 							<img tal:attributes="src string:TEMPLATES/img/ruolini/medaglie/${assignee/medImage} ; title assignee/medName" class="tooltip" style="margin-left:2px; margin-top:2px;" />
 						</td>

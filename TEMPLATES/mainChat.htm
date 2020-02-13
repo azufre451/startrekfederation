@@ -128,8 +128,32 @@
 	
 
 	<a href="javascript:statusBoxOpen();"><div id="btnStatus" tal:attributes="class php:(incomingNoti == true) ? 'notify' : ''"/></a>
+ 
+	<!--<div id="MPIbtn"  tal:attributes="class php:((count(mpi)) ? 'mpi btnon' : 'mpi btnoff' )" onclick="jQuery('#lateralMPI').toggle('blind',{ direction: 'right' } );" /> -->
 
+
+	<div id="lateralMPI"  class="popup blackOpacity" style="" >
+			<div tal:condition="php:(ambient['ambientAudio']) != ''" style="text-align:center;">
+				<p style="font-family: FederationFont; font-size:22px; margin-top:5px; margin-bottom:5px; text-align: center" > AUDIO AMBIENTE </p>
+				<audio id="loopAu" controls="true" loop="loop" preload="none" tal:attributes="autoplay php:(user.audioEnvEnable) ? 'autoplay' : NULL">
+					<source tal:attributes="src string:https://nick.startrekfederation.it/audioBase/${ambient/ambientAudio}.ogg" type="audio/ogg" />
+					<source tal:attributes="src string:https://nick.startrekfederation.it/audioBase/${ambient/ambientAudio}.mp3" type="audio/mpeg" />
+				</audio>
+			</div>
+
+
+
+			<p style="font-family: FederationFont; font-size:22px; margin-top:5px; margin-bottom:5px; text-align: center" > MULTIMEDIA </p>
+			<div style="width:95%; margin:auto;" id="multimediaInner">
+				<div tal:repeat="mpiEntry mpi">
+					<iframe tal:condition="php:(mpiEntry['type'] == 'YT')" style="width:100%;" tal:attributes="src string:https://www.youtube-nocookie.com/embed/${mpiEntry/ref}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe>
+					<div tal:condition="php:(mpiEntry['type'] == 'VM')"  style="padding:52.81% 0 0 0;position:relative;"><iframe tal:attributes="src string:https://player.vimeo.com/video/${mpiEntry/ref}?color=ffffff&title=0&byline=0&portrait=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen" allowfullscreen="allowfullscreen"></iframe><script src="https://player.vimeo.com/api/player.js"></script></div>
+				 
+				</div>	
+			</div>
+	</div>
 	<div id="federation_chatDiv" style="padding:10px;" tal:content="structure htmlLiner">
+
 		<div style="margin-left:10px; width:100%; height:20px; border:1px solid #333;"></div>
 	</div>
 	<div id="chatBar"> 
@@ -170,7 +194,15 @@
 				<a tal:condition="php:(ambient['ambientType']=='PLANCIA')" href='javascript:void(0);'  onclick="javascript:jQuery('#commsub').fadeIn(200);"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_comm.png" title="Comunicazioni Subspaziali" style="vertical-align:middle;"/></a>
 				<a tal:condition="php:(ambient['ambientType']=='HANGAR')" tal:attributes="href string:hangar.php?of=${ambient/ambientLocation}"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_shut.png" title="Accedi alle navette" style="vertical-align:middle;"/></a>
 				<a tal:condition="php:(ambient['ambientType']=='SALA_TEL' || ambient['ambientType']=='INFERMERIA' || ambient['ambientType']=='PLANCIA')" href='javascript:void(0);'  onclick="javascript:jQuery('#teleportPanel').fadeIn(200);"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_tt.png" title="Teletrasporto" style="vertical-align:middle;"/></a>
-				<a tal:condition="php:(ambient['ambientAudio']) != ''" href='javascript:void(0);' onclick="javascript:toggleAudio();"><img id="audioControl" class="imaLer" tal:attributes="src php:(user.audioEnvEnable) ? 'TEMPLATES/img/interface/mainInterface/icon_audio.png' : 'TEMPLATES/img/interface/mainInterface/icon_audio_off.png' ; title php:(user.audioEnvEnable) ? 'Disabilita Audio' : 'Abilita Audio'" style="vertical-align:middle;"/></a>
+
+
+				<!--<a tal:condition="php:(ambient['ambientAudio']) != ''" href='javascript:void(0);' onclick="javascript:toggleAudio();"><img id="audioControl" class="imaLer" tal:attributes="src php:(user.audioEnvEnable) ? 'TEMPLATES/img/interface/mainInterface/icon_audio.png' : 'TEMPLATES/img/interface/mainInterface/icon_audio_off.png' ; title php:(user.audioEnvEnable) ? 'Disabilita Audio' : 'Abilita Audio'" style="vertical-align:middle;"/></a>-->
+				
+
+				<a href='javascript:void(0);' onclick="javascript:toggleMPI()" id="MPIbtn" tal:attributes="class php:((count(mpi) ||  ( ambient['ambientAudio'] != '' && user.audioEnvEnable) ) ? 'mpi btnnotify' : ( ambient['ambientAudio'] != '' ? 'mpi btnon' : 'mpi btnhidden') )" ><img id="audioControl" class="imaLer" src='TEMPLATES/img/interface/mainInterface/icon_audio_off.png' title="Multimedia" style="vertical-align:middle;"/></a>
+
+ 
+
 				<a tal:condition="php:(ambient['ambientType']) == 'SALA_OLO' && leastOlo" href='javascript:void(0);' onclick="javascript:showRanker();"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_mostrine.png" title="Olomostrine" style="vertical-align:middle;"/></a>
 				<a tal:condition="php:(ambient['ambientType']) == 'INFERMERIA'" href='javascript:void(0);' onclick="javascript:toggleBiobed();"><img id="biobedControlImage" class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_med.png" title="Avvia la Scansione con il Bioletto" style="vertical-align:middle;"/></a> <input type="hidden" id="biobedMode" value="0" />
 
@@ -345,10 +377,6 @@
 <source id="au2" src="" type="audio/mpeg" />
 </audio>
 
-<audio id="loopAu" loop="loop" preload="none" tal:condition="php:(ambient['ambientAudio']) != ''" tal:attributes="autoplay php:(user.audioEnvEnable) ? 'autoplay' : NULL">
-<source tal:attributes="src string:https://keon.startrekfederation.it/audioBase/${ambient/ambientAudio}.ogg" type="audio/ogg" />
-<source tal:attributes="src string:https://keon.startrekfederation.it/audioBase/${ambient/ambientAudio}.mp3" type="audio/mpeg" />
-</audio>
 
 </body>
 </html>

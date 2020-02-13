@@ -498,7 +498,7 @@ text-align:center;
 border:1px solid #555;
 background-color:rgba(0,0,0);
 background-color:rgba(0,0,0,0.85);
-font-family:Verdana;
+font-family:Helvetica;
 filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#D8000000,endColorstr=#D8000000);
 }
 
@@ -802,8 +802,31 @@ border-right-style:solid;
 
 .imageAction{text-align:center; margin:5px;}
 .imageAction img {border:0px; max-height:250px; border:1px solid #3188F3; padding:5px;}
-.imaLer:hover{border:1px solid #ff9900;}
+.imaLer:hover, #MPIbtn.btnactive img.imaLer{border:1px solid #ff9900;}
+
+#MPIbtn.btnnotify img.imaLer{border:1px solid red;}
+
+
 .imaLer{border:1px solid black;}
+
+#MPIbtn.btnon,#MPIbtn.btnactive,#MPIbtn.btnnotify {display:inline-block;}
+
+#MPIbtn.btnhidden{display:none;}
+
+#lateralMPI{
+	position: absolute;
+	left:auto; z-index: 4;
+	border: 1px solid #ff9900;
+	right: 130px;
+	top: 50px;
+	bottom: 100px;
+	width: 400px;
+	display: none;
+	overflow-y: auto;
+    border-radius: 20px 0px 0px 20px
+} 
+#multimediaInner div {border-bottom:1px solid #555; padding-bottom:10px; }
+
 .blackOpacity img {vertical-align:middle;}
 
 .directiveRemove{display:none;}

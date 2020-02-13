@@ -10,6 +10,7 @@ $dateLE = $date-2678400;
 
 $oneMonth = $date - (30*24*60*60);
 $twoMonth = $date - (2*30*24*60*60);
+$sixMonth = $date - (6*30*24*60*60);
 
 $eightMonth = $date - (8*30*24*60*60);
 
@@ -79,7 +80,7 @@ if ($tolist)
 // BAVOSIZZAZIONI
 
 
-$res= mysql_query("SELECT pgID FROM pg_users, federation_chat WHERE sender = pgID AND pgAuthOMA NOT IN ('BAN','A','M','G','SM') AND png = 0 AND pgBavo=0 GROUP BY pgID HAVING MAX(time) < $oneMonth");
+$res= mysql_query("(SELECT pg_users.pgID FROM pg_users JOIN federation_chat ON sender = pgID JOIN pg_incarichi ON pg_incarichi.pgID = pg_users.pgID WHERE incHigh = 1 AND pgAuthOMA NOT IN ('BAN','A','M','G','SM') AND png = 0 AND pgBavo=0 GROUP BY pg_users.pgID HAVING MAX(time) < $oneMonth) UNION (SELECT pg_users.pgID FROM pg_users JOIN federation_chat ON sender = pgID JOIN pg_incarichi ON pg_incarichi.pgID = pg_users.pgID WHERE incHigh = 0 AND pgAuthOMA NOT IN ('BAN','A','M','G','SM') AND png = 0 AND pgBavo=0 GROUP BY pg_users.pgID HAVING MAX(time) < $threeMonth)");
 $SITAbavo = "";
 $tabavosize = 0; 
 
@@ -92,25 +93,25 @@ while($ra = mysql_fetch_array($res))
 }
 
 if ($tabavosize)
-	$SITA .= "> Bavosizzo <span style=\"font-weight:bold;color:#096bd0\">$tabavosize</span> PG inattivi (non giocanti in ON) da più di UN mese:<p style=\"margin:15px;\">$SITAbavo<br /><br />";
+	$SITA .= "> Bavosizzo <span style=\"font-weight:bold;color:#096bd0\">$tabavosize</span> PG inattivi (non giocanti in ON) da un po':<p style=\"margin:15px;\">$SITAbavo<br /><br />";
 
 
 
 
-$res= mysql_query("SELECT pgID FROM pg_users, federation_chat WHERE sender = pgID AND pgAuthOMA <> 'BAN' AND png = 0 AND pgBavo=1 GROUP BY pgID HAVING MAX(time) < $twoMonth");
+$res= mysql_query("SELECT pgID FROM pg_users, federation_chat WHERE sender = pgID AND pgAuthOMA <> 'BAN' AND png = 0 AND pgBavo=1 GROUP BY pgID HAVING MAX(time) < $sixMonth");
 $SITAcanc = "";
 $tadelete = 0; 
 
 while($ra = mysql_fetch_array($res))
 {
 	$tdelete = new PG($ra['pgID']);
-	/*$tdelete->delete();*/
+	$tdelete->delete();
 	$tadelete+=1;
 	$SITAcanc .= '<a onclick="javascript:schedaPOpen('.$tdelete->ID.');" style="font-weight:bold;" class="interfaceLink" href="#">'.$tdelete->pgUser.'</a> (inattivo dal '.date('d-m-y',$tdelete->pgLastAct).')<br />';
 }
 
 if ($tadelete)
-	$SITA .= "> Dovrei cancellare questi <span style=\"font-weight:bold;color:#096bd0\">$tadelete</span> PG inattivi e bavosizzati da più di DUE mesi:<p style=\"margin:15px;\">$SITAcanc<br /> Ma ho deciso di prendermi le ferie arretrate degli ultimi 3 anni.";
+	$SITA .= "> Cancello questi <span style=\"font-weight:bold;color:#096bd0\">$tadelete</span> PG inattivi e bavosizzati da più di SEI mesi:<p style=\"margin:15px;\">$SITAcanc<br />.";
 
 
 
@@ -118,7 +119,7 @@ $res = mysql_query("SELECT pgID,pgUser, COUNT(*) as L FROM pg_users,cdb_posts WH
 
 $SITALIST = "";
 $tolist = 0; 
-
+/*
 while($ra = mysql_fetch_array($res))
 {
 	$tolist+=1;
@@ -155,6 +156,7 @@ while($ra = mysql_fetch_array($res))
 if ($tolist)
 	$SITA .= "> Ci sono <span style=\"font-weight:bold;color:#096bd0\">$tolist</span> PG che meritano l'achievement \"Per il Ruolino\":<p style=\"margin:15px;\">$SITALIST</p><br />";
 
+*/
 
 $ra1 = mysql_query("SELECT * FROM federation_sessions WHERE sessionStart > $twentyfourhours");
 $session24 = mysql_affected_rows();

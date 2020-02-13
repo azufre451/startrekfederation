@@ -28,6 +28,32 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 		 jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv"+vare).fadeIn('fast');
 	}
 	
+	function toggleMPI()
+	{
+		
+
+		if( jQuery('#MPIbtn').hasClass('btnon'))
+		{
+		 jQuery('#MPIbtn').removeClass('btnon').addClass('btnactive');
+		 jQuery('#lateralMPI').show('blind',{ direction: 'right' });
+		 jQuery('#audioControl').attr('src','TEMPLATES/img/interface/mainInterface/icon_audio.png');
+		}
+
+		else if( jQuery('#MPIbtn').hasClass('btnnotify'))
+		{
+		 jQuery('#MPIbtn').removeClass('btnnotify').addClass('btnactive');
+		 jQuery('#lateralMPI').show('blind',{ direction: 'right' });
+		 jQuery('#audioControl').attr('src','TEMPLATES/img/interface/mainInterface/icon_audio.png');
+		}
+		else{
+			jQuery('#MPIbtn').removeClass('btnactive').addClass('btnon');
+			jQuery('#lateralMPI').hide('blind',{ direction: 'right' });
+
+			jQuery('#audioControl').attr('src','TEMPLATES/img/interface/mainInterface/icon_audio_off.png');
+
+		}
+	}
+	
 	function toggleAudio()
 	{
 		if(jQuery('#audioControl').attr('src') == 'TEMPLATES/img/interface/mainInterface/icon_audio.png') 

@@ -269,7 +269,7 @@ else if(isSet($_GET['callVote']))
 	$userID = $_SESSION['pgID'];
 	$user = new PG($_SESSION['pgID']);
 	
-	if($user->png || $user->pgLock || $user->pgAuthOMA == 'BAN' || $user->pgAssign=="BAVO"){header('Location:cdb.php?callView='.$call); exit;}
+	if($user->png || $user->pgLock || $user->pgAuthOMA == 'BAN' || $user->pgBavo){header('Location:cdb.php?callView='.$call); exit;}
 	
 	$re = mysql_query("SELECT 1 FROM cdb_calls,cdb_calls_comments WHERE call_id = callID AND owner = $userID AND activeTo >= ".time());
 	
@@ -407,8 +407,8 @@ else if(isSet($_GET['dia']))
 }
 
 else if (isSet($_GET['addPost']))
-{ 
-	if($currentUser->pgLock || $currentUser->pgAssign=="BAVO"){exit;}
+{
+	if($currentUser->pgLock || $currentUser->pgBavo){exit;}
 	
 	$title = $vali->killChars(addslashes($_POST['postTitolo']));
 	$seclar = $vali->numberOnly($_POST['postSeclar']);
@@ -424,9 +424,6 @@ else if (isSet($_GET['addPost']))
 		$maxReqSeclar=$seclar;
 	}
 	
-
-
-
 
 	$topicCode = $vali->numberOnly($_POST['topicID']);
 	$notes = $vali->killChars(addslashes($_POST['postNote']));

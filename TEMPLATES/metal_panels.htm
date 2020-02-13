@@ -333,11 +333,11 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 			<select placeholder="Tutti" id="maxturner" class="neon" name="maxturner">
 				<option tal:condition="exists:isMasteringJuniorMasterOrMod" value="0"> Infinita </option>
 				<option tal:condition="exists:isMasteringJuniorMasterOrMod" value="3"> 3 Minuti </option>
-				<option tal:condition="exists:isMasteringJuniorMasterOrMod" value="4"> 4 Minuti </option>
+				<option value="4"> 4 Minuti </option>
 				<option value="5"> 5 Minuti </option>
-				<option value="6"> 6 Minuti </option>
+				<option value="6" selected="selected"> 6 Minuti </option>
 				<option value="7"> 7 Minuti </option>
-				<option value="8" selected="selected"> 8 Minuti </option>
+				<option value="8"> 8 Minuti </option>
 				<option value="9"> 9 Minuti </option>
 				<option value="10"> 10 Minuti </option>
 			</select>

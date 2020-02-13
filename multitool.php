@@ -997,7 +997,11 @@ $template->prestigioLabels = $prestigioLabels;
 	$valedictsAssignee=array();
 	$valedicts = mysql_query("SELECT dotazioneAlt,pgUser,ordinaryUniform,medName,medImage,pg_users.pgID as pgID,pgSesso,pgSpecie FROM pgDotazioni,pg_medals,pg_users,pg_ranks WHERE pg_users.pgID = pgDotazioni.pgID AND prio = rankCode AND medID = dotazioneIcon AND medID IN (27,72) AND doatazioneType = 'MEDAL' ORDER BY dotazioneAlt");
 	while($res = mysql_fetch_assoc($valedicts))
-		$valedictsAssignee[] = $res;
+		{
+			if (!array_key_exists($res['medName'], $valedictsAssignee))
+				$valedictsAssignee[$res['medName']] = array();
+			$valedictsAssignee[$res['medName']][] = $res;
+		}
 
 	$template->valedictsAssignee = $valedictsAssignee;
 

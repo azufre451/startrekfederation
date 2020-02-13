@@ -123,15 +123,18 @@ input, select, textarea, button
 
 .postContent p{margin:0px;}
 
-.postContent p.quoter{
-	margin:5px 25px;
+.postContent div.quoter{
 
-	border-left:2px solid #666;
-	padding-left:10px;
-	padding-top: 15px;
-	padding-bottom:15px;
+	width:95%;
+
+	margin:15px auto;
+	display:block;
+
+	border-left:2px solid #0077c3;
+	background-color: #111111;
+	padding:10px;
 }
-
+/*
 .postContent p.quoter:before{
 	content:'"'; 
 	text-decoration: italic;
@@ -146,7 +149,7 @@ input, select, textarea, button
 	position: relative;
 	bottom:-15px;
 	right:0px;
-}
+}*/
 
 .signature
 {

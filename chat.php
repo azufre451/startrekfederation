@@ -176,10 +176,12 @@ $chatLines = mysql_query("SELECT IDE,chat,time,type,privateAction,dicerAbil,dice
 
 $diceOutcomes = array();
 $htmlLiner=''; $MAX = 0; $lastTime = 0;
+$mpi=array(); 
 while($chatLi = mysql_fetch_array($chatLines))
 {
-	if($chatLi['type'] != 'AUDIO' && $chatLi['type'] != 'AUDIOE' && $chatLi['type'] != 'SERVICE' && !$chatLi['privateAction']) $htmlLiner .= $chatLi['chat'];
-	
+	if($chatLi['type'] != 'AUDIO' && $chatLi['type'] != 'AUDIOE' && $chatLi['type'] != 'SERVICE' && $chatLi['type'] != 'MPI' && !$chatLi['privateAction']) $htmlLiner .= $chatLi['chat'];
+	elseif($chatLi['type'] == 'MPI'){ $rtp=explode('|',$chatLi['chat']); $mpi[] = array('type'=>$rtp[0],'ref'=> $rtp[1]); }
+
 	if(!isSet($minID)) $minID = $chatLi['IDE'];
 	if($chatLi['IDE'] > $MAX) $MAX = $chatLi['IDE'];
 	if($chatLi['time'] > $lastTime && $chatLi['sender'] != $_SESSION['pgID']) $lastTime = $chatLi['time'];
@@ -202,6 +204,7 @@ while($chatLi = mysql_fetch_array($chatLines))
 $template->gameOptions = $gameOptions;
 $template->diceEvents = $diceOutcomes; 
 $template->htmlLiner = $htmlLiner;
+$template->mpi = $mpi;
 //echo $htmlLiner;exit;
 $template->maxVIS = $MAX;
 $template->lastTime = $lastTime;

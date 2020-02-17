@@ -462,6 +462,42 @@ if($mode == 'delete' || $mode == 'bavosize')
 
 }
 
+if($mode == 'group')
+{
+	if (!PG::mapPermissions('A',$currentUser->pgAuthOMA)) exit;
+
+	$sel=explode(',',$_POST['listof']);
+	
+	$last=NULL;
+	$affectedList=array();
+	$minIscriDate=$curTime;
+
+	foreach ($sel as $auth)
+		{
+			$auth = addslashes(trim($auth));
+			if($auth!='')
+			{
+				$myco =  mysql_fetch_assoc(mysql_query("SELECT pgID,iscriDate FROM pg_users WHERE pgUser = '$auth' LIMIT 1"));
+				$minIscriDate = min($myco['iscriDate'],$minIscriDate);
+				$affectedList[] = $myco['pgID'];
+			}
+		}
+	 
+	$affectedListStr=implode(",",$affectedList);
+	$mainPGID=end($affectedList);
+
+	mysql_query("UPDATE pg_users SET mainPG = '$mainPGID', pgType = 'DOPPIO' WHERE pgID IN ($affectedListStr) AND pgID <> '$mainPGID'");
+	mysql_query("UPDATE pg_users SET mainPG = '$mainPGID', pgType = 'MAIN' WHERE pgID = '$mainPGID'");
+
+
+ 	if(!mysql_error())
+		echo json_encode(array('stat'=>true));
+
+	exit;
+
+}
+
+
 if($mode == "setIncarico")
 {
 	if (!PG::mapPermissions('SM',$currentUser->pgAuthOMA)) exit;

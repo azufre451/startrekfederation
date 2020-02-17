@@ -83,6 +83,12 @@ jQuery(function(){
 	{
 		if(jQuery('#users').val() != '' && confirm('Sei sicuro di Cancellare tutti i PG selezionati?')) jQuery.post('multitool.php?s=delete', {listof: jQuery('#users').prop('value')}, confirmer, 'json');
 	}
+
+
+	function groupList()
+	{
+		if(jQuery('#users').val() != '' && confirm('Questo comando unificherà i record OFF (data iscrizione e achievement) dei PG selezionati. L\'utility imposterà come PG principale l\'ultimo PG della lista. Tutti gli altri saranno contrassegnati come doppi')) jQuery.post('multitool.php?s=group', {listof: jQuery('#users').prop('value')}, confirmer, 'json');
+	}
 	function bavoList()
 	{
 		if(jQuery('#users').val() != '' && confirm('Saranno tutti dei vermi verminosi e bavosi! Confermi?')) jQuery.post('multitool.php?s=bavosize', {listof: jQuery('#users').prop('value')}, confirmer, 'json');

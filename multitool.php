@@ -827,15 +827,15 @@ elseif($code == "aa11"){$p=$vali->numberOnly($_POST['points']);$little="Q00";$me
 		
 	}
 	
-	echo json_encode(array('stat'=>true)); exit;
+	echo json_encode(array('stat'=>true )); exit;
 	
 	//echo "UPDATE pg_users SET pgLock=1 WHERE pgUser IN ($lisOuser)"; exit;
 }
 
-if($mode == "insertionForm")
+/*if($mode == "insertionForm")
 {
 	$template = new PHPTAL('TEMPLATES/shadow_scheda_master_insert.htm');
-}
+}*/
 
 if($mode == "setUnlock")
 {

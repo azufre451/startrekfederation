@@ -337,6 +337,9 @@ class abilDescriptor
 	public function superImposeRace($race)
 	{  
 
+
+
+
 		$t['Umana']= array(	array(38,0),array(31,1) );
 		$t['Vulcaniana']=  array(array(60,2),array(59,1),array(61,1),array(56,0));
 		$t['Betazoide'] = array(array(61,2),array(20,0),array(60,2));
@@ -348,6 +351,7 @@ class abilDescriptor
 		$t['Caitiana'] = array(array(10,1),array(12,3),array(21,2));
 		$t['Koyar'] = array(array(60,2),array(61,1),array(12,2),array(11,1),array(21,0));
 		$t['Xenita'] = array(array(12,1),array(21,2),array(52,1),array(56,1));
+		$t['Tellarita'] = array(array(35,2),array(13,2),array(8,2),array(22,1),array(34,2),array(21,2),array(33,1));
 		
 		$r['Vulcaniana']=  array(array('WP',1),array('HT',1)); // 11 + 15 = 26 (79)
 		$r['Betazoide'] = array(array('HT',-1),array('WP',2)); // -3 +11+16 = 24 (79)
@@ -359,6 +363,7 @@ class abilDescriptor
  		$r['Caitiana'] = array(array('DX',1),array('PE',2),array('HT',-2)); // (85)
  		$r['Koyar'] = array(array('HT',-1),array('DX',+1),array('WP',+2));
  		$r['Xenita'] = array(array('IQ',-2),array('DX',+1),array('WP',+1),array('PE',+2));
+ 		$r['Tellarita'] = array(array('DX',-2),array('HT',+1));
 
 		/*foreach ($r as $ke => $va){
 			echo $ke.'<br />';

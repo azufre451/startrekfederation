@@ -18,6 +18,8 @@ $threeMonth = $date - (3*30*24*60*60);
 $thrsixhours = $date - (36*60*60);
 
 $twentyfourhours = $date - (24*60*60);
+//$ = $date - (24*60*60*20);
+$twentydays = $date - (24*60*60*20);
 
 $twoWeeks = $date - 1209600;
 $oneWeek = $date - 604800;
@@ -115,48 +117,26 @@ if ($tadelete)
 
 
 
+$res= mysql_query("SELECT pgID FROM pg_users WHERE pgAuthOMA <> 'BAN' AND png = 0 AND pgPoints < 30 AND pgLastAct < $twentydays");
+$INACTIVECANC = "";
+$tadadelete = 0; 
+
+while($ra = mysql_fetch_array($res))
+{
+	$inactive_delete = new PG($ra['pgID']);
+	$inactive_delete->delete();
+	$tadadelete+=1;
+	$INACTIVECANC .= '<a onclick="javascript:schedaPOpen('.$inactive_delete->ID.');" style="font-weight:bold;" class="interfaceLink" href="#">'.$inactive_delete->pgUser.'</a> (inattivo dal '.date('d-m-y',$inactive_delete->pgLastAct).')<br />';
+}
+
+if ($tadadelete)
+	$SITA .= "> Cancello questi <span style=\"font-weight:bold;color:#096bd0\">$tadelete</span> PG inattivi e che non hanno giocato negli ultimi VENTI giorni: <p style=\"margin:15px;\">$INACTIVECANC<br />.";
+
+
 $res = mysql_query("SELECT pgID,pgUser, COUNT(*) as L FROM pg_users,cdb_posts WHERE (pgID = owner OR pgID = coOwner) AND pgID NOT IN (SELECT owner FROM pg_achievement_assign WHERE achi = 27) AND pgLastAct > $oneMonth AND pgBavo=0 GROUP BY pgUser HAVING COUNT(*) >= 100 ORDER BY L DESC");
 
 $SITALIST = "";
-$tolist = 0; 
-/*
-while($ra = mysql_fetch_array($res))
-{
-	$tolist+=1;
-	$SITALIST .= '<a onclick="javascript:schedaPOpen('.$ra['pgID'].');" style="font-weight:bold;" class="interfaceLink" href="#">'.$ra['pgUser'].'</a> ('.$ra['L'].' post in CDB)<br />';
-}
-
-if ($tolist)
-	$SITA .= "> Ci sono <span style=\"font-weight:bold;color:#096bd0\">$tolist</span> PG che meritano l'achievement \"+1\":<p style=\"margin:15px;\">$SITALIST</p>";
-
-$res = mysql_query("SELECT pgID,pgUser, COUNT(*) as L FROM pg_users,fed_food WHERE pgID = presenter AND active = 1 AND pgID NOT IN (SELECT owner FROM pg_achievement_assign WHERE achi = 51) AND pgLastAct > $oneMonth  AND pgBavo=0 GROUP BY pgUser HAVING COUNT(*) >= 25 ORDER BY L DESC");
-$SITALIST = "";
-$tolist = 0; 
-
-while($ra = mysql_fetch_array($res))
-{
-	$tolist+=1;
-	$SITALIST .= '<a onclick="javascript:schedaPOpen('.$ra['pgID'].');" style="font-weight:bold;" class="interfaceLink" href="#">'.$ra['pgUser'].'</a> ('.$ra['L'].' elementi proposti)<br />';
-}
-
-if ($tolist)
-	$SITA .= "> Ci sono <span style=\"font-weight:bold;color:#096bd0\">$tolist</span> PG che meritano l'achievement \"Zuppa di Pomodoro\":<p style=\"margin:15px;\">$SITALIST</p><br />";
-
-
-$res = mysql_query("SELECT pg_users.pgID,pgUser, COUNT(*) as L FROM pg_users,pg_user_stories WHERE pg_users.pgID = pg_user_stories.pgID AND pg_users.pgID AND png= 0 AND pgAuthOMA <> 'BAN' AND pg_users.pgID NOT IN (SELECT owner FROM pg_achievement_assign WHERE achi = 44) AND pgLastAct > $oneMonth  AND pgBavo=0 GROUP BY pgUser HAVING COUNT(*) >= 5 ORDER BY L DESC");
-$SITALIST = "";
-$tolist = 0; 
-
-while($ra = mysql_fetch_array($res))
-{
-	$tolist+=1;
-	$SITALIST .= '<a onclick="javascript:schedaPOpen('.$ra['pgID'].');" style="font-weight:bold;" class="interfaceLink" href="#">'.$ra['pgUser'].'</a> ('.$ra['L'].' elementi in ruolino)<br />';
-}
-
-if ($tolist)
-	$SITA .= "> Ci sono <span style=\"font-weight:bold;color:#096bd0\">$tolist</span> PG che meritano l'achievement \"Per il Ruolino\":<p style=\"margin:15px;\">$SITALIST</p><br />";
-
-*/
+$tolist = 0;  
 
 $ra1 = mysql_query("SELECT * FROM federation_sessions WHERE sessionStart > $twentyfourhours");
 $session24 = mysql_affected_rows();
@@ -245,6 +225,71 @@ $moreno->sendPadd('Rapporto qualità',$VITA,1580);
 
 $jean->sendPadd('Rapporto pulizia',$SITA,702);
 $jean->sendPadd('Rapporto qualità',$VITA,1580);
+
+
+if($moreno->pgLastAct < $twentydays){
+
+	$beppe = new PG('1474');
+
+	$Ea="<p style=\"font-family:monospace\">-----------  Sistema di Emergenza  --------------<br />Inviato per assenza prolungata di Rezaei che non logga dal ".date('d-m-y h:i:s',$moreno->pgLastAct).'<br />-------------------------------------------<br />
+
+	<p>Questo padd viene inviato a Jean e Giuseppe da una routine automatica che entra in funzione 10 giorni dopo il mancato login. Se ricevete questo messaggio significa che qualcosa mi ha impedito di essere presente per un lungo periodo. Non ho modo di potervi indicare i motivi della mia assenza, ma se non ho potuto avvisarvi - e disattivare questa routine - è possibile che un imprevisto mi abbia impedito di agire per tempo.<br /> 
+
+		In previsione di una mia assenza a tempo indeterminato, vi invio tutte le credenziali per l\'accesso ai sistemi di STF. Ciascuno riceve metà delle credenziali. Questo testo rappresenta anche una mia conferma della volontà di cedervi la proprietà del progetto.
+	</p><br /><br /><hr />';
+
+	$E1=$Ea.'<p>[B][COLOR=YELLOW]NETSONS[/COLOR][/B] [I](riunificare password sostituendo i "#")[/I]
+		[B]Username:[/B] moreno.zolfo@gmail.com
+		[B]Password:[/B] ######Fl0w$
+
+		[B][COLOR=YELLOW]CPANEL e FTP[/COLOR][/B] [I](riunificare password sostituendo i "#")[/I]
+		[B]Username:[/B] drfcmicd
+		[B]Password:[/B] #####2370
+
+		[B][COLOR=YELLOW]GDR-Online[/COLOR][/B] [I](riunificare password sostituendo i "#")[/I]
+		[B]Username:[/B] startrekfederation_staff
+		[B]Password:[/B] #######2012
+
+		Jean ha accesso al codice su GitHub.
+
+		STF è ora nelle vostre mani. Portatelo avanti se e come meglio credete e abbiatene cura.
+
+		Alla prossima, vi voglio bene.
+		[I]Moreno[/I]
+	</p>';
+	
+	$E2=$Ea.'<p>[B][COLOR=YELLOW]NETSONS[/COLOR][/B] [I](riunificare password sostituendo i "#") -[/I]
+		[B]Username:[/B] moreno.zolfo@gmail.com
+		[B]Password:[/B] $T1m3-#####
+
+		[B][COLOR=YELLOW]CPANEL e FTP[/COLOR][/B] [I](riunificare password sostituendo i "#") -[/I]
+		[B]Username:[/B] drfcmicd
+		[B]Password:[/B] FdFd_####
+
+		[B][COLOR=YELLOW]GDR-Online[/COLOR][/B] [I](riunificare password sostituendo i "#")[/I]
+		[B]Username:[/B] startrekfederation_staff
+		[B]Password:[/B] FedFed_####
+
+		Jean ha accesso al codice su GitHub.
+
+		STF è ora nelle vostre mani. Portatelo avanti se e come meglio credete e abbiatene cura.
+
+		Alla prossima, vi voglio bene.
+		[I]Moreno[/I]
+
+		P.S. Giuseppe, ora puoi finalmente usare Borg e Iconiani ;-)
+	</p>';
+	 
+
+	$moreno->sendPadd('Sistema di Emergenza (parte 1)',$E1,1);
+	$jean->sendPadd('Sistema di Emergenza (parte 1)',$E1,1);
+	$beppe->sendPadd('Sistema di Emergenza (parte 2)',$E2,1);
+	#$beppe->sendPadd('Sistema di Emergenza',$E2,1);
+
+
+
+
+}
 
 @Database::tdbClose(); 
 exit; 

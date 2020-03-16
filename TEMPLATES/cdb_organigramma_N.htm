@@ -69,6 +69,7 @@
 			padding:2px 5px;
 			font-weight:bold; 
 			padding:5px;
+			cursor:pointer;
 			margin-left:5px;
 			text-align:center;
 			text-transform: uppercase;
@@ -175,7 +176,7 @@
 		</div>
 </div>
 
-<div style="text-align:center; margin-top:20px;">
+<div style="text-align:center; margin-top:20px; font-family:Helvetica">
 <a tal:repeat="sezione personale" tal:attributes="onclick php:'orgaView(\'' . str_replace(' ','_',repeat.sezione.key) . '\')' ; class php:(array_key_exists(repeat.sezione.key,ccol) ? 'sbtn'.' '.ccol[repeat.sezione.key] : 'sbtn')" tal:content="php:(array_key_exists(repeat.sezione.key,clab) ? clab[repeat.sezione.key] : substr(repeat.sezione.key,0,4) )" />
 
 <p style="display:inline-block; float:right; margin-right:10px;"><input type="checkbox" checked="checked" onclick="opng(this)" /> Mostra i PnG</p>

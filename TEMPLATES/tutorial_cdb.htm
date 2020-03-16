@@ -4,6 +4,10 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	 
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
+
+	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/tutorial.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+
 	 
 	<title>TUTORIAL STAR TREK FEDERATION - COMPUTER</title>
 	<script type="text/javascript">
@@ -85,33 +89,7 @@
 	}
 	</script>
 	 
-<style>
-.fluctuator{
-position:absolute;
-padding:10px;
-border-radius:5px; 
-font-family:verdana;
-z-index:10;
-max-width:350px;
-text-align:justify;
-border:1px solid #555;
-font-size:13px;
-background-color:rgba(0,0,0);
-background-color:rgba(0,0,0,0.85);
-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#e6000000,endColorstr=#e6000000);
-
-}
-.fluctuator p{margin:0px; margin-bottom:5px; font-size:15px;}
-.evidenceYelo{color:#FC0; font-size:11px; text-transform:uppercase; font-weight:bold;}
-
-#tutorialArrow{z-index:10; position:absolute; top:-100px; left:-100px; width:25px; border-radius:10px; height:25px;  border:1px solid red; -moz-box-shadow: 0px 0px 20px red;
-    -webkit-box-shadow: 0px 0px 20px red;
-    box-shadow: 0px 0px 20px red;}
-	
-.clockTitle{font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;font-size: 25px;text-align: center;text-shadow: 0 0 5px #00C6FF;font-weight:bold;}
-.blueShadow{-moz-box-shadow: 0px 0px 20px #0099ff;-webkit-box-shadow: 0px 0px 20px #0099ff;box-shadow: 0px 0px 20px #0099ff;}
-#pd{width:569px !important;}
-</style>
+ 
 
 </head>
 <body>
@@ -125,7 +103,7 @@ filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#e6000000,endCol
 	<p style="position:absolute; top:10px; left:10px;" id="terminaK"><a href="javascript:void(0);" onclick="if(confirm('Sei sicuro di voler terminare il tutorial?')) terminate()" class="interfaceLinkRed"> [ TERMINA ]</a></p> 
 	<p style="position:absolute; top:10px; right:10px; display:none;" id="terminaAl"><a href="javascript:void(0);" onclick="terminateR()" class="interfaceLinkRed"> [ TERMINA ]</a></p> 
 <hr />	
- <p id="tutorialContent" style="margin:0px; font-size:13px;">Uno dei maggiori strumenti di Federation è il sistema di bacheche. Come una sorta di forum le bacheche si dividono in varie categorie che riflettono sezioni dedicate a specifice comunicazioni nel gioco ed altre orientate alla community ed i suoi giocatori.</p>
+ <p id="tutorialContent" style="margin:0px;">Uno dei maggiori strumenti di Federation è il sistema di bacheche. Come una sorta di forum le bacheche si dividono in varie categorie che riflettono sezioni dedicate a specifice comunicazioni nel gioco ed altre orientate alla community ed i suoi giocatori.</p>
  <input id="tutorialStep" value="-1" type="hidden" /> 
 </div>
 

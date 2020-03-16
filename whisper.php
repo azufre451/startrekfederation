@@ -94,7 +94,7 @@ $template->maxVIS = $MAX;
 	if (PG::mapPermissions('G',$currentUser->pgAuthOMA)){ 
 
 		mysql_query("SELECT 1 FROM pg_users_presence WHERE pgID = ".$currentUser->ID." AND value <> 0");
-		if (!mysql_affected_rows()) $template->presenceForce = true;
+		if (mysql_affected_rows() <= 5) $template->presenceForce = true;
 	}
 
 

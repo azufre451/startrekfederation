@@ -866,6 +866,7 @@ elseif($mode == 'master')
 		$template->host =  gethostbyaddr($lastIP);
 		$template->png = ($resB['png'] == 1) ? true : false;
 		$template->email = $resB['email'];
+		$template->thisYear = $thisYear;
 	}
 
 
@@ -903,7 +904,7 @@ elseif($mode == 'master')
 	}
 
 
-	$repli_food = mysql_query("SELECT foodName,timer, food as tr, ( SELECT COUNT(recID) FROM fed_food_replications WHERE food = tr AND user = $pgID ) as cnt FROM fed_food,fed_food_replications WHERE foodID = food AND user = $pgID  AND YEAR(FROM_UNIXTIME(timer)) = 2019 ORDER BY timer DESC LIMIT 25");
+	$repli_food = mysql_query("SELECT foodName,timer, food as tr, ( SELECT COUNT(recID) FROM fed_food_replications WHERE food = tr AND user = $pgID AND YEAR(FROM_UNIXTIME(timer)) = $thisYear) as cnt FROM fed_food,fed_food_replications WHERE foodID = food AND user = $pgID  AND YEAR(FROM_UNIXTIME(timer)) = $thisYear ORDER BY timer DESC LIMIT 25");
 
 	while($ftd = mysql_fetch_assoc($repli_food))
 	{
@@ -911,7 +912,7 @@ elseif($mode == 'master')
 	}
 
 
-	$repli_food_ov = mysql_fetch_assoc(mysql_query("SELECT COUNT(recID) as cnt FROM fed_food,fed_food_replications WHERE foodID = food AND user = $pgID AND YEAR(FROM_UNIXTIME(timer)) = 2019"));
+	$repli_food_ov = mysql_fetch_assoc(mysql_query("SELECT COUNT(recID) as cnt FROM fed_food,fed_food_replications WHERE foodID = food AND user = $pgID AND YEAR(FROM_UNIXTIME(timer)) = $thisYear"));
 
 	$template->ov_replications = $repli_food_ov['cnt'];
 

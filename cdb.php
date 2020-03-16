@@ -1160,7 +1160,7 @@ elseif(isSet($_GET['insertMasterEvent']))
 	
 	mysql_query("INSERT INTO fed_master_news (title,content,time,place) VALUES ('$eventTitle','$eventText',$time,'$place')");
 
-	header('Location:multitool.php');
+	header('Location:shadow_scheda.php');
 	exit;
 }
 

@@ -299,6 +299,9 @@
 
 			<a href="#" tal:condition="exists:bonusA" onclick="groupList()" class="interfaceLinks"><div style="border:1px solid #2e7ec8; margin-top:20px; margin-left:20px; margin-right:20px; padding:7px; text-align:center;">COLLEGA QUESTI PG</div></a>
 
+			<a href="#" tal:condition="exists:bonusA" onclick="switchList()" class="interfaceLinks"><div style="border:1px solid #2e7ec8; margin-top:20px; margin-left:20px; margin-right:20px; padding:7px; text-align:center;">PROC. CAMBIO PG</div></a>
+
+
 			<div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-top:20px; margin-right:20px;  margin-left:20px; padding:5px; text-align:center;">
 			Assegna a tutti: <select id="setSecl">
 				<option tal:repeat="con php:range(0,9)" tal:content="string: SECLAR ${con}" tal:attributes="value con"/>

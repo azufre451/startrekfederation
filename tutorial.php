@@ -43,7 +43,12 @@ else{
 	$template->testDB = false;
 }
 
+
+
 }
+
+
+$template->gameOptions = $gameOptions;
 
 	try 
 	{

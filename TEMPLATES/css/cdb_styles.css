@@ -1,7 +1,7 @@
 
 .interfaceLink,.interfaceLinkBlue,.interfaceLinkRed,.interfaceLinkGreen,.interfaceLinkYellow,.internalCdbLink
 {	
-	font-size:13px;
+	font-size:14px;
 	font-weight:bold;
 	font-family:Arial;
 }
@@ -33,7 +33,7 @@ a.topic{font-size:12px; font-family:Helvetica;}
 .topicNormal a{color:#fffbe8;} 
 .topicNormal a:hover {	text-decoration:underline;}
 .topicImportant a:hover{text-decoration:underline;}
-.topicNormal a.topicLock, .topicNormal a.topicLock + span{font-style:italic;; color:#AAA;; font-size:11px}
+.topicNormal a.topicLock, .topicNormal a.topicLock + span{font-style:italic;; color:#AAA;; font-size:12px}
 .topicNormal a.topicLock + span::after{content:'(CHIUSO)'; color:#d42a2a; margin-left:5px; text-decoration: none;}
 a.topic_ext_red {color:red !important;}
 a.topic_ext_teal{color:teal !important;}
@@ -50,8 +50,8 @@ a.topic_ext_white{color:white !important;}
 .cdbPostYellow{color:#FFCC00;}
 .cdbPostWhite{color:white;}
 .cdbPostGray{color:#999;}
-.cdbPostLittleSize{font-size:11px;}
-.cdbPostNormalSize{font-size:13px;}
+.cdbPostLittleSize{font-size:12px;}
+.cdbPostNormalSize{font-size:14px;}
 .cdbPostBigSize{font-size:16px;}
    
 a.dbLink{

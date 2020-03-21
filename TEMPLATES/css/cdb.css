@@ -34,7 +34,7 @@ table
 
 tr.topicline
 {
-	font-size:13px;
+	font-size:12px;
 	font-family:Helvetica;
 	width:100%;
 }
@@ -46,13 +46,13 @@ td.topicTitle
 }
 .littleLink < a
 {
-	font-size:12px;
+	font-size:11px;
 }
 .topicTitolo
 {
 	text-transform:uppercase;
 	font-weight:bold;
-	font-size:13px;
+	font-size:12px;
 	font-family:Helvetica;
 }
 td.topicDate
@@ -90,7 +90,7 @@ input, select, textarea, button
 
 .postDate
 {
-	font-size:12px;
+	font-size:11px;
 	color:#ffc600;
 	font-family:helvetica;
 	letter-spacing:2px;
@@ -110,7 +110,7 @@ input, select, textarea, button
  
 .postContent
 {
-	font-size:14px;
+	font-size:13px;
 	color:#fffbe8;
 	font-family:arial;
 	text-align:justify;
@@ -196,7 +196,7 @@ input, select, textarea, button
 .activePaginatore {border-color:orange;}
 .activePaginatore a {color:#ffe138;}
 .paginatore{border-color:#466974;}
-.little {font-size:12px;}
+.little {font-size:11px;}
 
 .littleShipLogo{
 	width:150px;
@@ -245,7 +245,7 @@ input, select, textarea, button
 	height:15px;
 }
 
-.notifierBox p{width:100%; line-height:15px; text-align:center; margin:auto; font-family:Arial;  font-weight:bold; font-size:14px;}
+.notifierBox p{width:100%; line-height:15px; text-align:center; margin:auto; font-family:Arial;  font-weight:bold; font-size:13px;}
 .forumBox.CIV {border-color:#110144;}
 .forumBox.CIV .notifierBox{ background-color: #110144; border-color:#2a21e0;}
 .forumBox.CIV .notifierBox p{ text-shadow: 1px 1px 8px #2a21e0; }
@@ -304,7 +304,7 @@ content:'OBRIND';
 
 .interfaceLink,.interfaceLinkBlue,.interfaceLinkRed,.interfaceLinkGreen,.interfaceLinkYellow,.internalCdbLink
 {	
-	font-size:14px;
+	font-size:13px;
 	font-weight:bold;
 	font-family:Arial;
 }
@@ -345,7 +345,7 @@ a.topic{font-size:12px; font-family:Helvetica;}
 .topicNormal a{color:#fffbe8;} 
 .topicNormal a:hover {	text-decoration:underline;}
 .topicImportant a:hover{text-decoration:underline;}
-.topicNormal a.topicLock, .topicNormal a.topicLock + span{font-style:italic;; color:#AAA;; font-size:12px}
+.topicNormal a.topicLock, .topicNormal a.topicLock + span{font-style:italic;; color:#AAA;; font-size:11px}
 .topicNormal a.topicLock + span::after{content:'(CHIUSO)'; color:#d42a2a; margin-left:5px; text-decoration: none;}
 a.topic_ext_red {color:red !important;}
 a.topic_ext_teal{color:teal !important;}
@@ -362,7 +362,7 @@ a.topic_ext_white{color:white !important;}
 .cdbPostYellow{color:#FFCC00;}
 .cdbPostWhite{color:white;}
 .cdbPostGray{color:#999;}
-.cdbPostLittleSize{font-size:12px;}
+.cdbPostLittleSize{font-size:11px;}
 .cdbPostNormalSize{font-size:13px;}
 .cdbPostBigSize{font-size:16px;}
    

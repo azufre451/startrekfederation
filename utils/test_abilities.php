@@ -138,22 +138,6 @@ print $a->calculateVariationCost(array(
 	array('HT',3)
 	));
 
-
-
-
-print "<br />Tellar<br />";
-
-print $a->calculateVariationCost(array(
-	array('DX',3),
-	array('HT',6),
-	array('WP',6),
-	array(13,2),	
-	array(8,2), //
-	array(22,1),
-	array(34,2),
-	array(21,2),
-	array(33,1)
-	));
 //echo var_dump($aar);
 
 

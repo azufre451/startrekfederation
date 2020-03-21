@@ -334,13 +334,13 @@ Template: <select type="text" class="neon" name="alloType"><optgroup tal:repeat=
 <a name="doppi" />
 <div style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
 
-	<a href="javascript:void(0)" onclick="tug('cibi_replicati')"><p id="tggl_cibi_replicati" class="sectionTitle">Ultimi cibi replicati <br/><span style="color:white; font-style:italic; font-weight: normal;" tal:content="string:(Tot ${thisYear}: ${ov_replications})" /> </p></a>
+	<a href="javascript:void(0)" onclick="tug('cibi_replicati')"><p id="tggl_cibi_replicati" class="sectionTitle">Ultimi cibi replicati <br/><span style="color:white; font-style:italic; font-weight: normal;" tal:content="string:(Tot 2019: ${ov_replications})" /> </p></a>
 
 	<div id="cibi_replicati" style="display:none">
 
 		
 		<div style="height:200px; overflow-y:auto;">
-			<table style="width:100%;"><tr class="tableheader"><td>Data</td><td>Cibo</td><td style="width:100px;">Tot. nel <span tal:content="thisYear"></span></td> </tr>
+			<table style="width:100%;"><tr class="tableheader"><td>Data</td><td>Cibo</td><td style="width:100px;">Tot. nel 2019</td> </tr>
 				<tr tal:repeat="fud replicated_foods"><td tal:content="php:timeHandler::timestampToGiulian(fud['timer'])" class="dateclass" />
 					<td tal:content="fud/foodName" />
 					<td tal:attributes="class php:(fud['cnt'] GE 10) ? 'foodcount red_background' : 'foodcount'" > <span tal:content="fud/cnt" /> </td>

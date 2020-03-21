@@ -500,73 +500,6 @@ if($mode == 'group')
 }
 
 
-if($mode == 'switch')
-{ 
-	if (!PG::mapPermissions('A',$currentUser->pgAuthOMA)) exit;
-
-	$sel=explode(',',$_POST['listof']);
-	//echo count($sel);
-	if (count($sel) >= 2)
-
-	{	
-		$last=NULL;
-		$affectedList=array();
-		$minIscriDate=$curTime;
-
-		$OLDPGU=addslashes(trim($sel[0]));
-		$NEWPGU=addslashes(trim($sel[1]));
-
-		$mycoOLD =  mysql_fetch_assoc(mysql_query("SELECT pgID,pgSpecialistPoints FROM pg_users WHERE pgUser = '$OLDPGU' LIMIT 1"));
-		$mycoNEW =  mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$NEWPGU' LIMIT 1"));
-		
-		$mycoOLDIDD = $mycoOLD['pgID'];
-		$mycoOLDSPEC = $mycoOLD['pgSpecialistPoints'];
-		$mycoNEWIDD = $mycoNEW['pgID'];
-
-		
-					mysql_query("UPDATE pg_users SET mainPG = $mycoNEWIDD, pgType='OLD' WHERE pgID = $mycoOLDIDD;");
-					mysql_query("UPDATE pg_users SET mainPG = $mycoNEWIDD, pgType='MAIN' WHERE pgID = $mycoNEWIDD;");
-
-					mysql_query("DELETE FROM pg_users_pointStory WHERE owner = $mycoNEWIDD;");
-					mysql_query("UPDATE pg_users_pointStory SET owner = $mycoNEWIDD, causeE = CONCAT(causeE,CONCAT(' *',(SELECT pgUser FROM pg_users WHERE pgID = $mycoOLDIDD))) WHERE owner = $mycoOLDIDD;");
-
-					mysql_query("CREATE TABLE temp1 AS SELECT iscriDate FROM pg_users WHERE pgID = $mycoOLDIDD;");
-					mysql_query("UPDATE pg_users SET iscriDate = (SELECT iscriDate FROM temp1 WHERE 1 LIMIT 1),pgPoints = (SELECT SUM(points) FROM pg_users_pointStory WHERE owner = $mycoNEWIDD), pgSpecialistPoints = (SELECT pgSpecialistPoints FROM pg_users_pointStory WHERE owner = $mycoOLDIDD) WHERE pgID = $mycoNEWIDD;");
-
-					mysql_query("UPDATE pg_users SET pgSpecialistPoints = 0,pgPoints=0 WHERE pgID = $mycoOLDIDD;");
-					mysql_query("UPDATE pg_users SET pgSpecialistPoints = $mycoOLDSPEC WHERE pgID = @NEW;");
-
-					mysql_query("DROP TABLE temp1;");
-
-					mysql_query("INSERT INTO pg_notestaff(pgFrom, pgTo, what, timeCode) VALUES (518,$mycoOLDIDD, CONCAT('Cambio pg da: ',CONCAT((SELECT pgUser FROM pg_users WHERE pgID = $mycoOLDIDD),CONCAT(' a: ',(SELECT pgUser FROM pg_users WHERE pgID = $mycoNEWIDD)))), UNIX_TIMESTAMP());");
-
-					mysql_query("INSERT INTO pg_notestaff(pgFrom, pgTo, what, timeCode) VALUES (518,$mycoNEWIDD, CONCAT('Cambio pg da: ',CONCAT((SELECT pgUser FROM pg_users WHERE pgID = $mycoOLDIDD),CONCAT(' a: ',(SELECT pgUser FROM pg_users WHERE pgID = $mycoNEWIDD)))), UNIX_TIMESTAMP());");
-
-					mysql_query("UPDATE fed_food_replications SET user = $mycoNEWIDD WHERE user = $mycoOLDIDD;");
-					mysql_query("UPDATE fed_food SET presenter = $mycoNEWIDD WHERE presenter = $mycoOLDIDD;");
-					
-		$oldPGObj = new PG($mycoOLDIDD);
-		$oldPGAbil = new abilDescriptor($mycoOLDIDD);
-		$oldPGAbil->resetAndRestore(array('IQ' => 5,'DX' => 5,'HT' => 5,'PE' => 4,'WP' => 4));
-		$oldPGAbil->superImposeRace($oldPGObj->pgSpecie);
-		$oldPGObj->sendNotification("Cambio PG","La procedura di cambio PG da $OLDPGU a $NEWPGU è stata completata!",$_SESSION['pgID'],"TEMPLATES/img/interface/index/blevinrevin_02.png",'schedaOpen');
-
-		$newPGObj = new PG($mycoNEWIDD);
-		$newPGAbil = new abilDescriptor($mycoNEWIDD);
-		$newPGAbil->resetAndRestore(array('IQ' => 5,'DX' => 5,'HT' => 5,'PE' => 4,'WP' => 4));
-		$newPGAbil->superImposeRace($newPGObj->pgSpecie);
-		$newPGObj->sendNotification("Cambio PG","La procedura di cambio PG da $OLDPGU a $NEWPGU è stata completata!",$_SESSION['pgID'],"TEMPLATES/img/interface/index/blevinrevin_02.png",'schedaOpen');
-
-		$currentUser->sendNotification("Cambio PG","La procedura di cambio PG da $OLDPGU a $NEWPGU è stata completata!",$_SESSION['pgID'],"TEMPLATES/img/interface/index/blevinrevin_02.png",'schedaOpen');
-
-	 	if(!mysql_error())
-			echo json_encode(array('stat'=>true));
-	}
-	exit;
-
-}
-
-
 if($mode == "setIncarico")
 {
 	if (!PG::mapPermissions('SM',$currentUser->pgAuthOMA)) exit;
@@ -896,15 +829,15 @@ elseif($code == "aa11"){$p=$vali->numberOnly($_POST['points']);$little="Q00";$me
 		
 	}
 	
-	echo json_encode(array('stat'=>true)); exit;
+	echo json_encode(array('stat'=>true )); exit;
 	
 	//echo "UPDATE pg_users SET pgLock=1 WHERE pgUser IN ($lisOuser)"; exit;
 }
 
-if($mode == "insertionForm")
+/*if($mode == "insertionForm")
 {
 	$template = new PHPTAL('TEMPLATES/shadow_scheda_master_insert.htm');
-}
+}*/
 
 if($mode == "setUnlock")
 {

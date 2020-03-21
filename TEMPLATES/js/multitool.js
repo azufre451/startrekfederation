@@ -89,11 +89,6 @@ jQuery(function(){
 	{
 		if(jQuery('#users').val() != '' && confirm('Questo comando unificherà i record OFF (data iscrizione e achievement) dei PG selezionati. L\'utility imposterà come PG principale il primo PG della lista, mentre il secondo sarà considerato doppio. Tutti gli altri saranno contrassegnati come ex personaggi.')) jQuery.post('multitool.php?s=group', {listof: jQuery('#users').prop('value')}, confirmer, 'json');
 	}
-	function switchList()
-	{
-		if(jQuery('#users').val() != '' && confirm('Questa è la procedura di cambio PG. L\'utility imposterà come PG VECCHIO il primo PG della lista e come PG NUOVO il secondo PG della lista. Casi con più di due PG non saranno accettati.')) jQuery.post('multitool.php?s=switch', {listof: jQuery('#users').prop('value')}, confirmer, 'json');
-	}
-
 	function bavoList()
 	{
 		if(jQuery('#users').val() != '' && confirm('Saranno tutti dei vermi verminosi e bavosi! Confermi?')) jQuery.post('multitool.php?s=bavosize', {listof: jQuery('#users').prop('value')}, confirmer, 'json');

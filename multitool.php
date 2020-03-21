@@ -484,9 +484,11 @@ if($mode == 'group')
 		}
 	 
 	$affectedListStr=implode(",",$affectedList);
-	$mainPGID=end($affectedList);
+	$doublePGID= $affectedList[1];
+	$mainPGID= $affectedList[0];
 
-	mysql_query("UPDATE pg_users SET mainPG = '$mainPGID', pgType = 'DOPPIO' WHERE pgID IN ($affectedListStr) AND pgID <> '$mainPGID'");
+	mysql_query("UPDATE pg_users SET mainPG = '$mainPGID', pgType = 'EXPG' WHERE pgID IN ($affectedListStr) AND pgID <> '$mainPGID' AND pgID <> '$doublePGID'")
+	mysql_query("UPDATE pg_users SET mainPG = '$mainPGID', pgType = 'DOPPIO' WHERE pgID = '$doublePGID'");
 	mysql_query("UPDATE pg_users SET mainPG = '$mainPGID', pgType = 'MAIN' WHERE pgID = '$mainPGID'");
 
 

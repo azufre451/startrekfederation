@@ -87,7 +87,7 @@ jQuery(function(){
 
 	function groupList()
 	{
-		if(jQuery('#users').val() != '' && confirm('Questo comando unificherà i record OFF (data iscrizione e achievement) dei PG selezionati. L\'utility imposterà come PG principale l\'ultimo PG della lista. Tutti gli altri saranno contrassegnati come doppi')) jQuery.post('multitool.php?s=group', {listof: jQuery('#users').prop('value')}, confirmer, 'json');
+		if(jQuery('#users').val() != '' && confirm('Questo comando unificherà i record OFF (data iscrizione e achievement) dei PG selezionati. L\'utility imposterà come PG principale il primo PG della lista, mentre il secondo sarà considerato doppio. Tutti gli altri saranno contrassegnati come ex personaggi.')) jQuery.post('multitool.php?s=group', {listof: jQuery('#users').prop('value')}, confirmer, 'json');
 	}
 	function switchList()
 	{

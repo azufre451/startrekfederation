@@ -30,7 +30,10 @@ if($mode == 'bg')
 { 
 	$template = new PHPTAL('TEMPLATES/scheda_bkg.htm');
 	$backgrounder = PG::getSomething($selectedUser,"BG");
+
 	$revBackgrounder = PG::getSomething($selectedUser,"lastBG"); 
+
+	
 	if($selectedUser == $_SESSION['pgID'] || PG::mapPermissions('A',$currentUser->pgAuthOMA)){ $template->showIlSegreto = True;}
 
 	if($backgrounder)
@@ -375,7 +378,7 @@ else if ($mode == 'meAdd')
 		mysql_query("INSERT INTO pgMedica(pgID, medico, time, unita, type, medAnamnesi, medVisiv, medStrument, medDiagnosi, medTerapia, medDecorso, medCode,tdate) VALUES ($id,'$medicName',$curTime,'".addslashes($currentUser->pgLocation)."','$tType','$medicAnamnesi','$medicVisi','$medicStrum','$medicDiagnos','$medicTerap','$medicDecorso','$medicCode','$dateDef')");
 		//$selectedDUser->sendPadd('OFF: NUOVO REFERTO','Un nuovo referto medico è stato aggiunto alla tua scheda PG. Consulta la sezione "Scheda Medica" per vedere i dettagli.');
 		#$text,$subtext,$text,$from = '518',$image='
-		$selectedDUser->sendNotification("Nuovo referto medico","Un nuovo referto medico è stato aggiunto alla tua scheda PG",$_SESSION['pgID'],"https://nick.startrekfederation.it/SigmaSys/logo/nl_med.r.png",'schedaMedOpen');
+		$selectedDUser->sendNotification("Nuovo referto medico","Un nuovo referto medico è stato aggiunto alla tua scheda PG",$_SESSION['pgID'],"https://oscar.stfederation.it/SigmaSys/logo/nl_med.r.png",'schedaMedOpen');
 
 		if (!$selectedDUser->png) $currentUser->addPoints(1,'MEDIC','Inserimento Referto Medico','Inserimento Referto Medico '.$selectedDUser->pgUser);
  
@@ -385,7 +388,7 @@ else if ($mode == 'meAdd')
 		{
 		mysql_query("INSERT INTO pgMedica(pgID, medico, time, unita, type, medAnamnesi, medDiagnosi, medTerapia,tdate) VALUES ($id,'$medicName',$curTime,'".addslashes($currentUser->pgLocation)."','$tType','$medicAnamnesi','$medicDiagnos','$medicTerap','$dateDef')");
 
-		$selectedDUser->sendNotification("Nuovo referto medico","Un nuovo referto psicologico è stato aggiunto alla tua scheda PG",$_SESSION['pgID'],"https://nick.startrekfederation.it/SigmaSys/logo/nl_med.r.png",'schedaMedOpen');
+		$selectedDUser->sendNotification("Nuovo referto medico","Un nuovo referto psicologico è stato aggiunto alla tua scheda PG",$_SESSION['pgID'],"https://oscar.stfederation.it/SigmaSys/logo/nl_med.r.png",'schedaMedOpen');
 
 		if (!$selectedDUser->png) $currentUser->addPoints(2,'MEDIC','Inserimento Referto Psicologico','Inserimento Referto Psicologico '.$selectedDUser->pgUser);
 		} 
@@ -866,7 +869,7 @@ elseif($mode == 'master')
 		$template->host =  gethostbyaddr($lastIP);
 		$template->png = ($resB['png'] == 1) ? true : false;
 		$template->email = $resB['email'];
-		$template->thisYear = $thisYear;
+		
 	}
 
 
@@ -925,7 +928,7 @@ elseif($mode == 'master')
 
 	// $template->availBrevetti=$availBrevetti;
 	
-	
+	$template->thisYear = $thisYear;
 	$template->alloggi = $alloggi;
 	$template->lock = $resA['pgLock'];
 	$template->pgPrestige = $resA['pgPrestige'];
@@ -946,7 +949,7 @@ elseif($mode == 'master')
 // elseif($mode=='kavanagh')
 // { 
 	// $namea = PG::getSomething($_GET['pgID'],'username');
-	// mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",".$_GET['pgID'].",'::special::achiev','L\'ho sentita.::Evidentemente... la celebrità non è... tutto. Vero, signor $namea?',".time().",0,'http://miki.startrekfederation.it/minik.png')");
+	// mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",".$_GET['pgID'].",'::special::achiev','L\'ho sentita.::Evidentemente... la celebrità non è... tutto. Vero, signor $namea?',".time().",0,'http://miki.stfederation.it/minik.png')");
 // }
 
 elseif($mode=='edit_extras')
@@ -974,7 +977,7 @@ elseif($mode=='kavanagh')
 
 		
 	$namea = PG::getSomething($_GET['pgID'],'username');
-	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",".$_GET['pgID'].",'::special::achiev','L\'ho sentita...::Chi siete? Dove andate? Un asciugamano!',".time().",0,'https://nick.startrekfederation.it/SigmaSys/PNG/Kavanagh_001.png')");
+	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",".$_GET['pgID'].",'::special::achiev','L\'ho sentita...::Chi siete? Dove andate? Un asciugamano!',".time().",0,'https://oscar.stfederation.it/SigmaSys/PNG/Kavanagh_001.png')");
 	header('Location:scheda.php?pgID='.$_GET['pgID']);
 }
 
@@ -991,7 +994,7 @@ elseif($mode=='logout')
 elseif($mode=='matto')
 { 
 	$namea = PG::getSomething($_GET['pgID'],'username');
-	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",".$_GET['pgID'].",'::special::achiev','Ehi tu...::Non fare il matto, dai...',".time().",0,'https://nick.startrekfederation.it/SigmaSys/personal/hopkins/v22/giphy-downsized.gif')");
+	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",".$_GET['pgID'].",'::special::achiev','Ehi tu...::Non fare il matto, dai...',".time().",0,'https://oscar.stfederation.it/SigmaSys/personal/hopkins/v22/giphy-downsized.gif')");
 	header('Location:scheda.php?pgID='.$_GET['pgID']);
 }
 
@@ -999,7 +1002,7 @@ elseif($mode=='matto')
 elseif($mode=='reminder') 
 { 
 	$namea = PG::getSomething($_GET['pgID'],'username');
-	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",".$_GET['pgID'].",'::special::achiev','È ora di azionare!::',".time().",0,'https://nick.startrekfederation.it/SigmaSys/PNG/Kavanagh_001.png')");
+	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",".$_GET['pgID'].",'::special::achiev','È ora di azionare!::',".time().",0,'https://oscar.stfederation.it/SigmaSys/PNG/Kavanagh_001.png')");
 	header('Location:scheda.php?pgID='.$_GET['pgID']);
 }
 
@@ -1124,20 +1127,24 @@ elseif ($mode == 'editS')
 	mysql_query("UPDATE pg_users SET pgNomeC = '$ediName', paddMail=$paddMail,audioEnvEnable = $audioEnvEnableSet, audioEnable = $audioEnableSet, pgNomeSuff = '$ediSuff', pgLuoN = '$ediLuoN', pgDataN = '$ediDataN', pgAvatar = '$ediAvatar', pgAvatarSquare = '$ediAvatarSquare' ,pgOffAvatarN = '$pgOffAvatarN',pgOffAvatarC = '$pgOffAvatarC', pgStatoCiv = '$ediStaCiv', actionCSS = '$actionCSS', parlatCSS = '$parlatCSS', otherCSS = '$otherCSS' WHERE pgID = $ediID");
 	
 
-	mysql_query("DELETE FROM pg_users_bios WHERE valid <= '1' AND pgID = '$ediID'");
 	
 	$ral=mysql_fetch_assoc(mysql_query("SELECT png FROM pg_users WHERE pgID = $ediID"));
 	if ($ral['png']){
 		$validity=2;
+		mysql_query("DELETE FROM pg_users_bios WHERE valid = 2 AND pgID = '$ediID'");
+
 	}
 	else{
 		$validBG = PG::getSomething($ediID,"BG");
 		if ($validBG != NULL && $validBG['pgBiometrics'] == stripslashes($ediFis) && $validBG['pgIlSegreto'] == stripslashes($ediIlSegreto) && $validBG['pgBackground'] == stripslashes($ediBack) && $validBG['pgCarattere'] == stripslashes($ediCarat) && $validBG['pgFamily'] == stripslashes($ediFamil) && $validBG['pgVarie'] == stripslashes($ediVarie))
 		{
 			$validity=2;	
+			mysql_query("DELETE FROM pg_users_bios WHERE valid = 2 AND pgID = '$ediID'");
+
 		}
 		else
 		{
+			mysql_query("DELETE FROM pg_users_bios WHERE valid <= '1' AND pgID = '$ediID'");
 			if ($validBG != NULL)
 				$validity=1;
 			else 
@@ -1211,7 +1218,7 @@ elseif ($mode == 'setSalute')
 	if(!mysql_error()) 
 	{	
 		$toPG = new PG($pgID);
-		$toPG->sendNotification("Nuovo stato di Salute",$_POST['medStatus'],$_SESSION['pgID'],"https://nick.startrekfederation.it/SigmaSys/logo/nl_med.r.png",'schedaMedOpen');
+		$toPG->sendNotification("Nuovo stato di Salute",$_POST['medStatus'],$_SESSION['pgID'],"https://oscar.stfederation.it/SigmaSys/logo/nl_med.r.png",'schedaMedOpen');
 
 	}
 
@@ -1224,41 +1231,8 @@ elseif ($mode == 'document')
 	$pgID = $vali->numberOnly($_GET['pgID']);
 	$pgNew = new PG($pgID);
 
+	$pgNew->sendWelcomePadd();
 	
-$pgNew->sendPadd('Benvenuto!','<div style="text-align:center"><img src="https://nick.startrekfederation.it/SigmaSys/logo/little_logo.png" /><br /><b>Benvenuto in Star Trek: Federation!</b></div><br />Ti inviamo questo padd come riassunto del materiale informativo presente presso i vari canali di gioco. In caso di perplessita\', non esitare a contattare le Guide o lo Staff di Star Trek: Federation!<br />
-		
-	&raquo; <a href="javascript:dbOpenToTopic(186)" class="interfaceLink"> Ambientazione - La Federazione Unita dei Pianeti </a>
-	<p style="margin:0px; margin-left:30px; "> Nuovo all\'ambientazione di Star Trek? Qualche info la trovi qui! </p>
-
-	&raquo; <a href="javascript:dbOpenToTopic(150)" class="interfaceLink"> Regolamento di Gioco </a>
-	<p style="margin:0px; margin-left:30px; "> Contiene il regolamento di gioco, dacci un\'occhiata! </p>
-	
-	&raquo; <a href="javascript:dbOpenToTopic(151)" class="interfaceLink"> Frequently Asked Questions </a>
-	<p style="margin:0px; margin-left:30px; "> Domande e Risposte frequenti. Hai un dubbio? Probabilmente troverai risposta qui </p>
-	
-	&raquo; <a href="getLog.php?session=322" class="interfaceLink" target="_blank"> Giocata di Esempio </a>
-	<p style="margin:0px; margin-left:30px; "> Ecco una Giocata di esempio di Star Trek: Federation </p>
-	
-	&raquo; <a href="javascript:dbOpenToTopic(262)" class="interfaceLink"> Il Gioco di Ruolo</a>
-	<p style="margin:0px; margin-left:30px; "> Guida al gioco di ruolo e ai principi da seguire per giocare al meglio</p>
-	
-	&raquo; <a href="javascript:dbOpenToTopic(241)" class="interfaceLink"> La stesura del Background </a>
-	<p style="margin:0px; margin-left:30px; ">Chi e\' il tuo PG? Come descriverlo al meglio? Creare un buon Background e\' fondamentale!</p>
-	
-	<b>Sezione Aiuto: qualche consiglio utile</b>
-	
-	&raquo; <a href="javascript:cdbOpenToTopic(64)" class="interfaceLink"> Lo Staff: Admin e Master di STF </a>
-	&raquo; <a href="javascript:dbOpenToTopic(265)" class="interfaceLink"> Il sistema dei Federation Points </a>
-	&raquo; <a href="javascript:dbOpenToTopic(245)" class="interfaceLink"> Empatia e Telepatia: Betazoidi, Vulcaniani... </a>
-	&raquo; <a href="javascript:dbOpenToTopic(249)" class="interfaceLink"> Stesura dei Rapporti di gioco </a>
-	&raquo; <a href="javascript:dbOpenToTopic(259)" class="interfaceLink"> Turnazione</a>
-	&raquo; <a href="javascript:dbOpenToTopic(248)" class="interfaceLink"> Piccolo Glossario Trek </a>
-	&raquo; <a href="javascript:dbOpenToTopic(242)" class="interfaceLink"> Lauree, Medaglie e Stato di Servizio </a>
-	
-	&raquo; <a href="javascript:dbOpen()" class="interfaceLink"> Documentazione Completa </a>
-	
-	Buon gioco,<br />Il team di Star Trek Federation');
-
 	header("Location:scheda.php?pgID=$pgID");
 }
 
@@ -1583,11 +1557,11 @@ elseif ($mode == 'setAutoma')
 
 	if($aut == 'O') $selectedDUser->sendPadd('OFF: Entertainer',"Ti è stato assegnato il ruolo di Entertainer / Olomaster, e hai ora la possibilità di inserire esiti in tutti gli ambienti del tipo Sala Ologrammi, utilizzando il comando:
 	
-	- Esito (testuale)
-	* URL immagine (immagini)
+	[COLOR=RED]-[/COLOR] Esito (per inviare un esito testuale)
+	[COLOR=RED]*[/COLOR] URL immagine (per inviare un'immagine)
 	
 	Ulteriori informazioni sono disponibili qui:
-	&raquo;  <a href=\"javascript:cdbOpenToTopic(10026)\" class=\"interfaceLinkRed\"> Regolamento Olomaster</a>
+	&raquo;  [POST]13688[/POST]
 
 	Un grande in bocca al lupo!
 	Lo Staff");
@@ -1769,8 +1743,11 @@ $achi = $vali->numberOnly($_GET['achi']);
 
 $ra = mysql_query("SELECT 1 FROM pg_achievement_assign WHERE owner = $pgID AND achi = $achi");
 
-if(PG::mapPermissions('A',$currentUser->pgAuthOMA) && !mysql_affected_rows())
+if(PG::mapPermissions('A',$currentUser->pgAuthOMA))
 {
+
+	if(!mysql_affected_rows())
+	{
 	mysql_query("INSERT INTO pg_achievement_assign (owner,achi,timer) VALUES ($pgID,$achi,".time().")");
 	
 	$res = mysql_query("SELECT aText,aImage FROM pg_achievements WHERE aID = $achi");
@@ -1784,10 +1761,16 @@ if(PG::mapPermissions('A',$currentUser->pgAuthOMA) && !mysql_affected_rows())
 	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,paddType) VALUES (".$_SESSION['pgID'].",$pgID,'OFF: Nuovo Achievement!','$cString',".time().",0,1)");
  
 	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",$pgID,'::special::achiev','$eString',".time().",0,'TEMPLATES/img/interface/personnelInterface/$ima')");
+	
+	}
+	else{
+		#WOLO
+		mysql_query("DELETE FROM pg_achievement_assign WHERE achi = $achi AND owner IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $pgID))  ");
+	}
 }
 	header("Location:scheda.php?pgID=$pgID&sOff=off");
 }
-
+/*
 elseif ($mode == 'addPoints')
 {
 $pgID = $vali->numberOnly($_GET['pgID']);
@@ -1830,10 +1813,11 @@ elseif($code == "aa11")
 		$selectedDUser->addPoints($p,$little,$mex,$pointDetail,$currentUser->ID);
 	}
 	header("Location:scheda.php?pgID=$pgID&sOff=off");
-}
+}*/
 
 else 
 { 
+
 $template = new PHPTAL('TEMPLATES/scheda.htm');
 $pgPoints = PG::getSomething($selectedUser,'pgPoints');
 $pgPointsSaldo = PG::getSomething($selectedUser,'totalPoints');
@@ -1877,15 +1861,45 @@ $template->uniform = PG::getSomething($selectedUser,'uniform');
 
 
 /* Lauree, Note, */
-$res = mysql_query("SELECT pg_medals.*,doatazioneType,recID, dotazioneIcon, dotazioneAlt FROM pgDotazioni LEFT JOIN pg_medals ON dotazioneIcon = medID WHERE pgID = $selectedUser ORDER BY doatazioneType, medPrio ASC");
+
+$res = mysql_query("
+
+	(SELECT medImage as icon,medName as alt1,medDescript as alt2,recID,doatazioneType, medPrio as orderf, dotazioneAlt as yearD FROM pgDotazioni LEFT JOIN pg_medals ON dotazioneIcon = medID WHERE doatazioneType='MEDAL' AND pgID = $selectedUser ORDER BY medPrio ASC)
+
+	UNION
+	(SELECT dotazioneIcon as icon, dotazioneAlt as alt1, '-' as alt2, recID,doatazioneType, recID as orderf, '-' as yearD  FROM pgDotazioni WHERE doatazioneType IN ('LAUR','NOTA') AND pgID = $selectedUser )
+
+	UNION 
+
+	(SELECT image as icon, text as alt1, '' as alt2, recID, 'BREV' as doatazioneType, timer as orderf,  YEAR(timer) as yearD FROM pg_service_stories WHERE type='EXAM' AND image <> 'starfleet_brev.png' AND owner = $selectedUser)");
+
 	$commendations['LAUR']=array(); 
 	$commendations['NOTA']=array(); 
-	$commendations['MEDAL']=array(); 
+	$commendations['MEDAL']=array();
+	$commendations['BREV']=array();  
+
+	function sorterf($a, $b) {if($a['orderf'] == $b['orderf']) {return 0;} return ($a['orderf'] < $b['orderf']) ? -1 : 1;}
+	function sorterfr($a, $b) {if($a['orderf'] == $b['orderf']) {return 0;} return ($a['orderf'] > $b['orderf']) ? -1 : 1;}
+
+
 	while ($resA = mysql_fetch_array($res))
 	{
-		$vElem = ($resA['doatazioneType'] == 'MEDAL') ? array('recID' => $resA['recID'],'icon' => $resA['medImage'],'alt' => $resA['medName'].' <hr/> '.$resA['medDescript']) : array('recID' => $resA['recID'],'icon' => $resA['dotazioneIcon'],'alt' => $resA['dotazioneAlt']);
-		$commendations[$resA['doatazioneType']][] = $vElem;
+		if($resA['doatazioneType'] == 'MEDAL')
+			$resA['alt'] = $resA['alt1'].' <span class="yearDSpan">'.$resA['yearD'].'</span><hr/> '.$resA['alt2'];
+		elseif($resA['doatazioneType'] == 'BREV')
+			$resA['alt'] = $resA['alt1'] . ' <span class="yearDSpan">'.$resA['yearD'].'</span>'; 
+		else
+			$resA['alt'] = $resA['alt1'];
+
+		$commendations[$resA['doatazioneType']][] = $resA;
 	}
+
+ 	uasort($commendations['MEDAL'],'sorterf');
+ 	uasort($commendations['LAUR'],'sorterf');
+ 	uasort($commendations['NOTA'],'sorterf');
+ 	uasort($commendations['BREV'],'sorterf');
+
+
 	$template->commendations = $commendations; 
 
 	if(!$selectedDUser->png){

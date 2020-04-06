@@ -145,13 +145,13 @@ elseif(isSet($_GET['approval']))
 	
 	if($mode == 'approveFully')
 	{
-		if(!strpos(trim($getRecord['foodImage']), 'nick.startrekfederation.it/imaReplicatore'))
+		if(!strpos(trim($getRecord['foodImage']), 'oscar.stfederation.it/imaReplicatore'))
 		{
 			$fileName = substr(time(),4,4).basename($getRecord['foodImage']);
-			copy(trim($getRecord['foodImage']), "nick/imaReplicatore/$fileName");
-			$imaUrl = "https://nick.startrekfederation.it/imaReplicatore/$fileName";
+			copy(trim($getRecord['foodImage']), "oscar/imaReplicatore/$fileName");
+			$imaUrl = "https://oscar.stfederation.it/imaReplicatore/$fileName";
 			mysql_query("UPDATE fed_food SET active = 1, foodImage = '$imaUrl' WHERE foodID = $foodID");
-			if(mysql_affected_rows() && strpos(trim($getRecord['foodImage']), 'nick.startrekfederation.it/SigmaSys/'))
+			if(mysql_affected_rows() && strpos(trim($getRecord['foodImage']), 'oscar.stfederation.it/SigmaSys/'))
 			{
 				$handle = fopen("LOG_to_delete_report.txt", "a");
 				fwrite($handle,date("d-m-Y H:i:s",time()).' '."Caricamento file ".$getRecord['foodImage']." in Sigma. Cancellare!\r\n");

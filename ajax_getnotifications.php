@@ -15,8 +15,8 @@ function cmp($a, $b)
 
 
 $noti=array(); 
-$currentAssignQ = mysql_fetch_assoc(mysql_query("SELECT pgAssign FROM pg_users WHERE pgID = ".$_SESSION['pgID']));
-$currentAssign=$currentAssignQ['pgAssign'];
+//$currentAssignQ = mysql_fetch_assoc(mysql_query("SELECT pgAssign FROM pg_users WHERE pgID = ".$_SESSION['pgID']));
+//$currentAssign=$currentAssignQ['pgAssign'];
 
 
 /* PRESTIGIO */
@@ -53,7 +53,7 @@ while($lastVarsRes=mysql_fetch_assoc($lastVars)){
 
 	$texto=  '<b>News:</b> '. $lastVarsRes['newsTitle'];
 	$textoLittle =  substr($lastVarsRes['newsText'],0,100).'...';
-	$noti[] = array('image'=>'https://miki.startrekfederation.it/SigmaSys/logo/te_logo2.png', 'text'=> $texto,'subtext' => $textoLittle,'timer'=>$lastVarsRes['newsTime'],'uri'=>$lastVarsRes['newsID'],'dater'=>date('d/m', $lastVarsRes['newsTime']),'opener'=>'tribuneOpen');
+	$noti[] = array('image'=>'https://oscar.stfederation.it/SigmaSys/logo/te_logo2.png', 'text'=> $texto,'subtext' => $textoLittle,'timer'=>$lastVarsRes['newsTime'],'uri'=>$lastVarsRes['newsID'],'dater'=>date('d/m', $lastVarsRes['newsTime']),'opener'=>'tribuneOpen');
 
 
 	mysql_query("INSERT IGNORE INTO pg_visualized_elements (type,what,pgID,time) VALUES ('NEWS',".$lastVarsRes['newsID'].",".$_SESSION['pgID'].",$curTime) ");

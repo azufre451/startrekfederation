@@ -1,8 +1,8 @@
 <?php
 session_start();
 $a = microtime();
-if (!isSet($_SESSION['pgID'])) { header("Location:http://www.startrekfederation.it"); exit;}
-    
+if (!isSet($_SESSION['pgID'])) { header("Location:http://www.stfederation.it"); exit;}
+
 include('includes/app_include.php');
 include('includes/notifyClass.php');
 

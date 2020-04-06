@@ -45,7 +45,7 @@ p.bonus span {
 .menureg{
 font-size:2em;
 font-weight:bold;
-border:1px solid #333;
+border:1px solid #629ae0;
 border-radius:6px;
 width:40%; 
 line-height:1.2em;
@@ -147,7 +147,7 @@ margin-left:0px; margin-right:0px;
 
 
 
-.species_spec,.sections_spec{text-align:justify; font-size:1.1em; display:none; border-left:1px solid #848fa9; line-height:1.1em; margin-top:20px; padding-left:25px; margin-left:15px;}
+.species_spec,.sections_spec{text-align:justify; padding:15px; font-size:1.1em; display:none; border-left:1px solid #848fa9; line-height:1.1em; margin-top:20px; padding-left:25px; margin-left:15px;}
 
 
 
@@ -173,7 +173,7 @@ margin-left:0px; margin-right:0px;
 .buttonGo:hover{background-color:#882626;  }
 
 
-.buttonBack{width:200px; font-size:1.6em; font-weight:bold; text-align:center; background-color:#243985 float:left;  cursor:pointer;}
+.buttonBack{width:200px; font-size:1.6em; font-weight:bold; text-align:center; background-color:#243985;float:left;  cursor:pointer;}
 
 .buttonBack:hover{background-color:#5a6fbf;  }
 
@@ -262,6 +262,14 @@ margin-left:0px; margin-right:0px;
 	width:200px; 
 	border:1px solid #333;
   font-size:14px;
+}
+
+.creation-char-intermediate2 .carValue{ 
+  font-size:16px;
+}
+
+.creation-char-intermediate2 .carValue.act{ 
+  color:#FFCC00;
 }
 
 

@@ -27,7 +27,7 @@ function cmp($a, $b) {
    		 if ($a == $b) {
         	return 0;
     	}
-    	return (strstr($a,'Comando')) ? -1 : 1;
+    	return (strstr($a,'COMANDO')) ? -1 : 1;
 		}
 
 $start_time = getmicrotime();
@@ -212,19 +212,27 @@ elseif(isSet($_GET['equi']))
 					$rCrew['incDipartimento'] ='-';
 					$rCrew['incGroup'] ='-';
 				}
-			if (!array_key_exists($rCrew['incSezione'],$personale))
-				$personale[$rCrew['incSezione']] = array();
+				$r_incSezione = trim($rCrew['incSezione'] );
+				$r_incDivisione = trim(strtoupper( $rCrew['incDivisione'] ));
+				$r_incDipartimento = trim(strtoupper( $rCrew['incDipartimento'] ));
+				$r_incGroup = trim(strtoupper( $rCrew['incGroup'] ));
+				
+			
 
-			if (!array_key_exists($rCrew['incDivisione'],$personale[$rCrew['incSezione']]))
-				$personale[$rCrew['incSezione']][$rCrew['incDivisione']] = array();
 
-			if (!array_key_exists($rCrew['incDipartimento'],$personale[$rCrew['incSezione']][$rCrew['incDivisione']]))
-				$personale[$rCrew['incSezione']][$rCrew['incDivisione']][$rCrew['incDipartimento']] = array();
+			if (!array_key_exists($r_incSezione,$personale))
+				$personale[$r_incSezione] = array();
 
-			if (!array_key_exists($rCrew['incGroup'],$personale[$rCrew['incSezione']][$rCrew['incDivisione']][$rCrew['incDipartimento']]))
-				$personale[$rCrew['incSezione']][$rCrew['incDivisione']][$rCrew['incDipartimento']][$rCrew['incGroup']] = array();
+			if (!array_key_exists($r_incDivisione,$personale[$r_incSezione]))
+				$personale[$r_incSezione][$r_incDivisione] = array();
 
-			$personale[$rCrew['incSezione']][$rCrew['incDivisione']][$rCrew['incDipartimento']][$rCrew['incGroup']][] = $rCrew; 
+			if (!array_key_exists($r_incDipartimento,$personale[$r_incSezione][$r_incDivisione]))
+				$personale[$r_incSezione][$r_incDivisione][$r_incDipartimento] = array();
+
+			if (!array_key_exists($r_incGroup,$personale[$r_incSezione][$r_incDivisione][$r_incDipartimento]))
+				$personale[$r_incSezione][$r_incDivisione][$r_incDipartimento][$r_incGroup] = array();
+
+			$personale[$r_incSezione][$r_incDivisione][$r_incDipartimento][$r_incGroup][] = $rCrew; 
 		}
 
 
@@ -303,7 +311,7 @@ else if (isSet($_GET['createPNG']))
 
 		$passy = addslashes($_POST['passScheda']);
 
-		$emai= 'png@startrekfederation.it';
+		$emai= 'png@stfederation.it';
 		
 		$pgPassword1 = md5($passy);
 		

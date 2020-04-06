@@ -70,7 +70,7 @@ if (isSet($_GET['getAllPlayerLogs']))
 		}
 		else{
 			echo '<div id="indi_mainContainer">
-			<p style="text-align:center; font-size:20px; margin:20px; font-family:Helvetica;"><img src="https://nick.startrekfederation.it/SigmaSys/logo/little_logo.png" /><br /><br />Sembra tu non abbia log da generare...<br /><br /><img src="https://nick.startrekfederation.it/SigmaSys/PNG/Kavanagh_001.png" /></p>
+			<p style="text-align:center; font-size:20px; margin:20px; font-family:Helvetica;"><img src="https://oscar.stfederation.it/SigmaSys/logo/little_logo.png" /><br /><br />Sembra tu non abbia log da generare...<br /><br /><img src="https://oscar.stfederation.it/SigmaSys/PNG/Kavanagh_001.png" /></p>
 			<p style="text-align:center; font-size:20px; margin:20px; font-family:Helvetica;">Dovresti giocare per generarne qualcuno...</p>
 			</div>';
 			exit;

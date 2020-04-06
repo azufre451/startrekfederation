@@ -1,5 +1,6 @@
 <?php
-chdir('../');
+chdir('/home2/xstfedee/public_html/');
+
 include('includes/app_include.php');
  
  
@@ -7,6 +8,7 @@ $date = time();
 $dateL = $date-3600;
 $dateLE = $date-2678400;
 
+$tenDays = $date - (10*24*60*60);
 
 $oneMonth = $date - (30*24*60*60);
 $twoMonth = $date - (2*30*24*60*60);
@@ -114,6 +116,27 @@ while($ra = mysql_fetch_array($res))
 
 if ($tadelete)
 	$SITA .= "> Cancello questi <span style=\"font-weight:bold;color:#096bd0\">$tadelete</span> PG inattivi e bavosizzati da più di SEI mesi:<p style=\"margin:15px;\">$SITAcanc<br />.";
+
+
+$res= mysql_query("SELECT pgID FROM pg_users WHERE pgAuthOMA <> 'BAN' AND png = 0 AND pgLock=1 AND pgLastAct <= $oneWeek");
+$SITAcanc = "";
+$tedelete = 0; 
+
+while($ra = mysql_fetch_array($res))
+{
+	$tdelete = new PG($ra['pgID']);
+	$tdelete->delete();
+	$tedelete+=1;
+	$SITAcanc .= '<a onclick="javascript:schedaPOpen('.$tdelete->ID.');" style="font-weight:bold;" class="interfaceLink" href="#">'.$tdelete->pgUser.'</a> (inattivo dal '.date('d-m-y',$tdelete->pgLastAct).')<br />';
+}
+
+if ($tedelete)
+	$SITA .= "> Cancello questi <span style=\"font-weight:bold;color:#096bd0\">$tedelete</span> PG iscritti bloccati da più di sette giorni:<p style=\"margin:15px;\">$SITAcanc<br />.";
+
+
+
+
+
 
 
 

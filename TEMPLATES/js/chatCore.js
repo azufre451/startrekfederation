@@ -42,7 +42,7 @@
 			success: setterCA, 
 			type: 'POST',
 			dataType : 'json',
-			timeout:4500
+			timeout:5000
 			}); 
 		}
 		
@@ -76,7 +76,7 @@
 						  
 						type: 'POST',
 						dataType : 'json',
-						timeout:4500
+						timeout:5000
 					}).then(function( e ) {
 
 						if (e['DATA']['ABITI'][0] && e['pgMostrina'] == 'CIV')
@@ -421,7 +421,7 @@
 				data['DICER'].forEach(function(v,k){
 					
 
-					jQuery('#adler').append('<tr class="diceEvent r_'+v['recID']+'"><td>'+v['pgUser']+'</td><td><img src="TEMPLATES/img/interface/personnelInterface/abilita/'+v['abImage']+'" style="width:50px;" /></td><td><span class="valDice">'+v['outcome']+'</span>  <input class="abiDice" type="hidden" value="'+v['abID']+'" /> <input class="recID" type="hidden" value="'+v['recID']+'" /> <input class="pgID" type="hidden" value="'+v['pgID']+'" />  </td>  <td>'+v['threshold']+' + <select class="abMod" onchange="recompute(this);"><option value="-6">-6</option> <option value="-3">-3</option> <option value="0" selected="selected">0</option> <option value="3">+3</option> <option value="6">+6</option> </select></td> <td class="abiOutcome">'+v['outcomeW']+'</td> </tr>');
+					jQuery('#adler').append('<tr class="diceEvent r_'+v['recID']+'"><td>'+v['pgUser']+'</td><td><img src="TEMPLATES/img/interface/personnelInterface/abilita/'+v['abImage']+'" style="width:50px;" /></td><td><span class="valDice">'+v['outcome']+'</span>  <input class="abiDice" type="hidden" value="'+v['abID']+'" /> <input class="recID" type="hidden" value="'+v['recID']+'" /> <input class="pgID" type="hidden" value="'+v['pgID']+'" />  </td>  <td>'+v['threshold']+' + <select class="abMod" onchange="recompute(this);"><option value="-99">Annulla</option> <option value="-6">-6</option> <option value="-3">-3</option> <option value="0" selected="selected">0</option> <option value="3">+3</option> <option value="6">+6</option> </select></td> <td class="abiOutcome">'+v['outcomeW']+'</td> </tr>');
 
 
 				});
@@ -505,8 +505,8 @@
 		{
 			if (mode != 'extern')
 			{
-				jQuery('#au1').prop('src','https://nick.startrekfederation.it/audioBase/'+ida+'.ogg');
-				jQuery('#au2').prop('src','https://nick.startrekfederation.it/audioBase/'+ida+'.mp3');
+				jQuery('#au1').prop('src','https://oscar.stfederation.it/audioBase/'+ida+'.ogg');
+				jQuery('#au2').prop('src','https://oscar.stfederation.it/audioBase/'+ida+'.mp3');
 			}
 			else jQuery('#au1').prop('src',ida);
 			
@@ -569,7 +569,7 @@
 			data:{abID: at,luckypoint:htluckypoint},
 			type: 'POST',
 			dataType : 'json',
-			timeout:4500,
+			timeout:5000,
 			success: function(e){
 
 				prebox='<p><span class="col_FC">F. Critico</span>&nbsp;|&nbsp;<span class="col_F">Fallimento</span>&nbsp;|&nbsp;<span class="col_S">Successo</span>&nbsp;|&nbsp;<span class="col_SC">S. Critico</span></p>';

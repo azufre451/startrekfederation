@@ -11,6 +11,10 @@ include("includes/PHPTAL/PHPTAL.php"); //NEW
 include('includes/markerClass.php');
 include('includes/cdbClass.php');
 
+$iu=0;
+
+
+
 $vali = new validator();  
 $template = new PHPTAL('TEMPLATES/mainChat.htm');
 $currentUser = new PG($_SESSION['pgID'],1);
@@ -32,7 +36,6 @@ $template->alertCSS = $currentLocation['placeAlert'];
 // location
 
 
-
 $currentAmbient = Ambient::getAmbient($ambient);
 $currentAmbient['descrizione'] = CDB::bbcode($currentAmbient['descrizione']);
 $template->placeName = strtoupper($currentLocation['placeName']);
@@ -41,6 +44,7 @@ $template->ambient = $currentAmbient;
 /* Check Permissions to enter */
 
 $allowed=false;
+
 if ((int)($currentAmbient['chatPwd']))
 {
 	$template->protect_on = true;
@@ -92,28 +96,28 @@ elseif($currentAmbient['ambientType'] == 'SALA_OLO'){
 elseif($currentAmbient['ambientType'] == 'SALA_TEL' || $currentAmbient['ambientType']=='PLANCIA' || $currentAmbient['ambientType'] == 'INFERMERIA')
 {
 
+	
 
 	$resPgPresenti = mysql_query("SELECT pgID, pgUser, pgAvatarSquare FROM pg_users WHERE pgRoom = '".$currentAmbient['locID']."' AND pgLastAct >= ".($curTime-1800)." ORDER BY pgUser");
 	
 	$people = array();
 	while($resa = mysql_fetch_array($resPgPresenti))
 	$people[] = $resa;
-	
-	$resLocations = mysql_query("SELECT locID,locName,placeID,placeName FROM fed_ambient,pg_places WHERE ambientLocation = placeID AND ambientType <> 'DEFAULT' AND pointerL = (SELECT pointerL FROM pg_places,fed_ambient WHERE ambientLocation = placeID AND locID = '".$currentAmbient['locID']."') AND EXISTS (SELECT pgID FROM pg_users WHERE pgRoom = locID AND pgLastAct >= ".($curTime-1800).")");
-	
+
+	$resLocations = mysql_query("SELECT locID,locName,placeID,placeName FROM fed_ambient,pg_places,pg_users WHERE pgRoom = locID AND pgLastAct >= ".($curTime-1800). " AND ambientLocation = placeID AND ambientType <> 'DEFAULT' AND pointerL = (SELECT pointerL FROM pg_places,fed_ambient WHERE ambientLocation = placeID AND locID = '".$currentAmbient['locID']."')");
 	
 	$resLocationsAll = mysql_query("SELECT locID,locName,placeID,placeName FROM fed_ambient,pg_places WHERE ambientLocation = placeID AND ambientType <> 'DEFAULT' AND pointerL = (SELECT pointerL FROM pg_places,fed_ambient WHERE ambientLocation = placeID AND locID = '".$currentAmbient['locID']."') ORDER BY locName");
 	$locArray=array();
 	while($resLoc = mysql_fetch_array($resLocations))
 	$locArray[$resLoc['placeName']][] = array('a' => $resLoc['locID'], 'b' => $resLoc['locName']);
 	$template->locations = $locArray;
-	
+
 	$locArray2=array();
 	while($resLoc = mysql_fetch_array($resLocationsAll))
 	$locArray2[$resLoc['placeName']][] = array('a' => $resLoc['locID'], 'b' => $resLoc['locName']);
 	$template->locationsAll = $locArray2;
 	
-	
+
 	$template->people = $people;
 	
 	if($currentAmbient['ambientType']=='PLANCIA')
@@ -125,6 +129,7 @@ elseif($currentAmbient['ambientType'] == 'SALA_TEL' || $currentAmbient['ambientT
 	$locArray[$resLoc['placeID']] = $resLoc['placeName'];
 	$template->locationsA = $locArray;
 	}
+
 }
 $template->getterURL = ($currentAmbient['ambientType'] == 'ALLOGGIO') ? 'ajax_chatGetterN.php' : 'ajax_chatGetter.php';
 

@@ -22,7 +22,7 @@ while ($e=mysql_fetch_assoc($u)){
 	$ssTring="Rimborso FP abilità ".$e['abName'];
 	$subtext="Ti sono stati rimborsati ".$reimburse.' FP';
 	
- 	$user->sendNotification($ssTring,$subtext,'1','https://miki.startrekfederation.it/SigmaSys/personal/obrind/Ostevik/e15.png','schedaOpen');
+ 	$user->sendNotification($ssTring,$subtext,'1','https://miki.stfederation.it/SigmaSys/personal/obrind/Ostevik/e15.png','schedaOpen');
 
 }
 

@@ -10,13 +10,13 @@ $strs = "";
 while($rea = mysql_fetch_array($newsAct)){ 
 
 	$title = ($rea['aggregator'] == 'FED') ? "Federation Tribune: ".$rea['newsTitle'] : "News: ".$rea['newsTitle'];
-	$idLink = "http://www.startrekfederation.it/index.php?readnews=".$rea['newsID'];
+	$idLink = "http://www.stfederation.it/index.php?readnews=".$rea['newsID'];
 	
 	$link = ($rea['aggregator'] == 'FED' || $rea['toLink'] == '') ? $idLink : $rea['toLink'];
  
 	$descript = substr($rea['newsText'],0,350).'...';
 	$dtt = date(DATE_RSS,$rea['newsTime']);
-	$imago = "http://www.startrekfederation.it/TEMPLATES/img/interface/index/".$rea['aggregator'].'.png';
+	$imago = "http://www.stfederation.it/TEMPLATES/img/interface/index/".$rea['aggregator'].'.png';
  
 	$strs.="<item>
 <title>$title</title>
@@ -31,7 +31,7 @@ $strl = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>
 
 <channel>
   <title>Star Trek: Federation - News</title>
-  <link>http://www.startrekfederation.it</link> 
+  <link>http://www.stfederation.it</link> 
 	$strs
 </channel>
 

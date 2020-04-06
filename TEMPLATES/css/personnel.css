@@ -88,6 +88,35 @@ height:530px; width:610px; overflow:auto; margin:15px; padding:4px; padding-left
 	margin-top:10px;
 }
 
+#schedaLeft .radiusBordered{
+		border:1px solid #999;
+		width:200px;
+		height:470px;
+		z-index:10;
+		margin-left:auto;
+		position:relative;
+		margin-right:auto;
+		background-position:center;
+		background-size: auto 100%;
+		background-repeat:no-repeat;
+}
+#schedaLeft .radiusBordered > div
+{
+		position:absolute; width:100%; 
+		border-radius:0px 0px 20px 20px;
+		padding-left:10px; height:50px;
+		background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 11%, rgba(0,0,0,0.8) 33%, rgba(0,0,0,0.7) 42%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.5) 56%, rgba(0,0,0,0.4) 65%, rgba(0,0,0,0.3) 73%, rgba(0,0,0,0.2) 80%, rgba(0,0,0,0.2) 85%, rgba(0,0,0,0.10127801120448177) 93%, rgba(0,0,0,0) 100%); 
+ 		bottom:0px;
+ 		left:-0px;
+}
+
+#schedaLeft .radiusBordered > div img
+{
+		width:30px;
+		margin-top:15px;
+		margin-left:5px;
+}
+
 #schedaRight
 {
 	float:left;
@@ -317,6 +346,10 @@ position:relative;
 	background:rgba(0,0,0,0.3)
 	
 }
+
+.yearDSpan {color:#FFCC00; font-weight:bold; float:right; margin-left:5px; display:inline-block; vertical-align: middle;}
+.yearDSpan::before{color:#FFCC00; display:inline-block;   text-decoration:none; content:'('; margin-right:4px;}
+.yearDSpan::after{color:#FFCC00; display:inline-block;   text-decoration:none; content:')'; margin-left:4px;}
 
 .boxLink:hover{box-shadow:white;}
 .title,.titleOrange,.titleBlue{margin:0px; margin-top:5px; font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif; font-size: 15px; text-align: center; font-weight:bold;}

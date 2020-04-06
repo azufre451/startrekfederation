@@ -417,7 +417,10 @@ else if (isSet($_GET['addPost']))
 	{
 		$content_subseclar = 1;
 		$matches = array(); 
-		preg_match_all('~\[SECLAR=([0-9]?)\].*\[/SECLAR\]~m',$content,$matches);
+		preg_match_all('~\[SECLAR=([0-9]?)\].*\[/SECLAR\]~s',$content,$matches);
+
+		
+
 		$maxReqSeclar=max($matches[1]);
 	}
 	else{

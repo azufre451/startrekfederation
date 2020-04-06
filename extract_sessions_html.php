@@ -345,10 +345,10 @@ while($sis = mysql_fetch_assoc($affected))
 				
 				$htmlLiner.="</div></body></html>";
 				
-				gzwrite($outputFile, $sessionID."\t".str_replace("\r",'',str_replace(PHP_EOL,'',str_replace('TEMPLATES/img/','https://www.startrekfederation.it/TEMPLATES/img/',$htmlLiner))).PHP_EOL);
+				gzwrite($outputFile, $sessionID."\t".str_replace("\r",'',str_replace(PHP_EOL,'',str_replace('TEMPLATES/img/','https://www.stfederation.it/TEMPLATES/img/',$htmlLiner))).PHP_EOL);
 
 				$this_of = fopen($destFolder."/".$locID."_session_".$sessionID.".html", "w");
-				fwrite($this_of,str_replace('TEMPLATES/img/','https://www.startrekfederation.it/TEMPLATES/img/',$htmlLiner));
+				fwrite($this_of,str_replace('TEMPLATES/img/','https://www.stfederation.it/TEMPLATES/img/',$htmlLiner));
 				fclose($this_of);
 
 				mysql_query("UPDATE federation_sessions SET archived = 1 WHERE sessionID = $sessionID");

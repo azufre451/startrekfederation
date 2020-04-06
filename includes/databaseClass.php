@@ -148,7 +148,7 @@ class abilDescriptor
 		$val = mt_rand(1,20);
 
 		if($val == 1){
-			$val = (mt_rand(0,10) > 3) ? 1 : mt_rand(1,20);
+			$val = (mt_rand(1,10) > 5) ? 1 : mt_rand(1,20);
 		}
 
 		$res = mysql_fetch_assoc(mysql_query("SELECT pgScalogna FROM pg_users WHERE pgID =".	$this->user));
@@ -338,12 +338,12 @@ class abilDescriptor
 	{  
 
 
-
+ 
 
 		$t['Umana']= array(	array(38,0),array(31,1) );
 		$t['Vulcaniana']=  array(array(60,2),array(59,1),array(61,1),array(56,0));
 		$t['Betazoide'] = array(array(61,2),array(20,0),array(60,2));
-		$t['Trill'] =array(array(21,1),array(20,1),array(9,0),array(35,2),array(5,0));
+		$t['Trill'] =array(array(21,1),array(20,1),array(9,0),array(35,2));
 		$t['Andoriana'] = array(array(10,2),array(21,1),array(17,1),array(52,2),array(4,3));
 		$t['Bajoriana'] = array(array(7,1),array(12,3),array(18,1),array(21,2),array(19,0));
 		$t['Boliana'] = array(array(7,2),array(11,2),array(35,2),array(34,0),array(20,2), array(19,1));
@@ -352,6 +352,7 @@ class abilDescriptor
 		$t['Koyar'] = array(array(60,2),array(61,1),array(12,2),array(11,1),array(21,0));
 		$t['Xenita'] = array(array(12,1),array(21,2),array(52,1),array(56,1));
 		$t['Tellarita'] = array(array(35,2),array(13,2),array(8,2),array(22,1),array(34,2),array(21,2),array(33,1));
+		$t['Zaldan'] = array(array(13,1),array(10,3),array(4,1),array(8,2),array(21,2));
 		
 		$r['Vulcaniana']=  array(array('WP',1),array('HT',1)); // 11 + 15 = 26 (79)
 		$r['Betazoide'] = array(array('HT',-1),array('WP',2)); // -3 +11+16 = 24 (79)
@@ -364,6 +365,7 @@ class abilDescriptor
  		$r['Koyar'] = array(array('HT',-1),array('DX',+1),array('WP',+2));
  		$r['Xenita'] = array(array('IQ',-2),array('DX',+1),array('WP',+1),array('PE',+2));
  		$r['Tellarita'] = array(array('DX',-2),array('HT',+1));
+ 		$r['Zaldan'] = array(array('DX',-2),array('HT',+3),array('WP',-1));
 
 		/*foreach ($r as $ke => $va){
 			echo $ke.'<br />';
@@ -895,10 +897,10 @@ class PG
 			$senderName = PG::getSomething($from,'username');
 				$subject = "[STF] $senderName >> ".$subject;
 				
-				$message = "<div style=\"text-align:center;\"><img src=\"https://nick.startrekfederation.it/SigmaSys/logo/little_logo.png\" /></div><p>$senderName ti ha inviato un dpadd<br /><b>Testo:</b> $text<br /><br />Accedi a <a href=\"http://www.startrekfederation.it\" target=\"_blank\">Star Trek: Federation</a> per consultare il padd!";
+				$message = "<div style=\"text-align:center;\"><img src=\"https://oscar.stfederation.it/SigmaSys/logo/little_logo.png\" /></div><p>$senderName ti ha inviato un dpadd<br /><b>Testo:</b> $text<br /><br />Accedi a <a href=\"http://www.stfederation.it\" target=\"_blank\">Star Trek: Federation</a> per consultare il padd!";
 				
 				
-				$header = "From: $senderName <messaggistica@startrekfederation.it>\n";
+				$header = "From: $senderName <staff@stfederation.it>\n";
 				$header .= "MIME-Version: 1.0\n";
 				$header .= "Content-Type: text/html; charset=\"iso-8859-1\"\n";
 				$header .= "Content-Transfer-Encoding: 7bit\n\n";
@@ -907,6 +909,44 @@ class PG
 
 		}
 
+	}
+
+	public function sendWelcomePadd()
+	{
+		$this->sendPadd('Benvenuto!','<div style="text-align:center"><img src="https://oscar.stfederation.it/SigmaSys///promo_stf/little_logo.png" /><br /><b>Benvenuto in Star Trek: Federation!</b></div><br />Ti inviamo questo messaggio come riassunto del materiale informativo che trovi nella documentazione di gioco. In caso di perplessita\', non esitare a contattare lo Staff di Star Trek: Federation [POST]535[/POST]<br />
+			
+		Nuovo all\'ambientazione di Star Trek? Qualche info la trovi qui: 
+
+		<p style="margin:0px; margin-left:30px; "> [DB]186[/DB]
+	
+		Qui trovi il regolamento di gioco, dacci un\'occhiata: 
+		[DB]150[/DB]
+		
+		Domande e Risposte frequenti. Hai un dubbio? Probabilmente troverai risposta nelle FAQ: 
+		[DB]151[/DB]
+		
+		Guida al gioco di ruolo e ai principi da seguire per giocare al meglio:
+		[DB]262[/DB]
+		
+		Chi e\' il tuo PG? Come descriverlo al meglio? Creare un buon Background e\' fondamentale. Cerca di compilarlo il prima possibile:
+		[DB]241[/DB]</p>
+
+		Qui invece trovi altre info utili:
+
+		<p style="margin:0px; margin-left:30px; ">
+
+		- <a href="getLog.php?session=1015" class="interfaceLink" style="text-decoration:underline" target="_blank"> Giocata di Esempio </a>
+		- <a href="javascript:dbOpen()" class="interfaceLink" style="text-decoration:underline" > Documentazione Completa </a>
+
+		[DB]265[/DB]
+		[DB]242[/DB]
+		[DB]259[/DB]
+		[DB]249[/DB]
+		[DB]248[/DB]
+		</p>
+
+		Buon gioco,<br />Il team di Star Trek Federation');
+	
 	}
 	
 	public function addPoints($p,$causa,$causaTitle,$reason,$assigner=518)
@@ -969,7 +1009,7 @@ class PG
 
 			A presto
 			Il team di Star Trek: Federation
-			http://www.startrekfederation.it",518,2,1);
+			http://www.stfederation.it",518,2,1);
 
 	}
 
@@ -990,7 +1030,7 @@ class PG
 		//mysql_query("UPDATE fed_pad SET paddTo = 6 WHERE paddTo = '$pgID';");
 		//mysql_query("UPDATE fed_sussurri SET susFrom = 6 WHERE susFrom = '$pgID';"); 
 		//mysql_query("UPDATE fed_sussurri SET susTo = 6 WHERE susTo = '$pgID';");
-		mysql_query("UPDATE pg_notes SET owner = 6 WHERE owner = '$pgID';");
+		//mysql_query("UPDATE pg_notes SET owner = 6 WHERE owner = '$pgID';");
 		mysql_query("DELETE FROM cdb_posts_seclarExceptions WHERE pgID = '$pgID';");
 		mysql_query("DELETE FROM fed_ambient_auth WHERE pgID = '$pgID';");
 		mysql_query("DELETE FROM fed_food_replications WHERE user = '$pgID';");
@@ -1188,6 +1228,7 @@ class PG
 		if($var == "lastBG")
 		{
 			$res = mysql_query("SELECT pg_users_bios.*,pg_users.pgUser as edit_pgUser FROM pg_users_bios,pg_users WHERE pg_users_bios.pgID = $id AND pg_users.pgID = edituser AND valid < '2' ORDER BY recID DESC LIMIT 1");
+			//echo "SELECT pg_users_bios.*,pg_users.pgUser as edit_pgUser FROM pg_users_bios,pg_users WHERE pg_users_bios.pgID = $id AND pg_users.pgID = edituser AND valid < '2' ORDER BY recID DESC LIMIT 1";exit;
 			if(mysql_affected_rows()) $re = mysql_fetch_array($res); 
 			else $re = NULL;
 			return $re;
@@ -1466,12 +1507,12 @@ class Mailer
 {
 	public static function emergencyMailer($text,$refU){
 	$string = "TimeStamp: ".date('d/m/Y ore H:i:s',time())."\n TENTATIVO FALLITO DI VIOLAZIONE\n\n".$text."\n\n"."REFERENZE: User:".$refU->pgUser." IP:".$_SERVER['REMOTE_ADDR'];
-	mail("moreno@startrekfederation.it","[FED] Violazione di Sicurezza",$string,"From:emergency@startrekfederation.it");
+	mail("moreno@stfederation.it","[FED] Violazione di Sicurezza",$string,"From:emergency@stfederation.it");
 	}
 	
 	public static function notificationMail($text,$refU){
 	$string = "TimeStamp: ".date('d/m/Y ore H:i:s',time())."\n MODIFICA CRITICA ESEGUITA\n\n".$text."\n\n"."REFERENZE: User:".$refU->pgUser;
-	mail("staff@startrekfederation.it","[FED] Notifica",$string,"From:noreply@startrekfederation.it");
+	mail("staff@stfederation.it","[FED] Notifica",$string,"From:noreply@stfederation.it");
 	}
 }
 ?>

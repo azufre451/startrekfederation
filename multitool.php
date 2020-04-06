@@ -402,8 +402,8 @@ if($mode == "removeServiceObj")
 		{
 			$myco =  mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$auth' LIMIT 1"));
 			$pgID=$myco['pgID'];	
-			mysql_query("DELETE FROM fed_objects_ownership WHERE owner = $pgID AND oID = $oID");
-			mysql_query("DELETE FROM pg_current_dotazione WHERE ref = $oID AND owner = $selectedUser AND type = 'OBJECT'");
+ 			mysql_query("DELETE FROM fed_objects_ownership WHERE owner = $pgID AND oID = $oID");
+			mysql_query("DELETE FROM pg_current_dotazione WHERE ref = $oID AND owner = $pgID AND type = 'OBJECT'");
 		}
 	}
 	echo json_encode(array('stat'=>true)); exit;

@@ -48,7 +48,10 @@
 	.ui-tooltip {
 	font-size:12px;
 	text-align:justify;
-  }</style>
+	}
+
+
+</style>
 </head>
 
 <body style="background-color:black; overflow:hidden; height:385px; padding:-5px;">
@@ -61,13 +64,18 @@
 
 <div id="mainSchedaOn" class="onRelated" tal:attributes="style php:(OFFSubi) ? 'display:none' : 'display:block'">
 
-<table cellspacing="0px" id="incaricoTop" class="onRelated"><tbody><tr><td class="bdr" style="border-right:0px; width:200px;"><img tal:attributes="src string:TEMPLATES/img/logo/${unit}" /></td><td class="bdr" ><span tal:content="userData/pgIncarico" /> <img tal:condition="exists:userData/metapgIncarico" style="vertical-align:middle" class="tooltip" src="TEMPLATES/img/interface/personnelInterface/info.png"  tal:attributes="title userData/metapgIncarico" /> </td></tr>
+<table cellspacing="0px" id="incaricoTop" class="onRelated"><tbody><tr><td class="bdr" style="border-right:0px; width:200px;"><img tal:attributes="src string:TEMPLATES/img/logo/${unit}" tal:condition="php:unit != ''" /></td><td class="bdr" ><span tal:content="userData/pgIncarico" /> <img tal:condition="exists:userData/metapgIncarico" style="vertical-align:middle" class="tooltip" src="TEMPLATES/img/interface/personnelInterface/info.png"  tal:attributes="title userData/metapgIncarico" /> </td></tr>
 </tbody></table>
 
+ 
 
 <div id="schedaLeft">
-	<div tal:attributes="style string:border:1px solid #999;; width:200px;; height:470px;; z-index:10;; margin-left:auto;; margin-right:auto;; background-position:center;; background-size: auto 100%;; background-image:url('${userData/pgAvatar}');; background-repeat:no-repeat;" class="radiusBordered">
+	<div tal:attributes="style string:background-image:url('${userData/pgAvatar}')" class="radiusBordered">
 		<img tal:attributes="src php:(userData.png == 1) ? 'TEMPLATES/img/interface/PNGmarker.png' : 'TEMPLATES/img/interface/NOmarker.png'" />		
+		<div class="atatata" tal:condition="php:(count(commendations['BREV']) GT 0)">
+			<img class="tooltip" tal:repeat="bre commendations/BREV" tal:attributes="src string:TEMPLATES/img/ruolini/brevetti/${bre/icon} ; title string:${bre/alt}"  />
+			
+		</div>
 	</div>
  
 		
@@ -162,13 +170,13 @@
 			
 			<div style="clear:both;">
 				<p style="clear:both; text-align:center; margin-bottom:0px; font-family:federationFont;  font-size:18px; letter-spacing:0.1em;" tal:content="repeat/achiCat/key"  /> 
-				<a tal:omit-tag="php:(!adminPanel || achiv['owned'])" tal:attributes="onclick string:javascript:return confirmAchi('${achiv/text}') ; onmouseover string:javascript:avaBana('${achiv/adminImage}'); href string:scheda.php?pgID=${selectedUser}&s=assignAchi&achi=${achiv/ID}" tal:repeat="achiv achiCat"><div class="tooltip achievementDiv" tal:attributes="title achiv/text ; style string:background-image:url('${achiv/image}')"> <p tal:content="achiv/timer" class="subEti" tal:condition="php:(achiv['owned'])"/></div></a>
+				<a tal:omit-tag="php:(!adminPanel)" tal:attributes="onclick string:javascript:return confirmAchi('${achiv/text}') ; onmouseover string:javascript:avaBana('${achiv/adminImage}'); href string:scheda.php?pgID=${selectedUser}&s=assignAchi&achi=${achiv/ID}" tal:repeat="achiv achiCat"><div class="tooltip achievementDiv" tal:attributes="title achiv/text ; style string:background-image:url('${achiv/image}')"> <p tal:content="achiv/timer" class="subEti" tal:condition="php:(achiv['owned'])"/></div></a>
 			</div>
 		
 		</div>
 
 		<script>
-			function confirmAchi(ida){return confirm('Assegnare veramente '+ida+'?');}
+			function confirmAchi(ida){return confirm('Toggle-are veramente '+ida+'?');}
 			function avaBana(ida){if(ida != '') jQuery('#avatarBand').css('background-image','url(\''+ida+'\')');}
 		</script>
 	<div style="heigth:20px;" />

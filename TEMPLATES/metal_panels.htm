@@ -193,7 +193,7 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 
 <div metal:define-macro="teleporterPanel">
 <div id="teleportPanel" style="display:none;" class="popup blackOpacity">
-<script type="text/javascript" src="TEMPLATES/js/teleport.js?v=1.0"></script>
+<script type="text/javascript" src="TEMPLATES/js/teleport.js?v=${gameOptions/numericVersion}"></script>
 <p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:22px;">TELETRASPORTO</p>
 
 <div style="border:1px solid #0f2c4b; padding:10px; margin:10px; position:relative;">
@@ -380,7 +380,7 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 	
 	
 	
-	<script type="text/javascript" src="TEMPLATES/js/gamesessions.js?v=1.6"></script>
+	
 	<style>
 		.buttonOpen{ width:200px; height:30px; border:1px solid #333; font-weight:bold; border-radius:8px; transition:.5s;}
 		.buttonOpen:hover{ background-color:green;}
@@ -550,7 +550,7 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 	<table id="adler">
 		<tr style="background-color:#444; font-weight:bold;"><td style="padding:3px;">User</td><td style="padding:3px;">Abilità</td> <td style="padding:3px;">Dado</td> <td style="padding:3px;">Soglia / Modificatore</td> <td style="padding:3px;">Esito Calcolato</td> </tr>
 
-		<tr tal:repeat="adlerDice diceEvents" tal:attributes="class string:diceEvent r_${adlerDice/recID}"><td tal:content="adlerDice/pgUser"></td><td><img tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/abilita/${adlerDice/abImage}" style="width:50px;" /></td><td><span class="valDice" tal:content="adlerDice/outcome"></span>  <input class="abiDice" type="hidden" tal:attributes="value adlerDice/abID" /> <input class="recID" type="hidden" tal:attributes="value adlerDice/recID" /> <input class="pgID" type="hidden" tal:attributes="value adlerDice/pgID"  />  </td>  <td><span tal:content="adlerDice/threshold" />+ <select class="abMod" onchange="recompute(this);"><option value="-6">-6</option> <option value="-3">-3</option> <option value="0" selected="selected">0</option> <option value="3">+3</option> <option value="6">+6</option> </select></td> <td class="abiOutcome" tal:content="adlerDice/outcomeW"></td></tr>
+		<tr tal:repeat="adlerDice diceEvents" tal:attributes="class string:diceEvent r_${adlerDice/recID}"><td tal:content="adlerDice/pgUser"></td><td><img tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/abilita/${adlerDice/abImage}" style="width:50px;" /></td><td><span class="valDice" tal:content="adlerDice/outcome"></span>  <input class="abiDice" type="hidden" tal:attributes="value adlerDice/abID" /> <input class="recID" type="hidden" tal:attributes="value adlerDice/recID" /> <input class="pgID" type="hidden" tal:attributes="value adlerDice/pgID"  />  </td>  <td><span tal:content="adlerDice/threshold" />+ <select class="abMod" onchange="recompute(this);"><option value="-6">-6</option> <option value="-3">-3</option> <option value="0" selected="selected">0</option> <option value="-99">Annulla</option> <option value="3">+3</option> <option value="6">+6</option> </select></td> <td class="abiOutcome" tal:content="adlerDice/outcomeW"></td></tr>
 
 
 	</table>

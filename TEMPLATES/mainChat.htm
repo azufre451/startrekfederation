@@ -13,7 +13,7 @@
 	
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />  
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
-	
+	<script type="text/javascript" src="TEMPLATES/js/gamesessions.js?v=${gameOptions/numericVersion}"></script>
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 	<script type="text/javascript" src="TEMPLATES/js/chatCore.js?v=${gameOptions/numericVersion}"/>
 	<script type="text/javascript" src="TEMPLATES/js/easyNotify.js"></script>
@@ -136,8 +136,8 @@
 			<div tal:condition="php:(ambient['ambientAudio']) != ''" style="text-align:center;">
 				<p style="font-family: FederationFont; font-size:22px; margin-top:5px; margin-bottom:5px; text-align: center" > AUDIO AMBIENTE </p>
 				<audio id="loopAu" controls="true" loop="loop" preload="none" tal:attributes="autoplay php:(user.audioEnvEnable) ? 'autoplay' : NULL">
-					<source tal:attributes="src string:https://nick.startrekfederation.it/audioBase/${ambient/ambientAudio}.ogg" type="audio/ogg" />
-					<source tal:attributes="src string:https://nick.startrekfederation.it/audioBase/${ambient/ambientAudio}.mp3" type="audio/mpeg" />
+					<source tal:attributes="src string:https://oscar.stfederation.it/audioBase/${ambient/ambientAudio}.ogg" type="audio/ogg" />
+					<source tal:attributes="src string:https://oscar.stfederation.it/audioBase/${ambient/ambientAudio}.mp3" type="audio/mpeg" />
 				</audio>
 			</div>
 

@@ -31,7 +31,7 @@ $template->setDBOn = (NotificationEngine::getCDBUpdates($currentUser->ID,$curren
  
 $template->places = $currentUser->getLimitrofi();
 $template->placeName = strtoupper($currentLocation['placeName']);
-$template->alertCSS = str_replace('greenAlert',"",$currentLocation['placeAlert']);
+$template->alertCSS = $currentLocation['placeAlert'];
 $template->user = $currentUser;
 $template->currentStarDate = $currentStarDate;
 $template->gameName = $gameName;

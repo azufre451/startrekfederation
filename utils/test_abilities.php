@@ -54,7 +54,7 @@ print "<br />trilli<br />";
 print $a->calculateVariationCost(array(
 	array(21,1),
 	array(20,1),
-	array(9,0),
+	array(9,1),
 	array(35,2),
 	array('IQ',6),
 	array('HT',7)
@@ -154,6 +154,24 @@ print $a->calculateVariationCost(array(
 	array(21,2),
 	array(33,1)
 	));
+
+
+print "<br />Zaldan<br />";
+
+print $a->calculateVariationCost(array(
+	array('DX',3),// -2
+	array('HT',8), //+3
+	array('WP',3), //-1
+	array('IQ',5), //
+	array('PE',4), //
+	array(13,1),	
+	array(10,3),
+	array(4,1),
+	array(8,2),
+	array(21,2)
+
+	));
+
 //echo var_dump($aar);
 
 

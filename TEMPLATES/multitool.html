@@ -336,9 +336,9 @@
 			</div>
 
 
-			<div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-top:20px; margin-right:20px;  margin-left:20px; padding:5px; text-align:center;"> Espropria a tutti l'oggetto: <select id="oID">
+			<div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-top:20px; margin-right:20px;  margin-left:20px; padding:5px; text-align:center;"> Espropria a tutti l'oggetto: <select id="eoID">
 				<option tal:repeat="con allServiceObjects" tal:content="con/oName" tal:attributes="value con/oID"/>
-			</select>&nbsp;&nbsp;<input type="submit" value="VAI" onclick="espropriaObjects(jQuery('#oID').val());" />
+			</select>&nbsp;&nbsp;<input type="submit" value="VAI" onclick="espropriaObjects(jQuery('#eoID').val());" />
 			</div>
 
 

@@ -335,7 +335,7 @@ a.interfaceLinkYellow:hover{color:orange;}
     text-decoration: underline;
 }
 
-.internalCdbLink::before{color:red; display:inline-block; vertical-align: middle; font-size:15px;  text-decoration:none; content:'〔 🢒'; margin-right:4px;}
+.internalCdbLink::before{color:red; display:inline-block; vertical-align: middle; font-size:15px;  text-decoration:none; content:'〔'; margin-right:4px;}
 .internalCdbLink::after{color:red; display:inline-block;  vertical-align: middle; font-size:15px; text-decoration:none; content:'〕';}
 
 

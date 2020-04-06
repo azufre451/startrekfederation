@@ -1,5 +1,6 @@
-﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <head>
 	<meta charset="UTF-8" />
@@ -9,6 +10,7 @@
 	<link tal:attributes="href string:TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" /> 
 	<link tal:attributes="href string:TEMPLATES/css/db.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" /> 
 
+
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 	
 	<link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet" />
@@ -16,11 +18,18 @@
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+		<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}" />
+
 	<script type="text/javascript" src="TEMPLATES/js/google.js"></script>
 
 	<script type="text/javascript">
 		jQuery(function(){
 			jQuery('button').button();
+			jQuery('.tooltip').tooltip({
+          content: function () {
+              return jQuery(this).prop('title');
+          }
+      });
 		});
 		
 		function display(ida)
@@ -43,10 +52,20 @@
 			jQuery('#typesContainer').html(jQuery('#'+ida).html());
 			jQuery('#typesContainer').fadeIn();
 		}
+
 	</script>
 
 	<style>
 	.sunk{color:red; text-decoration: line-through;}
+
+	.ui-tooltip {
+	font-size:12px;
+	text-align:justify;
+	}
+	.internalCdbLink::before{
+		content:'〔 ' ;
+	}
+	}
 	</style>
 
 
@@ -67,7 +86,7 @@
 	<div id="supCol">
 		<div id="supLeft" />
 		<div id="supRight" />
-
+   
 	</div>
 	
 	<div id="fillerBax">
@@ -77,23 +96,19 @@
 	
 </div>
 
-<div id="cdbHeader"><div tal:attributes="style string:position:absolute;; height:50px;; width:202px;; top:35px;; left:55px;; background-image:url('TEMPLATES/img/tips/folder_sf.png')" />
-<p style="text-align:right; margin-right:20px; margin-bottom:3px; padding-bottom:6px; border-bottom:1px dotted #FCFCFC" class="titleFS">Flotta Stellare</p> <p style="position:absolute; top:55px; left:260px; font-size:14px;"><a class="interfaceLink" href="db.php?cat=9">Torna Indietro</a></p></div>
+<div id="cdbHeader"><div tal:attributes="style string:position:absolute;; height:50px;; width:202px;; top:35px;; left:55px;; background-image:url('TEMPLATES/img/tips/folder_nav.png')" />
+<p style="text-align:right; margin-right:20px; margin-bottom:3px; padding-bottom:6px; border-bottom:1px dotted #FCFCFC" class="titleFS">Registro Navi</p> <p style="position:absolute; top:55px; left:260px; font-size:14px;"><a class="interfaceLink" tal:attributes="href string:db.php?cat=9">Torna Indietro</a></p></div>
 
 <div id="cdbContainer">
 
+
 <div style="padding:10px; padding-left:40px; padding-right:60px; text-align:justify; font-size:13px; margin-right:20px;">
-	<p class="subTitler">Divisione per Flotta</p><p style="margin-top:0px; text-align:center;"><a href="https://oscar.stfederation.it//matDispense/img/flotte_chart.jpg" target="_blank" class="interfaceLinkGreen"> Suddivisione delle Flotte </a></p>
-	<p style="text-align:center; margin:0px; width:60%; margin:auto; font-weight:bold; font-size:17px;">
-		<span tal:repeat="fleet shipsFleet">
-			<a tal:attributes="onclick string:javascript:display('flotta_${repeat/fleet/key}');" class="interfaceLink" tal:content="string: ${repeat/fleet/key}" href="javascript:void(0);" style="font-size:16px;"/> -
-		</span>
+	<p class="subTitler">Flotta della Nuova Federazione
+
 	</p>
-	
-	<div id="fleetContainer" style="display:none; margin:auto; width:80%; margin-top:20px; border:1px solid gray; padding:10px;" />
-	
-	<div tal:repeat="fleet shipsFleet" tal:attributes="id string:flotta_${repeat/fleet/key}" style="display:none;" >
-		<p><span tal:content="string:${repeat/fleet/key} Flotta" style="font-family:Helvetica; font-size:25px;" /></p>
+
+
+	<div tal:repeat="fleet shipsFleet" tal:attributes="id string:flotta_${repeat/fleet/key}" style="display:block; margin:auto; margin-top:20px; width:70%;" >
 		<p style="margin:0px; margin-left:30px;">
 			<b><span class="cdbPostGreen">Comandante:</span></b> <img tal:attributes="src string:TEMPLATES/img/ranks/${fleet/0/ouniform}.png" style="vertical-align:middle;" /> <img style="vertical-align:middle; vertical-align:middle;" tal:attributes="src php:(fleet[0]['pgSesso'] == 'm') ? 'TEMPLATES/img/specie/' . fleet[0]['pgSpecie'] . '_m.png' : ((fleet[0]['pgSesso'] == 'f') ? 'TEMPLATES/img/specie/' . fleet[0]['pgSpecie'] . '_f.png' : 'TEMPLATES/img/specie/' . fleet[0]['pgSpecie'] . '_t.png' ) ; title php:(fleet[0]['pgSesso'] == 'm') ? fleet[0]['pgSpecie'] . ' - Maschio' : ((fleet[0]['pgSesso'] == 'f') ? fleet[0]['pgSpecie'] . ' - Femmina' : fleet[0]['pgSpecie'] . ' - Terzo Genere' )"  /> <span class="cdbPostRed cdbPostLittleSize" style="text-transform:uppercase;" tal:content="fleet/0/cString" /> </p>
 		<p style="margin:0px; margin-left:30px;">	<b><span class="cdbPostGreen ">Settore:</span></b> <span class="cdbPostLittleSize" style="text-transform:uppercase;" tal:content="fleet/0/sector"/></p>
@@ -102,7 +117,12 @@
 			<span class="cdbPostGrey cdbPostLittleSize" style="color:white" tal:content="php:admirals[repeat.fleet.key]['NCC']"/>
 			<span class="cdbPostYellow" style="font-style:italic;" tal:content="php: '[Classe ' . admirals[repeat.fleet.key]['class'] . ']'"/>
 		</p><br />
-		<p style="margin:0px; margin-left:60px;" tal:repeat="nave fleet"  >
+		<p style="margin:0px; line-height:18px; margin-left:60px; border-left: 2px solid red; padding-left:20px;" tal:repeat="nave fleet"  >
+			<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/info.png" style="margin-left:5px; vertical-align: middle;" tal:condition="php:nave['notes'] != ''" tal:attributes="title string:Catturata dalla N.F.
+			Precedentemente: ${nave/notes}" />
+			<span style="width:20px; display:inline-block" tal:condition="php:nave['notes'] == ''" />
+			
+
 			<span tal:attributes="class php:(nave['status'] != 'ACTIVE') ? 'cdbPostGray' : ((nave['admiral']) ? 'cdbPostRed' : 'cdbPostBlue')" style="font-weight:bold;"  tal:content="nave/name"/> - 
 			<span tal:attributes="class php:(nave['status'] != 'ACTIVE') ? 'cdbPostGray cdbPostLittleSize' : 'cdbPostWhite cdbPostLittleSize'" tal:content="nave/NCC"/>
 			<span tal:attributes="class php:(nave['status'] != 'ACTIVE') ? 'cdbPostGray' : 'cdbPostYellow'" style="font-style:italic;" tal:content="string: [Classe ${nave/class}]"/>
@@ -111,30 +131,36 @@
 			<span class="cdbPostGreen cdbPostLittleSize" tal:condition="php:(nave['status'] == 'REFIT')"> (IN REFIT)  </span>
 			<span class="cdbPostWhite cdbPostLittleSize" tal:condition="php:(nave['status'] == 'INACTIVE')"> (DECOMMISSIONATA)  </span>
 			<span class="cdbPostWhite cdbPostLittleSize" tal:condition="php:(nave['status'] == 'HEAVY_DAMAGED')"> (GRAVEMENTE DANNEGGIATA)  </span>
+			<span class="cdbPostGreen cdbPostLittleSize" tal:condition="php:(nave['status'] == 'CAPTURED')"> (CATTURATA)  </span>
+
+			<span tal:condition="php:nave['cdbLink'] != 0" tal:replace="structure php:CDB::formatCDBLinkExternal(array(0,nave['cdbLink']),mode='small')"> (TTT)  </span> 
+
+			
 		</p> 
-		<a href="javascript:void(0);" onclick="jQuery('#fleetContainer').fadeOut();" class="interfaceLink"> Chiudi</a>
-	</div>
+		</div>
 	
 </div>
 
 
 <div style="padding:10px; padding-left:40px; padding-right:60px; text-align:justify; font-size:13px; margin-right:20px;">
-	<p class="subTitler">Divisione per Classe</p><p style="text-align:center; margin:0px; font-weight:bold; font-size:17px;"><span tal:repeat="fleet shipsClasses"><a tal:attributes="onclick string:javascript:displayC('classek_${repeat/fleet/key}');" class="interfaceLink" tal:content="repeat/fleet/key" href="javascript:void(0);" style="font-size:16px;"/> - </span></p>
+	<p class="subTitler">Divisione per Classe</p><p style="text-align:center; margin:0px; margin-top:20px; font-weight:bold; font-size:17px;"><span tal:repeat="fleet shipsClasses"><a tal:attributes="onclick string:javascript:displayC('classek_${repeat/fleet/key}');" class="interfaceLink" tal:content="repeat/fleet/key" href="javascript:void(0);" style="font-size:16px;"/> - </span></p>
 	
 	<div id="classContainer" style="display:none; margin:auto; width:80%; margin-top:20px; border:1px solid gray; padding:10px;" />
 	
 	<div tal:repeat="fleet shipsClasses" tal:attributes="id string:classek_${repeat/fleet/key}" style="display:none;" > 
-		<p style="margin:0px; margin-left:60px;" tal:repeat="nave fleet">
+		<p style="margin:0px; line-height:18px; margin-left:60px; border-left: 2px solid red; padding-left:20px;" tal:repeat="nave fleet"  >
+			<img src="TEMPLATES/img/interface/personnelInterface/info.png" style="margin-left:5px; vertical-align: middle;" tal:condition="php:nave['notes'] != ''" tal:attributes="title string:Catturata dalla N.F. | Precedentemente: ${nave/notes}" />
+			<span style="width:20px; display:inline-block" tal:condition="php:nave['notes'] == ''" />
 			<span tal:attributes="class php:(nave['admiral']) ? 'cdbPostRed' : 'cdbPostBlue'" style="font-weight:bold;"  tal:content="nave/name"/> - 
 			<span class="cdbPostGrey cdbPostLittleSize" style="color:white" tal:content="nave/NCC"/>
 			<span class="cdbPostYellow" style="font-style:italic;" tal:content="string: [Classe ${nave/class}]"/>
-			<span class="cdbPostGreen cdbPostLittleSize" style="font-style:italic;" tal:content="string: [${nave/romanFleet} FLOTTA]"/>
 			
 			<span class="cdbPostRed cdbPostLittleSize" tal:condition="php:(nave['status'] == 'DESTROYED')">&#10013; (DISTRUTTA) &#10013;</span>
 			<span class="cdbPostBlue cdbPostLittleSize" tal:condition="php:(nave['status'] == 'LOST')"> (DISPERSA)  </span>
 			<span class="cdbPostGreen cdbPostLittleSize" tal:condition="php:(nave['status'] == 'REFIT')"> (IN REFIT)  </span>
 			<span class="cdbPostWhite cdbPostLittleSize" tal:condition="php:(nave['status'] == 'INACTIVE')"> (DECOMMISSIONATA)  </span>
 			<span class="cdbPostWhite cdbPostLittleSize" tal:condition="php:(nave['status'] == 'HEAVY_DAMAGED')"> (GRAVEMENTE DANNEGGIATA)  </span>
+			<span class="cdbPostGreen cdbPostLittleSize" tal:condition="php:(nave['status'] == 'CAPTURED')"> (CATTURATA)  </span>
 		</p>
 		<a href="javascript:void(0);" onclick="jQuery('#classContainer').fadeOut();" class="interfaceLink"> Chiudi</a>
 	</div>
@@ -142,22 +168,25 @@
 </div>
 
 <div style="padding:10px; padding-left:40px; padding-right:60px; text-align:justify; font-size:13px; margin-right:20px;">
-	<p class="subTitler">Divisione per Classificazione</p><p style="text-align:center; margin:0px; font-weight:bold; font-size:17px;"><span tal:repeat="fleet shipsTypes"><a tal:attributes="onclick string:javascript:displayT('typeL_${repeat/fleet/key}');" class="interfaceLink" tal:content="repeat/fleet/key" href="javascript:void(0);" style="font-size:16px;"/> - </span></p>
+	<p class="subTitler">Divisione per Classificazione</p><p style="text-align:center; margin-top:20px;  margin:0px; font-weight:bold; font-size:17px;"><span tal:repeat="fleet shipsTypes"><a tal:attributes="onclick string:javascript:displayT('typeL_${repeat/fleet/key}');" class="interfaceLink" tal:content="repeat/fleet/key" href="javascript:void(0);" style="font-size:16px;"/> - </span></p>
 	
 	<div id="typesContainer" style="display:none; margin:auto; width:80%; margin-top:20px; border:1px solid gray; padding:10px;" />
 	
 	<div tal:repeat="fleet shipsTypes" tal:attributes="id string:typeL_${repeat/fleet/key}" style="display:none;" > 
-		<p style="margin:0px; margin-left:60px;" tal:repeat="nave fleet">
+		<p style="margin:0px; line-height:18px; margin-left:60px; border-left: 2px solid red; padding-left:20px;" tal:repeat="nave fleet"  >
+			<img src="TEMPLATES/img/interface/personnelInterface/info.png" style="margin-left:5px; vertical-align: middle;" tal:condition="php:nave['notes'] != ''" tal:attributes="title string:Catturata dalla N.F. | Precedentemente: ${nave/notes}" />
+			<span style="width:20px; display:inline-block" tal:condition="php:nave['notes'] == ''" />
+
 			<span tal:attributes="class php:(nave['admiral']) ? 'cdbPostRed' : 'cdbPostBlue'" style="font-weight:bold;"  tal:content="nave/name"/> - 
 			<span class="cdbPostGrey cdbPostLittleSize" style="color:white" tal:content="nave/NCC"/>
 			<span class="cdbPostYellow" style="font-style:italic;" tal:content="string: [Classe ${nave/class}]"/>
-			<span class="cdbPostGreen cdbPostLittleSize" style="font-style:italic;" tal:content="string: [${nave/romanFleet} FLOTTA]"/>
 			
 			<span class="cdbPostRed cdbPostLittleSize" tal:condition="php:(nave['status'] == 'DESTROYED')">&#10013; (DISTRUTTA) &#10013;</span>
 			<span class="cdbPostBlue cdbPostLittleSize" tal:condition="php:(nave['status'] == 'LOST')"> (DISPERSA)  </span>
 			<span class="cdbPostGreen cdbPostLittleSize" tal:condition="php:(nave['status'] == 'REFIT')"> (IN REFIT)  </span>
 			<span class="cdbPostWhite cdbPostLittleSize" tal:condition="php:(nave['status'] == 'INACTIVE')"> (DECOMMISSIONATA)  </span>
 			<span class="cdbPostWhite cdbPostLittleSize" tal:condition="php:(nave['status'] == 'HEAVY_DAMAGED')"> (GRAVEMENTE DANNEGGIATA)  </span>
+			<span class="cdbPostGreen cdbPostLittleSize" tal:condition="php:(nave['status'] == 'CAPTURED')"> (CATTURATA)  </span>
 		</p>
 		<a href="javascript:void(0);" onclick="jQuery('#typesContainer').fadeOut();" class="interfaceLink"> Chiudi</a>
 	</div>
@@ -165,35 +194,40 @@
 </div>
 
 
-<div style="padding:10px; padding-left:40px; padding-right:60px; text-align:justify; font-size:13px; margin-right:20px;">
-	<p class="subTitler">Divisione Alfabetica</p><p style="text-align:center; margin:0px; font-weight:bold; font-size:17px;"><span tal:repeat="fleet shipsLetters"><a tal:attributes="onclick string:javascript:displayA('lettek_${repeat/fleet/key}');" class="interfaceLink" tal:content="repeat/fleet/key" href="javascript:void(0);" style="font-size:16px;"/> - </span></p>
+<div style="padding:10px;  line-height:18px; padding-left:40px; padding-right:60px; text-align:justify; font-size:13px; margin-right:20px;">
+	<p class="subTitler">Divisione Alfabetica</p><p style="text-align:center; margin:0px; margin-top:20px;  font-weight:bold; font-size:17px;"><span tal:repeat="fleet shipsLetters"><a tal:attributes="onclick string:javascript:displayA('lettek_${repeat/fleet/key}');" class="interfaceLink" tal:content="repeat/fleet/key" href="javascript:void(0);" style="font-size:16px;"/> - </span></p>
 	
 	<div id="alfaContainer" style="display:none; margin:auto; width:80%; margin-top:20px; border:1px solid gray; padding:10px;" />
 	
 	<div tal:repeat="fleet shipsLetters" tal:attributes="id string:lettek_${repeat/fleet/key}" style="display:none;" > 
-		<p style="margin:0px; margin-left:60px;" tal:repeat="nave fleet">
+		<p style="margin:0px; line-height:18px; margin-left:60px; border-left: 2px solid red; padding-left:20px;" tal:repeat="nave fleet"  >
+			<img src="TEMPLATES/img/interface/personnelInterface/info.png" style="margin-left:5px; vertical-align: middle;" tal:condition="php:nave['notes'] != ''" tal:attributes="title string:Catturata dalla N.F. | Precedentemente: ${nave/notes}" />
+			<span style="width:20px; display:inline-block" tal:condition="php:nave['notes'] == ''" />
+
 			<span tal:attributes="class php:(nave['admiral']) ? 'cdbPostRed' : 'cdbPostBlue'" style="font-weight:bold;"  tal:content="nave/name"/> - 
 			<span class="cdbPostGrey cdbPostLittleSize" style="color:white" tal:content="nave/NCC"/>
 			<span class="cdbPostYellow" style="font-style:italic;" tal:content="string: [Classe ${nave/class}]"/>
-			<span class="cdbPostGreen cdbPostLittleSize" style="font-style:italic;" tal:content="string: [${nave/romanFleet} FLOTTA]"/>
 
 			<span class="cdbPostRed cdbPostLittleSize" tal:condition="php:(nave['status'] == 'DESTROYED')">&#10013; (DISTRUTTA) &#10013;</span>
 			<span class="cdbPostBlue cdbPostLittleSize" tal:condition="php:(nave['status'] == 'LOST')"> (DISPERSA)  </span>
 			<span class="cdbPostGreen cdbPostLittleSize" tal:condition="php:(nave['status'] == 'REFIT')"> (IN REFIT)  </span>
 			<span class="cdbPostWhite cdbPostLittleSize" tal:condition="php:(nave['status'] == 'INACTIVE')"> (DECOMMISSIONATA)  </span>
 			<span class="cdbPostWhite cdbPostLittleSize" tal:condition="php:(nave['status'] == 'HEAVY_DAMAGED')"> (GRAVEMENTE DANNEGGIATA)  </span>
+			<span class="cdbPostGreen cdbPostLittleSize" tal:condition="php:(nave['status'] == 'CAPTURED')"> (CATTURATA)  </span>
+
+
+
 		</p>
 		<a href="javascript:void(0);" onclick="jQuery('#alfaContainer').fadeOut();" class="interfaceLink"> Chiudi</a>
 	</div>
 	
 </div>
- 
 
-<p style="float:right; text-align:center; font-size:11px; width:280px; margin-right:30px; margin-top:10px;"><a class="interfaceLink" rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Licenza Creative Commons" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /> <a class="interfaceLink" href="index.php?directory=true" target="_blank"> Licenza dei Contenuti </a></p>
+<p style="float:right; text-align:center; font-size:11px; width:280px; margin-right:30px; margin-top:10px;"><a class="interfaceLink" rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Licenza Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /> <a class="interfaceLink" href="index.php?directory=true" target="_blank"> Licenza dei Contenuti </a></p>
 
 
-<div style="padding:10px; padding-left:40px; padding-right:60px; text-align:justify; font-size:13px; margin-right:20px;"><hr/>
-<center><table style="width:100%;"><tbody><tr><td style="width:155px; border:1px solid #dcc884; font-size:13px; font-weight:bold; font-variant:small-caps;"> Redazione: </td><td style="border:1px solid #dcc884; font-size:13px; font-weight:bold; font-variant:small-caps;">Shepard, Vos, Hopkins, Morgan, Walukiewicz, Kerim, Hanes, Galien, Lloyd, Myers</td></tr><tr><td style="border:1px solid #dcc884; font-size:13px; font-weight:bold; font-variant:small-caps;"> Impaginazione: </td><td style="border:1px solid #dcc884; font-size:13px; font-weight:bold; font-variant:small-caps;">Hopkins</td></tr><tr><td style="border:1px solid #dcc884; font-size:13px; font-weight:bold; font-variant:small-caps;"> Adattamento e Revisione: </td><td style="border:1px solid #dcc884; font-size:13px; font-weight:bold; font-variant:small-caps;">Hopkins, Vos</td></tr><tr><td style="border:1px solid #dcc884; font-size:13px; font-weight:bold; font-variant:small-caps;"> Approvazione: </td><td style="border:1px solid #dcc884; font-size:13px; font-weight:bold; font-variant:small-caps;">Hopkins</td></tr><tr><td style="border:1px solid #dcc884; font-size:13px; font-weight:bold; font-variant:small-caps;"> Fonti: </td><td style="border:1px solid #dcc884; font-size:13px; font-weight:bold; font-variant:small-caps;">Memory Alpha, Memory Beta, ACTD, lavoro personale</td></tr></tbody></table></center></div>
-</div>  
+
+</div>
+
 </body>
 </html>

@@ -529,11 +529,11 @@ margin-top:-165px;
 }
 
 #messageOfStatus{
-width:380px;
-height:350px;
+width:400px;
+height:550px;
 padding:10px;
-margin-left:-200px;
-margin-top:-185px;
+margin-left:-210px;
+margin-top:-285px;
 font-size:14px;
 line-height:1.3em;
 }
@@ -667,6 +667,7 @@ position:relative;
 #dicePanel,#masterDicePanel{
 
 	width:620px;
+	font-family:Arial;
 	height:300px;
 	margin-left:-320px;
 	margin-top:-150px;
@@ -888,6 +889,11 @@ padding:5px;
 	
 }
 
+.diceOutcomeBox div.ND p.bar{
+	background-color:#856f6f;
+	
+}
+
 .diceOutcomeBox div.DF p.bar{
 	background-color:#c1bf25;
 	
@@ -897,7 +903,7 @@ padding:5px;
 }
 
 .diceOutcomeBox p.label{text-align:right; margin:0px; margin-top:4px; font-size:12px;}
-
+.diceOutcomeBox div.ND p.label::after{color:#856f6f; content:'[ Dado non necessario ]';}
 .diceOutcomeBox div.DF p.label::after{color:#c1bf25; content:'[ Fortuna Critica ]';}
 .diceOutcomeBox div.FC p.label::after{color:#42105f; content:'[ Fall. Critico ]';}
 .diceOutcomeBox div.F p.label::after{color:#d72b2b; content:'[ Fallimento ]';}

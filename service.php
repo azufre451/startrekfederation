@@ -52,7 +52,7 @@ if(isSet($_GET['registerUser']))
 	$assignTOSHIP = 'USS10';
 
 	$re1=mysql_query("SELECT 1 FROM pg_users WHERE email = '$emai'");
-	if (mysql_affected_rows() && $emai != 'png@startrekfederation.it'){echo json_encode(array('err'=>'ME')); exit;}
+	if (mysql_affected_rows() && $emai != 'png@stfederation.it'){echo json_encode(array('err'=>'ME')); exit;}
 	
 	$re1=mysql_query("SELECT 1 FROM pg_users WHERE pgUser = '$pgName'");
 	if (mysql_affected_rows()){echo json_encode(array('err'=>'UE')); exit;}
@@ -78,45 +78,13 @@ if(isSet($_GET['registerUser']))
 	mysql_query("INSERT INTO pg_users_pointStory (owner,points,cause,causeM,causeE,timer,assigner) VALUES ($pgNewID,10,'ISCR','Bonus iscrizione a STF','Bonus iscrizione a STF',".time().",1)");
 	
 	
-$pgNew->sendPadd('Benvenuto!','<div style="text-align:center"><img src="https://nick.startrekfederation.it/SigmaSys/logo/little_logo.png" /><br /><b>Benvenuto in Star Trek: Federation!</b></div><br />Ti inviamo questo padd come riassunto del materiale informativo presente presso i vari canali di gioco. In caso di perplessita\', non esitare a contattare le Guide o lo Staff di Star Trek: Federation!<br />
-		
-	&raquo; <a href="javascript:dbOpenToTopic(186)" class="interfaceLink"> Ambientazione - La Federazione Unita dei Pianeti </a>
-	<p style="margin:0px; margin-left:30px; "> Nuovo all\'ambientazione di Star Trek? Qualche info la trovi qui! </p>
-
-	&raquo; <a href="javascript:dbOpenToTopic(150)" class="interfaceLink"> Regolamento di Gioco </a>
-	<p style="margin:0px; margin-left:30px; "> Contiene il regolamento di gioco, dacci un\'occhiata! </p>
-	
-	&raquo; <a href="javascript:dbOpenToTopic(151)" class="interfaceLink"> Frequently Asked Questions </a>
-	<p style="margin:0px; margin-left:30px; "> Domande e Risposte frequenti. Hai un dubbio? Probabilmente troverai risposta qui </p>
-	
-	&raquo; <a href="getLog.php?session=322" class="interfaceLink" target="_blank"> Giocata di Esempio </a>
-	<p style="margin:0px; margin-left:30px; "> Ecco una Giocata di esempio di Star Trek: Federation </p>
-	
-	&raquo; <a href="javascript:dbOpenToTopic(262)" class="interfaceLink"> Il Gioco di Ruolo</a>
-	<p style="margin:0px; margin-left:30px; "> Guida al gioco di ruolo e ai principi da seguire per giocare al meglio</p>
-	
-	&raquo; <a href="javascript:dbOpenToTopic(241)" class="interfaceLink"> La stesura del Background </a>
-	<p style="margin:0px; margin-left:30px; ">Chi e\' il tuo PG? Come descriverlo al meglio? Creare un buon Background e\' fondamentale!</p>
-	
-	<b>Sezione Aiuto: qualche consiglio utile</b>
-	
-	&raquo; <a href="javascript:cdbOpenToTopic(64)" class="interfaceLink"> Lo Staff: Admin e Master di STF </a>
-	&raquo; <a href="javascript:dbOpenToTopic(265)" class="interfaceLink"> Il sistema dei Federation Points </a>
-	&raquo; <a href="javascript:dbOpenToTopic(245)" class="interfaceLink"> Empatia e Telepatia: Betazoidi, Vulcaniani... </a>
-	&raquo; <a href="javascript:dbOpenToTopic(249)" class="interfaceLink"> Stesura dei Rapporti di gioco </a>
-	&raquo; <a href="javascript:dbOpenToTopic(259)" class="interfaceLink"> Turnazione</a>
-	&raquo; <a href="javascript:dbOpenToTopic(248)" class="interfaceLink"> Piccolo Glossario Trek </a>
-	&raquo; <a href="javascript:dbOpenToTopic(242)" class="interfaceLink"> Lauree, Medaglie e Stato di Servizio </a>
-	
-	&raquo; <a href="javascript:dbOpen()" class="interfaceLink"> Documentazione Completa </a>
-	
-	Buon gioco,<br />Il team di Star Trek Federation');
+	$pgNew->sendWelcomePadd();
  
 	
 	
 	mysql_query("INSERT INTO connlog (user,time,ip) VALUES ($pgNewID,$curTime,'".$_SERVER['REMOTE_ADDR']."')");
 	$pgName=stripslashes($pgName);
-	mail($emai,"Star Trek Federation - Benvenuto!","Star Trek Federation - Benvenuto:\n\nCiao, $pgName,\n\nTu, o qualcuno per te, ha provveduto ad eseguire la registrazione del tuo indirizzo email a Star Trek Federation. L'operazione ha avuto esito positivo.\n\nUSERNAME: $pgName\nPASSWORD: $passer\n\nPotrai cambiare la password loggandoti in Star Trek Federation al link http://www.startrekfederation.it\n\nCi auguriamo di vederti presto tra noi!\nIl team di Star Trek: Federation.","From:staff@startrekfederation.it");
+	mail($emai,"Star Trek Federation - Benvenuto!","Star Trek Federation - Benvenuto:\n\nCiao, $pgName,\n\nTu, o qualcuno per te, ha provveduto ad eseguire la registrazione del tuo indirizzo email a Star Trek Federation. L'operazione ha avuto esito positivo.\n\nUSERNAME: $pgName\nPASSWORD: $passer\n\nPotrai cambiare la password loggandoti in Star Trek Federation al link http://www.stfederation.it\n\nCi auguriamo di vederti presto tra noi!\nIl team di Star Trek: Federation.","From:staff@stfederation.it");
 		
 	PG::setMostrina($pgNewID,$pgRealTarget);
 
@@ -182,7 +150,7 @@ if(isSet($_GET['createPNG']))
 {
 //	return;
 	$pgName= ucfirst(addslashes(($_POST['pgName'])));
-	$emai= 'png@startrekfederation.it';
+	$emai= 'png@stfederation.it';
 	$pgSpecie= (htmlentities(addslashes(($_POST['specie'])),ENT_COMPAT, 'UTF-8'));
 	$pgSesso= (htmlentities(addslashes(($_POST['pgSesso'])),ENT_COMPAT, 'UTF-8'));
 	$passer = addslashes($_POST['password']);
@@ -301,7 +269,7 @@ else if (isSet($_GET['bavosize']))
 	
 	$pg = new PG($to);
 	$pgName = $pg->pgUser;
-	//mail(PG::getSomething($to,'email'),"Star Trek Federation - Ti abbiamo perso di vista!","Ciao $pgName,\n\nSono passati due mesi dal tuo ultimo login in Star Trek: Federation. Per garantire uno sviluppo funzionale degli organigrammi di bordo, il tuo personaggio verrà spostato in altra locazione a partire da oggi. Ci auguriamo di rivederti presto fra noi, e ti assicuriamo che, in caso volessi tornare, il tuo PG sarà mantenuto attivo per altri 30 giorni. Al termine dei 30 giorni, il PG sarà eliminato dai nostri server.\n\n A presto\n\nIl team di Star Trek: Federation\n\nhttp://www.startrekfederation.it","From:staff@startrekfederation.it");
+	//mail(PG::getSomething($to,'email'),"Star Trek Federation - Ti abbiamo perso di vista!","Ciao $pgName,\n\nSono passati due mesi dal tuo ultimo login in Star Trek: Federation. Per garantire uno sviluppo funzionale degli organigrammi di bordo, il tuo personaggio verrà spostato in altra locazione a partire da oggi. Ci auguriamo di rivederti presto fra noi, e ti assicuriamo che, in caso volessi tornare, il tuo PG sarà mantenuto attivo per altri 30 giorni. Al termine dei 30 giorni, il PG sarà eliminato dai nostri server.\n\n A presto\n\nIl team di Star Trek: Federation\n\nhttp://www.stfederation.it","From:staff@stfederation.it");
 	}
 	header("Location:crew.php?equi=$dest");
 	exit;
@@ -439,7 +407,7 @@ else if(isSet($_GET['comm']))
 			$toRoom = $rea['locID'];
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','$string',".time().",'ACTION')");
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','commbadge',".time().",'AUDIO')");
-			// mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','<audio autoplay=\"autoplay\"><source src=\"https://nick.startrekfederation.it/audioBase/commbadge.ogg\" type=\"audio/ogg\" /><source src=\"https://nick.startrekfederation.it/audioBase/commbadge.mp3\" type=\"audio/mpeg\" /></audio>',".time().",'AUDIO')");
+			// mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','<audio autoplay=\"autoplay\"><source src=\"https://oscar.stfederation.it/audioBase/commbadge.ogg\" type=\"audio/ogg\" /><source src=\"https://oscar.stfederation.it/audioBase/commbadge.mp3\" type=\"audio/mpeg\" /></audio>',".time().",'AUDIO')");
 			}
 		}
 	}
@@ -612,8 +580,8 @@ else if (isSet($_GET['addMapLocation']))
 	$icon = addslashes($_POST['icon']);
 	$ima = addslashes($_POST['internalImage']);
 	
-	if($icon == '') $icon = 'https://nick.startrekfederation.it/imaLocation/i_generic.png';
-	if($ima == '') $ima = 'https://nick.startrekfederation.it/imaLocation/c_generic.png';
+	if($icon == '') $icon = 'https://oscar.stfederation.it/imaLocation/i_generic.png';
+	if($ima == '') $ima = 'https://oscar.stfederation.it/imaLocation/c_generic.png';
 	$map = ($vali->numberOnly(addslashes($_POST['mappNo'])));
 	
 	if(PG::mapPermissions('JM',$currentUser->pgAuthOMA))
@@ -632,8 +600,8 @@ else if (isSet($_GET['editMapLocation']))
 	$ima = addslashes($_POST['internalImage']);
 	$typer = addslashes($_POST['typer']);
 	
-	if($icon == '') $icon = 'https://nick.startrekfederation.it/imaLocation/i_generic.png';
-	if($ima == '') $ima = 'https://nick.startrekfederation.it/imaLocation/c_generic.png';
+	if($icon == '') $icon = 'https://oscar.stfederation.it/imaLocation/i_generic.png';
+	if($ima == '') $ima = 'https://oscar.stfederation.it/imaLocation/c_generic.png';
 	$map = ($vali->numberOnly(addslashes($_POST['mappNo'])));
 	$deck = addslashes($_POST['pontNo']);
 	

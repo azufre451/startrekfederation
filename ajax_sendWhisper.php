@@ -1,26 +1,12 @@
 <?php
 session_start();
 if (!isSet($_SESSION['pgID'])){exit;}
+ 
 
 function stringToColorCode($str) {
-
-	$arr=array("#e6194b","#3cb44b","#ffe119","#0082c8","#f58231","#911eb4","#46f0f0","#f032e6","#d2f53c","#fabebe","#008080","#e6beff","#aa6e28","#fffac8","#800000","#aaffc3","#808000","#ffd8b1","#000080","#808080","#000000");
-
-  $code = md5($str);
-  $cnt=0;
-  echo $code;
-  echo "<br />";
-  for($i = 0; $i < count($code); $i++)
-    {
-    	echo $code[$i] + ' ' + ord($code[$i]);
-        $cnt += ord($code[$i]);
-    }
-  echo $cnt % count($arr);
-
-  return $arr[($cnt+1) % count($arr)];
+  $code = dechex(crc32($str)); 
+  return  substr($code, 0, 6);
 }
-
-
 
 include('includes/app_include.php');
 include('includes/validate_class.php');
@@ -85,7 +71,7 @@ include('includes/validate_class.php');
 
 			$Col=stringToColorCode($fromUser);
 
-			$string = '<p class="susChat"><span class=\"susPrivate\">'.date('H:i',$time)."</span> <span class=\"susChatMPUserO\">$fromUser</span> <span style=\"color:$Col\"; class=\"susChatMPSeparator\">--&gt;</span>  <span class=\"susChatMPUserO\">$toUser:</span> <span class=\"susPrivate\">$string</span></p>";
+			$string = '<p class="susChat"><span class=\"susPrivate\">'.date('H:i',$time)."</span> <span class=\"susChatMPUserO\">$fromUser</span> <span style=\"color:#$Col\"; class=\"susChatMPSeparator\">--&gt;</span>  <span class=\"susChatMPUserO\">$toUser:</span> <span class=\"susPrivate\">$string</span></p>";
 		
 		}
 		else 

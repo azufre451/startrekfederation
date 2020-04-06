@@ -52,7 +52,7 @@ else if($action == "changePWD")
 	if (mysql_affected_rows() == 0){$template = new PHPTAL('TEMPLATES/static/changeFailed.htm'); $esito = "NEGATIVO";}
 	else{ $template = new PHPTAL('TEMPLATES/static/changeok.htm'); $esito = "POSITIVO";}
 	$pgUser = PG::getSomething($current,'username');
-	$head = 'From: webmaster@startrekfederation.it' . "\r\n";
+	$head = 'From: webmaster@stfederation.it' . "\r\n";
 
 	mail(PG::getSomething($current,'email'),"Star Trek Federation - Avviso di modifica della password","Star Trek Federation - AVVISO:\n\nCiao, $pgUser,\n\nTu, o qualcuno per te, ha provveduto ad eseguire una modifica della password di accesso a Star Trek Federation. L'operazione ha avuto esito $esito.\nLa presente unicamente per conoscenza. Nel caso tu non riconosca la modifica della password, ti invitiamo a contattattare un amministratore quanto prima.\n\nSaluti,\nIl team di Star Trek Federation",$head);
 	
@@ -77,7 +77,7 @@ else if($action == "recoverPWD")
 	if (mysql_affected_rows() == 0){$template = new PHPTAL('TEMPLATES/static/resetFail.htm');  $esito = "NEGATIVO";}
 	else{ $template = new PHPTAL('TEMPLATES/static/resetok.htm'); $esito = "POSITIVO";
 	
-	$head = 'From: webmaster@startrekfederation.it' . "\r\n";
+	$head = 'From: webmaster@stfederation.it' . "\r\n";
 	
 	mail($emailrecupero,"Star Trek Federation - Avviso di reset della password","Star Trek Federation - AVVISO:\n\nCiao, Ciao,\n\nTu, o qualcuno per te, ha provveduto ad eseguire un RESET della password di accesso a Star Trek Federation. L'operazione ha avuto esito $esito.\nLa presente unicamente per conoscenza.\n\nLa password, che e' stata generata in modo casuale e' la seguente:\n
 	$passer\n\n\n Nel caso tu non riconosca la modifica della password, ti invitiamo a contattattare un amministratore quanto prima.\n\nSaluti,\nIl team di Star Trek Federation",$head);

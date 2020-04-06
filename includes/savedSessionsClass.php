@@ -339,7 +339,7 @@ class Session
 			}
 			
 			$this->htmlLiner.="</div></body></html>";
-			$this->htmlLiner = str_replace('TEMPLATES/img/','https://www.startrekfederation.it/TEMPLATES/img/',$this->htmlLiner);
+			$this->htmlLiner = str_replace('TEMPLATES/img/','https://www.stfederation.it/TEMPLATES/img/',$this->htmlLiner);
 		}
 
 		if ($tofile){

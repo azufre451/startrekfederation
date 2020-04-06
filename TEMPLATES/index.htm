@@ -10,17 +10,16 @@
 		
 		<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
 		<script type="text/javascript" src="TEMPLATES/js/JU.js" />
-		<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
+		
 		<!--<script type="text/javascript" src="TEMPLATES/js/index.js?v=0.6" />-->
 		<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=0.6" />
-		
-	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/home/reset.css" />
+		 
 	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/clearfix.css" />
 	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/style.css" />
 	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/fonts.css"  />
 	<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/jquery.dualSlider.0.2b.css?v=2.1" />
-	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/index.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/styles.css?v=1.31" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/index.css?v=1.31" rel="stylesheet" type="text/css" />
 	<link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet" />
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" /> 
 	
@@ -146,7 +145,7 @@
 						jQuery('#mirror_uniform').attr('src','TEMPLATES/img/uniformi/'+jQuery('#select_uniform').val()+'.png');
 						jQuery('#mirror_razza').attr('src','TEMPLATES/img/specie/'+jQuery('#select_razza').val()+'_'+jQuery('#select_sesso').val()+'.png');
 						jQuery('#mirror_razza_t').html(jQuery('#select_razza').val());
-						if (jQuery('#select_gradoimage').val() != '') jQuery('#mirror_grado').attr('src','https://nick.startrekfederation.it/SigmaSys/PIPSN/'+jQuery('#select_gradoimage').val()+'.png');
+						if (jQuery('#select_gradoimage').val() != '') jQuery('#mirror_grado').attr('src','https://oscar.stfederation.it/SigmaSys/PIPSN/'+jQuery('#select_gradoimage').val()+'.png');
 						else jQuery('#mirror_grado').hide();
 						
 						jQuery('#REG #page1, #REG #page3').fadeOut(200).promise().done( function(){jQuery('#REG #page2, #REG #bpage2').fadeIn(100);});
@@ -189,7 +188,9 @@
 						}
 
 						jQuery('#val_'+ida).attr('value',target_15);
-						jQuery('#'+ida+'_marker_current').html('['+String(target_15)+']');
+						jQuery('#'+ida+'_marker_current').html(String(target_15));
+						if (!jQuery('#'+ida+'_marker_current').hasClass('act'))
+							jQuery('#'+ida+'_marker_current').addClass('act');
 						jQuery('#bar_'+ida+' span').css('width',target+'%');
 						}
 
@@ -208,7 +209,9 @@
 
 						
 						jQuery('#val_'+ida).attr('value',target_15);
-						jQuery('#'+ida+'_marker_current').html('['+String(target_15)+']');
+						jQuery('#'+ida+'_marker_current').html(String(target_15));
+						if (!jQuery('#'+ida+'_marker_current').hasClass('act'))
+							jQuery('#'+ida+'_marker_current').addClass('act');
 						jQuery('#bar_'+ida+' span').css('width',target+'%');
 						}
 						return false;
@@ -253,7 +256,7 @@
 								if (eer['err'])
 								{
 									if (eer['err'] == "IE") 
-									alert("Attenzione: si è verificato un errore di inserimento. Controlla di aver inserito i parametri in modo corretto, e ricorda che la somma dei singoli punteggi delle abilità deve essere pari a 23. In caso di problemi contattaci a staff@startrekfederation.it");
+									alert("Attenzione: si è verificato un errore di inserimento. Controlla di aver inserito i parametri in modo corretto, e ricorda che la somma dei singoli punteggi delle abilità deve essere pari a 23. In caso di problemi contattaci a staff@stfederation.it");
 									if (eer['err'] == "UE") alert("Attenzione: si è verificato un errore di inserimento. Questo cognome personaggio risulta essere già in uso");
 									if (eer['err'] == "ME") alert("Attenzione: si è verificato un errore di inserimento. Questo indirizzo email risulta essere già in uso");
 								}
@@ -395,7 +398,7 @@
 						</div>
 						
 						<div class="container opaque" style="width:45%; float:right;">
-							<div class="menureg top head">Razza del Personaggio <a title="Guida alle Specie" href="javascript:void(0);" onclick="dbOpenToTopicLit('SPE1')"><img src="TEMPLATES/img/interface/personnelInterface/info.png" style="vertical-align:middle" /></a></div>
+							<div class="menureg top head">Razza del Personaggio <a title="Guida alle Specie" href="javascript:void(0);" onclick="dbOpenToTopicLit('SPE1')" class="interfaceLink" style="color:#FFCC00; font-size:14px;">[?]</a></div>
 							<div style="margin-top:10px;"> 
 								<div class="squareChoice race selectable" onclick="selectRace(this,'Umana')"> <img src="TEMPLATES/img/specie/tUmana_m.png" class="race_place grayScale"/><img src="TEMPLATES/img/specie/tUmana_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/tUmana_f.png" class="race_fem"/><p>Umani</p></div>    
 								<div class="squareChoice race selectable" onclick="selectRace(this,'Vulcaniana')"> <img src="TEMPLATES/img/specie/Vulcaniana_m.png" class="race_place grayScale"/> <img src="TEMPLATES/img/specie/Vulcaniana_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/Vulcaniana_f.png" class="race_fem"/><p>Vulcaniani</p></div>    
@@ -407,7 +410,7 @@
 								
 								
 							<div class="menureg top head" style="margin-top:20px;" >Grado / Posizione</div>
-							<p  style="font-size:1.3em; margin:10px; text-align:justify;">La lista delle posizioni disponibili dipende dalle disponibilità di gioco. Ricorda che un grado elevato equivale a maggiori responsabilità.<br/>
+							<p  style="font-size:1.4em; margin:10px; text-align:justify;">La lista delle posizioni disponibili dipende dalle disponibilità di gioco. Ricorda che un grado elevato equivale a maggiori responsabilità.<br/>
 							Prima di ottenere il grado selezionato ti potrebbe essere chiesto di effettuare un <strong>periodo di prova</strong></p>
 							
 							<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_sfC" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
@@ -522,7 +525,7 @@
 							</select>
 
 
-							<div class="rectChoice buttonGo selectable" onclick="regPage('2');"><p>Prosegui...</p></div>   
+							<div class="rectChoice buttonGo selectable" style="line-height: 32px;" onclick="regPage('2');"><p>Avanti ...</p></div>   
 							
 						</div> 
 						
@@ -552,60 +555,36 @@
 							<div class="menureg top head">La razza che hai scelto: <span id="mirror_razza_t" /></div>
 							
 								<div class="species_spec" id="sp_Umana">Gli umani sono la razza con la maggiore espansione nella Federazione Unita dei Pianeti. Originari del pianeta Terra nel sistema Sol gli esseri umani sono stati la spinta iniziale alla fondazione della Federazione Unita dei Pianeti e si sono diffusi in tutti i quadranti con migliaia di colonie maggiori, molte delle quali divenute a loro volta indipendenti e membri della Federazione. Gli esseri umani sono poliedrici ed è impossibile definire un carattere comune, le loro più grandi forze sono la versatilità, la capacità di adattamento e la capacità di lavorare in gruppo. Per questo motivo gli esseri umani sono la spina dorsale della Flotta Stellare i cui membri umani superano di gran lunga il numero di altre specie.
-								<p class="bonus">
-									<span> Bonus di Razza: </span> 
-								<img src="TEMPLATES/img/interface/personnelInterface/abilita/leadership.png" class="tooltip" title="Gli umani ottengono un bonus alle capacità leadership" /><span>+1</span> 
-								<img src="TEMPLATES/img/interface/personnelInterface/abilita/culturealiene.png" class="tooltip"  title="Gli umani ottengono un bonus alle capacità di dialogare e confrontarsi con le culture aliene"/><span>+2</span> 
-								<span style="margin-left:20px; display:inline-block;">+50 UP</span> 
-								</p>
+								<p class="bonus"> <span  style="color:#FFCC00; margin-top:10px;"> Bonus di Razza: </span></p> 
+								<p class="bonus" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_umani" />
+
+
 								</div>
 								
 								<div class="species_spec" id="sp_Vulcaniana">Logica. La logica muove i fili della vita di tutti i giorni di un vulcaniano ed i vulcaniani amano ricordare quanto la logica della ragione sia più importante delle emozioni. Razza umanoide del tutto simile ad un essere umano esteriormente se non per le orecchie leggermente allungate ed appuntite. Vivono secondo un rigido codice comportamentale che prevede l'estraniazione delle emozioni dalla loro esistenza, sviluppato in tempi antichi dopo grandi tumulti a causa della natura aggressiva e violenta degli antichi vulcaniani. I vulcaniani sono dotati di capacità telepatiche al contatto. Per le loro caratteristiche ed i metodi utilizzati i vulcaniani si inseriscono perfettamente in tutte le discipline civili e militari. I vulcaniani sono tra i più grandi promotori e partecipanti dello sviluppo tecnologico e culturale della Federazione Unita dei Pianeti. I vulcaniani sono dotati di una forza fisica che ha pochi uguali nei quadranti Alpha e Beta.
 								
-								<p class="bonus">
-									<span> Bonus di Razza: </span> 
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/telepatia.png" title="La Telepatia vulcaniana è in grado di operare solo a brevi distanze o per contatto. La razza ottiene un bonus di +3 come abilità congenita." /><span>+3</span>
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/costituzione.png" title="I Vulcaniani hanno una costituzione più forte rispetto alle altre razze" /><span>+1</span> 
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/willpower.png" title="I Vulcaniani godono di una forza di volontà più sviluppata rispetto alle altre razze, e per questo ottengono un bonus nella caratteristica corrispondente"/><span>+1</span>
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/artimarziali.png" title="Essendo addestrati fin da bambini alle arti marziali come tecnica di difesa, i Vulcaniani godono di un bonus in tutte le discipline relative"/><span>+1</span>
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/scuto_mentale.png" title="In quanto razza telepate, i Vulcaniani sono particolarmente abili nel bloccare i tentativi altrui di esercitare la telepatia." /><span>+2</span>
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/autoipnosi.png" title="Come risultato delle intense sedute di meditazione cui i Vulcaniani si sottopongono giornalmente, la capacità di autoipnosi e di regressione dei vulcaniani gode di un bonus di +2" /><span>+2</span>
-								</p>	
-
+								<p class="bonus"> <span  style="color:#FFCC00; margin-top:10px;"> Bonus di Razza: </span></p> 
+								
+								<p class="bonus" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_vulcaniani" />
 								</div> 
 								
 								<div class="species_spec" id="sp_Trill">I trill sono una razza umanoide del quadrante Alpha membro della federazione. Trill mantiene molto del proprio pianeta in una sorta di segretezza a cui hanno accesso solo i membri del Consiglio Federale di Sicurezza ed il presidente. La scelta di questi segreti è collegata alla natura molto intima delle leggi sui simbionti. Trill infatti è un mondo che ospita due specie dominanti. Una di queste, i trill ospiti, è divisa in due sottospecie ed ha una cultura ed una civiltà del tutto simile a quella di molte altre specie umanoidi. La seconda è un simbionte alieno dall'aspetto di una grossa larva che vive in caverne e bacini di proliferazione. Ospite e simbionte possono essere uniti, il simbionte trasferisce nell'ospite tutti i propri ricordi e quelli dei precedenti ospiti, in cambio l'ospite permette al simbionte di "vivere" al di fuori del suo stato larvale muovendosi con il corpo umanoide. I due individui comunque coesistono, l'ospite continua la propria normale esistenza, assume il nome del simbionte come proprio cognome. [Alla registrazione ogni trill è da considerarsi NON unito. L'unione potrà essere richiesta durante il gioco in una fase avanzata e sottoposto ad approvazione o reinvio]
 
-								<p class="bonus">
-								<span> Bonus di Razza: </span> 
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/costituzione.png" title="In quanto capaci di sopportare ferite e veleni meglio delle altre razze, I Trill ottengono un bonus alla Costituzione" /><span>+2</span>
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/intelletto.png" title="I Trill posseggono un intelletto estremamente versatile, e sono generalmente molto istruiti. Ottengono pertanto un bonus all'intelletto" /><span>+1</span>
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/diplomazia.png" title="Per la loro capacità di dialogare con le altre culture, e per i mille segreti diplomatici di cui il popolo Trill è custode, i membri della Razza Trill ottengono un bonus in Diplomazia" /><span>+3</span>
-								<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/percepire_intenzione.png" title="I Trill non sono un popolo losco... ma sono abili osservatori: è più difficile mentigli ed ingannarli" /><span>+2</span>
-								<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/storia_letteratura.png" title="I Trill sono un popolo di artisti con una lunghissima tradizione pittorica e letteraria, proprio grazie ai Simbionti che trasmettono i ricordi alle generazioni successive" /><span>+1</span>
-								<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/sopravvivenza.png" title="Abili conoscitori della natura e dei suoi pericoli, I Trill godono di un piccolo bonus nella sopravvivenza" /><span>+2</span>
-								</p>
+								<p class="bonus"> <span  style="color:#FFCC00; margin-top:10px;"> Bonus di Razza: </span></p> 
+								<p class="bonus" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_trill" />
 								</div>
 								
 								<div class="species_spec" id="sp_Andoriana">Fieri, sicuri, precisi. Gli andoriani, membri fondatori della Federazione Unita dei Pianeti, sono una razza aliena dalla pelle di colore azzurro dotati di ricettori uditivi accessori nella forma di due antenne sulla fronte. Gli andoriani sono una razza che presenta quattro distinti sessi, due con connotazioni prettamente maschili e due con connotazioni femminili, per procreare gli andoriani devono essere un gruppo di quattro individui che partecipano in momenti differenti al concepimento. Gli andoriani tendono ad assumere comportamenti scontrosi quando nervosi, sono una razza pronta all'azione prima ancora che alla parola questo fa di loro un nervo importante dei sottodipartimenti di Comando, Tattica e Sicurezza. 
-
-								<p class="bonus">
-								<span> Bonus di Razza: </span> 
-								<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/costituzione.png" title="Gli Andoriani sono abituati ai climi estremamente rigidi del loro pianeta natale, Andoria. Godono quindi di un bonus alla Costituzione" /><span>+1</span>
-								<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/destrezza.png" title="Abituati a maneggiare temibili armi bianche e a tenersi in equilibrio sul ghiaccio, gli Andoriani godono di un bonus alla Destrezza" /><span>+1</span>
-								<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/interrogatorio.png" title="Alti e temibili, gli Andoriani godono inevitabilmente di un bonus nella persuasione e nell'interrogatorio" /><span>+2</span>
-								<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/armibianche.png" title="Maestri indiscussi delle armi bianche, gli Andoriani sono addestrati fin da bambini e godono quindi di un bonus sostanziale" /><span>+3</span>
-								<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/musica.png" title="Andoria, nonostante la freddezza del clima, è una delle scene musicali più calde della galassia. E' molto probabile che un andoriano abbia buone nozioni musicali." /><span>+4</span>
-								<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/mischia.png" title="Le abilità nella mischia degli andoriani sono note... in parte grazie alle storie che di loro circolano, in parte per la loro stazza e imponenza" /><span>+3</span>
-								<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/sopravvivenza.png" title="Abituati ai freddi ghiacci di Andoria, gli Andoriani ricevono un addestramento di base alla sopravvivenza" /><span>+1</span>
-							</p>
+								
+								<p class="bonus"> <span  style="color:#FFCC00; margin-top:10px;"> Bonus di Razza: </span></p> 
+								<p class="bonus" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_andoriani" />
 							</div>
 								
 								<!--
 								<div class="species_spec" id="sp_Betazoide">Attenti, sensibili, onesti. I betazoidi sono una razza di telepati ed empatici dall'aspetto del tutto simile a quello di un essere umano se non per la costante e regolare caratteristica di possedere oggi dalle iridi completamente nere. Le loro doti sociali e psioniche ne fanno ottimo personale medico, sia chirurgico che psicologico. Ogni betazoide viene educato all'uso delle proprie capacità telepatiche che possono raggiungere grandi distanze ma che sono più solitamente usate come mezzo di comunicazione ordinario tra betazoidi. Allo stesso modo la proprie capacità empatiche gli permettono di sentire le emozioni, e farle riflette su se stessi, delle persone intorno a loro quindi ogni giovane betazoide è addestrato alla gestione di simili situazioni. Ogni betazoide addestrato segue un codice comportamentale che gli vieta di abusare del proprio potere per entrare coattamente nelle menti altrui.
 
 								<p class="bonus">
-									<span> Bonus di Razza: </span> 
+									<p class="bonus"> <span  style="color:#FFCC00; margin-top:10px;"> Bonus di Razza: </span></p> 
 									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/willpower.png" title="La predisposizione alla grande empatia propria dei Betazoidi si traduce in una maggiore temperanza mentale. I personaggi di questa razza ottengono un bonus alla forza di volontà." /><span>+2</span>
 									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/costituzione.png" title="I betazoidi hanno una salute più cagionevole rispetto alle altre razze. Soffrono quindi di un malus alla Costituzione" /><span>-1</span>
 									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/percepire_intenzione.png" title="I Betazoidi sono una razza empatica e possono percepire le emozioni altrui. Di conseguenza, l'abilità relativa gode di un bonus di +1" /><span>+1</span>
@@ -617,37 +596,15 @@
 
 								<div class="species_spec" id="sp_Terosiana">I Terosiani sono una razza nativa del pianeta Terosia, nel Quadrante Delta. Sono bipedi, dalla statura simile a quella umana, abili nuotatori, e hanno una pelle che può variare dal blu (più diffuso), al giallo, al rosso. I Terosiani sono in grado di muoversi e sviluppare una forza ed una agilità di gran lunga superiori sott’acqua, grazie alla pelle idrodinamica e alla loro particolare conformazione scheletrica e muscolare. I Terosiani soffrono in maniera marcata le temperature  calde (oltre i trenta gradi), mentre sopportano in maniera eccellente il freddo (fino a -30 gradi). All’altezza dell’osso sacro, sviluppano una piccola coda, essenziale al loro equilibrio, che cresce sino a raggiungere la sua massima estensione intorno ai 25 anni. Ad eccezione dei capelli, i Terosiani sono completamente glabri; sono inoltre dotati di un poderoso udito. I Terosiani sono stati estremamente importanti per l'esplorazione della Federazione nel Quadrante Delta, divendando prima protettorato federale, e poi membro della Federazione. La società Terosiana è allineata su posizioni prettamente matriarcali e consumistiche. Recentemente, diversi Terosiani sono entrati nei ranghi della Flotta Stellare, sia con arruolamenti diretti, che tramite la nuova sede dell'Accademia della Flotta Stellare su Terosia.
 
-								<p class="bonus">
-									<span> Bonus di Razza: </span> 
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/destrezza.png" title="I terosiani sono abili nuotatori e, generalmente, cultori della forma fisica e dello sport. Ciò gli conferisce un senso dell'equilibrio spiccato e un'elevato controllo dei movimenti." /><span>+2</span>  
-
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/costituzione.png" title="A causa della gravità ridotta di Terosia, i terosiani sono generalmente esili e mal sopportano ambienti a gravità più elevata. L'attenzione alla forma fisica migliora leggermente la loro costituzione, che tuttavia rimane più cagionevole rispetto alle altre razze." /><span>-1</span>
-
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/willpower.png" title=" Il popolo terosiano, dopo le tante disgrazie della sua storia, ha imparato a riprendersi e migliorarsi ogni volta. Ciò conferisce ai terosiani una forza di volontà più robusta rispetto ad altre razze." /><span>+1</span>  
-
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/economia.png" title="Terosia è parte di una importante rete mercantile: in conseguenza di ciò, economia e leggi di mercato sono insegnate fin dalla scuola primaria. Non tutti i terosiani sono mercanti, ma tutti hanno una spiccata attitudine al commercio." /><span>+2</span> 
-
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/cucina.png" title="La cucina Terosiana è famosa in ogni dove per equilibrio e sapore. Lo sviluppo tardivo delle tecniche di replicazione alimentare ha fatto il resto: ogni buon Terosiano sa preparare almeno qualche piatto tradizionale in autonomia." /><span>+2</span>  
-
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/acrobatica.png" title="I terosiani sono naturalmente predisposti alla grazia dei movimenti, grazie ad un senso dell'equilibrio più sviluppato della norma." /><span>+1</span>
-
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/astronomia.png" title="Il contatto con tantissime altre culture ha un impatto positivo sulla conoscenza dei terosiani circa molti settori dello spazio adiacente. Inoltre, la Geografia Astronomica è la seconda materia più importante insegnata nella scuola dell'obbligo" /><span>+1</span> 
-									</p>
+								<p class="bonus"> <span  style="color:#FFCC00; margin-top:10px;"> Bonus di Razza: </span></p> 
+								<p class="bonus" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_terosiani" />
 								</div>
 
 								
 								<div class="species_spec" id="sp_Bajoriana">Religiosi, testardi, orgogliosi. I Bajoriani sono una delle ultime specie ad essersi unite alla Federazione Unita dei Pianeti, dopo la Guerra con il Dominio e dopo anni di occupazione del loro pianeta e delle loro colonie da parte della vicina Unione Cardassiana. La fede religiosa è radicata nei bajoriani più di molte altre razze, vedono ai loro dei, i Profeti, delle guide che prestabiliscono gli eventi perché seguano un preciso percorso per il bene comune. I Vedek ed il Kai sono guide spirituali con una forte influenza anche sulla vita politica bajoriana e per anni sono stati uno dei freni per l'annessione di Bajor nello spazio federale, testardi ed orgogliosi i bajoriani si dimostrano spesso adatti ad incarichi nei sottodipartimenti di Tattica e Sicurezza. Esteriormente sono del tutto simili ad un essere umano, a parte per la caratteristica forma delle creste nasali. 
 
-								<p class="bonus">
-									<span> Bonus di Razza: </span> 
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/willpower.png" title="Le sofferenze patite dai Bajoriani durante i lunghi anni dell'occupazione Cardassiana valgono alla razza un bonus in Forza di Volontà. I lussi di una vita agiata e l'idea di poter essere felici ogni giorno sono stati un miraggio per troppo tempo" /><span>+2</span>
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/percezione.png" title="I Bajoriani hanno una percezione più marcata rispetto alle altre razze" /><span>+1</span>
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/arte.png" title="I Bajoriani erano noti per essere grandi e apprezzati artisti in tutto il quadrante, prima della guerra" /><span>+2</span>
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/sopravvivenza.png" title="I tempi duri dell'occupazione hanno lasciato poco scampo a parecchi Bajoriani. I sopravvissuti sono decisamente abili nell'arte di arrangiarsi e di sopravvivere" /><span>+3</span>
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/acrobatica.png" title="I Bajoriani sono in grado di compiere salti e gesti particolarmente scenografici... una qualità anche questa acquisita dalla Guerra di Occupazione" /><span>+2</span>
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/furtivita.png" title="Grazie all'addestramento ottenuto nella Resistenza Bajoriana, moltissimi bajoriani sono in grado di avvicinarsi furtivamente al nemico" /><span>+4</span>
-									<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/abilita/contraffazione.png" title="La contraffazione di valuta e di altri beni di valore è una qualità nota dei Bajoriani nati sotto la Resistenza" /><span>+1</span>
-									</p>
+								<p class="bonus"> <span  style="color:#FFCC00; margin-top:10px;"> Bonus di Razza: </span></p> 
+								<p class="bonus" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_bajoriani" />
 								</div>
 								
 						<div class="menureg top head">Il Ruolo che hai scelto: </div>
@@ -721,13 +678,13 @@
 								<div class="sections_spec" id="se_civ">Privato cittadino: un personaggio senza un'assegnazione specifica. Puoi usare questo ruolo come punto di partenza per qualsiasi altro ruolo, qualora non fossi ancora sicuro della strada da far intraprendere al tuo PG</div>
 						</div>
 
-						 <div class="rectChoice buttonBack selectable" onclick="regPage('1');"><p>Indietro</p></div> 
-						 <div class="rectChoice buttonGo selectable" onclick="regPage('3');"><p>Prosegui...</p></div> 
+						 <div class="rectChoice buttonBack selectable" style="line-height: 32px;" onclick="regPage('1');"><p>Indietro</p></div> 
+						 <div class="rectChoice buttonGo selectable" style="line-height: 32px;" onclick="regPage('3');"><p>Avanti</p></div> 
 
 						</div>
 
 						<div class="container" id="page3" style="width:70%; display:none; float:right;">
-								<div class="menureg top head" style="margin-top:20px;">Caratteristiche del Personaggio</div> 
+								<div class="menureg top head" style="margin-top:20px; margin-bottom: 10px;">Caratteristiche del Personaggio</div> 
 								
 								<input type="hidden" class="rezero-onupdate valer" id="val_dx" value="5" />
 								<input type="hidden" class="rezero-onupdate valer" id="val_ht" value="5" />
@@ -744,7 +701,7 @@
 											<div class="creation-char-intermediate1"> 
 												<button class="minusButton selectable" onclick="return char_subPrevLVL('ht')"><img src="TEMPLATES/img/interface/personnelInterface/minusicon.png" style="width:20px;" /></button>
 											</div>
-											<div class="creation-char-intermediate2" style="position:relative; font-weight:bold;"> COSTITUZIONE [HT] <span id="ht_marker_current">[5]</span> <br />
+											<div class="creation-char-intermediate2" style="position:relative; font-weight:bold;"> [HT] COSTITUZIONE: <span class="carValue" id="ht_marker_current">5</span> <br />
 												<div class="progress-bar" id="bar_ht"><span style="width:33.34%;"></span>
 											</div>
 											</div>
@@ -765,7 +722,7 @@
 											<div class="creation-char-intermediate1"> 
 												<button class="minusButton selectable" onclick="return char_subPrevLVL('dx')"><img src="TEMPLATES/img/interface/personnelInterface/minusicon.png" style="width:20px;" /></button>
 											</div>
-											<div class="creation-char-intermediate2" style="position:relative; font-weight:bold;"> DESTREZZA [DX] <span id="dx_marker_current">[5]</span> <br />
+											<div class="creation-char-intermediate2" style="position:relative; font-weight:bold;"> [DX] DESTREZZA: <span class="carValue" id="dx_marker_current">5</span> <br />
 												<div class="progress-bar" id="bar_dx"><span style="width:33.34%;"></span>
 											</div>
 											</div>
@@ -785,7 +742,7 @@
 											<div class="creation-char-intermediate1"> 
 												<button class="minusButton selectable" onclick="return char_subPrevLVL('wp')"><img src="TEMPLATES/img/interface/personnelInterface/minusicon.png" style="width:20px;" /></button>
 											</div>
-											<div class="creation-char-intermediate2" style="position:relative; font-weight:bold;"> FORZA DI VOLONTA' [WP] <span id="wp_marker_current">[4]</span> <br />
+											<div class="creation-char-intermediate2" style="position:relative; font-weight:bold;"> [WP] FORZA DI VOLONTA': <span class="carValue" id="wp_marker_current">4</span> <br />
 												<div class="progress-bar" id="bar_wp"><span style="width:25%;"></span>
 											</div>
 											</div>
@@ -805,7 +762,7 @@
 											<div class="creation-char-intermediate1"> 
 												<button class="minusButton selectable" onclick="return char_subPrevLVL('iq')"><img src="TEMPLATES/img/interface/personnelInterface/minusicon.png" style="width:20px;" /></button>
 											</div>
-											<div class="creation-char-intermediate2" style="position:relative; font-weight:bold;"> INTELLETTO [IQ] <span id="iq_marker_current">[5]</span> <br />
+											<div class="creation-char-intermediate2" style="position:relative; font-weight:bold;"> [IQ] INTELLETTO: <span class="carValue" id="iq_marker_current">5</span> <br />
 												<div class="progress-bar" id="bar_iq"><span style="width:33.34%;"></span>
 											</div>
 											</div>
@@ -824,7 +781,7 @@
 											<div class="creation-char-intermediate1"> 
 												<button class="minusButton selectable" onclick="return char_subPrevLVL('pe')"><img src="TEMPLATES/img/interface/personnelInterface/minusicon.png" style="width:20px;" /></button>
 											</div>
-											<div class="creation-char-intermediate2" style="position:relative; font-weight:bold;"> PERCEZIONE [PE] <span id="pe_marker_current">[4]</span> <br />
+											<div class="creation-char-intermediate2" style="position:relative; font-weight:bold;"> [PE] PERCEZIONE: <span class="carValue" id="pe_marker_current">4</span> <br />
 												<div class="progress-bar" id="bar_pe"><span style="width:25%;"></span>
 											</div>
 											</div>

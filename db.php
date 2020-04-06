@@ -343,10 +343,24 @@ $ele = mysql_query("SELECT ID, title,tag,type, (MATCH (content) AGAINST ('$qstri
 }
 
 
-else if(isSet($_GET['shipRegister']))
+else if(isSet($_GET['shipRegister']) || isSet($_GET['shipRegisterNF']))
 {
-	$template = new PHPTAL('TEMPLATES/db_shipRegister.htm');
-	$cat = mysql_query("SELECT * FROM fed_ships,fed_ships_classes,fed_ships_fleets WHERE fleetno = fleet AND fed_ships_classes.class = fed_ships.class ORDER BY name");
+
+	if (isSet($_GET['shipRegister']))
+	{
+		$shipQuery="SELECT * FROM fed_ships,fed_ships_classes,fed_ships_fleets WHERE fleetno = fleet AND fed_ships_classes.class = fed_ships.class AND fleetno<=50 ORDER BY name";
+		$template = new PHPTAL('TEMPLATES/db_shipRegister.htm');
+
+	}
+	elseif(isSet($_GET['shipRegisterNF']))
+	{
+		$shipQuery="SELECT * FROM fed_ships,fed_ships_classes,fed_ships_fleets WHERE fleetno = fleet AND fed_ships_classes.class = fed_ships.class AND fleetno>50 ORDER BY name";
+		$template = new PHPTAL('TEMPLATES/db_shipRegisterNF.htm');
+
+	}
+
+	$cat = mysql_query($shipQuery);
+	 
 	$shipsFleet = array();
 	while($res = mysql_fetch_assoc($cat)){
 		
@@ -363,7 +377,7 @@ else if(isSet($_GET['shipRegister']))
 	$template->shipsFleet = $shipsFleet;
 	$template->admirals = $admirals;
  
-	$cat = mysql_query("SELECT * FROM fed_ships,fed_ships_classes,fed_ships_fleets WHERE fleetno = fleet AND fed_ships_classes.class = fed_ships.class  ORDER BY name");
+	$cat = mysql_query($shipQuery);
 	$shipsClasses = array();
 	while($res = mysql_fetch_array($cat)){
 		$neu = str_replace(' ','-',$res['class']);
@@ -376,11 +390,15 @@ else if(isSet($_GET['shipRegister']))
 	ksort($shipsClasses);
 	$template->shipsClasses = $shipsClasses; 
 	
-	$cat = mysql_query("SELECT * FROM fed_ships,fed_ships_classes,fed_ships_fleets WHERE fleetno = fleet AND fed_ships_classes.class = fed_ships.class  ORDER BY name");
+	$cat = mysql_query($shipQuery);
 	$shipsLetters = array();
 	while($res = mysql_fetch_array($cat)){
 		if(strstr($res['name'],'U.S.S.')) $namae = explode('U.S.S. ',$res['name']);
 		elseif(strstr($res['name'],'R.T.S.')) $namae = explode('R.T.S. ',$res['name']);
+		elseif(strstr($res['name'],'N.F.S.')) $namae = explode('N.F.S. ',$res['name']);
+		else{
+			echo $res['name'];exit;
+		}
 		
 		if (!isSet($shipsLetters[strtoupper(substr($namae[1],0,1))])) $shipsFleet[strtoupper(substr($namae[1],0,1))] = array();
 		$res['romanFleet'] = numberToRomanRepresentation((int)($res['fleetno']));
@@ -391,7 +409,7 @@ else if(isSet($_GET['shipRegister']))
 	$template->shipsLetters = $shipsLetters; 
 	
 	
-	$cat = mysql_query("SELECT * FROM fed_ships,fed_ships_classes,fed_ships_fleets WHERE fleetno = fleet AND fed_ships_classes.class = fed_ships.class  ORDER BY name");
+	$cat = mysql_query($shipQuery);
 	$shipsTypes = array();
 	while($res = mysql_fetch_array($cat)){
 		$neu = str_replace(' ','-',$res['descript']);

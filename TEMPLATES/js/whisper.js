@@ -2,7 +2,7 @@ var are;
 		var area;
 		jQuery(function()
 		{
-			are = setInterval("updater();",5000); 
+			are = setInterval("updater();",6000); 
 			jQuery("#chatDiv").scrollTop(jQuery("#chatDiv")[0].scrollHeight);
 		});
 		
@@ -18,7 +18,7 @@ var are;
 			success: setterCA, 
 			type: 'POST',
 			dataType : 'json',
-			timeout:4500
+			timeout:5000
 			});  
 		}
 		
@@ -35,7 +35,7 @@ var are;
 			success: setterPG,
 			type: 'POST',
 			dataType : 'json',
-			timeout:4500
+			timeout:5000
 			}); 
 		}
 		

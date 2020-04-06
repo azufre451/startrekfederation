@@ -37,23 +37,34 @@ if ($_GET['action'] == 'rollDeliver'){
 
 		$recID = $vali->numberOnly($esiter[0]);
 		$modi = (is_numeric($esiter[1]) ? $esiter[1] : 0 );
-		if( $modi > 6 || $modi < -6){exit;}
+		if( ($modi > 6 || $modi < -6) && $modi != -99){exit;}
 		$rea=mysql_fetch_assoc(mysql_query("SELECT sender,dicerOutcome,dicerAbil FROM federation_chat WHERE IDE = $recID" ));
-
+		
 		$b=new abilDescriptor($rea['sender']);
+		$launched_abil = $b->abilDict[$rea['dicerAbil']];
+
+		if ($modi == -99)
+		{
+			$otp .= '<div class="ND"><p class="bar"></p>'.addslashes(PG::getSomething($rea['sender'],'username')).': <img src="TEMPLATES/img/interface/personnelInterface/abilita/'.$launched_abil['abImage'].'" title="'.$launched_abil['abName'].'"><br />Soglia: - <br />Dado: '.$rea['dicerOutcome'].' <p class="label"></p></div>';
+
+			mysql_query("UPDATE federation_chat SET dicerAbil = '' WHERE IDE = $recID");
+
+		
+		}
+		else{
 
 		$outcome = $b->reRollDice($rea['dicerAbil'],$rea['dicerOutcome'],$modi);
 		
 		echo $rea['dicerOutcome'];
 
-		$launched_abil = $b->abilDict[$rea['dicerAbil']];
 
 		$otp .= '<div class="'.$outcome['outcome'].'"><p class="bar"></p>'.addslashes(PG::getSomething($rea['sender'],'username')).': <img src="TEMPLATES/img/interface/personnelInterface/abilita/'.$launched_abil['abImage'].'" title="'.$launched_abil['abName'].'"><br />Soglia: '.$outcome['threshold'].' <span class="bmal">'.$modi.'</span> <br />Dado: '.$outcome['v'].' <p class="label"></p></div>';
 		
 		mysql_query("UPDATE federation_chat SET dicerAbil = '' WHERE IDE = $recID");
 
+		
+		}
 		unset($b);
-
 	}
 
 	$tqr='<div style="position:relative;" data-timecode="'.$curTime.'" class="masterAction">
@@ -79,22 +90,36 @@ if ($_GET['action'] == 'rollRecompute'){
 	$valor = $vali->numberOnly($_POST['valor']);
 	$pgID = $vali->numberOnly($_POST['pgID']);
 	$mod = (is_numeric($_POST['mod']) ? $_POST['mod'] : 0 );
-	$b = new abilDescriptor($pgID);
-	$outcome = $b->reRollDice($focus,$valor,$mod);
-	
-	if ($valor == 99)
+
+
+	if($mod == -99)
 	{
-		$outcome['outcome'] = "Fortuna";
-	}
-	else {
-		
 	
-		if( $mod > 6 || $mod < -6){exit;}
-		$locale = array('F' => 'Fallimento','FC' => 'Fallimento Critico', 'S' => 'Successo', 'SC' => 'Successo Critico');
-		$outcome['outcome'] = $locale[$outcome['outcome']];
+		echo json_encode( array('v'=>$valor,'threshold'=>'ND','outcome'=>'Dado non necessario'));
 	}
-	echo json_encode($outcome);
+	else
+	{
+
+		$b = new abilDescriptor($pgID);
+		$outcome = $b->reRollDice($focus,$valor,$mod);
+		
+		if ($valor == 99)
+		{
+			$outcome['outcome'] = "Fortuna";
+		}
+		else {
+			
+		
+			if( $mod > 6 || $mod < -6){exit;}
+			$locale = array('F' => 'Fallimento','FC' => 'Fallimento Critico', 'S' => 'Successo', 'SC' => 'Successo Critico');
+			$outcome['outcome'] = $locale[$outcome['outcome']];
+		}
+		echo json_encode($outcome);
+	}
 } 
+
+
+
 
 
 

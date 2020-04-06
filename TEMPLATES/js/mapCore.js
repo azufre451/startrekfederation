@@ -28,7 +28,7 @@
 			success: setterCA, 
 			type: 'POST',
 			dataType : 'json',
-			timeout:1000
+			timeout:3000
 			}); 
 		}
 

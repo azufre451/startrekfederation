@@ -1,0 +1,3 @@
+[submodule "includes/PHPTAL"]
+	path = includes/PHPTAL
+	url = https://github.com/phptal/PHPTAL.git

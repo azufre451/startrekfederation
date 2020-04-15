@@ -1770,37 +1770,37 @@ if(PG::mapPermissions('A',$currentUser->pgAuthOMA))
 }
 	header("Location:scheda.php?pgID=$pgID&sOff=off");
 }
-/*
+
 elseif ($mode == 'addPoints')
 {
-$pgID = $vali->numberOnly($_GET['pgID']);
-$code = $vali->killChars($_POST['addPoints']);
-$pointDetail = addslashes($_POST['pointDetail']);
-//$note = str_replace('FOL/','TEMPLATES/img/ruolini/medaglie/',$nastrini);
-$p=0;$l="A";
-if($code == "a1"){$p=1;$little="Q1";$mex = "Partecipazione Giocata";$l="SL";}
-if($code == "a2"){$p=2;$little="Q2";$mex = "Partecipazione Giocata";$l="SL";}
-if($code == "f2"){$p=2;$little="F2";$mex = "Punti Minishot";$l="SL";}
-if($code == "a3"){$p=3;$little="Q3";$mex = "Partecipazione Giocata";$l="SL";}
-if($code == "a4"){$p=4;$little="Q4";$mex = "Partecipazione Giocata";$l="SL";}
-if($code == "a5"){$p=5;$little="Q5";$mex = "Partecipazione Giocata";$l="SL";}
-if($code == "a6"){$p=6;$little="Q6";$mex = "Partecipazione Giocata";$l="SL";}
-if($code == "a7"){$p=7;$little="Q7";$mex = "Partecipazione Giocata";$l="SL";}
-if($code == "a8"){$p=8;$little="Q8";$mex = "Partecipazione Giocata";$l="SL";}
-if($code == "a9"){$p=9;$little="Q9";$mex = "Partecipazione Giocata";$l="SL";}
-if($code == "a10"){$p=10;$little="Q10";$mex = "Partecipazione Giocata";$l="SL";}
-if($code == "b5"){$p=5;$little="B1";$mex = "Mastering One Shot";$l="SL";}
+	$pgID = $vali->numberOnly($_GET['pgID']);
+	$code = $vali->killChars($_POST['addPoints']);
+	$pointDetail = addslashes($_POST['pointDetail']);
+	//$note = str_replace('FOL/','TEMPLATES/img/ruolini/medaglie/',$nastrini);
+	$p=0;$l="A";
+	//if($code == "a1"){$p=1;$little="Q1";$mex = "Partecipazione Giocata";$l="SL";}
+	//if($code == "a2"){$p=2;$little="Q2";$mex = "Partecipazione Giocata";$l="SL";}
+	//if($code == "f2"){$p=2;$little="F2";$mex = "Punti Minishot";$l="SL";}
+	//if($code == "a3"){$p=3;$little="Q3";$mex = "Partecipazione Giocata";$l="SL";}
+	//if($code == "a4"){$p=4;$little="Q4";$mex = "Partecipazione Giocata";$l="SL";}
+	//if($code == "a5"){$p=5;$little="Q5";$mex = "Partecipazione Giocata";$l="SL";}
+	//if($code == "a6"){$p=6;$little="Q6";$mex = "Partecipazione Giocata";$l="SL";}
+	//if($code == "a7"){$p=7;$little="Q7";$mex = "Partecipazione Giocata";$l="SL";}
+	//if($code == "a8"){$p=8;$little="Q8";$mex = "Partecipazione Giocata";$l="SL";}
+	//if($code == "a9"){$p=9;$little="Q9";$mex = "Partecipazione Giocata";$l="SL";}
+	//if($code == "a10"){$p=10;$little="Q10";$mex = "Partecipazione Giocata";$l="SL";}
+	//if($code == "b5"){$p=5;$little="B1";$mex = "Mastering One Shot";$l="SL";}
+	//
+	//elseif($code == "r2"){$p=2;$little="R";$mex = "Stesura Rapporto";$l="SL";}
 
-elseif($code == "r2"){$p=2;$little="R";$mex = "Stesura Rapporto";$l="SL";}
-
-elseif($code == "kz1"){$p=20;$little="DISP";$mex = "Piccola Integrazione";$l="SM";}
-elseif($code == "kz2"){$p=50;$little="DISP+";$mex = "Dispensa Completa";$l="SM";}
-elseif($code == "aa11")
-{
-	$p=(int)$_POST['points'];
-	if($p > 0){$little="Q00"; $mex = 'Punteggio Admin'; $l="A"; $p=$vali->numberOnly($_POST['points']);}
-	if($p <= 0){$little="QDEC"; $mex = 'Decurtazione di Punteggio'; $l="A"; $p=0-$vali->numberOnly($_POST['points']);}
-}
+	if($code == "kz1"){$p=20;$little="DISP";$mex = "Piccola Integrazione";$l="SM";}
+	elseif($code == "kz2"){$p=50;$little="DISP+";$mex = "Dispensa Completa";$l="SM";}
+	elseif($code == "aa11")
+	{
+		$p=(int)$_POST['points'];
+		if($p > 0){$little="Q00"; $mex = 'Punteggio Admin'; $l="A"; $p=$vali->numberOnly($_POST['points']);}
+		if($p <= 0){$little="QDEC"; $mex = 'Decurtazione di Punteggio'; $l="A"; $p=0-$vali->numberOnly($_POST['points']);}
+	}
 
 	if (PG::mapPermissions($l,$currentUser->pgAuthOMA)) // && $_SESSION['pgID'] != $pgID)
 	{
@@ -1809,11 +1809,10 @@ elseif($code == "aa11")
 		if($little == 'Q00'){$selectedDUser->sendPadd('OFF: FP',"Ti sono stati assegnati $p punti extra con la seguente motivazione: \"$pointDetail\".",$_SESSION['pgID']);}
 		if($little == 'QDEC'){$selectedDUser->sendPadd('OFF: FP',"Ti sono stati decurtati ".abs($p)." punti con la seguente motivazione: \"$pointDetail\".",$_SESSION['pgID']);}
 		
-
 		$selectedDUser->addPoints($p,$little,$mex,$pointDetail,$currentUser->ID);
 	}
 	header("Location:scheda.php?pgID=$pgID&sOff=off");
-}*/
+}
 
 else 
 { 

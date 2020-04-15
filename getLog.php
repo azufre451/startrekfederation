@@ -28,7 +28,7 @@ if (isSet($_GET['getAllPlayerLogs']))
 
 		$zip = new ZipArchive;
 
-		$zipName = "temp/log_complete_".$_SESSION['pgID'].".zip";
+		$zipName = "../stf-data/temp/log_complete_".$_SESSION['pgID'].".zip";
 		if(file_exists($zipName)) 
 			unlink($zipName);
 		
@@ -47,7 +47,8 @@ if (isSet($_GET['getAllPlayerLogs']))
 		 		if ($sessionToAdd->sessionIniTime > 0 && $sessionToAdd->sessionStopTime > 0 )
 		 		{
 					if ($res === TRUE) {
-					$formattedFileName = date('Y',$sessionToAdd->sessionIniTime).'_'.date('m',$sessionToAdd->sessionIniTime).'_'.date('d',$sessionToAdd->sessionIniTime).'_'.str_replace(':','_',$sessionToAdd->locName).'.html';
+						$locationName = ($sessionToAdd->locName != '' ) ? $sessionToAdd->locName : $sessionToAdd->locID;
+						$formattedFileName = date('Y',$sessionToAdd->sessionIniTime).'_'.date('m',$sessionToAdd->sessionIniTime).'_'.date('d',$sessionToAdd->sessionIniTime).'_'.str_replace(':','_',$sessionToAdd->locName).'.html';
 
 				    $zip->addFromString($formattedFileName, $sessionToAdd->getText(0,PG::mapPermissions("SM",$user->pgAuthOMA)));
 					}

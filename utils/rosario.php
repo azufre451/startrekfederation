@@ -1,5 +1,5 @@
 <?php
-chdir('/home2/xstfedee/public_html/');
+chdir('/home/fvkpphtr/public_html/');
 
 include('includes/app_include.php');
  

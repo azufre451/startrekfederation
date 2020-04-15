@@ -377,7 +377,7 @@
 			}
 
 			if(data['MC'])
-				jQuery('#chatInput').attr('maxlength',parseInt(data['MC']));
+				jQuery('#chatInput.cappable').attr('maxlength',parseInt(data['MC']));
 			else jQuery('#chatInput').removeAttr('maxlength');
 							
 			if(data['LIGHT'])

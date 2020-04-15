@@ -249,7 +249,7 @@ include('includes/validate_class.php');
 			}
 			
 
-			$fp = fopen('sessions_logs.txt', 'a');
+			$fp = fopen('../stf-data/sessions_logs.txt', 'a');
 
 	
 			fwrite($fp, $log);

@@ -266,9 +266,9 @@ class Session
 		$this->sessionID = $sessid; 
 		$this->archived=$sesser['archived']; 
 		$this->placeName=$sesser['placeName']; 
-		$this->locName=$sesser['locName'];
+		$this->locName= ( $sesser['locName'] != '') ? $sesser['locName'] : 'LOCATION_NON_DISPONIBILE';
 		$this->placeLogo=$sesser['placeLogo']; 
-		$this->locID = $sesser['locID'];
+		$this->locID = $sesser['sessionPlace'];
 		$this->sessionIniTime = $sesser['sessionStart']; 
 		$this->sessionStopTime = $sesser['sessionEnd']; 
 		$this->sessionLabel=$sesser['sessionLabel'];
@@ -281,7 +281,7 @@ class Session
 	{
 		if ($this->archived)
 		{
-			$sessionFile='saved_sessions/archive_all/'.strtoupper($this->locID).'_session_'.$this->sessionID.'.html';
+			$sessionFile='../stf-data/saved_sessions/archive_all/'.strtoupper($this->locID).'_session_'.$this->sessionID.'.html';
 			if(file_exists($sessionFile))
 			{
 				$inf=fopen($sessionFile,'r');
@@ -343,7 +343,8 @@ class Session
 		}
 
 		if ($tofile){
-	   		$fileName = "temp/log_".$_SESSION['pgID'].".html";
+	   		$fileName = "../stf-data/temp/log_".$_SESSION['pgID'].".html";
+	   		
 			$fh = fopen($fileName, 'w');
 			fwrite($fh, $this->htmlLiner);
 			$size = filesize($fileName);//calcola dimensione del file 

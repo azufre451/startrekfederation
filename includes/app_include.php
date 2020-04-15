@@ -20,7 +20,7 @@ $gameName = "v. 1.8.6 - Triumphal Zebrafish";
 $gameVersion = "1.8.6 - Triumphal Zebrafish";
 //1.8 Rampant Unicorn
 
-$gameOptions = array('numericVersion' => "1.8.65");
+$gameOptions = array('numericVersion' => "1.8.68");
 
 $debug=true;
 $tips=true;

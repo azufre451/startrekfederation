@@ -168,7 +168,7 @@
 				</select>
 				</div>
 				<div style="float:left; margin-left:20px;" id="chatMainBar">
-				<textarea id="chatInput" style="width:100%; vertical-align:middle; height:40px;"  onkeyup="javascript:sX(event);"/> <script>resizeBar();</script>
+				<textarea id="chatInput" tal:attributes="class php:(ambient['sessionOwner'] == user.ID) ? '' : 'cappable'" style="width:100%; vertical-align:middle; height:40px;"  onkeyup="javascript:sX(event);"/> <script>resizeBar();</script>
 				<input type="hidden" id="ambientID" tal:attributes="value ambient/locID" />
 				<input type="hidden" id="initialID" tal:attributes="value minID" />
 				<input type="hidden" id="lastID" tal:attributes="value maxVIS" />

@@ -46,10 +46,10 @@
 <div align="center" tal:condition="exists:error" style="color:red; font-weight:bold;">ERRORE NEI DATI DI LOGIN<hr style="color:red" noshade="no" /></div>
 <div align="center" tal:condition="exists:banReason" style="color:red; font-weight:bold;">
 	 <span tal:condition="php:(banReason['expiry']>0)" tal:content="php:'E\' IN VIGORE UN PROVVEDIMENTO DI BAN. IMPOSSIBILE EFFETTUARE IL BAN FINO AL ' . date('d/m/y H:i',banReason['expiry'])"></span>
-	 <span tal:condition="php:(banReason['expiry']==0)"> E' IN VIGORE UN PROVVEDIMENTO DI BAN PERMANENTE</span>
+	 <span tal:condition="php:(banReason['expiry']==0)"> È in vigore un ban permanente, oppure il personaggio non è autorizzato al login</span>
 	 <br />
 
-	<a href="javascript:void();" onclick="jQuery('#banMessage').toggle();" class="interfaceLink"> Clicca qui per leggere il MESSGGIO DI BAN </a> - Puoi contattarci a <a class="interfaceLinkBlue" href="mailto:staff@stfederation.it">staff@stfederation.it</a>
+	<a href="javascript:void();" onclick="jQuery('#banMessage').toggle();" tal:condition="php:(banReason['expiry']>0)" class="interfaceLink"> Clicca qui per leggere il MESSGGIO DI BAN </a> | Puoi contattarci a <a class="interfaceLinkBlue" href="mailto:staff@stfederation.it">staff@stfederation.it</a>
 <hr style="color:red" noshade="no" /></div>
 <div align="center" tal:condition="exists:logged_out" style="color:#FFCC00; font-variant:small-caps; font-weight:bold;">Logout eseguito! Grazie per aver giocato e a presto!<hr style="color:#555" noshade="no" /></div>
 <div id="superLoginDiv" tal:attributes="style string:background-image:url('${backLoginImage}');">

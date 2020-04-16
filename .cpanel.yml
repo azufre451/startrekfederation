@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/ND-47/public_html/
+    - /bin/cp -R *.txt $DEPLOYPATH

@@ -1,5 +1,0 @@
----
-deployment:
-  tasks:
-    - export DEPLOYPATH=/home/fvkpphtr/public_html/
-    - /bin/cp -R *.txt $DEPLOYPATH

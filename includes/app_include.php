@@ -14,12 +14,7 @@ Database::query('SET NAMES utf8');
 $gameName = "v. 1.8.683 - Triumphal Zebrafish";
 $gameVersion = "1.8.683 - Triumphal Zebrafish";
 
-<<<<<<< HEAD
 $gameOptions = array('numericVersion' => "1.8.69");
-=======
-$gameOptions = array('numericVersion' => "1.8.683");
->>>>>>> 42432be33886cb0062e7cdc68f0d5f25b3715381
-
 $debug=true;
 $tips=true;
 

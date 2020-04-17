@@ -9,8 +9,3 @@ deployment:
     - /bin/cp -R data/ $DEPLOYPATH
     - /bin/cp -R keon/ $DEPLOYPATH
     - /bin/cp -R utils/ $DEPLOYPATH
-
-
-
-
-

@@ -1,5 +1,5 @@
 .htaccess
-conf.php
+includes/conf.php
 TEMPLATES/img/
 error_log
 includes/PHPTAL/

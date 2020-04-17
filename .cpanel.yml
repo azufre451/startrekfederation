@@ -1,0 +1,11 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/fvkpphtr/public_html/
+    - /bin/cp -R *.php $DEPLOYPATH
+    - /bin/cp -R *.htm $DEPLOYPATH
+    - /bin/cp -R TEMPLATES/ $DEPLOYPATH
+    - /bin/cp -R includes/ $DEPLOYPATH
+    - /bin/cp -R data/ $DEPLOYPATH
+    - /bin/cp -R keon/ $DEPLOYPATH
+    - /bin/cp -R utils/ $DEPLOYPATH

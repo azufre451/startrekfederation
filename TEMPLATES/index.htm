@@ -316,7 +316,7 @@
 					<!-- quotation -->
 
 					<div style="width:80%; margin-left:80px;">
-				<p style=" font-family:federationFontI; text-align:left; font-size:26px; line-height:26px; letter-spacing:3px; color:#BBB; margin-top:0px; ">&ldquo;Spazio, Rultima frontiera.<br /><span style="margin-left:60px; ">Questi sono i viaggi della nave stellare Enterprise...&rdquo;</span> </p>
+				<p style=" font-family:federationFontI; text-align:left; font-size:26px; line-height:26px; letter-spacing:3px; color:#BBB; margin-top:0px; ">&ldquo;Spazio, ultima frontiera.<br /><span style="margin-left:60px; ">Questi sono i viaggi della nave stellare Enterprise...&rdquo;</span> </p>
 				
 				<p class="content" style="text-align:center; width:100%; font-family:Lato; font-size:25px; line-height:1.3em;">Star Trek: Federation è un Gioco di Ruolo online<br />via chat ambientato nell' <a style="text-decoration: underline;" href="landing.php?mod=trk1&flavour=0">anno 2399</a></p></div>
 
@@ -326,7 +326,7 @@
 						<img tal:attributes="src string:TEMPLATES/img/interface/index/${news/aggregator}.png" style="padding-right:5px; float:left;" alt=""/>
 							<div style="float:left; width:80px; text-align:center;">
 								<span style="font-weight:bold; color:orange;" tal:content="news/data"/><br />
-								<a href="javascript:void(0)" class="interfaceLink" tal:attributes="onclick string:javascript:toggleVisit('${news/newsID}') ; id string:toggle_${news/newsID}">[ESPANDI]</a>
+								<a href="javascript:void(0)" class="interfaceLink" tal:attributes="onclick string:javascript:toggleVisit('${news/newsID}') ; id string:toggle_${news/newsID}">[- ESPANDI -]</a>
 							</div>
 							<div style="float:left; width:690px;">
 								<a tal:attributes="href news/toLink" class="interfaceLink" style="text-decoration:underline" tal:omit-tag="php:(news['toLink'] == '')" target="_blank"><span style="" tal:content="structure news/title"/></a>

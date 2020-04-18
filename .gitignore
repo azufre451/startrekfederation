@@ -2,4 +2,5 @@
 includes/conf.php
 TEMPLATES/img/
 error_log
+favicon.ico
 includes/PHPTAL/

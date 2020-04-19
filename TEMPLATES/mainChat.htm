@@ -371,6 +371,7 @@
 <div metal:use-macro="TEMPLATES/guidar.htm/guidePanel" />
 <div metal:use-macro="TEMPLATES/audioSegments.htm/audioNotifier" /> 
 <div metal:use-macro="TEMPLATES/audioSegments.htm/whisperPaddAlert" />
+<div metal:use-macro="TEMPLATES/metal.htm/versionBox" tal:condition="php:(isSet(debug) && debug==true)" />  
 
 <audio id="mainAu">
 <source id="au1" src="" type="audio/ogg" />

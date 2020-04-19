@@ -280,12 +280,13 @@ var myImg = "https://unsplash.it/600/600?image=777";
 <!--<div metal:use-macro="TEMPLATES/metal_panels.htm/wordrobePanel" />-->
 
 <div metal:use-macro="TEMPLATES/metal_panels.htm/remindStaffPresence" tal:condition="exists:presenceForce" />
-
 <div metal:use-macro="TEMPLATES/metal_panels.htm/dotazionePanel" />
 <div metal:use-macro="TEMPLATES/guidar.htm/guida" />
 <div metal:use-macro="TEMPLATES/guidar.htm/guidePanel" /> 
 <div metal:use-macro="TEMPLATES/audioSegments.htm/audioNotifier" />
 <div metal:use-macro="TEMPLATES/audioSegments.htm/whisperPaddAlert" />
+<div metal:use-macro="TEMPLATES/metal.htm/versionBox" tal:condition="php:(isSet(debug) && debug==true)" />
+
 
 </body>
 </html>

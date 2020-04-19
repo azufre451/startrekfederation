@@ -88,13 +88,13 @@
 </div>
 
 <div tal:condition="php:(isSet(debug) && debug==true)" metal:define-macro="versionBox">
-	<div id="versionBox" style="z-index:10; border:1px solid white; width:300px; font-size:11px; color:black; height:100px; position:absolute; bottom:80px; right:80px; background-color:#EEE; opacity:0.4;  filter: alpha(opacity = 40); text-align:center;">
+	<div id="versionBox" style="display:block; z-index:10; border:1px solid white; width:300px; font-size:15px; color:white; height:100px; position:absolute; bottom:80px; right:80px; background-color:#000000; opacity:0.8;  filter: alpha(opacity = 80); text-align:center; font-family:Helvetica,">
 		<b>INFORMAZIONE DI SERVIZIO</b><br />
 		<span tal:content="structure gameServiceInfo" /><hr />
 		<i><span tal:content="gameVersion" /></i>
 		<input type="button" style="position:absolute; top:3px; right:3px;" value="X" onclick="javascript:$('#versionBox').fadeOut(200)" />
 	</div>
-</div>
+</div> 
 
 <div metal:define-macro="didYouKnow">
 	<div id="tipBox" class="tipBox">

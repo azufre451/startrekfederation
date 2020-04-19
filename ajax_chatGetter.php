@@ -26,12 +26,11 @@ $res = mysql_query('SELECT 1 FROM fed_sussurri WHERE susTo = '.$_SESSION['pgID']
 $aar['SU'] = (mysql_affected_rows()) ? true : false;
 
 
-$res = mysql_query('SELECT placeAlert,pgAuthOMA,isMasCapable FROM pg_users,pg_places WHERE pgLocation = placeID AND pgID = '.($_SESSION['pgID']));
+$res = mysql_query('SELECT placeAlert,pgAuthOMA FROM pg_users,pg_places WHERE pgLocation = placeID AND pgID = '.($_SESSION['pgID']));
 if(mysql_affected_rows()){
 	$aarA = mysql_fetch_array($res);
 	$aar['AL'] = $aarA['placeAlert'];
 	$pgAuthOMA = $aarA['pgAuthOMA'];
-	$isMasCapable = $aarA['isMasCapable'];
 }
 
 $resSession = mysql_query("SELECT sessionMaxChars,sessionIntervalTime FROM federation_sessions WHERE sessionStatus = 'ONGOING' AND sessionPlace = '$ambient'");
@@ -41,20 +40,19 @@ if (mysql_affected_rows()){
 	$aar['IT'] = ($rea['sessionIntervalTime'] != 0) ? $rea['sessionIntervalTime'] : 999;
 }
 
-$maxTime = time()-3600;
-// $masterCondition = (PG::mapPermissions("M",$pgAuthOMA) || $isMasCapable) ? '' : "AND (type <> 'APM' OR sender = ".$_SESSION['pgID'].')';
+$maxTime = $curTime-3600;
+
 $adminCondition = (PG::mapPermissions("SM",$pgAuthOMA)) ? '' : "AND (type <> 'MASTERSPEC' OR sender = ".$_SESSION['pgID']." OR specReceiver = ".$_SESSION['pgID'].") AND (type <> 'DICERSPEC' OR sender = ".$_SESSION['pgID']." OR specReceiver = ".$_SESSION['pgID'].")";
 
 
 $diceOutcomes= array();
-//$masterCondition = '';
 $chatLines = mysql_query("SELECT IDE,chat,sender,time,type,dicerOutcome,dicerAbil,dicerThr FROM federation_chat WHERE ambient = '$ambient' AND IDE > $last AND time > $maxTime AND (type <> 'SPECIFIC' OR sender = ".$_SESSION['pgID'].") $adminCondition ORDER BY time ASC");
 $htmlLiner='';
 
 $mpi=array();
 
- $MAX = 0;
- $lastTime=0;
+$MAX = 0;
+$lastTime=0;
 
 while($chatLi = mysql_fetch_array($chatLines)){
 	if($chatLi['type'] != 'AUDIO' && $chatLi['type'] != 'AUDIOE' && $chatLi['type'] != 'MPI') $htmlLiner .= $chatLi['chat'];
@@ -68,8 +66,6 @@ while($chatLi = mysql_fetch_array($chatLines)){
 	if ($chatLi['IDE'] > $MAX) 	$MAX = $chatLi['IDE'];
 
 	if ($chatLi['time'] > $lastTime && $chatLi['sender'] != $_SESSION['pgID']) $lastTime = $chatLi['time'];
-
-	//echo $chatLi['time'] . 'by ' . $chatLi['sender'] . ' ('.$maxTime.')' ;
 	
 	if ($chatLi['type'] == 'DICERSPEC' && $chatLi['dicerAbil'] != ''){
 		
@@ -94,5 +90,4 @@ $aar['LCH'] = $MAX;
 $aar['LCT'] = $lastTime;
 echo json_encode($aar);
 include('includes/app_declude.php');
-//echo var_dump($aar);
 ?>

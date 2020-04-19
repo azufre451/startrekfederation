@@ -236,11 +236,12 @@ if (PG::mapPermissions('SM',$currentUser->pgAuthOMA)) $template->isSuperMaster =
 if (PG::mapPermissions('SM',$currentUser->pgAuthOMA) || $currentAmbient['locID'] == PG::getSomething($_SESSION['pgID'],'pgAlloggioRealID')) $template->protectable = true;
 
 if(substr($_SERVER['REQUEST_URI'],-4,4) == '%261') $template->showM = '1';
-// $template->gameName = $gameName;
-// $template->gameVersion = $gameVersion;
-// $template->debug = $debug;
-// $template->tips = $tips;
-// $template->gameServiceInfo = $gameServiceInfo;
+
+$template->gameName = $gameName;
+$template->gameVersion = $gameVersion;
+$template->debug = $debug;
+//$template->tips = $tips;
+$template->gameServiceInfo = $gameServiceInfo;
 
 	try 
 	{

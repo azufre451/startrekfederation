@@ -70,24 +70,20 @@ if($mode == 'newP')
 			
 			if (empty($to) || $to == " " || $to == NULL) continue;
 			
-
 			$to = addslashes(trim($to)); 
 
-			
-			if (startsWith($to,"Gruppo")){
+			if (startsWith($to,"Gruppo"))
+			{
 				$idR = mysql_query("SELECT pgID FROM pg_groups_ppl,pg_groups WHERE pg_groups_ppl.groupID = pg_groups.groupID AND groupLabel = '$to'");
 
 				$testo = '<p>Messaggio collettivo inviato a: <span style="color:#FC0; font-weight:bold;">'.$to.'</span></p>'.$testo;
 					
 				while($res = mysql_fetch_assoc($idR))
 				{	
-					$toP = new PG($res['pgID'],2);
+					$toP = new PG($vali->numberOnly($res['pgID']),2);
 					$toP->sendPadd($titolo,$testo,$_SESSION['pgID']);
 				}
-
-
 			}
-
 
 			elseif(strpos($to,'[Ufficiali Superiori]') !== false)
 			{
@@ -103,33 +99,32 @@ if($mode == 'newP')
 					$toP = new PG($ris['pgID'],2);
 					$toP->sendPadd($titolo,$testo,$_SESSION['pgID']); 
 				}
-
 			}
-			else{
+			else
+			{
+				$idsA = mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$to'"));
+				if (mysql_affected_rows())
+				{	 
+					$toP = new PG($vali->numberOnly($idsA['pgID']),2);
 
-			$idsA = mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$to'"));
-			$toP = new PG($idsA['pgID'],2);
+					$fm=0;
 
-			$fm=0;
-
-			if (isSet($_GET['guider'])) $paddType = 3;
-			if (isSet($_POST['paddType'])){
-
-				
-				if($_POST['paddType'] == "4" && PG::mapPermissions('M',$currentUser->pgAuthOMA))
-					$paddType=4;
-				elseif($_POST['paddType'] == "1S" && PG::mapPermissions('SM',$currentUser->pgAuthOMA))
+					if (isSet($_GET['guider'])) $paddType = 3;
+					if (isSet($_POST['paddType']))
 					{
-						$fm=1;
-						$paddType=1;
+						if($_POST['paddType'] == "4" && PG::mapPermissions('M',$currentUser->pgAuthOMA))
+							$paddType=4;
+						elseif($_POST['paddType'] == "1S" && PG::mapPermissions('SM',$currentUser->pgAuthOMA))
+							{
+								$fm=1;
+								$paddType=1;
+							}
+						elseif($_POST['paddType'] == 1 || $_POST['paddType'] == 0 || $_POST['paddType'] == 3)
+							$paddType=(int)($_POST['paddType']);
 					}
-				elseif($_POST['paddType'] == 1 || $_POST['paddType'] == 0 || $_POST['paddType'] == 3)
-					$paddType=(int)($_POST['paddType']);
-			}
-			else $paddType=0;
-
-
-			$toP->sendPadd($titolo,$testo,$_SESSION['pgID'],$paddType,$fm);
+					else $paddType=0;
+					$toP->sendPadd($titolo,$testo,$_SESSION['pgID'],$paddType,$fm);
+				}
 			}
 		} 
 	}

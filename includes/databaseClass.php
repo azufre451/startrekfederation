@@ -863,7 +863,6 @@ class PG
 		$myID = $this->ID;
 		$curTime = time();
 
-		
 		if ($type != 0)
 			$paddType=$type;
 		else 
@@ -878,8 +877,8 @@ class PG
 			$paddClass="offPadd";
 
 		$textE=addslashes($text);
-		
-		mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,paddType) VALUES ($from,$myID,'$subject','<div class=\"paddMessage $paddClass\">$textE</div>',$curTime,0,$paddType)");
+		$subjectE=addslashes($subject);
+		mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,paddType) VALUES ($from,$myID,'$subjectE','<div class=\"paddMessage $paddClass\">$textE</div>',$curTime,0,$paddType)");
 		if(mysql_error()){echo mysql_error();exit;}
 		if(!isSet($this->paddMail)){
 			$resa = mysql_fetch_assoc(mysql_query("SELECT paddMail,email FROM pg_users WHERE pgID = $myID"));

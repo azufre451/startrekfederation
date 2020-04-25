@@ -883,7 +883,7 @@ class PG
 
 		$textE=addslashes($text);
 		
-		mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,paddType) VALUES ($from,$myID,'$subject','<p class=\"paddMessage $paddClass\">$textE</p>',$curTime,0,$paddType)");
+		mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,paddType) VALUES ($from,$myID,'$subject','<div class=\"paddMessage $paddClass\">$textE</div>',$curTime,0,$paddType)");
 		if(mysql_error()){echo mysql_error();exit;}
 		if(!isSet($this->paddMail)){
 			$resa = mysql_fetch_assoc(mysql_query("SELECT paddMail,email FROM pg_users WHERE pgID = $myID"));

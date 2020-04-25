@@ -13,136 +13,13 @@
 	<!--<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />-->
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	<script type="text/javascript" src="TEMPLATES/js/caret.js"></script>
+	<script type="text/javascript" src="TEMPLATES/js/cdb.js?v=${gameOptions/numericVersion}"/>
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/datepicker.css" rel="stylesheet" type="text/css" />
 
 	<title>STAR TREK FEDERATION - CDB</title>
 	
-	<script type="text/javascript">
-		function split( val ) {
-			return val.split( /,\s*/ );
-		}
-		function extractLast( term ) {
-			return split( term ).pop();
-		}
-		
-		function isNumberKey(evt)
-		{
-
-         var charCode = (evt.which) ? evt.which : event.keyCode
-
-         if ((charCode < 58 && charCode > 47) || (charCode < 106 && charCode > 95) || charCode == 8)
-            return true;
-
-         return false;
-		 
-		 }
-
-		function showlink(ida)
-		{
-
-			jQuery('#dialogLinker').attr('value','[POST]'+ida+'[/POST]');
-			 $( "#dialog-message" ).dialog({
-      modal: true,
- 
-
-        buttons: {
-        "Copia": function(){ jQuery('#dialogLinker').select(); document.execCommand("copy"); jQuery('#dialog-message').dialog( "close" );}
-      }
-
-    });
-		}
- 
- 
-		jQuery(function(){
-			jQuery('.tooltip').tooltip({
-          content: function () {
-              return $(this).prop('title');
-          }
-      });
-
-
-			jQuery( "#users")
-			// don't navigate away from the field on tab when selecting an item
-
-			.autocomplete({
-				source: function( request, response ) {
-					$.getJSON( "ajax_userGetter.php?wpng=1", {
-						term: extractLast( request.term )
-					}, response );
-				},
-				search: function()
-				{
-					// custom minLength
-					var term = extractLast( this.value );
-					if ( term.length < 3 ) {
-						return false;
-					}
-				},
-				focus: function() {
-					// prevent value inserted on focus
-					return false;
-				},
-				select: function( event, ui ) {
-					var terms = split( this.value );
-					// remove the current input
-					terms.pop();
-					// add the selected item
-					terms.push( ui.item.value );
-					// add placeholder to get the comma-and-space at the end
-					terms.push( "" );
-					this.value = terms.join( ", " );
-					return false;
-				}
-			});
-			
-			 $( "#usersMaster" ).autocomplete({
-			 source: "ajax_userGetter.php?epng_only=1",
-			 minLength: 2,
-			 });
-			 
-			})
-			
-			function goTrasncript(rap,stringUse)
-			{
-				if (jQuery('#format1').prop('checked')) formatID = 1;
-				if (jQuery('#format2').prop('checked')) formatID = 2;
-				if (jQuery('#format3').prop('checked')) formatID = 3;
-				if (jQuery('#format4').prop('checked')) formatID = 4;
-				if (jQuery('#format5').prop('checked')) formatID = 5;
-				
-				jQuery.post('ajax_getCDBFormats.php', {stringer: stringUse, format: formatID, rapType: rap}, settercdb, 'json');
-				
-				if (jQuery('#no-notify').prop('checked'))
-				{
-				jQuery('#pepoleList').attr('value',stringUse);
-				jQuery('#peopleListMirror').html(stringUse);
-				jQuery('#peopleListMirrorContain').fadeIn();
-				}
-				else{
-					jQuery('#pepoleList').attr('value','');
-					jQuery('#peopleListMirror').html('');
-					jQuery('#peopleListMirrorContain').fadeOut();
-				}
-
-
-			}
-			
-			function goStardate(d,m,y,h,i,s)
-			{
-				jQuery.post('ajax_stardateGetter.php', {day: d, mon: m, yea:y, hou:h,min:i}, settercdb, 'json');
-			}
-			
-			
-			function settercdb(data)
-			{
-				
-				var box = jQuery("#postContent");
-				box.val(box.val() + data);
-				jQuery('#pstAdva').fadeOut(50);
-			}
-	</script>
 	<style>
 	.ui-tooltip {
 	font-size:12px;
@@ -235,7 +112,6 @@
 	</td>
 	</tr>
 
-
 	<tr><td class="postContent" colspan="4" tal:condition="exists:preventShow">
 		<div style="font-size:20px; font-variant:small-caps; color:#3188F3; font-weight:bold; text-align:center; border:2px solid #333; width:80%; margin-left:auto; margin-right:auto; "> = RISERVATO =</div>
 		<p style="text-align:justify; margin-left:20px; margin-right:20px; margin-top:30px;"> <span class="cdbPostRed"><b>Questo topic è protetto!</b></span> La lettura è riservata allo staff di gestione, ai global master, all'autore principale del topic ed eventuali coautori.</p>
@@ -244,7 +120,6 @@
 	<tr><td class="postContent signature" colspan="4" tal:content="structure post/signature" /></tr>
 </table>
 </div>
-
 
 </div>
 <div id="paginator" tal:condition="php:(postCounter GT 0)" style="margin-top:5px; margin-left:10px;">
@@ -273,39 +148,48 @@
 		<p id="peopleListMirrorContain" style="width:550px;margin-top:3px; display:none; font-size:13px; font-family:Helvetica"> Il post verrà segnalato a: <span id="peopleListMirror" /> con un padd automatico</p>
 			<input type="hidden" style="border:0" id="pepoleList" name="peopleList" value="" />
 	</td>
-	<td style="text-align:center; vertical-align:middle;"> 
-		<input type="button" value="B" style="width:32px; margin-left:10px;" href="" onclick="bbstyle(0)" />
-		<input type="button" value="I" style="width:32px; margin-left:10px;" href="" onclick="bbstyle(2)" />
-		<input type="button" value="U" style="width:32px; margin-left:10px;" href="" onclick="bbstyle(4)" /><br /><br />
+	<td class="BBbuttonList"> 
+		<input type="button" value="B" class="w32" onclick="bbstyle(0)" />
+		<input type="button" value="I" class="w32" onclick="bbstyle(2)" />
+		<input type="button" value="U" class="w32" onclick="bbstyle(4)" /><br /><br />
 
-		<input type="button" value="ROSSO" style="color:red; width:50px; margin-left:10px; font-size:10px;" href="" onclick="bbstyle(14)" />
-		<input type="button" value="GIALLO" style="color:yellow; width:50px; margin-left:10px; font-size:10px;" href="" onclick="bbstyle(16)" /> 
-		<input type="button" value="AZZURRO" style="color:#3ed1e7; width:55Px; margin-left:10px; font-size:10px;" href="" onclick="bbstyle(18)" /><br />
-		<input type="button" value="GRIGIO" style="color:#AAA; width:50px; margin-left:10px; font-size:10px;" href="" onclick="bbstyle(20)" />
-		<input type="button" value="BIANCO" style="color:white; width:50px; margin-left:10px ;font-size:10px;" href="" onclick="bbstyle(22)" />
-		<input type="button" value="VERDE" style="color:#30b030; width:55px; margin-left:10px; font-size:10px;" href="" onclick="bbstyle(24)" /><br /><br />
-		<input type="button" value="SIN" style="width:50px; margin-left:10px;" href="" onclick="bbstyle(8)" />
-		<input type="button" value="CEN" style="width:50px; margin-left:10px;" href="" onclick="bbstyle(6)" />
-		<input type="button" value="DES" style="width:50px; margin-left:10px;" href="" onclick="bbstyle(10)" /><br /><br />
+		<input type="button" class="w50" value="ROSSO" style="color:red;" onclick="bbstyle(14)" />
+		<input type="button" class="w50" value="GIALLO" style="color:yellow;" onclick="bbstyle(16)" /> 
+		<input type="button" class="w50" value="AZZURRO" style="color:#3ed1e7;" onclick="bbstyle(18)" /><br />
+		<input type="button" class="w50" value="GRIGIO" style="color:#AAA;" onclick="bbstyle(20)" />
+		<input type="button" class="w50" value="BIANCO"  style="color:white;"  onclick="bbstyle(22)" />
+		<input type="button" class="w50" value="VERDE" style="color:#30b030;" onclick="bbstyle(24)" /><br /><br />
+		<input type="button" class="w50" value="SIN" onclick="bbstyle(8)" />
+		<input type="button" class="w50" value="CEN" onclick="bbstyle(6)" />
+		<input type="button" class="w50" value="DES" onclick="bbstyle(10)" /><br /><br />
 		
-		<input type="button" value="IMG" style="width:50px; margin-left:10px;" href="" onclick="bbstyle(12)" />
-		<input type="button" value="URL" style="width:50px; margin-left:10px;" href="" onclick="bbstyle(32)" /><br /><br />
-		<input type="button" value="QUOTE" style="width:50px; margin-left:10px;" href="" onclick="bbstyle(34)" /><br /><br />
+		<input type="button" class="w50" value="IMG" onclick="bbstyle(12)" />
+		<input type="button" class="w50" value="URL" onclick="bbstyle(32)" /><br /><br />
+		<input type="button" class="w50" value="QUOTE" onclick="bbstyle(34)" /><br /><br />
 
-		<input type="button" value="A" style="width:30px; margin-left:10px; font-size:9px;" href="" onclick="bbstyle(26)">SINISTRA</input> 
-		<input type="button" value="A" style="width:30px; margin-left:10px; font-size:12px;" href="" onclick="bbstyle(28)">CENTER</input> 
-		<input type="button" value="A" style="width:30px; margin-left:10px; font-size:16px;" href="" onclick="bbstyle(30)">DESTRA</input><br /><br />
+		<input type="button" value="A" class="w32" style="font-size:9px;" href="" onclick="bbstyle(26)">SINISTRA</input> 
+		<input type="button" value="A" class="w32" style="font-size:12px;" href="" onclick="bbstyle(28)">CENTER</input> 
+		<input type="button" value="A" class="w32" style="font-size:16px;" href="" onclick="bbstyle(30)">DESTRA</input><br /><br />
 
-		<input type="button" value=" AVANZATE " style="width:90px; margin-left:10px; font-size:16px;" href="" onclick="javascript:jQuery('#pstAdva').toggle(150)">DESTRA</input><br /><br />
+		<input type="button" value=" AVANZATE " style="width:90px; font-size:16px;" href="" onclick="javascript:jQuery('#pstAdva').toggle(150)">DESTRA</input><br /><br />
 
-		<table style="text-align:left; margin-left:20px; font-size:11px; font-weight:bold;"><tr><td>STILE FIRMA:</td><td><select  class="neon"  style="width:90px;" name="postFirma">
-		<option value="corta">CORTA</option>
-		<option value="lunga">LUNGA</option>
-		</select></td></tr>
-		<tr><td>SECLAR:</td><td>
-		<select class="neon" style="width:90px;" onchange="javascript:$('#addPostImage').prop('src','TEMPLATES/img/seclar/seclar'+this.value+'.png');" name="postSeclar">
-			<option tal:repeat="con php:range(topicSeclar,9)" tal:attributes="value con" tal:content="string: SECLAR ${con}" />
-			</select></td></tr></table>
+		<table>
+			<tr>
+				<td>STILE FIRMA:</td>
+				<td><select  class="neon"  style="width:90px;" name="postFirma">
+						<option value="corta">Corta</option>
+						<option value="lunga">Lunga</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>SECLAR:</td><td>
+				<select class="neon" style="width:90px;" onchange="javascript:$('#addPostImage').prop('src','TEMPLATES/img/seclar/seclar'+this.value+'.png');" name="postSeclar">
+					<option tal:repeat="con php:range(topicSeclar,9)" tal:attributes="value con" tal:content="string: SECLAR ${con}" />
+				</select>
+				</td>
+			</tr>
+		</table>
 
 		<br /><br /><input type="submit" value="INVIA" style="width:150px; margin-left:10px; font-size:13px;" href="" onclick="" />
 	</td>

@@ -541,25 +541,26 @@ else if (isSet($_GET['addPost']))
 						
 						
 			$overSeclar="";
-			$seclarColor='#2f8ad0';
+			$seclarClass='seclarReadable';
 
 			$RealmaxReqSeclar = max(array($maxReqSeclar,$seclar));
 				if(((int)($toP->pgSeclar) < (int)($RealmaxReqSeclar)))
 				{
 					mysql_query( "INSERT IGNORE INTO cdb_posts_seclarExceptions (pgID, postID) VALUES (".$toP->ID.",'$postIDCo')"); 
 					$overSeclar = "Il post contiene elementi fino a <span style=\"color:red; font-weight:bold;\">SECLAR $seclar</span> ma puoi visualizzarlo ugualmente, essendone destinatario";
-					$seclarColor = '#FF0000';
+					
+					$seclarClass='seclarUnReadable';
 				}
 
 					
 			$smallTitle = addslashes(substr($title,0,50));
 
-			mysql_query( "INSERT INTO pg_personal_notifications (owner,text,subtext,image,time,URI,linker) VALUES (".$toP->ID.",'<b>Sei stato citato in CDB</b>: $smallTitle','[ - <span style=\"font-size:11px; color:$seclarColor;\"> SECLAR $seclar</span> - ]','".$currentUser->pgAvatarSquare."',$curTime,'$topicCode#$postIDCo','cdbOpenToTopic')"); 
+			mysql_query( "INSERT INTO pg_personal_notifications (owner,text,subtext,image,time,URI,linker) VALUES (".$toP->ID.",'<b>Sei stato citato in CDB</b>: $smallTitle','[ - <span class=\"$seclarClass;\"> SECLAR $seclar</span> - ]','".$currentUser->pgAvatarSquare."',$curTime,'$topicCode#$postIDCo','cdbOpenToTopic')"); 
 		} 
 	}
 
 
-	
+#UPDATE `pg_personal_notifications` SET subtext = REPLACE(subtext,'<span style="font-size:11px; color:#2f8ad0;">','<span class="seclarReadable">') WHERE `subtext` LIKE '%font-size:11px; color:#2f8ad0;%';	
 
 
 	header("Location:cdb.php?topic=$topicCode");

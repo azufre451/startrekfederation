@@ -711,7 +711,6 @@ class PG
 		
 		$this->ONLINE = ($this->pgLastAct < (time()-1800)) ? false : true;
 
-		
 		$this->pgMostrina = $re['pgMostrina'];
 		$this->pgMostrinaOlo = $re['pgMostrinaOlo'];
 		$this->pgLocation = $re['pgLocation'];
@@ -727,10 +726,7 @@ class PG
 			$action = explode(';',$re['actionCSS']);
 			$parlat = explode(';',$re['parlatCSS']);		
 			$other = explode(';',$re['otherCSS']);		
-			/*$actionSize = $action[0].'px';
-			$actionColor = $action[1];
-			$actionParlatColor = $action[2];*/
-			
+
 			$parlatSize = $parlat[0].'px';
 			$parlatColor = $parlat[1];
 			$parlatQuoteColor = $parlat[2];
@@ -883,7 +879,7 @@ class PG
 
 		$textE=addslashes($text);
 		
-		mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,paddType) VALUES ($from,$myID,'$subject','<p class=\"paddMessage $paddClass\">$textE</p>',$curTime,0,$paddType)");
+		mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,paddType) VALUES ($from,$myID,'$subject','<div class=\"paddMessage $paddClass\">$textE</div>',$curTime,0,$paddType)");
 		if(mysql_error()){echo mysql_error();exit;}
 		if(!isSet($this->paddMail)){
 			$resa = mysql_fetch_assoc(mysql_query("SELECT paddMail,email FROM pg_users WHERE pgID = $myID"));
@@ -1124,6 +1120,13 @@ class PG
 			return $rpr;
 	}
 
+	public function getCTS()
+	{
+		$ara=array('Comando e Strategia' => 'cts_com.css', 'Ingegneria e Operazioni' => 'cts_ing.css', 'Scientifica e Medica' => 'cts_scimed.css', 'Navigazione' => 'cts_nav.css', 'Difesa e Sicurezza' => 'cts_dif.css');
+
+		return ( (array_key_exists($this->pgSezione, $ara)) ? $ara[$this->pgSezione] : 0 );
+	}
+
 	public static function getHangar($id)
 	{
 		$res = mysql_query("SELECT placeHangar FROM pg_places WHERE placeID = '$id'");
@@ -1205,8 +1208,12 @@ class PG
 		if($var == "UP")
 			mysql_query("UPDATE pg_users SET pgUpgradePoints = $val WHERE pgID = $id");
 	}
+
+
+
 	public static function getSomething($id,$var)
 	{
+
 		if($var == "BG")
 		{
 			$res = mysql_query("SELECT * FROM pg_users_bios WHERE valid = 2 AND pgID = $id ORDER BY recID DESC LIMIT 1");

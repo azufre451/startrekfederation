@@ -4,7 +4,9 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 	<link rel="shortcut icon" href="favicon.ico" />
 	
+	<link tal:condition="php:user.getCTS()" tal:attributes="href php:'TEMPLATES/css/' . user.getCTS() . '?v=' . gameOptions['numericVersion'] " rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/cdb_styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/padd.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 	
@@ -27,33 +29,6 @@
 
 	<style> 
 		.ui-tooltip {font-size:12px; text-align:justify;}
-
-		.gani_M::before{color:#ff3600;}
-		.gani_A::before{color:#d7b52f;}
-		.gani_G::before{color:#31F367;}
-
-
-		.gani_M::before, .gani_G::before, .gani_A::before
-		{
-			font-size:11px; 
-			margin-right:2px;
-			font-style:italic;
-		 }
-
-		.gani_A::before {content: '[A]';}
-		.gani_M::before {content: '[M]';}
-		.gani_G::before {content: '[G]';}
-
-p.paddMessage{margin-left:10px; font-size:13px; margin-right:10px;}
-
-p.paddMessage.autoPadd::after{content:'[ Questo è un messaggio automatico ]'; color:'#FFCC00'; font-style:italic; display: block; margin-top:10px;}
-
-p.paddMessage.offPadd::after{content:'Messaggio OFF-Game: i contenuti di questo messaggio non sono relativi alle situazioni di gioco, e coinvolgono invece i giocatori'; color:'#AAA'; font-style:italic; display: block; clear:both; margin-top:10px; font-size:12px;}
-
-p.paddMessage.masterPadd::before{content:'~ Evento Master ~'; color:'#ff3600'; font-weight:bold; display: block; text-align:center; width: 55%;  border-top:1px solid #ff3600;   border-bottom:1px solid #ff3600; padding: 5px 0px; margin: 5px auto; font-size:14px;}
-
-p.paddMessage.masterPadd::after{content:'Evento Master: questo messaggio contiene sviluppi di trama che coinvolgono il tuo personaggio. Giocare gli effetti di tali sviluppi non è facoltativo'; color:'#BBB'; font-style:italic; display: block; margin-top:10px; font-size:12px;}
-
 
 	</style>
 </head>

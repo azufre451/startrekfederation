@@ -1,3 +1,4 @@
+
 @font-face{
 font-family:'enterpriseFont';
 src: url('../Enterprise.eot') format('eot');
@@ -130,7 +131,8 @@ input, select, textarea, button
 	margin:15px auto;
 	display:block;
 
-	border-left:2px solid #0077c3;
+
+	border-left:2px solid var(--custom_section_color, #0077c3);
 	background-color: #111111;
 	padding:10px;
 }
@@ -153,7 +155,7 @@ input, select, textarea, button
 
 .signature
 {
-	color:#0077c3;
+	color: #0077c3; 
 	text-align:center;
 	font-weight:bold;
 	padding-bottom:5px;
@@ -184,6 +186,31 @@ input, select, textarea, button
 	height:15px;
 	margin-left:4px;
  
+}
+
+
+#cdbIntro{
+	margin-bottom:5px;
+	margin-top:2px;
+	text-align:left;
+	font-size:15px;
+	font-weight:bold;
+	font-variant:small-caps;
+	font-family:helvetica;
+	letter-spacing:0.03em;
+}
+
+#cdbIntro .stardate{
+	color:#5fc0f8;
+	
+}
+
+#cdbIntro .currentDate{
+	margin-left:8px; color:#AAA
+}
+
+#cdbIntro .curPerson{
+	color:var(--custom_section_color,#ffc600); 
 }
 
 .blackgradient

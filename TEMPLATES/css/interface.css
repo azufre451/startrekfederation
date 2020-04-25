@@ -739,7 +739,7 @@ position:relative;
 .chatQuotation{color:#d7a436;}
 .chatQuotationAction,.chatUser{color:#999;}
 
-.chatTag{font-size:11px;color:#d7a436;}
+.chatTag{font-size:11px;color: var(--custom_section_tagcolor, #d7a436);}
 .chatUser{margin-right:5px;}
 .highlight{
 text-shadow: 0 0 2px #47cd35;
@@ -1230,6 +1230,9 @@ float:left;
 #statusContainer img{ width:40px; height:40px; }
 #statusContainer p{ font-size:14px; font-family:Arial;  margin:0px; margin-left:5px;}
 #statusContainer p.sub{ font-size:12px; font-style:italic; color:#EEE; font-family:Arial;  margin:0px; margin-left:5px;}
+
+#statusContainer p.sub span.seclarReadable{ color:var(--custom_section_color, #0077c3); font-size:11px;}
+#statusContainer p.sub span.seclarUnReadable{ color:#b54412; font-size:11px;}
 
 #statusContainer > div:hover{ background-color:rgba(81,145,166,0.7);}
 

@@ -33,101 +33,79 @@ function startsWith($haystack, $needle)
  
 if($mode == 'newP')
 {
-	if($_POST['users']=='ALL_ACTIVE')
+	$toString = array_filter(explode(',',$_POST['users']));
+
+	$curID = $_SESSION['pgID'];
+	
+	$titolo = htmlentities($_POST['titolo'],ENT_COMPAT, 'UTF-8');
+	$testo = htmlentities($_POST['testo'],ENT_COMPAT, 'UTF-8');
+	$testo = $_POST['testo'];
+	
+
+	if(trim($titolo=="")) $titolo= "NESSUN OGGETTO";
+	
+	foreach($toString as $to)
 	{
 		
-		$curID = $_SESSION['pgID'];
-		$titolo = addslashes($_POST['titolo']);
-		$testo = htmlentities(addslashes(($_POST['testo'])),ENT_COMPAT, 'UTF-8');
+		if (empty($to) || $to == " " || $to == NULL) continue;
 		
+		$to = addslashes(trim($to)); 
 
-
-		$oneMonth = $curTime - 2505600;
-		if(trim($titolo=="")) $titolo= "NESSUN OGGETTO";
-		
-		$idR = mysql_query("SELECT pgID,pgUser FROM pg_users WHERE pgLock=0 AND png=0 AND pgLastAct >= $oneMonth");
-		while($res = mysql_fetch_assoc($idR))
-		{ 
-			$idA = $res['pgID']; 
-			mysql_query("INSERT INTO fed_pad (paddFrom, paddTo, paddTitle, paddText, paddTime, paddRead) VALUES ($curID, $idA, '$titolo', '$testo',$curTime,0)");
-		} 
-	}
-	else
-	{	 
-		$toString = array_filter(explode(',',$_POST['users']));
-
-		$curID = $_SESSION['pgID'];
-		
-		$titolo = htmlentities($_POST['titolo'],ENT_COMPAT, 'UTF-8');
-		$testo = htmlentities($_POST['testo'],ENT_COMPAT, 'UTF-8');
-		$testo = $_POST['testo'];
-		
-
-		if(trim($titolo=="")) $titolo= "NESSUN OGGETTO";
-		
-		foreach($toString as $to)
+		if (startsWith($to,"Gruppo"))
 		{
-			
-			if (empty($to) || $to == " " || $to == NULL) continue;
-			
-			$to = addslashes(trim($to)); 
+			$idR = mysql_query("SELECT pgID FROM pg_groups_ppl,pg_groups WHERE pg_groups_ppl.groupID = pg_groups.groupID AND groupLabel = '$to'");
 
-			if (startsWith($to,"Gruppo"))
-			{
-				$idR = mysql_query("SELECT pgID FROM pg_groups_ppl,pg_groups WHERE pg_groups_ppl.groupID = pg_groups.groupID AND groupLabel = '$to'");
-
-				$testo = '<p>Messaggio collettivo inviato a: <span style="color:#FC0; font-weight:bold;">'.$to.'</span></p>'.$testo;
-					
-				while($res = mysql_fetch_assoc($idR))
-				{	
-					$toP = new PG($vali->numberOnly($res['pgID']),2);
-					$toP->sendPadd($titolo,$testo,$_SESSION['pgID']);
-				}
+			$testo = '<p>Messaggio collettivo inviato a: <span style="color:#FC0; font-weight:bold;">'.$to.'</span></p>'.$testo;
+				
+			while($res = mysql_fetch_assoc($idR))
+			{	
+				$toP = new PG($vali->numberOnly($res['pgID']),2);
+				$toP->sendPadd($titolo,$testo,$_SESSION['pgID']);
 			}
+		}
 
-			elseif(strpos($to,'[Ufficiali Superiori]') !== false)
-			{
+		elseif(strpos($to,'[Ufficiali Superiori]') !== false)
+		{
 
-				$curLocation = $currentUser->getLocationOfUser();
-				$curLocationID = $curLocation['placeID'];
-				$placeName = $curLocation['placeName'];
-				$testo = '<p>Padd inviato agli Ufficiali Superiori della <span style="color:#FC0; font-weight:bold;">'.$placeName.'</span></p><br />'.$testo;
+			$curLocation = $currentUser->getLocationOfUser();
+			$curLocationID = $curLocation['placeID'];
+			$placeName = $curLocation['placeName'];
+			$testo = '<p>Padd inviato agli Ufficiali Superiori della <span style="color:#FC0; font-weight:bold;">'.$placeName.'</span></p><br />'.$testo;
 
-				$rus=mysql_query("SELECT pg_users.pgID FROM pg_users LEFT JOIN pg_incarichi ON pg_users.pgID = pg_incarichi.pgID LEFT JOIN pg_places ON pgPlace = placeID LEFT JOIN pg_ranks ON prio = rankCode WHERE incActive = 1 AND incDipartimento LIKE '%Ufficiali in Comando%' AND incIncarico NOT LIKE '%Vice%' AND pgPlace = '$curLocationID'");
+			$rus=mysql_query("SELECT pg_users.pgID FROM pg_users LEFT JOIN pg_incarichi ON pg_users.pgID = pg_incarichi.pgID LEFT JOIN pg_places ON pgPlace = placeID LEFT JOIN pg_ranks ON prio = rankCode WHERE incActive = 1 AND incDipartimento LIKE '%Ufficiali in Comando%' AND incIncarico NOT LIKE '%Vice%' AND pgPlace = '$curLocationID'");
 
-				while($ris = mysql_fetch_assoc($rus)){
-					$toP = new PG($ris['pgID'],2);
-					$toP->sendPadd($titolo,$testo,$_SESSION['pgID']); 
-				}
+			while($ris = mysql_fetch_assoc($rus)){
+				$toP = new PG($ris['pgID'],2);
+				$toP->sendPadd($titolo,$testo,$_SESSION['pgID']); 
 			}
-			else
-			{
-				$idsA = mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$to'"));
-				if (mysql_affected_rows())
-				{	 
-					$toP = new PG($vali->numberOnly($idsA['pgID']),2);
+		}
+		else
+		{
+			$idsA = mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$to'"));
+			if (mysql_affected_rows())
+			{	 
+				$toP = new PG($vali->numberOnly($idsA['pgID']),2);
 
-					$fm=0;
+				$fm=0;
 
-					if (isSet($_GET['guider'])) $paddType = 3;
-					if (isSet($_POST['paddType']))
-					{
-						if($_POST['paddType'] == "4" && PG::mapPermissions('M',$currentUser->pgAuthOMA))
-							$paddType=4;
-						elseif($_POST['paddType'] == "1S" && PG::mapPermissions('SM',$currentUser->pgAuthOMA))
-							{
-								$fm=1;
-								$paddType=1;
-							}
-						elseif($_POST['paddType'] == 1 || $_POST['paddType'] == 0 || $_POST['paddType'] == 3)
-							$paddType=(int)($_POST['paddType']);
-					}
-					else $paddType=0;
-					$toP->sendPadd($titolo,$testo,$_SESSION['pgID'],$paddType,$fm);
+				if (isSet($_GET['guider'])) $paddType = 3;
+				if (isSet($_POST['paddType']))
+				{
+					if($_POST['paddType'] == "4" && PG::mapPermissions('M',$currentUser->pgAuthOMA))
+						$paddType=4;
+					elseif($_POST['paddType'] == "1S" && PG::mapPermissions('SM',$currentUser->pgAuthOMA))
+						{
+							$fm=1;
+							$paddType=1;
+						}
+					elseif($_POST['paddType'] == 1 || $_POST['paddType'] == 0 || $_POST['paddType'] == 3)
+						$paddType=(int)($_POST['paddType']);
 				}
+				else $paddType=0;
+				$toP->sendPadd($titolo,$testo,$_SESSION['pgID'],$paddType,$fm);
 			}
-		} 
-	}
+		}
+	} 
 	header('Location:padd.php?ps=1'); 
 }
 

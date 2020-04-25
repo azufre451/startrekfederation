@@ -3,6 +3,11 @@ Progetto Star Trek Federation
 Autore originale: Moreno Zolfo
 */
 
+:root {
+  --custom_section_color: red;
+}
+
+
 @font-face{
 font-family:'federationFont';
 src: url('../Roddenberry.eot') format('eot');

@@ -118,7 +118,7 @@
 </div>
 
 <div metal:define-macro="cdbIntro">
-	<div style="margin-bottom:5px; margin-top:2px; text-align:left; font-size:14px; font-weight:bold; font-variant:small-caps;"><span style="color:#5fc0f8; font-family:helvetica" tal:content="string:D.S. ${currentStarDate}">STARDATE</span> <span style="margin-left:8px; color:#AAA" tal:content="string:[${currentDate}]">CUR DATE</span> - <span style="color:#ffc600" tal:content="string:${user/pgGrado} ${user/pgUser}" /></div>
+	<div id="cdbIntro"><span class="stardate" tal:content="string:D.S. ${currentStarDate}">STARDATE</span> <span class="currentDate" tal:content="string:[${currentDate}]">CUR DATE</span> - <span class="curPerson" tal:content="string:${user/pgGrado} ${user/pgUser}" /></div>
 </div>
 
 <div metal:define-macro="footer">

@@ -11,45 +11,11 @@
 	</tr>
 	<tr><td> <span style="font-size:11px; font-weight:bold; margin-left:20px; margin-right:30px;">TEMPLATE</span>
 		<select class="neon" id="scRapp">
-		<optgroup label="Generici">
-		<option value="00">- Nessun Template Rapporti (Solo lista PG) -</option>
-		<option value="Q1">Rapporti Quest / Extraquest</option>
-		</optgroup>
-		<optgroup label="Comando e Strategia">
-			<option value="Q2">Generico Sezione Comando e Strategia</option>
-			<option value="Q16">Ufficio del Capitano</option>
-			<option value="Q16b">Ufficio del Primo Ufficiale</option>
-		</optgroup>
-		<optgroup label="Difesa Sicurezza"> 
-			<option value="Q4">Generico Sezione Difesa e Sicurezza</option>
-			<option value="Q15">Ufficio del Capo della Sicurezza</option>
-			<option value="Q6">Disposizioni Dipartimento Sicurezza</option>
-		</optgroup>
+		<optgroup tal:repeat="sect templatesAvail" tal:attributes="label repeat/sect/key">
 
-		<optgroup label="Navigazione">
-		<option value="QN1">Ufficio del C.A.G.</option>
-		<option value="QN2">Ufficio Gestione e Controllo Hangar Navette</option>
-		<option value="QN3">Coordinamento Controllo Volo</option>
-
-		<option value="QN4">Entry del Registro di Navigazione - Partenza</option>
-		<option value="QN5">Entry del Registro di Navigazione - Arrivo</option>
+			<option tal:repeat="raptype sect" tal:attributes="value raptype/ref" tal:content="raptype/name" />
 		</optgroup>
-		
-
-		<optgroup label="Ingegneria">
-		<option value="Q14">Ufficio del CEO</option>
-		<option value="Q7">Generico Sezione Ingegneria</option>
-		<option value="Q8">Disposizioni Dipartimento Operazioni</option> 
-		</optgroup>
-		
-		<optgroup label="Scientifica e Medica">
-		<option value="Q13">Ufficio CSO</option>
-		<option value="Q9">Generico Sezione Scientifica</option>
-		<option value="Q17">UFFICIO CMO</option>
-		<option value="Q18">UFFICIO CNS</option>
-		<option value="Q10">Generico Sezione Medica</option>
-		</optgroup>
-		</select>
+	</select>
 	</td></tr>
 	<tr style="height:10px;"/>
 	<tr><td class="newPaddtd">

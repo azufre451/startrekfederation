@@ -1005,6 +1005,18 @@ else if(isSet($_GET['topic']))
 			}
 		}
 
+		$templatesAvail=array();
+		$etos=mysql_query("SELECT * FROM cdb_templates");
+		while($rs=mysql_fetch_assoc($etos))
+		{
+			if(!array_key_exists($rs['section'], $templatesAvail))
+				$templatesAvail[$rs['section']]=array();
+			
+			$templatesAvail[$rs['section']][]=$rs;
+
+		}
+
+		$template->templatesAvail = $templatesAvail;
 		$template->posts = $posts;
 		$template->lastPost = end($posts);
 		$template->postCounter = count($posts);

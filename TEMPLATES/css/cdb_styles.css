@@ -1,6 +1,5 @@
 /* This sheet contains para-cdb (i.e. cdb-like) styles that are used outside of the CDB, where the same (or slightly custom) styles re needed */
 
-
 .interfaceLink,.interfaceLinkBlue,.interfaceLinkRed,.interfaceLinkGreen,.interfaceLinkYellow,.internalCdbLink
 {	
 	font-size:14px;
@@ -78,7 +77,9 @@ margin-right:10px;
 div.quoter{
 	margin:5px 25px;
 	background-color:#333;
-	border-left:2px solid #0077c3;
+
+	/*falling back to STF blue in case custom_section_color not supported */
+	border-left:2px solid var(--custom_section_color, #0077c3);
 	padding:10px;
 
 }

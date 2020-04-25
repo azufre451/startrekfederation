@@ -5,16 +5,17 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/cdb.css?v=1.2.1" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/interface.css?v=1.7" rel="stylesheet" type="text/css" />
+	<link tal:condition="php:user.getCTS()" tal:attributes="href php:'TEMPLATES/css/' . user.getCTS() . '?v=' . gameOptions['numericVersion'] " rel="stylesheet" type="text/css" />	
+	<link href="TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
 
 	<!-- <script type="text/javascript" src="TEMPLATES/js/lazyload.js"></script> -->
 	<title>STAR TREK FEDERATION - CDB</title>
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
-	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
+	<!--<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />-->
 	<script type="text/javascript" src="TEMPLATES/js/callJS.js"></script>
-	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 	
 	<script type="text/javascript" src="TEMPLATES/js/progressBarHandler/prototype.js"></script>
 	<!-- jsProgressBarHandler core -->

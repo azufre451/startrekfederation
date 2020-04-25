@@ -666,7 +666,20 @@ else if(isSet($_GET['postE']))
 	{
 	$res = mysql_query("SELECT * FROM cdb_posts,cdb_topics,cdb_cats WHERE cdb_topics.topicCat = catCode AND ID = $postE AND cdb_topics.topicID = cdb_posts.topicID");
 	$resA = mysql_fetch_array($res);
-	
+
+
+
+	$templatesAvail=array();
+	$etos=mysql_query("SELECT * FROM cdb_templates");
+	while($rs=mysql_fetch_assoc($etos))
+	{
+		if(!array_key_exists($rs['section'], $templatesAvail))
+			$templatesAvail[$rs['section']]=array();
+			
+		$templatesAvail[$rs['section']][]=$rs;
+	}
+
+	$template->templatesAvail = $templatesAvail;
 	$template->editID = $resA['ID'];
 	$template->bounceYear = $bounceYear; 
 	$template->editContent = $resA['content'];

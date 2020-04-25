@@ -411,3 +411,9 @@ display:inline-block;
 vertical-align: middle;
 margin-right:10px;
 }
+
+.BBbuttonList{text-align:center; vertical-align:middle; font-family: Helvetica}
+.BBbuttonList .w32 {width:32px; margin-left:10px; font-size:12px;}
+.BBbuttonList .w50 {width:60px; margin-left:10px; font-size:12px;}
+
+.BBbuttonList table {text-align:left; margin-left:20px; font-size:14px; font-weight:bold;}

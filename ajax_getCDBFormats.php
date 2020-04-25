@@ -10,409 +10,138 @@ include("includes/PHPTAL/PHPTAL.php"); //NEW
 
 
 
+
 $term = addslashes($_POST['stringer']);
 $format = $_POST['format'];
-$rapType = $_POST['rapType'];
+$rapType = addslashes($_POST['rapType']);
 
-$sel = explode(',',$term);
-$lisOuser="";
-foreach ($sel as $auth)
+
+$etos=mysql_fetch_assoc(mysql_query("SELECT * FROM cdb_templates WHERE ref = '$rapType'"));
+
+if(mysql_affected_rows())
 {
-	if($auth!='' && $auth!=' '){
-		$lisOuser .= "'".trim($auth)."',";
-	}
-
-} 
-$lisOuser = substr(trim($lisOuser),0,-1);
- 
-
-$colr = array('Comando e Strategia' => 'RED', 'Difesa e Sicurezza' => 'GREEN', 'Ingegneria e Operazioni' => 'YELLOW', 'Scientifica e Medica' => 'GREEN', 'Medica' => 'GREEN', 'Medicina Civile' => 'GREEN', 'Scienze' => 'GREEN', 'Navigazione' => 'BLUE');
-
-$actDate=timeHandler::timestampToGiulian($curTime);
-$curUser = new PG($_SESSION['pgID']);
-$pgSezione = $curUser->pgSezione;
-$curLocation = $curUser->getLocationOfUser();
-
-$curLocationName=$curLocation['placeName'];
-$curLocationID = $curLocation['placeID'];
-$curLocationNameU=strtoupper($curLocationName);
-
-$mySectionColor = (array_key_exists($pgSezione,$colr)) ?  $colr[$pgSezione] : 'GRAY';
-
-$usersString="";
 
 
-if(strpos($lisOuser,'[Ufficiali Superiori]') !== false)
-{
-	$tUnion = "UNION (SELECT UCASE(pgUser) as pgUser, UCASE(pgNomeC) as pgNomeC, UCASE(pgNomeSuff) as pgNomeSuff, pgSezione,incIncarico,pgGrado,ordinaryUniform,placeName,rankerprio FROM pg_users LEFT JOIN pg_incarichi ON pg_users.pgID = pg_incarichi.pgID LEFT JOIN pg_places ON pgPlace = placeID LEFT JOIN pg_ranks ON prio = rankCode WHERE incActive = 1 AND incDipartimento LIKE '%Ufficiali in Comando%' AND incIncarico NOT LIKE '%Vice%' AND pgPlace = '$curLocationID')
-		UNION
-		(SELECT UCASE(pngSurname) as pgUser, UCASE(pngName) as pgNomeC, '' as pgNomeSuff, pngSezione,pngIncarico,rGrado,ordinaryUniform,placeName,rankerprio FROM png_incarichi,pg_places,pg_ranks WHERE prio = pngRank AND pngPlace = placeID AND pngDipartimento LIKE 'Ufficiali in Comando' AND pngIncarico NOT LIKE '%Vice%' AND pngPlace = '$curLocationID' GROUP BY pngSurname
-		)"; 
-}
-else 
-	$tUnion = '';
 
-if($lisOuser != '')
-{
-	$res = mysql_query("(SELECT UCASE(pgUser) as pgUser, UCASE(pgNomeC) as pgNomeC, UCASE(pgNomeSuff) as pgNomeSuff, pgSezione,incIncarico,pgGrado,ordinaryUniform,placeName,rankerprio FROM pg_users LEFT JOIN pg_incarichi ON pg_users.pgID = pg_incarichi.pgID LEFT JOIN pg_places ON pgPlace = placeID LEFT JOIN pg_ranks ON prio = rankCode WHERE (incMain = 1 OR ISNULL(incMain)) AND pgUser IN ($lisOuser) )
-		UNION (
-		SELECT UCASE(pngSurname) as pgUser, UCASE(pngName) as pgNomeC, '' as pgNomeSuff, pngSezione,pngIncarico,rGrado,ordinaryUniform,placeName,rankerprio FROM png_incarichi,pg_places,pg_ranks WHERE prioritary = 1 AND prio = pngRank AND pngPlace = placeID AND pngSurname IN ($lisOuser) GROUP BY pngSurname
-		) $tUnion
+	$templateBase = $etos['text'];
 
-		ORDER BY rankerprio DESC"); 
-	if(!mysql_error())
+
+
+
+	$sel = explode(',',$term);
+	$lisOuser="";
+	foreach ($sel as $auth)
 	{
-		while($resA = mysql_fetch_array($res))
-			{
-				$pgUser = $resA['pgUser'];
-				$pgNomeC = $resA['pgNomeC'];
-				$pgNomeSuff = $resA['pgNomeSuff'];
-				$pgIncarico = $resA['incIncarico']; 
-				$pgGrado = strtoupper($resA['pgGrado']);
-				$placeName = $resA['placeName'];
-				$pgListSezione = $resA['pgSezione'];
-				$pgListColor = (array_key_exists($pgListSezione,$colr)) ?  $colr[$pgListSezione] : 'GRAY'; 
-				 
-				$pgMostrina = $resA['ordinaryUniform'].'.png';
-				if ($format == 1) $usersString .= "[IMG]TEMPLATES/img/ranks/".$pgMostrina."[/IMG] [SIZE=1][B][COLOR=".$pgListColor."]".$pgGrado." ".$pgUser.", ".$pgNomeC." ".$pgNomeSuff."[/COLOR][/B] - ".$pgIncarico." [COLOR=GRAY]".$placeName."[/COLOR][/SIZE]\n";
-				
-				elseif ($format == 2) $usersString .= "[IMG]TEMPLATES/img/ranks/".$pgMostrina."[/IMG] [SIZE=1][B]".$pgGrado." ".$pgUser.", ".$pgNomeC."[/B] ".$pgNomeSuff." [COLOR=".$pgListColor."]>[/COLOR] [COLOR=GRAY]".$pgIncarico."[/COLOR][/SIZE]\n";
-				
-				elseif ($format == 3) $usersString .= "[IMG]TEMPLATES/img/ranks/".$pgMostrina."[/IMG] [SIZE=1][COLOR=".$pgListColor."][B]".$pgGrado." ".$pgUser.", ".$pgNomeC." ".$pgNomeSuff."[/B][/COLOR][/SIZE]\n";
-				
-				elseif ($format == 4) $usersString .= "[IMG]TEMPLATES/img/ranks/".$pgMostrina."[/IMG] [SIZE=1][COLOR=".$pgListColor."][B]".$pgGrado." ".$pgUser."[/B][/COLOR][/SIZE]\n";
+		if($auth!='' && $auth!=' '){
+			$lisOuser .= "'".trim($auth)."',";
+		}
 
-				elseif ($format == 5) $usersString .= "[IMG]TEMPLATES/img/ranks/".$pgMostrina."[/IMG] [SIZE=1][B][COLOR=".$pgListColor."]".$pgUser."[/COLOR][/B][/SIZE]\n";
-			}
-	}
-}
- 
-	
-	if($usersString=="")
+	} 
+	$lisOuser = substr(trim($lisOuser),0,-1);
+	 
+
+	$colr = array('Comando e Strategia' => 'RED', 'Difesa e Sicurezza' => 'GREEN', 'Ingegneria e Operazioni' => 'YELLOW', 'Scientifica e Medica' => 'GREEN', 'Medica' => 'GREEN', 'Medicina Civile' => 'GREEN', 'Scienze' => 'GREEN', 'Navigazione' => 'BLUE');
+
+	$actDate=timeHandler::timestampToGiulian($curTime);
+	$curUser = new PG($_SESSION['pgID']);
+	$curUser->getIncarichi();
+	$pgSezione = $curUser->pgSezione;
+	$curLocation = $curUser->getLocationOfUser();
+
+	$curLocationName=$curLocation['placeName'];
+	$curLocationID = $curLocation['placeID'];
+	$curLocationNameU=strtoupper($curLocationName);
+
+	$mySectionColor = (array_key_exists($pgSezione,$colr)) ?  $colr[$pgSezione] : 'GRAY';
+
+	$usersString="";
+
+
+	if(strpos($lisOuser,'[Ufficiali Superiori]') !== false)
 	{
-		$usersString = "[SIZE=1][COLOR=GRAY]TUTTO IL PERSONALE[/COLOR][/SIZE]";
+		$tUnion = "UNION (SELECT UCASE(pgUser) as pgUser, UCASE(pgNomeC) as pgNomeC, UCASE(pgNomeSuff) as pgNomeSuff, pgSezione,incIncarico,pgGrado,ordinaryUniform,placeName,rankerprio FROM pg_users LEFT JOIN pg_incarichi ON pg_users.pgID = pg_incarichi.pgID LEFT JOIN pg_places ON pgPlace = placeID LEFT JOIN pg_ranks ON prio = rankCode WHERE incActive = 1 AND incDipartimento LIKE '%Ufficiali in Comando%' AND incIncarico NOT LIKE '%Vice%' AND pgPlace = '$curLocationID')
+			UNION
+			(SELECT UCASE(pngSurname) as pgUser, UCASE(pngName) as pgNomeC, '' as pgNomeSuff, pngSezione,pngIncarico,rGrado,ordinaryUniform,placeName,rankerprio FROM png_incarichi,pg_places,pg_ranks WHERE prio = pngRank AND pngPlace = placeID AND pngDipartimento LIKE 'Ufficiali in Comando' AND pngIncarico NOT LIKE '%Vice%' AND pngPlace = '$curLocationID' GROUP BY pngSurname
+			)"; 
 	}
+	else 
+		$tUnion = '';
+
+	if($lisOuser != '')
+	{
+		$res = mysql_query("(SELECT UCASE(pgUser) as pgUser, UCASE(pgNomeC) as pgNomeC, UCASE(pgNomeSuff) as pgNomeSuff, pgSezione,incIncarico,pgGrado,ordinaryUniform,placeName,rankerprio FROM pg_users LEFT JOIN pg_incarichi ON pg_users.pgID = pg_incarichi.pgID LEFT JOIN pg_places ON pgPlace = placeID LEFT JOIN pg_ranks ON prio = rankCode WHERE (incMain = 1 OR ISNULL(incMain)) AND pgUser IN ($lisOuser) )
+			UNION (
+			SELECT UCASE(pngSurname) as pgUser, UCASE(pngName) as pgNomeC, '' as pgNomeSuff, pngSezione,pngIncarico,rGrado,ordinaryUniform,placeName,rankerprio FROM png_incarichi,pg_places,pg_ranks WHERE prioritary = 1 AND prio = pngRank AND pngPlace = placeID AND pngSurname IN ($lisOuser) GROUP BY pngSurname
+			) $tUnion
+
+			ORDER BY rankerprio DESC"); 
+		if(!mysql_error())
+		{
+			while($resA = mysql_fetch_array($res))
+				{
+					$pgUser = $resA['pgUser'];
+					$pgNomeC = $resA['pgNomeC'];
+					$pgNomeSuff = $resA['pgNomeSuff'];
+					$pgIncarico = $resA['incIncarico']; 
+					$pgGrado = strtoupper($resA['pgGrado']);
+					$placeName = $resA['placeName'];
+					$pgListSezione = $resA['pgSezione'];
+					$pgListColor = (array_key_exists($pgListSezione,$colr)) ?  $colr[$pgListSezione] : 'GRAY'; 
+					 
+					$pgMostrina = $resA['ordinaryUniform'].'.png';
+					if ($format == 1) $usersString .= "[IMG]TEMPLATES/img/ranks/".$pgMostrina."[/IMG] [SIZE=1][B][COLOR=".$pgListColor."]".$pgGrado." ".$pgUser.", ".$pgNomeC." ".$pgNomeSuff."[/COLOR][/B] - ".$pgIncarico." [COLOR=GRAY]".$placeName."[/COLOR][/SIZE]\n";
+					
+					elseif ($format == 2) $usersString .= "[IMG]TEMPLATES/img/ranks/".$pgMostrina."[/IMG] [SIZE=1][B]".$pgGrado." ".$pgUser.", ".$pgNomeC."[/B] ".$pgNomeSuff." [COLOR=".$pgListColor."]>[/COLOR] [COLOR=GRAY]".$pgIncarico."[/COLOR][/SIZE]\n";
+					
+					elseif ($format == 3) $usersString .= "[IMG]TEMPLATES/img/ranks/".$pgMostrina."[/IMG] [SIZE=1][COLOR=".$pgListColor."][B]".$pgGrado." ".$pgUser.", ".$pgNomeC." ".$pgNomeSuff."[/B][/COLOR][/SIZE]\n";
+					
+					elseif ($format == 4) $usersString .= "[IMG]TEMPLATES/img/ranks/".$pgMostrina."[/IMG] [SIZE=1][COLOR=".$pgListColor."][B]".$pgGrado." ".$pgUser."[/B][/COLOR][/SIZE]\n";
+
+					elseif ($format == 5) $usersString .= "[IMG]TEMPLATES/img/ranks/".$pgMostrina."[/IMG] [SIZE=1][B][COLOR=".$pgListColor."]".$pgUser."[/COLOR][/B][/SIZE]\n";
+				}
+		}
+	}
+	 
+		
+		if($usersString=="")
+		{
+			$usersString = "[SIZE=1][COLOR=GRAY]TUTTO IL PERSONALE[/COLOR][/SIZE]";
+		}
+
+	 
+
+	$REPLACE=array(
+	'{__NOME_UNITA__}' => $curLocationName,
+	'{__NOME_UNITA_UPPERCASE__}' => $curLocationNameU,
+	'{__DATA__}' => timeHandler::timestampToGiulian($curTime),
+	'{__DATA_STELLARE__}' => $currentStarDate,
+	'{__MYSECTIONCOLOR__}' => $mySectionColor,
+	'{__GRADO__}' => $curUser->pgGrado,
+	'{__GRADO__UPPERCASE}' => strtoupper($curUser->pgGrado),
+	'{__SEZIONE__}' => $pgSezione,
+	'{__COGNOME__}' => $curUser->pgUser,
+	'{__NOME__}' => $curUser->pgNomeC,
+	'{__SUFFISSO__}' => $curUser->pgNomeSuff,
+	'{__DIPARTIMENTO__}' => 'DIPARTIMENTO '.strtoupper($curUser->pgDipartimento),
+	'{__SEZIONE__UPPERCASE}' => strtoupper($pgSezione),
+	'{__COGNOME__UPPERCASE}' => strtoupper($curUser->pgUser),
+	'{__NOME__UPPERCASE}' => strtoupper($curUser->pgNomeC),
+	'{__SUFFISSO__UPPERCASE}' => strtoupper($curUser->pgNomeSuff),
+	'{__SUFFISSO__}' => $curUser->pgNomeSuff,
+	'{__LOGO_UNITA__}' => '[IMG]https://oscar.stfederation.it/SigmaSys/logo/'.$curLocation['placeLogo'].'[/IMG]',
+	'{__LOGO_COMANDO__}' => '[IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_com.r.png[/IMG]',
+	'{__LOGO_DIFESA__}' => '[IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_sec.r.png[/IMG]',
+	'{__LOGO_OPERAZIONI__}' => '[IMG]https://oscar.stfederation.it/SigmaSys/logo/logo_ops.png[/IMG]',
+	'{__LOGO_INGEGNERIA__}' => '[IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_ops.r.png[/IMG]',
+	'{__LOGO_MEDICA__}' => '[IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_med.r.png[/IMG]',
+	'{__LOGO_SCIENTIFICA__}' => '[IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_sci.r.png[/IMG]',
+	'{__LOGO_NAVIGAZIONE__}' => '[IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_nav.r.png[/IMG]',
+	'{__LISTA_UTENTI__}' => $usersString);
+
+
+	$outString= str_replace(array_keys($REPLACE),$REPLACE,$templateBase);
 	
-	if ($rapType=="00")
-		$outString=$usersString;
-
-	if ($rapType=="Q1") 
-	{ 
-	
-$outString="[CENTER][COLOR=YELLOW][SIZE=1]-- $curLocationNameU --[/SIZE][/COLOR][/CENTER]
-
-[COLOR=YELLOW][B]Data:[/B][/COLOR] $actDate
-[COLOR=YELLOW][B]Data Stellare:[/B][/COLOR] $currentStarDate
-[COLOR=YELLOW][B]Luogo:[/B][/COLOR] $curLocationName
-[COLOR=YELLOW][B]Stesore Rapporto:[/B][/COLOR] [SIZE=1][B][COLOR=".$mySectionColor."]".strtoupper($curUser->pgGrado)." ".strtoupper($curUser->pgUser).", ".strtoupper($curUser->pgNomeC)." ".strtoupper($curUser->pgNomeSuff)."[/COLOR][/B][/SIZE]
-
-[COLOR=YELLOW][B]Presenti:[/B][/COLOR]
-
-$usersString
-
-[COLOR=YELLOW][B]Eventi[/B][/COLOR]
-
-Rapporto";
-}
-	
-elseif ($rapType=="Q2"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE COMANDO E STRATEGIA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]https://oscar.stfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- UFFICIO __Ufficio__ -[/SIZE][/CENTER][/COLOR]
-
-
-[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
-$usersString
-
-[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
-
-<blockquote> __Disposizione__ </blockquote>";
-}
- 
-
-elseif ($rapType=="Q16"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE COMANDO E STRATEGIA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]https://oscar.stfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- UFFICIO DEL CAPITANO -[/SIZE][/CENTER][/COLOR]
-
-
-[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
-$usersString
-
-[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
-
-<blockquote> __Disposizione__ </blockquote>";
-}
-
-
-elseif ($rapType=="Q16b"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE COMANDO E STRATEGIA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]https://oscar.stfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- UFFICIO DEL PRIMO UFFICIALE -[/SIZE][/CENTER][/COLOR]
-
-
-[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
-$usersString
-
-[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
-
-<blockquote> __Disposizione__ </blockquote>";
-}
-
-
-elseif ($rapType=="Q4"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE DIFESA E SICUREZZA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_sec.r.png[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG][/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- UFFICIO __Ufficio__ -[/SIZE][/CENTER][/COLOR]
-
-[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
-$usersString
-
-[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
-
-<blockquote> __Disposizione__ </blockquote>";
-} 
-
-
-elseif ($rapType=="Q15"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE DIFESA E SICUREZZA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_sec.r.png[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG]  [/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- UFFICIO DEL CAPO DELLA SICUREZZA -[/SIZE][/CENTER][/COLOR]
-
-[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
-$usersString
-
-[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
-
-<blockquote> __Disposizione__ </blockquote>";
-}
-
-elseif ($rapType=="Q6"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE DIFESA E SICUREZZA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_sec.r.png[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG]  [/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- DIPARTIMENTO SICUREZZA -[/SIZE][/CENTER][/COLOR]
-
-[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
-$usersString
-
-[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
-
-<blockquote> __Disposizione__ </blockquote>";
-}
-
-elseif ($rapType=="Q7"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE INGEGNERIA E OPERAZIONI $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]https://oscar.stfederation.it/SigmaSys/logo/logo_ops.png[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_ops.r.png[/IMG][/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- UFFICIO: __Ufficio__ -[/SIZE][/CENTER][/COLOR]
-
-[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
-$usersString
-
-[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
-
-<blockquote> __Disposizione__ </blockquote>";
-}
-
-elseif ($rapType=="Q8"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE INGEGNERIA E OPERAZIONI $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]https://oscar.stfederation.it/SigmaSys/logo/logo_ops.png[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_ops.r.png[/IMG][/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- DIPARTIMENTO OPERAZIONI -[/SIZE][/CENTER][/COLOR]
-
-[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
-$usersString
-
-[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
-
-<blockquote> __Disposizione__ </blockquote>";
-}
-
-elseif ($rapType=="Q14"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE INGEGNERIA E OPERAZIONI $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]https://oscar.stfederation.it/SigmaSys/logo/logo_ops.png[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_ops.r.png[/IMG][/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- UFFICIO DEL CAPO INGEGNERE -[/SIZE][/CENTER][/COLOR]
-
-[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
-$usersString
-
-[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
-
-<blockquote> __Disposizione__ </blockquote>";
-}
-
-elseif ($rapType=="Q9" || $rapType=="Q10"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE SCIENTIFICA E MEDICA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_med.r.png[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG]  [IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_sci.r.png[/IMG][/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- UFFICIO __Ufficio__ -[/SIZE][/CENTER][/COLOR]
-
-[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
-$usersString
-
-[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
-
-<blockquote> __Disposizione__ </blockquote>";
-}
-
-elseif ($rapType=="Q13"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE SCIENTIFICA E MEDICA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_sci.r.png[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- UFFICIO CSO -[/SIZE][/CENTER][/COLOR]
-
-[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
-$usersString
-
-[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
-
-<blockquote> __Disposizione__ </blockquote>";
-}
-
-
-elseif ($rapType=="Q17"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE SCIENTIFICA E MEDICA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_med.r.png[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- UFFICIO DEL CMO -[/SIZE][/CENTER][/COLOR]
-
-[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
-$usersString
-
-[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
-
-<blockquote> __Disposizione__ </blockquote>";
-}
-
-elseif ($rapType=="Q18"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE SCIENTIFICA E  MEDICA $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_med.r.png[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- UFFICIO DEL CONSIGLIERE DI BORDO -[/SIZE][/CENTER][/COLOR]
-
-[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
-$usersString
-
-[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
-
-<blockquote> __Disposizione__ </blockquote>";
-}
-
-elseif ($rapType=="QN1"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE NAVIGAZIONE $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_nav.r.png[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- COMANDO DELLE FORZE AEREE -[/SIZE][/CENTER][/COLOR]
-
-[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
-$usersString
-
-[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
-
-<blockquote> __Disposizione__ </blockquote>";
-} 
-
-elseif ($rapType=="QN2"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE NAVIGAZIONE $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_nav.r.png[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- DIPARTIMENTO GESTIONE E CONTROLLO HANGAR NAVETTE -[/SIZE][/CENTER][/COLOR]
-
-[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
-$usersString
-
-[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
-
-<blockquote> __Disposizione__ </blockquote>";
-} 
-
-
-elseif ($rapType=="QN3"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE NAVIGAZIONE $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_nav.r.png[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- COORDINAMENTO DEL CONTROLLO VOLO -[/SIZE][/CENTER][/COLOR]
-
-[SIZE=1][COLOR=BLUE]ALL'ATTENZIONE DI:[/COLOR][/SIZE]
-$usersString
-
-[SIZE=1][COLOR=RED]OGGETTO: [/COLOR] [U] __Oggetto__ [/U][/SIZE]
-
-<blockquote> __Disposizione__ </blockquote>";
-} 
-
-elseif ($rapType=="QN4"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE NAVIGAZIONE $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_nav.r.png[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- COMANDO DELLE FORZE AEREE -[/SIZE][/CENTER][/COLOR]
-
-[SIZE=1][COLOR=BLUE]ENTRY DEL REGISTRO DI NAVIGAZIONE[/COLOR][/SIZE]
-
-<blockquote><blockquote>
-[B][COLOR=BLUE]DA:[/COLOR] __Partenza__
-[COLOR=BLUE]A:[/COLOR] __Arrivo__ [/B]
-
-[COLOR=YELLOW]Vascello:[/COLOR] [COLOR=BLUE][SIZE=1] $curLocationNameU [/SIZE][/COLOR]
-[COLOR=YELLOW]Piano di Volo:[/COLOR] Rotta diretta per la destinazione
-
-[COLOR=YELLOW][B]STD[/B][/COLOR] - [COLOR=GRAY][I]Scheduled time of Departure[/I][/COLOR]: __Data_e_Ora_Previsti_della_partenza__
-[COLOR=RED][B]ATD[/B][/COLOR] - [COLOR=GRAY][I]Actual time of Departure[/I][/COLOR]: __Data_e_Ora_Effettivi_della_partenza__
-[COLOR=BLUE][B]DLA[/B][/COLOR] - [COLOR=GRAY][I]Delay[/I][/COLOR]: __Ritardo__
-
-[COLOR=YELLOW][B]ETA[/B][/COLOR] - [COLOR=GRAY][I]Scheduled time of Arrival[/I][/COLOR]: __Data_e_Ora_Previsti_per_arrivo__
-[COLOR=YELLOW][B]EFT[/B][/COLOR] - [COLOR=GRAY][I]Estimated Flight Time[/I][/COLOR]: __Tempo_di_volo__
-</blockquote></blockquote>";
-} 
-
-elseif ($rapType=="QN4"){
-$outString = "[CENTER][COLOR=YELLOW][SIZE=1]- SEZIONE NAVIGAZIONE $curLocationNameU -[/SIZE][/COLOR][/CENTER]
-
-[CENTER][IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_nav.r.png[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/".$curLocation['placeLogo']."[/IMG] [IMG]https://oscar.stfederation.it/SigmaSys/logo/nl_com.r.png[/IMG][/CENTER]
-
-[COLOR=BLUE][CENTER][SIZE=1]- COMANDO DELLE FORZE AEREE -[/SIZE][/CENTER][/COLOR]
-
-[SIZE=1][COLOR=BLUE]ENTRY DEL REGISTRO DI NAVIGAZIONE[/COLOR][/SIZE]
-
-<blockquote><blockquote>
-[B][COLOR=BLUE]DA:[/COLOR] __Partenza__  
-[COLOR=BLUE]A:[/COLOR] __Arrivo__ [/B]
-
-[COLOR=YELLOW]Vascello:[/COLOR] [COLOR=BLUE][SIZE=1] $curLocationNameU [/SIZE][/COLOR]
-[COLOR=YELLOW]Piano di Volo:[/COLOR] Attracco
- 
-[COLOR=YELLOW][B]STA[/B][/COLOR] - [COLOR=GRAY][I]Scheduled time of Arrival[/I][/COLOR]: __Data_e_Ora_Prevista_arrivo__
-[COLOR=RED][B]ATA[/B][/COLOR] - [COLOR=GRAY][I]Actual time of Arrival[/I][/COLOR]: __Data_e_Ora_Effettivi_arrivo__
-[COLOR=BLUE][B]DLA[/B][/COLOR] - [COLOR=GRAY][I]Delay[/I][/COLOR]: __Ritardo__
-</blockquote></blockquote>";
-} 
-
-
-
 echo json_encode($outString);
+}
 
 ?>

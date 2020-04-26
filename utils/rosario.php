@@ -238,6 +238,16 @@ $VITA .= "> I 5 blablatori più meritescenti: <p style=\"margin:10px;\">$bestPGQ
 $VITA .= "<p>La sacralità del nostro antico Villaggio preconizza anche il nostro grande obiettivo<br />";
 $VITA .= " Giocatore che simma, la chat non insozzare <br /> Trama che traballa, admin non giocare <br /> Banks che esulta, master non accordare <br /> Background che olezza, guida non approvare!</p>";
 
+  
+
+$moreno = new PG('1'); 
+$jean = new PG('3'); 
+
+$moreno->sendPadd('Rapporto pulizia',$SITA,702);
+$moreno->sendPadd('Rapporto qualità',$VITA,1580);
+
+$jean->sendPadd('Rapporto pulizia',$SITA,702);
+$jean->sendPadd('Rapporto qualità',$VITA,1580);
 
 }
 

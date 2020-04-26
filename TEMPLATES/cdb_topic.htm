@@ -25,6 +25,16 @@
 	font-size:12px;
 	text-align:justify;
   }</style>
+
+  <script type="text/javascript">
+
+	window.onbeforeunload = function()
+	{
+		if( jQuery.trim(jQuery("#postContent").val()))	return true;
+		else return null; 
+	};
+
+  </script>
 </head>
 
 <body>

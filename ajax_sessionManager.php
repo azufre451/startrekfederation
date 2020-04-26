@@ -204,8 +204,13 @@ include('includes/validate_class.php');
 				$tpl_s = round($pointarray[$owner],2);
 				$pointarray[$owner] += $totalPta;
 				
-				$endpointarray = round($pointarray[$owner]);
-				 
+				
+				$sl = $sectionsOngoing['session']['sessionOwner']; 
+
+				//$organizingUser = PG($sl);
+				
+				$masterPenalty = array_key_exists($sl,$penalties) ? round($penalties[$sl],2) : 0;
+				$endpointarray = round($pointarray[$owner] - $masterPenalty);
 				
 				$master_expl = addslashes("Per la sessione appena conclusa sono stati assegnati i seguenti punti per le attività di gioco e mastering:
 				
@@ -213,12 +218,12 @@ include('includes/validate_class.php');
 				> Numero di azioni fuori-tempo: $offTargetACTS,
 				> Giocatori coinvolti: $coeff_s
 				> Punti per le azioni on-game: $tpl_s FP
-				> Totale Bonus Mastering: $totalPta_s FP
+				> Bonus Mastering: $totalPta_s FP
+				> Penalità maturata     : -$masterPenalty FP
 				> ---------------------------------------
 				> Totale FP assegnati: $endpointarray FP
 				> (i punti sono arrotondati all'intero più vicino)"); 
 				
-				$sl = $sectionsOngoing['session']['sessionOwner']; 
 				mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead) VALUES (518,$sl,'RIEPILOGO PUNTI SESSIONE','<p style=\"font-size:13px; margin-left:15px; margin-right:15px;\">$master_expl</p><p style=\" color:#AAA; font-style:italic;\">Questo è un messaggio automatico.</p>',$curTime,0)");
 				mysql_query("INSERT INTO federation_sessions_participation (pgID,sessionID,kind) VALUES(".$sectionsOngoing['session']['sessionOwner'].",".$sectionsOngoing['session']['sessionID'].",'MASTER')");
 				echo mysql_error();

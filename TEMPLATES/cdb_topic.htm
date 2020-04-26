@@ -28,11 +28,22 @@
 
   <script type="text/javascript">
 
-	window.onbeforeunload = function()
-	{
-		if( jQuery.trim(jQuery("#postContent").val()))	return true;
-		else return null; 
-	};
+
+	jQuery(function(){
+
+		window.onbeforeunload = function()
+		{
+			if( jQuery.trim(jQuery("#postContent").val()) && !jQuery("#postSubmit").data('clicked') )	return true;
+			else return null; 
+		};
+
+		jQuery('#formContent').on ( 'submit', function(e) { 
+			
+            window.onbeforeunload  = null; 
+        }); 
+        
+	})
+	
 
   </script>
 </head>
@@ -201,7 +212,7 @@
 			</tr>
 		</table>
 
-		<br /><br /><input type="submit" value="INVIA" style="width:150px; margin-left:10px; font-size:13px;" href="" onclick="" />
+		<br /><br /><input type="submit" id="postSubmit" value="INVIA" style="width:150px; margin-left:10px; font-size:13px;" href="" onclick="" />
 	</td>
 </tr>
 </table>

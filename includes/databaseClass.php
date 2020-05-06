@@ -1014,9 +1014,9 @@ class PG
 
 		$pgID = $this->ID;
 		$timeString =substr(time(),4,4).'_';
-		mysql_query("UPDATE calendar_events SET 'sender' = 6 WHERE sender = '$pgID';");
-		mysql_query("UPDATE cdb_calls_comments SET 'owner' = 6 WHERE owner = '$pgID';");
-		mysql_query("UPDATE cdb_calls_results SET 'pgUser' = 6 WHERE pgUser = '$pgID';");
+		mysql_query("UPDATE calendar_events SET sender = 6 WHERE sender = '$pgID';");
+		mysql_query("UPDATE cdb_calls_comments SET owner = 6 WHERE owner = '$pgID';");
+		mysql_query("UPDATE cdb_calls_results SET pgUser = 6 WHERE pgUser = '$pgID';");
 		//mysql_query("UPDATE cdb_posts SET 'owner' = 6 WHERE owner = '$pgID';");
 		//mysql_query("UPDATE cdb_posts SET 'coOwner' = 6 WHERE coOwner = '$pgID';");
 		//mysql_query("UPDATE cdb_topics SET 'topicLastUser' = 6 WHERE topicLastUser = '$pgID';");

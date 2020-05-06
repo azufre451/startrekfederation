@@ -2,7 +2,7 @@
 chdir('/home/fvkpphtr/public_html/');
 
 include('includes/app_include.php');
- 
+
  
 $date = time();
 $dateL = $date-3600;
@@ -153,7 +153,7 @@ while($ra = mysql_fetch_array($res))
 }
 
 if ($tadadelete)
-	$SITA .= "> Cancello questi <span style=\"font-weight:bold;color:#096bd0\">$tadelete</span> PG inattivi e che non hanno giocato negli ultimi VENTI giorni: <p style=\"margin:15px;\">$INACTIVECANC<br />.";
+	$SITA .= "> Cancello questi <span style=\"font-weight:bold;color:#096bd0\">$tadadelete</span> PG inattivi e che non hanno giocato negli ultimi VENTI giorni: <p style=\"margin:15px;\">$INACTIVECANC<br />.";
 
 
 $res = mysql_query("SELECT pgID,pgUser, COUNT(*) as L FROM pg_users,cdb_posts WHERE (pgID = owner OR pgID = coOwner) AND pgID NOT IN (SELECT owner FROM pg_achievement_assign WHERE achi = 27) AND pgLastAct > $oneMonth AND pgBavo=0 GROUP BY pgUser HAVING COUNT(*) >= 100 ORDER BY L DESC");
@@ -248,8 +248,6 @@ $moreno->sendPadd('Rapporto qualità',$VITA,1580);
 
 $jean->sendPadd('Rapporto pulizia',$SITA,702);
 $jean->sendPadd('Rapporto qualità',$VITA,1580);
-
-}
 
 @Database::tdbClose(); 
 exit; 

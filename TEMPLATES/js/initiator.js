@@ -75,6 +75,7 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 	else if(ida == 'holo') window.open ('coLocation.php?get=holodeck','fed_main', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0');
 	}
 	function postOpener(ida){window.open ('chat.php?amb='+ida,'fed_main', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0');}
+	function calendarOpen(){window.open ('calendar.php','cdb', config='toolbar=no,scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1000,height=670');}
 	function cdbOpen(){window.open ('cdb.php','cdb', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1000,height=670');}
 	function cdbOpenToTopic(ida){window.open ('cdb.php?topic='+ida,'cdb', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1000,height=670');}
 	function dbOpen(){window.open ('db.php','db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=730');}

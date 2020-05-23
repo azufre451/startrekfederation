@@ -516,9 +516,9 @@ if($mode == 'switch')
 
 		$mycoOLD =  mysql_fetch_assoc(mysql_query("SELECT pgID,pgSpecialistPoints FROM pg_users WHERE pgUser = '$OLDPGU' LIMIT 1"));
 		$mycoNEW =  mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$NEWPGU' LIMIT 1"));
-		
+		 
 		$mycoOLDIDD = $mycoOLD['pgID'];
-		$mycoOLDSPEC = $mycoOLD['pgSpecialistPoints'];
+		$mycoOLDSPEC = $mycoOLD['pgSpecialistPoints']; 
 		$mycoNEWIDD = $mycoNEW['pgID'];
 
 		
@@ -532,7 +532,7 @@ if($mode == 'switch')
 					mysql_query("UPDATE pg_users SET iscriDate = (SELECT iscriDate FROM temp1 WHERE 1 LIMIT 1),pgPoints = (SELECT SUM(points) FROM pg_users_pointStory WHERE owner = $mycoNEWIDD), pgSpecialistPoints = (SELECT pgSpecialistPoints FROM pg_users_pointStory WHERE owner = $mycoOLDIDD) WHERE pgID = $mycoNEWIDD;");
 
 					mysql_query("UPDATE pg_users SET pgSpecialistPoints = 0,pgPoints=0 WHERE pgID = $mycoOLDIDD;");
-					mysql_query("UPDATE pg_users SET pgSpecialistPoints = $mycoOLDSPEC WHERE pgID = @NEW;");
+					mysql_query("UPDATE pg_users SET pgSpecialistPoints = $mycoOLDSPEC WHERE pgID = $mycoNEWIDD;");
 
 					mysql_query("DROP TABLE temp1;");
 

@@ -86,8 +86,11 @@
 <div id="paginator" style="margin-left:10px;">
 <div tal:repeat="page php:range(1,pageNo)" tal:attributes="class php:(page==currentPage) ? 'activePaginatore' : 'paginatore'"><a tal:attributes="href string:cdb.php?topic=${topicID}&page=${page}" class="interfaceLink" tal:content="page"/></div>
 	</div> <p style="margin:0px; float:right; margin-right:20px;" tal:condition="php:(pageNo == currentPage)"><a tal:attributes="href string:#${lastPost/ID}" class="interfaceLink" tal:condition="php:(isSet(lastPost['ID']))">» Ultimo Elemento </a></p><div style="clear:both;" />
-	
-<div style="border:1px dotted #BBB; text-align:center; margin-top:10px; width:99%;" tal:repeat="post posts"><a tal:attributes="name post/ID" />
+
+<div tal:condition="exists:lock" style="font-family:Helvetica; border:1px dotted #BBB; padding-top:20px; padding-bottom:20px; text-align:center; margin-top:10px; width:99%;">
+	L'accesso a questi contenuti è riservato agli utenti iscritti!
+</div>
+<div tal:condition="not:exists:lock" style="border:1px dotted #BBB; text-align:center; margin-top:10px; width:99%;" tal:repeat="post posts"><a tal:attributes="name post/ID" />
 
 <div style="position:relative;">
 	<div  style="position:absolute; font-size:11px; top:35px; right:28px; width:280px; height:20px;">

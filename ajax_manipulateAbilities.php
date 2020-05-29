@@ -124,9 +124,10 @@ if ($_GET['action'] == 'rollRecompute'){
 
 
 if ($_GET['action'] == 'roll'){
-
+	if($currentUser->pgLock || $currentUser->pgAuthOMA == 'BAN') {echo json_encode(array('sta'=>'ok')); exit; }
 	$focus = addslashes($_POST['abID']);
 	$amb = addslashes($_POST['amb']);
+
 	
 	$lucky = isSet($_POST['luckypoint']) ? (($_POST['luckypoint'] == 'true') ? 1 : 0) : 0;
 

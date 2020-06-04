@@ -1237,12 +1237,14 @@ float:left;
 #statusContainer > div:hover{ background-color:rgba(81,145,166,0.7);}
 
 
+
 span.eventParticip{
 	margin-left:6px;
 	display:inline-block; 
 	width:30px;
 	height:30px;
 	box-shadow: 0px 0px 4px 1px white;
+	cursor: pointer;
 }
 
 .eventParticip img{
@@ -1267,6 +1269,10 @@ span.eventParticip.Navigazione{
 	box-shadow: 0px 0px 4px 1px #2b76e8;
 }
 
+span.eventParticip:hover {box-shadow: 0px 0px 4px 1px white !important;}
+
+#calendarBox {font-size:13px; text-align:left; position:absolute; bottom:5px; margin-top:5px;}
+#calendarBox .clockTitle{border-bottom:1px solid #777; width:60%; margin:auto; margin-bottom:10px; padding-bottom:5px;}
 
 .participationYes,.participationNo{
 	width:23px;

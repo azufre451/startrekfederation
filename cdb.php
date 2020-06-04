@@ -900,7 +900,13 @@ else if  (isSet($_GET['test']))
 }
 else if(isSet($_GET['topic'])) 
 {
+
 	$template = new PHPTAL('TEMPLATES/cdb_topic.htm');
+	if($currentUser->pgLock || $currentUser->pgAuthOMA == 'BAN') {
+		$template->lock=1;
+	}
+
+	
 	$topic = $vali->numberOnly($_GET['topic']); 
 
 	mysql_query("INSERT IGNORE INTO pg_visualized_elements (type,what,pgID,time) VALUES ('CDB',".$topic.",".$_SESSION['pgID'].",$curTime) ");

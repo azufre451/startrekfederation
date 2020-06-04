@@ -8,6 +8,7 @@ include('includes/validate_class.php');
 		$ambientID= addslashes($_POST['amb']);
 		
  		$user = new PG($_SESSION['pgID']); 
+
 		$action = $_GET['action'];
 		
 		if ($action == 'check-ambient')
@@ -28,6 +29,8 @@ include('includes/validate_class.php');
 
 		if ($action == 'open-new')
 		{
+			if($user->pgLock || $user->pgAuthOMA == 'BAN'){ echo json_encode(array('sta'=>'ok')); exit;}
+			
 			Ambient::closeSession($ambientID); 
 			$master = ((int)($_POST['master'] && PG::mapPermissions('M',$user->pgAuthOMA)))  ? 1 : 0; 
 			$label = addslashes($_POST['label']);
@@ -60,7 +63,7 @@ include('includes/validate_class.php');
 		if ($action == 'close-active')
 			
 		{
-			
+			if($user->pgLock || $user->pgAuthOMA == 'BAN'){ echo json_encode(array('sta'=>'ok')); exit;}
 			$log="SESSION_ID\tACTION_ID\tUSER\tDATE\tTYPE\tMESSAGE\tV1\tV2\n";
 
 			$sectionsOngoing = Ambient::getActiveSession($ambientID);

@@ -94,7 +94,7 @@ margin-right:20px;
    
 #mdmacontent a.tomo, a.dbInternalLink{
 	color:#2d90c8;
-	padding-bottom:5px;
+	padding-bottom:0px;
 	border-bottom:1px dashed #EEE; 
 	display:inline-block;
 }
@@ -117,8 +117,8 @@ a.dbInternalLink{color:orange; text-transform: uppercase; font-size:14px;}
 #mdmacontent a.tomo::after{
 content:'';
 background: url('../img/interface/personnelInterface/abilita/storia_letteratura.png');/*url of image*/
-height: 30px;/*height of image*/
-width: 30px;/*width of image*/
+height: 23px;/*height of image*/
+width: 23px;/*width of image*/
 background-size:100%;
 display:inline-block;
 vertical-align: middle;
@@ -128,12 +128,11 @@ margin-left:10px;
 
 #mdmacontent .breakMe{display:block;clear:both;}
 
-#mdmacontent dt.jeanus{color: red; display:inline; font-size:12px;  text-transform: uppercase;}
-
-#mdmacontent dt{color: #0077c3; display:inline; font-size:12px;  text-transform: uppercase;}
+#mdmacontent dt{color: #0077c3; display:inline-flex; margin-top: 1.5em; font-weight:bold; font-size:14px; text-transform: uppercase;}
+#mdmacontent dt.jeanus{color: red;}
 #mdmacontent dt:after{content:':';} 
 
-#mdmacontent dd{display:inline; margin:2px;} 
+#mdmacontent dd{display:inline; margin:2px; line-height: 1.5em;} 
 #mdmacontent dd:after{content:'';display:block;clear:right;} 
 
 

@@ -134,8 +134,13 @@ margin-left:10px;
 
 #mdmacontent dd{display:inline; margin:2px; line-height: 1.5em;} 
 #mdmacontent dd:after{content:'';display:block;clear:right;} 
+#mdmacontent th {
+	background-color: #444;
+    padding: 10px;
+    border-bottom: 1px solid white;
+}
 
-
+#mdmacontent td {padding: 3px;}
 
 #mdmacontent .tbl{
 	border-left:1px solid #EEE;

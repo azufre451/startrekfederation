@@ -411,6 +411,9 @@
 							jQuery('#multimediaInner').append( '<div><iframe style="width:100%;" src="https://www.youtube-nocookie.com/embed/'+eref+'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe></div>');
 						else if( type == 'VM')
 							jQuery('#multimediaInner').append( '<div style="padding:52.81% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/'+eref+'?color=ffffff&title=0&byline=0&portrait=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen" allowfullscreen="allowfullscreen"></iframe><script src="https://player.vimeo.com/api/player.js"></script></div>');
+						else if( type == 'CS')
+							jQuery('#multimediaInner').append( '<div style="text-align:center; margin-top:5px;"><audio controls="controls">  <source src="'+eref+'" type="audio/ogg"></audio></div>');
+
 					});
 				}
 			}

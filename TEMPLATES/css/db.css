@@ -46,6 +46,7 @@ padding-left:40px;
 padding-right:60px;
 text-align:justify;
 margin-right:20px;
+line-height: 1.2em;
 }
 
 #mdmacontent img.alignRight{
@@ -128,11 +129,11 @@ margin-left:10px;
 
 #mdmacontent .breakMe{display:block;clear:both;}
 
-#mdmacontent dt{color: #0077c3; display:inline-flex; margin-top: 1.5em; font-weight:bold; font-size:14px; text-transform: uppercase;}
+#mdmacontent dt{color: #0077c3; display:inline-flex; margin-top: 1.2em; font-weight:bold; font-size:14px; text-transform: uppercase;}
 #mdmacontent dt.jeanus{color: red;}
 #mdmacontent dt:after{content:':';} 
 
-#mdmacontent dd{display:inline; margin:2px; line-height: 1.5em;} 
+#mdmacontent dd{display:inline; margin:2px; line-height: 1.2em;} 
 #mdmacontent dd:after{content:'';display:block;clear:right;} 
 #mdmacontent th {
 	background-color: #444;

@@ -150,7 +150,7 @@ include('includes/validate_class.php');
 			}
 
 			else{
-				$string = str_replace('%','',$string);
+				$string = substr($string,1);
 				if(strpos($string,'youtube.com') !== false)
 				{
 					$actionType='MPI';
@@ -171,11 +171,15 @@ include('includes/validate_class.php');
 					$epl=explode('vimeo.com/',$string);
 					$stringToSend='VM|'.$epl[1];	
 				}
- 
+ 				else if($string[0] == '*')
+				{
+					$actionType='MPI';
+					$stringToSend='CS|'.substr($string,1);
+				}
 				else
 				{
 					$actionType='AUDIOE';
-					$stringToSend=$string;
+					$stringToSend=$string;					
 				}
 
 				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$stringToSend',".time().",'$actionType',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))"); 

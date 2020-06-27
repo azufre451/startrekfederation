@@ -105,7 +105,7 @@ jQuery(function(){
 						
 							jQuery(spec).each(function(k,elem){
 								color = (elem['foodType'] == 'A') ? '#AAA' : '#FC0';
-								strr+= '<p style="margin:0px;"><span style="color:'+color+'"> &raquo; </span> <a class="interfaceLink" href="javascript:void(0);"  onclick="javascript:doFood('+elem['foodID']+')">'+elem['foodName']+'</a></p>';
+								strr+= '<p style="margin:0px;"><span>'+elem['iconUC']+'</span> <a class="interfaceLink" href="javascript:void(0);"  onclick="javascript:doFood('+elem['foodID']+')">'+elem['foodName']+'</a></p>';
 							});
 						 
 							strr+='</div></div>';
@@ -117,7 +117,7 @@ jQuery(function(){
 						foodsa.sort(function(a,b){return (a['foodName'] > b['foodName']);});
 						jQuery(foodsa).each(function(k,elem){
 							color = (elem['foodType'] == 'A') ? '#AAA' : '#FC0';
-							strr+= '<p style="margin:0px;"><span style="color:'+color+'"> &raquo; </span> <a class="interfaceLink" href="javascript:void(0);"  onclick="javascript:doFood('+elem['foodID']+')">'+elem['foodName']+'</a></p>';	
+							strr+= '<p style="margin:0px;"><span>'+elem['iconUC']+'</span> <a class="interfaceLink" href="javascript:void(0);"  onclick="javascript:doFood('+elem['foodID']+')">'+elem['foodName']+'</a></p>';	
 						});
 					}
 					jQuery('#species').html(strr);

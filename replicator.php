@@ -7,6 +7,7 @@ include('includes/validate_class.php');
 include("includes/PHPTAL/PHPTAL.php");
 
 $currentUser = new PG($_SESSION['pgID']);
+$availableUCs = array('&#129347;','&#129367;','&#127836;','&#127863;','&#129384;','&#127831;','&#127827;','&#128031;','&#127856;','&#127863;','&#127861;','&#129371;','&#9749;','&#127831;','&#127864;','&#129472;','&#127861;','&#127837;');
 
 if(isSet($_GET['term']) && isSet($_GET['lookSpecie']))
 { 
@@ -34,9 +35,11 @@ elseif(isSet($_GET['propose']))
 		$prop_foodSpecie = addslashes($_POST['prop_foodSpecie']);
 		$prop_foodImage = addslashes($_POST['prop_foodImage']);
 		$prop_foodType = addslashes($_POST['prop_foodType']);
+
+		$prop_foodIcon = addslashes($_POST['prop_foodUC']);
 		$usr = $_SESSION['pgID'];
 	
-		mysql_query("INSERT INTO fed_food (foodName,foodImage,foodDescription,foodSpecie,active,presenter,foodType) VALUES ('$prop_foodTitle','$prop_foodImage','$prop_foodDescript','$prop_foodSpecie',0,$usr,'$prop_foodType')");
+		mysql_query("INSERT INTO fed_food (foodName,foodImage,foodDescription,foodSpecie,active,presenter,foodType,iconUC) VALUES ('$prop_foodTitle','$prop_foodImage','$prop_foodDescript','$prop_foodSpecie',0,$usr,'$prop_foodType','$prop_foodIcon')");
 		$p1 = new PG(1);
 		$p2 = new PG(5);
 		$toUser = $currentUser->pgUser;
@@ -61,8 +64,8 @@ elseif(isSet($_GET['ajax_checkInage']))
 elseif(isSet($_GET['ajaxCall']))
 { 
 		$call = $_GET['ajaxCall'];
-		if (is_numeric($call)) $qu = "SELECT foodID,foodName, foodImage, foodDescription FROM fed_food WHERE active = 1 AND foodID = $call";
-		else $qu = "SELECT foodID,foodName, foodImage, foodDescription FROM fed_food WHERE active = 1 AND foodName = '".addslashes($call)."'";
+		if (is_numeric($call)) $qu = "SELECT foodID,foodName, foodImage, foodDescription,iconUC FROM fed_food WHERE active = 1 AND foodID = $call";
+		else $qu = "SELECT foodID,foodName, foodImage, foodDescription,iconUC FROM fed_food WHERE active = 1 AND foodName = '".addslashes($call)."'";
 		
 		$res = mysql_query($qu);
 		$reA = mysql_fetch_assoc($res);
@@ -92,14 +95,14 @@ elseif(isSet($_POST['fCall1']))
 		}
 		elseif($call2 == 'menuTop'){
 			$jAdd.= "JOIN fed_food_replications ON foodID = food";
-			$gAdd = "GROUP BY foodID,foodName, foodSpecie, foodType";
+			$gAdd = "GROUP BY foodID,foodName, foodSpecie, foodType,iconUC";
 			$oAdd = "ORDER BY LCO DESC LIMIT 10";
 			$qAdd = ', COUNT(*) as LCO';
 		}
 		//elseif($call2 == 'menuTop') $jAdd.= "AND foodID IN (SELECT food FROM fed_food_replications WHERE 1 GROUP BY food ORDER BY COUNT(*) DESC LIMIT 10)";
 		
 		$foods = array();
-		$res = mysql_query("SELECT $dClause foodID,foodName, foodSpecie, foodType $qAdd FROM fed_food $jAdd WHERE active = 1 $wAdd $gAdd $oAdd");
+		$res = mysql_query("SELECT $dClause foodID,foodName, foodSpecie, foodType,iconUC $qAdd FROM fed_food $jAdd WHERE active = 1 $wAdd $gAdd $oAdd");
 		//echo "SELECT $dClause foodID,foodName, foodSpecie, foodType FROM fed_food $jAdd WHERE active = 1 $wAdd $gAdd $oAdd";exit;
 		while ($reA = mysql_fetch_assoc($res))
 		
@@ -115,7 +118,7 @@ elseif(isSet($_GET['admin']))
 	if(!PG::mapPermissions("SM",$currentUser->pgAuthOMA)) exit;
 	
 	$template = new PHPTAL('TEMPLATES/replicator_admin.htm');
-	$res = mysql_query("SELECT foodID,foodName, foodSpecie,foodDescription, foodType, foodImage, presenter, pgUser FROM fed_food,pg_users WHERE pgID = presenter AND active = 0");
+	$res = mysql_query("SELECT foodID,foodName, foodSpecie,foodDescription, foodType,iconUC, foodImage, presenter, pgUser FROM fed_food,pg_users WHERE pgID = presenter AND active = 0");
 	$food=array();
 	while($rea = mysql_fetch_array($res))
 	{	
@@ -126,7 +129,7 @@ elseif(isSet($_GET['admin']))
 			$sizS = $siz[0].'x'.$siz[1];
 		}
 		
-		$food[]=array('foodID' => $rea['foodID'],'foodName' => $rea['foodName'],'foodSpecie' => $rea['foodSpecie'],'foodDescription' => $rea['foodDescription'],'foodType' => $rea['foodType'],'foodImage' => $rea['foodImage'],'pgUser' => $rea['pgUser'],'foodImaSize'=>$sizS);
+		$food[]=array('foodID' => $rea['foodID'],'foodName' => $rea['foodName'],'foodSpecie' => $rea['foodSpecie'],'foodDescription' => $rea['foodDescription'],'foodType' => $rea['foodType'],'foodImage' => $rea['foodImage'],'pgUser' => $rea['pgUser'],'foodImaSize'=>$sizS, 'iconUC' => $rea['iconUC']);
 	}
 	$template->food =$food;
 	try
@@ -169,7 +172,7 @@ elseif(isSet($_GET['approval']))
 		$curUser = $currentUser->pgUser; 
 		$approvedUser = new PG($to);
 		$approvedUser->addPoints(2,'FOOD','Proposta cibo Replicatore','Proposta cibo Replicatore',$assigner=518);
-		$approvedUser->sendNotification("Proposta replicatore approvata","$curUser ha approvato la tua proposta per $title",$_SESSION['pgID'],$imaUrl,'repliOpen');
+		$approvedUser->sendNotification("Proposta replicatore approvata","$curUser ha approvato la tua proposta per $title . Grazie!",$_SESSION['pgID'],$imaUrl,'repliOpen');
 
 		
 		header('location:replicator.php?admin=true'); exit;
@@ -197,6 +200,7 @@ elseif(isSet($_GET['approval']))
 	if($mode == 'revise')
 	{
 		$template = new PHPTAL('TEMPLATES/replicator_admin_edit.htm');
+		$template->availableUCs = $availableUCs;
 		$template->getRecord = $getRecord;
 		
 		try{echo $template->execute();}	catch (Exception $e){echo $e;}
@@ -209,8 +213,10 @@ elseif(isSet($_GET['approval']))
 		$prop_foodSpecie = addslashes($_POST['editSpecie']);
 		$prop_foodImage = addslashes($_POST['editImage']);
 		$prop_foodType = addslashes($_POST['editTipo']);
+		$prop_foodIcon = addslashes($_POST['prop_foodUC']);
+
 		
-		mysql_query("UPDATE fed_food SET foodName='$prop_foodTitle',foodImage='$prop_foodImage',foodDescription='$prop_foodDescript',foodSpecie='$prop_foodSpecie',foodType='$prop_foodType' WHERE foodID = $foodID");
+		mysql_query("UPDATE fed_food SET foodName='$prop_foodTitle',foodImage='$prop_foodImage',foodDescription='$prop_foodDescript',foodSpecie='$prop_foodSpecie',foodType='$prop_foodType',iconUC='$prop_foodIcon' WHERE foodID = $foodID");
  
 		header("location:replicator.php?admin=true");
 	}
@@ -221,7 +227,9 @@ else
 $template = new PHPTAL('TEMPLATES/replicator.htm');
 $foods = array();
 
-$res = mysql_query("SELECT foodID,foodName, foodSpecie, foodType FROM fed_food WHERE active = 1 ORDER BY foodName");
+
+
+$res = mysql_query("SELECT foodID,foodName, foodSpecie, foodType,iconUC FROM fed_food WHERE active = 1 ORDER BY foodName");
 while ($reA = mysql_fetch_assoc($res))
 {
 	if (!isSet($foods[$reA['foodSpecie']])) $foods[$reA['foodSpecie']] = array();
@@ -229,7 +237,10 @@ while ($reA = mysql_fetch_assoc($res))
 }
  
 ksort($foods); 
+
 $template->foods = $foods;
+$template->availableUCs = $availableUCs;
+
 if (isSet($_GET['success'])) $template->success = true;
 if(PG::mapPermissions("SM",$currentUser->pgAuthOMA)) $template->isAdmin = true;
 if (isSet($_GET['loc'])) $template->placeLoc = $_GET['loc'];

@@ -45,7 +45,8 @@
 		.elements{height: 544px; overflow-y:auto; padding-left:15px; padding-top:10px;}
 
 		#menuSelector > div {float:left; width:110px;  border-right:1px dashed #AAA; margin-left:10px; }
-		#menuSelector p, p.littleLabel {font-weight:bold; padding-bottom:5px; font-family:tahoma; margin:0px; color:#0077c3; text-align:center; font-size:13px;}
+		#menuSelector p, p.littleLabel {font-weight:bold; padding-bottom:5px; font-family:Helvetica; margin:0px; color:#0077c3; text-align:center; font-size:13px;}
+		
 		#menuSelector { margin:auto; width:360px; }
 		
 		#menuSelector div div.button{cursor:pointer; background-position:bottom left; width:95px; height:26px; }
@@ -88,12 +89,12 @@
 		font-size: 13px;
 		border: 1px solid white;
 		padding: 10px;
-		font-family: Verdana;
+		font-family: Helvetica;
 		}
 		
 		#searchBar{height:30px; width:160px; text-align:center;}
 		#searchBar input{width:100%; background-color:#222; border:1px dashed #0077C3;}
-		.descriText{font-family:verdana; font-size:14px; margin:0px; line-height:20px; padding:3px 10px; text-align:justify;}
+		.descriText{font-family:Helvetica; font-size:14px; margin:0px; line-height:1.3em; padding:3px 10px; text-align:justify;}
 		
 		.ui-autocomplete{width:158px; font-size:13px;}
 	</style>
@@ -116,13 +117,14 @@
 	
 		
 		<div class="elements">
-		<div id="searchBar"><input type="search" placeholder="Ricerca" id="searcher"/></div> 
+		<div id="searchBar"><input type="search" placeholder="Ricerca" style="padding:5px;" id="searcher"/></div> 
 		<div id="species">
 		<div tal:repeat="specie foods">
 		<a href="javascript:void(0);" tal:content="repeat/specie/key" tal:attributes="onclick string:javascript:toggleSpecies('${repeat/specie/key}');" class="interfaceLinkBlue"> </a>
-		<div style="display:none; margin-left:10px;" tal:attributes="id repeat/specie/key">
+		<div style="display:none; margin-left:5px;" tal:attributes="id repeat/specie/key">
 		<p style="margin:0px;" tal:repeat="cibo specie">
-			<span tal:attributes="style php:(cibo['foodType'] == 'a') ? 'color:#AAA' : 'color:#FC0'"> &raquo; </span> 
+			<span tal:condition="php:(cibo['iconUC']!='')" tal:content="structure cibo/iconUC" />  
+			<span tal:condition="php:(cibo['iconUC']=='')" tal:attributes="style php:(cibo['foodType'] == 'a') ? 'color:#AAA;; margin: 0px 6px 0px 7px;;' : 'color:#FC0;; margin: 0px 6px 0px 7px;;'"> &raquo; </span> 
 			<a class="interfaceLink" href="javascript:void(0);"  tal:content="cibo/foodName" tal:attributes="onclick string:javascript:doFood(${cibo/foodID})" />
 		</p>
 		</div>
@@ -193,7 +195,10 @@
 			<p style="text-align:center;"><select name="prop_foodType" style="width:150px;" placeholder="Url Immagine" class="neon">
 			<option value="a">Alimento</option>
 			<option value="b">Bevanda</option>
-			</select>  <input type="submit" value="[ - INVIA - ]">Invia!</input></p>
+			</select> <select name="prop_foodUC" style="width: 44px; font-size: 16px;" class="neon"><option tal:repeat="uc availableUCs" tal:attributes="value uc" tal:content="structure uc"></option></select>
+
+
+			<input type="submit" value="[ - INVIA - ]">Invia!</input></p>
 			<input type="hidden" name="loc" tal:attributes="value placeLoc" />
 		</form>
 		

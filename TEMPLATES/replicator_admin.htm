@@ -29,8 +29,8 @@
 		<tr class="outest" tal:repeat="elem food" tal:attributes="id string:trelem_${elem/foodID}">
 		<td style="width:40px;" tal:content="elem/foodID"/>
 		<td style="width:40px;" tal:content="elem/pgUser"/>
-		<td style="width:100px;" tal:content="elem/foodName"/>
-		<td><span  tal:content="elem/foodSpecie" tal:attributes="style php:(elem['foodType'] == 'a') ? 'color:#FC0;; font-weight:bold;;' : 'color:darkcyan;; font-weight:bold;;'" /> - <span  tal:content="elem/foodDescription"/><hr/><span  tal:content="php:(strlen(elem['foodDescription']) . ' caratteri.')" style="color:#FC0; font-size:11px;"/></td>
+		<td style="width:100px;" tal:content="elem/foodName"/> 
+		<td><span  tal:content="elem/foodSpecie" tal:attributes="style php:(elem['foodType'] == 'a') ? 'color:#FC0;; font-weight:bold;;' : 'color:darkcyan;; font-weight:bold;;'" />  <span tal:content="structure elem/iconUC"/> - <span  tal:content="elem/foodDescription"/><hr/><span  tal:content="php:(strlen(elem['foodDescription']) . ' caratteri.')" style="color:#FC0; font-size:13px;"/>  </td>
 		<td style="width:150px; text-align:center;"><img tal:attributes="src elem/foodImage" style="width:150px;"/> Size: <span tal:content="elem/foodImaSize" tal:attributes="style php:(elem['foodImaSize'] == '390x230') ? 'color:#0F0' : 'color:red'"/></td>
 		<td style="width:90px; text-align:center;">
 			<a tal:attributes="href string:replicator.php?approval=true&s=approveFully&foodID=${elem/foodID}" tal:condition="php:(elem['foodImaSize'] == '390x230' && elem['foodName'] != '' && elem['foodDescription'] != '' && elem['foodSpecie'] != '')" class="interfaceLinkGreen">[ APPROVA ]</a><br />

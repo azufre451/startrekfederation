@@ -37,7 +37,7 @@
 	<table style="width:100%;">
 		 <tr><td class="tds"> Nome Piatto </td><td class="tda"> <input onclick="this.select();"  name="editName" tal:attributes="value getRecord/foodName" /> </td></tr>
 		 <tr><td class="tds"> Descrizione </td><td class="tda"> <textarea name="editDescr" style="height:80px;" tal:content="getRecord/foodDescription" />  </td></tr>
-		  <tr><td class="tds"> Tipologia </td><td class="tda"> <select name="editTipo"><option tal:attributes="selected php:(getRecord['foodType'] == 'a') ? 'selected' : false" value="a">Alimento</option><option tal:attributes="selected php:(getRecord['foodType'] == 'b') ? 'selected' : false" value="b">Bevanda</option></select></td></tr>
+		  <tr><td class="tds"> Tipologia </td><td class="tda"> <select name="editTipo"><option tal:attributes="selected php:(getRecord['foodType'] == 'a') ? 'selected' : false" value="a">Alimento</option><option tal:attributes="selected php:(getRecord['foodType'] == 'b') ? 'selected' : false" value="b">Bevanda</option></select> <select name="prop_foodUC" style="width: 44px; font-size: 16px;" class="neon"><option tal:repeat="uc availableUCs" tal:attributes="value uc ; selected php:((uc == getRecord['iconUC']) ? 'selected' : '') " tal:content="structure uc"></option></select> </td></tr>
 		  <tr><td class="tds"> Specie </td><td class="tda"> <input name="editSpecie" id="editSpecie" onclick="this.select();"  tal:attributes="value getRecord/foodSpecie" />  </td></tr>
 		  <tr><td class="tds"> Immagine </td><td class="tda"> <input name="editImage" onclick="this.select();" tal:attributes="value getRecord/foodImage" /> </td> </tr> 
 		  <tr><td class="tds"> Conferma </td><td class="tda"> <input type="submit" value=" [ - INVIA MODIFICHE - ]" />  </td> </tr> 

@@ -443,7 +443,33 @@ else if ($mode == 'meEdiE')
 	header("Location:scheda.php?pgID=$pgID&s=me");
 }
 
+elseif( $mode == 'addTempAuth'){
+	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
+	{
+		$pgID = $vali->numberOnly($_GET['pgID']);
+		
+		$dateFrom = mktime(0,0,0,str_pad($_POST['dataM'],2,'0',STR_PAD_LEFT),str_pad($_POST['dataG'],2,'0',STR_PAD_LEFT),$_POST['dataA']);
+		$dateTo = mktime(0,0,0,str_pad($_POST['data2M'],2,'0',STR_PAD_LEFT),str_pad($_POST['data2G'],2,'0',STR_PAD_LEFT),$_POST['data2A']);
+		$authType = addslashes($_POST['authType']);
+		$textR = addslashes($_POST['textR']);
 
+		
+
+		mysql_query("INSERT INTO pg_users_temp_auths (pgID,authStart,authEnd,authType,text,owner) VALUES ($pgID,'$dateFrom','$dateTo','$authType','$textR','".$currentUser->ID."')");
+		
+	}
+	header("Location:scheda.php?pgID=$pgID&s=master");
+}
+
+elseif( $mode == 'delTempAuth'){
+	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
+	{
+		$pgID = $vali->numberOnly($_GET['pgID']);
+		$recID = $vali->numberOnly($_GET['autID']);
+		mysql_query("DELETE FROM pg_users_temp_auths WHERE recID = '$recID' AND pgID = '$pgID'");
+	}
+	header("Location:scheda.php?pgID=$pgID&s=master");
+}
 
 else if ($mode == 'meRem')
 {
@@ -742,7 +768,7 @@ elseif($mode == 'al')
 	$template->locName = $unita['locName']; 
 }
 
-elseif($mode == 'resetCSS') { mysql_query("UPDATE pg_users SET parlatCSS = '', actionCSS = '', otherCSS = '' WHERE pgID = ".$_SESSION['pgID']); header("Location:scheda.php?pgID=$selectedUser&s=edit"); exit;}
+elseif($mode == 'resetCSS') { mysql_query("UPDATE pg_users SET parlatCSS = '', otherCSS = '' WHERE pgID = ".$_SESSION['pgID']); header("Location:scheda.php?pgID=$selectedUser&s=edit"); exit;}
 elseif($mode == 'edit')
 {
 	if ($selectedUser == $_SESSION['pgID'] || $currentUser->pgAuthOMA == 'A')
@@ -760,7 +786,7 @@ elseif($mode == 'edit')
 	$template->email = $options['email'];
 	
 	$template->parlatCSS = ($options['parlatCSS'] != '') ? explode(';',$options['parlatCSS']) : array('13','#EEEEEE','#D7A436');
-	$template->actionCSS = ($options['actionCSS'] != '') ? explode(';',$options['actionCSS']) : array('12','#3188F3','#999');
+	//$template->actionCSS = ($options['actionCSS'] != '') ? explode(';',$options['actionCSS']) : array('12','#3188F3','#999');
 	
 	// Size User
 	// Size Master
@@ -770,7 +796,7 @@ elseif($mode == 'edit')
 	// Color Comm Text
 	
 	
-	$template->otherCSS = ($options['otherCSS'] != '') ? explode(';',$options['otherCSS']) : array('13','15','12','#999999','#e8a30e','#ffefcc','11','#d7a436');
+	$template->otherCSS = ($options['otherCSS'] != '') ? explode(';',$options['otherCSS']) : array('13','15','12','#999999','#e8a30e','#ffefcc','11','#d7a436','#FF0000','#FF0000','#c67729','#c67729');
 	
 	$template->audioEnable = $selectedDUser->audioEnable;
 	$template->audioextEnable = $selectedDUser->audioextEnable;
@@ -907,6 +933,14 @@ elseif($mode == 'master')
 	}
 
 
+	$res_auths=mysql_query("SELECT pg_users_temp_auths.*,pgUser,pg_users.pgID as signerPgID FROM pg_users_temp_auths,pg_users WHERE owner=pg_users.pgID AND pg_users_temp_auths.pgID = $pgID");
+	$res_temp_auths=array();
+	
+	while($res_auths_val = mysql_fetch_assoc($res_auths))
+	{
+		$res_temp_auths[]=$res_auths_val;
+	}
+
 	$repli_food = mysql_query("SELECT foodName,timer, food as tr, ( SELECT COUNT(recID) FROM fed_food_replications WHERE food = tr AND user = $pgID AND YEAR(FROM_UNIXTIME(timer)) = $thisYear) as cnt FROM fed_food,fed_food_replications WHERE foodID = food AND user = $pgID  AND YEAR(FROM_UNIXTIME(timer)) = $thisYear ORDER BY timer DESC LIMIT 25");
 
 	while($ftd = mysql_fetch_assoc($repli_food))
@@ -922,6 +956,7 @@ elseif($mode == 'master')
 	$template->replicated_foods=$replicated_foods;
 	
 	$template->res_extras = $res_extras;
+	$template->res_temp_auths = $res_temp_auths;
 
 	$images = scandir('TEMPLATES/img/ruolini/lauree');
 	$template->images=array_diff($images,array('.','..'));
@@ -1119,12 +1154,12 @@ elseif ($mode == 'editS')
 	//CustomCSS
 	$parlatCSS = $vali->numberOnly($_POST['parlatCSSFontSize']).';'.addslashes($_POST['parlatCSSFontColor']).';'.addslashes($_POST['parlatCSSFontColorEscape']);
 	#$actionCSS = $vali->numberOnly($_POST['actionCSSFontSize']).';'.addslashes($_POST['actionCSSFontColor']).';'.addslashes($_POST['actionCSSFontColorEscape']);
-	$actionCSS = '';
+	//$actionCSS = '';
 
-	$otherCSS = $vali->numberOnly($_POST['otherCSSSizeUser']).';'.$vali->numberOnly($_POST['otherCSSSizeMaster']).';'.$vali->numberOnly($_POST['otherCSSSizeComm']).';'.addslashes($_POST['otherCSSColorUser']).';'.addslashes($_POST['otherCSSColorCommUser']).';'.addslashes($_POST['otherCSSColorCommText']).';'.$vali->numberOnly($_POST['otherCSSSizeTag']).';'.addslashes($_POST['otherCSSColorTag']);
+	$otherCSS = $vali->numberOnly($_POST['otherCSSSizeUser']).';'.$vali->numberOnly($_POST['otherCSSSizeMaster']).';'.$vali->numberOnly($_POST['otherCSSSizeComm']).';'.addslashes($_POST['otherCSSColorUser']).';'.addslashes($_POST['otherCSSColorCommUser']).';'.addslashes($_POST['otherCSSColorCommText']).';'.$vali->numberOnly($_POST['otherCSSSizeTag']).';'.addslashes($_POST['otherCSSColorTag']).';'.addslashes($_POST['otherCSSColorMaster']).';'.addslashes($_POST['otherCSSColorMasterBorder']).';'.addslashes($_POST['otherCSSColorSpecMaster']).';'.addslashes($_POST['otherCSSColorSpecMasterBorder']);
 	
-
-	mysql_query("UPDATE pg_users SET pgNomeC = '$ediName', paddMail=$paddMail,audioEnvEnable = $audioEnvEnableSet, audioEnable = $audioEnableSet, pgNomeSuff = '$ediSuff', pgLuoN = '$ediLuoN', pgDataN = '$ediDataN', pgAvatar = '$ediAvatar', pgAvatarSquare = '$ediAvatarSquare' ,pgOffAvatarN = '$pgOffAvatarN',pgOffAvatarC = '$pgOffAvatarC', pgStatoCiv = '$ediStaCiv', actionCSS = '$actionCSS', parlatCSS = '$parlatCSS', otherCSS = '$otherCSS' WHERE pgID = $ediID");
+ 
+	mysql_query("UPDATE pg_users SET pgNomeC = '$ediName', paddMail=$paddMail,audioEnvEnable = $audioEnvEnableSet, audioEnable = $audioEnableSet, pgNomeSuff = '$ediSuff', pgLuoN = '$ediLuoN', pgDataN = '$ediDataN', pgAvatar = '$ediAvatar', pgAvatarSquare = '$ediAvatarSquare' ,pgOffAvatarN = '$pgOffAvatarN',pgOffAvatarC = '$pgOffAvatarC', pgStatoCiv = '$ediStaCiv', parlatCSS = '$parlatCSS', otherCSS = '$otherCSS' WHERE pgID = $ediID");
 	
 
 	

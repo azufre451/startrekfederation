@@ -675,7 +675,7 @@ class PG
 	public function __construct($id,$adv=0)
 	{ 
 		
-		$res = ($adv == 0) ? mysql_query("SELECT pgSesso,pgAssign,pgAvatar,pgAvatarSquare,pgFixYear,pgMatricola,pgMostrinaOlo,pgRoom,png,pgFirst,pgMostrina,pgLocation,pgNomeSuff,pgLock,pgStatoCiv,pgLastVisit,pgLastAct,pgUser,pgNomeC,pgDataN,pgLuoN,pgGrado,pgSezione,pgAuth,pgSeclar,pgSpecie,pgAuthOMA,audioEnable,audioEnvEnable,pgBavo FROM pg_users WHERE pgID = $id") : mysql_query("SELECT pgSesso,pgAssign,pgAvatar,pgAvatarSquare,pgFixYear,pgMatricola,pgMostrinaOlo,pgRoom,png,pgFirst,pgMostrina,pgLocation,pgNomeSuff,pgLock,pgStatoCiv,pgLastVisit,pgLastAct,pgUser,pgNomeC,pgDataN,pgLuoN,pgGrado,pgSezione,pgAuth,pgSeclar,pgSpecie,pgAuthOMA,audioEnable,audioEnvEnable,pgBavo, parlatCSS,actionCSS,otherCSS,paddMail,email FROM pg_users WHERE pgID = $id");
+		$res = ($adv == 0) ? mysql_query("SELECT pgSesso,pgAssign,pgAvatar,pgAvatarSquare,pgFixYear,pgMatricola,pgMostrinaOlo,pgRoom,png,pgFirst,pgMostrina,pgLocation,pgNomeSuff,pgLock,pgStatoCiv,pgLastVisit,pgLastAct,pgUser,pgNomeC,pgDataN,pgLuoN,pgGrado,pgSezione,pgAuth,pgSeclar,pgSpecie,pgAuthOMA,audioEnable,audioEnvEnable,pgBavo FROM pg_users WHERE pgID = $id") : mysql_query("SELECT pgSesso,pgAssign,pgAvatar,pgAvatarSquare,pgFixYear,pgMatricola,pgMostrinaOlo,pgRoom,png,pgFirst,pgMostrina,pgLocation,pgNomeSuff,pgLock,pgStatoCiv,pgLastVisit,pgLastAct,pgUser,pgNomeC,pgDataN,pgLuoN,pgGrado,pgSezione,pgAuth,pgSeclar,pgSpecie,pgAuthOMA,audioEnable,audioEnvEnable,pgBavo, parlatCSS,otherCSS,paddMail,email FROM pg_users WHERE pgID = $id");
 		
 
 		if(mysql_affected_rows()) $re = mysql_fetch_array($res); 
@@ -721,11 +721,14 @@ class PG
 		
 
 		if($adv == 1){
-			if($re['actionCSS'] != '' || $re['parlatCSS'] != '')
+			if($re['parlatCSS'] != '')
 			{
-			$action = explode(';',$re['actionCSS']);
-			$parlat = explode(';',$re['parlatCSS']);		
+			//$action = explode(';',$re['actionCSS']);
+			$parlat = explode(';',$re['parlatCSS']);
+
+
 			$other = explode(';',$re['otherCSS']);		
+		
 
 			$parlatSize = $parlat[0].'px';
 			$parlatColor = $parlat[1];
@@ -739,8 +742,12 @@ class PG
 			$commColorTex = $other[5];
 			$tagSize = $other[6].'px';
 			$tagColor = $other[7];
+			$masterColor = $other[8];
+			$masterBorderColor = $other[9];
+			$masterSpecColor = $other[10];
+			$masterSpecBorderColor = $other[11];
 			
-			$this->customCSS = ".chatDirect{color:$parlatColor; font-size:$parlatSize;} .chatQuotation{color:$parlatQuoteColor;} .chatUser{color:$nomePGColor; font-size:$nomePGSize} .masterAction, .globalAction,.offAction,.auxAction,.specificMasterAction,.oloMasterAction{font-size:$masterSize} .subspaceCom,.commMessage{font-size:$commSize; color:$commColorTex;} .subspaceComPre,.commPreamble{font-size:$commSize;color:$commColor;} .chatTag{font-size:$tagSize; color:$tagColor}";
+			$this->customCSS = ".chatDirect{color:$parlatColor; font-size:$parlatSize;} .chatQuotation{color:$parlatQuoteColor;} .chatUser{color:$nomePGColor; font-size:$nomePGSize} .masterAction, .globalAction,.offAction,.auxAction,.specificMasterAction,.oloMasterAction{font-size:$masterSize} .subspaceCom,.commMessage{font-size:$commSize; color:$commColorTex;} .subspaceComPre,.commPreamble{font-size:$commSize;color:$commColor;} .chatTag{font-size:$tagSize; color:$tagColor} .masterAction {color:$masterColor; border-color:$masterBorderColor;} .specificMasterAction {color:$masterSpecColor; border-color:$masterSpecBorderColor;}";
 			
 			}
 			else $this->customCSS = '';
@@ -1244,7 +1251,7 @@ class PG
 
 		elseif($var == 'optionsRec')
 		{
-			$res = mysql_query("SELECT paddMail,email,actionCSS,parlatCSS,otherCSS FROM pg_users WHERE pgID = $id");
+			$res = mysql_query("SELECT paddMail,email,parlatCSS,otherCSS FROM pg_users WHERE pgID = $id");
 			if(mysql_affected_rows()) $re = mysql_fetch_array($res);  
 			else $re = NULL;
 			return $re;

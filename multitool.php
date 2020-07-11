@@ -522,7 +522,9 @@ if($mode == 'switch')
 		$mycoNEWIDD = $mycoNEW['pgID'];
 
 		
+					mysql_query("UPDATE pg_users SET mainPG = $mycoNEWIDD WHERE mainPG = $mycoOLDIDD;");
 					mysql_query("UPDATE pg_users SET mainPG = $mycoNEWIDD, pgType='OLD' WHERE pgID = $mycoOLDIDD;");
+
 					mysql_query("UPDATE pg_users SET mainPG = $mycoNEWIDD, pgType='MAIN' WHERE pgID = $mycoNEWIDD;");
 
 					mysql_query("DELETE FROM pg_users_pointStory WHERE owner = $mycoNEWIDD;");

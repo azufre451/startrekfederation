@@ -279,7 +279,7 @@ class Session
 
 	public function getText($tofile,$showPrivate,$showDWL=0)
 	{
-		if ($this->archived)
+		if ($this->archived == 1)
 		{
 			$sessionFile='../stf-data/saved_sessions/archive_all/'.strtoupper($this->locID).'_session_'.$this->sessionID.'.html';
 			if(file_exists($sessionFile))
@@ -288,9 +288,17 @@ class Session
 				$this->htmlLiner = fread($inf, filesize($sessionFile));
 				fclose($inf);
 			}
-		}  
+		}
+
 		else
 		{
+			if ($this->archived == 2)
+			{
+
+				include('includes/conf.php');
+				Database::tdbConnect($db_Host,$db_User, $db_Pass,$archivedb_Name);
+				Database::query('SET NAMES utf8');
+			}
 
 			$downloadButton = ($showDWL) ? "<div style=\"text-align:center;\"> Scarica una copia della giocata in <a style=\"color:#FFCC00\" href=\"getLog.php?session=".$this->sessionID."&toFile=do\">formato HTML</a> </div> <br/>" : "";
 

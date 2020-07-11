@@ -315,6 +315,32 @@ Template: <select type="text" class="neon" name="alloType"><optgroup tal:repeat=
 	<div style="float:left; width:50px; margin-top:5px; background-repeat:no-repeat;" id="brever"/><div style="clear:both;" />
 </div>
 
+<div tal:condition="exists:bonusSM" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+
+		<a href="javascript:void(0)" onclick="tug('aut_extras')"><p id="tggl_aut_extras" class="sectionTitle">Extra Entries </p></a>
+		<div id="aut_extras" style="display:none">
+			<table>
+				<tr class="tableheader"><td style="width:100px;"> Tipo </td> <td style="width:100px;"> Dal </td> <td style="width:100px;"> Al </td>  <td style="width:100px;"> Azioni </td> <td> Rif. </td> </tr>
+				<tr tal:repeat="aut res_temp_auths"><td > <span tal:content="aut/authType" style="font-size:11px; font-weight:bold;"> Tipo</span> <span  tal:condition="php:(aut['text'] != '')" tal:attributes="title aut/text" class="tooltip">[?]</span> </td> <td tal:content="php:date('d-m-y',aut['authStart'])"> Dal </td> <td tal:content="php:date('d-m-y',aut['authEnd'])"> Al </td>  <td> <a tal:attributes="href string:scheda.php?s=delTempAuth&autID=${aut/recID}&pgID=${selectedUser}" class="interfaceLinkRed">Revoca</a> </td> <td> <a tal:attributes="href string:scheda.php?pgID=${aut/signerPgID}" tal:content="aut/pgUser" class="interfaceLink"/></td> </tr>
+			</table>
+
+			
+			<div id="addAuth" style="width:75%; margin:auto;">
+			<hr />Aggiungi <hr />
+			<form tal:attributes="action string:scheda.php?s=addTempAuth&pgID=${selectedUser}" method="POST">
+				<table style="text-align:left;"><tr><td width="150px; font-size:10px;"><b>Tipo Entry:</b></td><td><select name="authType"><option value="ELOG">Accesso Log >12 mesi</option> <option value="BAN">Messaggio di Accompagnamento al Ban</option> </select></td></tr>
+				<tr><td width="150px; font-size:10px;"><b>Data Inizio:</b></td><td><select class="neon" name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day ; selected php:(day == date('d') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataM" class="neon"><option tal:repeat="day php:range(1,12)" tal:attributes="value day ;  selected php:(day == date('m') ? 'selected' : false)" tal:content="day" /></select> / <select class="neon" name="dataA"><option tal:repeat="day php:range(thisYear,thisYear+1)" tal:attributes="value day ; selected php:(day == date('Y') ? 'selected' : false)" tal:content="day" /></select></td></tr>
+				<tr><td width="150px; font-size:10px;"><b>Data Fine:</b></td><td><select class="neon" name="data2G"><option tal:repeat="day php:range(1,31)" tal:attributes="value day ; selected php:(day == date('d') ? 'selected' : false)" tal:content="day" /></select> / <select name="data2M" class="neon"><option tal:repeat="day php:range(1,12)" tal:attributes="value day ;  selected php:(day == date('m')+1 ? 'selected' : false)" tal:content="day" /></select> / <select class="neon" name="data2A"><option tal:repeat="day php:range(thisYear,thisYear+1)" tal:attributes="value day ; selected php:(day == date('Y') ? 'selected' : false)" tal:content="day" /></select></td></tr>
+				<tr><td width="150px; font-size:10px;"><b>Testo:</b></td><td><textarea style="width:100%; height:80px;" class="neon" name="textR"></textarea></td></tr>
+
+				<tr><td/><td><input type="submit" value="Vai" /></td></tr></table>
+
+			</form>
+			</div>
+		</div>
+	<div style="float:left; width:50px; margin-top:5px; background-repeat:no-repeat;" id="brever"/><div style="clear:both;" />
+</div>
+
 
 <a name="doppi" />
 <div tal:condition="php:count(doppi) GT 0" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
@@ -331,7 +357,7 @@ Template: <select type="text" class="neon" name="alloType"><optgroup tal:repeat=
 </div>
 
 
-<a name="doppi" />
+<a name="replicati" />
 <div style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
 
 	<a href="javascript:void(0)" onclick="tug('cibi_replicati')"><p id="tggl_cibi_replicati" class="sectionTitle">Ultimi cibi replicati <br/><span style="color:white; font-style:italic; font-weight: normal;" tal:content="string:(Tot ${thisYear}: ${ov_replications})" /> </p></a>

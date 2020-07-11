@@ -15,7 +15,7 @@
 	<script type="text/javascript" src="TEMPLATES/js/jquery.minicolors.js" /> 
 	
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
-
+	<style></style>
 	<title>STAR TREK FEDERATION - SCHEDA</title>	
 	<script type="text/javascript">
 	function paddOpen(who){window.open ('padd.php?s=seR&to='+who+'&sub=','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}	
@@ -113,7 +113,7 @@
 			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/avatar.png" alt="Avatar"/></td><td class="bdr"><input type="text" class="neon" name="ediAvatar" onchange="javascript:jQuery('#imago').css('background-image','url('+this.value+')')" tal:attributes="value string:${userData/pgAvatar}" placeholder="Avatar rettangolare 210px x 480px" style="width:98%;" /></td></tr>
 			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/mini_avatar.png" alt="Mini Avatar"/> </td><td class="bdr"><input type="text" class="neon" name="ediAvatarSquare" id="ediAvatarSquare" placeholder="Avatar quadrato 100px x 100px" tal:attributes="value string:${userData/pgAvatarSquare}" style="width:98%;" /></td></tr>
 			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/modifica_dat.png" alt="Modifica"/>				
-			</td><td class="bdr" style="font-size:11px; position:relative;">
+			</td><td class="bdr" style="font-size:13px; position:relative;">
 			
 			<p style="position:absolute; bottom:0px; right:0px;"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title='Ricorda che è possibile usare la sintassi HTML nelle sezioni delle schede ad esempio:
 			
@@ -151,7 +151,7 @@
 			</td></tr>
 			
 			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/prestavolto.png" alt="Prestavolto"/></td><td class="bdr"><input onchange="checkPrestavolto();" onkeyup="checkPrestavolto();" id="prestCheckN" name="pgOffAvatarN" tal:attributes="value string:${prestavolto/pgOffAvatarN}" placeholder="Nome" style="width:45%;" /> <input placeholder="Cognome" id="prestCheck" name="pgOffAvatarC" onkeyup="checkPrestavolto();" onchange="checkPrestavolto();" tal:attributes="value string:${prestavolto/pgOffAvatarC}" style="width:45%;" /></td></tr>
-			<tr><td class="borderOne"></td><td class="bdr" style="font-size:11px;">In questo campo ti chiediamo di inserire il prestavolto del tuo personaggio: l'attore, cantante o "volto" che avrà il tuo PG. In caso puoi consultare la lista<br /><hr/><p style="margin:0px; text-align:center;"><a href="javascript:void(0);" onclick="return openPrestavolto();" style="color:red;" target="_blank" class="interfaceLink">Lista Prestavolto in Uso</a> <img src="TEMPLATES/img/interface/personnelInterface/info.png" title="- Non sono ammessi Nomi e Cognomi né volti di personaggi Canon provenienti da serie e film di Star Trek. Per esempio: non potete è possibile dare al personaggio vulcaniano il volto di Leronard Nimoy anche se avete scelto un nome diverso da Spock. Analogamente,non potete chiamare il vostro personaggio James Tiberius Kirk indipendentemente dal volto che gli avete assegnato. Così come non ci potranno essere Jeordie LaForge nè Chakotay nè B'elanna Torres, nè potrete scegliere come avatar gli attori che li interpretano.
+			<tr><td class="borderOne"></td><td class="bdr" style="font-size:13px;">In questo campo ti chiediamo di inserire il prestavolto del tuo personaggio: l'attore, cantante o "volto" che avrà il tuo PG. In caso puoi consultare la lista<br /><hr/><p style="margin:0px; text-align:center;"><a href="javascript:void(0);" onclick="return openPrestavolto();" style="color:red;" target="_blank" class="interfaceLink">Lista Prestavolto in Uso</a> <img src="TEMPLATES/img/interface/personnelInterface/info.png" title="- Non sono ammessi Nomi e Cognomi né volti di personaggi Canon provenienti da serie e film di Star Trek. Per esempio: non potete è possibile dare al personaggio vulcaniano il volto di Leronard Nimoy anche se avete scelto un nome diverso da Spock. Analogamente,non potete chiamare il vostro personaggio James Tiberius Kirk indipendentemente dal volto che gli avete assegnato. Così come non ci potranno essere Jeordie LaForge nè Chakotay nè B'elanna Torres, nè potrete scegliere come avatar gli attori che li interpretano.
 
 - A parte le sopracitate eccezioni potete scegliere il volto che più vi piace, se non sapete come fare e avete bisogno di un fotomontaggio (Specialmente per le specie aliene) chiedete e qualcuno vi aiuterà. E' presente un topic di riferimento nel CDB per richiedere un fotomontaggio.
 
@@ -159,7 +159,7 @@
 			<tr><td class="borderOne"><img src="TEMPLATES/img/interface/personnelInterface/email.png" alt="Email Registrata"/></td><td class="bdr"><span tal:content="email" /></td></tr>
 			<tr><td class="borderOne" style="vertical-align:top;"><img src="TEMPLATES/img/interface/personnelInterface/opzioni.png" alt="Opzioni"/></td><td class="bdr"><input type="checkbox" name="ediMailVali" tal:attributes="checked php:(paddMail) ? 'checked' : NULL" value="1" /> Inviami i Padd via Mail<br /><input type="checkbox" id="audioEnableSet" name="audioEnableSet" tal:attributes="checked php:(audioEnable) ? 'checked' : NULL" value="1" onclick="setChecker21()" /> Attiva Effetti Audio<br /><p style="margin:0px; margin-left:25px;"><input type="checkbox" id="audioextEnableSet" name="audioextEnableSet" tal:attributes="checked php:(audioextEnable) ? 'checked' : NULL ; disabled php:(audioEnable) ? NULL : 'disabled'" value="1" />Ripeti effetti audio al cambio pagina</p><input type="checkbox" id="audioEnvEnableSet" name="audioEnvEnableSet" tal:attributes="checked php:(audioEnvEnable) ? 'checked' : NULL" value="1" />Audio di sottofondo ambienti<br />
 			
-			<p>Personalizzazione CSS Chat: <a class="interfaceLinkRed" href="scheda.php?s=resetCSS">[ RESET ]</a></p>
+			<p style="font-size:14px;">Personalizzazione CSS Chat: </p>
 			<div style="margin-left:15px;">
 			<!-- <p style="margin:0px;"><a href="javascript:void(0);" onclick="jQuery('#setterAzioni').toggle()" class="interfaceLinkBlue">&raquo; Azioni</a></p> 
 			<div id="setterAzioni" style="display:none; font-size:11px;">
@@ -169,19 +169,31 @@
 			</div>
 			-->
 			
-			<p style="margin:0px;"><a href="javascript:void(0);" onclick="jQuery('#setterParlat').toggle()" class="interfaceLinkBlue">&raquo; Parlato</a></p>
+			<p style="margin:0px;"><a href="javascript:void(0);" onclick="jQuery('#setterParlat').toggle()" class="interfaceLinkBlue" style="font-size:14px;">&raquo; Parlato</a></p>
 			
-			<div id="setterParlat" style="display:none; font-size:11px;">
+			<div id="setterParlat" style="display:none; font-size:12px;">
 				<table><tr><td style="text-align:right;"><input name="parlatCSSFontSize" type="number" tal:attributes="value parlatCSS/0" style="width:55px;"/></td><td style="text-align:left;;">&laquo; Dimensione font</td></tr>
 				<tr><td><input name="parlatCSSFontColor" class="afw" tal:attributes="value parlatCSS/1" style="width:55px;"/> </td><td style="text-align:left;;">&laquo; Colore testo</td></tr>
 				<tr><td><input name="parlatCSSFontColorEscape" class="afw" tal:attributes="value parlatCSS/2" style="width:55px;"/></td><td style="text-align:left;;">&laquo; Colore testo &laquo; &raquo; </td></tr></table>
 			</div>
 			
-			<p style="margin:0px;"><a href="javascript:void(0);" onclick="jQuery('#setterOther').toggle()" class="interfaceLinkBlue">&raquo; Altro</a></p>
-			
-			<div id="setterOther" style="display:none; font-size:11px;">
-				<table>
+			<p style="margin:0px;"><a href="javascript:void(0);" onclick="jQuery('#setterOtherMaster').toggle()" class="interfaceLinkBlue" style="font-size:14px;">&raquo; Master Screen</a></p>
+			<div id="setterOtherMaster" style="display:none; font-size:12px;">
+			<table>
 				<tr><td style="text-align:right;"><input name="otherCSSSizeMaster" type="number" tal:attributes="value otherCSS/1" style="width:55px;"/></td><td style="text-align:left;;">&laquo; Dim. font Master</td></tr>
+				<tr><td><input name="otherCSSColorMaster" class="afw" tal:attributes="value otherCSS/8" style="width:55px;"/> </td><td style="text-align:left;;">&laquo; Colore Master</td></tr>
+				<tr><td><input name="otherCSSColorMasterBorder" class="afw" tal:attributes="value otherCSS/9" style="width:55px;"/> </td><td style="text-align:left;;">&laquo; Colore Master (bordo)</td></tr>
+
+				<tr><td><input name="otherCSSColorSpecMaster" class="afw" tal:attributes="value otherCSS/10" style="width:55px;"/> </td><td style="text-align:left;;">&laquo; Colore Selettiva</td></tr>
+				<tr><td><input name="otherCSSColorSpecMasterBorder" class="afw" tal:attributes="value otherCSS/11" style="width:55px;"/> </td><td style="text-align:left;;">&laquo; Colore Selettiva (bordo)</td></tr>
+
+			</table>
+			</div>
+
+			<p style="margin:0px;"><a href="javascript:void(0);" onclick="jQuery('#setterOther').toggle()" class="interfaceLinkBlue" style="font-size:14px;">&raquo; Altro</a></p>
+			
+			<div id="setterOther" style="display:none; font-size:12px;">
+				<table>
 				
 				<tr><td style="text-align:right;"><input name="otherCSSSizeUser" type="number" tal:attributes="value otherCSS/0" style="width:55px;"/></td><td style="text-align:left;;">&laquo; Dim. font nome PG</td></tr>
 				
@@ -197,6 +209,8 @@
 				<tr><td><input name="otherCSSColorTag" class="afw" tal:attributes="value otherCSS/7" style="width:55px;"/> </td><td style="text-align:left;;">&laquo; Colore TAG</td></tr></table>
 			</div>
 			
+			<p style="margin:0px;"><a  href="scheda.php?s=resetCSS"  class="interfaceLinkRed" style="font-size:14px;">&raquo; Resetta Predefiniti</a></p>
+
 			
 			</div>
 

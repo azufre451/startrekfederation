@@ -22,7 +22,7 @@
 
 <div tal:condition="exists:banReason" id="banMessage" style="position:absolute; top:50%; left:50%; width:700px; height:400px; padding:10px; border:1px solid #333; background-color:rgb(0,0,0); z-index:10; margin-left:-360px; margin-top:-210px; overflow-y: auto; display:none; font-family:Helvetica;">
 
-
+	<p style="text-align:center;"> Messaggio di Ban </p>
 		<link href="TEMPLATES/css/padd.css" rel="stylesheet" type="text/css" />
 		<style>
 			 p.quoter{
@@ -45,11 +45,14 @@
 <div id="centralContainer">
 <div align="center" tal:condition="exists:error" style="color:red; font-weight:bold;">ERRORE NEI DATI DI LOGIN<hr style="color:red" noshade="no" /></div>
 <div align="center" tal:condition="exists:banReason" style="color:red; font-weight:bold;">
-	 <span tal:condition="php:(banReason['expiry']>0)" tal:content="php:'E\' IN VIGORE UN PROVVEDIMENTO DI BAN. IMPOSSIBILE EFFETTUARE IL BAN FINO AL ' . date('d/m/y H:i',banReason['expiry'])"></span>
-	 <span tal:condition="php:(banReason['expiry']==0)"> È in vigore un ban permanente, oppure il personaggio non è autorizzato al login</span>
+	 <span tal:condition="php:(banReason['authEnd']>0)" tal:content="php:'E\' IN VIGORE UN PROVVEDIMENTO DI BAN. IMPOSSIBILE EFFETTUARE IL BAN FINO AL ' . date('d/m/y H:i',banReason['authEnd'])"></span>
+	 <span tal:condition="php:(banReason['authEnd']==0)"> È in vigore un ban permanente, oppure il personaggio non è autorizzato al login</span>
 	 <br />
 
-	<a href="javascript:void();" onclick="jQuery('#banMessage').toggle();" tal:condition="php:(banReason['expiry']>0)" class="interfaceLink"> Clicca qui per leggere il MESSGGIO DI BAN </a> | Puoi contattarci a <a class="interfaceLinkBlue" href="mailto:staff@stfederation.it">staff@stfederation.it</a>
+	<p><a href="javascript:void();" onclick="jQuery('#banMessage').toggle();" tal:condition="php:(banReason['authEnd']>0)" class="interfaceLink"> Clicca qui per leggere il MESSGGIO DI BAN </a></p>
+
+	<p>Puoi contattarci a <a class="interfaceLinkBlue" href="mailto:staff@stfederation.it">staff@stfederation.it</a></p>
+
 <hr style="color:red" noshade="no" /></div>
 <div align="center" tal:condition="exists:logged_out" style="color:#FFCC00; font-variant:small-caps; font-weight:bold;">Logout eseguito! Grazie per aver giocato e a presto!<hr style="color:#555" noshade="no" /></div>
 <div id="superLoginDiv" tal:attributes="style string:background-image:url('${backLoginImage}');">

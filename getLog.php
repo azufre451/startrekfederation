@@ -10,12 +10,26 @@ $vali = new validator();
 
 $user=new PG($_SESSION['pgID']);
 $userName = $user->pgUser;
+$userID = $user->ID;
 
 
 
 if (isSet($_GET['getAllPlayerLogs']))
 {
-	$kind = (isSet($_GET['master'])) ? 'MASTER' : 'PLAY';
+	$kind = (isSet($_POST['masterLog'])) ? 'MASTER' : 'PLAY';
+	$logLimit = $vali->numberOnly($_POST['logLimit']);
+
+
+	if (!in_array($logLimit,array(0,1,2,3,6,12)))
+	{
+		echo "Valore non valido"; exit;
+	}
+	if (($logLimit == 0 || $logLimit == 12) && !$user->checkTempAuth('ELOG'))
+	{
+		echo '<body style="background-color:black; color: white;"><p style="font-family:Helvetica; font-size:15px;">Autorizzazioni all\'operazione non sufficienti. Devi contattare un Global Master per farti autorizzare al download di grandi volumi di log</p></body>'; exit;
+	}
+
+
 
 	$targetuserID=$vali->numberOnly($_GET['getAllPlayerLogs']);
 	
@@ -32,7 +46,9 @@ if (isSet($_GET['getAllPlayerLogs']))
 		if(file_exists($zipName)) 
 			unlink($zipName);
 		
-		$re= mysql_query("SELECT DISTINCT sessionID FROM federation_sessions_participation WHERE pgID = ".$targetuser->ID." AND kind = '".$kind."' ORDER BY sessionID");
+		$timeLimit = ($logLimit != 0) ? $curTime - (24*60*60*30*$logLimit) : $logLimit;
+		
+		$re= mysql_query("SELECT DISTINCT federation_sessions_participation.sessionID FROM federation_sessions_participation,federation_sessions WHERE federation_sessions.sessionID = federation_sessions_participation.sessionID AND  sessionEnd > $timeLimit AND pgID = ".$targetuser->ID." AND kind = '".$kind."' ORDER BY sessionID");
 
 		if (mysql_affected_rows())
 		{

@@ -50,6 +50,8 @@
 	text-align:justify;
 	}
 
+	.buttonOk{width:60px; padding:3px; background-color:#0e501c; border-color:#8ede1c; font-size:14px; border-radius:5px; cursor:pointer;}
+	.buttonOk:hover{color:white; background-color:#255714;}
 
 </style>
 </head>
@@ -150,9 +152,7 @@
  
 		<div id="subBandaOff">
 		<p style="float:left;margin-right:10px;"><a onclick="showOn();" href="javascript:void(0);" class="interfaceLink"><img src="TEMPLATES/img/interface/indietro_fed.png" /></a>
-		<a tal:attributes="href string:getLog.php?getAllPlayerLogs=${userData/ID}" tal:condition="php:editable=='yes'" target="_blank" class="interfaceLink"><img src="TEMPLATES/img/interface/estrai_fed.png" /></a>
-
-		 </p>
+		<a onclick="jQuery('#logDownloader').fadeIn()" style="cursor:pointer" tal:condition="php:editable=='yes'" title="Recupera tutti i log degli ultimi 6 mesi" target="_blank" class="interfaceLink"><img src="TEMPLATES/img/interface/estrai_fed.png" /></a> </p>
 		
 		<p class="borderOne" style="width:80px;"><img src="TEMPLATES/img/interface/personnelInterface/prestavolto.png" alt="Prestavolto"/></p> 
 		<p tal:condition="php:(prestavolto['pgOffAvatarC'] != '')" style="width:auto; padding-left:10px; padding-right:10px; font-size:14px;" tal:content="string:${prestavolto/pgOffAvatarN} ${prestavolto/pgOffAvatarC} "></p> 
@@ -161,7 +161,7 @@
 
 	<div style="overflow-x:auto; height:400px; margin-top:10px;">
 	<div id="schedaOffLateralL" style="position:relative;">
-		<div style="position:absolute; top:0px; right:0px;"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Se credi di aver raggiunto i requisiti per l'ottenimento di un Achievement, e ancora non ti è stato appuntato, contatta un Amministratore!" /></div>
+		<div style="position:absolute; top:0px; right:0px;"><img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/info.png" title="Se credi di aver raggiunto i requisiti per l'ottenimento di un Achievement, e ancora non ti è stato appuntato, contatta un Amministratore!" /></div>
 
 		
 		<div tal:repeat="achiCat achi">
@@ -195,5 +195,39 @@
 </div>
 
 </div>
+
+<div id="logDownloader" tal:condition="php:editable=='yes'" style="height:200px; margin-top:-50px; background-color:rgba(0,0,0,0.9); display:none; border:1px solid #333; position:absolute; top:50%; left:50%; width:400px; padding:10px; font-family:Helvetica; margin-left:-200px;">
+
+
+	<p class="title"> Scarica i log del personaggio </p>
+	<p style="font-size:14px;">Questa funzione ti permette di scaricare in formato HTML un archivio con tutte le tue giocate. Se desideri scaricare i contenuti più vecchi di 6 mesi contatta un Global Master per farti sbloccare le opzioni "Ultimo anno" e "Tutti"</p>
+
+	<form method="POST" tal:attributes="action string:getLog.php?getAllPlayerLogs=${userData/ID}"> 
+		Scarica i log di: <select id="logLimit" name="logLimit" class="neon">
+			
+			<option value="1"> Ultimo mese </option>
+			<option value="2"> Ultimi 2 mesi </option>
+			<option value="3"> Ultimi 3 mesi </option>
+			<option value="6"> Ultimi 6 mesi </option>
+			<optgroup label="Richiede Autorizzazione">
+			<option value="12"> Ultimo anno (*) </option>
+			<option value="0"> Tutti (*) </option>
+			</optgroup>
+
+
+
+		</select><br />
+ 		<input type="checkbox" name="masterLog" tal:condition="php:isMaster" /> <span tal:condition="php:isMaster"> Solo sessioni da Master</span><br /><br/>
+
+		<p style="text-align:center; margin:0px;"><input type="submit" class="buttonOk" value="Scarica"> Scarica </input></p>
+
+	</form>
+	<div class="xButton" onclick="jQuery('#logDownloader').fadeOut(100);"></div>
+	
+	 
+</div> 
+	
+
+
 </body>
 </html>

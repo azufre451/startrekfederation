@@ -1061,6 +1061,16 @@ class PG
 
 	}
 
+	public function checkTempAuth($authType)
+	{
+		$pgID = $this->ID;
+		$curTime = time();
+		mysql_query("SELECT 1 FROM pg_users_temp_auths WHERE pgID = $pgID AND authType = '$authType' AND $curTime BETWEEN authStart AND authEnd ");
+		if(mysql_affected_rows()) return 1;
+		else return 0;
+	}
+	
+
 	public function addMedal($what,$dater)
 	{
 		$pgID = $this->ID;

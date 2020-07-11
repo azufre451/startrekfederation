@@ -443,7 +443,33 @@ else if ($mode == 'meEdiE')
 	header("Location:scheda.php?pgID=$pgID&s=me");
 }
 
+elseif( $mode == 'addTempAuth'){
+	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
+	{
+		$pgID = $vali->numberOnly($_GET['pgID']);
+		
+		$dateFrom = mktime(0,0,0,str_pad($_POST['dataM'],2,'0',STR_PAD_LEFT),str_pad($_POST['dataG'],2,'0',STR_PAD_LEFT),$_POST['dataA']);
+		$dateTo = mktime(0,0,0,str_pad($_POST['data2M'],2,'0',STR_PAD_LEFT),str_pad($_POST['data2G'],2,'0',STR_PAD_LEFT),$_POST['data2A']);
+		$authType = addslashes($_POST['authType']);
+		$textR = addslashes($_POST['textR']);
 
+		
+
+		mysql_query("INSERT INTO pg_users_temp_auths (pgID,authStart,authEnd,authType,text,owner) VALUES ($pgID,'$dateFrom','$dateTo','$authType','$textR','".$currentUser->ID."')");
+		
+	}
+	header("Location:scheda.php?pgID=$pgID&s=master");
+}
+
+elseif( $mode == 'delTempAuth'){
+	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
+	{
+		$pgID = $vali->numberOnly($_GET['pgID']);
+		$recID = $vali->numberOnly($_GET['autID']);
+		mysql_query("DELETE FROM pg_users_temp_auths WHERE recID = '$recID' AND pgID = '$pgID'");
+	}
+	header("Location:scheda.php?pgID=$pgID&s=master");
+}
 
 else if ($mode == 'meRem')
 {
@@ -907,6 +933,14 @@ elseif($mode == 'master')
 	}
 
 
+	$res_auths=mysql_query("SELECT pg_users_temp_auths.*,pgUser,pg_users.pgID as signerPgID FROM pg_users_temp_auths,pg_users WHERE owner=pg_users.pgID AND pg_users_temp_auths.pgID = $pgID");
+	$res_temp_auths=array();
+	
+	while($res_auths_val = mysql_fetch_assoc($res_auths))
+	{
+		$res_temp_auths[]=$res_auths_val;
+	}
+
 	$repli_food = mysql_query("SELECT foodName,timer, food as tr, ( SELECT COUNT(recID) FROM fed_food_replications WHERE food = tr AND user = $pgID AND YEAR(FROM_UNIXTIME(timer)) = $thisYear) as cnt FROM fed_food,fed_food_replications WHERE foodID = food AND user = $pgID  AND YEAR(FROM_UNIXTIME(timer)) = $thisYear ORDER BY timer DESC LIMIT 25");
 
 	while($ftd = mysql_fetch_assoc($repli_food))
@@ -922,6 +956,7 @@ elseif($mode == 'master')
 	$template->replicated_foods=$replicated_foods;
 	
 	$template->res_extras = $res_extras;
+	$template->res_temp_auths = $res_temp_auths;
 
 	$images = scandir('TEMPLATES/img/ruolini/lauree');
 	$template->images=array_diff($images,array('.','..'));

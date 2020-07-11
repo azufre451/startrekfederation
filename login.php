@@ -150,16 +150,17 @@ else
 	if(@$_GET['mode'] == 'ban'){
 		$pgID = $vali->numberOnly($_GET['pgID']);
 
-		$bQ=mysql_query("SELECT * FROM ban_instances WHERE pgID = $pgID ORDER BY timer DESC LIMIT 1");
+		$bQ=mysql_query("SELECT * FROM pg_users_temp_auths WHERE pgID = $pgID AND authType = 'BAN' ORDER BY authStart DESC LIMIT 1");
 
 		
 
 		if (mysql_affected_rows()){
 			$banReason = mysql_fetch_assoc($bQ);
-			$banReason['content'] = str_replace($bbCode,$htmlCode,$banReason['content']);	
+			$banReason['content'] = str_replace($bbCode,$htmlCode,$banReason['text']);	
+			
 		}
 		else{
-			$banReason = array('expiry'=>0,'content'=>'');
+			$banReason = array('authEnd'=>0,'content'=>'');
 			
 		}
 		

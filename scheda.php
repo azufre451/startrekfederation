@@ -1042,6 +1042,11 @@ elseif($mode=='reminder')
 }
 
 
+elseif ($mode == 'ajax_getstats'){
+	echo json_encode($selectedDUser->getStatsRecord());
+	include('includes/app_declude.php');
+	exit;
+}
 elseif ($mode == 'ajax_getactivityrecord'){
 	echo json_encode($selectedDUser->getPlayRecord(28,'master'));
 	include('includes/app_declude.php');

@@ -8,6 +8,7 @@
 	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/personnel.css?v=1.6" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
+	<script type="text/javascript" src="TEMPLATES/js/personnel.js?v=2" />
 	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 	
 	<title>SCHEDA ADMIN</title>	
@@ -16,7 +17,15 @@
 		p.yesPlay{background-color:#5ab52d;}
 		p.yesMas{background-color: #3478d4;}
 		p.no{ background-color: #b52d22;}
-	
+
+		#statsPanel{text-align:left;}
+
+		#statsPanel table td.tval{
+		    color: #2e7ec8;
+		    font-weight: bold;
+		    font-style: italic;
+		}
+
 	</style>
 	<script type="text/javascript">
 	function paddOpen(who){window.open('padd.php?s=seR&to='+who+'&sub=','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
@@ -25,37 +34,11 @@
 	{
 		jQuery('#averterBox').fadeIn();
 		jQuery('#averter').html(ida);
+
 		
 	}
 
-	function load_playrecord_vector(ida){
-			
-			
-			jQuery('#player_record_btn').html('... caricamento ...').removeClass('interfaceLinkGreen');
-			jQuery.ajax(
-			{
-			url: 'scheda.php',
-			dataType : 'json',
-			data: {pgID: ida, s: 'ajax_getactivityrecord'},
-			success: function(e){
-				gen='';
-				for (var d in e.reverse()){
-					var classer = 'no';
-					if(e[d].mastered) { classer='yesMas'; }
-					else if(e[d].played) { classer='yesPlay'; }
-					else if (e[d].connected) { classer='yesConn'; }
-					gen += '<p style="float:left; margin:0px; width:10px; height:10px;" class="'+classer+'" title="'+e[d].kk+'" />';
-					}
-					jQuery('#player_record_btn').fadeOut(100,function(){
-						jQuery('#player_record').append(gen);	
-					});
 
-
-				
-			},
-			type: 'GET'
-			});
-	}
 	</script>
 	
 </head>
@@ -285,6 +268,12 @@
 	<div style="clear: both; padding:5px;" id="player_record"> <a id="player_record_btn" tal:attributes="onclick string:javascript:load_playrecord_vector(${selectedUser});" href="javascript:void(0);" class="interfaceLinkGreen"> [Svela Attività] </a>
 	</div>
 	
+	<div style="clear: both; padding:5px;" id="player_record"> <a id="player_stats_btn" tal:attributes="onclick string:javascript:load_statsrecord_vector(${selectedUser});" href="javascript:void(0);" class="interfaceLinkGreen"> [Statistiche Aggregate] </a>
+
+	<p id="statsPanel" style="height:150px; padding:5px; display:none; overflow-y:auto; border:1px solid #333; width:100%;">
+	</p>
+	</div>
+
 	<div style="clear: both; padding:5px;">
 		<table style="text-align:left;">
 			<div tal:repeat="last lasts">

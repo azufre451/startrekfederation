@@ -1086,6 +1086,36 @@ class PG
 		mysql_query("INSERT INTO pg_notestaff (pgFrom,pgTo,what,timeCode) VALUES ($from,$thisID,'$thisString',$curTime)"); 
 	}
 
+	public function getStatsRecord(){
+
+		$stats=array();
+		$pgID=$this->ID;
+		
+		$res=mysql_query("SELECT type,COUNT(IDE) as cnt FROM federation_chat WHERE type <> '' AND sender IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $pgID)) GROUP BY type");
+		while($reA=mysql_fetch_assoc($res))
+			$acts[$reA['type']] = $reA['cnt'];
+
+		$stats['AZIONI'] = $acts;
+
+
+		$reA=mysql_fetch_assoc(mysql_query("SELECT COUNT(*) as cnt FROM fed_food WHERE presenter IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $pgID))"));
+		$reB=mysql_fetch_assoc(mysql_query("SELECT COUNT(*) as cnt FROM fed_food_replications WHERE timer <= 1483228800 AND user IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $pgID))"));
+
+		$stats['FOOD'] = array('Proposed'=>$reA['cnt'], 'Replicated'=>$reB['cnt']);
+
+		$CDBa=mysql_fetch_assoc(mysql_query("SELECT COUNT(*) as cnt FROM cdb_posts WHERE owner IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $pgID))"));
+		$CDBb=mysql_fetch_assoc(mysql_query("SELECT COUNT(*) as cnt FROM cdb_posts WHERE topicID IN (SELECT pgDiario FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $pgID)) AND owner IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $pgID))"));
+
+		$CDBc=mysql_fetch_assoc(mysql_query("SELECT COUNT(*) as cnt FROM cdb_posts WHERE topicID IN (SELECT pgDiario FROM pg_users WHERE pgID = $pgID) AND owner IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $pgID))"));
+
+		$stats['CDB'] = array('All'=>$CDBa['cnt'], 'Diari'=>$CDBb['cnt'], 'Diari (questo PG)'=>$CDBc['cnt']);
+
+		
+
+
+		return $stats;
+
+	}
 	public function getPlayRecord($days=15,$type=Null){
 
 			$rpr = array();
@@ -1498,7 +1528,12 @@ class timeHandler
 	{
 		if (date('d/m/Y') == date('d/m/Y',$time) )
 			return "Oggi ".self::extrapolateHour($time);
-		else return date("d/m",$time)."/".(date("Y",$time)+379)." ".self::extrapolateHour($time);
+		else {
+			$tYear=(date("Y",$time)+379);
+			if($tYear < 2395) {$tYear = $tYear - 11;}
+			return date("d/m",$time)."/".$tYear." ".self::extrapolateHour($time);
+
+		}
 	} 
 	
 	public static function extrapolateDay  ($time)

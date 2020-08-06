@@ -282,14 +282,16 @@ class Session
 		if ($this->archived == 1)
 		{
 			$sessionFile='../stf-data/saved_sessions/archive_all/'.strtoupper($this->locID).'_session_'.$this->sessionID.'.html';
+			
 			if(file_exists($sessionFile))
 			{
+
+				
 				$inf=fopen($sessionFile,'r');
-				$this->htmlLiner = fread($inf, filesize($sessionFile));
+				$this->htmlLiner = str_replace('http://','https://',str_replace('startrekfederation.it','stfederation.it',fread($inf, filesize($sessionFile))));
 				fclose($inf);
 			}
-		}
-
+		} 
 		else
 		{
 			if ($this->archived == 2)
@@ -298,6 +300,7 @@ class Session
 				include('includes/conf.php');
 				Database::tdbConnect($db_Host,$db_User, $db_Pass,$archivedb_Name);
 				Database::query('SET NAMES utf8');
+				
 			}
 
 			$downloadButton = ($showDWL) ? "<div style=\"text-align:center;\"> Scarica una copia della giocata in <a style=\"color:#FFCC00\" href=\"getLog.php?session=".$this->sessionID."&toFile=do\">formato HTML</a> </div> <br/>" : "";
@@ -334,6 +337,18 @@ class Session
 
 
 			$chatLines = mysql_query("SELECT chat,time FROM federation_chat WHERE ambient = '".$this->locID."' AND (time BETWEEN ".$this->sessionIniTime." AND ".$this->sessionStopTime.") AND type NOT IN ('APM','AUDIO','AUDIOE','SPECIFIC','SERVICE') $filter ORDER BY time");
+
+
+			if ($this->archived == 2)
+			{
+
+				Database::tdbClose();
+				Database::tdbConnect($db_Host,$db_User, $db_Pass,$db_Name);
+				Database::query('SET NAMES utf8');
+
+			}
+			
+
 			
 			
 			while($chatLi = mysql_fetch_array($chatLines))

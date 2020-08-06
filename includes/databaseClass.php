@@ -1099,7 +1099,7 @@ class PG
 
 
 		$reA=mysql_fetch_assoc(mysql_query("SELECT COUNT(*) as cnt FROM fed_food WHERE presenter IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $pgID))"));
-		$reB=mysql_fetch_assoc(mysql_query("SELECT COUNT(*) as cnt FROM fed_food_replications WHERE user IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $pgID))"));
+		$reB=mysql_fetch_assoc(mysql_query("SELECT COUNT(*) as cnt FROM fed_food_replications WHERE timer <= 1483228800 AND user IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $pgID))"));
 
 		$stats['FOOD'] = array('Proposed'=>$reA['cnt'], 'Replicated'=>$reB['cnt']);
 
@@ -1528,7 +1528,12 @@ class timeHandler
 	{
 		if (date('d/m/Y') == date('d/m/Y',$time) )
 			return "Oggi ".self::extrapolateHour($time);
-		else return date("d/m",$time)."/".(date("Y",$time)+379)." ".self::extrapolateHour($time);
+		else {
+			$tYear=(date("Y",$time)+379);
+			if($tYear < 2395) {$tYear = $tYear - 11;}
+			return date("d/m",$time)."/".$tYear." ".self::extrapolateHour($time);
+
+		}
 	} 
 	
 	public static function extrapolateDay  ($time)

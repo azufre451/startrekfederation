@@ -190,7 +190,11 @@ include('includes/validate_class.php');
 					$totalPta += $personPoints;
 				}
 
-				$avgpointarray = (float)$totalPta / count($pointarray);
+				$tpl_s = round($pointarray[$owner],2);
+
+				if ( $tpl_s < 3 ) $rte = 1;
+				else $rte=0;
+				$avgpointarray = (float)$totalPta / (count($pointarray)-$rte);
 
 				if(!array_key_exists($owner,$pointarray)){$pointarray[$owner] = 0.0;}
 
@@ -204,7 +208,6 @@ include('includes/validate_class.php');
 				$coeff_s = (string)(count($pointarray)-1).' (+'.$coeff." %)";
 				$totalPta_s = round($totalPta,2);
 				
-				$tpl_s = round($pointarray[$owner],2);
 				$pointarray[$owner] += $totalPta;
 				
 				

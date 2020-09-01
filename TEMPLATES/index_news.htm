@@ -3,33 +3,38 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" prefix="og: http://ogp.me/ns#">
 	<head>
-	
-		<meta http-equiv="Content-Type" content="text/html"/>	
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+		<title>Star Trek: Federation News</title>
+
+		<link rel="shortcut icon" href="favicon.ico" />
+		
+
+		<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" /> 
+		<link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet" />
+		 
+		<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+		<link href="TEMPLATES/css/index.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />	
+
+
+		<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
+		<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+		<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}" async="async"/>
+		<script type="text/javascript" src="TEMPLATES/js/index.js?v=${gameOptions/numericVersion}" async="async"/>
+		
+
+		<meta charset="UTF-8" />
+		<meta http-equiv="content-language" content="IT" />
+		<meta name="keywords" tal:attributes="content keywords"/>
+		<meta name="description"  tal:attributes="content structure  string:${subtitle} ${shortDescript}"  />
+
 		<meta property="og:title" tal:attributes="content string:${titParticle} - ${title}" /> 
 		<meta property="og:url" tal:attributes="content string:http://www.stfederation.it/index.php?readnews=${ID}" />
 		<meta property="og:image" tal:attributes="content string:http://www.stfederation.it/TEMPLATES/img/interface/index/cov_${aggregator}.png" />
-		<meta property="og:description" tal:attributes="content string:${subtitle} ${shortDescript}" />
- 
-		<link rel="shortcut icon" href="favicon.ico" />
-		
-		<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
-		<link href="TEMPLATES/css/padd.css?v=1.2" rel="stylesheet" type="text/css" />
-		<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
-		<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
-		<script type="text/javascript" src="TEMPLATES/js/index.js?v=0.6" />
-
-		<title>Star Trek: Federation GDR - News</title>
-	
-				<meta http-equiv="content-language" content="IT" />
-		<meta charset="UTF-8" />
-		<meta http-equiv="content-language" content="IT" />
-		<meta name="keywords" content="Star Trek, Voyager, Enterprise, The Next Generation, Tricorder, Phaser, Borg. Gioco di Ruolo, Federazione, Klingon, Romulani"/>
-		<meta name="description" content="GDR online che unisce l'interpretazione di un eroe del serial televisivo alla scrittura creativa via chat. Crea il tuo personaggio, illumina il tuo destino!" />
-		
-		<script type="text/javascript" src="TEMPLATES/js/google.js"></script>
+		<meta property="og:description" tal:attributes="content structure string:${subtitle} ${shortDescript}" />
 		
 	</head>
-	
+
 
 
 <body>
@@ -41,15 +46,20 @@
 				<div id="principal">
 				
 				<div id="news" class="heraldMain radiusBordered" style="text-align:center; width:65%;  margin-left:auto; margin-right:auto; height:auto; margin-top:40px;">
-				<img src="TEMPLATES/img/interface/paddInterface/fed_herald.png" tal:condition="php:aggregator=='FED'" />
+
+
+								<p style="text-align:left; margin:0px 0px; text-decoration: underline;"><a href="index.php" class="interfaceLink"> Torna Indietro</a></p>
+
+
+
+				<img src="TEMPLATES/img/interface/paddInterface/fed_eagle.jpg" tal:condition="php:aggregator=='FED'" />
 		
 				<p class="titoloarticolo" style="margin:0px; font-size:32px;" tal:content="title" />
 				<p class="titolosubarticolo" style="margin:0px;" tal:content="subtitle" />
-				<p class="testoNews" style="margin:0px; font-size:16px; line-height:25px; font-family:Helvetica; margin-top:10px; height:500px; overflow-y:auto; padding-right:10px; text-align:justify"><span style="font-weight:bold;" tal:content="timer" />&nbsp;&nbsp;<span tal:content="structure text"/></p>
+				<p class="testoNews" style="margin:0px; font-size:16px; line-height:25px; font-family:Helvetica; margin-top:10px; height:450px; overflow-y:auto; padding-right:10px; text-align:justify"><span style="font-weight:bold;" tal:content="timer" />&nbsp;&nbsp;<span tal:content="structure text"/></p>
 				
 				
 </div>
-				<p style="text-align:center;"><a href="index.php" class="interfaceLink"><img tal:attributes="src string:TEMPLATES/img/interface/index/${aggregator}.png" style="visibility:hidden;" alt=""/> Torna Indietro</a></p>
 				</div>
 				
 			</div>

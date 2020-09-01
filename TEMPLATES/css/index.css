@@ -1,29 +1,43 @@
 @font-face{font-family:'federationFont';
-src: url('TEMPLATES/Roddenberry.eot');
-src: url('TEMPLATES/Roddenberry.ttf') format('truetype');
+src: url('../Roddenberry.eot');
+src: url('../Roddenberry.ttf') format('truetype');
 }
 @font-face{font-family:'federationFontI';
-src: url('TEMPLATES/Roddenberry Oblique.eot');
-src: url('TEMPLATES/Roddenberry Oblique.ttf') format('truetype');
+src: url('../Roddenberry Oblique.eot');
+src: url('../Roddenberry Oblique.ttf') format('truetype');
 }
 
 #newsS{
-height:350px;
-padding-top:10px;
-width:90%;
-clear:both;
-overflow-y:scroll;
-text-align:justify;
-padding-right:10px;
-margin-left:40px;
-font-size:14px;
-margin-right:80px;
-border:1px dashed #333;
-background-color:rgba(0,0,0,0.2);
-font-family: Lato;
+
+padding-top: 10px;
+    width: 90%;
+    /* clear: both; */
+    overflow-y: hidden;
+    text-align: left;
+    margin: auto;
+    font-size: 14px;
+    font-family: Lato;
+    display: grid;
+    grid-template-columns: repeat(4, 0.25fr);
+
+
+
+    
+}
+span.carEmph{
+
+
+  color:#0077C3;
+  font-weight:bold;
+  font-variant:small-caps;
+  text-transform: lowercase;
+      font-size: 17px;
+    letter-spacing: 0.07em;
+
 }
 
 .banded{background-image:url('../img/pattern_banded_50.png');}
+.banded30{background-image:url('../img/pattern_banded_30.png');}
 
 .container{background-color:rgba(0,0,0,0.3); border:1px solid #222; border-radius:6px; } 
 
@@ -37,10 +51,61 @@ p.bonus img{
   width:35px; vertical-align:middle;
 }
 p.bonus span {
-  font-family:federationFont; font-size:18px; letter-spacing: 0.1sem;
+  font-family:federationFont; font-size:18px; letter-spacing: 0.1em;
 }
 
-#newsS > div {margin-bottom:10px; font-family:Helvetica; margin-top:0px;}
+#newsS > div {
+  margin-bottom:10px;
+  font-family:Helvetica;
+  margin-top:0px;
+  width:200px;
+  border:2px solid black;
+  height:230px;
+  opacity: 0.5;
+  padding:0;
+  
+}
+
+#newsS > div .lowerbar {
+
+  padding-left:0.6em;
+
+  padding-right:0.6em;
+  
+  
+}
+#newsS > div .upperbar {
+
+ margin:0px;
+ text-align:left;
+ background-color:rgba(52, 66, 48,0.4);
+ width:100%;
+ font-size:18px;
+ letter-spacing: 0.1em;
+ height:25px;
+ line-height: 25px;
+ font-family:federationFontI;
+ text-align: center;
+}
+
+
+#newsS > div .upperbar.FED {
+  background-color:rgba(10, 47, 99,0.4);
+}
+
+#newsS > div .upperbar.FED::after {
+  content:'Tychonian Eagle';
+}
+
+
+#newsS > div .upperbar.FDX::after {
+  content:'STF Stories';
+}
+
+
+#newsS > div .lowerbar p {margin:0px; text-align: left}
+
+
 
 .menureg{
 font-size:2em;
@@ -63,6 +128,7 @@ margin-right:auto;
 margin-top:0px;
 padding-left:0px;
 border-radius:6px 6px 0px 0px;
+background-color: #42536d;
 float:none;
 }
 
@@ -147,7 +213,7 @@ margin-left:0px; margin-right:0px;
 
 
 
-.species_spec,.sections_spec{text-align:justify; padding:15px; font-size:1.1em; display:none; border-left:1px solid #848fa9; line-height:1.1em; margin-top:20px; padding-left:25px; margin-left:15px;}
+.species_spec,.sections_spec{text-align:justify; margin-bottom: 10px; padding:15px; font-size:1.1em; display:none; border-left:1px solid #848fa9; line-height:1.1em; margin-top:10px;  padding-left:25px; margin-left:15px;}
 
 
 
@@ -330,3 +396,23 @@ font-family:Source Sans Pro, Helvetica, Arial, sans-serif;
 padding-right:12px;
 }
  
+ .ui-tooltip {
+        font-family:Lato;
+        width:200px;
+        font-size:14px;
+        }
+
+  .unselectable{position: relative; cursor:default;}
+  .unselectable::before{content:'- Non disponibile -';
+
+    color:#ffb500; font-weight: bold; font-size:13px;
+    background-color: rgba(0,0,0,0.8);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding-top:10px;
+    height:26px;
+
+    border-radius: inherit;
+     }

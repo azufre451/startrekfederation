@@ -33,14 +33,14 @@
     z-index:1;
 }
 
-.carousel .backgrounds .item_0{background: transparent url(../images/carousel_season3.jpg) no-repeat 0 0;}
+.carousel .backgrounds .item_0{background: transparent url(../images/carousel_bg_7_1.jpg) no-repeat 0 0;}
 .carousel .backgrounds .item_pucciolo{background: transparent url(../images/carousel_bg_7.jpg) no-repeat 0 0;}
 .carousel .backgrounds .item_quest{background: transparent url(../images/carousel_questionario.jpg) no-repeat 0 0;}
-.carousel .backgrounds .item_1{background: transparent url(../images/carousel_bg_1.jpg) no-repeat 0 0;}
-.carousel .backgrounds .item_2{background: transparent url(../images/carousel_bg_2.jpg) no-repeat 0 0;}
-.carousel .backgrounds .item_3{background: transparent url(../images/carousel_imperi.jpg) no-repeat 0 0;}
-.carousel .backgrounds .item_4{background: transparent url(../images/carousel_bg_4.jpg) no-repeat 0 0;}
-.carousel .backgrounds .item_5{background: transparent url(../images/carousel_bg_5.jpg) no-repeat 0 0;}
+.carousel .backgrounds .item_1{background: transparent url(../images/carousel_bg_7_2.jpg) no-repeat 0 0;}
+.carousel .backgrounds .item_2{background: transparent url(../images/carousel_bg_7_3.jpg) no-repeat 0 0;}
+.carousel .backgrounds .item_3{background: transparent url(../images/carousel_bg_7_4.jpg) no-repeat 0 0;}
+.carousel .backgrounds .item_4{background: transparent url(../images/carousel_bg_2.jpg) no-repeat 0 0;}
+.carousel .backgrounds .item_5{background: transparent url(../images/carousel_bg_6.jpg) no-repeat 0 0;}
 .carousel .backgrounds .item_6{background: transparent url(../images/carousel_bg_6.jpg) no-repeat 0 0;}
 
 .carousel .backgrounds .bitem_1{background: transparent url(../../img/intros/Screenshot_01.jpg) no-repeat 0 0;}

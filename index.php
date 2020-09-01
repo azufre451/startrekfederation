@@ -3,6 +3,8 @@ error_reporting(E_ALL);
 
   
 ini_set('display_errors', 1);
+setlocale(LC_TIME, 'it_IT');
+//echo date('F');exit;
 
 include('includes/app_include.php');
 include('includes/validate_class.php');
@@ -17,6 +19,27 @@ if(isSet($_GET['readnews']))
 	$to = $vali->numberOnly($_GET['readnews']);
 	setlocale(LC_TIME, 'it_IT');
 	
+
+	if (isSet($_GET['fmn']))
+	{
+		$news = mysql_query("SELECT * FROM fed_master_news WHERE recID = $to");
+		$template = new PHPTAL('TEMPLATES/index_news.htm');
+		
+		$newsA = mysql_fetch_array($news);
+		
+		$template->ID = $newsA['recID'];
+		$template->title = $newsA['title'];
+		$template->subtitle = '';
+		$template->titParticle = 'Star Trek: Federation News';
+		$template->shortDescript = substr($newsA['content'],0,270);
+		$template->aggregator = '';
+		$template->text = str_replace($bbCode,$htmlCode,$newsA['content']);
+		$template->timer = (strftime('%e', $newsA['time']).' '.ucfirst(strftime('%B', $newsA['time'])).' '.(date('Y', $newsA['time'])+379));
+	
+	}
+
+	else{
+
 	$news = mysql_query("SELECT * FROM fed_news WHERE newsID = $to");
 	$template = new PHPTAL('TEMPLATES/index_news.htm');
 	
@@ -29,8 +52,9 @@ if(isSet($_GET['readnews']))
 	$template->shortDescript = substr($newsA['newsText'],0,270);
 	$template->aggregator = $newsA['aggregator'];
 	$template->text = str_replace($bbCode,$htmlCode,$newsA['newsText']);
-	$template->timer = (strftime('%e', $newsA['newsTime']).' '.ucfirst(strftime('%B', $newsA['newsTime'])).' '.(date('Y', $newsA['newsTime'])+368));
+	$template->timer = (strftime('%e', $newsA['newsTime']).' '.ucfirst(strftime('%B', $newsA['newsTime'])).' '.(date('Y', $newsA['newsTime'])+379));
 	
+	}
 	if ($to==165){
 		$ada = fopen("ada.txt", "a");
 		fwrite($ada,date('d/m/Y H:i:s')."\t".$_SERVER['REMOTE_ADDR']."\r\n"); 
@@ -71,7 +95,7 @@ $articles=array();
 while($re = mysql_fetch_array($news))
 $articles[] = $re;
 
-$newsAct = mysql_query("(SELECT newsID,newsTitle,newsText,newsTime,aggregator,toLink FROM fed_news ORDER BY newsTime DESC LIMIT 5) UNION (SELECT recID as newsID, title as newsTitle, content as newsText, time as newsTime, 'FDX' as aggregator, '' as toLink FROM fed_master_news ORDER BY time DESC LIMIT 5)");
+$newsAct = mysql_query("(SELECT newsID,newsTitle,newsText,newsTime,aggregator,toLink FROM fed_news) UNION (SELECT recID as newsID, title as newsTitle, content as newsText, time as newsTime, 'FDX' as aggregator, '' as toLink FROM fed_master_news) ORDER BY newsTime DESC LIMIT 4");
 $resNews = array();
 while($rea = mysql_fetch_array($newsAct))
 {
@@ -79,8 +103,8 @@ $txt = str_replace($bbCode,$htmlCode,$rea['newsText']);
 $txtL = str_replace($bbCode,$htmlCode,$rea['newsText']);
 $txt = str_replace("<br />","",$txt);
 $txt = str_replace("<br>","",$txt);
-$lim = 200 - strlen($rea['newsTitle']);
-$resNews[$rea['newsTime']] = array('title' => $rea['newsTitle'],'aggregator'=>$rea['aggregator'],'rtext' => $txtL ,'text' => (strlen($txt) > $lim) ? substr($txt,0,$lim).'...' : $txt,'data' => date('d/m/Y',$rea['newsTime']),'toLink' => $rea['toLink'], 'newsID' => $rea['newsID']);
+$lim = 250 - strlen($rea['newsTitle']);
+$resNews[$rea['newsTime']] = array('title' => $rea['newsTitle'],'aggregator'=>$rea['aggregator'],'rtext' => $txtL ,'text' => (strlen($txt) > $lim) ? substr($txt,0,$lim).'...' : $txt,'data' => timeHandler::extrapolateDay($rea['newsTime']),'toLink' => $rea['toLink'], 'newsID' => $rea['newsID']);
 }
 
 
@@ -94,17 +118,23 @@ $template->resNews = $resNews;
 $template->mod = (isSet($_GET['mod'])) ? $_GET['mod'] : ''; 
 
 /*Aut Reg*/
-$a1 = array('ALFA','BETA','GAMMA','DELTA','ETA','EPSILON','ZETA','ETA','THETA','IOTA','KAPPA','LAMBDA','MI','NI','XI','OMICRON','PI','RHO','SIGMA','TAU','YPSILON','PHI','CHI','PSI','OMEGA');
 $template->aut = $a1[rand(0,24)].' '.$a1[rand(0,24)].' '.rand(0,10).' '.rand(0,10);
 
  
 $template->tips = $tips;
 $template->resNews = $resNews;
 $template->gameServiceInfo = $gameServiceInfo;
+
+
+
+
 }
 
 $template->online = timeHandler::getOnline(NULL);
-//echo "WALALO:".mktime(23,59,59,1,14,2013);
+$template->gameOptions = $gameOptions;
+$template->keywords="Star Trek, Voyager, Enterprise, The Next Generation, Tricorder, Phaser, Borg. Gioco di Ruolo, Federazione, Klingon, Romulani, Starbase Tycho, GDR, Play by Chat, Picard, Discovery";
+$template->description="Gioco di Ruolo online che unisce l'interpretazione di un eroe del serial televisivo alla scrittura creativa via chat. Crea il tuo personaggio oggi!";
+
 	try 
 	{
 		echo $template->execute();

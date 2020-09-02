@@ -1,6 +1,93 @@
 ﻿<html>
 
+<div id="pstInsert" metal:define-macro="postInsert">
+ 
+<div id="pstSeclar" style="display:none;">
 
+	<p>Inserisci Blocco (o imposta il testo selezionato) al livello SECLAR:</p>
+	<div style="margin-top:20px;">
+		<select class="neon" style="width:95px; font-size: 13px; " tal:attributes="onchange string:seclarP(this)">
+		<option tal:repeat="con php:range(topicSeclar,9)" tal:attributes="value con" tal:content="string: SECLAR ${con}" />
+	</select><br /><br />
+	<a onclick="jQuery('#pstSeclar').fadeOut(100);" href="javascript:void(0);" class="interfaceLinkRed">Annulla</a>
+	</div>
+</div>
+	 
+	<form tal:attributes="action php:isSet(editID) ? 'cdb.php?editPost=' . editID . '&m=14' : 'cdb.php?addPost=do'" id="formContent" method="POST">
+
+<!-- POST -->
+
+<div style="  width: 90%; margin: auto;  padding: 5px;">
+	<div style="width:100%; float:left;">
+		<div style="height:60px; margin-right: 100px; text-align: left;">
+			<img src="TEMPLATES/img/interface/titolo.png" style="vertical-align: middle;" /><input class="neon"  style="margin-left:8px; width:80%;" type="text" name="postTitolo" tal:attributes="value php:isSet(editTitle) ? editTitle : ''"  />
+		<br />
+			<img src="TEMPLATES/img/interface/note.png" style="vertical-align: middle;" /><input style="margin-bottom:10px; margin-left:8px; width: 80%;" class="neon"  type="text" name="postNote" tal:attributes="value php:isSet(editNotes) ? editNotes : ''"  /><input type="hidden" name="topicID" tal:attributes="value topicIDE"/>
+		</div>
+		<div style="text-align: left; margin-right: 100px; ">
+			<textarea name="postContent" id="postContent" style="border-radius: 10px; margin-right: 120px; width: 100%; height:480px; font-family:Helvetica;" tal:content="php:isSet(editContent) ? editContent : ''"></textarea>
+			<p id="peopleListMirrorContain" style="width:auto; margin-top:3px; display:none; font-size:13px; font-family:Helvetica"> Il post verrà segnalato a: <span id="peopleListMirror" /> con un padd automatico</p>
+			<input type="hidden" style="border:0" id="pepoleList" name="peopleList" value="" />
+		</div>
+	</div> 
+	<div style="width: 100px; margin-top: 60px; height: 470px; right: 25px; position: absolute;"  class="BBbuttonList">
+		<input type="button" value="B" class="w25font" title="Grassetto" style="font-weight: bold; " onclick="bbstyle(0)" />
+		<input type="button" value="I" class="w25font" title="Corsivo" style="font-style: italic;" onclick="bbstyle(2)" />
+		<input type="button" value="U" class="w25font" title="Sottolineato" style="text-decoration: underline; " onclick="bbstyle(4)" />
+	<br />	
+		<input type="button" title="Allinea a Sinistra" class="w25font w25left" onclick="bbstyle(8)" />
+		<input type="button" title="Allinea al Centro" class="w25font w25center" onclick="bbstyle(6)" />
+		<input type="button" title="Allinea a Destra" class="w25font w25right" onclick="bbstyle(10)" />
+	<br />		
+		<input type="button" value="A" title="Piccolo" class="w25font" style="font-size:9px; " href="" onclick="bbstyle(26)" />
+		<input type="button" value="A" title="Medio" class="w25font" style="font-size:12px; " href="" onclick="bbstyle(28)" />
+		<input type="button" value="A" title="Grande" class="w25font" style="font-size:16px; " href="" onclick="bbstyle(30)" />
+	<br />
+	<br />
+		<input type="button" class="w25 w25red" title="Rosso" onclick="bbstyle(14)" />
+		<input type="button" class="w25 w25yellow" title="Giallo" onclick="bbstyle(16)" /> 
+		<input type="button" class="w25 w25cyan" title="Azzurro" onclick="bbstyle(18)" />
+	<br />		
+		<input type="button" class="w25 w25gray" title="Grigio" onclick="bbstyle(20)" />
+		<input type="button" class="w25 w25white" title="Bianco"  onclick="bbstyle(22)" />
+		<input type="button" class="w25 w25green" title="Verde" onclick="bbstyle(24)" />
+	<br />
+	<br />
+		<input type="button" title="inserisci Immagine" class="w25font w25img"  onclick="bbstyle(12)" />
+		<input type="button" title="Inserisci Link" class="w25font w25url" onclick="bbstyle(32)" />
+		<input type="button" title="Citazione" class="w25font w25quote" onclick="bbstyle(34)" />
+	<br />
+		<input type="button" title="Template & Mostrine" class="w25icon w25advanced" href="" onclick="javascript:jQuery('#pstAdva').toggle(150)">
+		</input>
+
+		
+		<input type="button" title="Secalr" class="w25icon w25seclar" id="btSec" onclick="javascript:jQuery('#pstSeclar').toggle(150)" />
+		
+
+	<br />
+<!-- Scglie PNG-->
+		<div tal:condition="not:exists:editID"><a class="interfaceLink" tal:condition="exists:showStaff"  style="font-size:11px; " href="javascript:void(0);" onclick="jQuery('#pgChanger').fadeOut(300,function(){jQuery('#usersMaster').fadeIn(300);});" id="pgChanger">( - Scegli PnG - )</a><input class="neon" placeholder="Nome del PnG" type="text" id="usersMaster" name="usersMaster" tal:condition="exists:showStaff" style="display:none; width:80Px;" onfocus="this.select();" /></div>
+<!-- Fine Scegli PNG -->
+
+		<div style="text-align: center; font-size: 22px; margin-bottom:10px; font-family: Roddenberry; color:orange;">
+		<div tal:condition="not:exists:editID" style="color: #0077c3; padding-bottom: 7px;">Firma 
+	<br />
+		<select class="neon"  style="width:90px; font-size: 15px; font-variant: small-caps;" name="postFirma">
+				<option value="corta">Corta</option>
+				<option value="lunga">Lunga</option>
+		</select>
+	</div>
+		Seclar
+	<br />
+		<select class="neon" style="width:95px; font-size: 15px; " onchange="javascript:$('#addPostImage').prop('src','TEMPLATES/img/seclar/seclar'+this.value+'.png');" name="postSeclar">
+				<option tal:repeat="con php:range(topicSeclar,9)" tal:attributes="value con" tal:content="string: SECLAR ${con}" />
+		</select></div>
+		<input type="submit" id="postSubmit" value="INVIA" class="send" href="" onclick="" />
+		</div>
+	</div>
+
+</form>	
+</div>
 <div id="pstAdva" style="display:none;" metal:define-macro="postAdva">
 	
 	<div style="padding:5px; border-radius:12px; width:95%; margin-left:auto; margin-right:auto; border:1px solid #777;" class="radiusBordered12">

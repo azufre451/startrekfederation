@@ -546,48 +546,48 @@ color: black;
 /* CENTER BUTTON */
 
 .BBbuttonList .w25center {
-		background-image: url(https://efesto.stfederation.it/TEMPLATES/img/interface/cdbInterface/topicInterface/center.png);
+		background-image: url(../img/interface/cdbInterface/topicInterface/center.png);
 }
 
 .BBbuttonList .w25center:hover {
 		border: 1px solid black; 
-		background-image: url(https://efesto.stfederation.it/TEMPLATES/img/interface/cdbInterface/topicInterface/center-hover.png);
+		background-image: url(../img/interface/cdbInterface/topicInterface/center-hover.png);
 		background-color: white;
 }
 
 /* LEFT BUTTON */
 
 .BBbuttonList .w25left {
-		background-image: url(https://efesto.stfederation.it/TEMPLATES/img/interface/cdbInterface/topicInterface/left.png);
+		background-image: url(../img/interface/cdbInterface/topicInterface/left.png);
 }
 
 .BBbuttonList .w25left:hover {
 		border: 1px solid black; 
-		background-image: url(https://efesto.stfederation.it/TEMPLATES/img/interface/cdbInterface/topicInterface/left-hover.png);
+		background-image: url(../img/interface/cdbInterface/topicInterface/left-hover.png);
 		background-color: white;
 }
 
 /* RIGHT BUTTON */
 
 .BBbuttonList .w25right {
-		background-image: url(https://efesto.stfederation.it/TEMPLATES/img/interface/cdbInterface/topicInterface/right.png);
+		background-image: url(../img/interface/cdbInterface/topicInterface/right.png);
 }
 
 .BBbuttonList .w25right:hover {
 		border: 1px solid black; 
-		background-image: url(https://efesto.stfederation.it/TEMPLATES/img/interface/cdbInterface/topicInterface/right-hover.png);
+		background-image: url(../img/interface/cdbInterface/topicInterface/right-hover.png);
 		background-color: white;
 }
 
 /* IMG BUTTON */
 
 .BBbuttonList .w25img {
-		background-image: url(https://efesto.stfederation.it/TEMPLATES/img/interface/cdbInterface/topicInterface/image.png);
+		background-image: url(../img/interface/cdbInterface/topicInterface/image.png);
 }
 
 .BBbuttonList .w25img:hover {
 		border: 1px solid black; 
-		background-image: url(https://efesto.stfederation.it/TEMPLATES/img/interface/cdbInterface/topicInterface/image-hover.png);
+		background-image: url(../img/interface/cdbInterface/topicInterface/image-hover.png);
 		background-color: white;
 }
 
@@ -595,24 +595,24 @@ color: black;
 /* URL BUTTON */
 
 .BBbuttonList .w25url {
-		background-image: url(https://efesto.stfederation.it/TEMPLATES/img/interface/cdbInterface/topicInterface/link.png);
+		background-image: url(../img/interface/cdbInterface/topicInterface/link.png);
 }
 
 .BBbuttonList .w25url:hover {
 		border: 1px solid black; 
-		background-image: url(https://efesto.stfederation.it/TEMPLATES/img/interface/cdbInterface/topicInterface/link-hover.png);
+		background-image: url(../img/interface/cdbInterface/topicInterface/link-hover.png);
 		background-color: white;
 }
 
 /* QUOTE BUTTON */
 
 .BBbuttonList .w25quote {
-		background-image: url(https://efesto.stfederation.it/TEMPLATES/img/interface/cdbInterface/topicInterface/Quote.png);
+		background-image: url(../img/interface/cdbInterface/topicInterface/Quote.png);
 }
 
 .BBbuttonList .w25quote:hover {
 		border: 1px solid black; 
-		background-image: url(https://efesto.stfederation.it/TEMPLATES/img/interface/cdbInterface/topicInterface/Quote-hover.png);
+		background-image: url(../img/interface/cdbInterface/topicInterface/Quote-hover.png);
 		background-color: white;
 }
 
@@ -636,15 +636,27 @@ color: black;
 /* ADVANCED BUTTON */
 
 .BBbuttonList .w25advanced {
-		background-image: url(https://efesto.stfederation.it/TEMPLATES/img/interface/cdbInterface/topicInterface/advanced.png);
+		background-image: url(../img/interface/cdbInterface/topicInterface/advanced.png);
 }
 
 .BBbuttonList .w25advanced:hover {
 		border: 1px solid #4169E1; 
-		background-image: url(https://efesto.stfederation.it/TEMPLATES/img/interface/cdbInterface/topicInterface/advanced-hover.png);
+		background-image: url(../img/interface/cdbInterface/topicInterface/advanced-hover.png);
 		background-color: #4169E1;
 }
+ 
 
+/* ADVANCED BUTTON */
+
+.BBbuttonList .w25seclar {
+		background-image: url(../img/interface/cdbInterface/topicInterface/seclar.png);
+}
+
+.BBbuttonList .w25seclar:hover {
+		border: 1px solid #bf4343; 
+		background-image: url(../img/interface/cdbInterface/topicInterface/seclar-hover.png);
+		background-color: #bf4343;
+}
 /* Classe Invia */
 
 .BBbuttonList .send {

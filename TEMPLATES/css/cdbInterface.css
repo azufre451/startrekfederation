@@ -188,7 +188,7 @@ float:left;
 
 #pstAdva
 {
-	width:560px;
+	width:560px; 
 	height:350px;
 	position:absolute;
 	border:1px solid #444;
@@ -200,3 +200,4 @@ float:left;
 	background-color:rgba(1,1,1,0.6);
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#B2010101,endColorstr=#B2010101);
 }
+

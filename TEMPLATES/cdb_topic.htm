@@ -12,7 +12,7 @@
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
 	<!--<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />-->
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
-	<script type="text/javascript" src="TEMPLATES/js/caret.js"></script>
+	<script type="text/javascript" src="TEMPLATES/js/caret.js?v=${gameOptions/numericVersion}"></script>
 	<script type="text/javascript" src="TEMPLATES/js/cdb.js?v=${gameOptions/numericVersion}"/>
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
@@ -156,88 +156,21 @@
 <!-- POSTADVA -->
 <div metal:use-macro="TEMPLATES/metal.htm/postAdva" />
 
-<p style="text-align:left; margin-left:7px;"> <img src="TEMPLATES/img/interface/aggiungi_post.png" /> <img tal:attributes="src string:TEMPLATES/img/seclar/seclar${topicSeclar}.png" id="addPostImage" /></p>
-<form id="formContent" action="cdb.php?addPost=do"  method="POST">
-<table>
-<tr>
-	<td colspan="2" style="text-align:left;"><img src="TEMPLATES/img/interface/titolo.png" style="vertical-align: middle;" /><input class="neon"  style="marin-left:8px; width:488px;" width="488px;" type="text" name="postTitolo" />
-	 <a class="interfaceLink" tal:condition="exists:showStaff"  style="font-size:10px;" href="javascript:void(0);" onclick="jQuery('#pgChanger').fadeOut(300,function(){jQuery('#usersMaster').fadeIn(300);});" id="pgChanger">( - Scegli PnG - )</a><input class="neon" placeholder="Inserisci il nome del PnG" type="text" id="usersMaster" name="usersMaster" tal:condition="exists:showStaff" style="display:none; width:150px;" onfocus="this.select();" /></td>
-</tr>
-<tr>
-	<td><img src="TEMPLATES/img/interface/note.png" style="vertical-align: middle;" /><input style="margin-bottom:10px; width:488px;" width="488px;" class="neon"  type="text" name="postNote"  /><input type="hidden" name="topicID" tal:attributes="value topicIDE"/></td>
-</tr>
-<tr>
-	<td>
-		<textarea name="postContent" id="postContent" style="width:590px; height:410px; font-family:Helvetica;"></textarea>
-		<p id="peopleListMirrorContain" style="width:550px;margin-top:3px; display:none; font-size:13px; font-family:Helvetica"> Il post verrà segnalato a: <span id="peopleListMirror" /> con un padd automatico</p>
-			<input type="hidden" style="border:0" id="pepoleList" name="peopleList" value="" />
-	</td>
-	<td class="BBbuttonList"> 
-		<input type="button" value="B" class="w32" onclick="bbstyle(0)" />
-		<input type="button" value="I" class="w32" onclick="bbstyle(2)" />
-		<input type="button" value="U" class="w32" onclick="bbstyle(4)" /><br /><br />
+<p style="text-align:left; margin-left:30px;"> <img src="TEMPLATES/img/interface/aggiungi_post.png" /> <img tal:attributes="src string:TEMPLATES/img/seclar/seclar${topicSeclar}.png" id="addPostImage" /></p>
 
-		<input type="button" class="w50" value="ROSSO" style="color:red;" onclick="bbstyle(14)" />
-		<input type="button" class="w50" value="GIALLO" style="color:yellow;" onclick="bbstyle(16)" /> 
-		<input type="button" class="w50" value="AZZURRO" style="color:#3ed1e7;" onclick="bbstyle(18)" /><br />
-		<input type="button" class="w50" value="GRIGIO" style="color:#AAA;" onclick="bbstyle(20)" />
-		<input type="button" class="w50" value="BIANCO"  style="color:white;"  onclick="bbstyle(22)" />
-		<input type="button" class="w50" value="VERDE" style="color:#30b030;" onclick="bbstyle(24)" /><br /><br />
-		<input type="button" class="w50" value="SIN" onclick="bbstyle(8)" />
-		<input type="button" class="w50" value="CEN" onclick="bbstyle(6)" />
-		<input type="button" class="w50" value="DES" onclick="bbstyle(10)" /><br /><br />
-		
-		<input type="button" class="w50" value="IMG" onclick="bbstyle(12)" />
-		<input type="button" class="w50" value="URL" onclick="bbstyle(32)" /><br /><br />
-		<input type="button" class="w50" value="QUOTE" onclick="bbstyle(34)" /><br /><br />
+<div metal:use-macro="TEMPLATES/metal.htm/postInsert" />
 
-		<input type="button" value="A" class="w32" style="font-size:9px;" href="" onclick="bbstyle(26)">SINISTRA</input> 
-		<input type="button" value="A" class="w32" style="font-size:12px;" href="" onclick="bbstyle(28)">CENTER</input> 
-		<input type="button" value="A" class="w32" style="font-size:16px;" href="" onclick="bbstyle(30)">DESTRA</input><br /><br />
-
-		<input type="button" value=" AVANZATE " style="width:90px; font-size:16px;" href="" onclick="javascript:jQuery('#pstAdva').toggle(150)">DESTRA</input><br /><br />
-
-		<table>
-			<tr>
-				<td>STILE FIRMA:</td>
-				<td><select  class="neon"  style="width:90px;" name="postFirma">
-						<option value="corta">Corta</option>
-						<option value="lunga">Lunga</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>SECLAR:</td><td>
-				<select class="neon" style="width:90px;" onchange="javascript:$('#addPostImage').prop('src','TEMPLATES/img/seclar/seclar'+this.value+'.png');" name="postSeclar">
-					<option tal:repeat="con php:range(topicSeclar,9)" tal:attributes="value con" tal:content="string: SECLAR ${con}" />
-				</select>
-				</td>
-			</tr>
-		</table>
-
-		<br /><br /><input type="submit" id="postSubmit" value="INVIA" style="width:150px; margin-left:10px; font-size:13px;" href="" onclick="" />
-	</td>
-</tr>
-</table>
-
-</form>	
 </div>
-<div tal:condition="php:(topicLock == 1)" style="color:red; font-family:Roddenberry; letter-spacing: 2px; text-align:center;">[ CARTELLA CHIUSA ]</div>
-
-
-	</div>
-		
+	<div tal:condition="php:(topicLock == 1)" style="color:red; font-family:Roddenberry; letter-spacing: 2px; text-align:center;">[ CARTELLA CHIUSA ]
 	</div>
 </div>
-
+</div>
+</div>
 
 <div id="dialog-message" title="Link" style="display:none; font-size:16px;">
-  <p style="font-size:16px;">Per linkare questo post inserisci:<br />
-  <input class="neon" type="text" onclick="this.select();" id="dialogLinker"></input><span>in bacheca</span></p>
-  
+  	<p style="font-size:16px;">Per linkare questo post inserisci:<br />
+  	<input class="neon" type="text" onclick="this.select();" id="dialogLinker"></input><span>in bacheca</span></p>
 </div>
-
 
 </body>
 </html>
-

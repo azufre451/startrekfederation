@@ -11,7 +11,7 @@
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />	
 	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
-	<script type="text/javascript" src="TEMPLATES/js/caret.js"></script>
+	<script type="text/javascript" src="TEMPLATES/js/caret.js?v=${gameOptions/numericVersion}"></script>
 
 	<title>STAR TREK FEDERATION - MODIFICA POST</title>
 	
@@ -187,61 +187,7 @@
 <div metal:use-macro="TEMPLATES/metal.htm/postAdva" />
 
 <p style="text-align:left;"> <img src="TEMPLATES/img/interface/modifica_post.png" /></p>
-<form tal:attributes="action string:cdb.php?editPost=${editID}&m=14" id="formContent" method="POST">
-<table>
-<tr>
-	<td colspan="2" style="text-align:left;"><img src="TEMPLATES/img/interface/titolo.png" style="vertical-align: middle;"/><input class="neon" style="marin-left:8px; width:488px;" type="text" name="postTitolo" tal:attributes="value editTitle"  /> </td>
-	<input type="hidden" name="topicID" tal:attributes="value topicID"/>
-</tr>
-<tr>
-			<td colspan="2"><img src="TEMPLATES/img/interface/note.png" style="vertical-align: middle;" /><input class="neon"  style="marin-left:8px; width:488px;" type="text" name="postNote" tal:attributes="value editNotes"  /></td>
-</tr>
-<tr>
-	<td>
-	<textarea name="postContent" id="postContent" rows="18" cols="85" style="width:680px; height:400px; font-family:Helvetica;" tal:content="editContent"></textarea>
-	</td>
-	<td style="vertical-align:top; text-align:center; vertical-align:middle;">
-		<input type="button" value="B" style="width:30px; margin-left:10px;" href="" onclick="bbstyle(0)" />
-		<input type="button" value="I" style="width:30px; margin-left:10px;" href="" onclick="bbstyle(2)" />
-		<input type="button" value="U" style="width:30px; margin-left:10px;" href="" onclick="bbstyle(4)" /><br /><br />
-
-		<input type="button" value="ROSSO" style="color:red; width:50px; margin-left:10px; font-size:10px;" href="" onclick="bbstyle(14)" />
-		<input type="button" value="GIALLO" style="color:yellow; width:50px; margin-left:10px; font-size:10px;" href="" onclick="bbstyle(16)" /> 
-		<input type="button" value="AZZURRO" style="color:#3ed1e7; width:55Px; margin-left:10px; font-size:10px;" href="" onclick="bbstyle(18)" /><br /><br />
-		<input type="button" value="GRIGIO" style="color:#AAA; width:50px; margin-left:10px; font-size:10px;" href="" onclick="bbstyle(20)" />
-		<input type="button" value="BIANCO" style="color:white; width:50px; margin-left:10px ;font-size:10px;" href="" onclick="bbstyle(22)" />
-		<input type="button" value="VERDE" style="color:#30b030; width:55px; margin-left:10px; font-size:10px;" href="" onclick="bbstyle(24)" /><br /><br />
-
-		<input type="button" value="SIN" style="width:50px; margin-left:10px;" href="" onclick="bbstyle(8)" />
-		<input type="button" value="CEN" style="width:50px; margin-left:10px;" href="" onclick="bbstyle(6)" />
-		<input type="button" value="DES" style="width:50px; margin-left:10px;" href="" onclick="bbstyle(10)" /><br /><br />
-		
-		<input type="button" value="IMG" style="width:50px; margin-left:10px;" href="" onclick="bbstyle(12)" />
-		<input type="button" value="URL" style="width:50px; margin-left:10px;" href="" onclick="bbstyle(32)" />
-		<input type="button" value="QUOTE" style="width:50px; margin-left:10px;" href="" onclick="bbstyle(34)" /><br /><br /><br /><br />
-
-		<input type="button" value="A" style="width:30px; margin-left:10px; font-size:9px;" href="" onclick="bbstyle(26)">SINISTRA</input> 
-		<input type="button" value="A" style="width:30px; margin-left:10px; font-size:12px;" href="" onclick="bbstyle(28)">CENTER</input> 
-		<input type="button" value="A" style="width:30px; margin-left:10px; font-size:16px;" href="" onclick="bbstyle(30)">DESTRA</input><br /><br />
-		
-		<input type="button" value="AVANZATE" style="width:90px; margin-left:10px; font-size:16px;" href="" onclick="javascript:jQuery('#pstAdva').toggle(150)" /><br /><br />
-
-		<span style="font-size:12px; font-family:Helvetica"> SECLAR </span>
-
-		<select  class="neon" style="width:90px;" name="postSeclar">
-			<option tal:repeat="con php:range(topicSeclar,9)" tal:attributes="value con ; selected php:(con == postSeclar) ? 'selected' : false" tal:content="string: SECLAR ${con}" />
-			</select><br /><br />
-		
-		<input type="submit" value="INVIA" style="width:170px; margin-left:10px; font-size:13px;" href="" onclick="" />
-	</td>
-</tr>
-</table>
-
-<hr />
-
-		
-		
-</form>	
+<div metal:use-macro="TEMPLATES/metal.htm/postInsert" />
 
 <form tal:attributes="action string:cdb.php?editPost=${editID}&m=10" method="POST" tal:condition="exists:isAdmin" > <p style="font-size:15px;">Cambio autori:</p> 
 	<table class="etoh">
@@ -251,7 +197,7 @@
 	<tr><td colspan="2" style="text-align:center;"><input type="submit" value="INVIA" style="width:170px; margin-left:10px; font-size:13px;" href="" onclick="" /></td></tr>
 
 	</table>
-	<input type="hidden" name="topicID" tal:attributes="value topicID"/>
+	<input type="hidden" name="topicID" tal:attributes="value topicIDE"/>
 </form>
 
 </div>

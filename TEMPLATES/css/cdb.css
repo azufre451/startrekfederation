@@ -5,6 +5,11 @@ src: url('../Enterprise.eot') format('eot');
 src: url('../Enterprise.woff') format("woff");
 src: url('../Enterprise.woff2') format("woff2");
 src: url('../Enterprise.ttf') format('truetype');
+font-family:'Roddenberry';
+src: url('../Roddenberry.eot') format('eot');
+src: url('../Roddenberry.woff') format("woff");
+src: url('../Roddenberry.woff2') format("woff2");
+src: url('../Roddenberry.ttf') format('truetype');
 }
 
 body
@@ -412,8 +417,263 @@ vertical-align: middle;
 margin-right:10px;
 }
 
-.BBbuttonList{text-align:center; vertical-align:middle; font-family: Helvetica}
-.BBbuttonList .w32 {width:32px; margin-left:10px; font-size:12px;}
-.BBbuttonList .w50 {width:60px; margin-left:10px; font-size:12px;}
+.BBbuttonList{
+	text-align:center; 
+	vertical-align:middle; 
+	font-family: Helvetica;
+}
+
+
+.BBbuttonList .w32 {
+	width:40px; 
+	margin-left:10px; 
+	margin-bottom:7px; 
+	font-size:13px; 
+	border-radius: 10px; 
+	padding:2px; 
+	transition-duration: 0.4s;
+  	cursor: pointer;
+}
+
+
+.BBbuttonList .w32:hover {
+  background-color: red;
+  color: white;
+}
+
+
+.BBbuttonList .w25font {
+	width: 28px;
+	height: 28px;
+	border-radius: 8px; 
+	margin-bottom: 6px;
+	border: 1px solid #AAA; 
+	font-size: 15px; 
+	text-align: center; 
+	vertical-align: middle;
+	padding: 5px 5px;
+	transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.BBbuttonList .w25font:hover {
+border: 1px solid black; 
+background-color: white;
+color: black;
+}
+
+
+.BBbuttonList .w50 {
+	width:70px; 
+	margin-left:5px; 
+	margin-bottom:7px; 
+	font-size:13px; 
+	border-radius: 10px; 
+	padding:1px;   
+	transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.BBbuttonList .w25 {
+		width: 26px;
+		height: 26px;
+		border-radius: 28px;
+		background-color: black;
+		margin:1px; 
+		margin-bottom:5px; 
+	 	transition-duration: 0.5s;
+   		cursor: pointer;
+}
+
+
+.BBbuttonList .w25red {
+		border: 2px solid red;
+}
+
+.BBbuttonList .w25red:hover {
+		background-color: red;
+  		border: 2px solid black;
+}
+
+
+.BBbuttonList .w25yellow {
+		border: 2px solid #ffcc00;
+}
+
+.BBbuttonList .w25yellow:hover {
+		background-color: #ffcc00;
+  		border: 2px solid black;
+}
+
+.BBbuttonList .w25cyan {
+		border: 2px solid #0061a4;
+}
+
+.BBbuttonList .w25cyan:hover {
+		background-color: #0061a4;
+  		border: 2px solid black;
+}
+
+.BBbuttonList .w25gray {
+		border: 2px solid #AAA;
+}
+
+.BBbuttonList .w25gray:hover {
+		background-color: #AAA;
+  		border: 2px solid black;
+}
+
+
+.BBbuttonList .w25white {
+		border: 2px solid white;
+}
+
+.BBbuttonList .w25white:hover {
+		background-color: white;
+  		border: 2px solid black;
+}
+
+
+.BBbuttonList .w25green {
+		border: 2px solid #009966;
+}
+
+.BBbuttonList .w25green:hover {
+		background-color: #009966;
+  		border: 2px solid black;
+}
+
+/* CENTER BUTTON */
+
+.BBbuttonList .w25center {
+		background-image: url(../img/interface/cdbInterface/topicInterface/center.png);
+}
+
+.BBbuttonList .w25center:hover {
+		border: 1px solid black; 
+		background-image: url(../img/interface/cdbInterface/topicInterface/center-hover.png);
+		background-color: white;
+}
+
+/* LEFT BUTTON */
+
+.BBbuttonList .w25left {
+		background-image: url(../img/interface/cdbInterface/topicInterface/left.png);
+}
+
+.BBbuttonList .w25left:hover {
+		border: 1px solid black; 
+		background-image: url(../img/interface/cdbInterface/topicInterface/left-hover.png);
+		background-color: white;
+}
+
+/* RIGHT BUTTON */
+
+.BBbuttonList .w25right {
+		background-image: url(../img/interface/cdbInterface/topicInterface/right.png);
+}
+
+.BBbuttonList .w25right:hover {
+		border: 1px solid black; 
+		background-image: url(../img/interface/cdbInterface/topicInterface/right-hover.png);
+		background-color: white;
+}
+
+/* IMG BUTTON */
+
+.BBbuttonList .w25img {
+		background-image: url(../img/interface/cdbInterface/topicInterface/image.png);
+}
+
+.BBbuttonList .w25img:hover {
+		border: 1px solid black; 
+		background-image: url(../img/interface/cdbInterface/topicInterface/image-hover.png);
+		background-color: white;
+}
+
+
+/* URL BUTTON */
+
+.BBbuttonList .w25url {
+		background-image: url(../img/interface/cdbInterface/topicInterface/link.png);
+}
+
+.BBbuttonList .w25url:hover {
+		border: 1px solid black; 
+		background-image: url(../img/interface/cdbInterface/topicInterface/link-hover.png);
+		background-color: white;
+}
+
+/* QUOTE BUTTON */
+
+.BBbuttonList .w25quote {
+		background-image: url(../img/interface/cdbInterface/topicInterface/Quote.png);
+}
+
+.BBbuttonList .w25quote:hover {
+		border: 1px solid black; 
+		background-image: url(../img/interface/cdbInterface/topicInterface/Quote-hover.png);
+		background-color: white;
+}
+
+
+/* Bottoni con icona */
+
+.BBbuttonList .w25icon {
+		width: 28px;
+		height: 28px;
+		border-radius: 8px; 
+		margin-bottom: 6px;
+		text-align: center; 
+		border: 1px solid #AAA; 
+		background-color: black;
+		margin-left:3px; 
+	 	transition-duration: 0.5s;
+   		cursor: pointer; 
+}
+
+
+/* ADVANCED BUTTON */
+
+.BBbuttonList .w25advanced {
+		background-image: url(../img/interface/cdbInterface/topicInterface/advanced.png);
+}
+
+.BBbuttonList .w25advanced:hover {
+		border: 1px solid #4169E1; 
+		background-image: url(../img/interface/cdbInterface/topicInterface/advanced-hover.png);
+		background-color: #4169E1;
+}
+ 
+
+/* ADVANCED BUTTON */
+
+.BBbuttonList .w25seclar {
+		background-image: url(../img/interface/cdbInterface/topicInterface/seclar.png);
+}
+
+.BBbuttonList .w25seclar:hover {
+		border: 1px solid #bf4343; 
+		background-image: url(../img/interface/cdbInterface/topicInterface/seclar-hover.png);
+		background-color: #bf4343;
+}
+/* Classe Invia */
+
+.BBbuttonList .send {
+		width: 100px; 
+		height: 50px; 
+		border-radius: 15px;  
+		font-family: Roddenberry;
+		font-size:28px;
+		background-color: black;
+		transition-duration: 0.5s;
+   		cursor: pointer; 
+   		padding-top: 3px;
+}
+
+.BBbuttonList .send:hover {
+		background-color: green;
+		color: white;
+}
 
 .BBbuttonList table {text-align:left; margin-left:20px; font-size:14px; font-weight:bold;}

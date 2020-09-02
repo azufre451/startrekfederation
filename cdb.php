@@ -690,7 +690,7 @@ else if(isSet($_GET['postE']))
 
 	$template->userSecBypass = implode(",", $r);
 	$template->topicSeclar = $resA['topicSeclar'];
-	$template->topicID = $resA['topicID'];
+	$template->topicIDE = $resA['topicID'];
 	$template->topicTitle = $resA['topicTitle'];
 	$template->topicType = $resA['topicType'];
 	$template->topicColorExt = $resA['topicColorExt'];

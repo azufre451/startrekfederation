@@ -35,7 +35,7 @@ bbcode = new Array();
 form_name = 'formContent';
 text_name = 'postContent';
 
-bbtags = new Array('[B]','[/B]','[I]','[/I]','[U]','[/U]','[CENTER]','[/CENTER]','[LEFT]','[/LEFT]','[RIGHT]','[/RIGHT]','[IMG]','[/IMG]','[COLOR=RED]','[/COLOR]','[COLOR=YELLOW]','[/COLOR]','[COLOR=BLUE]','[/COLOR]','[COLOR=GRAY]','[/COLOR]','[COLOR=WHITE]','[/COLOR]','[COLOR=GREEN]','[/COLOR]','[SIZE=1]','[/SIZE]','[SIZE=2]','[/SIZE]','[SIZE=3]','[/SIZE]','[URL]','[/URL]','[QUOTE]','[/QUOTE]');
+bbtags = new Array('[B]','[/B]','[I]','[/I]','[U]','[/U]','[CENTER]','[/CENTER]','[LEFT]','[/LEFT]','[RIGHT]','[/RIGHT]','[IMG]','[/IMG]','[COLOR=RED]','[/COLOR]','[COLOR=YELLOW]','[/COLOR]','[COLOR=BLUE]','[/COLOR]','[COLOR=GRAY]','[/COLOR]','[COLOR=WHITE]','[/COLOR]','[COLOR=GREEN]','[/COLOR]','[SIZE=1]','[/SIZE]','[SIZE=2]','[/SIZE]','[SIZE=3]','[/SIZE]','[URL]','[/URL]','[QUOTE]','[/QUOTE]','[SECLAR=0]','[/SECLAR]','[SECLAR=1]','[/SECLAR]','[SECLAR=2]','[/SECLAR]','[SECLAR=3]','[/SECLAR]','[SECLAR=4]','[/SECLAR]','[SECLAR=5]','[/SECLAR]','[SECLAR=6]','[/SECLAR]','[SECLAR=7]','[/SECLAR]','[SECLAR=8]','[/SECLAR]','[SECLAR=9]','[/SECLAR]');
      
     /**
     * bbstyle
@@ -435,3 +435,13 @@ bbtags = new Array('[B]','[/B]','[I]','[/I]','[U]','[/U]','[CENTER]','[/CENTER]'
      
             return caretPos;
     }
+
+
+function seclarP(ida){
+    
+    utp=parseInt(jQuery(ida).val());
+    
+    bbstyle(36+utp*2)
+    jQuery('#pstSeclar').fadeOut(100);
+
+}

@@ -4,7 +4,7 @@ deployment:
     - export DEPLOYPATH=/home/ND-47/public_html/
     - /bin/cp -R *.php $DEPLOYPATH
     - /bin/cp -R *.htm $DEPLOYPATH
-    - /bin/cp -R TEMPLATES/ $DEPLOYPATH
+    - /home/ND-47/tools/bin/rsync -a TEMPLATES/ $DEPLOYPATH/TEMPLATES/
     - /usr/bin/find includes/ -maxdepth 1 -not -name "conf.php" -type f -exec /bin/cp {} $DEPLOYPATH/{} \;
     - /bin/cp -R data/ $DEPLOYPATH
     - /bin/cp -R keon/ $DEPLOYPATH

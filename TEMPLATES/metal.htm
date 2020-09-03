@@ -20,9 +20,9 @@
 <div style="  width: 90%; margin: auto;  padding: 5px;">
 	<div style="width:100%; float:left;">
 		<div style="height:60px; margin-right: 100px; text-align: left;">
-			<img src="TEMPLATES/img/interface/titolo.png" style="vertical-align: middle;" /><input class="neon"  style="margin-left:8px; width:80%;" type="text" name="postTitolo" tal:attributes="value php:isSet(editTitle) ? editTitle : ''"  />
+			<img src="TEMPLATES/img/interface/titolo.png" style="vertical-align: middle;" /><input class="neon"  style="margin-left:8px; width:90%;" type="text" name="postTitolo" tal:attributes="value php:isSet(editTitle) ? editTitle : ''"  />
 		<br />
-			<img src="TEMPLATES/img/interface/note.png" style="vertical-align: middle;" /><input style="margin-bottom:10px; margin-left:8px; width: 80%;" class="neon"  type="text" name="postNote" tal:attributes="value php:isSet(editNotes) ? editNotes : ''"  /><input type="hidden" name="topicID" tal:attributes="value topicIDE"/>
+			<img src="TEMPLATES/img/interface/note.png" style="vertical-align: middle;" /><input style="margin-bottom:10px; margin-left:8px; width: 90%;" class="neon"  type="text" name="postNote" tal:attributes="value php:isSet(editNotes) ? editNotes : ''"  /><input type="hidden" name="topicID" tal:attributes="value topicIDE"/>
 		</div>
 		<div style="text-align: left; margin-right: 100px; ">
 			<textarea name="postContent" id="postContent" style="border-radius: 10px; margin-right: 120px; width: 100%; height:480px; font-family:Helvetica;" tal:content="php:isSet(editContent) ? editContent : ''"></textarea>
@@ -57,34 +57,42 @@
 		<input type="button" title="Inserisci Link" class="w25font w25url" onclick="bbstyle(32)" />
 		<input type="button" title="Citazione" class="w25font w25quote" onclick="bbstyle(34)" />
 	<br />
-		<input type="button" title="Template & Mostrine" class="w25icon w25advanced" href="" onclick="javascript:jQuery('#pstAdva').toggle(150)">
-		</input>
-
-		
-		<input type="button" title="Secalr" class="w25icon w25seclar" id="btSec" onclick="javascript:jQuery('#pstSeclar').toggle(150)" />
-		
-
-	<br />
-<!-- Scglie PNG-->
-		<div tal:condition="not:exists:editID"><a class="interfaceLink" tal:condition="exists:showStaff"  style="font-size:11px; " href="javascript:void(0);" onclick="jQuery('#pgChanger').fadeOut(300,function(){jQuery('#usersMaster').fadeIn(300);});" id="pgChanger">( - Scegli PnG - )</a><input class="neon" placeholder="Nome del PnG" type="text" id="usersMaster" name="usersMaster" tal:condition="exists:showStaff" style="display:none; width:80Px;" onfocus="this.select();" /></div>
-<!-- Fine Scegli PNG -->
-
-		<div style="text-align: center; font-size: 22px; margin-bottom:10px; font-family: Roddenberry; color:orange;">
-		<div tal:condition="not:exists:editID" style="color: #0077c3; padding-bottom: 7px;">Firma 
-	<br />
-		<select class="neon"  style="width:90px; font-size: 15px; font-variant: small-caps;" name="postFirma">
-				<option value="corta">Corta</option>
-				<option value="lunga">Lunga</option>
-		</select>
-	</div>
-		Seclar
-	<br />
-		<select class="neon" style="width:95px; font-size: 15px; " onchange="javascript:$('#addPostImage').prop('src','TEMPLATES/img/seclar/seclar'+this.value+'.png');" name="postSeclar">
-				<option tal:repeat="con php:range(topicSeclar,9)" tal:attributes="value con" tal:content="string: SECLAR ${con}" />
-		</select></div>
-		<input type="submit" id="postSubmit" value="INVIA" class="send" href="" onclick="" />
+		<div title="Tool Template & Mostrine" class="w25icon w25advanced" href="" id="btAdv" onclick="javascript:jQuery('#pstAdva').toggle(150,function() { jQuery('#btAdv').toggleClass('activated');  })">
 		</div>
+
+		
+		<div title="Imposta Liv. Seclar per una parte del testo" class="w25icon w25seclar" id="btSec" onclick="javascript:jQuery('#pstSeclar').toggle(150,function() { jQuery('#btSec').toggleClass('activated');   })" />
+		
+
+	
+		<!-- Scglie PNG-->
+		<div tal:condition="not:exists:editID" style="margin-top:10px;">
+			<a class="interfaceLink" tal:condition="exists:showStaff"  style="font-size:11px; " href="javascript:void(0);" onclick="jQuery('#pgChanger').fadeOut(300,function(){jQuery('#usersMaster').fadeIn(300);});" id="pgChanger">( - Scegli PnG - )</a>
+			<input class="neon" placeholder="Nome del PnG" type="text" id="usersMaster" name="usersMaster" tal:condition="exists:showStaff" style="display:none; width:80Px;" onfocus="this.select();" />
+		</div>
+		<!-- Fine Scegli PNG -->
+
+		<div style="text-align: center; font-size: 22px;  font-family: Roddenberry; margin-bottom:10px; ">
+			<div tal:condition="not:exists:editID" style="margin-top:10px;">
+				<span style="color: #0077c3; ">Firma</span>
+				<select class="neon"  style="width:90px; font-size: 15px; font-variant: small-caps;" name="postFirma">
+						<option value="corta">Corta</option>
+						<option value="lunga">Lunga</option>
+				</select>
+			</div>
+			<div style="margin-top:10px;">
+
+			<span style=" color:orange; ">Seclar</span>
+		
+			<select class="neon" style="width:95px; font-size: 15px; " onchange="javascript:$('#addPostImage').prop('src','TEMPLATES/img/seclar/seclar'+this.value+'.png');" name="postSeclar">
+					<option tal:repeat="con php:range(topicSeclar,9)" tal:attributes="value con" tal:content="string: SECLAR ${con}" />
+			</select>
+			</div>
+		</div>
+
+		<input type="submit" id="postSubmit" value="INVIA" class="send" href="" onclick="" />
 	</div>
+</div>
 
 </form>	
 </div>

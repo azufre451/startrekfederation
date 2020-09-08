@@ -129,14 +129,14 @@ elseif($mode == 'addPointCar'){
 	
 	$car = $_POST['dcar'];
 	$dest = $_POST['target'];
+	$selector=$vali->numberOnly($_POST['userSelector']);
 
 	if($selectedUser == $_POST['userSelector'] || $currentUser->pgAuthOMA == 'A')
 	{
-		$a = new abilDescriptor($_POST['userSelector']); 
+		$a = new abilDescriptor($selector); 
 		$a->performVariation(array(array($car,$dest)));
 	}
-
-	header("location:scheda.php?pgID=$selectedUser&s=bvadd&absel=$car");
+	header("location:scheda.php?pgID=$selector&s=bvadd&absel=$car");
 }
 elseif($mode == 'bv')
 {

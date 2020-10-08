@@ -1,11 +1,10 @@
-
-@font-face{
-font-family:'enterpriseFont';
+@font-face{font-family:'enterpriseFont';
 src: url('../Enterprise.eot') format('eot');
 src: url('../Enterprise.woff') format("woff");
 src: url('../Enterprise.woff2') format("woff2");
 src: url('../Enterprise.ttf') format('truetype');
-font-family:'Roddenberry';
+}
+@font-face{font-family:'Roddenberry';
 src: url('../Roddenberry.eot') format('eot');
 src: url('../Roddenberry.woff') format("woff");
 src: url('../Roddenberry.woff2') format("woff2");

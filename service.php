@@ -52,7 +52,7 @@ if(isSet($_GET['registerUser']))
 	$passer = createRandomPassword();
 	$matri = createRandomMatricola(); 
 	$pwd = md5($passer);
-	$assignTOSHIP = 'USS10';
+	$assignTOSHIP = 'SBSM';
 
 	$re1=mysql_query("SELECT 1 FROM pg_users WHERE email = '$emai'");
 	if (mysql_affected_rows() && $emai != 'png@stfederation.it'){echo json_encode(array('err'=>'ME')); exit;}
@@ -145,6 +145,7 @@ if(isSet($_GET['registerUser']))
 	
   
 	echo json_encode('OK');
+	exec('/home/fvkpphtr/tools/miniconda3/bin/python /home/fvkpphtr/public_html/utils/slack_notifier.py newuser '.$me.' 1');
 	exit;
 	
 }

@@ -85,7 +85,7 @@
 			<span style=" color:orange; ">Seclar</span>
 		
 			<select class="neon" style="width:95px; font-size: 15px; " onchange="javascript:$('#addPostImage').prop('src','TEMPLATES/img/seclar/seclar'+this.value+'.png');" name="postSeclar">
-					<option tal:repeat="con php:range(topicSeclar,9)" tal:attributes="value con" tal:content="string: SECLAR ${con}" />
+					<option tal:repeat="con php:range(topicSeclar,9)" tal:attributes="value con ; selected php:((isSet(postSeclar) && con == postSeclar) ? 'selected' : '')" tal:content="string: SECLAR ${con}" />
 			</select>
 			</div>
 		</div>

@@ -44,17 +44,23 @@
 	<div style=" float:left; width:140px; margin-top:33px; margin-left:10px; ">
 	<div class="radiusBordered" style="border:1px solid #999;  color:#fffbe8">
 		<img src="TEMPLATES/img/logo/dipartimenti/100medical.png" alt="Flotta Stellare - Sezione Medica" title="Flotta Stellare - Sezione Medica" /><br />
-		<img src="TEMPLATES/img/interface/personnelInterface/statodisalute.png" alt="" title="" /><br />
-		
-		<span style="font-size:12px;" tal:content="statoSalute/salute" />
+		<div style="margin-top:10px">
+		<img src="TEMPLATES/img/interface/personnelInterface/statodisalute.png" alt="" title="" />
+		</div>
+
+		<div style="margin-top:10px">
+
+			<span style="font-size:14px;" tal:content="statoSalute/salute" />
+		</div>
 	</div>
 	
 	<div tal:condition="exists:SHT" style="margin-top:20px; border:1px solid #999; padding:5px; color:#fffbe8">
 		<img src="TEMPLATES/img/interface/personnelInterface/aggiungireferto.png" />
 		
+		<div style="margin-top:10px">
 		<button tal:condition="exists:showMedEdit" onclick="jQuery('#adderInfoMed').fadeIn()" href="javascript:void(0);" class="plusButton"><img src="TEMPLATES/img/interface/personnelInterface/plusicon.png" style="width:20px;" /></button>
 		<button tal:condition="exists:showPsiEdit" onclick="jQuery('#adderInfoPsi').fadeIn()" href="javascript:void(0);" class="plusButtonBlue"><img src="TEMPLATES/img/interface/personnelInterface/plusblueicon.png" style="width:20px;" /></button>
-		 
+		 </div>
  
 	</div>
 	
@@ -65,7 +71,7 @@
 	
 	</div>
 	
-	<div style="float:right; width:440px;">
+	<div style="float:right; width:440px; font-size:14px;">
 		<img src="TEMPLATES/img/interface/personnelInterface/schedamedica.png" />
 		<div style="height:500px; margin-top:4px; overflow-y:auto;  color:#fffbe8">
 		<div tal:repeat="med medics">
@@ -82,12 +88,12 @@
 			
 			<div tal:attributes="id string:visi_${med/recid}" class="extededMedical">
 
-				<p tal:condition="php:(med['medAnamnesi'] != '')" style="margin:0px; margin-top:5px; font-size:10px; text-transform:uppercase;"><span style="font-weight:bold; color:#0077c3; ">ANAMNESI</span> <span tal:content="structure med/medAnamnesi" /> </p>
-				<p tal:condition="php:(med['medVisiv'] != '')" style="margin:0px; margin-top:5px; font-size:10px; text-transform:uppercase;"><span style="font-weight:bold; color:#0077c3; ">AN. VISIVA</span> <span tal:content="structure med/medVisiv" /> </p>
-				<p tal:condition="php:(med['medStrument'] != '')" style="margin:0px; margin-top:5px; font-size:10px; text-transform:uppercase;"><span style="font-weight:bold; color:#0077c3; ">AN. STRUMENTALE</span> <span tal:content="structure med/medStrument" /> </p>
-				<p style="margin:0px; margin-top:5px; font-size:10px; text-transform:uppercase;"><span style="font-weight:bold; color:#0077c3; ">DIAGNOSI</span> <span tal:content="structure med/medDiagnosi" /></p>
-				<p tal:condition="php:(med['medTerapia'] != '')" style="margin:0px; margin-top:5px; font-size:10px; text-transform:uppercase;"><span style="font-weight:bold; color:#0077c3; ">TERAPIA</span> <span tal:content="structure med/medTerapia" /></p>
-				<p tal:condition="php:(med['medDecorso'] != '')" style="margin:0px; margin-top:5px; font-size:10px; text-transform:uppercase;"><span style="font-weight:bold; color:#0077c3; ">DECORSO</span> <span tal:content="structure med/medDecorso" /></p>
+				<p tal:condition="php:(med['medAnamnesi'] != '')" style="margin:0px; margin-top:5px; font-size:11px; line-height:1.2em; text-transform:uppercase;"><span style="font-weight:bold; color:#0077c3; ">ANAMNESI</span> <span tal:content="structure med/medAnamnesi" /> </p>
+				<p tal:condition="php:(med['medVisiv'] != '')" style="margin:0px; margin-top:5px; font-size:11px; line-height:1.2em; text-transform:uppercase;"><span style="font-weight:bold; color:#0077c3; ">AN. VISIVA</span> <span tal:content="structure med/medVisiv" /> </p>
+				<p tal:condition="php:(med['medStrument'] != '')" style="margin:0px; margin-top:5px; font-size:11px; line-height:1.2em; text-transform:uppercase;"><span style="font-weight:bold; color:#0077c3; ">AN. STRUMENTALE</span> <span tal:content="structure med/medStrument" /> </p>
+				<p style="margin:0px; margin-top:5px; font-size:11px; line-height:1.2em; text-transform:uppercase;"><span style="font-weight:bold; color:#0077c3; ">DIAGNOSI</span> <span tal:content="structure med/medDiagnosi" /></p>
+				<p tal:condition="php:(med['medTerapia'] != '')" style="margin:0px; margin-top:5px; font-size:11px; line-height:1.2em; text-transform:uppercase;"><span style="font-weight:bold; color:#0077c3; ">TERAPIA</span> <span tal:content="structure med/medTerapia" /></p>
+				<p tal:condition="php:(med['medDecorso'] != '')" style="margin:0px; margin-top:5px; font-size:11px; line-height:1.2em; text-transform:uppercase;"><span style="font-weight:bold; color:#0077c3; ">DECORSO</span> <span tal:content="structure med/medDecorso" /></p>
 			</div><div style="clear:both;"/>
 			
 			</div> 

@@ -6,16 +6,17 @@ include('includes/validate_class.php');
 include('includes/cdbClass.php');
 include("includes/PHPTAL/PHPTAL.php");
 PG::updatePresence($_SESSION['pgID']);
+#$u=exec('/home/fvkpphtr/tools/miniconda3/bin/python slack_notifier.py pre-approval 3 '.$_SESSION['pgID']);
 
 
-
+ 
 ini_set("display_errors", 1);
 error_reporting(E_ALL ^ E_DEPRECATED);
 
 $vali = new validator();
 $currentUser = new PG($_SESSION['pgID']);
 
- 
+
 $prestigioLabels = array(
 0=>	  array('name'=>'Inesistente', 												'desc' => 'Nessuno conosce questo personaggio, né sembra possibile trovare alcuna traccia del suo passaggio: nessuno sembra averlo visto, né aver mai sentito parlare di lui in alcun modo. Tanto il suo nome quanto la sua vita passata sono totalmente avvolti nell’ombra. Ogni ricerca su qualunque database potrebbe non produrre alcun risultato: costui sembra, a tutti gli effetti, non esistere.', 'long_desc' => "Nessuno conosce questo personaggio, né sembra possibile trovare alcuna traccia del suo passaggio: nessuno sembra averlo visto, né aver mai sentito parlare di lui in alcun modo. Tanto il suo nome quanto la sua vita passata sono totalmente avvolti nell’ombra. Ogni ricerca su qualunque database potrebbe non produrre alcun risultato: costui sembra, a tutti gli effetti, non esistere."),
 1 =>  array('name'=>'Sconosciuto', 												'desc' => 'Questo personaggio è assolutamente sconosciuto. Non se ne sa molto, e solo un numero incredibilmente ristretto di persone sembrano aver sentito parlare di lui. Potrebbe essere estremamente difficile trovare dettagli sul suo nome o sulla sua vita passata: le informazioni si limiteranno ad una o due entry del tutto prive di valore.', 'long_desc' => "Questo personaggio è assolutamente sconosciuto. Non se ne sa molto, e solo un numero incredibilmente ristretto di persone sembrano aver sentito parlare di lui. Potrebbe essere estremamente difficile trovare dettagli sul suo nome o sulla sua vita passata: le informazioni si limiteranno ad una o due entry del tutto prive di valore."),
@@ -180,7 +181,11 @@ if($mode == "preapproveBackground")
 		
 
 		$tp->sendNotification("GreenLight Guide: ".$userTarget,"$usera ha pre-approvato il background che è in attesa di approvazione",$_SESSION['pgID'],"TEMPLATES/img/interface/index/blevinrevin_02.png",'masterShadow');
+
 	}
+
+	exec('/home/fvkpphtr/tools/miniconda3/bin/python /home/fvkpphtr/public_html/utils/slack_notifier.py pre-approval '.$pgID.' '.$currentUser->ID);
+
 	header("Location:multitool.php?viewApprovals=true");
 
 }
@@ -207,10 +212,13 @@ if($mode == "approveBackground")
 			$tp->sendPadd('Approvazione BG',"Ciao $usera<br />Ti comunichiamo che abbiamo visionato i dati relativi alla registrazione del PG ed il Background. Tutto risulta in ordine ed il BG e' ora approvato! Ricorda che le eventuali aggiunte e modifiche (comunque sempre incoraggiate) dovranno essere approvate: se modificherai la scheda rimarrà sempre visibile (agli altri) il BG approvato, fino ad approvazione di quello nuovo.<br /><br /> Ricorda anche che da ora non è più possibile chiedere il reset delle abilità / caratteristiche: qualora volessi modificarle per l'ultima volta, ti invitiamo a chiedere immediatamente allo Staff!<br /><br />Ti auguriamo buon gioco in land,<br />Lo staff",'518');
 
 			$tp->addNote('Approvazione BG e scheda',$currentUser->ID);
+			exec('/home/fvkpphtr/tools/miniconda3/bin/python /home/fvkpphtr/public_html/utils/slack_notifier.py approval '.$pgID.' '.$currentUser->ID);
 		}
 	else{
 		$tp->sendNotification("Approvazione Revisione BG","Il tuo BG è stato revisionato e approvato",$_SESSION['pgID'],'/TEMPLATES/img/interface/fed_tick.png','schedaOpen');
 	}
+
+	
 	header("Location:multitool.php?viewApprovals=true");
 
 }

@@ -7,11 +7,14 @@ include('includes/validate_class.php');
 include('includes/bbcode.php');
 include("includes/PHPTAL/PHPTAL.php"); //NEW
 $action = (isSet($_GET['action'])) ? $_GET['action'] : NULL;
+
 $vali = new validator();
 
 if ($action == "doLogin")
 {
 	$user = ucfirst(addslashes($_POST['loginUser']));
+	
+
 	$pass = md5($_POST['loginPass']); 
 	$res = mysql_query("SELECT * FROM pg_users WHERE pgUser = '$user' AND pgPass = '$pass'"); 
 	
@@ -136,6 +139,9 @@ else
 	$template = new PHPTAL('TEMPLATES/login.htm');
 	$res = mysql_query("SELECT tipImage, tipText FROM cdb_tips WHERE active='A' ORDER BY RAND() LIMIT 1");
 	
+	if(isSet($_GET['test'])){
+		$template->test=true;
+	}
 	
 	$reso = mysql_fetch_array($res);
 	$template->tipImage = $reso ['tipImage'];

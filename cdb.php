@@ -690,7 +690,7 @@ else if(isSet($_GET['postE']))
 
 	$template->userSecBypass = implode(",", $r);
 	$template->topicSeclar = $resA['topicSeclar'];
-	$template->topicID = $resA['topicID'];
+	$template->topicIDE = $resA['topicID'];
 	$template->topicTitle = $resA['topicTitle'];
 	$template->topicType = $resA['topicType'];
 	$template->topicColorExt = $resA['topicColorExt'];
@@ -740,20 +740,29 @@ else if(isSet($_POST['searchKey']))
 		$template = new PHPTAL('TEMPLATES/cdb_search.htm');
 		$posts = array();
 		$topics = array();
-		
+		$tstring='';
 		if (strlen($searchKey) > 3 && strpos($searchKey,'\'') === false)
 		{
 			if($reachPattern == 'DBS1')
 				$qstring = $searchKey;
-			else if($reachPattern == 'DBS3')
+			else if($reachPattern == 'DBS3'){
 				$qstring = '"'.$searchKey.'"';
+				if (strpos($searchKey,'.') !== false){
+					$tstring = "OR content LIKE '%$searchKey%' OR title LIKE '%$searchKey%'";
+//					echo $tstring; exit;
+}
+			}
 			else if($reachPattern == 'DBS2'){
 				$qstring='';
 				$key = explode(' ',$searchKey);
 				foreach($key as $ale){$qstring .= '+'.$ale.' ';}
 			}
 				
-			$res = mysql_query("SELECT ID as postID, cdb_posts.topicID, content, time,topicCat, postSeclar,owner,coOwner,postNotes,title,signature,pgUser,pgID, (MATCH (content) AGAINST ('$qstring' IN BOOLEAN MODE)) AS priority, topicTitle, topicType, topicColorExt FROM cdb_posts,pg_users,cdb_topics,cdb_cats WHERE topicCat = catCode AND  cdb_posts.topicID = cdb_topics.topicID AND  owner = pgID AND restrictions = 'N' AND MATCH (content,title) AGAINST ('$qstring' IN BOOLEAN MODE) ORDER BY priority, time DESC");  
+			$q="SELECT ID as postID, cdb_posts.topicID, content, time,topicCat, postSeclar,owner,coOwner,postNotes,title,signature,pgUser,pgID, (MATCH (content) AGAINST ('$qstring' IN BOOLEAN MODE)) AS priority, 
+topicTitle, topicType, topicColorExt FROM cdb_posts,pg_users,cdb_topics,cdb_cats WHERE topicCat = catCode AND  cdb_posts.topicID = cdb_topics.topicID AND  owner = pgID AND restrictions = 'N' AND (MATCH (content,title) AGAINST 
+('$qstring' IN BOOLEAN MODE) $tstring) ORDER BY priority, time DESC";
+			$res=mysql_query($q);
+//			echo $q; exit;
 		}
 		else $res = mysql_query("SELECT ID as postID, cdb_posts.topicID, content, time,topicCat,postSeclar,owner,coOwner,postNotes,title,signature,pgUser,pgID, topicTitle, topicType, topicColorExt FROM cdb_posts,pg_users,cdb_topics,cdb_cats WHERE topicCat = catCode AND  cdb_posts.topicID = cdb_topics.topicID AND  owner = pgID AND restrictions = 'N' AND (content LIKE '%$searchKey%' OR title LIKE '%$searchKey%') ORDER BY time DESC");
  

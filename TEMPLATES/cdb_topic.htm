@@ -12,7 +12,7 @@
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
 	<!--<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />-->
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
-	<script type="text/javascript" src="TEMPLATES/js/caret.js"></script>
+	<script type="text/javascript" src="TEMPLATES/js/caret.js?v=${gameOptions/numericVersion}"></script>
 	<script type="text/javascript" src="TEMPLATES/js/cdb.js?v=${gameOptions/numericVersion}"/>
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
@@ -157,76 +157,9 @@
 <div metal:use-macro="TEMPLATES/metal.htm/postAdva" />
 
 <p style="text-align:left; margin-left:30px;"> <img src="TEMPLATES/img/interface/aggiungi_post.png" /> <img tal:attributes="src string:TEMPLATES/img/seclar/seclar${topicSeclar}.png" id="addPostImage" /></p>
-<form id="formContent" action="cdb.php?addPost=do"  method="POST">
 
-<!-- POST -->
+<div metal:use-macro="TEMPLATES/metal.htm/postInsert" />
 
-<div style="  width: 90%; margin: auto;  padding: 5px;">
-	<div style="width:100%; float:left;">
-		<div style="height:60px; margin-right: 100px; text-align: left;">
-			<img src="TEMPLATES/img/interface/titolo.png" style="vertical-align: middle;" /><input class="neon"  style="margin-left:8px; width:80%;" type="text" name="postTitolo" />
-		<br />
-			<img src="TEMPLATES/img/interface/note.png" style="vertical-align: middle;" /><input style="margin-bottom:10px; margin-left:8px; width: 80%;" class="neon"  type="text" name="postNote"  /><input type="hidden" name="topicID" tal:attributes="value topicIDE"/>
-		</div>
-		<div style="text-align: left; margin-right: 100px; ">
-			<textarea name="postContent" id="postContent" style="border-radius: 10px; margin-right: 120px; width: 100%; height:480px; font-family:Helvetica;"></textarea>
-			<p id="peopleListMirrorContain" style="width:auto; margin-top:3px; display:none; font-size:13px; font-family:Helvetica"> Il post verrà segnalato a: <span id="peopleListMirror" /> con un padd automatico</p>
-			<input type="hidden" style="border:0" id="pepoleList" name="peopleList" value="" />
-		</div>
-	</div> 
-	<div style="width: 100px; margin-top: 60px; height: 470px; right: 25px; position: absolute;"  class="BBbuttonList">
-		<input type="button" value="B" class="w25font" style="font-weight: bold; " onclick="bbstyle(0)" />
-		<input type="button" value="I" class="w25font" style="font-style: italic;" onclick="bbstyle(2)" />
-		<input type="button" value="U" class="w25font" style="text-decoration: underline; " onclick="bbstyle(4)" />
-	<br />	
-		<input type="button" class="w25font w25left" onclick="bbstyle(8)" />
-		<input type="button" class="w25font w25center" onclick="bbstyle(6)" />
-		<input type="button" class="w25font w25right" onclick="bbstyle(10)" />
-	<br />		
-		<input type="button" value="A" class="w25font" style="font-size:9px; " href="" onclick="bbstyle(26)" />
-		<input type="button" value="A" class="w25font" style="font-size:12px; " href="" onclick="bbstyle(28)" />
-		<input type="button" value="A" class="w25font" style="font-size:16px; " href="" onclick="bbstyle(30)" />
-	<br />
-	<br />
-		<input type="button" class="w25 w25red" title="Rosso" onclick="bbstyle(14)" />
-		<input type="button" class="w25 w25yellow" title="Giallo" onclick="bbstyle(16)" /> 
-		<input type="button" class="w25 w25cyan" title="Azzurro" onclick="bbstyle(18)" />
-	<br />		
-		<input type="button" class="w25 w25gray" title="Grigio" onclick="bbstyle(20)" />
-		<input type="button" class="w25 w25white" title="Bianco"  onclick="bbstyle(22)" />
-		<input type="button" class="w25 w25green" title="Verde" onclick="bbstyle(24)" />
-	<br />
-	<br />
-		<input type="button" class="w25font w25img"  onclick="bbstyle(12)" />
-		<input type="button" class="w25font w25url" onclick="bbstyle(32)" />
-		<input type="button" class="w25font w25quote" onclick="bbstyle(34)" />
-	<br />
-		<input type="button" class="w25icon w25advanced" href="" onclick="javascript:jQuery('#pstAdva').toggle(150)">DESTRA
-		</input>
-	<br />
-<!-- Scglie PNG-->
-		<a class="interfaceLink" tal:condition="exists:showStaff"  style="font-size:11px; " href="javascript:void(0);" onclick="jQuery('#pgChanger').fadeOut(300,function(){jQuery('#usersMaster').fadeIn(300);});" id="pgChanger">( - Scegli PnG - )</a><input class="neon" placeholder="Nome del PnG" type="text" id="usersMaster" name="usersMaster" tal:condition="exists:showStaff" style="display:none; width:80Px;" onfocus="this.select();" />
-<!-- Fine Scegli PNG -->
-	<br />
-	<br />
-		<div style="text-align: center; font-size: 22px; margin-bottom:10px; font-family: Roddenberry; color:orange;">
-		<div style="color: #0077c3; padding-bottom: 7px;">Firma 
-	<br />
-		<select class="neon"  style="width:90px; font-size: 15px; font-variant: small-caps;" name="postFirma">
-				<option value="corta">Corta</option>
-				<option value="lunga">Lunga</option>
-		</select>
-	</div>
-		Seclar
-	<br />
-		<select class="neon" style="width:95px; font-size: 15px; " onchange="javascript:$('#addPostImage').prop('src','TEMPLATES/img/seclar/seclar'+this.value+'.png');" name="postSeclar">
-				<option tal:repeat="con php:range(topicSeclar,9)" tal:attributes="value con" tal:content="string: SECLAR ${con}" />
-		</select></div>
-		<input type="submit" id="postSubmit" value="INVIA" class="send" href="" onclick="" />
-		</div>
-	</div>
-
-</form>	
 </div>
 	<div tal:condition="php:(topicLock == 1)" style="color:red; font-family:Roddenberry; letter-spacing: 2px; text-align:center;">[ CARTELLA CHIUSA ]
 	</div>

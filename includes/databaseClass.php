@@ -1168,7 +1168,8 @@ class PG
 
 	public function getCTS()
 	{
-		$ara=array('Comando e Strategia' => 'cts_com.css', 'Ingegneria e Operazioni' => 'cts_ing.css', 'Scientifica e Medica' => 'cts_scimed.css', 'Navigazione' => 'cts_nav.css', 'Difesa e Sicurezza' => 'cts_dif.css');
+		$ara=array('Comando e Strategia' => 'cts_com.css','Comando e Navigazione' => 'cts_com.css', 'Ingegneria e Operazioni' => 'cts_ing.css','Tattica e Sicurezza' => 'cts_ing.css', 'Scientifica e Medica' => 
+'cts_scimed.css','Scientifica' => 'cts_scimed.css','Medica' => 'cts_scimed.css', 'Navigazione' => 'cts_nav.css', 'Difesa e Sicurezza' => 'cts_dif.css','Ingegneria' => 'cts_ing.css');
 
 		return ( (array_key_exists($this->pgSezione, $ara)) ? $ara[$this->pgSezione] : 0 );
 	}

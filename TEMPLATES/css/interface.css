@@ -1165,21 +1165,22 @@ float:left;
 #assegnazioniBTNbw{background-image:url('../img/interface/cdbInterface/bwC.png');background-position:top center;width:124px;height:34px;float:left;}
 #diarioBTNbw{background-image:url('../img/interface/cdbInterface/bwD.png');background-position:top center;width:102px;height:34px;float:left;}
 
+
 #pstAdva
 {
-	width: 590px;
+    width: 630px;
     height: 350px;
     position: absolute;
     left: 50%;
-    margin-left: -397px;
-    
-    padding-top:5px;
+    margin-left: -362px;
+    padding-top: 5px;
     font-family: arial;
-    margin-top: 113px;
-	background-color:rgba(1,1,1);
-	background-color:rgba(1,1,1,0.9);
+    margin-top: 123px;
+    background-color: rgba(1,1,1);
+    background-color: rgba(1,1,1,0.9);
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#B2010101,endColorstr=#B2010101);
 }
+
 
 #pstSeclar
 {
@@ -1187,6 +1188,7 @@ float:left;
     height: 100px;
     position: absolute;
     border: 1px solid #444;
+    border-radius:12px;
     left: 50%;
     margin-left: -333px;
     font-family: arial;

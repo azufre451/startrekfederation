@@ -5,3 +5,4 @@ error_log
 favicon.ico
 includes/PHPTAL/
 .ftpquota
+TEMPLATES/carousel/images/

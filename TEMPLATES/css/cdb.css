@@ -1,11 +1,10 @@
-
-@font-face{
-font-family:'enterpriseFont';
+@font-face{font-family:'enterpriseFont';
 src: url('../Enterprise.eot') format('eot');
 src: url('../Enterprise.woff') format("woff");
 src: url('../Enterprise.woff2') format("woff2");
 src: url('../Enterprise.ttf') format('truetype');
-font-family:'Roddenberry';
+}
+@font-face{font-family:'Roddenberry';
 src: url('../Roddenberry.eot') format('eot');
 src: url('../Roddenberry.woff') format("woff");
 src: url('../Roddenberry.woff2') format("woff2");
@@ -637,9 +636,12 @@ color: black;
 
 .BBbuttonList .w25advanced {
 		background-image: url(../img/interface/cdbInterface/topicInterface/advanced.png);
+		display:inline-block;
+		background-position:center center;
+		background-repeat:no-repeat;
 }
 
-.BBbuttonList .w25advanced:hover {
+.BBbuttonList .w25advanced:hover, .BBbuttonList .w25advanced.activated {
 		border: 1px solid #4169E1; 
 		background-image: url(../img/interface/cdbInterface/topicInterface/advanced-hover.png);
 		background-color: #4169E1;
@@ -649,10 +651,13 @@ color: black;
 /* ADVANCED BUTTON */
 
 .BBbuttonList .w25seclar {
+	display:inline-block;
+	background-position:center center;
+	background-repeat:no-repeat;
 		background-image: url(../img/interface/cdbInterface/topicInterface/seclar.png);
 }
 
-.BBbuttonList .w25seclar:hover {
+.BBbuttonList .w25seclar:hover, .BBbuttonList .w25seclar.activated {
 		border: 1px solid #bf4343; 
 		background-image: url(../img/interface/cdbInterface/topicInterface/seclar-hover.png);
 		background-color: #bf4343;

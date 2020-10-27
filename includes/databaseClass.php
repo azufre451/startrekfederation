@@ -1009,11 +1009,12 @@ class PG
 		mysql_query("UPDATE pg_users SET pgBavo = 1, pgLocation = 'BAVO', pgRoom ='BAVO' WHERE pgID = $pgID");
 		$this->sendPadd('Sospensione Account', "Ciao $pgName,
 
-			Sono passati più 30 giorni dalla tua ultima giocata in Star Trek: Federation. Per garantire uno sviluppo funzionale degli organigrammi di bordo, il tuo personaggio è stato rimosso dal gioco attivo. Ci auguriamo di rivederti presto fra noi e ti assicuriamo che, in caso volessi tornare, il tuo PG sarà mantenuto attivo per altri 30 giorni. Al termine dei 30 giorni, il PG sarà eliminato dai nostri server.
+			Sono passati molti giorni dalla tua ultima giocata in Star Trek: Federation. Per garantire uno sviluppo funzionale degli organigrammi di bordo, il tuo personaggio è stato rimosso dal gioco attivo. Ci auguriamo di rivederti presto fra noi e ti assicuriamo che, in caso volessi tornare, il tuo PG sarà mantenuto attivo per altri 30 giorni. Al termine dei 30 giorni, il PG sarà eliminato dai nostri server.
 
 			A presto
 			Il team di Star Trek: Federation
-			http://www.stfederation.it",518,2,1);
+			https://www.stfederation.it",518,2,1);
+		$this->addnote("Bavosizzazione");
 
 	}
 
@@ -1054,10 +1055,12 @@ class PG
 		mysql_query("DELETE FROM pg_user_stories WHERE pgID = '$pgID';");
 		mysql_query("DELETE FROM pg_personal_notifications WHERE owner = '$pgID';");
 		mysql_query("DELETE FROM pg_visualized_elements WHERE pgID = '$pgID';");
+		mysql_query("DELETE FROM pg_users_temp_auths WHERE pgID = '$pgID';");
 
 
 
 		mysql_query("UPDATE pg_users SET pgUser = CONCAT('$timeString',pgUser), pgLocation = 'BAVO', email = CONCAT('$timeString',email), pgRoom ='BAVO',pgIncarico = '-', pgAuthOMA='BAN', pgOffAvatarC = '', pgOffAvatarN='' WHERE pgID = $pgID");
+		$this->addnote("Cancellazione");
 
 	}
 

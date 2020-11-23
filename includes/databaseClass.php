@@ -117,7 +117,7 @@ class abilDescriptor
 		fclose($file_handle);
 	}
 
-	
+
 	public function explainDependencies($abID){
 		$strr = $this->abilDict[$abID]['abDepString'];
 		$krr=array();
@@ -130,7 +130,10 @@ class abilDescriptor
 			
 			foreach($t as $atp){
 				$etp=explode('#',$atp);
-				$krr[] = array($this->abilDict[$etp[0]],$etp[1]);
+				
+				$modifier=(int)$etp[1]/100 * $this->abilDict[$etp[0]]['value'];
+
+				$krr[] = array($this->abilDict[$etp[0]],$etp[1],$modifier);
 			}
 		}
 		return $krr;
@@ -919,9 +922,12 @@ class PG
 	{
 		$this->sendPadd('Benvenuto!','<div style="text-align:center"><img src="https://oscar.stfederation.it/SigmaSys///promo_stf/little_logo.png" /><br /><b>Benvenuto in Star Trek: Federation!</b></div><br />Ti inviamo questo messaggio come riassunto del materiale informativo che trovi nella documentazione di gioco. In caso di perplessita\', non esitare a contattare lo Staff di Star Trek: Federation [POST]535[/POST]<br />
 			
-		Nuovo all\'ambientazione di Star Trek? Qualche info la trovi qui: 
 
-		<p style="margin:0px; margin-left:30px; "> [DB]186[/DB]
+		Per rimanere aggiornato sulle novità di Star Trek: Federation, seguici sui canali social:
+		<ul><li><a class="interfaceLinkBlue" target="_blank" href="https://t.me/stfederation">Canale Telegram</a></li><li><a class="interfaceLinkBlue" target="_blank" href="https://www.facebook.com/federation.pbc">Facebook</a> | <a class="interfaceLinkYellow" target="_blank" href="https://www.instagram.com/stfederation/">Intagram</a> e <a class="interfaceLinkBlue" target="_blank" href="https://twitter.com/stfederation">Twitter</a> </li>		<li><a class="interfaceLinkGreen" target="_blank" href="https://www.gdr-online.com/star_trek_federation.asp">Pagina GDR-Online</a>/</li></ul>
+		Nuovo all\'ambientazione di Star Trek? Ecco qualche info utile: 
+
+		<p style="margin:0px; margin-left:15px; "> [DB]186[/DB]
 	
 		Qui trovi il regolamento di gioco, dacci un\'occhiata: 
 		[DB]150[/DB]
@@ -945,7 +951,6 @@ class PG
 		[DB]265[/DB]
 		[DB]242[/DB]
 		[DB]259[/DB]
-		[DB]249[/DB]
 		[DB]248[/DB]
 		</p>
 

@@ -1080,6 +1080,8 @@
 width:240px;
 position:absolute;
 font-family:federationFontI;
+
+letter-spacing: 0.08em;
 top:-18px;
 right:-0px;
 padding-right:20px;
@@ -1105,7 +1107,7 @@ font-size:18px;
 	background-color:#1a5394;
 }
 .GEN .c100 .bar, .GEN .c100 .fill {
-	border-color: #1b79bb; !important;
+	border-color: #1b79bb;
 }
 
 
@@ -1122,9 +1124,32 @@ font-size:18px;
 	background-color:#871610;
 }
 .ATT .c100 .bar, .ATT .c100 .fill {
-	border-color: #a41811; !important;
+	border-color: #a41811;
 }
 
+
+.ATT .c100.subf .bar, .ATT .c100.subf .fill {
+  border-color: #5e3737;
+}
+.TEC .c100.subf .bar, .TEC .c100.subf .fill {
+  border-color: #676731;
+}
+.COMB .c100.subf .bar, .COMB .c100.subf .fill {
+  border-color: #3b623c;
+}
+.SPE .c100.subf .bar, .SPE .c100.subf .fill {
+  border-color: #5d3b62;
+}
+.SCI .c100.subf .bar, .SCI .c100.subf .fill {
+  border-color: #3b624f;
+}
+.GEN .c100.subf .bar, .GEN .c100.subf .fill {
+  border-color: #3b4c62;
+}
+
+ 
+ 
+ 
 
 .abiliAggregator.TEC{
 	background-color:rgba(154,113,14,0.25); 
@@ -1140,7 +1165,7 @@ font-size:18px;
 	background-color:#c18800;
 }
 .TEC .c100 .bar, .TEC .c100 .fill {
-	border-color: #c18800; !important;
+	border-color: #c18800;
 }
 
 .abiliAggregator.COMB{
@@ -1157,7 +1182,7 @@ font-size:18px;
   background-color:#4a6f26;
 }
 .COMB .c100 .bar, .COMB .c100 .fill {
-  border-color: #4e9805; !important;
+  border-color: #4e9805;
 }
 
 .abiliAggregator.SPE{
@@ -1174,7 +1199,7 @@ font-size:18px;
   background-color:#6d266b;
 }
 .SPE .c100 .bar, .SPE .c100 .fill {
-  border-color: #70165e; !important;
+  border-color: #70165e;
 }
 
 .abiliAggregator.SCI{
@@ -1191,7 +1216,7 @@ font-size:18px;
   background-color:#286f52;
 }
 .SCI .c100 .bar, .SCI .c100 .fill {
-  border-color: #008a51; !important;
+  border-color: #008a51;
 } 
 
 .abiliAggregator.ABIL{
@@ -1208,7 +1233,7 @@ font-size:18px;
   background-color:#8e8e8e;
 }
 .ABIL .c100 .bar, .ABIL .c100 .fill {
-  border-color: #5a5a5a; !important;
+  border-color: #5a5a5a;
 }
 
 

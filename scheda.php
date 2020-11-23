@@ -78,7 +78,11 @@ elseif($mode == 'bvadd')
 			if(!array_key_exists($abClass,$abil))
 				$abil[$abClass] = array();
 
-			if($resCats['value'] == NULL) $resCats['value'] = 0;
+			if($resCats['value'] == NULL){
+				$resCats['value'] = 0;
+				$resCats['nullCat']=1;
+			}
+
 
 			$cL = array();
 			$lastCost = '';
@@ -94,6 +98,16 @@ elseif($mode == 'bvadd')
 			} 
 				
 	  
+	  		$dep=$a->explainDependencies($resCats['abID']);
+	  		
+	  		$totThr=0;
+//	  		$myval= -3*($this->abilDict[$abID]['abDiff']);
+
+	  		foreach ($dep as $depK=>$depV){
+	  			$totThr += (float)$depV[2];
+	  			//echo $totThr;
+	  		}
+
 			$abil[$abClass][] = array(
 				'abID' => $resCats['abID'],
 				'abName' => $resCats['abName'],
@@ -103,13 +117,14 @@ elseif($mode == 'bvadd')
 				'abDiff' => $resCats['abDiff'],
 				'abDescription' => $resCats['abDescription'],
 				'value' => $resCats['value'],
-				'dep' => $a->explainDependencies($resCats['abID']),
+				'dep' => $dep,
+				'thr' => (isSet($resCats['nullCat']) ? -3*($resCats['abDiff']) : $resCats['value']) + ceil($totThr),
 				'exp' => $cL,
 				'lastCost' => $lastCost,
 				'levelperc' => ceil((float)($resCats['value'])/15*100)			
 			);
 		}
-
+		//print_r($abil['COMB']); exit;
 		ksort($abil);
 		$template->abil = $abil;
 		$template->resUPoints = $resUPoints;
@@ -146,31 +161,76 @@ elseif($mode == 'bv')
 	
 	$template = new PHPTAL('TEMPLATES/scheda_ruolino.htm');
 	
-	$resQ = mysql_query("SELECT pg_abilita.abID,abName,abDescription, abImage, abClass, value as level, abLevelDescription_1,abLevelDescription_2,abLevelDescription_3,abLevelDescription_4,abLevelDescription_5 FROM pg_abilita_levels, pg_abilita WHERE pgID = $selectedUser AND pg_abilita_levels.abID = pg_abilita.abID ORDER BY abDiff,abName");
+	$resQ = mysql_query("SELECT pg_abilita.abID,abName,abDescription, abImage, abClass, abDiff, value as level, abLevelDescription_1,abLevelDescription_2,abLevelDescription_3,abLevelDescription_4,abLevelDescription_5,abDepString FROM pg_abilita_levels, pg_abilita WHERE pgID = $selectedUser AND pg_abilita_levels.abID = pg_abilita.abID ORDER BY abDiff,abName");
 	// $i=0;
-	echo mysql_error();
+	//echo mysql_error();
 	// $k=0;
+
+
+
 	$abil=array();
 
 	while($resCats = mysql_fetch_array($resQ)){
 		if(!array_key_exists($resCats['abClass'],$abil))
 			$abil[$resCats['abClass']] = array();
 
-		$abil[$resCats['abClass']][] = array(
+		$deps=array();
+		if($resCats['abDepString'] != '')
+		{	
+			$t = explode('__',$resCats['abDepString']);
+		
+			foreach($t as $atp){
+				$etp=explode('#',$atp);
+				$deps[] = $etp;
+			}
+		}
+
+		$abil[$resCats['abClass']][$resCats['abID']] = array(
 			'abID' => $resCats['abID'],
 			'abName' => $resCats['abName'],
 			'abImage' => $resCats['abImage'],
 			'abClass' => $resCats['abClass'],
 			'level' => $resCats['level'],
+			'abDiff' => $resCats['abDiff'],
+			'deps' => $deps,
+			'thr' => '',
 			'abDescription' => $resCats['abDescription'],
 			'leveldesc' => ($resCats['level'] > 0) ? $resCats['abLevelDescription_'.ceil($resCats['level']/3)] : 'Abilità attivata',
-			'levelperc' => ceil((float)($resCats['level'])/15*100)			
+			'levelperc' => ceil((float)($resCats['level'])/ ($resCats['abClass'] == 'ABIL' ? 15 : 20) *100)			
 		); 
 	}
 
+	foreach($abil as $abClass => &$abilsInClass)
+	{
+		foreach($abilsInClass as $abID => &$ability)
+		{
 
+			$totThr=0;
+			
+			$connectedText='<p class="thrExplain"> Soglia dado: ';
+			
+			$depsText= (!empty($ability['deps'])) ? ' | Dipende da: ' : '';
 
+			foreach($ability['deps'] as $depVal){
+				//print_r($depVal);
 
+				$connectedLevel=$abil['ABIL'][$depVal[0]]['level'];
+				$depsText.= '<img src="TEMPLATES/img/interface/personnelInterface/abilita/'.$abil['ABIL'][$depVal[0]]['abImage'].'" /> ';
+
+				$totThr+= (int)$connectedLevel *$depVal[1]/100;
+			}
+			
+			$thrVal= $ability['level'] +ceil($totThr);
+			
+			$ability['thr'] = $connectedText . ' ' . $thrVal . $depsText . '</p>';
+
+			$ability['levelThrperc'] = min(100, ceil((float)($thrVal)/($ability['abClass'] == 'ABIL' ? 15 : 20)   *100));
+		}
+
+			
+	}
+
+	//print_r($abil);exit;
 	mysql_query("SELECT 1 FROM pg_users_bios WHERE pgID = $selectedUser AND valid = 2");
 
 	if (mysql_affected_rows())
@@ -1868,34 +1928,43 @@ $selectedDUser->getIncarichi();
 $band = ($prestavolto['iscriDiff'] >= '48') ? 'b0sw.png' : (($prestavolto['iscriDiff'] >= '36') ? 'b0s.png' : (($prestavolto['iscriDiff'] >= '24') ? 'b0k.png' : (($prestavolto['iscriDiff'] >= '12') ? 'b02.png' : (($prestavolto['iscriDiff'] >= '6') ? 'b003.png' : (($prestavolto['iscriDiff'] >= '3') ? 'b002.png' : 'b01.png')))));
 $subText = ($prestavolto['iscriDiff'] >= '48') ? 'Platinum' : (($prestavolto['iscriDiff'] >= '36') ? 'Gold' : (($prestavolto['iscriDiff'] >= '24') ? 'Silver' : (($prestavolto['iscriDiff'] >= '12') ? 'Bronze' : (($prestavolto['iscriDiff'] >= '6') ? 'Copper' : (($prestavolto['iscriDiff'] >= '3') ? 'Iron' : '')))));
 
-$resAchi = mysql_query("SELECT owner,aID,aImage,aText,aHidden,category,timer as rt FROM pg_achievements LEFT JOIN pg_achievement_assign ON aID = achi AND owner IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $selectedUser)) ORDER BY owner DESC,timer DESC,aHidden ASC,aImage ASC");
+$resAchi = mysql_query("SELECT owner,aID,aImage,aText,aHidden,category,timer as rt,assignable  FROM pg_achievements LEFT JOIN pg_achievement_assign ON aID = achi AND owner IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $selectedUser)) ORDER BY owner DESC,timer DESC,aHidden ASC,aImage ASC");
 
 
-$achi=array();
+$achi=array('Attivo nel...'=>array(),'PG & Scheda'=>array(),'Community'=>array(),'Contenuti'=>array(),'Segreti'=>array(),'Non assegnabili'=>array());
+
+
 while($reseAchi = mysql_fetch_assoc($resAchi))
 {
 
-if(!array_key_exists($reseAchi['category'], $achi))
-	$achi[$reseAchi['category']] = array();
+if (!$reseAchi['assignable'] && !isSet($reseAchi['owner']) ){
+	$reseAchi['category'] = 'Non assegnabili';
 
-if(isSet($reseAchi['owner'])) $text = $reseAchi['aText'];
-
-else if(PG::mapPermissions('A',$currentUser->pgAuthOMA) && $reseAchi['aHidden']) $text = "** SEGRETO ** [admin:".$reseAchi['aText']."]";
-else if(PG::mapPermissions('A',$currentUser->pgAuthOMA) && !$reseAchi['aHidden']) $text = $reseAchi['aText'];
-
-else $text=($reseAchi['aHidden']) ? '** Segreto ** Sii il primo ad ottenerlo!' : $reseAchi['aText'];
-
-if (!array_key_exists($reseAchi['aID'], $achi[$reseAchi['category']] ) || ( array_key_exists($reseAchi['aID'], $achi[$reseAchi['category']]) && ($reseAchi['rt'] < $achi[$reseAchi['category']][$reseAchi['aID']]['rt']) ))
-	$achi[$reseAchi['category']][$reseAchi['aID']] = array('owned'=>isSet($reseAchi['owner']),'ID'=>$reseAchi['aID'],'text'=>$text,'image'=>(isSet($reseAchi['owner'])) ? 'TEMPLATES/img/interface/personnelInterface/'.$reseAchi['aImage'] : 'TEMPLATES/img/interface/personnelInterface/bloccato_n.png','adminImage'=> (PG::mapPermissions("A",$currentUser->pgAuthOMA)) ? 'TEMPLATES/img/interface/personnelInterface/'.$reseAchi['aImage'] : '','rt'=>$reseAchi['rt'],'timer' => date("d/m/y",$reseAchi['rt']));
 }
+
+	if(!array_key_exists($reseAchi['category'], $achi))
+		$achi[$reseAchi['category']] = array();
+
+	if(isSet($reseAchi['owner'])) $text = $reseAchi['aText'];
+
+	else if(PG::mapPermissions('A',$currentUser->pgAuthOMA) && $reseAchi['aHidden']) $text = "** SEGRETO ** [admin:".$reseAchi['aText']."]";
+	else if(PG::mapPermissions('A',$currentUser->pgAuthOMA) && !$reseAchi['aHidden']) $text = $reseAchi['aText'];
+
+	else $text=($reseAchi['aHidden']) ? '** Segreto ** Sii il primo ad ottenerlo!' : $reseAchi['aText'];
+
+	if (!array_key_exists($reseAchi['aID'], $achi[$reseAchi['category']] ) || ( array_key_exists($reseAchi['aID'], $achi[$reseAchi['category']]) && ($reseAchi['rt'] < $achi[$reseAchi['category']][$reseAchi['aID']]['rt']) ))
+		$achi[$reseAchi['category']][$reseAchi['aID']] = array('owned'=>isSet($reseAchi['owner']),'ID'=>$reseAchi['aID'],'text'=>$text,'image'=>(isSet($reseAchi['owner'])) ? 'TEMPLATES/img/interface/personnelInterface/'.$reseAchi['aImage'] : 'TEMPLATES/img/interface/personnelInterface/bloccato_n.png','adminImage'=> (PG::mapPermissions("A",$currentUser->pgAuthOMA)) ? 'TEMPLATES/img/interface/personnelInterface/'.$reseAchi['aImage'] : '','rt'=>$reseAchi['rt'],'timer' => date("d/m/y",$reseAchi['rt']));
+	}
+
 
 
 function cmp($a, $b) { if (!$a['owned'] && !$b['owned']) return -1; else return ($a['rt'] < $b['rt']);	}
+function cmp2($a, $b) { if ($a == 'Non assegnabili') return -1; else return ($a < $b);	}
 foreach ($achi as $achiCat => $achiRecord)
 	uasort($achi[$achiCat], 'cmp'); 
 
 
-ksort($achi);
+//uksort($achi,'cmp2');
 $template->uniform = PG::getSomething($selectedUser,'uniform');
 
 

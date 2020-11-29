@@ -1,3 +1,97 @@
+var windowSizes = 
+		{
+			'scheda':
+				{
+					"Opera": {"w":'655',"h":'640'},
+					"Firefox": {"w":'655',"h":'605'},
+					"Safari": {"w":'655',"h":'605'},
+					"IE": {"w":'655',"h":'605'},
+					"Edge": {"w":'655',"h":'605'},
+					"Chrome": {"w":'655',"h":'605'},
+					"Default": {"w":'655',"h":'605'}
+				},
+			'db':
+				{
+					"Opera": {"w":'1153',"h":'730'},
+					"Firefox": {"w":'1153',"h":'730'},
+					"Safari": {"w":'1153',"h":'730'},
+					"IE": {"w":'1153',"h":'730'},
+					"Edge": {"w":'1153',"h":'730'},
+					"Chrome": {"w":'1153',"h":'730'},
+					"Default": {"w":'1153',"h":'730'}
+				},
+			'cdb':
+				{
+					"Opera": {"w":'1000',"h":'705'},
+					"Firefox": {"w":'1000',"h":'670'},
+					"Safari": {"w":'1000',"h":'670'},
+					"IE": {"w":'1000',"h":'670'},
+					"Edge": {"w":'1000',"h":'670'},
+					"Chrome": {"w":'1000',"h":'670'},
+					"Default": {"w":'1000',"h":'670'}
+				},
+			'replicator':
+				{
+					"Opera": {"w":'615',"h":'660'},
+					"Firefox": {"w":'615',"h":'660'},
+					"Safari": {"w":'615',"h":'660'},
+					"IE": {"w":'615',"h":'660'},
+					"Edge": {"w":'615',"h":'660'},
+					"Chrome": {"w":'615',"h":'660'},
+					"Default": {"w":'615',"h":'660'}
+				},
+			'multitool':
+				{
+					"Opera": {"w":'860',"h":'665'},
+					"Firefox": {"w":'860',"h":'630'},
+					"Safari": {"w":'860',"h":'630'},
+					"IE": {"w":'860',"h":'630'},
+					"Edge": {"w":'860',"h":'630'},
+					"Chrome": {"w":'860',"h":'630'},
+					"Default": {"w":'860',"h":'630'}
+				},
+			'whisper':
+				{
+					"Opera": {"w":'854',"h":'655'},
+					"Firefox": {"w":'854',"h":'620'},
+					"Safari": {"w":'854',"h":'620'},
+					"IE": {"w":'854',"h":'620'},
+					"Edge": {"w":'854',"h":'620'},
+					"Chrome": {"w":'854',"h":'620'},
+					"Default": {"w":'854',"h":'620'}
+				},
+			'padd':
+				{
+					"Opera": {"w":'655',"h":'438'},
+					"Firefox": {"w":'655',"h":'403'},
+					"Safari": {"w":'655',"h":'403'},
+					"IE": {"w":'655',"h":'403'},
+					"Edge": {"w":'655',"h":'403'},
+					"Chrome": {"w":'655',"h":'403'},
+					"Default": {"w":'655',"h":'403'}
+				},
+			'chart':
+				{
+					"Opera": {"w":'1165',"h":'670'},
+					"Firefox": {"w":'1160',"h":'630'},
+					"Safari": {"w":'1160',"h":'630'},
+					"IE": {"w":'1160',"h":'630'},
+					"Edge": {"w":'1160',"h":'630'},
+					"Chrome": {"w":'1160',"h":'630'},
+					"Default": {"w":'1160',"h":'630'}
+				},
+			'comm':
+				{
+					"Opera": {"w":'650',"h":'195'},
+					"Firefox": {"w":'650',"h":'160'},
+					"Safari": {"w":'650',"h":'160'},
+					"IE": {"w":'650',"h":'160'},
+					"Edge": {"w":'650',"h":'160'},
+					"Chrome": {"w":'650',"h":'160'},
+					"Default": {"w":'650',"h":'160'}
+				}
+		};
+
 
 	function swish(e)
 	{
@@ -23,6 +117,36 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 	}
 	}
 	
+
+	function browserDetect(){
+		// Opera 8.0+
+		if ((!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0 )
+			return 'Opera';
+
+		// Firefox 1.0+
+		if(typeof InstallTrigger !== 'undefined')
+			return 'Firefox';
+
+		// Safari 3.0+ "[object HTMLElementConstructor]" 
+		if ( /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification)))
+		return 'Safari';
+
+		// Internet Explorer 6-11
+		if( /*@cc_on!@*/false || !!document.documentMode)
+			return 'IE';
+
+		// Edge 20+
+		if(!!window.StyleMedia)
+			return 'Edge';
+
+		// Chrome 1 - 71
+		if (!!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime))
+			return 'Chrome';
+
+
+
+	}
+
 	function tomap(vare)
 	{
 		 jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv"+vare).fadeIn('fast');
@@ -74,17 +198,60 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 	if(ida == 'allo') window.open ('coLocation.php?get=quarters','fed_main', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0');
 	else if(ida == 'holo') window.open ('coLocation.php?get=holodeck','fed_main', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0');
 	}
-	function postOpener(ida){window.open ('chat.php?amb='+ida,'fed_main', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0');}
-	function calendarOpen(){window.open ('calendar.php','cdb', config='toolbar=no,scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1000,height=670');}
-	function cdbOpen(){window.open ('cdb.php','cdb', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1000,height=670');}
-	function cdbOpenToTopic(ida){window.open ('cdb.php?topic='+ida,'cdb', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1000,height=670');}
-	function dbOpen(){window.open ('db.php','db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=730');}
-	function dbOpenToTopic(ida){window.open ('db.php?element='+ida,'db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=730');}
-	function dbOpenToTopicLit(ida){window.open ('db.php?litref='+ida,'db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=730');}
-	function locOpen(){window.open ('localize.php','localize', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=505,height=605');}
-	function paddOpen(){window.open ('padd.php','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
+
+
+	function postOpener(ida){
+		window.open ('chat.php?amb='+ida,'fed_main', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0');
+	}
+
+	function calendarOpen(){
+		pars=getSizeOf('cdb');
+		window.open ('calendar.php','cdb', config='toolbar=no,scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+	}
 	
-	function statusOpen(){window.open ('padd.php?s=sh','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
+
+	function cdbOpen(){
+		pars=getSizeOf('cdb');
+		window.open ('cdb.php','cdb', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+	}
+	
+
+	function cdbOpenToTopic(ida){
+		pars=getSizeOf('cdb');
+		window.open ('cdb.php?topic='+ida,'cdb', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+	}
+	
+
+	function dbOpen(){
+		pars=getSizeOf('db');
+		window.open ('db.php','db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+	}
+	
+
+	function dbOpenToTopic(ida){
+		pars=getSizeOf('db');
+		window.open ('db.php?element='+ida,'db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+	}
+	
+
+	function dbOpenToTopicLit(ida){
+		pars=getSizeOf('db');
+		window.open ('db.php?litref='+ida,'db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+	}
+	
+
+	//function locOpen(){window.open ('localize.php','localize', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=505,height=605');}
+	
+
+	function paddOpen(){
+		pars=getSizeOf('padd');
+		window.open ('padd.php','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width='+pars['w']+',height='+pars['h']);
+	}
+	
+	function statusOpen(){
+		pars=getSizeOf('padd');
+		window.open ('padd.php?s=sh','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width='+pars['w']+',height='+pars['h']);
+	}
 
 	function statusBoxOpen(){
 
@@ -237,22 +404,88 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 
 
 	function metaPOpen(par,fun){ fun(par); }
-	function tribuneOpen(ida){window.open ('padd.php?s=readTribune&newsID='+ida,'padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
-	function commOpen(){window.open ('comm.php','comm', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=650,height=160');}
-	function schedaOpen(){window.open ('scheda.php','scheda', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=653,height=605');}
-	function schedaMedOpen(){window.open ('scheda.php?s=me','scheda', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=653,height=605');}
-	function masterShadow(){window.open ('multitool.php','shadow', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=860,height=630');}
-	function schedaPOpen(ida){window.open ('scheda.php?pgID='+ida,'schedaP', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=653,height=605');}
-	function chartOpen(){window.open ('chart.php','chart', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1160,height=630');}
-	function whisperOpen(){window.open ('whisper.php','whisper', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=854,height=618');}
-	function repliOpen(toIda){window.open ('replicator.php?loc='+toIda,'replicator', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,height=615,width=660');}
-	function repliOpenP(toFood){window.open ('replicator.php?loc='+jQuery('#locID').val()+'&foodID='+toFood,'replicator', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,height=615,width=660');}
+	
+	function tribuneOpen(ida){
+		pars=getSizeOf('padd');
+		window.open ('padd.php?s=readTribune&newsID='+ida,'padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width='+pars['w']+',height='+pars['h']);
+	}
+	
+	function commOpen(){
+		pars=getSizeOf('comm');
+		window.open ('comm.php','comm', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+	}
+	
+
+	function schedaOpen(){
+		pars=getSizeOf('scheda');
+		window.open ('scheda.php','scheda', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+	}	
+
+	function schedaMedOpen(){
+		pars=getSizeOf('scheda');
+		window.open ('scheda.php?s=me','scheda', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+	}
+	
+	function schedaPOpen(ida){
+		pars=getSizeOf('scheda');
+		window.open ('scheda.php?pgID='+ida,'schedaP', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+	}
+
+
+	function masterShadow(){
+		pars=getSizeOf('multitool');
+		window.open ('multitool.php','shadow', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+	}
+	
+	
+	function chartOpen(){
+		pars=getSizeOf('chart');
+		window.open ('chart.php','chart', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+	}
+	
+
+	function whisperOpen(){
+		pars=getSizeOf('whisper');
+		window.open ('whisper.php','whisper', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+	}
+	
+
+	function repliOpen(toIda){
+		pars=getSizeOf('replicator');
+		window.open ('replicator.php?loc='+toIda,'replicator', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+	}
+	
+
+	function repliOpenP(toFood){
+		pars=getSizeOf('replicator');
+		window.open ('replicator.php?loc='+jQuery('#locID').val()+'&foodID='+toFood,'replicator', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+	}
+	
+
 	function doLogout(){
 	jQuery.post('login.php?action=logout', {}, function(){
 	window.close();
 	});
 	}
 
+	function getSizeOf(ida)
+	{
+
+
+		if (browserDetect() in windowSizes[ida])
+			browser=browserDetect();
+		else
+			browser='Default';
+		
+ 
+		var height=windowSizes[ida][browser]['h'];
+		var width=windowSizes[ida][browser]['w'];
+		
+		//alert(browser+':: '+width+' x '+height);
+		return {'w':width,'h':height};
+		
+
+	}
 
 
 	function openDotazione(){

@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isSet($_SESSION['pgID']))  header("Location:index.php?login=do");
+if (!isSet($_SESSION['pgID'])){ header("Location:index.php?login=do"); exit;}
 
 include('includes/app_include.php');
 include('includes/validate_class.php');

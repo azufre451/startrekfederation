@@ -40,7 +40,7 @@ include('includes/validate_class.php');
 				$stag= strtoupper(addslashes($_POST['chatTag']));
 				$tag = ($_POST['chatTag'] == '') ? '' : '<span class="chatTag">['.strtoupper(addslashes($_POST['chatTag'])).']</span>';
 			
-				$string[0] = '';
+				//$string[0] = '';
 				$sended = addslashes(PG::getSomething($_SESSION['pgID'],'username'));
 				 
 				if($userSpecific != 0){

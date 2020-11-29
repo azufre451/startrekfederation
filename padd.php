@@ -106,7 +106,7 @@ if($mode == 'newP')
 			}
 		}
 	} 
-	header('Location:padd.php?ps=1'); 
+	header('Location:padd.php?ps=1'); exit;
 }
 
 else if ($mode == 'read')
@@ -142,6 +142,7 @@ else if($mode == 'delInPad')
 	$ref = $vali->numberOnly($_GET['paddID']);
 	mysql_query("UPDATE fed_pad SET paddDeletedTo = 1 WHERE padID = $ref AND paddTo = ".$_SESSION['pgID']);
 	header('Location:padd.php?h=in'); 
+	exit;
 }
 
 else if($mode == 'delOutPad')
@@ -149,6 +150,7 @@ else if($mode == 'delOutPad')
 	$ref = $vali->numberOnly($_GET['paddID']);
 	mysql_query("UPDATE fed_pad SET paddDeletedFrom = 1 WHERE padID = $ref AND paddFrom = ".$_SESSION['pgID']);
 	header('Location:padd.php?h=ou'); 
+	exit;
 }
 
 else if($mode == 'delHer')
@@ -157,7 +159,8 @@ else if($mode == 'delHer')
 	
 	if(PG::mapPermissions('M',$currentUser->pgAuthOMA)) mysql_query("DELETE FROM fed_news WHERE newsID = $ref");
 	
-	header('Location:padd.php?s=tr'); 
+	header('Location:padd.php?s=tr');
+	exit;
 }
 
 else if ($mode == 'notif'){
@@ -303,6 +306,7 @@ else if ($mode == 'delNote')
 	$ID = $vali->numberOnly($_GET['ID']);
 	mysql_query("DELETE FROM pg_notes WHERE noteID = $ID AND owner =".$currentUser->ID);
 	header('Location:padd.php?s=no');
+	exit;
 }
 
 else if ($mode == 'newNote')
@@ -311,6 +315,7 @@ else if ($mode == 'newNote')
 	$testo= (htmlentities(addslashes(($_POST['testo'])),ENT_COMPAT, 'UTF-8'));
 	mysql_query("INSERT INTO pg_notes (owner,title,text) VALUES (".$currentUser->ID.",'$title','$testo')");
 	header('Location:padd.php?s=no');
+	exit;
 }
 
 else if ($mode == 'ediNote')
@@ -320,6 +325,7 @@ else if ($mode == 'ediNote')
 	$id= $vali->numberOnly($_POST['ID']);
 	mysql_query("UPDATE pg_notes SET title = '$title', text = '$testo' WHERE noteID = $id AND owner =".$currentUser->ID);
 	header('Location:padd.php?s=readNote&ID='.$id);
+	exit;
 }
 
 
@@ -348,7 +354,7 @@ else if ($mode == 'savePad')
 	$raText = addslashes($raInfoS['paddText']);
 		
 	$ra = mysql_query("INSERT INTO pg_notes (owner,title,text) VALUES (".$currentUser->ID.",'$ratitle','$raText')");
-	header('Location:padd.php?s=no');
+	header('Location:padd.php?s=no');exit;
 }
 
 else if($mode == 'newH')
@@ -382,6 +388,7 @@ else if($mode == 'newH')
 	}
 		
 	header('Location:padd.php?s=tr'); 
+	exit;
 }
 
 else if($mode == 'readTribune')

@@ -13,6 +13,13 @@ include('includes/bbcode.php');
 include("includes/PHPTAL/PHPTAL.php"); //NEW
 //phpinfo();exit; 
 
+if (isSet($_GET['login']) && $_GET['login'] == 'do')
+{
+
+	header("Location:login.php");
+	exit;
+}
+
 if(isSet($_GET['readnews']))
 {
 	$vali = new validator();

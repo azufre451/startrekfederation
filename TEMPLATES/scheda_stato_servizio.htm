@@ -18,7 +18,7 @@
 	<script type="text/javascript" src="TEMPLATES/js/sservice.js?v=${gameOptions/numericVersion}" /> 
 	
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
-
+ 
 	<title>STAR TREK FEDERATION - SCHEDA</title>				
  <style type="text/css">.ui-autocomplete {max-height: 135px;overflow-y: auto;overflow-x: hidden;padding-right: 1px;}
 		.ui-autocomplete li {height:45px;padding:2px;font-size:12px;}
@@ -182,7 +182,7 @@
 	<script>jQuery('#brevWhat').autocomplete({
 			source: "ajax_getBrevetti.php",
 			minLength: 2
-			});
+			});			
 	</script>
 	</div> 
 	
@@ -190,12 +190,25 @@
 	<table style="margin-top:20px; width:100%;">
 	<form method="POST" id="storyAdder" tal:attributes="action string:scheda.php?s=addStory&pgID=${selectedUser}">
 		 
+
 		
-		<tr><td width="100px; font-size:10px;"><span style="font-family:federationFont; font-size:20px; letter-spacing:1px;">Mostrina:</span></td><td colspan="2"><select id="story_rank" class="neon" name="rankCode" style="width:310px">
+
+		<tr><td width="100px; font-size:10px;"><span style="font-family:federationFont; font-size:20px; letter-spacing:1px;">Mostrina:</span></td><td colspan="2">
+
+
+		<img id="selectedRankImg" tal:attributes="src string:TEMPLATES/img/ranks/${ordinaryRank}.png ; title ordinaryRankNote" class="tooltip" /> <a href="javascript:void(0)" class="interfaceLink" onclick="getMostrine('Flotta Stellare')">Cerca...</a>		
+		<input type="hidden" id="rankCode" name="rankCode" tal:attributes="value rankCode"/> 
+
+
+		<!--<select id="story_rank" class="neon" name="rankCode" style="width:310px">
 			<optgroup tal:repeat="ranker ranks" tal:attributes="label repeat/ranker/key">
 				<option tal:repeat="rnk ranker" tal:attributes="value repeat/rnk/key; selected php:((repeat.rnk.key == rankCode) ? 'selected': '')" tal:content="rnk/note"/>
 			</optgroup>
-		</select></td></tr>
+		</select>-->
+
+
+
+		</td></tr>
 		<tr><td width="100px; font-size:10px;"><span style="font-family:federationFont; font-size:20px; letter-spacing:1px;">Incarico:</span></td><td><input type='text' id="story_what" placeholder="Incarico" class="neon" style="width:310px;" name="what" /></td></tr>
 		<tr><td width="100px; font-size:10px;"><span style="font-family:federationFont; font-size:20px; letter-spacing:1px;">Data:</span></td><td><select class="neon" id="story_dataG" name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day" tal:content="day" /></select> / <select  class="neon" id="story_dataM" name="dataM"><option tal:repeat="day php:range(1,12)" tal:attributes="value day" tal:content="php:monty[day]" /></select> / <select class="neon" id="story_dataA" name="dataA"><option tal:repeat="day php:range(2290,thisYear)" tal:attributes="value day ; selected php:(day==thisYear) ? 'selected': false" tal:content="day" /></select></td></tr>
 		
@@ -216,5 +229,44 @@
 	</table>
 	<div class="xButton" onclick="jQuery('#rankAdder').fadeOut(100); jQuery('#storyEdit').attr('value','0');"></div>
 	</div>
+
+
+	<style>
+		#mcontent {overflow-y:auto; height:380px; }
+		#selectSection {font-family:FederationFont; font-size:15px; letter-spacing:0.1em; width:90%; font-weight:bold; text-align: center;margin:auto;text-transform: uppercase; font-size:16px; margin-top:10px;}
+
+		#mcontent table {width:auto; margin:auto;}
+		#mcontent tr.header {font-family: Helvetica; font-weight:bold; text-transform: uppercase; text-align:center; font-size:13px;}
+		#mcontent tr.header td {border-bottom:1px solid #555; padding-bottom:2px;}
+
+		#mcontent tr.spe td img {border: 1px solid black;}
+
+		#mcontent tr.spe td {opacity:0.85; filter:alpha(opacity=70); border:1px solid black; width:70px;}
+		#mcontent tr.spe td:hover {opacity:1; filter:alpha(opacity=100);}
+		#mcontent tr.spe td:hover img {border: 1px solid #FFCC00;}
+		
+
+	</style>
+	
+	<div tal:condition="php:editable==true" id="mostrinaSelector">
+
+		<p style="font-weight:bold; text-align:center; font-family:Helvetica;">Gruppo: <select onchange="getMostrine(jQuery(this).val())" id="story_rank" class="neon" name="rankCode" style="width:310px">
+			<option tal:repeat="agg aggregations" tal:attributes="value agg" tal:content="agg"   />
+
+
+
+		</select></p>
+
+		<p id="selectSection"></p>
+
+		<div id="mcontent" />		
+		<div class="xButton" onclick="jQuery('#mostrinaSelector').fadeOut(100);"></div>
+
+
+
+
+		
+	</div>
+	
 </body>
 </html>

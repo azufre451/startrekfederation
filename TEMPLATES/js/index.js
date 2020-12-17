@@ -27,13 +27,13 @@ function setViewer(vare)
 	
 }
 
-function fullScreen(){
+function fullScreenLogin(){
 	var larg_schermo = screen.availWidth - 10;
 	var altez_schermo = screen.availHeight - 30;
 	window.open("login.php", "fed_main", "width=" + larg_schermo + ",height=" + altez_schermo + ",top=0,left=0,location=no,menubar=n,resizable=yes,scrollbar=yes");
 }
 
-function fullScreenTest(){
+function fullScreenTestLogin(){
 	var larg_schermo = screen.availWidth - 10;
 	var altez_schermo = screen.availHeight - 30;
 	window.open("login.php?test=true", "fed_main", "width=" + larg_schermo + ",height=" + altez_schermo + ",top=0,left=0,location=no,menubar=n,resizable=yes,scrollbar=yes");

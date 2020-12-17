@@ -40,7 +40,7 @@ include('includes/validate_class.php');
 				$stag= strtoupper(addslashes($_POST['chatTag']));
 				$tag = ($_POST['chatTag'] == '') ? '' : '<span class="chatTag">['.strtoupper(addslashes($_POST['chatTag'])).']</span>';
 			
-				$string[0] = '';
+				//$string[0] = '';
 				$sended = addslashes(PG::getSomething($_SESSION['pgID'],'username'));
 				 
 				if($userSpecific != 0){
@@ -284,9 +284,10 @@ include('includes/validate_class.php');
 		$realLen = strlen($string); 
  		
  		//$string = '<p class="chatDirect">'.date('H:i')." $ima1 ".addslashes($ima2)." <span onclick=\"javascript:schedaPOpen($pgID);\" onmouseover=\"javascript:selectOccur(\'$userN\');\" onmouseout=\"deselectOccur();\" class=\"chatUser\" data-timecode=\"$curTime\" data-loctag=\"$stag\">$userN</span> $tag ".ucfirst(str_replace(array('&lt;','&gt;','&laquo;','&raquo;'),array(' <span class="chatQuotation">&laquo;','&raquo;</span> ',' <span class="chatQuotation">&laquo;','&raquo;</span> '),$string))."</p>";	
-
-
- 		$string = ($olomostrina) ? '<div style="margin-top:4px"><div class="chatDirect" style="float:left;">'.date('H:i')."</div> $ima1 ".addslashes($ima2)." <span onclick=\'javascript:schedaPOpen($pgID);\' class=\'chatUser chatDirect\' onmouseover=\"javascript:selectOccur(\'$userN\');\" onmouseout=\"deselectOccur();\">$userN</span> <span class=\"chatDirect\">$tag ".str_replace(array('&lt;','&gt;'),array(' <span class="chatQuotation">&laquo;','&raquo;</span> '),$string)."</span></div>" : '<p class="chatDirect">'.date('H:i')." $ima1 ".addslashes($ima2)." <span onclick=\'javascript:schedaPOpen($pgID);\' class=\'chatUser chatDirect\' onmouseover=\"javascript:selectOccur(\'$userN\');\" onmouseout=\"deselectOccur();\" data-timecode=\"$curTime\">$userN</span> $tag ".str_replace(array('&lt;','&gt;'),array(' <span class="chatQuotation">&laquo;','&raquo;</span> '),$string)."</p>";
+		$quotes_from_array = array('&lt;','&gt;','[',']');
+		$quotes_to_array = array(' <span class="chatQuotation">&laquo;','&raquo;</span> ',' <span class="chatQuotation">&laquo;','&raquo;</span> ');
+		
+ 		$string = ($olomostrina) ? '<div style="margin-top:4px"><div class="chatDirect" style="float:left;">'.date('H:i')."</div> $ima1 ".addslashes($ima2)." <span onclick=\'javascript:schedaPOpen($pgID);\' class=\'chatUser chatDirect\' onmouseover=\"javascript:selectOccur(\'$userN\');\" onmouseout=\"deselectOccur();\">$userN</span> <span class=\"chatDirect\">$tag ".str_replace($quotes_from_array,$quotes_to_array,$string)."</span></div>" : '<p class="chatDirect">'.date('H:i')." $ima1 ".addslashes($ima2)." <span onclick=\'javascript:schedaPOpen($pgID);\' class=\'chatUser chatDirect\' onmouseover=\"javascript:selectOccur(\'$userN\');\" onmouseout=\"deselectOccur();\" data-timecode=\"$curTime\">$userN</span> $tag ".str_replace($quotes_from_array,$quotes_to_array,$string)."</p>";
 
 
 		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,realLen,privateAction) VALUES($pgID,'$amb','$string',".time().",'DIRECT',$realLen,IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");

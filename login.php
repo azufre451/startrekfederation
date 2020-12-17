@@ -14,6 +14,7 @@ if ($action == "doLogin")
 {
 	$user = ucfirst(addslashes($_POST['loginUser']));
 	
+
 	$pass = md5($_POST['loginPass']); 
 	$res = mysql_query("SELECT * FROM pg_users WHERE pgUser = '$user' AND pgPass = '$pass'"); 
 	

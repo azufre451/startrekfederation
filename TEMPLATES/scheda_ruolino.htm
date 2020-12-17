@@ -11,10 +11,11 @@
 	<link href="TEMPLATES/css/personnel.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" /> 
 	
+
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
-	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
-	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" /> 
 
 	<title>STAR TREK FEDERATION - SCHEDA</title>	
 	<script type="text/javascript">
@@ -83,9 +84,13 @@
 	<style>
 	.ui-tooltip {
     font-family:Helvetica;
-	font-size:13px; 
-	max-width:55%;
+	font-size:14px; 
+	max-width:60%;
+
+
+
   }
+
 
 
 p.bonus{margin-top:1px dashed #333; margin-top:5px;}
@@ -95,7 +100,9 @@ p.bonus img{
 p.bonus span {
   font-family:federationFont; font-size:18px; margin-left:5px; letter-spacing: 0.1sem;
 }
-
+.thrExplain{ display:inline; margin:0px; }
+.thrExplain img{ width:25px; vertical-align: middle; }
+  
  
 	</style>
 </head>
@@ -118,7 +125,8 @@ p.bonus span {
 				
 				<div style="height:25px;" />
 					<div style="float:left;" tal:repeat="abilit abiClass" >
-						   <div tal:attributes="class string:c100 p${abilit/levelperc} small tooltip ; title string:<span style='color:#5d85a6;; font-weight:bold;;'>${abilit/abName}</span> - Liv. ${abilit/level}<hr/>${abilit/leveldesc}" style="z-index:0">
+
+						   <div tal:attributes="class string:c100 p${abilit/levelperc} small tooltip ; title string:<span style='color:#5d85a6;; font-weight:bold;; font-size:16px;;'>${abilit/abName}</span> | Liv. ${abilit/level} | ${abilit/thr} <hr/>${abilit/leveldesc}" style="z-index:1">
 								<img tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/abilita/${abilit/abImage}" />
 								<span tal:content="abilit/level">1</span>
 		
@@ -126,11 +134,24 @@ p.bonus span {
 											<div class="bar"></div>
 											<div class="fill"></div>
 										</div>
-									</div>
-							</div>	
+							</div>
+
+
+
+						   <div tal:attributes="class string:c100 subf p${abilit/levelThrperc} small" style="z-index:0; position:absolute;">
+								
+								
+		
+										<div class="slice">
+											<div class="bar" ></div>
+											<div class="fill"></div>
+										</div>
+							</div>
+
+					</div>	
 						
-							<div style="clear:both"></div>
-					</div>
+					<div style="clear:both"></div>
+				</div>
 			</div>
 		</div>
 

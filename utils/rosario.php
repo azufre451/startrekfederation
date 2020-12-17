@@ -240,7 +240,7 @@ $VITA .= " Giocatore che simma, la chat non insozzare <br /> Trama che traballa,
 
   
 
-$moreno = new PG('1'); 
+$moreno = new PG('1892'); 
 $jean = new PG('3'); 
 
 $moreno->sendPadd('Rapporto pulizia',$SITA,702);

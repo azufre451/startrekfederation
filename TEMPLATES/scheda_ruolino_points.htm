@@ -38,6 +38,12 @@
 		jQuery('.imageObrev').addClass('grayScale');
 		jQuery('#img_'+ida).removeClass('grayScale');
 		jQuery('.tooltip').tooltip();
+
+		jQuery('.depends').removeClass('depends');
+		jQuery('.depFrom_'+ida.replace("brevdiv_", "")).addClass('depends');
+		//alert('.depFrom_'+ida.replace("brevdiv_", ""));
+
+		
 		}
 
 	</script>
@@ -63,7 +69,7 @@
   
   #lateralRtop{width:100%; height:180px;}
   #lateralRbottom,.lateralRbottom{width:100%; margin-top:25px; height:300px;}
-  .descriText{font-family:verdana; font-size:14px; margin:0px; height:170px; overflow-y:auto; line-height:20px; padding:3px 10px; text-align:justify;}
+  .descriText{font-family:Helvetica; font-size:14px; margin:0px; height:170px; overflow-y:auto; line-height:20px; padding:3px 10px; text-align:justify;}
   
   .imageObrev,.imageObrevNoGray{margin-left:3px; cursor:pointer;}
   
@@ -82,6 +88,13 @@
 	filter:none;
 	opacity:1;
   }
+
+
+.depends{
+	border: 1px solid #ffcc00 !important;
+    background-color: #FFCC0033;
+    border-radius: 12px;
+}
   
   form p {margin:auto; position:relative; text-align:center;}
 	</style>
@@ -102,8 +115,8 @@
 	</div>
 	<div tal:repeat="sect abil" style="text-align:center; width:90%;">
 		<p tal:content="php:labeler[repeat.sect.key]" tal:attributes="onclick string:javascript:tog('bt_${repeat/sect/key}') ; class string:abiliAggregator ${repeat/sect/key}" style="cursor:pointer; width:90%; display:block; border-radius:0; text-align:center;"></p>
-		<div tal:attributes="id string:bt_${repeat/sect/key} ; style php:((isSet(openedCategory) && openedCategory EQ repeat.sect.key) ? 'display:block' : 'display:none') " style="display:none;">
-			<img tal:attributes="title string:${ab/abName} ; class php:((ab['value'] != NULL) ? 'imageObrevNoGray tooltip' : 'grayScale imageObrev tooltip' )  ; src string:TEMPLATES/img/interface/personnelInterface/abilita/${ab/abImage} ; onclick string:javascript:setView('brevdiv_${ab/abID}') ; id string:img_brevdiv_${ab/abID}" style="width:42px;" tal:repeat="ab sect" />
+		<div tal:attributes="id string:bt_${repeat/sect/key} ; style php:((isSet(openedCategory) && openedCategory EQ repeat.sect.key) ? 'display:block' : 'display:none')" style="display:none;">
+			<img tal:attributes="title string:${ab/abName} ; class php:((ab['value'] != NULL) ? 'imageObrevNoGray tooltip ' . ab['depString'] : 'grayScale imageObrev tooltip ' . ab['depString'] )  ; src string:TEMPLATES/img/interface/personnelInterface/abilita/${ab/abImage} ; onclick string:javascript:setView('brevdiv_${ab/abID}') ; id string:img_brevdiv_${ab/abID}" style="width:42px;" tal:repeat="ab sect" />
 		</div>
 	</div>
  
@@ -139,21 +152,36 @@
 <div class="lateralR" tal:attributes="id string:brevdiv_${abilit/abID}" tal:repeat="abilit cat">
 
 	<div id="lateralRtop" tal:attributes="style string:position:relative ;; background-image:url('TEMPLATES/img/interface/personnelInterface/abilita/cat_images/${abilit/abEImage}')">
+
+
+	<div style="font-size:45px; background-color:rgba(0,0,0,0.8); text-align:center; font-family:federationFontI; position:absolute; width:90px; height:40px; left:0px; bottom:0px;">
+
+		<p style="margin:0px; font-size:34px">Liv. <span style="color:#256aa0; font-size:40px" tal:content="php:(abilit['value'] == NULL) ? '-' : abilit['value']" /> </p>
+
+		
+
+	</div>
 	
-	<div style="font-size:45px; background-color:rgba(0,0,0,0.5); text-align:center; font-weight:bold; font-family:federationFontI; position:absolute; width:150px; height:50px; right:0px; bottom:0px;"> <span tal:content="php:(abilit['value'] == NULL) ? '-' : abilit['value']" /> <span style="color:#256aa0;">/ 15</span> </div>
+	<div style="font-size:45px; background-color:rgba(0,0,0,0.8); text-align:center; font-family:federationFontI; position:absolute; width:180px; height:40px; right:0px; bottom:0px;">
+
+		
+
+		<p style="margin:0px; font-size:34px">Soglia: <span style="font-size:40px;" tal:content="php:abilit['thr']" />/20 </p>
+
+	</div>
 	
 	</div>
 	
-	<div id="lateralRbottom">
+	<div id="lateralRbottom" >
 		<p class="title" style="font-size:25px; margin-top:35px; text-transform:uppercase;" tal:content="string:${abilit/abName}"> </p>
 		
-		<p style="margin:0px; text-align:center;" tal:condition="php:count(abilit['dep']) GT 0"> Si basa su: <img class="tooltip" tal:repeat="dpp abilit/dep" tal:attributes="title string:${dpp/0/abName} (lanciando su questa abilità, viene dato un bonus pari al ${dpp/1}% del punteggio di ${dpp/0/abName}); src string:TEMPLATES/img/interface/personnelInterface/abilita/${dpp/0/abImage}" style="width:28px; vertical-align:middle; margin-left:10px;" />
+		<div style="margin:0px; text-align:center; font-family:Helvetica" tal:condition="php:count(abilit['dep']) GT 0"> <span style="font-size:13px;">SI BASA SU:</span> <p style="display:inline; margin:0px;" tal:repeat="dpp abilit/dep"><img class="tooltip"  tal:attributes="title string:${dpp/0/abName} (lanciando su questa abilità, viene dato un bonus pari al ${dpp/1}% del punteggio di ${dpp/0/abName}); src string:TEMPLATES/img/interface/personnelInterface/abilita/${dpp/0/abImage}" style="width:28px; vertical-align:middle; margin-left:10px;" /></p>
 
 		
 
-		</p>
+		</div>
 		
-		<div class="descriText" tal:content="structure abilit/abDescription"> Test Descri </div>
+		<div class="descriText" tal:content="structure abilit/abDescription" > Test Descri </div>
 
 
 		<div style="position:absolute; bottom:10px; right:10px;">

@@ -310,15 +310,34 @@ elseif($mode == 'ssto')
 
 	if($selectedUser == $_SESSION['pgID'] || $currentUser->pgAuthOMA == 'A')
 	{
-	$ranks=array();
 
-	$adminFilter = ($currentUser->pgAuthOMA == 'A') ? '' : 'WHERE masked = 0';
+	$aggregations=array();
+	$ranks=array();
+	$curRankCode = PG::getSomething($selectedUser,'rankCode');
+	
+
+	$adminFilter = ($currentUser->pgAuthOMA == 'M') ? '' : 'WHERE masked = 0';
 
 	$my = mysql_query("SELECT prio,Note,ordinaryUniform,aggregation FROM pg_ranks $adminFilter ORDER BY rankerprio DESC");
-	while($myA = mysql_fetch_array($my))
-	$ranks[$myA['aggregation']][$myA['prio']] = array('rankImage' => $myA['ordinaryUniform'],'note' => $myA['Note']);
-	$template->ranks = $ranks;
+	
+	while($myA = mysql_fetch_array($my)){
+
+		if (!in_array($myA['aggregation'], $aggregations))
+			$aggregations[] = $myA['aggregation'];
+
+		if ($myA['prio'] == $curRankCode)
+			{
+				$curRankImage=$myA['ordinaryUniform'];
+				$curRankNote=$myA['Note'];
+			}
+	}
+	
+	$template->aggregations = $aggregations;
 	$template->monty = array('1' => 'GEN', '2' => 'FEB','3' => 'MAR','4' => 'APR','5' => 'MAG','6' => 'GIU','7' => 'LUG','8' => 'AGO','9' => 'SET','10' => 'OTT','11' => 'NOV','12' => 'DIC');
+
+	$template->rankCode = $curRankCode;
+	$template->ordinaryRank = $curRankImage;
+	$template->ordinaryRankNote = $curRankNote;
 	}
 	 
 
@@ -333,7 +352,9 @@ elseif($mode == 'ssto')
 	$template->storiesRuol = $storiesRuol; 
 	$template->stories = $stories;
 	
-	$template->rankCode = PG::getSomething($selectedUser,'rankCode');
+
+
+	
 } 
 
 elseif($mode == 'addssto' || $mode == 'addexam')

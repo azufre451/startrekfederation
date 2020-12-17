@@ -371,11 +371,13 @@ position:relative;
 .examLeft{margin-left:20px; text-align:left;}
 .examRight{margin-right:20px; text-align:right;}*/
 
-#exaAdder, #stoAdder, #rankAdder{display:none; position:absolute; top:50%; left:50%; width:450px; margin-left:-230px; background-color:rgba(0,0,0,0.8); border:1px solid white; padding:5px;} 
+#exaAdder, #stoAdder, #rankAdder, #mostrinaSelector{display:none; position:absolute; top:50%; left:50%; width:450px; margin-left:-230px; background-color:rgba(0,0,0,0.9); border:1px solid white; padding:5px;} 
 
 #exaAdder{height:100px; margin-top:-50px;}
 #stoAdder{height:160px; margin-top:-90px;}
 #rankAdder{height:200px; margin-top:-10px;}
+#mostrinaSelector{height:420px; width:590px; margin-top:-200px; margin-left:-310px; padding:10px; background-color: black;}
+
 
 .closeButton{position:absolute; top:5px; right:15px; cursor:pointer;}
 

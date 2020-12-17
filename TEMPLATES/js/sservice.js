@@ -139,3 +139,66 @@ function editStory(storyID)
               jQuery('#ntpa_show_box').fadeIn();
           });      
     }
+
+function getMostrine(ida){
+
+  jQuery('#selectSection').html(ida);
+  jQuery('#story_rank option').prop('selected', false);
+  jQuery('#story_rank option[value="'+ida+'"]').prop('selected', true);
+
+  RT='<table><tr class="header">';
+   jQuery.ajax(
+          {
+            url: 'ajax_getMostrine.php',
+            data: {term:ida},
+            type: 'POST',
+            dataType : 'json',
+            timeout:3000,
+            success: function(e){ 
+
+                      e['cols'].forEach(function(col){
+                          RT+='<td>'+col+'</td>';
+                      });
+                      RT+='</tr>';
+
+                      e['data'].forEach( function(rank){
+                        RT+='<tr class="spe">';
+                        
+                        rank.forEach(function(section){
+                          //console.log(section[0]);
+                          if (section[0]){
+                            image='<a href="javascript:void(0)" onclick="selectRank('+section[0]['prio']+',\''+section[0]['image']+'\', \''+section[0]['note']+'\'   );" title="'+section[0]['note']+'"><img src="TEMPLATES/img/ranks/'+section[0]['image'] + '.png"></img></a>'; 
+                          }
+                          else{
+                            image='';
+                          }
+
+                          RT+='<td>'+image+'</td>';
+                          
+                        });
+                        RT+='</tr>';
+                      });
+
+                RT+='</table>';
+                jQuery('#mostrinaSelector #mcontent').html('').html(RT);
+                jQuery('#mostrinaSelector').fadeIn();
+
+                }
+          }
+  );
+
+}
+
+function selectRank(ide,ima,nta){
+  jQuery('#mostrinaSelector').fadeOut(function(){
+    
+    //jQuery('#story_rank').
+    
+    
+
+
+    jQuery('#selectedRankImg').prop('src','TEMPLATES/img/ranks/'+ima+'.png');
+    jQuery('#selectedRankImg').prop('title',nta);
+    jQuery('#rankCode').prop('value',ide);
+  })
+}

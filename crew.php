@@ -9,9 +9,9 @@ return ( ( float)$usec + ( float)$sec);
 function cmp($a, $b) {
 
 
-		if ( (preg_match('#^Capo#i', $a['pgIncarico']) === 1) || (preg_match('#^Comandante#i', $a['pgIncarico']) === 1) || (preg_match('#^Responsabile#i', $a['pgIncarico']) === 1)) return -1;
+		if ( (preg_match('#^Capo Squad#i', $a['pgIncarico']) === 1) || (preg_match('#^Comandante#i', $a['pgIncarico']) === 1) || (preg_match('#^Responsabile#i', $a['pgIncarico']) === 1)) return -1;
 
-		if ( (preg_match('#^Capo#i', $b['pgIncarico']) === 1) || (preg_match('#^Comandante#i', $b['pgIncarico']) === 1) || (preg_match('#^Responsabile#i', $b['pgIncarico']) === 1)) return 1;
+		if ( (preg_match('#^Capo Squad#i', $b['pgIncarico']) === 1) || (preg_match('#^Comandante#i', $b['pgIncarico']) === 1) || (preg_match('#^Responsabile#i', $b['pgIncarico']) === 1)) return 1;
 
    		if ($a['rankerprio'] == $b['rankerprio']) {
    		 	if ($a['png'] != $b['png']) 
@@ -27,7 +27,7 @@ function cmp($a, $b) {
    		 if ($a == $b) {
         	return 0;
     	}
-    	return (strstr($a,'COMANDO')) ? -1 : 1;
+    	return (strstr($a,'COMANDO')) ? -1 : $a > $b;
 		}
 
 $start_time = getmicrotime();
@@ -194,7 +194,7 @@ elseif(isSet($_GET['equi']))
 
 		$cclogs = array('Comando e Strategia' => 'nl_com.png','Difesa e Sicurezza' => 'nl_sec.png','Ingegneria e Operazioni' => 'nl_ops.png','Navigazione' => 'nl_nav.png','Scientifica e Medica' => 'nl_sci.png','Comando Civile' => 'logo_tycho.png');
 
-		$clab = array('Comando e Strategia' => 'COM / STR','Difesa e Sicurezza' => 'DIF / SIC','Ingegneria e Operazioni' => 'OPS / ING','Navigazione' => 'NAV','Scientifica e Medica' => 'SCI / MED','Comando Civile' => 'COMANDO');
+		$clab = array('Comando e Strategia' => 'COM / STR','Difesa e Sicurezza' => 'DIF / SIC','Ingegneria e Operazioni' => 'OPS / ING','Navigazione' => 'NAV','Scientifica e Medica' => 'SCI / MED','Comando Civile' => 'COMANDO','Personale Civile' => 'Civili');
 
 		$crew = mysql_query("(SELECT recID,pg_users.pgID,pg_users.pgPrestige as pgPrestige,pgNomeC,pgNomeSuff, pgSpecie, pgSesso, pgUser, pgGrado,pgLastAct, pgSezione, pgIncarico,pgLock, ordinaryUniform, png, pg_incarichi.incSezione, pg_incarichi.incDivisione, pg_incarichi.incDipartimento,pg_incarichi.incGroup,pg_incarichi.incIncarico, rankerprio FROM pg_users,pg_ranks,pg_incarichi WHERE pg_users.pgID = pg_incarichi.pgID AND prio = rankCode AND pgLock=0 AND pg_incarichi.pgPlace = '$equi' AND (pgAuthOMA <> 'BAN' OR png=1) AND incActive=1 ORDER BY rankerprio DESC, pgUser ASC) UNION (SELECT pngID as recID,0 as pgID,-1 as pgPrestige,pngName as pgNomeC,'' as pgNomeSuff, pngSpecie as pgSpecie, pngSesso as pgSesso, pngSurname as pgUser, Rgrado as pgGrado, '0' as pgLastAct, Rsezione as pgSezione, pngIncarico as pgIncarico, '0' as pgLock, ordinaryUniform, '1' as png, pngSezione as incSezione, pngDivisione as incDivisione, pngDipartimento as incDipartimento, pngIncGroup as incGroup, pngIncarico as incIncarico,rankerprio FROM pg_ranks,png_incarichi WHERE prio = pngRank AND pngPlace = '$equi' ORDER BY rankerprio DESC, pngSurname ASC)");
 		 
@@ -205,7 +205,8 @@ elseif(isSet($_GET['equi']))
 		while($rCrew = mysql_fetch_assoc($crew)){
 
 
-			
+			//$rCrew['incSezione'] = str_replace('Personale Civile','Civ',$rCrew['incSezione']);
+
 			if($rtp['hasCrew'] == 1)
 				{
 					$rCrew['incDivisione'] ='-';

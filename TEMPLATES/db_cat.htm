@@ -37,7 +37,16 @@
 	.interfaceLinkYellow{color:yellow;}
 	.interfaceLinkYellow:hover{color:yellow;}
 	.interfaceLinkViolet{color:violet;}
-	.interfaceLinkViolet:hover{color:violet;}</style>
+	.interfaceLinkViolet:hover{color:violet;}
+
+	#elementsNormal div, #elementsSpecial  div{
+		font-size:14px; letter-spacing:0.08em; padding-left:5px; margin-left:20px; margin-top:7px; border-bottom:1px solid #555; padding-bottom:3px;
+
+	}
+	#elementsNormal, #elementsSpecial{margin-top:20px; margin-left:20px; margin-right:30px; padding:10px;}
+
+</style>
+
 
 	<title>STF - DATABASE</title>	
 	<meta name="description" tal:content="description" />
@@ -70,31 +79,47 @@
 <p style="text-align:right; margin-right:10px; margin-bottom:3px; padding-bottom:6px; border-bottom:1px dotted #FCFCFC" class="titleFS" tal:content="catName" /></div>
 
 <div id="cdbContainer">
-<p style="text-align:left; float:left; width:150px; margin-left:20px;"><a class="interfaceLink" href="db.php">Torna Indietro</a></p>
+	<p style="text-align:left; float:left; width:150px; margin-left:20px;"><a class="interfaceLink" href="db.php">TORNA INDIETRO</a></p>
 
-<div style="text-align:center; float:right; margin-right:30px; margin-top:20px; border:1px solid #2190c4; padding:10px;" tal:condition="not:exists:searcher">
-<form method="post" action="db.php?searcher=true">
-<input type="input" placeholder="Ricerca..." name="key" class="searchField" style="height:15px; font-size:13px; border-radius:9px; width:220px;" autofocus="autofocus" tal:attributes="disabled php:(searchable == true) ? false : 'true' ; value php:(searchable == true) ? '' : 'La ricerca è possibile solo per gli utenti iscritti :)' "/> <button tal:attributes="disabled php:(searchable == true) ? false : 'disabled'" style="margin-left:10px; width:120px; line-height:16px; font-size:16px; letter-spacing:2px;">CERCA </button><br />
-<input tal:attributes="disabled php:(searchable == true) ? false : 'disabled'" type="radio" value="0" name="mode" /> Almeno una parola 
-<input tal:attributes="disabled php:(searchable == true) ? false : 'disabled'" type="radio" value="1" name="mode" checked="checked" /> Tutte le parole 
-<input tal:attributes="disabled php:(searchable == true) ? false : 'disabled'" type="radio" value="2" name="mode" /> Intera frase
 
-<input type="hidden" tal:attributes="value catID" name="section"/> </form>
-</div><div style="clear:both"/>
 
-<div style="margin-top:20px; border:1px dashed #2f82b7; margin-left:20px; margin-right:30px; padding:10px;" tal:condition="php:(count(elements['IMPORTANT']))"><a tal:attributes="href string:db.php?element=${el/ID} ; class string:${colorer}"  tal:repeat="el elements/IMPORTANT">
-	<div style="padding-left:5px; margin-left:20px; margin-top:7px; margin-right:45px;  border:1px solid #555; font-size:13px;" tal:content="el/title" tal:condition="exists:searcher"  />
-	<div style="padding-left:5px; margin-left:20px; margin-top:7px; margin-right:20px;  border:1px solid #555; float:left; width:45%; font-size:13px;" tal:condition="not:exists:searcher" tal:content="el/title" />
-</a>
-<div style="clear:both;"/>
-</div>
+	<div style="clear:both"/>
 
-<div style="margin-top:20px; border:1px dotted #333;  margin-left:20px; margin-right:30px; padding:10px;"><a class="interfaceLink" tal:attributes="href string:db.php?element=${el/ID}" tal:repeat="el elements/NORMAL">
-	<div style="padding-left:5px; margin-left:20px; margin-top:7px; margin-right:45px;  border:1px solid #555; font-size:13px;" tal:condition="exists:searcher"><span tal:attributes="class colorer" tal:content="el/tag" /> - <span tal:content="el/title" /></div>
-	<div style="padding-left:5px; margin-left:20px; margin-top:7px; margin-right:20px;  border:1px solid #555; float:left; width:45%; font-size:13px;" tal:condition="not:exists:searcher"><span tal:attributes="class colorer" tal:content="el/tag" /> -  <span tal:content="el/title" /></div>
-</a>
-<div style="clear:both;"/>
-</div>
+	<div id="elementsSpecial" tal:condition="php:(count(elements['IMPORTANT']))">
+
+		<p style="font-family:FederationFont; font-size:24px; letter-spacing:0.1em; margin:0px; border-bottom:2px solid #AAA; padding-bottom:5px; margin-bottom:10px;"> In Evidenza </p>
+		
+			<a tal:attributes="href string:db.php?element=${el/ID} ; class string:${colorer}"  tal:repeat="el elements/IMPORTANT">
+				<div tal:content="el/title" tal:condition="exists:searcher"  />
+				<div style="margin-right:20px;  float:left; width:45%; " tal:condition="not:exists:searcher" tal:content="el/title" />
+			</a>
+			<div style="border:0px; clear:both;"/>
+		
+	</div>
+
+	<div id="elementsNormal">
+		<p style="font-family:FederationFont; font-size:24px; letter-spacing:0.1em; margin:0px; border-bottom:2px solid #AAA; padding-bottom:5px; margin-bottom:10px;">  </p>
+		<a class="interfaceLink" tal:attributes="href string:db.php?element=${el/ID}" tal:repeat="el elements/NORMAL">
+			<div style="margin-right:45px;" tal:condition="exists:searcher"><span tal:attributes="class colorer" tal:content="el/tag" /> - <span tal:content="el/title" /></div>
+			<div style="margin-right:20px;  float:left; width:45%; " tal:condition="not:exists:searcher"><span tal:attributes="class colorer" tal:content="el/tag" /> -  <span tal:content="el/title" /></div>
+		</a>
+		<div style="border:0px; clear:both;"/>
+	</div>
+
+
+	<div style="position:absolute; bottom:20px; right:10px;">
+
+			<div style="text-align:center; float:right; margin-right:30px; width:600px; margin-top:20px;" tal:condition="not:exists:searcher">
+		<form method="post" action="db.php?searcher=true">
+			<p><input type="text" placeholder="Ricerca..." name="key" class="searchField neon" tal:attributes="disabled php:(searchable == true) ? false : 'true' ; value php:(searchable == true) ? '' : 'La ricerca è possibile solo per gli utenti iscritti :)' "/> <button tal:attributes="disabled php:(searchable == true) ? false : 'disabled'" style="margin-left:10px; width:100px; line-height:14px; font-weight:bold; font-size:16px;">CERCA </button></p>
+			<input tal:attributes="disabled php:(searchable == true) ? false : 'disabled'" type="radio" value="0" name="mode" /> Almeno una parola 
+			<input tal:attributes="disabled php:(searchable == true) ? false : 'disabled'" type="radio" value="1" name="mode" checked="checked" /> Tutte le parole 
+			<input tal:attributes="disabled php:(searchable == true) ? false : 'disabled'" type="radio" value="2" name="mode" /> Intera frase
+
+			<input type="hidden" tal:attributes="value catID" name="section"/>
+		</form>
+	</div>
+	</div>
 </div>
 
 </body>

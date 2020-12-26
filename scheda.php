@@ -401,7 +401,9 @@ elseif($mode == 'addssto' || $mode == 'addexam')
 else if ($mode == 'removessto')
 {
 	$w = $vali->numberOnly($_GET['sID']);
-	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA)){ mysql_query("DELETE FROM pg_service_stories WHERE recID = $w"); } 
+	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA)){
+		mysql_query("DELETE FROM pg_service_stories WHERE recID = $w");
+	} 
 	
 	header("Location:scheda.php?pgID=$selectedUser&s=ssto");
 	exit;
@@ -1119,10 +1121,16 @@ elseif($mode == 'admin')
 	while($resLoc = mysql_fetch_array($resLocations))
 	$locArray[$resLoc['placeID']] = $resLoc['placeName'];
 	
-	$res = mysql_query("SELECT medID,medName FROM pg_medals WHERE 1 ORDER BY medPrio ASC");
+	$res = mysql_query("SELECT medID,medName,medgroup FROM pg_medals WHERE 1 ORDER BY medPrio ASC");
 	$nasArray=array();
 	while($resD = mysql_fetch_array($res))
-		$nasArray[] = $resD;
+	{
+		if (!array_key_exists($resD['medgroup'], $nasArray))
+			$nasArray[$resD['medgroup']] = array($resD);
+		else			
+			$nasArray[$resD['medgroup']][] = $resD;
+	}
+	ksort($nasArray);
 	
 	$lasts = array();
 	
@@ -1542,12 +1550,21 @@ elseif ($mode == 'remDotazione')
 {
 	$pgID = $vali->numberOnly($_GET['pgID']);
 	$ider = $vali->numberOnly($_GET['ider']);
+	$item = $_GET['type'];
 	
 	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
-		if(isSet($_GET['brever'])) mysql_query("DELETE FROM pg_brevetti_assign WHERE recID = $ider");
-		if(isSet($_GET['laurer'])) mysql_query("DELETE FROM pgDotazioni WHERE recID = $ider");
+	{
+		//if(isSet($_GET['brever'])) mysql_query("DELETE FROM pg_brevetti_assign WHERE recID = $ider");
+		if($item == 'medal' && PG::mapPermissions('A',$currentUser->pgAuthOMA))
+			mysql_query("DELETE FROM pgDotazioni WHERE doatazioneType = 'MEDAL' AND pgID = $pgID AND recID = $ider");
+		elseif($item == 'degree')
+			mysql_query("DELETE FROM pgDotazioni WHERE doatazioneType = 'LAUR' AND pgID = $pgID AND recID = $ider");
+		elseif($item == 'nota')
+			mysql_query("DELETE FROM pgDotazioni WHERE doatazioneType = 'NOTA' AND pgID = $pgID AND recID = $ider");
+
+	}
 		
-	header("Location:scheda.php?pgID=$pgID&s=bv");
+	header("Location:scheda.php?pgID=$pgID");
 	exit;
 }
 
@@ -2087,6 +2104,7 @@ $template->omasterPanel = (PG::mapPermissions("M",$currentUser->pgAuthOMA)) ? tr
 $template->moderativePanel = (PG::mapPermissions("MM",$currentUser->pgAuthOMA)) ? true : false;
 $template->smasterPanel = (PG::mapPermissions("SM",$currentUser->pgAuthOMA)) ? true : false;
 $template->adminPanel = (PG::mapPermissions("A",$currentUser->pgAuthOMA)) ? true : false;
+
 $template->adminOstePanel = ($currentUser->pgUser =='Rezaei' || $currentUser->pgUser == 'Kyleakeen') ? true : false;
 $template->editable = ($selectedUser == $_SESSION['pgID'] || $currentUser->pgAuthOMA == 'A') ? true : false;
 $template->editableSM = ($selectedUser == $_SESSION['pgID'] || $currentUser->pgAuthOMA == 'SM') ? true : false;

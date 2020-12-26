@@ -42,6 +42,15 @@
 		return false;
 	} 
 	
+
+	</script>
+
+	<script tal:condition="php:(masterPanel)">
+		function removeDotazione(whater,ider,pgi)
+		{	
+			if(confirm('Conferma eliminazione?'))
+			window.location.href="scheda.php?s=remDotazione&type="+whater+"&ider="+ider+'&pgID='+pgi;
+		}
 	</script>
 	
 	<style>
@@ -110,15 +119,18 @@
 			</table> 
 	
 			<div class="accessoryDiv_e " tal:condition="php:(count(commendations['MEDAL']))">
-				<img tal:repeat="op commendations/MEDAL" tal:attributes="src string:TEMPLATES/img/ruolini/medaglie/${op/icon} ; title op/alt" class="tooltip" style="margin-left:2px; margin-top:2px;" />
+				<img tal:repeat="op commendations/MEDAL" tal:attributes="src string:TEMPLATES/img/ruolini/medaglie/${op/icon} ; title op/alt ; ondblclick php:(adminPanel== true) ? 'javascript:removeDotazione(\'medal\',' . op['recID'] . ',' . selectedUser . ')':''" class="tooltip" style="margin-left:2px; margin-top:2px;" />
 				
+
+				 
+
 			</div>
 			
 			<div tal:condition="php:(count(commendations['LAUR']) > 0 || count(commendations['NOTA']) > 0)" class="accessoryDiv_e ">  
 				<!-- LAUREE  -->
-			<img tal:repeat="lau commendations/LAUR" tal:attributes="src string:TEMPLATES/img/ruolini/lauree/${lau/icon} ; title lau/alt ; ondblclick php:(masterPanel== true) ? 'javascript:removeDotazione(' . lau['recID'] . ',' . selectedUser . ')':''" class="tooltip" style="margin-left:4px;"/>
+			<img tal:repeat="lau commendations/LAUR" tal:attributes="src string:TEMPLATES/img/ruolini/lauree/${lau/icon} ; title lau/alt ; ondblclick php:(smasterPanel== true) ? 'javascript:removeDotazione(\'degree\',' . lau['recID'] . ',' . selectedUser . ')':''" class="tooltip" style="margin-left:4px;"/>
 			
-			<div style="position:absolute; top:0px; right:0px; width:50px;"><img tal:repeat="bre commendations/NOTA" class="tooltip" tal:attributes="src string:TEMPLATES/img/ruolini/${bre/icon} ; title bre/alt" style="margin-top:5px;" /></div>
+			<div style="position:absolute; top:0px; right:0px; width:50px;"><img tal:repeat="bre commendations/NOTA" class="tooltip" tal:attributes="src string:TEMPLATES/img/ruolini/${bre/icon} ; title bre/alt ; ondblclick php:(smasterPanel== true) ? 'javascript:removeDotazione(\'nota\',' . bre['recID'] . ',' . selectedUser . ')':'' " style="margin-top:5px;" /></div>
 			</div>
 			
 			

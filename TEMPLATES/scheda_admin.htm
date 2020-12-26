@@ -215,7 +215,11 @@
 	<div style="margin-top:5px; border:1px solid #2e7ec8;">
 		AGGIUNGI ENCOMI / NASTRINI
 		<form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setNastrini" method="POST">
-		<select class="neon" name="nastrini" style="width:95%;"><option tal:repeat="nas nastrini" tal:attributes="value nas/medID" tal:content="nas/medName" /></select>
+		<select class="neon" name="nastrini" style="width:95%;">
+			<optgroup tal:repeat="nasG nastrini" tal:attributes="label repeat/nasG/key">
+				<option tal:repeat="nas nasG" tal:attributes="value nas/medID" tal:content="nas/medName" />
+			</optgroup>>
+		</select>
 		
 		Anno: <select class="neon" name="dataA"><option tal:repeat="year php:range(2290,thisYear)" tal:attributes="value year ; selected php:(year==thisYear) ? 'selected': false" tal:content="year" /></select>
 		<br />

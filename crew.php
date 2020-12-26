@@ -27,7 +27,17 @@ function cmp($a, $b) {
    		 if ($a == $b) {
         	return 0;
     	}
-    	return (strstr($a,'COMANDO')) ? -1 : $a > $b;
+    	
+//    	if (strstr($a,'Comando')){ echo "KAVA ".$a.' '.$b.'$rw=1;}
+//    	if (strstr($b,'Comando')){ echo "KAVA ".$a.' '.$b.'$rw=-1;}
+//    	else $rw=($a > $b);
+    	
+    	if ( (preg_match('#comando#i', strtolower($a)) === 1)) $rw=-1;
+    	elseif ( (preg_match('#comando#i', strtolower($b)) === 1)) $rw=1;
+    	else $rw = ($a > $b);
+
+    	return $rw;
+
 		}
 
 $start_time = getmicrotime();

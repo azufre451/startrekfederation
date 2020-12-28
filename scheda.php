@@ -1111,7 +1111,7 @@ elseif($mode == 'admin')
 	$pgID = $vali->numberOnly($_GET['pgID']);
 	if (!PG::mapPermissions('A',$currentUser->pgAuthOMA)){Mailer::emergencyMailer("Tentativo di accesso a scheda admin del pg $pgID",$currentUser); header('Location:scheda.php');}
 	$template = new PHPTAL('TEMPLATES/scheda_admin.htm');
-	$res = mysql_query("SELECT png, email,pgSSF,pgUpgradePoints,pgSpecialistPoints,pgPrestige,pgLastURI FROM pg_users WHERE pgID = $pgID");
+	$res = mysql_query("SELECT png, email,pgSSF,pgUpgradePoints,pgSpecialistPoints,pgPrestige,pgLastURI,pgType,mainPG FROM pg_users WHERE pgID = $pgID");
 	
 	if(mysql_affected_rows()) $resA = mysql_fetch_array($res);
 	else {header('Location:scheda.php'); exit;}
@@ -1164,14 +1164,22 @@ elseif($mode == 'admin')
 	
 	$lasts['pgLastURI'] = array(date('d M H:i:s',$selectedDUser->pgLastAct),$resA['pgLastURI'],'LAST URL');
 
-	$e= mysql_query("SELECT pgUser,points,cause,causeE,causeM,timer FROM pg_users_pointStory,pg_users WHERE pgID = assigner AND owner = $pgID AND cause LIKE '%DISP%' ORDER BY timer DESC LIMIT 50");	
-	$pstory = array();
-	while ($d = mysql_fetch_array($e))
-	$pstory[] = $d;	
+	$mainPG=$resA['mainPG'];
+
+
+	$mainPGRec=mysql_fetch_assoc(mysql_query("SELECT pgUser, ordinaryUniform, pgID, pgSesso, pgSpecie,mainPG FROM pg_users,pg_ranks WHERE rankCode = prio AND pgID = $mainPG LIMIT 1" ));
+
+
+
+	//$e= mysql_query("SELECT pgUser,points,cause,causeE,causeM,timer FROM pg_users_pointStory,pg_users WHERE pgID = assigner AND owner = $pgID AND cause LIKE '%DISP%' ORDER BY timer DESC LIMIT 50");	
+	//$pstory = array();
+	//while ($d = mysql_fetch_array($e))
+	//$pstory[] = $d;	
 	
 	$template->thisYear = $thisYear+$bounceYear;
 	$template->lasts = $lasts;
-	$template->pstory = $pstory;
+	//$template->pstory = $pstory;
+	$template->mainPGRec=$mainPGRec;
 	$template->nastrini = $nasArray;
 	$template->pgUpgradePoints = $resA['pgUpgradePoints'];
 	$template->pgSpecialistPoints = $resA['pgSpecialistPoints']; 
@@ -1179,6 +1187,7 @@ elseif($mode == 'admin')
 	$template->png = ($resA['png'] == 1) ? true : false;
 	$template->email = $resA['email'];
 	/**/ 
+	$template->pgType = $resA['pgType'];
 	$template->isMasCapableEnable = PG::isMasCapable($pgID);
 
 	$carObj = new abilDescriptor($pgID);
@@ -1844,6 +1853,31 @@ header("Location:scheda.php?pgID=$pgID&s=admin");
 exit;
 }
 
+elseif ($mode == 'setMainPG')
+{
+$pgID = $vali->numberOnly($_GET['pgID']);
+$targetPG = addslashes($_POST['targetPGID']);
+$pgIDRole = addslashes($_POST['pgIDRole']);
+//$propagate = $vali->numberOnly($_POST['propagate']);
+
+
+if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
+{
+	$rea=mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$targetPG' LIMIT 1");
+	if (mysql_affected_rows())
+	{
+		$resPG=mysql_fetch_assoc($rea);
+		$targetPGID = $resPG['pgID'];
+		mysql_query("UPDATE pg_users SET mainPG = $targetPGID, pgType = '$pgIDRole' WHERE pgID = $pgID");
+	}
+}
+		
+	
+header("Location:scheda.php?pgID=$pgID&s=admin");
+exit;
+}
+
+
 
 elseif ($mode == 'setPrestige')
 {
@@ -1910,7 +1944,7 @@ if(PG::mapPermissions('A',$currentUser->pgAuthOMA))
 	}
 	else{
 		#WOLO
-		mysql_query("DELETE FROM pg_achievement_assign WHERE achi = $achi AND owner IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $pgID))  ");
+		mysql_query("DELETE FROM pg_achievement_assign WHERE achi = $achi AND owner IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $pgID))");
 	}
 }
 	header("Location:scheda.php?pgID=$pgID&sOff=off");

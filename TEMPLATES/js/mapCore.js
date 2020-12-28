@@ -24,7 +24,7 @@
 		{ // JQUERY YOUR SISTER! 
 			jQuery.ajax(
 			{
-			url: 'aggio.php?ts='+new Date().getMilliseconds(),
+			url: 'ajax_interfaceUpdater.php?ts='+new Date().getMilliseconds(),
 			success: setterCA, 
 			type: 'POST',
 			dataType : 'json',

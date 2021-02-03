@@ -378,7 +378,7 @@ else if($mode == 'newH')
 			while($res = mysql_fetch_assoc($idR))
 			{ 
 				$idA = $res['pgID']; 
-				mysql_query("INSERT INTO fed_pad (paddFrom, paddTo, paddTitle, paddText, paddTime, paddRead) VALUES (1610, $idA, 'Tychonian Herald: $titolo', 'E\' stata inserita una nuova News nel Tychonian Herald<br /><p style=\"text-align:center;\"><span style=\"font-size:20px;\">$titolo</span><br />$sottotitolo</p><br /><br /> <br /><a href=\"padd.php?s=readTribune&newsID=$newsID\" class=\"interfaceLinkBlue\">Clicca qui</a> per leggerla!',$curTime,0)");
+				mysql_query("INSERT INTO fed_pad (paddFrom, paddTo, paddTitle, paddText, paddTime, paddRead) VALUES (1610, $idA, 'Tychonian Eagle: $titolo', 'E\' stata inserita una nuova News nel Tychonian Eagle<br /><p style=\"text-align:center;\"><span style=\"font-size:20px;\">$titolo</span><br />$sottotitolo</p><br /><br /> <br /><a href=\"padd.php?s=readTribune&newsID=$newsID\" class=\"interfaceLinkBlue\">Clicca qui</a> per leggerla!',$curTime,0)");
 			} 
 
 			$string = addslashes("<p class=\"auxActionMaster\">Nuova News inserita nel Tychonian Eagle<br /><a class=\"interfaceLinkBlue\" href=\"javascript:void(0);\" onclick=\"window.open ('padd.php?s=readTribune&newsID=$newsID','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');\">$titolo</a></p>");

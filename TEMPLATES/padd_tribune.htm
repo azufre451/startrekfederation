@@ -59,9 +59,10 @@
 
 <table cellspacing="0px">
 	<tr><td style="border:1px dotted #333; width:140px;">TITOLO</td><td class="newPaddtd"><input maxlength="37" id="titolo" name="titolo" style="width:400px;"/></td></tr>
-	<tr><td style="border:1px dotted #333; width:140px;">SOTTOTITOLO / LINK</td><td class="newPaddtd"><input id="sottotitolo" name="sottotitolo" style="width:400px;"/></td></tr>
+	<tr><td style="border:1px dotted #333; width:140px;">SOTTOTITOLO</td><td class="newPaddtd"><input id="sottotitolo" name="sottotitolo" style="width:400px;"/></td></tr>
 	<tr><td style="width:140px; border:1px dotted #333; ">TESTO</td><td class="newPaddtd"><textarea name="testo" style="width:400px; height:160px;"/></td></tr>
 	<tr tal:condition="php:(adminable==true)"><td style="width:140px; border:1px dotted #333; ">TESTO</td><td class="newPaddtd">
+	<!--
 	<select name="aleXX">
 		<option value="FED">FED</option>
 		<option value="ROM">ROM</option>
@@ -72,7 +73,8 @@
 		<option value="SPA">Spazio</option>
 		<option value="TRK">Trek</option>
 		<option value="FDX">STFederation</option>
-	</select>
+	</select>-->
+
 	</td></tr>
 
 	<tr><td colspan="2" style="text-align:center;"><input style="width:50px;" type="submit" value="INVIA" /></td></tr>

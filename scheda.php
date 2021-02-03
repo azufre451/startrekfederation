@@ -262,7 +262,7 @@ elseif($mode == 'ssto')
 	$template = new PHPTAL('TEMPLATES/scheda_stato_servizio.htm');
 	$template->thisYear = $thisYear+$bounceYear;
 
-	$res = mysql_query("SELECT recID,timer,text,placeName,postLink,type,extra,image FROM pg_service_stories,pg_places WHERE placeID = placer AND owner = $selectedUser ORDER BY timer DESC");
+	$res = mysql_query("SELECT recID,timer,text,placeName,postLink,type,extra,image FROM pg_service_stories LEFT JOIN pg_places ON placeID = placer WHERE owner = $selectedUser ORDER BY timer DESC");
 	
 	$stories = array('SERVICE' => array(),'EXAM' => array());
 	while($resA = mysql_fetch_array($res)){
@@ -1165,11 +1165,14 @@ elseif($mode == 'admin')
 	$lasts['pgLastURI'] = array(date('d M H:i:s',$selectedDUser->pgLastAct),$resA['pgLastURI'],'LAST URL');
 
 	$mainPG=$resA['mainPG'];
+	if(!$mainPG) $mainPG=$selectedUser;
 
-
-	$mainPGRec=mysql_fetch_assoc(mysql_query("SELECT pgUser, ordinaryUniform, pgID, pgSesso, pgSpecie,mainPG FROM pg_users,pg_ranks WHERE rankCode = prio AND pgID = $mainPG LIMIT 1" ));
-
-
+        $mainPGRecQ=mysql_query("SELECT pgUser, ordinaryUniform, pgID, pgSesso, pgSpecie,mainPG FROM pg_users,pg_ranks WHERE rankCode = prio AND pgID = $mainPG LIMIT 1" );
+	
+	if (mysql_affected_rows())
+		$mainPGRec=mysql_fetch_assoc($mainPGRecQ);
+	else
+                $mainPGRec=array();
 
 	//$e= mysql_query("SELECT pgUser,points,cause,causeE,causeM,timer FROM pg_users_pointStory,pg_users WHERE pgID = assigner AND owner = $pgID AND cause LIKE '%DISP%' ORDER BY timer DESC LIMIT 50");	
 	//$pstory = array();

@@ -36,24 +36,59 @@
 	{
 		jQuery('#brever').css('background-image','url(\'TEMPLATES/img/ruolini/'+vara+'\')');
 	}
+
+	function searchIncarichiFunction(par)
+	{
+		return function(request, response) {
+			
+			jQuery.ajax({
+				type: "POST",
+				url:"ajax_gradiGedder.php",
+				data: {
+					term:request.term,
+					desiredPar: par,
+					place:jQuery('#assegnazione').val(),
+					section:jQuery('#sectionWhat').val(),
+					dep:jQuery('#departmentWhat').val(),
+					div:jQuery('#divisionWhat').val(),
+					group:jQuery('#groupWhat').val(),
+					incarico:jQuery('#incIncarico').val()
+				},
+				success: response,
+				dataType: 'json'
+				});
+		}
+	}
 	function paddOpen(who){window.open ('padd.php?s=seR&to='+who+'&sub=','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
 	
 
 		jQuery(function(){
-			jQuery('#sectionWhat').autocomplete({source: "ajax_gradiGedder.php?sezioni=do",	minLength: 2});
-			jQuery('#departmentWhat').autocomplete({source: "ajax_gradiGedder.php?dipartimenti=do",	minLength: 2});
-			jQuery('#divisionWhat').autocomplete({source: "ajax_gradiGedder.php?divisioni=do",	minLength: 2});
-			jQuery('#divisionWhat').autocomplete({source: "ajax_gradiGedder.php?divisioni=do",	minLength: 2});
-			
-			jQuery('#groupWhat').autocomplete({source: "ajax_gradiGedder.php?gruppi=do",	minLength: 2});
+			jQuery('#sectionWhat').autocomplete({source: searchIncarichiFunction('sezioni'),minLength: 2, appendTo: '#apa'});
+			jQuery('#departmentWhat').autocomplete({source: searchIncarichiFunction('dipartimenti'),minLength: 2, appendTo: '#apa'});
+			jQuery('#divisionWhat').autocomplete({source: searchIncarichiFunction('divisioni'),	minLength: 2, appendTo: '#apa'});		
+			jQuery('#groupWhat').autocomplete({source: searchIncarichiFunction('gruppi'), minLength: 2, appendTo: '#apa'});
+			jQuery('#incIncarico').autocomplete({source: searchIncarichiFunction('incarichi'), minLength: 2, appendTo: '#apa'});
 
 		});
 	
 	</script>	
 
 	<style>
-			.ui-autocomplete {max-height: 135px;overflow-y: auto;overflow-x: hidden;padding-right: 1px;}
-		.ui-autocomplete li {padding:2px;font-size:12px;}
+
+
+	.ui-autocomplete.ui-widget {
+	  font-size: 14px;
+	  font-family: 'Helvetica';
+	  overflow-y: auto;
+	}
+	.ui-autocomplete {
+            max-height: 200px;
+            width:340px;
+            overflow-y: auto;
+            text-align: left;
+            overflow-x: hidden; 
+            padding-right: 20px;
+        }  
 
 		tr.activePrincTR td.csp{ background-color:#3674c8;}
 		tr.activeSecTR td.csp{ background-color:#000000;}
@@ -209,7 +244,7 @@ Template: <select type="text" class="neon" name="alloType"><optgroup tal:repeat=
 </div>
 
 
-<div tal:condition="exists:bonusSM" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+<div tal:condition="exists:bonusSM" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center; position:relative;" id="apa" >
 
 <a name="setIncarichi"/>
 
@@ -217,14 +252,14 @@ Template: <select type="text" class="neon" name="alloType"><optgroup tal:repeat=
 
 		<div id="Assegnazioni" style="display:block">
 		<form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setIncarico">
-		<select class="neon" name="assegnazione" style="width:400px;">
+		<select class="neon" name="assegnazione"  id="assegnazione" style="width:400px;">
 		<option tal:repeat="location locations" tal:attributes="value repeat/location/key ; selected php:(repeat.location.key == userData.pgAssign) ? 'selected' : false" tal:content="location"/></select><br/>
 		
 		<input class="neon" id="sectionWhat" placeholder="Sezione" tal:attributes="value userData/pgSezione" type="text" name="incSezione"  style="width:400px;" /><br/>
 		<input class="neon" id="divisionWhat" placeholder="Divisione" type="text" name="incDivisione"  style="width:400px;" /><br/>
 		<input class="neon" id="departmentWhat" placeholder="Dipartimento" type="text" name="incDipartimento"  style="width:400px;" /><br/>
 		<input class="neon" id="groupWhat" placeholder="Gruppo/Squadra (opzionale: Alpha,Valchirie etc...)" type="text" name="incGroup"  style="width:400px;" /><br/>
-		<input class="neon" placeholder="Incarico" type="text" name="incIncarico" style="width:400px;"  /><br/>
+		<input class="neon" placeholder="Incarico" type="text" name="incIncarico" id="incIncarico" style="width:400px;"  /><br/>
 		<input type="checkbox" name="incMain" />Principale <input type="submit" value="VAI" /></form>
 
 		<hr />

@@ -31,11 +31,41 @@
 			else jQuery('.pngLine, .fpngLine').fadeOut(120);
 		}
 			
+		function searchIncarichiFunction(par)
+		{
+			return function(request, response) {
+				
+				jQuery.ajax({
+					type: "POST",
+					url:"ajax_gradiGedder.php",
+					data: {
+						term:request.term,
+						desiredPar: par,
+						place:jQuery('#assegnazione').val(),
+						section:jQuery('#sectionWhat').val(),
+						dep:jQuery('#departmentWhat').val(),
+						div:jQuery('#divisionWhat').val(),
+						group:jQuery('#groupWhat').val(),
+						incarico:jQuery('#incIncarico').val()
+					},
+					success: response,
+					dataType: 'json'
+					});
+			}
+		}
+
 		jQuery(function(){
-			jQuery('#sectionWhat').autocomplete({source: "ajax_gradiGedder.php?sezioni=do",	minLength: 2});
-			jQuery('#departmentWhat').autocomplete({source: "ajax_gradiGedder.php?dipartimenti=do",	minLength: 2});
-			jQuery('#divisionWhat').autocomplete({source: "ajax_gradiGedder.php?divisioni=do",	minLength: 2});
-			jQuery('#groupWhat').autocomplete({source: "ajax_gradiGedder.php?gruppi=do",	minLength: 2});
+			//jQuery('#sectionWhat').autocomplete({source: "ajax_gradiGedder.php?sezioni=do",	minLength: 2});
+			//jQuery('#departmentWhat').autocomplete({source: "ajax_gradiGedder.php?dipartimenti=do",	minLength: 2});
+			//jQuery('#divisionWhat').autocomplete({source: "ajax_gradiGedder.php?divisioni=do",	minLength: 2});
+			//jQuery('#groupWhat').autocomplete({source: "ajax_gradiGedder.php?gruppi=do",	minLength: 2});
+
+
+			jQuery('#sectionWhat').autocomplete({source: searchIncarichiFunction('sezioni'),minLength: 2, appendTo: '#newPNG'});
+			jQuery('#departmentWhat').autocomplete({source: searchIncarichiFunction('dipartimenti'),minLength: 2, appendTo: '#newPNG'});
+			jQuery('#divisionWhat').autocomplete({source: searchIncarichiFunction('divisioni'),	minLength: 2, appendTo: '#newPNG'});		
+			jQuery('#groupWhat').autocomplete({source: searchIncarichiFunction('gruppi'), minLength: 2, appendTo: '#newPNG'});
+			jQuery('#incIncarico').autocomplete({source: searchIncarichiFunction('incarichi'), minLength: 2, appendTo: '#newPNG'});
 			
 			jQuery('.tooltip').tooltip({
           content: function () {

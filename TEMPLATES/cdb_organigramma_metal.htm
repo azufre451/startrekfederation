@@ -24,7 +24,7 @@
 	
 
 	<tr><td style="width:130px; font-weight:bold;">Unità</td><td>
-			<select class="neon" name="assegnazione">
+			<select class="neon" name="assegnazione" id="assegnazione">
 			<option tal:repeat="location locations" tal:attributes="value repeat/location/key ; selected php:(repeat.location.key == equi) ? 'selected' : false" tal:content="location"/>
 			</select>
 
@@ -49,7 +49,7 @@
 			<input style="width:340px;" id="divisionWhat" class="neon" placeholder="Divisione" type="text" name="pgDivisione" /> [ Opzionale ]<br/> 
 			<input style="width:340px;" id="departmentWhat" class="neon" required="required" placeholder="Dipartimento" type="text" name="pgDipartimento" /><span/><br/>
 			<input style="width:340px;" id="groupWhat" class="neon" placeholder="Gruppo/Unità" type="text" name="incGroup" /><br/>
-			<input style="width:340px;" class="neon" placeholder="Incarico" required="required" type="text" name="pgIncarico" /><span/>
+			<input style="width:340px;" class="neon" id="incIncarico" placeholder="Incarico" required="required" type="text" name="pgIncarico" /><span/>
 	</td></tr>
 	
 

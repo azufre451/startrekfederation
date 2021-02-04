@@ -179,7 +179,7 @@ p.bonus span {
 
 			<p style="margin:0px; margin-top:3px; font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;font-size: 13px; text-align: center;text-shadow: 0 0 0px #00C6FF;font-weight:bold;"> <span tal:condition="not:exists:restrictEditCar">Imposta questi valori:</span> <span tal:condition="exists:restrictEditCar">Valori:</span>  </p>
 			<hr style="border-color:#555;" />
-			<table style="width:100%">
+			<table style="width:100%" tal:condition="exists:abi/ABIL">
 			<tr tal:repeat="c abi/ABIL"> 
 				<td> <img tal:attributes="title c/abDescription ; src string:TEMPLATES/img/interface/personnelInterface/abilita/${c/abImage}" style="width:23px;" class="tooltip" /> </td>
 				<td><span style="font-size:12px; font-weight:bold;"  tal:content="c/abName" /></td>

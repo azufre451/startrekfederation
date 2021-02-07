@@ -118,9 +118,10 @@ class CDB
 		else return ''; 
 	}
 
-	public static function replaceBBcodes($text,$user=NULL,$postID=NULL)
+	public static function replaceBBcodes($text,$user=NULL,$postID=NULL,$safeHTML=NULL)
 	{
-			$text = strip_tags($text, self::$allowedHTML);
+			if (!$safeHTML)
+				$text = strip_tags($text, self::$allowedHTML);
 
 	    	$tRet = '';
  
@@ -170,7 +171,7 @@ class CDB
 
 
 
-	public static function bbcode($str,$user=NULL,$postID=NULL,$newline_char="\n"){
+	public static function bbcode($str,$user=NULL,$postID=NULL,$newline_char="\n",$safeHTML=NULL){
 			$bbCode = array(
 	"[B]","[/B]",
 	"[I]","[/I]",
@@ -213,7 +214,7 @@ class CDB
 			{ 
 						$q=array();
 						foreach($str as $k=>$v)
-							$q[$k] = str_replace($bbCode,$htmlCode,self::replaceBBcodes($v,$user,$postID));	
+							$q[$k] = str_replace($bbCode,$htmlCode,self::replaceBBcodes($v,$user,$postID,$safeHTML));	
 						return $q;
 			}
 			else return str_replace($bbCode,$htmlCode,$str);
@@ -221,12 +222,13 @@ class CDB
 		}
 
 		elseif (preg_match("/\[POST\]/", $str) | preg_match("/\[DB\]/", $str) | preg_match("/\[SECLAR=[0-9]?\]/", $str) ){
-			return str_replace($bbCode,$htmlCode,self::replaceBBcodes($str,$user,$postID));
+			return str_replace($bbCode,$htmlCode,self::replaceBBcodes($str,$user,$postID,$safeHTML));
 		}
 
 		else{
 
-			$str = strip_tags($str, self::$allowedHTML);
+			if(!$safeHTML)
+				$str = strip_tags($str, self::$allowedHTML);
 			return str_replace($bbCode,$htmlCode,$str);
 		}
 

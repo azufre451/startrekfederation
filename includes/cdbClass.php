@@ -1,6 +1,10 @@
 <?php
 class CDB
 {
+
+	public static $allowedHTML = '<table><p><span><tr><td><div><hr><tbody><img><a><li><ul><ol><blockquote><b><u><i><font><sup><sub>';
+
+
 	public static function mergeTopics($t1,$t2)
 	{
 		mysql_query("UPDATE cdb_posts SET topicID = $t2 WHERE topicID = $t1");
@@ -116,6 +120,8 @@ class CDB
 
 	public static function replaceBBcodes($text,$user=NULL,$postID=NULL)
 	{
+			$text = strip_tags($text, self::$allowedHTML);
+
 	    	$tRet = '';
  
 			// BBcode array
@@ -200,6 +206,7 @@ class CDB
 
 
 		//replaceBBcodes 
+
 		if (is_array($str)){
 
 			if(preg_grep("/\[POST\]/", $str) || preg_grep("/\[DB\]/", $str) || preg_grep("/\[SECLAR=[0-9]?\]/", $str)  )
@@ -217,7 +224,11 @@ class CDB
 			return str_replace($bbCode,$htmlCode,self::replaceBBcodes($str,$user,$postID));
 		}
 
-		else return str_replace($bbCode,$htmlCode,$str);
+		else{
+
+			$str = strip_tags($str, self::$allowedHTML);
+			return str_replace($bbCode,$htmlCode,$str);
+		}
 
 		
 	}

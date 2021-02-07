@@ -6,14 +6,16 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/cdb_styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	
 	<link href="TEMPLATES/css/padd.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 	<link tal:attributes="href php:(user.pgSpecie == 'Romulana') ? 'TEMPLATES/css/anythingslider_green.css' : 'TEMPLATES/css/anythingslider.css'" rel="stylesheet" type="text/css" />
 	 
 	
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
-	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
-	<!-- <script type="text/javascript" src="TEMPLATES/js/JU.js" /> -->
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	<!-- Nota: Anything Slider per le news -->
 	<script type="text/javascript" src="TEMPLATES/js/jquery.anythingslider.min.js"></script>
 	<script type="text/javascript">
@@ -30,10 +32,21 @@
 			 buildStartStop      : false, 
 			 enableArrows        : false
 			});
-		})
-	</script>
-	<title>TYCHONIAN EAGLE - PADD</title>	
+		
+		jQuery('.tooltip').tooltip({
+			content: function (){
+          		return $(this).prop('title');
+          		}
+			});
 
+		})
+
+	</script>
+	<style> 
+		.ui-tooltip {font-size:12px; text-align:justify;}
+	</style>
+
+	<title>TYCHONIAN EAGLE - PADD</title>	
 </head>
 
 <body style="background-color:black; overflow:hidden; height:305px;">
@@ -41,7 +54,7 @@
 <div id="paddContainer">
 
 <div id="intestLeft">
-<a title="Principale" href="padd.php"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/padd.png" /></a><a title="Tychonian Herald" href="padd.php?s=tr"><img class="iconelement" tal:attributes="src php:(tribuneNews == true) ? 'TEMPLATES/img/interface/paddInterface/tribune_news.png' : 'TEMPLATES/img/interface/paddInterface/tribune.png'" /></a><a title="Status Nave" href="padd.php?s=sh"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/nave.png" /></a><a title="Note" href="padd.php?s=no"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/note.png" /></a>
+<a title="Principale" href="padd.php"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/padd.png" /></a><a title="Tychonian Eagle" href="padd.php?s=tr"><img class="iconelement" tal:attributes="src php:(tribuneNews == true) ? 'TEMPLATES/img/interface/paddInterface/tribune_news.png' : 'TEMPLATES/img/interface/paddInterface/tribune.png'" /></a><a title="Status Nave" href="padd.php?s=sh"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/nave.png" /></a><a title="Note" href="padd.php?s=no"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/note.png" /></a>
 </div>
 <div id="intestLeftPost" style="top:50px; left:20px;">
 <a tal:condition="php:(masterable==true)" href="javascript:jmp('newHerald')" class="interfaceLink"><img src="TEMPLATES/img/interface/paddInterface/padd_new.png" alt="Nuovo" /></a> <a href="padd.php?s=ta" class="interfaceLink"><img src="TEMPLATES/img/interface/paddInterface/padd_arch.png" alt="Archivio" /></a>
@@ -59,9 +72,10 @@
 
 <table cellspacing="0px">
 	<tr><td style="border:1px dotted #333; width:140px;">TITOLO</td><td class="newPaddtd"><input maxlength="37" id="titolo" name="titolo" style="width:400px;"/></td></tr>
-	<tr><td style="border:1px dotted #333; width:140px;">SOTTOTITOLO / LINK</td><td class="newPaddtd"><input id="sottotitolo" name="sottotitolo" style="width:400px;"/></td></tr>
+	<tr><td style="border:1px dotted #333; width:140px;">SOTTOTITOLO</td><td class="newPaddtd"><input id="sottotitolo" name="sottotitolo" style="width:400px;"/></td></tr>
 	<tr><td style="width:140px; border:1px dotted #333; ">TESTO</td><td class="newPaddtd"><textarea name="testo" style="width:400px; height:160px;"/></td></tr>
 	<tr tal:condition="php:(adminable==true)"><td style="width:140px; border:1px dotted #333; ">TESTO</td><td class="newPaddtd">
+	<!--
 	<select name="aleXX">
 		<option value="FED">FED</option>
 		<option value="ROM">ROM</option>
@@ -72,7 +86,8 @@
 		<option value="SPA">Spazio</option>
 		<option value="TRK">Trek</option>
 		<option value="FDX">STFederation</option>
-	</select>
+	</select>-->
+
 	</td></tr>
 
 	<tr><td colspan="2" style="text-align:center;"><input style="width:50px;" type="submit" value="INVIA" /></td></tr>
@@ -86,8 +101,7 @@
 		<li tal:repeat="not news">
 			<p class="titoloarticolo" style="margin:0px; font-size:32px;" tal:content="not/title" />
 			<p class="titolosubarticolo" style="margin:0px;" tal:content="structure not/subtitle" />
-			<p class="testoNews" style="margin:0px; font-size:13px; margin-top:10px; height:130px;  line-height:20px; padding-right:10px; overflow-y:auto; text-align:justify"><span style="font-weight:bold;" tal:content="not/time" />&nbsp;&nbsp;<span tal:content="structure not/text"/></p>
-			<a tal:condition="php:(masterable==true)" tal:attributes="href string:padd.php?s=delHer&newsID=${not/ID}" title="Elimina Ultima News" align="right"><img src="TEMPLATES/img/interface/paddInterface/padd_del.png" alt="Cancella" /></a>
+			<p class="testoNews" style="margin:0px; font-size:13px; margin-top:10px; height:170px;  line-height:20px; padding-right:10px; overflow-y:auto; text-align:justify"><span style="font-weight:bold;" tal:content="not/time" />&nbsp;&nbsp;<span tal:content="structure not/text"/></p>
 			
 		</li>
 	</ul>

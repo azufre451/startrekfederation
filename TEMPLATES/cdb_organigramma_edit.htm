@@ -12,7 +12,6 @@
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
-	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 
@@ -30,13 +29,52 @@
 				jQuery('.pngLine, .fpngLine').fadeIn(120);
 			else jQuery('.pngLine, .fpngLine').fadeOut(120);
 		}
-			
+
+		function searchIncarichiFunction(par,container)
+		{
+			return function(request, response) {
+
+				base=jQuery(container);
+
+
+				jQuery.ajax({
+					type: "POST",
+					url:"ajax_gradiGedder.php",
+					data: {
+						term:request.term,
+						desiredPar: par,
+						place: base.find('.assegnazione').val(),
+						section: base.find('.sectionWhat').val(),
+						dep: base.find('.departmentWhat').val(),
+						div: base.find('.divisionWhat').val(),
+						group: base.find('.groupWhat').val(),
+						incarico:jQuery('.pgIncarico').val()
+					},
+					success: response,
+					dataType: 'json'
+					});
+			}
+		}
+
+
 		jQuery(function(){
-			jQuery('.sectionWhat').autocomplete({source: "ajax_gradiGedder.php?sezioni=do",	minLength: 2});
-			jQuery('.departmentWhat').autocomplete({source: "ajax_gradiGedder.php?dipartimenti=do",	minLength: 2});
-			jQuery('.divisionWhat').autocomplete({source: "ajax_gradiGedder.php?divisioni=do",	minLength: 2});
-			jQuery('.groupWhat').autocomplete({source: "ajax_gradiGedder.php?gruppi=do",	minLength: 2});
-			
+			//console.log(jQuery('.AsectionWhat'));
+
+
+			jQuery('#addInca .sectionWhat').autocomplete({source: searchIncarichiFunction('sezioni','#addInca'),minLength: 2, appendTo: '#addInca'});
+			jQuery('#addInca .departmentWhat').autocomplete({source: searchIncarichiFunction('dipartimenti','#addInca'),minLength: 2, appendTo: '#addInca'});
+			jQuery('#addInca .divisionWhat').autocomplete({source: searchIncarichiFunction('divisioni','#addInca'), minLength: 2, appendTo: '#addInca'});		
+			jQuery('#addInca .groupWhat').autocomplete({source: searchIncarichiFunction('gruppi','#addInca'), minLength: 2, appendTo: '#addInca'});
+			jQuery('#addInca .pgIncarico').autocomplete({source: searchIncarichiFunction('incarichi','#addInca'), minLength: 2, appendTo: '#addInca'});
+
+			jQuery('#modificationForm .sectionWhat').autocomplete({source: searchIncarichiFunction('sezioni', '#modificationForm' ),minLength: 2, appendTo: '#modificationForm'});
+			jQuery('#modificationForm .departmentWhat').autocomplete({source: searchIncarichiFunction('dipartimenti', '#modificationForm' ),minLength: 2, appendTo: '#modificationForm'});
+			jQuery('#modificationForm .divisionWhat').autocomplete({source: searchIncarichiFunction('divisioni', '#modificationForm' ), minLength: 2, appendTo: '#modificationForm'});		
+			jQuery('#modificationForm .groupWhat').autocomplete({source: searchIncarichiFunction('gruppi', '#modificationForm' ), minLength: 2, appendTo: '#modificationForm'});
+			jQuery('#modificationForm .pgIncarico').autocomplete({source: searchIncarichiFunction('incarichi', '#modificationForm' ), minLength: 2, appendTo: '#modificationForm'});
+
+
+		
 			jQuery('.tooltip').tooltip({
           content: function () {
               return jQuery(this).prop('title');
@@ -51,13 +89,20 @@
 
 	p{font-family:Helvetica;}
 
-	.ui-tooltip {
-	font-size:12px;
-	text-align:justify;
-  }
-  	.ui-tooltip-content span {
-	font-weight:bold;
-  }
+
+	.ui-autocomplete.ui-widget {
+	  font-size: 14px;
+	  font-family: 'Helvetica';
+	  overflow-y: auto;
+	}
+	.ui-autocomplete {
+            max-height: 200px;
+            width:340px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-right: 20px;
+        } 
+
   .im1{vertical-align: middle}
 
 		.sbtn{
@@ -134,12 +179,12 @@
 
 		<div id="local" style="width:550px; margin:auto">
 		<p style="font-weight:bold; color: #5fc0f8; margin:5px;width:auto;">Modifica Incarico <span style="color:white;">(solo questo incarico)</span> / <a class="interfaceLinkRed" tal:attributes="href string:crew.php?amendPNG=deleteIncarico&equia=${equi}&pngID=${thisIncarico/pngID}" onclick="return confirm('Conferma cancellazione?')">  [ - Cancella Incarico - ]</a> </p>
-		<div class="blockbulk">
+		<div class="blockbulk" id="modificationForm">
 			<form method="POST" tal:attributes="action string:crew.php?amendPNG=edit&equia=${equi}">
 			<table>
 				<tr>
 					<td style="width:130px; font-weight:bold;">Unità</td><td>
-						<select style="width:340px;" class="neon" name="assegnazione">
+						<select style="width:340px;" class="neon assegnazione" name="assegnazione">
 						<option tal:repeat="location locations" tal:attributes="value repeat/location/key ; selected php:(repeat.location.key == equi) ? 'selected' : false" tal:content="location"/>
 						</select>
 					</td>
@@ -156,7 +201,7 @@
 						<input style="width:340px;" tal:attributes="value thisIncarico/pngDivisione" class="neon divisionWhat" placeholder="Divisione" type="text" name="pgDivisione" /><br/> 
 						<input required="required" style="width:340px;" tal:attributes="value thisIncarico/pngDipartimento" class="neon departmentWhat" placeholder="Dipartimento" type="text" name="pgDipartimento" /><span class="requi" /><br/>
 						<input style="width:340px;" tal:attributes="value thisIncarico/pngIncGroup" class="neon groupWhat" placeholder="Gruppo/Unità" type="text" name="incGroup" /><br/>
-						<input style="width:340px;" tal:attributes="value thisIncarico/pngIncarico" class="neon" placeholder="Incarico" type="text" required="required" name="pgIncarico" /><span class="requi" />
+						<input style="width:340px;" tal:attributes="value thisIncarico/pngIncarico" class="neon pgIncarico" placeholder="Incarico" type="text" required="required" name="pgIncarico" /><span class="requi" />
 						<input required="required" type="hidden" tal:attributes="value thisIncarico/pngID" name="pngID" />
 
 					</td>
@@ -227,7 +272,7 @@
 	 
 			<tr>
 				<td style="width:130px; font-weight:bold;">Unità</td><td>
-				<select class="neon" name="assegnazione">
+				<select class="neon assegnazione" name="assegnazione">
 				<option tal:repeat="location locations" tal:attributes="value repeat/location/key ; selected php:(repeat.location.key == equi) ? 'selected' : false" tal:content="location"/>
 				</select>
 				</td>
@@ -247,7 +292,7 @@
 					<input style="width:340px;" class="neon divisionWhat" placeholder="Divisione" type="text" name="pgDivisione" />  <br/> 
 					<input style="width:340px;" required="required" class="neon departmentWhat" placeholder="Dipartimento" type="text" name="pgDipartimento" /><span class="requi" /><br/>
 					<input style="width:340px;" class="neon  groupWhat" placeholder="Gruppo/Unità" type="text" name="incGroup" /><br/>
-					<input style="width:340px;" required="required"  class="neon" placeholder="Incarico" type="text" name="pgIncarico" /><span class="requi" />
+					<input style="width:340px;" required="required"  class="neon pgIncarico" placeholder="Incarico" type="text" name="pgIncarico" /><span class="requi" />
 			</td>
 			</tr>
 			<tr> 

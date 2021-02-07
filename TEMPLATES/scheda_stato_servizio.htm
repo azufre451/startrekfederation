@@ -69,7 +69,10 @@
 		<!--<a tal:condition="php:(story['postLink'] != '')" href="javascript:void(0);" tal:attributes="onclick string:cdbOpenToTopic('${story/postLink}')" title="Riferimento"><img src="TEMPLATES/img/interface/personnelInterface/external_link.png"/></a>-->
 
 	</td>
-	<td tal:condition="php:(smasterPanel)"><a tal:attributes="href string:scheda.php?s=removessto&sID=${story/recID}&pgID=${selectedUser}"><img src="TEMPLATES/img/interface/delete.png" /></a></td>	
+	<td tal:condition="php:(smasterPanel)"> 
+
+<a tal:attributes="href string:scheda.php?s=editssto&sID=${story/recID}&pgID=${selectedUser}"><img src="TEMPLATES/img/interface/edit.png" /></a>
+		<a tal:attributes="href string:scheda.php?s=removessto&sID=${story/recID}&pgID=${selectedUser}"><img src="TEMPLATES/img/interface/delete.png" /></a></td>	
 	</tr>
 	</table>
 	</div>
@@ -96,7 +99,7 @@
 		<span class="rankinkVot" style="font-style:italic; font-weight:bold; font-size:10px; color:#fd1501;">RESPINTO</span>
 	</td> 
 	
-	<td class="t5" tal:condition="php:(smasterPanel)"><a tal:attributes="href string:scheda.php?s=removessto&sID=${story/recID}&pgID=${selectedUser}"><img src="TEMPLATES/img/interface/delete.png" /></a>	</td>
+	<td class="t5" tal:condition="php:(smasterPanel)">	 <a tal:attributes="href string:scheda.php?s=removessto&sID=${story/recID}&pgID=${selectedUser}"><img src="TEMPLATES/img/interface/delete.png" /></a>	</td>
 	</tr>  
 	 
 	<script>
@@ -146,10 +149,12 @@
 	<div id="stoAdder"  style="height:300px; margin-top:-150px;" tal:condition="php:smasterPanel==true">
 	<form method="POST"  tal:attributes="action string:scheda.php?s=addssto&pgID=${selectedUser}"> 
 	<table> 
-		<tr><td width="100px; font-size:10px;"><b>Testo:</b></td><td><textarea style="width:300px; height:80px;" name="what" /></td></tr>
+		<tr><td width="100px; font-size:10px;"><b>Testo:</b></td><td><textarea style="width:300px; height:80px;" name="what"><span class="sfs">XXX</span> XXX
+
+[I]F.to XXX[/I]</textarea></td></tr>
 		<tr><td width="100px; font-size:10px;"><b>Unit:</b></td><td> <select class="neon" name="placer"><option tal:repeat="location locations" tal:attributes="value repeat/location/key;" tal:content="location"/></select> </td></tr>
-		<tr><td width="100px; font-size:10px;"><b>Crosslink CDB:</b></td><td><input stype="text" style="width:300px;" class="neon" name="cross" /></td></tr>
-		<tr><td width="100px; font-size:10px;"><b>Data:</b></td><td><select class="neon" name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day ; selected php:(day == date('d') ? 'selected' : false)" tal:content="day" /></select> / <select name="dataM"><option tal:repeat="day php:range(1,12)" tal:attributes="value day ;  selected php:(day == date('m') ? 'selected' : false)" tal:content="day" /></select> / <select class="neon" name="dataA"><option tal:repeat="day php:range(2290,thisYear)" tal:attributes="value day ; selected php:(day==thisYear) ? 'selected': false" tal:content="day" /></select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Vai" /></td></tr>
+		<tr><td width="100px; font-size:10px;"><b>Crosslink (postID):</b></td><td><input type="text" style="width:300px;" class="neon" name="cross" /></td></tr>
+		<tr><td width="100px; font-size:10px;"><b>Data:</b></td><td><select class="neon" name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day ; selected php:(day == date('d') ? 'selected' : false)" tal:content="day" /></select> / <select class="neon" name="dataM"><option tal:repeat="day php:range(1,12)" tal:attributes="value day ;  selected php:(day == date('m') ? 'selected' : false)" tal:content="day" /></select> / <select class="neon" name="dataA"><option tal:repeat="day php:range(2290,thisYear)" tal:attributes="value day ; selected php:(day==thisYear) ? 'selected': false" tal:content="day" /></select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Vai" /></td></tr>
 	</table>
 	</form>
 	<div class="xButton" onclick="jQuery('#stoAdder').fadeOut(100);"></div>

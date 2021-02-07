@@ -341,12 +341,12 @@ elseif($mode == 'ssto')
 	}
 	 
 
-	$resLocations = mysql_query("SELECT placeID,placeName FROM pg_places ORDER BY placeName");
+	$resLocations = mysql_query("SELECT placeID,placeName FROM pg_places WHERE placeType <> 'Navetta' ORDER BY placeName");
 	$resA = mysql_fetch_array($res);
 	
 	$locArray=array();
 	while($resLoc = mysql_fetch_array($resLocations))
-	$locArray[$resLoc['placeID']] = $resLoc['placeName'];
+		$locArray[$resLoc['placeID']] = $resLoc['placeName'];
 
 	$template->locations = $locArray;
 	$template->storiesRuol = $storiesRuol; 
@@ -357,7 +357,7 @@ elseif($mode == 'ssto')
 	
 } 
 
-elseif($mode == 'addssto' || $mode == 'addexam')
+elseif($mode == 'addssto' || $mode == 'addexam' || $mode == 'editsstoDo')
 {
 	//5$user = $vali->numberOnly($_POST['userSelector']);
 	$dateG = str_pad($vali->numberOnly($_POST['dataG']),2,'0',STR_PAD_LEFT);
@@ -371,8 +371,16 @@ elseif($mode == 'addssto' || $mode == 'addexam')
 		$cross = addslashes(($_POST['cross']));
 		$placer = addslashes(($_POST['placer']));
 		$query = "INSERT INTO pg_service_stories (owner,timer,text,placer,postLink,type) VALUES ($selectedUser,'$dateDef','$what','$placer','$cross','SERVICE')";
-		$padTit = 'OFF: Update Stato di Servizio';
-		$paddTex = "È stato aggiunto nella tua scheda PG un nuovo elemento allo stato di servizio:<br /> \"$what\"";
+		$padTit = 'Update Stato di Servizio';
+		$paddTex = "È stato aggiunto nella tua scheda PG un nuovo elemento allo stato di servizio";
+	}
+	elseif($mode == 'editsstoDo')
+	{
+		$cross = addslashes(($_POST['cross']));
+		$placer = addslashes(($_POST['placer']));
+		$recID = $vali->numberOnly($_POST['recordID']);
+
+		$query = "UPDATE pg_service_stories SET timer = '$dateDef', text = '$what', placer = '$placer', postLink = '$cross' WHERE recID = '$recID' AND type = 'SERVICE'";
 	}
 	elseif($mode == 'addexam')
 	{
@@ -384,14 +392,17 @@ elseif($mode == 'addssto' || $mode == 'addexam')
 		$query = "INSERT INTO pg_service_stories (owner,timer,text,placer,extra,type,image) VALUES ($selectedUser,'$dateDef','$what',(SELECT pgAssign FROM pg_users WHERE pgID = $selectedUser),'$esit','EXAM','$image')"; 
 		if (PG::mapPermissions('SM',$currentUser->pgAuthOMA) && mysql_affected_rows()) mysql_query("INSERT INTO pg_brevetti_assign (owner,brev,status) VALUES ($selectedUser,$brevID,1)"); 
 		$esitL = ($esit <= 100) ? $esit : (($esit == 110) ? 'APPROVATO' : 'RESPINTO');
-		$paddTex = "È stato caricato nella tua scheda PG un nuovo esito per un esame sostenuto: \"$what\", con esito: $esitL.";
-		$padTit = 'OFF: NUOVO ESAME';
+		$paddTex = "Esito caricato per: \"$what\"";
+		$padTit = 'Nuovo Esame Registrato';
 	}
 	
 	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA)){
 		mysql_query($query);
 
-		$selectedDUser->sendPadd($padTit,$paddTex);
+
+		if (isSet($padTit))
+			$selectedDUser->sendNotification($padTit,$paddTex,$_SESSION['pgID'],"https://oscar.stfederation.it/SigmaSys/logo/logoufp.png",'schedaSstoOpen');
+
 	}
 	
 	header("Location:scheda.php?pgID=$selectedUser&s=ssto");
@@ -407,6 +418,36 @@ else if ($mode == 'removessto')
 	
 	header("Location:scheda.php?pgID=$selectedUser&s=ssto");
 	exit;
+}
+
+else if ($mode == 'editssto')
+{
+	$w = $vali->numberOnly($_GET['sID']);
+	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA)){
+		
+		$template = new PHPTAL('TEMPLATES/scheda_edit_stato_servizio.htm');
+		$template->thisYear = $thisYear+$bounceYear;
+
+
+
+		$rea=mysql_fetch_assoc(mysql_query("SELECT * FROM pg_service_stories WHERE recID = $w AND owner = $selectedUser LIMIT 1"));
+		$rtp=explode('-',$rea['timer']);
+
+		$rea['dYear'] = $rtp[0];
+		$rea['dMonth'] = $rtp[1];
+		$rea['dDay'] = $rtp[2];
+		$template->serviceStory= $rea;
+
+		$resLocations = mysql_query("SELECT placeID,placeName FROM pg_places WHERE placeType <> 'Navetta' ORDER BY placeName");
+		
+	
+		$locArray=array();
+		while($resLoc = mysql_fetch_array($resLocations))
+			$locArray[$resLoc['placeID']] = $resLoc['placeName'];
+
+		$template->locations = $locArray;
+		
+	} 
 }
 
 

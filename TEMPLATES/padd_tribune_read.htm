@@ -6,15 +6,27 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/cdb_styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/padd.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/anythingslider.css" rel="stylesheet" type="text/css" />
-	 
 	
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
-	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
-	<script type="text/javascript" src="TEMPLATES/js/jquery.anythingslider.min.js"></script>
+
+	<script type="text/javascript">
+		jQuery(function() {
+
+			jQuery('.tooltip').tooltip({
+				content: function (){
+					return $(this).prop('title');
+					}
+				});
+		})
+	</script>
+	<style> 
+		.ui-tooltip {font-size:12px; text-align:justify;}
+	</style>
 
 	<title>ARCHIVIO TYCHONIAN EAGLE - PADD</title>	
 
@@ -39,8 +51,8 @@
 		
 			<p class="titoloarticolo" style="margin:0px;" tal:content="title" />
 			<p class="titolosubarticolo" style="margin:0px;" tal:content="subtitle" />
-			<p class="testoNews" style="margin:0px; font-size:13px; margin-top:10px; height:170px; padding-right:10px; overflow-y:auto; text-align:justify"><span style="font-weight:bold;" tal:content="time" />&nbsp;&nbsp;<span tal:content="structure text"/></p>
-			<a tal:condition="php:(masterable==true)" tal:attributes="href string:padd.php?s=delHer&newsID=${ID}" title="Elimina Ultima News" align="right"><img src="TEMPLATES/img/interface/paddInterface/padd_del.png" alt="Cancella" /></a>
+			<p class="testoNews" style="margin:0px; margin-bottom:10px; font-size:13px; margin-top:10px; height:170px; padding-right:10px; overflow-y:auto; text-align:justify"><span style="font-weight:bold;" tal:content="time" />&nbsp;&nbsp;<span tal:content="structure text"/></p>
+			
 </div>
 
 </div>

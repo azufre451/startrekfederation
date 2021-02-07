@@ -6,14 +6,16 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/cdb_styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	
 	<link href="TEMPLATES/css/padd.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 	<link tal:attributes="href php:(user.pgSpecie == 'Romulana') ? 'TEMPLATES/css/anythingslider_green.css' : 'TEMPLATES/css/anythingslider.css'" rel="stylesheet" type="text/css" />
 	 
 	
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
-	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
-	<!-- <script type="text/javascript" src="TEMPLATES/js/JU.js" /> -->
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	<!-- Nota: Anything Slider per le news -->
 	<script type="text/javascript" src="TEMPLATES/js/jquery.anythingslider.min.js"></script>
 	<script type="text/javascript">
@@ -30,10 +32,21 @@
 			 buildStartStop      : false, 
 			 enableArrows        : false
 			});
-		})
-	</script>
-	<title>TYCHONIAN EAGLE - PADD</title>	
+		
+		jQuery('.tooltip').tooltip({
+			content: function (){
+          		return $(this).prop('title');
+          		}
+			});
 
+		})
+
+	</script>
+	<style> 
+		.ui-tooltip {font-size:12px; text-align:justify;}
+	</style>
+
+	<title>TYCHONIAN EAGLE - PADD</title>	
 </head>
 
 <body style="background-color:black; overflow:hidden; height:305px;">
@@ -88,8 +101,7 @@
 		<li tal:repeat="not news">
 			<p class="titoloarticolo" style="margin:0px; font-size:32px;" tal:content="not/title" />
 			<p class="titolosubarticolo" style="margin:0px;" tal:content="structure not/subtitle" />
-			<p class="testoNews" style="margin:0px; font-size:13px; margin-top:10px; height:130px;  line-height:20px; padding-right:10px; overflow-y:auto; text-align:justify"><span style="font-weight:bold;" tal:content="not/time" />&nbsp;&nbsp;<span tal:content="structure not/text"/></p>
-			<a tal:condition="php:(masterable==true)" tal:attributes="href string:padd.php?s=delHer&newsID=${not/ID}" title="Elimina Ultima News" align="right"><img src="TEMPLATES/img/interface/paddInterface/padd_del.png" alt="Cancella" /></a>
+			<p class="testoNews" style="margin:0px; font-size:13px; margin-top:10px; height:170px;  line-height:20px; padding-right:10px; overflow-y:auto; text-align:justify"><span style="font-weight:bold;" tal:content="not/time" />&nbsp;&nbsp;<span tal:content="structure not/text"/></p>
 			
 		</li>
 	</ul>

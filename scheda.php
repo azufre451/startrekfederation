@@ -806,40 +806,6 @@ else if($mode == 'deleteNoteStaff'){
 	exit;
 }
 
-elseif($mode == 'addPointSpec')
-{
-	$user = $vali->numberOnly($_POST['userSelector']);
-	$abili = $vali->numberOnly($_POST['abili']); 
-	
-	 	
-	$pointsRec = PG::getSomething($user,'upgradePoints'); 
-	
-	$milPoints = $pointsRec['pgUpgradePoints']; 
-	
-	if(($user == $_SESSION['pgID'] || $currentUser->pgAuthOMA == 'A') && (int)$milPoints >= 2)
-	{
-			$rese=mysql_query("SELECT sectID FROM pg_brevetti_specs,pg_brevetti_sectors WHERE sector = sectID AND specID = $abili");
-			if(mysql_affected_rows()) //exists
-			{
-			
-				$sectDescript = mysql_fetch_assoc($rese); 
-				$num = mysql_fetch_assoc(mysql_query("SELECT COUNT(*) as ccc FROM pg_brevetti_specs_assign WHERE spec = $abili AND owner = $user"));
-				if($num['ccc'] <= 3) //don't have
-				{ 
-					$sectID = $sectDescript['sectID'];
-					mysql_query("SELECT 1 FROM pg_brevetti_levels WHERE sector = $$sectID AND value = 15");
-					if(mysql_affected_rows()) //have level
-					{
-						mysql_query("UPDATE pg_users SET pgUpgradePoints = pgUpgradePoints-2 WHERE pgID = $user");
-						mysql_query("INSERT INTO pg_brevetti_specs_assign(owner,spec) VALUES($user,$abili)");
-					} 
-				}
-			}
-	}
-	header("Location:scheda.php?pgID=$user&s=bvadd");
-	exit;
-}	
-
 
 elseif($mode == 'al')
 {

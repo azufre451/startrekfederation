@@ -1,8 +1,6 @@
 ﻿<html xmlns="http://www.w3.org/1999/xhtml">
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
-
 <head>
 	<meta charset="UTF-8" />
 	<link rel="shortcut icon" href="favicon.ico" />
@@ -81,7 +79,7 @@ div.lib:hover p {
 	
 </div>
 
-<div id="cdbContainer" style="top:15px;  overflow-y:hidden;">
+<div id="cdbContainer" style="top:15px;  overflow-y:hidden; overflow-x:hidden;">
 <p style="text-align:center; margin:10px; margin-top:15px;" class="titleFS">Database Federale Unificato</p>
 
 
@@ -92,7 +90,7 @@ div.lib:hover p {
 		<div><input type="text" name="key" class="neon" style="height:17px; width:90%;" autofocus="autofocus" placeholder="Ricerca..." tal:attributes="disabled php:(searchable == true) ? false : 'true' ; value php:(searchable == true) ? '' : 'La ricerca è possibile solo per gli utenti iscritti :)' "/></div>
 
 		<div style="margin-top:5px; text-align:center;">
-			<select name="mode" tal:attributes="disabled php:(searchable == true) ? false : 'disabled'">
+			<select name="mode" class="neon" tal:attributes="disabled php:(searchable == true) ? false : 'disabled'">
 				<option value="0">Almeno una parola</option>
 				<option value="1">Tutte le parole</option>
 				<option value="2">Intera frase</option>
@@ -112,18 +110,16 @@ div.lib:hover p {
 
 
 
-<div style="clear:both"> </div>
-<div style="border-top:1px solid #16429a; width:auto;  height:40px; bottom:0px; position :absolute; margin-left:10px; background-image:url('TEMPLATES/img/pattern_banded_50.png')">
+<div style="clear:both" />
+<div style="border-top:1px solid #16429a; width:100%; height:40px; bottom:0px; position :absolute; margin-left:10px; background-image:url('TEMPLATES/img/pattern_banded_50.png')">
 	
 	<div style="float:left;  ">
 		<p style="font-family:federationFont; margin-top:10px; margin-left:20px; font-size:1.4em; border-bottom:1px solid #16429a; padding-bottom:3px;"> Ultimi aggiornamenti </p>
 	</div>
 
-
-
-	<div style="margin-left:30px; float:left; width:840px;" >
+	<div style="margin-left:30px; float:left;">
 		<a tal:attributes="title string:{element/title}; href string:db.php?element=${element/ID}" tal:repeat="element laster"> 
-			<div class="lib" tal:attributes="title element/rtitle" > <p tal:content="element/title" /></div>
+			<div class="lib" tal:attributes="title element/rtitle"> <p tal:content="element/title" /></div>
 		</a>
 	</div>
 </div>

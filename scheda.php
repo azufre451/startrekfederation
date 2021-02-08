@@ -389,9 +389,13 @@ elseif($mode == 'addssto' || $mode == 'addexam' || $mode == 'editsstoDo')
 		$bvQuery = mysql_fetch_assoc(mysql_query("SELECT brevID,image FROM pg_brevetti WHERE descript = '$what'"));
 		$brevID = $bvQuery['brevID'];
 		$image= (mysql_affected_rows()) ?  $bvQuery['image']  : 'starfleet_brev.png';
-		$query = "INSERT INTO pg_service_stories (owner,timer,text,placer,extra,type,image) VALUES ($selectedUser,'$dateDef','$what',(SELECT pgAssign FROM pg_users WHERE pgID = $selectedUser),'$esit','EXAM','$image')"; 
-		if (PG::mapPermissions('SM',$currentUser->pgAuthOMA) && mysql_affected_rows()) mysql_query("INSERT INTO pg_brevetti_assign (owner,brev,status) VALUES ($selectedUser,$brevID,1)"); 
 		$esitL = ($esit <= 100) ? $esit : (($esit == 110) ? 'APPROVATO' : 'RESPINTO');
+		
+		$brevID= (mysql_affected_rows()) ?  $bvQuery['brevID']  : NULL;
+
+
+		$query = "INSERT INTO pg_service_stories (owner,timer,text,placer,extra,type,image,brevlink) VALUES ($selectedUser,'$dateDef','$what',(SELECT pgAssign FROM pg_users WHERE pgID = $selectedUser),'$esit','EXAM','$image',$brevID)";
+		
 		$paddTex = "Esito caricato per: \"$what\"";
 		$padTit = 'Nuovo Esame Registrato';
 	}
@@ -1588,17 +1592,6 @@ elseif ($mode == 'addDotazione')
 	exit;
 }
 
-elseif ($mode == 'addBrevetto')
-{
-	$pgID = $vali->numberOnly($_GET['pgID']);
-	$brevetto = addslashes($_GET['ider']);
-	
-	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
-		mysql_query("INSERT INTO pg_brevetti_assign (owner,brev,status) VALUES ($pgID,$brevetto,1)"); 
-	header("Location:scheda.php?pgID=$pgID&s=bv");
-	exit;
-}
-
 elseif ($mode == 'remDotazione')
 {
 	$pgID = $vali->numberOnly($_GET['pgID']);
@@ -1607,7 +1600,7 @@ elseif ($mode == 'remDotazione')
 	
 	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
 	{
-		//if(isSet($_GET['brever'])) mysql_query("DELETE FROM pg_brevetti_assign WHERE recID = $ider");
+		
 		if($item == 'medal' && PG::mapPermissions('A',$currentUser->pgAuthOMA))
 			mysql_query("DELETE FROM pgDotazioni WHERE doatazioneType = 'MEDAL' AND pgID = $pgID AND recID = $ider");
 		elseif($item == 'degree')

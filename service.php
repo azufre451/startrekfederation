@@ -340,7 +340,6 @@ mysql_query("DELETE FROM pgMedica WHERE pgID = '$pgID';");
 mysql_query("DELETE FROM pg_abilita_levels WHERE pgID = '$pgID';");
 mysql_query("DELETE FROM pg_achievement_assign WHERE owner = '$pgID';");
 mysql_query("DELETE FROM pg_alloggi WHERE pgID = '$pgID';");
-mysql_query("DELETE FROM pg_brevetti_assign WHERE owner = '$pgID';");
 mysql_query("DELETE FROM pg_groups_ppl WHERE pgID = '$pgID';");
 mysql_query("DELETE FROM pg_objects WHERE owner = '$pgID';");
 mysql_query("DELETE FROM pg_service_stories WHERE owner = '$pgID';");

@@ -285,7 +285,7 @@ else if($mode == 'tr' || $mode == 'ta')
 	while($newsA = mysql_fetch_array($news))
 	$newsArr[] = array('ID' => $newsA['newsID'],'title' => $newsA['newsTitle'], 'subtitle' => $newsA['newsSubTitle'], 'text' => CDB::bbcode($newsA['newsText']), 'time' => (strftime('%e', $newsA['newsTime']).' '.ucfirst(strftime('%B', $newsA['newsTime'])).' '.(date('Y', $newsA['newsTime'])+379)));
 	
-	$template->masterable = (PG::mapPermissions('M',$currentUser->pgAuthOMA)) ? true : false;
+	$template->masterable = (PG::mapPermissions('M',$currentUser->pgAuthOMA) || $currentUser->hasBrevetto(array(19) )) ? true : false;
 	$template->adminable = (PG::mapPermissions('A',$currentUser->pgAuthOMA)) ? true : false;
 	$template->news = $newsArr;
 }
@@ -365,7 +365,7 @@ else if($mode == 'newH')
 	$categ =  isSet($_POST['aleXX']) ? addslashes($_POST['aleXX']) : 'FED';
 	$tolink = ($categ != "FED") ? addslashes($_POST['sottotitolo']) : '';
 	
-	if(trim($titolo)!="" && trim($testo)!="" && (PG::mapPermissions('M',$currentUser->pgAuthOMA)))
+	if( trim($titolo)!="" && trim($testo)!="" && (PG::mapPermissions('M',$currentUser->pgAuthOMA) || $currentUser->hasBrevetto(array(19) ) ))
 	{
 		mysql_query("INSERT INTO fed_news (toLink,newsTitle, newsSubTitle, newsText, newsTime, aggregator) VALUES ('$tolink','$titolo', '$sottotitolo', '$testo',$curTime,'$categ')");
 		$NI=mysql_fetch_assoc(mysql_query("SELECT newsID FROM fed_news ORDER BY newsID DESC LIMIT 1"));

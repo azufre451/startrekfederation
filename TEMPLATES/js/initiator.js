@@ -426,6 +426,11 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 		window.open ('scheda.php?s=me','scheda', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
 	
+	function schedaSstoOpen(){
+		pars=getSizeOf('scheda');
+		window.open ('scheda.php?s=ssto','scheda', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+	}
+
 	function schedaPOpen(ida){
 		pars=getSizeOf('scheda');
 		window.open ('scheda.php?pgID='+ida,'schedaP', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);

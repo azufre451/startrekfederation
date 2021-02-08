@@ -55,7 +55,7 @@ if(isSet($_GET['readnews']))
 	$template->ID = $newsA['newsID'];
 	$template->title = $newsA['newsTitle'];
 	$template->subtitle = ($newsA['aggregator'] == 'FED') ? $newsA['newsSubTitle'].' - ' : '';
-	$template->titParticle = ($newsA['aggregator'] == 'FED') ? 'The Federation Tribune' : 'Star Trek: Federation News';
+	$template->titParticle = ($newsA['aggregator'] == 'FED') ? 'The Tychonian Eagle' : 'Star Trek: Federation News';
 	$template->shortDescript = substr($newsA['newsText'],0,270);
 	$template->aggregator = $newsA['aggregator'];
 	$template->text = str_replace($bbCode,$htmlCode,$newsA['newsText']);

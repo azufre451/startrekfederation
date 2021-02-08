@@ -71,7 +71,8 @@
 	</td>
 	<td tal:condition="php:(smasterPanel)"> 
 
-<a tal:attributes="href string:scheda.php?s=editssto&sID=${story/recID}&pgID=${selectedUser}"><img src="TEMPLATES/img/interface/edit.png" /></a>
+	<a tal:attributes="href string:scheda.php?s=editssto&sID=${story/recID}&pgID=${selectedUser}"><img src="TEMPLATES/img/interface/edit.png" /></a>
+
 		<a tal:attributes="href string:scheda.php?s=removessto&sID=${story/recID}&pgID=${selectedUser}"><img src="TEMPLATES/img/interface/delete.png" /></a></td>	
 	</tr>
 	</table>
@@ -151,7 +152,7 @@
 	<table> 
 		<tr><td width="100px; font-size:10px;"><b>Testo:</b></td><td><textarea style="width:300px; height:80px;" name="what"><span class="sfs">XXX</span> XXX
 
-[I]F.to XXX[/I]</textarea></td></tr>
+[COLOR=GRAY][I]F.to XXX[/I][/COLOR]</textarea></td></tr>
 		<tr><td width="100px; font-size:10px;"><b>Unit:</b></td><td> <select class="neon" name="placer"><option tal:repeat="location locations" tal:attributes="value repeat/location/key;" tal:content="location"/></select> </td></tr>
 		<tr><td width="100px; font-size:10px;"><b>Crosslink (postID):</b></td><td><input type="text" style="width:300px;" class="neon" name="cross" /></td></tr>
 		<tr><td width="100px; font-size:10px;"><b>Data:</b></td><td><select class="neon" name="dataG"><option tal:repeat="day php:range(1,31)" tal:attributes="value day ; selected php:(day == date('d') ? 'selected' : false)" tal:content="day" /></select> / <select class="neon" name="dataM"><option tal:repeat="day php:range(1,12)" tal:attributes="value day ;  selected php:(day == date('m') ? 'selected' : false)" tal:content="day" /></select> / <select class="neon" name="dataA"><option tal:repeat="day php:range(2290,thisYear)" tal:attributes="value day ; selected php:(day==thisYear) ? 'selected': false" tal:content="day" /></select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Vai" /></td></tr>

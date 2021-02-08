@@ -214,8 +214,6 @@
 
 
 		}
-		
-		/* function getAbilities(vargani)		{				if(jQuery('#whoAbilities').val() != vargani)				{				timerAbil = setTimeout(function(){				jQuery.post('ajax_getAbilities.php', {term: vargani}, function(data){				var stringer = '';				for (var abil in data)				{				//Luca: se hai bisogno di una mano per il codice, non esitare a chiedere. Ti rispondo volentieri! M.						 stringer+= "<img class=\"littleBrevImage\"  title=\""+data[abil]['descript']+"\" src=\"TEMPLATES/img/ruolini/brevetti/"+data[abil]['image']+"\" /> ";				}				jQuery('#reminderBrevs').html(stringer);				jQuery('#whoAbilities').val(vargani);				}, 'json');				}, 500)				}		} */
 
 		function deselectOccur(tex)
 		{

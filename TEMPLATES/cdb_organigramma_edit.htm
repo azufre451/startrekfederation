@@ -48,7 +48,7 @@
 						dep: base.find('.departmentWhat').val(),
 						div: base.find('.divisionWhat').val(),
 						group: base.find('.groupWhat').val(),
-						incarico:jQuery('.pgIncarico').val()
+						incarico:base.find('.pgIncarico').val()
 					},
 					success: response,
 					dataType: 'json'
@@ -59,8 +59,6 @@
 
 		jQuery(function(){
 			//console.log(jQuery('.AsectionWhat'));
-
-
 			jQuery('#addInca .sectionWhat').autocomplete({source: searchIncarichiFunction('sezioni','#addInca'),minLength: 2, appendTo: '#addInca'});
 			jQuery('#addInca .departmentWhat').autocomplete({source: searchIncarichiFunction('dipartimenti','#addInca'),minLength: 2, appendTo: '#addInca'});
 			jQuery('#addInca .divisionWhat').autocomplete({source: searchIncarichiFunction('divisioni','#addInca'), minLength: 2, appendTo: '#addInca'});		

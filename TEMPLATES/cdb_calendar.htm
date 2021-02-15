@@ -159,13 +159,15 @@
 					<p tal:condition="php:(count(event['pres']) GT 0)" style="font-weight:bold; font-size:12px;">Parteciperanno:</p> 
 					<p tal:condition="php:(count(event['pres']) == 0)" style="font-weight:bold; font-size:12px;">Ancora nessun partecipante:</p> 
 					
-					<p style="margin-left:15px; margin-top:8px;" tal:attributes="id string:participationBox_${event/Tevent/evID}">
+					<p style="margin-left:15px; margin-top:8px; float:left;" tal:attributes="id string:participationBox_${event/Tevent/evID}">
 						<span tal:repeat="person event/pres" tal:attributes="id string:participationBox_element_${person/pgID}; class php:'eventParticip ' . str_replace(' ','_',person['pgSezione'])">
 							<img tal:attributes="src person/pgAvatarSquare ; title person/pgUser"/>
 						</span>
-					</p>
 
-					<p href="javascript:void(0);" tal:attributes="class php:((event['ipar']) ? 'participationNo': 'participationYes'); onclick string:javascript:toggleMyPresence(${event/Tevent/evID}) ; id string:participationMark_${event/Tevent/evID}" />
+						
+					</p>
+					<p style="float:left;"><span href="javascript:void(0);" tal:attributes="class php:((event['ipar']) ? 'participationNo': 'participationYes'); title php:((event['ipar']) ? 'Annulla partecipazione': 'Conferma partecipazione'); onclick string:javascript:toggleMyPresence(${event/Tevent/evID}) ; id string:participationMark_${event/Tevent/evID}; style string:margin-top:7px;; margin-left:5px"/></p>
+
 
 				</div>
 				

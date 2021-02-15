@@ -14,6 +14,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet" />
 		 
 		<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+		<link href="TEMPLATES/css/cdb_styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 		<link href="TEMPLATES/css/index.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />	
 
 
@@ -45,7 +46,7 @@
 				
 				<div id="principal">
 				
-				<div id="news" class="heraldMain radiusBordered" style="text-align:center; width:65%;  margin-left:auto; margin-right:auto; height:auto; margin-top:40px;">
+				<div id="news" class="heraldMain radiusBordered" style="text-align:center; width:80%;  margin-left:auto; margin-right:auto; height:auto; margin-top:20px;">
 
 
 								<p style="text-align:left; margin:0px 0px; text-decoration: underline;"><a href="index.php" class="interfaceLink"> Torna Indietro</a></p>
@@ -54,8 +55,8 @@
 
 				<img src="TEMPLATES/img/interface/paddInterface/fed_eagle.jpg" tal:condition="php:aggregator=='FED'" />
 		
-				<p class="titoloarticolo" style="margin:0px; font-size:32px;" tal:content="title" />
-				<p class="titolosubarticolo" style="margin:0px;" tal:content="subtitle" />
+				<p class="titoloarticolo" style="margin:0px; font-size:2.5em;" tal:content="title" />
+				<p class="titolosubarticolo" style="margin:0px; font-size:1.8em" tal:content="subtitle" />
 				<p class="testoNews" style="margin:0px; font-size:16px; line-height:25px; font-family:Helvetica; margin-top:10px; height:450px; overflow-y:auto; padding-right:10px; text-align:justify"><span style="font-weight:bold;" tal:content="timer" />&nbsp;&nbsp;<span tal:content="structure text"/></p>
 				
 				

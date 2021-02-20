@@ -14,11 +14,23 @@ $aar = array();
 
 $curPGID=$_SESSION['pgID'];
  
-$resPgPresenti = mysql_query("SELECT pgID, pgUser, pgMostrina,pgAuthOMA,pgLock FROM pg_users,pg_ranks WHERE pgLastAct >= ".($curTime-1800)." AND rankCode = prio AND pgAuthOMA <> 'BAN' AND pgID <> '$curPGID' ORDER BY pgUser");
+$resPgPresenti = mysql_query("SELECT pgID, pgUser, pgMostrina,pgAuthOMA,pgLock,png FROM pg_users,pg_ranks WHERE pgLastAct >= ".($curTime-1800)." AND rankCode = prio AND pgAuthOMA <> 'BAN' AND pgID <> '$curPGID' ORDER BY pgUser");
   
-while($pgPres = mysql_fetch_assoc($resPgPresenti)){	$aar[] = array('pgID'=> $pgPres['pgID'],'label'=> $pgPres['pgUser'],'role'=> 
-	($pgPres['pgLock']) ? 'L' : ( (PG::mapPermissions('A',$pgPres['pgAuthOMA'])) ? 'A' : ( (PG::mapPermissions('M',$pgPres['pgAuthOMA'])) ? 'M' : ( ( PG::mapPermissions('G',$pgPres['pgAuthOMA']) ) ? 'G' : '')   ) ) 
-	,'pgMostrina'=> $pgPres['pgMostrina']);}
+while($pgPres = mysql_fetch_assoc($resPgPresenti)){
+
+	if (!$pgPres['png'] && $pgPres['pgLock'])
+		$role='L';
+	elseif (!$pgPres['png'] && PG::mapPermissions('A',$pgPres['pgAuthOMA']))
+				$role = 'A';
+	else if (!$pgPres['png'] && PG::mapPermissions('M',$pgPres['pgAuthOMA']))
+				$role = 'M';
+	elseif (!$pgPres['png'] && PG::mapPermissions('G',$pgPres['pgAuthOMA']))
+				$role = 'G';
+	else
+		$role='';
+
+	$aar[] = array('pgID'=> $pgPres['pgID'],'label'=> $pgPres['pgUser'],'role'=> $role,'pgMostrina'=> $pgPres['pgMostrina']);
+}
 
 
 
@@ -33,7 +45,7 @@ if ((int)$vinculum == 0 || (int)$vinculum == 7)
 	$MAX = 0;
 	while($chatLi = mysql_fetch_assoc($chatLines)){
 	     
-    if ($chatLi['susTo'] == "7"){
+    if ($chatLi['susTo'] == "7" || $chatLi['susTo'] == "0" ){
        
         if(strpos(strtolower($chatLi['chat']), '@') !== false)
         { 

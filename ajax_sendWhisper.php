@@ -77,7 +77,15 @@ include('includes/validate_class.php');
 		else 
 		{		$fromUser = addslashes($user->pgUser);
 
-				$classer = (PG::mapPermissions('A',$user->pgAuthOMA)) ? 'susChatMPUserA' : ((PG::mapPermissions('M',$user->pgAuthOMA)) ? 'susChatMPUserM' : ((PG::mapPermissions('G',$user->pgAuthOMA)) ? 'susChatMPUserG' : 'susChatMPUser'));
+				if (!$user->png && PG::mapPermissions('A',$user->pgAuthOMA))
+					$classer='susChatMPUserA'; 
+				elseif (!$user->png && PG::mapPermissions('M',$user->pgAuthOMA))
+					$classer='susChatMPUserM'; 
+				elseif (!$user->png && PG::mapPermissions('G',$user->pgAuthOMA))
+					$classer='susChatMPUserG'; 
+				else
+					$classer='susChatMPUser';
+
 				$string = '<p class="susChat">'.date('H:i',$time)." <span class=\"$classer\" onclick=\"selectUser(\'$fromUser\');\">$fromUser:</span> $string</p>";
 		}
 		

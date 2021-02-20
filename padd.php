@@ -113,7 +113,7 @@ else if ($mode == 'read')
 { 
 	$template = new  PHPTAL('TEMPLATES/padd_show.htm');
 	$paddID = $vali->numberOnly($_GET['paddID']);
-	$paddQ = mysql_query("SELECT padID, paddTitle, paddText, paddFrom, paddTo, paddTime, fromPGT.pgAvatarSquare, fromPGT.pgAuthOMA as pgATOMA , toPGT.pgUser as ToPG, fromPGT.pgUser as FromPG,fromPGT.pgSpecie as pgSpecie,fromPGT.pgSesso as pgSesso, toPGT.pgID as ToPGID, fromPGT.pgID as FromPGID, paddType, ordinaryUniform FROM fed_pad, pg_users  AS fromPGT, pg_users AS toPGT, pg_ranks WHERE prio = fromPGT.rankCode AND (paddDeletedFrom <> 1 OR paddDeletedTo <> 1) AND padID =$paddID AND toPGT.pgID = paddTo AND fromPGT.pgID = paddFrom AND (paddTo = ".$_SESSION['pgID']." OR paddFrom = ".$_SESSION['pgID'].")");
+	$paddQ = mysql_query("SELECT padID, paddTitle, paddText, paddFrom, paddTo, paddTime, fromPGT.pgAvatarSquare, fromPGT.pgAuthOMA as pgATOMA,fromPGT.png as frompng,  toPGT.pgUser as ToPG, fromPGT.pgUser as FromPG,fromPGT.pgSpecie as pgSpecie,fromPGT.pgSesso as pgSesso, toPGT.pgID as ToPGID, fromPGT.pgID as FromPGID, paddType, ordinaryUniform FROM fed_pad, pg_users  AS fromPGT, pg_users AS toPGT, pg_ranks WHERE prio = fromPGT.rankCode AND (paddDeletedFrom <> 1 OR paddDeletedTo <> 1) AND padID =$paddID AND toPGT.pgID = paddTo AND fromPGT.pgID = paddFrom AND (paddTo = ".$_SESSION['pgID']." OR paddFrom = ".$_SESSION['pgID'].")");
 	
 	if(mysql_affected_rows())
 	{

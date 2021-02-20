@@ -183,7 +183,7 @@
 	<div style="font-size:13px; text-align:justify;" tal:content="structure note" />
 	
 
-	<div id="calendarBox" tal:condition="php:count(events) == 0" style="position:absolute;right:30px;"> 
+	<div id="calendarBox" tal:condition="php:count(events) == 0"> 
 		<p class="clockTitle" style="width:auto;" ><a href="javascript:void(0);" onclick="calendarOpen()" class="interfaceLink">(APRI IL CALENDARIO)</a></p>
 	</div>
 	<div id="calendarBox" tal:condition="php:count(events) GE 1">

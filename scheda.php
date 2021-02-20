@@ -391,13 +391,14 @@ elseif($mode == 'addssto' || $mode == 'addexam' || $mode == 'editsstoDo')
 		$image= (mysql_affected_rows()) ?  $bvQuery['image']  : 'starfleet_brev.png';
 		$esitL = ($esit <= 100) ? $esit : (($esit == 110) ? 'APPROVATO' : 'RESPINTO');
 		
-		$brevID= (mysql_affected_rows()) ?  $bvQuery['brevID']  : NULL;
-
+		$brevID= (mysql_affected_rows()) ?  $bvQuery['brevID']  : 'NULL';
+		
 
 		$query = "INSERT INTO pg_service_stories (owner,timer,text,placer,extra,type,image,brevlink) VALUES ($selectedUser,'$dateDef','$what',(SELECT pgAssign FROM pg_users WHERE pgID = $selectedUser),'$esit','EXAM','$image',$brevID)";
 		
 		$paddTex = "Esito caricato per: \"$what\"";
 		$padTit = 'Nuovo Esame Registrato';
+
 	}
 	
 	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA)){
@@ -409,6 +410,7 @@ elseif($mode == 'addssto' || $mode == 'addexam' || $mode == 'editsstoDo')
 
 	}
 	
+
 	header("Location:scheda.php?pgID=$selectedUser&s=ssto");
 	exit;
 }

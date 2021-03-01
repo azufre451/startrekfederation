@@ -128,7 +128,21 @@ jQuery(function(){
 	{
 		if(jQuery('#users').val() != '' && confirm('Sei sicuro di modificare lo status di salute a tutti i PG selezionati? (Viene inviato un Padd ad ogni PG)')) jQuery.post('multitool.php?s=setSalute', {listof: jQuery('#users').prop('value'), salute: ida}, confirmer, 'json');
 	}
+
+	function addStatoServ()
+	{
+
+		MT_cross = jQuery('#MT_cross').val();
+		MT_placer = jQuery('#MT_placer').val();
+		MT_dataG = jQuery('#MT_dataG').val();
+		MT_dataM = jQuery('#MT_dataM').val();
+		MT_dataA = jQuery('#MT_dataA').val();
+		MT_what = jQuery('#MT_what').val();
+
+		if(jQuery('#users').val() != '' && confirm('Sei sicuro di modificare lo status di salute a tutti i PG selezionati? (Viene inviato un Padd ad ogni PG)')) jQuery.post('multitool.php?s=addsstoBulk', {listof: jQuery('#users').prop('value'), cross: MT_cross, placer: MT_placer, dataG: MT_dataG, dataM: MT_dataM, dataA: MT_dataA, what: MT_what}, confirmer, 'json');
+	}
 	
+
 	function setMostrina(ida)
 	{
 		if(jQuery('#users').val() != '' && confirm('Sei sicuro di voler cambiare la mostrina a tutti i PG selezionati?')) jQuery.post('multitool.php?s=setMostrina', {listof: jQuery('#users').prop('value'), mostrina: ida}, confirmer, 'json');

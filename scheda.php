@@ -971,7 +971,10 @@ elseif($mode == 'master')
 	
 	$template->alloTypes = $alloTypes;
 	
-	$resNote = mysql_query("SELECT pg_notestaff.*,pgUser FROM pg_notestaff,pg_users WHERE pgID = pgFrom AND pgTo = $pgID ORDER BY recID DESC");
+
+	$atAdd = (!PG::mapPermissions('SM',$currentUser->pgAuthOMA)) ? 'AND secret = 0' : '';
+	
+	$resNote = mysql_query("SELECT pg_notestaff.*,pgUser FROM pg_notestaff,pg_users WHERE pgID = pgFrom AND pgTo = $pgID $atAdd ORDER BY recID DESC");
 	$resNoteA = array();
 	while ($til = mysql_fetch_assoc($resNote))
 		$resNoteA[] = $til;
@@ -1523,7 +1526,7 @@ elseif ($mode == 'setIncarico')
 	{	
 		mysql_query("UPDATE pg_users SET pgAssign = '$assegnazione' WHERE pgID ='$pgID'");
 		if($incMain)
-			mysql_query("UPDATE pg_incarichi SET incMain = 0 WHERE pgID = '$pgID' AND pgPlace = '$assegnazione'");
+			mysql_query("UPDATE pg_incarichi SET incMain = 0 WHERE pgID = '$pgID'");
 		
 		mysql_query("INSERT INTO pg_incarichi (pgID,incIncarico,incSezione,incDivisione,incDipartimento,incGroup,pgPlace,incMain) VALUES('$pgID','$incIncarico','$incSezione','$incDivisione','$incDipartimento','$incGroup','$assegnazione','$incMain')");
 

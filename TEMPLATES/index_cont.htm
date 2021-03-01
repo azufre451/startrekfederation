@@ -12,6 +12,9 @@
 		<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" /> 
 		<link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet" />
 		 
+		<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/clearfix.css" />
+		<link rel="stylesheet" type="text/css" media="all" href="TEMPLATES/carousel/css/style.css" />
+		
 		<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 		<link href="TEMPLATES/css/index.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />	
 
@@ -28,7 +31,92 @@
 		<meta name="description" content="Contatti dello Staff di Star Trek: Federation"  />
 
 
+	<style>
+		.tile{
+		    padding: 16px 5px 16px 28px;
+		    text-align: center;
+		    margin: auto;
+		    margin-left: 80px;
+		    width: 280px;
+		    border: 2px solid #2583a2;
+		    float: left;
+		    text-align: left;
+		    border-radius: 20px;
+		    cursor: pointer;
+		    margin-top:10px;
+		}
+
+		.tile:hover
+		{
+			box-shadow: inset 3px 0px 17px 5px #46b1ffc9;
+		}
+
 		
+
+
+		.tile.facebook{
+			border-color: #2583a2;
+		}
+		.tile.facebook:hover{
+			box-shadow: inset 3px 0px 17px 5px #46b1ffc9;
+		}
+
+
+		.tile.twitter{
+			border-color: #d2f4ff;
+		}
+		.tile.twitter:hover{
+			box-shadow: inset 3px 0px 17px 5px #46b1ffc9;
+		}
+
+		.tile.gdo{
+			border-color: #339413;
+		}
+		.tile.gdo:hover{
+			box-shadow: inset 3px 0px 17px 5px #59e041c9;
+		}
+
+		.tile.instagram{
+			border-color: #d4407d;
+		}
+		.tile.instagram:hover{
+			box-shadow: inset 3px 0px 17px 5px #e04192c9;
+		}
+
+		.tile.yt{
+			border-color: #d44040;
+		}
+		.tile.yt:hover{
+			box-shadow: inset 3px 0px 17px 5px #e43737c9;
+		}
+		
+
+		span.title
+		{
+			font-family: Verdana, Helvetica;
+			letter-spacing: 1px;
+			font-variant: small-caps;
+			margin:0px;
+			font-size:1.4em;
+			text-align:center;
+		}
+
+		.tile .interfaceLink{
+			display:inline-block;
+    		border-bottom:1px solid white;
+    		padding-bottom:2px;
+    		
+    		
+		}
+		.tile:hover .interfaceLink span.title, .tile .interfaceLink:hover span.title
+		{
+			color:white;
+			text-shadow:2px 0px 5px #00c6ff;			
+
+		}
+
+
+	</style>		
 	</head>
 	
 <body style="margin-left:40px; margin-right:40px; margin-left:40px; margin-right:40px;">
@@ -39,20 +127,56 @@
 				<div metal:use-macro="TEMPLATES/metal_index.htm/indexMenu" />
 
 			 
-				<p class="title" style="text-align:center; margin:auto; margin-top:50px;">Contatti</p>
-				<div style="clear: both"> </div>
-				<div style="padding:40px; text-align: center; margin:auto;  margin-top:50px; width:400px;  border:1px solid #AAA; background-image:url('TEMPLATES/img/pattern_banded_50.png'); ">
-					<p style="font-weight:bold;font-size:16px; line-height: 1.3em;">Puoi contattarci tramite email a:<br /><br /><a href="mailto:staff@stfederation.it" class="interfaceLink" style="font-weight:bold; font-size:20px;">staff@stfederation.it</a></p>
-
-					<p style="font-weight:bold;font-size:15px; line-height: 1.3em;">Oppure tramite i nostri canali Social:</p><p style="font-weight:bold; font-size:15px;">
-						
-						<a href="https://www.facebook.com/federation.pbc" style="font-size:15px;" class="interfaceLinkBlue" target="_blank">Facebook</a> e <a href="http://www.gdr-online.com/star_trek_federation.asp" style="font-size:15px;" class="interfaceLinkGreen" target="_blank">GDR-Online</a>
-
-					</p>
-				</div>
-					 
 				
+				<div style="clear: both"> </div>
 
+				<div style="float:left; width: 450px;">
+
+				<div class="tile">
+						<a href="http://www.facebook.com/federation.pbc" target="_blank"><img src="https://oscar.stfederation.it/SigmaSys///promo_stf/stf_social_logo_fb.png" style="vertical-align:middle;" /></a>
+						<a href="http://www.facebook.com/federation.pbc" class="interfaceLink" style="margin-left:10px;" target="_blank"><span class="title">Star Trek: Federation</span></a>		
+				</div>
+
+				<div class="tile twitter">
+						<a href="https://twitter.com/STFederation" target="_blank"><img src="https://oscar.stfederation.it/SigmaSys///promo_stf/stf_social_logo_tw.png" style="vertical-align:middle;" /></a>
+						<a href="https://twitter.com/STFederation" class="interfaceLink" style="margin-left:10px;" target="_blank"><span class="title">Twitter: @STFederation</span></a>		
+				</div>
+
+				<div class="tile instagram">
+						<a href="http://www.facebook.com/federation.pbc" target="_blank"><img src="https://oscar.stfederation.it/SigmaSys///promo_stf/stf_social_logo_ig.png" style="vertical-align:middle;" /></a>
+						<a href="https://www.instagram.com/stfederation/" class="interfaceLink" style="margin-left:10px;" target="_blank"><span class="title">Insagram: STFederation</span></a>		
+				</div>
+
+				<div class="tile gdo">
+						<a href="https://www.gdr-online.com/star_trek_federation.asp" target="_blank"><img src="https://oscar.stfederation.it/SigmaSys///promo_stf/stf_social_logo_gdo.png" style="vertical-align:middle;" /></a>
+						<a href="https://www.gdr-online.com/star_trek_federation.asp" class="interfaceLink" style="margin-left:10px;" target="_blank"><span class="title">GDR Online - STF</span></a>		
+				</div>
+
+				<div class="tile yt">
+						<a href="https://www.youtube.com/channel/UC7-uyNUE4OwIU-q9Xc3BFPw" target="_blank"><img src="https://oscar.stfederation.it/SigmaSys///promo_stf/stf_social_logo_yt.png" style="vertical-align:middle;" /></a>
+						<a href="https://www.youtube.com/channel/UC7-uyNUE4OwIU-q9Xc3BFPw" class="interfaceLink" style="margin-left:10px;" target="_blank"><span class="title">Youtube - STF</span></a>		
+				</div>
+
+				<div class="tile twitter">
+						<a href="https://t.me/stfederation" target="_blank"><img src="https://oscar.stfederation.it/SigmaSys///promo_stf/stf_social_logo_tg.png" style="vertical-align:middle;" /></a>
+						<a href="https://t.me/stfederation" class="interfaceLink" style="margin-left:10px;" target="_blank"><span class="title">Canale Telegram STF</span></a>		
+				</div>
+
+			</div>
+			<div style="float:left; width:50%; margin-top:70px; font-family:Helvetica;">
+
+				<p class="title" style="text-align:center; margin:auto; margin-top:20px;">Contatti</p>
+
+
+				<div style="padding:40px; font-size:1.1em; text-align: center; margin:auto;  margin-top:50px; width:400px;  border:1px solid #AAA; background-image:url('TEMPLATES/img/pattern_banded_50.png'); border-radius:30px; ">
+					<p style="font-weight:bold;font-size:16px; line-height: 1.3em;">Puoi contattarci tramite email a:<br /><br /><a href="mailto:staff@stfederation.it" class="interfaceLink" style="font-weight:bold; font-size:23px; display:inline-block; border-bottom:1px solid white; padding-bottom: 5px;">staff@stfederation.it</a></p>
+
+					<p style="font-weight:bold;font-size:15px; line-height: 1.3em;">Oppure tramite i nostri canali Social qui a lato. <br />Puoi anche usare il nostro 
+					<a href="https://t.me/stfederation" target="_blank" style="text-decoration:underline" class="interfaceLinkBlue" > CANALE TELEGRAM</a> per non perterti nessun aggiornamento!</p>
+				</div>
+
+					 
+			</div>
 
 		</div> 
 			 

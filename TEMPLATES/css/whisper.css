@@ -162,12 +162,10 @@ margin-top: -135px;
 font-size: 13px;
 border: 1px solid white;
 padding: 10px;
-font-family: Verdana;
+font-family:Verdana, Helvetica, Arial;
 }
 
 .popup p {text-align:justify;}
-
-.closeBTN{position:absolute; top:2px; right:2px; height:15px; width:15px; background-color:black; text-align:center; cursor:pointer; border:1px solid #AAA; padding:2px;}
 
 #onlineUserList{
 			height:500px;

@@ -254,7 +254,38 @@ if($mode == "reassignBulk")
 	echo json_encode(array('stat'=>true)); exit;
 }
 
+if($mode == 'addsstoBulk')
+{
+	if (!PG::mapPermissions('SM',$currentUser->pgAuthOMA)) exit;
 
+	$sel=explode(',',$_POST['listof']);
+	$lisOuser="";
+
+
+	$cross = addslashes(($_POST['cross']));
+	$placer = addslashes(($_POST['placer']));
+	$dateG = str_pad($vali->numberOnly($_POST['dataG']),2,'0',STR_PAD_LEFT);
+	$dateM = str_pad($vali->numberOnly($_POST['dataM']),2,'0',STR_PAD_LEFT);
+	$dateA = $vali->numberOnly($_POST['dataA']);
+	$dateDef = $dateA.'-'.$dateM.'-'.$dateG;
+	$what = addslashes(($_POST['what']));
+
+	$padTit = 'Update Stato di Servizio';
+	$paddTex = "È stato aggiunto nella tua scheda PG un nuovo elemento allo stato di servizio";
+
+	foreach ($sel as $auth)
+		if(trim($auth)!='')
+		{	
+			$tUser = trim(addslashes($auth));
+			$rea = mysql_fetch_array(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$tUser'"));
+			$pgID = $vali->numberOnly($rea['pgID']);
+			$selectedDUser = new PG($pgID);
+			mysql_query("INSERT INTO pg_service_stories (owner,timer,text,placer,postLink,type) VALUES ($pgID,'$dateDef','$what','$placer','$cross','SERVICE')");
+			$selectedDUser->sendNotification($padTit,$paddTex, $currentUser->ID ,"https://oscar.stfederation.it/SigmaSys/logo/logoufp.png",'schedaSstoOpen');
+		}
+
+	echo json_encode(array('stat'=>true)); exit;
+}
 
 if($mode == "getProfilingPadds")
 {

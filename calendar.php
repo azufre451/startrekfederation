@@ -28,12 +28,13 @@ if(isSet($_POST['event']))
 	$place = (htmlentities(addslashes(($_POST['place'])),ENT_COMPAT, 'UTF-8'));
 	$user = $_SESSION['pgID'];
 	
+
+	
+	mysql_query("INSERT INTO calendar_events(event,date,sender,place) VALUES('$event',$date,$user,'$place')");
+	
 	$res=mysql_query("SELECT MAX(evID) as Max FROM calendar_events");
 	if(mysql_affected_rows()) $rae = mysql_fetch_array($res);
 	$ider=$rae['Max']+1;
-	
-	mysql_query("INSERT INTO calendar_events(evID,event,date,sender,place) VALUES($ider,'$event',$date,$user,'$place')");
-	
 	
 	if(isSet($_POST['cate']) && mysql_affected_rows())
 	foreach($_POST['cate'] as $val)

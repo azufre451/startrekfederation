@@ -154,8 +154,8 @@ class abilDescriptor
 			$val = (mt_rand(1,10) > 5) ? 1 : mt_rand(1,20);
 		}
 
-		$res = mysql_fetch_assoc(mysql_query("SELECT pgScalogna FROM pg_users WHERE pgID =".	$this->user));
-		if ($res['pgScalogna'] == '1'){$val = 1;}
+		$res = mysql_fetch_assoc(mysql_query("SELECT pgSSF FROM pg_users WHERE pgID =".	$this->user));
+		if ($res['pgSSF'] == '1'){$val = 1;}
 		
 		$ara = $this->explainDice($abID,0,$lucky);
 

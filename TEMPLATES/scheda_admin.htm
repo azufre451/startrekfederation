@@ -294,7 +294,7 @@
 
 		<a tal:attributes="href string:scheda.php?pgID=${selectedUser}">
 
-			<div  style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;" tal:content="php:''"></div>
+			<div  style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;" tal:content="php:(pgSSF ? 'S\'TUL\'DUKAT' : 'TUL\'DUKAT')"></div>
 			</a>
 
 			<a tal:attributes="href string:kgb.php?target=${selectedUser}" target="_blank">

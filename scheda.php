@@ -1205,7 +1205,7 @@ elseif($mode == 'admin')
 	$template->locations = $locArray;
 	$template->png = ($resA['png'] == 1) ? true : false;
 	$template->email = $resA['email'];
-	/**/ 
+	$template->pgSSF = $resA['pgSSF']; 
 	$template->pgType = $resA['pgType'];
 	$template->isMasCapableEnable = PG::isMasCapable($pgID);
 

@@ -1132,10 +1132,14 @@ elseif($mode == 'admin')
 	if(mysql_affected_rows()) $resA = mysql_fetch_array($res);
 	else {header('Location:scheda.php'); exit;}
 		
-	$resLocations = mysql_query("SELECT placeID,placeName FROM pg_places WHERE 1 ORDER BY placeName");
+	$resLocations = mysql_query("SELECT placeID,placeName,placeType FROM pg_places WHERE 1 ORDER BY placeName");
 	$locArray=array();
-	while($resLoc = mysql_fetch_array($resLocations))
-	$locArray[$resLoc['placeID']] = $resLoc['placeName'];
+
+	while($resLoc = mysql_fetch_array($resLocations)){
+
+		$locArray[$resLoc['placeID']] = array('locName' => $resLoc['placeName'], 'locType' => $resLoc['placeType']);	
+	}
+	
 	
 	$res = mysql_query("SELECT medID,medName,medgroup FROM pg_medals WHERE 1 ORDER BY medPrio ASC");
 	$nasArray=array();
@@ -1194,7 +1198,14 @@ elseif($mode == 'admin')
 	//$pstory = array();
 	//while ($d = mysql_fetch_array($e))
 	//$pstory[] = $d;	
+
+    $commandedPlaces = array();
+    $ras=mysql_query("SELECT placeName FROM pg_places WHERE placeCommander = '$pgID' AND placeType <> 'Navetta'");
+    while($res = mysql_fetch_assoc($ras))
+    	$commandedPlaces[] = $res;
+    
 	
+	$template->commandedPlaces = $commandedPlaces;
 	$template->thisYear = $thisYear+$bounceYear;
 	$template->lasts = $lasts;
 	//$template->pstory = $pstory;
@@ -1357,6 +1368,29 @@ elseif ($mode == 'setSalute')
 	header("Location:scheda.php?pgID=$pgID&s=me");
 	exit;
 }
+
+elseif ($mode == 'setAsCommanderOf')
+{
+	$pgID = $vali->numberOnly($_GET['pgID']);
+	$placeID = addslashes($_POST['placeID']);
+
+	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA)){
+		mysql_query("UPDATE pg_places SET placeCommander = '$pgID' WHERE placeID = '$placeID' OR attracco = '$placeID'");
+
+		$res = mysql_query("SELECT placeID,placeName FROM pg_places wHERE placeID = '$placeID'");
+		if (mysql_affected_rows())
+		{
+			$rus=mysql_fetch_assoc($res);
+			$toPG = new PG($pgID);
+			if(!$toPG->png)
+				$toPG->sendNotification("Codici di Comando Trasferiti",'Sei assegnato come Ufficiale in Comando della '.$rus['placeName'],$_SESSION['pgID'],"https://oscar.stfederation.it/SigmaSys/logo/nl_com.r.png",'schedaOpen');
+		}
+	}
+
+	header("Location:scheda.php?pgID=$pgID&s=admin");
+	exit;
+}
+
 
 elseif ($mode == 'document')
 {

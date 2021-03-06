@@ -1127,7 +1127,7 @@ elseif($mode == 'admin')
 	$pgID = $vali->numberOnly($_GET['pgID']);
 	if (!PG::mapPermissions('A',$currentUser->pgAuthOMA)){Mailer::emergencyMailer("Tentativo di accesso a scheda admin del pg $pgID",$currentUser); header('Location:scheda.php');}
 	$template = new PHPTAL('TEMPLATES/scheda_admin.htm');
-	$res = mysql_query("SELECT png, email,pgScalogna,pgUpgradePoints,pgSpecialistPoints,pgPrestige,pgLastURI,pgType,mainPG FROM pg_users WHERE pgID = $pgID");
+	$res = mysql_query("SELECT png, email,pgSSF,pgUpgradePoints,pgSpecialistPoints,pgPrestige,pgLastURI,pgType,mainPG FROM pg_users WHERE pgID = $pgID");
 	
 	if(mysql_affected_rows()) $resA = mysql_fetch_array($res);
 	else {header('Location:scheda.php'); exit;}
@@ -1205,7 +1205,7 @@ elseif($mode == 'admin')
 	$template->locations = $locArray;
 	$template->png = ($resA['png'] == 1) ? true : false;
 	$template->email = $resA['email'];
-	$template->cursed = $resA['pgScalogna']; 
+	$template->pgSSF = $resA['pgSSF']; 
 	$template->pgType = $resA['pgType'];
 	$template->isMasCapableEnable = PG::isMasCapable($pgID);
 
@@ -1309,7 +1309,7 @@ elseif ($mode == 'curse')
 {
 	$pgID = $vali->numberOnly($_GET['pgID']);
 	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
-	{	mysql_query("UPDATE pg_users SET pgScalogna = !pgScalogna WHERE pgID = $pgID");
+	{	mysql_query("UPDATE pg_users SET pgSSF = !pgSSF WHERE pgID = $pgID");
 		$pgIDU = PG::getSomething($pgID,'username');
 		Mailer::notificationMail("Il PG $pgIDU e' stato maledetto o smaledetto",$currentUser);
 	}

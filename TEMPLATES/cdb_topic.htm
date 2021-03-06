@@ -111,8 +111,8 @@
 	
 	<tr>
 	<td class="postDate" style="width:80px;" width="80px" tal:content="post/time"></td>
-	<td class="postTitle" style="text-align:left; color:#999; font-size:11px; padding-left:14px;" tal:condition="php:(post['lastEdit'] != '01/01/2338 01:00:00')">
-		<img src="TEMPLATES/img/interface/edit_icon.png" tal:attributes="title string:Ultima Modifica: ${post/lastEdit}" />
+	<td class="postTitle" style="text-align:left; color:#999; font-size:11px; padding-left:14px;">
+		<img tal:condition="php:(post['lastEdit'] != '01/01/2338 01:00:00')" src="TEMPLATES/img/interface/edit_icon.png" tal:attributes="title string:Ultima Modifica: ${post/lastEdit}" />
 		<span tal:condition="exists:post/coOwner" style="font-size:12px; color:#AAA; font-style:italic;" tal:content="string:Co-autore: ${post/coOwner}"/>
 		<span tal:content="post/postNote" />
 	</td>   

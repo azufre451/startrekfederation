@@ -2,7 +2,7 @@
 class CDB
 {
 
-	public static $allowedHTML = '<table><p><span><tr><td><div><hr><tbody><img><a><li><ul><ol><blockquote><b><u><i><font><sup><sub><br>';
+	public static $allowedHTML = '<table><img><p><span><tr><td><div><hr><tbody><img><a><li><ul><ol><blockquote><b><u><i><font><sup><sub><br><iframe>';
 
 
 	public static function mergeTopics($t1,$t2)

@@ -3,7 +3,7 @@
 		// nota Moreno: utilizzo del selettore JQ 'Jquery per evitare conflitti con PHPTAL XML PARSER
 		jQuery(function()
 		{
-			are = setInterval("ccc();",7000);
+			are = setInterval("ccc();",8000);
 			setInterval("localizeRefreshAuto();",20000);
 			setInterval(function(){ $('.lamp').each( function(){ $(this).css('visibility' , $(this).css('visibility') === 'hidden' ? '' : 'hidden') } ); }, 350);
 

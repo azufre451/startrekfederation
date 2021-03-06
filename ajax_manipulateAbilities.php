@@ -118,11 +118,6 @@ if ($_GET['action'] == 'rollRecompute'){
 	}
 } 
 
-
-
-
-
-
 if ($_GET['action'] == 'roll'){
 	if($currentUser->pgLock || $currentUser->pgAuthOMA == 'BAN') {echo json_encode(array('sta'=>'ok')); exit; }
 	$focus = addslashes($_POST['abID']);
@@ -138,6 +133,8 @@ if ($_GET['action'] == 'roll'){
 			$lucky = 0;
 
 		$residualQ=mysql_fetch_assoc(mysql_query("SELECT pgSpecialistPoints FROM pg_users WHERE pgID = ".$currentUser->ID));
+		
+		$currentUser->addnote("Uso di una Fortuna Critica");
 
 	}
 

@@ -1316,13 +1316,13 @@ elseif ($mode == 'lock')
 	exit;
 }
 
-elseif ($mode == '0s')
+elseif ($mode == 'toggleSSF')
 {
 	$pgID = $vali->numberOnly($_GET['pgID']);
 	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
 	{	mysql_query("UPDATE pg_users SET pgSSF = !pgSSF WHERE pgID = $pgID");
 		$pgIDU = PG::getSomething($pgID,'username');
-		/**/
+		///**/
 	}
 	header("Location:scheda.php?pgID=$pgID&s=admin");
 	exit;

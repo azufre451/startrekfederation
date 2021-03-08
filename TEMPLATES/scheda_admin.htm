@@ -170,7 +170,10 @@
 <div style="border:1px solid #2e7ec8; margin-top:10px; padding:4px;"><span style="font-weight:bold;">LOCATION ATTUALE</span>
 <form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setLocation" method="POST">
 	<select name="location">
-		<option tal:repeat="location locations" tal:attributes="value repeat/location/key ; selected php:(repeat.location.key == userData.pgLocation) ? 'selected' : false"  tal:content="location/locName"/>
+		<optgroup tal:repeat="locGRP locations" tal:attributes="label repeat/locGRP/key">
+
+			<option tal:repeat="location locGRP" tal:attributes="value repeat/location/key ; selected php:(repeat.location.key == userData.pgLocation) ? 'selected' : false"  tal:content="location"/>
+		</optgroup>
 
 	</select>
 	<input type="submit" value="VAI" />
@@ -252,7 +255,14 @@
 
 		<form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setAsCommanderOf" method="POST">
 			<select name="placeID">
-				<option tal:repeat="location locations" tal:attributes="value repeat/location/key ; selected php:(repeat.location.key == userData.pgLocation) ? 'selected' : false" tal:content="location/locName"/>
+				<optgroup label="Navi">
+					<option tal:repeat="location locations/Nave" tal:attributes="value repeat/location/key ; selected php:(repeat.location.key == userData.pgLocation) ? 'selected' : false"  tal:content="location"/>
+				</optgroup>
+				<optgroup label="Stazioni">
+					<option tal:repeat="location locations/Stazione" tal:attributes="value repeat/location/key ; selected php:(repeat.location.key == userData.pgLocation) ? 'selected' : false"  tal:content="location"/>
+				</optgroup>
+				
+
 			</select>
 			<input type="submit" value=" Aggiungi " />
 		</form>

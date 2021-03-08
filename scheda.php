@@ -1137,8 +1137,12 @@ elseif($mode == 'admin')
 
 	while($resLoc = mysql_fetch_array($resLocations)){
 
-		$locArray[$resLoc['placeID']] = array('locName' => $resLoc['placeName'], 'locType' => $resLoc['placeType']);	
+		if (!array_key_exists($resLoc['placeType'], $locArray))
+			$locArray[$resLoc['placeType']] = array();
+
+		$locArray[$resLoc['placeType']][$resLoc['placeID']] = $resLoc['placeName'];	
 	}
+	
 	
 	
 	$res = mysql_query("SELECT medID,medName,medgroup FROM pg_medals WHERE 1 ORDER BY medPrio ASC");
@@ -1213,6 +1217,8 @@ elseif($mode == 'admin')
 	$template->nastrini = $nasArray;
 	$template->pgUpgradePoints = $resA['pgUpgradePoints'];
 	$template->pgSpecialistPoints = $resA['pgSpecialistPoints']; 
+
+
 	$template->locations = $locArray;
 	$template->png = ($resA['png'] == 1) ? true : false;
 	$template->email = $resA['email'];
@@ -2054,7 +2060,7 @@ else
 	$resAchi = mysql_query("SELECT owner,aID,aImage,aText,aHidden,category,timer as rt,assignable  FROM pg_achievements LEFT JOIN pg_achievement_assign ON aID = achi AND owner IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $selectedUser)) ORDER BY owner DESC,timer DESC,aHidden ASC,aImage ASC");
 
 
-	$achi=array('Attivo nel...'=>array(),'PG & Scheda'=>array(),'Community'=>array(),'Contenuti'=>array(),'Segreti'=>array(),'Non assegnabili'=>array());
+	$achi=array('PG Attivo nel...'=>array(),'PG & Scheda'=>array(),'Community'=>array(),'Contenuti'=>array(),'Segreti'=>array(),'Non assegnabili'=>array());
 
 
 	while($reseAchi = mysql_fetch_assoc($resAchi))

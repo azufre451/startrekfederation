@@ -130,7 +130,8 @@
 				<!-- LAUREE  -->
 			<img tal:repeat="lau commendations/LAUR" tal:attributes="src string:TEMPLATES/img/ruolini/lauree/${lau/icon} ; title lau/alt ; ondblclick php:(smasterPanel== true) ? 'javascript:removeDotazione(\'degree\',' . lau['recID'] . ',' . selectedUser . ')':''" class="tooltip" style="margin-left:4px;"/>
 			
-			<div style="position:absolute; top:0px; right:0px; width:50px;"><img tal:repeat="bre commendations/NOTA" class="tooltip" tal:attributes="src string:TEMPLATES/img/ruolini/${bre/icon} ; title bre/alt ; ondblclick php:(smasterPanel== true) ? 'javascript:removeDotazione(\'nota\',' . bre['recID'] . ',' . selectedUser . ')':'' " style="margin-top:5px;" /></div>
+			<div style="position:absolute; top:0px; right:0px; width:100px;"><img tal:repeat="bre commendations/NOTA" class="tooltip" tal:attributes="src string:TEMPLATES/img/ruolini/${bre/icon} ; title bre/alt ; 
+ondblclick php:(smasterPanel== true) ? 'javascript:removeDotazione(\'nota\',' . bre['recID'] . ',' . selectedUser . ')':'' " style="margin-top:5px;" /></div>
 			</div>
 			
 			

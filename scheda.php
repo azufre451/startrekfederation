@@ -341,12 +341,12 @@ elseif($mode == 'ssto')
 	}
 	 
 
-	$resLocations = mysql_query("SELECT placeID,placeName FROM pg_places ORDER BY placeName");
+	$resLocations = mysql_query("SELECT placeID,placeName FROM pg_places WHERE placeType <> 'Navetta' ORDER BY placeName");
 	$resA = mysql_fetch_array($res);
 	
 	$locArray=array();
 	while($resLoc = mysql_fetch_array($resLocations))
-	$locArray[$resLoc['placeID']] = $resLoc['placeName'];
+		$locArray[$resLoc['placeID']] = $resLoc['placeName'];
 
 	$template->locations = $locArray;
 	$template->storiesRuol = $storiesRuol; 
@@ -357,7 +357,7 @@ elseif($mode == 'ssto')
 	
 } 
 
-elseif($mode == 'addssto' || $mode == 'addexam')
+elseif($mode == 'addssto' || $mode == 'addexam' || $mode == 'editsstoDo')
 {
 	//5$user = $vali->numberOnly($_POST['userSelector']);
 	$dateG = str_pad($vali->numberOnly($_POST['dataG']),2,'0',STR_PAD_LEFT);
@@ -371,8 +371,16 @@ elseif($mode == 'addssto' || $mode == 'addexam')
 		$cross = addslashes(($_POST['cross']));
 		$placer = addslashes(($_POST['placer']));
 		$query = "INSERT INTO pg_service_stories (owner,timer,text,placer,postLink,type) VALUES ($selectedUser,'$dateDef','$what','$placer','$cross','SERVICE')";
-		$padTit = 'OFF: Update Stato di Servizio';
-		$paddTex = "È stato aggiunto nella tua scheda PG un nuovo elemento allo stato di servizio:<br /> \"$what\"";
+		$padTit = 'Update Stato di Servizio';
+		$paddTex = "È stato aggiunto nella tua scheda PG un nuovo elemento allo stato di servizio";
+	}
+	elseif($mode == 'editsstoDo')
+	{
+		$cross = addslashes(($_POST['cross']));
+		$placer = addslashes(($_POST['placer']));
+		$recID = $vali->numberOnly($_POST['recordID']);
+
+		$query = "UPDATE pg_service_stories SET timer = '$dateDef', text = '$what', placer = '$placer', postLink = '$cross' WHERE recID = '$recID' AND type = 'SERVICE'";
 	}
 	elseif($mode == 'addexam')
 	{
@@ -381,19 +389,28 @@ elseif($mode == 'addssto' || $mode == 'addexam')
 		$bvQuery = mysql_fetch_assoc(mysql_query("SELECT brevID,image FROM pg_brevetti WHERE descript = '$what'"));
 		$brevID = $bvQuery['brevID'];
 		$image= (mysql_affected_rows()) ?  $bvQuery['image']  : 'starfleet_brev.png';
-		$query = "INSERT INTO pg_service_stories (owner,timer,text,placer,extra,type,image) VALUES ($selectedUser,'$dateDef','$what',(SELECT pgAssign FROM pg_users WHERE pgID = $selectedUser),'$esit','EXAM','$image')"; 
-		if (PG::mapPermissions('SM',$currentUser->pgAuthOMA) && mysql_affected_rows()) mysql_query("INSERT INTO pg_brevetti_assign (owner,brev,status) VALUES ($selectedUser,$brevID,1)"); 
 		$esitL = ($esit <= 100) ? $esit : (($esit == 110) ? 'APPROVATO' : 'RESPINTO');
-		$paddTex = "È stato caricato nella tua scheda PG un nuovo esito per un esame sostenuto: \"$what\", con esito: $esitL.";
-		$padTit = 'OFF: NUOVO ESAME';
+		
+		$brevID= (mysql_affected_rows()) ?  $bvQuery['brevID']  : 'NULL';
+		
+
+		$query = "INSERT INTO pg_service_stories (owner,timer,text,placer,extra,type,image,brevlink) VALUES ($selectedUser,'$dateDef','$what',(SELECT pgAssign FROM pg_users WHERE pgID = $selectedUser),'$esit','EXAM','$image',$brevID)";
+		
+		$paddTex = "Esito caricato per: \"$what\"";
+		$padTit = 'Nuovo Esame Registrato';
+
 	}
 	
 	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA)){
 		mysql_query($query);
 
-		$selectedDUser->sendPadd($padTit,$paddTex);
+
+		if (isSet($padTit))
+			$selectedDUser->sendNotification($padTit,$paddTex,$_SESSION['pgID'],"https://oscar.stfederation.it/SigmaSys/logo/logoufp.png",'schedaSstoOpen');
+
 	}
 	
+
 	header("Location:scheda.php?pgID=$selectedUser&s=ssto");
 	exit;
 }
@@ -407,6 +424,36 @@ else if ($mode == 'removessto')
 	
 	header("Location:scheda.php?pgID=$selectedUser&s=ssto");
 	exit;
+}
+
+else if ($mode == 'editssto')
+{
+	$w = $vali->numberOnly($_GET['sID']);
+	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA)){
+		
+		$template = new PHPTAL('TEMPLATES/scheda_edit_stato_servizio.htm');
+		$template->thisYear = $thisYear+$bounceYear;
+
+
+
+		$rea=mysql_fetch_assoc(mysql_query("SELECT * FROM pg_service_stories WHERE recID = $w AND owner = $selectedUser LIMIT 1"));
+		$rtp=explode('-',$rea['timer']);
+
+		$rea['dYear'] = $rtp[0];
+		$rea['dMonth'] = $rtp[1];
+		$rea['dDay'] = $rtp[2];
+		$template->serviceStory= $rea;
+
+		$resLocations = mysql_query("SELECT placeID,placeName FROM pg_places WHERE placeType <> 'Navetta' ORDER BY placeName");
+		
+	
+		$locArray=array();
+		while($resLoc = mysql_fetch_array($resLocations))
+			$locArray[$resLoc['placeID']] = $resLoc['placeName'];
+
+		$template->locations = $locArray;
+		
+	} 
 }
 
 
@@ -761,40 +808,6 @@ else if($mode == 'deleteNoteStaff'){
 	exit;
 }
 
-elseif($mode == 'addPointSpec')
-{
-	$user = $vali->numberOnly($_POST['userSelector']);
-	$abili = $vali->numberOnly($_POST['abili']); 
-	
-	 	
-	$pointsRec = PG::getSomething($user,'upgradePoints'); 
-	
-	$milPoints = $pointsRec['pgUpgradePoints']; 
-	
-	if(($user == $_SESSION['pgID'] || $currentUser->pgAuthOMA == 'A') && (int)$milPoints >= 2)
-	{
-			$rese=mysql_query("SELECT sectID FROM pg_brevetti_specs,pg_brevetti_sectors WHERE sector = sectID AND specID = $abili");
-			if(mysql_affected_rows()) //exists
-			{
-			
-				$sectDescript = mysql_fetch_assoc($rese); 
-				$num = mysql_fetch_assoc(mysql_query("SELECT COUNT(*) as ccc FROM pg_brevetti_specs_assign WHERE spec = $abili AND owner = $user"));
-				if($num['ccc'] <= 3) //don't have
-				{ 
-					$sectID = $sectDescript['sectID'];
-					mysql_query("SELECT 1 FROM pg_brevetti_levels WHERE sector = $$sectID AND value = 15");
-					if(mysql_affected_rows()) //have level
-					{
-						mysql_query("UPDATE pg_users SET pgUpgradePoints = pgUpgradePoints-2 WHERE pgID = $user");
-						mysql_query("INSERT INTO pg_brevetti_specs_assign(owner,spec) VALUES($user,$abili)");
-					} 
-				}
-			}
-	}
-	header("Location:scheda.php?pgID=$user&s=bvadd");
-	exit;
-}	
-
 
 elseif($mode == 'al')
 {
@@ -958,7 +971,10 @@ elseif($mode == 'master')
 	
 	$template->alloTypes = $alloTypes;
 	
-	$resNote = mysql_query("SELECT pg_notestaff.*,pgUser FROM pg_notestaff,pg_users WHERE pgID = pgFrom AND pgTo = $pgID ORDER BY recID DESC");
+
+	$atAdd = (!PG::mapPermissions('SM',$currentUser->pgAuthOMA)) ? 'AND secret = 0' : '';
+	
+	$resNote = mysql_query("SELECT pg_notestaff.*,pgUser FROM pg_notestaff,pg_users WHERE pgID = pgFrom AND pgTo = $pgID $atAdd ORDER BY recID DESC");
 	$resNoteA = array();
 	while ($til = mysql_fetch_assoc($resNote))
 		$resNoteA[] = $til;
@@ -1111,15 +1127,23 @@ elseif($mode == 'admin')
 	$pgID = $vali->numberOnly($_GET['pgID']);
 	if (!PG::mapPermissions('A',$currentUser->pgAuthOMA)){Mailer::emergencyMailer("Tentativo di accesso a scheda admin del pg $pgID",$currentUser); header('Location:scheda.php');}
 	$template = new PHPTAL('TEMPLATES/scheda_admin.htm');
-	$res = mysql_query("SELECT png, email,pgScalogna,pgUpgradePoints,pgSpecialistPoints,pgPrestige,pgLastURI,pgType,mainPG FROM pg_users WHERE pgID = $pgID");
+	$res = mysql_query("SELECT png, email,pgSSF,pgUpgradePoints,pgSpecialistPoints,pgPrestige,pgLastURI,pgType,mainPG FROM pg_users WHERE pgID = $pgID");
 	
 	if(mysql_affected_rows()) $resA = mysql_fetch_array($res);
 	else {header('Location:scheda.php'); exit;}
 		
-	$resLocations = mysql_query("SELECT placeID,placeName FROM pg_places WHERE 1 ORDER BY placeName");
+	$resLocations = mysql_query("SELECT placeID,placeName,placeType FROM pg_places WHERE 1 ORDER BY placeName");
 	$locArray=array();
-	while($resLoc = mysql_fetch_array($resLocations))
-	$locArray[$resLoc['placeID']] = $resLoc['placeName'];
+
+	while($resLoc = mysql_fetch_array($resLocations)){
+
+		if (!array_key_exists($resLoc['placeType'], $locArray))
+			$locArray[$resLoc['placeType']] = array();
+
+		$locArray[$resLoc['placeType']][$resLoc['placeID']] = $resLoc['placeName'];	
+	}
+	
+	
 	
 	$res = mysql_query("SELECT medID,medName,medgroup FROM pg_medals WHERE 1 ORDER BY medPrio ASC");
 	$nasArray=array();
@@ -1178,7 +1202,14 @@ elseif($mode == 'admin')
 	//$pstory = array();
 	//while ($d = mysql_fetch_array($e))
 	//$pstory[] = $d;	
+
+    $commandedPlaces = array();
+    $ras=mysql_query("SELECT placeName FROM pg_places WHERE placeCommander = '$pgID' AND placeType <> 'Navetta'");
+    while($res = mysql_fetch_assoc($ras))
+    	$commandedPlaces[] = $res;
+    
 	
+	$template->commandedPlaces = $commandedPlaces;
 	$template->thisYear = $thisYear+$bounceYear;
 	$template->lasts = $lasts;
 	//$template->pstory = $pstory;
@@ -1186,10 +1217,12 @@ elseif($mode == 'admin')
 	$template->nastrini = $nasArray;
 	$template->pgUpgradePoints = $resA['pgUpgradePoints'];
 	$template->pgSpecialistPoints = $resA['pgSpecialistPoints']; 
+
+
 	$template->locations = $locArray;
 	$template->png = ($resA['png'] == 1) ? true : false;
 	$template->email = $resA['email'];
-	$template->cursed = $resA['pgScalogna']; 
+	$template->pgSSF = $resA['pgSSF']; 
 	$template->pgType = $resA['pgType'];
 	$template->isMasCapableEnable = PG::isMasCapable($pgID);
 
@@ -1289,13 +1322,13 @@ elseif ($mode == 'lock')
 	exit;
 }
 
-elseif ($mode == 'curse')
+elseif ($mode == 'toggleSSF')
 {
 	$pgID = $vali->numberOnly($_GET['pgID']);
 	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
-	{	mysql_query("UPDATE pg_users SET pgScalogna = !pgScalogna WHERE pgID = $pgID");
+	{	mysql_query("UPDATE pg_users SET pgSSF = !pgSSF WHERE pgID = $pgID");
 		$pgIDU = PG::getSomething($pgID,'username');
-		Mailer::notificationMail("Il PG $pgIDU e' stato maledetto o smaledetto",$currentUser);
+		//Mailer::notificationMail("Il PG $pgIDU e' stato tulducato o stulducato",$currentUser);
 	}
 	header("Location:scheda.php?pgID=$pgID&s=admin");
 	exit;
@@ -1341,6 +1374,29 @@ elseif ($mode == 'setSalute')
 	header("Location:scheda.php?pgID=$pgID&s=me");
 	exit;
 }
+
+elseif ($mode == 'setAsCommanderOf')
+{
+	$pgID = $vali->numberOnly($_GET['pgID']);
+	$placeID = addslashes($_POST['placeID']);
+
+	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA)){
+		mysql_query("UPDATE pg_places SET placeCommander = '$pgID' WHERE placeID = '$placeID' OR attracco = '$placeID'");
+
+		$res = mysql_query("SELECT placeID,placeName FROM pg_places wHERE placeID = '$placeID'");
+		if (mysql_affected_rows())
+		{
+			$rus=mysql_fetch_assoc($res);
+			$toPG = new PG($pgID);
+			if(!$toPG->png)
+				$toPG->sendNotification("Codici di Comando Trasferiti",'Sei assegnato come Ufficiale in Comando della '.$rus['placeName'],$_SESSION['pgID'],"https://oscar.stfederation.it/SigmaSys/logo/nl_com.r.png",'schedaOpen');
+		}
+	}
+
+	header("Location:scheda.php?pgID=$pgID&s=admin");
+	exit;
+}
+
 
 elseif ($mode == 'document')
 {
@@ -1510,7 +1566,7 @@ elseif ($mode == 'setIncarico')
 	{	
 		mysql_query("UPDATE pg_users SET pgAssign = '$assegnazione' WHERE pgID ='$pgID'");
 		if($incMain)
-			mysql_query("UPDATE pg_incarichi SET incMain = 0 WHERE pgID = '$pgID' AND pgPlace = '$assegnazione'");
+			mysql_query("UPDATE pg_incarichi SET incMain = 0 WHERE pgID = '$pgID'");
 		
 		mysql_query("INSERT INTO pg_incarichi (pgID,incIncarico,incSezione,incDivisione,incDipartimento,incGroup,pgPlace,incMain) VALUES('$pgID','$incIncarico','$incSezione','$incDivisione','$incDipartimento','$incGroup','$assegnazione','$incMain')");
 
@@ -1547,17 +1603,6 @@ elseif ($mode == 'addDotazione')
 	exit;
 }
 
-elseif ($mode == 'addBrevetto')
-{
-	$pgID = $vali->numberOnly($_GET['pgID']);
-	$brevetto = addslashes($_GET['ider']);
-	
-	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
-		mysql_query("INSERT INTO pg_brevetti_assign (owner,brev,status) VALUES ($pgID,$brevetto,1)"); 
-	header("Location:scheda.php?pgID=$pgID&s=bv");
-	exit;
-}
-
 elseif ($mode == 'remDotazione')
 {
 	$pgID = $vali->numberOnly($_GET['pgID']);
@@ -1566,7 +1611,7 @@ elseif ($mode == 'remDotazione')
 	
 	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
 	{
-		//if(isSet($_GET['brever'])) mysql_query("DELETE FROM pg_brevetti_assign WHERE recID = $ider");
+		
 		if($item == 'medal' && PG::mapPermissions('A',$currentUser->pgAuthOMA))
 			mysql_query("DELETE FROM pgDotazioni WHERE doatazioneType = 'MEDAL' AND pgID = $pgID AND recID = $ider");
 		elseif($item == 'degree')
@@ -2015,7 +2060,7 @@ else
 	$resAchi = mysql_query("SELECT owner,aID,aImage,aText,aHidden,category,timer as rt,assignable  FROM pg_achievements LEFT JOIN pg_achievement_assign ON aID = achi AND owner IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $selectedUser)) ORDER BY owner DESC,timer DESC,aHidden ASC,aImage ASC");
 
 
-	$achi=array('Attivo nel...'=>array(),'PG & Scheda'=>array(),'Community'=>array(),'Contenuti'=>array(),'Segreti'=>array(),'Non assegnabili'=>array());
+	$achi=array('PG Attivo nel...'=>array(),'PG & Scheda'=>array(),'Community'=>array(),'Contenuti'=>array(),'Segreti'=>array(),'Non assegnabili'=>array());
 
 
 	while($reseAchi = mysql_fetch_assoc($resAchi))

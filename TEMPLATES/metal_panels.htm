@@ -324,12 +324,12 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 		</div> 
 		
 		 
-		<hr/>
-		<p style="font-size:1.2em"> Apri una nuova sessione:</p>
+		<hr style="border-color:#AAA;"/>
+		<p style="font-size:1.2em; font-family:Helvetica"> Apri una nuova sessione</p>
 		<input type="text" class="neon" style="width:90%" id="sessionLabel" placeholder="Titolo della sessione" /><br/>
 		<p style="text-align:left; margin-left:10px;" tal:condition="exists:isMasteringJuniorMasterOrMod"><input type="checkbox" id="masterCheck" /> Sessione Master</p>
 		<p style="text-align:left; margin-left:35px;" tal:condition="exists:isMasteringJuniorMasterOrMod" > accesso riservato a: <input type="text" placeholder="Tutti" id="tusers" class="neon" name="tusers" onfocus="this.select();" /> </p>
-		<p style="text-align:center; margin-left:35px; float:left;" > Attesa massima in turno:
+		<p style="text-align:left; margin-left:25px; margin-top:10px; font-family:Helvetica; font-size:14px;" >Attesa massima in turno:
 			<select placeholder="Tutti" id="maxturner" class="neon" name="maxturner">
 				<option tal:condition="exists:isMasteringJuniorMasterOrMod" value="0"> Infinita </option>
 				<option tal:condition="exists:isMasteringJuniorMasterOrMod" value="3"> 3 Minuti </option>
@@ -342,19 +342,20 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 				<option value="10"> 10 Minuti </option>
 			</select>
 		</p>
-		<p tal:condition="exists:isMasteringJuniorMasterOrMod" style="margin-left:35px; float:left;">
+		<p style="text-align:left; margin-left:25px; margin-top:10px; font-family:Helvetica; font-size:14px;">
 		Caratteri Max /azione: 
 			<select id="tcharrer" class="neon" name="tcharrer">
 			<option value="0" selected="selected"> Infiniti </option>
 			<option value="800"> 800 </option>
 			<option value="1000"> 1000 </option>
 			<option value="1200"> 1200 </option>
+			<option value="1400"> 1400 </option>
 			<option value="1600"> 1600 </option>
 			<option value="1600"> 1800 </option>
 			</select>
 		</p>
-		<p style="clear:both;">
-		<a class="interfaceLinkBlue" style="font-size:12px;" href="javascript:void(0);" onclick="javascript:openSession()">[ - Apri la sessione - ]</a>
+		<p style="clear:both; margin-top:15px;">
+		<a class="interfaceLinkBlue" style="font-size:12px;" href="javascript:void(0);" onclick="javascript:openSession()">[ - APRI LA SESSIONE - ]</a>
 		</p>
 		
 	</div>

@@ -20,7 +20,7 @@
 	<script type="text/javascript" src="TEMPLATES/js/easyNotify.js"></script>
 	<script type="text/javascript" src="TEMPLATES/js/highlight.js"></script>
  
-	<title>STAR TREK: FEDERATION</title>
+	<title tal:content="string:STF ${ambient/locName}">STAR TREK: FEDERATION</title>
 	
 	<style tal:content="user/customCSS" tal:condition="php:(user.customCSS != '')" />
 	

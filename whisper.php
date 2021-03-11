@@ -64,25 +64,20 @@ while($chatLi = mysql_fetch_array($chatLines))
 $template->htmlLiner = $htmlLiner;
 $template->maxVIS = $MAX;
 
-	$resPgPresenti = mysql_query('SELECT pgID, pgAvatar, pgUser,pgLock,pgMostrina,pgAuthOMA FROM pg_users WHERE pgID <> '.$_SESSION['pgID'].' AND pgLastAct >= '.($curTime-1800).' ORDER BY pgUser ASC');
+	$resPgPresenti = mysql_query('SELECT pgID, pgAvatar, pgUser,pgLock,pgMostrina,pgAuthOMA,png FROM pg_users WHERE pgID <> '.$_SESSION['pgID'].' AND pgLastAct >= '.($curTime-1800).' ORDER BY pgUser ASC');
 	$pgArray=array();
 	
 	while($resPG = mysql_fetch_array($resPgPresenti))
 		{
 			
-			if ($resPG['pgLock'])
+			if (!$resPG['png'] && $resPG['pgLock'])
 				$atcl = 'L';
-
-			elseif (PG::mapPermissions('A',$resPG['pgAuthOMA']))
+			elseif (!$resPG['png'] && PG::mapPermissions('A',$resPG['pgAuthOMA']))
 				$atcl = 'A';
-			
-
-			else if (PG::mapPermissions('M',$resPG['pgAuthOMA']))
+			else if (!$resPG['png'] && PG::mapPermissions('M',$resPG['pgAuthOMA']))
 				$atcl = 'M';
-
-			elseif (PG::mapPermissions('G',$resPG['pgAuthOMA']))
+			elseif (!$resPG['png'] && PG::mapPermissions('G',$resPG['pgAuthOMA']))
 				$atcl = 'G';
-
 			else
 				$atcl = '';
 						

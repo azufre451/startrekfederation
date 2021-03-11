@@ -154,8 +154,8 @@ class abilDescriptor
 			$val = (mt_rand(1,10) > 5) ? 1 : mt_rand(1,20);
 		}
 
-		$res = mysql_fetch_assoc(mysql_query("SELECT pgScalogna FROM pg_users WHERE pgID =".	$this->user));
-		if ($res['pgScalogna'] == '1'){$val = 1;}
+		$res = mysql_fetch_assoc(mysql_query("SELECT pgSSF FROM pg_users WHERE pgID =".	$this->user));
+		if ($res['pgSSF'] == '1'){$val = 1;}
 		
 		$ara = $this->explainDice($abID,0,$lucky);
 
@@ -853,7 +853,7 @@ class PG
 		foreach ($arr as $elem)
 			$tr .= $elem.', ';
 		$tr = substr($tr,0,-2).')';
-		mysql_query("SELECT 1 FROM pg_brevetti_assign WHERE owner = ".$this->ID." AND brev IN $tr");
+		mysql_query("SELECT 1 FROM pg_service_stories WHERE type = 'EXAM' AND owner = ".$this->ID." AND brevlink IN $tr");
 		return mysql_affected_rows();
 	}
 	public function sendNotification($text,$subtext,$from = '518',$image='',$linker='',$uri='')
@@ -1050,7 +1050,6 @@ class PG
 		mysql_query("DELETE FROM pg_incarichi WHERE pgID = '$pgID';");
 		mysql_query("DELETE FROM pg_achievement_assign WHERE owner = '$pgID';");
 		mysql_query("DELETE FROM pg_alloggi WHERE pgID = '$pgID';");
-		mysql_query("DELETE FROM pg_brevetti_assign WHERE owner = '$pgID';");
 		mysql_query("DELETE FROM pg_groups_ppl WHERE pgID = '$pgID';");
 		mysql_query("DELETE FROM pg_objects WHERE owner = '$pgID';");
 		mysql_query("DELETE FROM pg_service_stories WHERE owner = '$pgID';");

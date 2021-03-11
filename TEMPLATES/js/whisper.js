@@ -2,7 +2,7 @@ var are;
 		var area;
 		jQuery(function()
 		{
-			are = setInterval("updater();",6000); 
+			are = setInterval("updater();",8000); 
 			jQuery("#chatDiv").scrollTop(jQuery("#chatDiv")[0].scrollHeight);
 		});
 		

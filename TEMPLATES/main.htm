@@ -24,14 +24,6 @@
 
  
 	<script tal:condition="exists:noauth">alert("Attenzione: in questa chat si sta svolgendo una giocata privata ad invito e l'accesso è riservato!");</script>
-	
-
-	<script>
-
-var myImg = "https://unsplash.it/600/600?image=777";
-
-</script>
-
  
 	<title>STAR TREK FEDERATION</title>
 	
@@ -191,11 +183,11 @@ var myImg = "https://unsplash.it/600/600?image=777";
 	<div style="font-size:13px; text-align:justify;" tal:content="structure note" />
 	
 
-	<div id="calendarBox" tal:condition="php:count(events) == 0" style="position:absolute;right:30px;"> 
+	<div id="calendarBox" tal:condition="php:count(events) == 0"> 
 		<p class="clockTitle" style="width:auto;" ><a href="javascript:void(0);" onclick="calendarOpen()" class="interfaceLink">(APRI IL CALENDARIO)</a></p>
 	</div>
 	<div id="calendarBox" tal:condition="php:count(events) GE 1">
-		<p class="clockTitle" >PROSSIME GIOCATE</p>
+		<p class="clockTitle" style="text-align: center; width:100%;" >PROSSIME GIOCATE</p>
 
 		<table style="width:100%; font-family:Helvetica; font-size:12px;">
 			<tbody tal:repeat="event events">
@@ -207,9 +199,7 @@ var myImg = "https://unsplash.it/600/600?image=777";
 					<a onclick="calendarOpen()" class="interfaceLink" href="javascript:void(0);" tal:content="structure event/event" style="font-size:14px; font-family: Helvetica; vertical-align:middle;" />
 					<span tal:content="string: (${event/pgUser})" style="font-size:13px; color:#BBB;" />
 				</td> 
-				<td>
-					<span href="javascript:void(0);" tal:attributes="class php:((event['ipar']) ? 'participationNo': 'participationYes'); title php:((event['ipar']) ? 'Annulla partecipazione': 'Conferma partecipazione'); onclick string:javascript:toggleMyPresence(${event/evID}) ; id string:participationMark_${event/evID}" />
-				</td>
+ 
 			</tr>
 			<tr>
 				<td />
@@ -217,7 +207,11 @@ var myImg = "https://unsplash.it/600/600?image=777";
 					<span tal:repeat="person event/presences" style="cursor:pointer" tal:attributes="id string:participationBox_element_${person/pgID}; class php:'eventParticip ' . str_replace(' ','_',person['pgSezione']); onclick string:schedaPOpen('${person/pgID}')">
 						<img tal:attributes="src person/pgAvatarSquare ; title person/pgUser"/>
 					</span>
-				</td> 
+				</td>
+				<td>
+					<span href="javascript:void(0);" tal:attributes="class php:((event['ipar']) ? 'participationNo': 'participationYes'); title php:((event['ipar']) ? 'Annulla partecipazione': 'Conferma partecipazione'); onclick string:javascript:toggleMyPresence(${event/evID}) ; id string:participationMark_${event/evID}; style string:margin-top:1px;; margin-left:3px"/>
+				</td>
+				 
 			</tr>
 			</tbody>
 		</table>

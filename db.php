@@ -48,20 +48,6 @@ if(isSet($_GET['dopdf']))
 		$catName = $resA['catName'];
 		$catImage = $resA['catImage'];
 		$title = $resA['title'];
-		
-		$htmldCode = array(
-"<b>","</b>",
-"<i>","</i>", 
-"<u>","</u>",
-"<div style=\"text-align:center;\" align=\"center\">","</div>",
-"<p style=\"text-align:left\">","</p>",
-"<p style=\"text-align:right\">","</p>",
-"<span style=\"color:red; font-weight:bold;\">","<span style=\"color:#4464c1; font-weight:bold;\">",
-"<span style=\"color:black; font-weight:bold;\">","<span style=\"font-weight:bold; color:black;\">",
-"<span style=\"color:#179a10; font-weight:bold;\">","<span style=\"color:#333; font-weight:bold;\">",
-"<span style=\"font-size:13px; font-weight:bold;\">","<span style=\"font-size:13px;\">",
-"<span style=\"font-size:16px; font-weight:bold;\">","</span>","</span>","<br />","<img src=\"","\"/>","<a target=\"_blank\" class=\"interfaceLink\" href=\"","\">LINK</a>",'script','script');
-
 		$content = CDB::bbcode($resA['content']);
 	}
 	$user = PG::getSomething($_SESSION['pgID'],'username');
@@ -306,7 +292,7 @@ else if(isSet($_GET['element']) || isSet($_GET['litref']))
 		$template->catName = $resA['catName'];
 		$template->catImage = $resA['catImage'];
 		$template->title = $resA['title'];
-		$template->content = ($resA['skipBB']) ? $resA['content'] : (($resA['enableMD']) ? CDB::bbcode($Parsedown->text($resA['content']),NULL,NULL,NULL) : CDB::bbcode($resA['content'])) ; 
+		$template->content = ($resA['skipBB']) ? $resA['content'] : (($resA['enableMD']) ? CDB::bbcode($Parsedown->text($resA['content']),NULL,NULL,NULL,1) : CDB::bbcode($resA['content'],NULL,NULL,"\n",1)) ; 
 		$template->searchable = (isSet($_SESSION['pgID'])) ? true : false;
 
 	}

@@ -259,11 +259,6 @@
 						<a tal:omit-tag="php:(person['pgID'] == 0)" tal:attributes="href string:javascript:schedaPOpen(${person/pgID}) ; title php:(userSL) ? 'ULTIMO LOGIN: ' . date('d-m-Y H:i:s',person['pgLastAct']) : ''"><span class="itu" tal:content="string: ${person/pgNomeSuff} ${person/pgUser}, ${person/pgNomeC}" /></a> 
 
 			
-			<!--<span tal:condition="php:(user.pgAuthOMA == 'A' || user.pgAuthOMA == 'SM')" class="morer" style="display:none; float:right;">
-				<a tal:attributes="href string:service.php?place=${place/placeID}&bavosize=${person/pgID}" style="border:1px solid yellow; color:white; font-size:10px; padding:2px;" onclick="return confirm('Conferma Operazione');" tal:condition="php:(user.pgAuthOMA == 'A' || user.pgAuthOMA == 'SM')">Bv</a>
-				<a tal:attributes="href string:service.php?place=${place/placeID}&delete=${person/pgID}" style="border:1px solid red; color:white; font-size:10px; padding:2px;" onclick="return confirm('Conferma Operazione');" tal:condition="php:(user.pgAuthOMA == 'A')">De</a>
-			</span>-->
-			
 					<span  tal:attributes="class php:(array_key_exists(repeat.sezione.key,ccol) ? ccol[repeat.sezione.key] : '')" style=" font-weight:bold;">></span> <span tal:content="structure person/incIncarico">INCARICO</span>
 
 					<span tal:condition="php:(person['pgPrestige'] GT 0)">[ <img tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/notori_image_${person/pgPrestige}.png ; title php:('<span class=\'' . (array_key_exists(repeat.sezione.key,ccol) ? 's'.ccol[repeat.sezione.key] : '') . '\' >' . prestigioLabels[person['pgPrestige']]['name'] . '</span><br/>' . prestigioLabels[person['pgPrestige']]['desc']) ; class php:(array_key_exists(repeat.sezione.key,ccol) ? 'tooltip im1 ' . ccol[repeat.sezione.key] : 'tooltip im1')" /> ]</span>

@@ -68,11 +68,11 @@
 
 	<div id="chatBar">
 			
-				<a href='javascript:void(0);' onclick="javascript:window.location.reload()"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_ref.png" style="vertical-align:middle;"/></a>
-				<a href='javascript:void(0);' onclick="javascript:jQuery('#whisperInfo').fadeIn(150);"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_desc.png" style="vertical-align:middle;"/></a>
+				<a href='javascript:void(0);' title="Aggiorna" onclick="javascript:window.location.reload()"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_ref.png" style="vertical-align:middle;"/></a>
+				<a href='javascript:void(0);' title="Aiuto" onclick="javascript:jQuery('#whisperInfo').fadeIn(150);"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_desc.png" style="vertical-align:middle;"/></a>
 				<input id="chatInput" style="width:76%; vertical-align:middle; height:20px;"  onkeyup="javascript:sX(event);"/>
 				<input type="hidden" id="lastID" tal:attributes="value maxVIS" />
-				<button type="submit" style="border-radius:10px;vertical-align:middle; width:60px; margin-left:7px;" onclick="javascript:sendChat();">INVIA</button>
+				<button type="submit" style="border-radius:10px;vertical-align:middle; width:60px; cursor:pointer;     height: 23px; margin-left:7px;" onclick="javascript:sendChat();">INVIA</button>
 	</div>
 </div>
 
@@ -88,7 +88,9 @@
 		<tr><td><img src="/TEMPLATES/img/interface/smileys/bho.gif" alt="LOL" /></td><td> (bho) </td> <td><img src="/TEMPLATES/img/interface/smileys/uplook.gif" alt="LOL" /></td><td> (uplook) </td></tr>
 		<tr><td><img src="/TEMPLATES/img/interface/smileys/cry.gif" alt="LOL" /></td><td> (cry) </td> <td><img src="/TEMPLATES/img/interface/smileys/2heart.gif" alt="LOL" /></td><td> (love) </td></tr>
 		</table></center>
-		<div class="closeBTN" onclick="jQuery('#whisperInfo').fadeOut(100);">X</div>
+
+		<div class="xButton" onclick="jQuery('#whisperInfo').fadeOut(100);"></div>
+
 </div>
 <div metal:use-macro="TEMPLATES/metal_panels.htm/remindStaffPresence" tal:condition="exists:presenceForce" />
 </body>

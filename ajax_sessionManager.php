@@ -37,17 +37,17 @@ include('includes/validate_class.php');
 			
 			$vali = new validator();
 			
-			if($master)
-			{
-				$timer = $vali->numberOnly($_POST['maxturner']);
-				$charrer = (isSet($_POST['maxchar']) && (int)$_POST['maxchar'] > 0) ? $vali->numberOnly($_POST['maxchar']) : 0;
+			//if($master)
+			//{
+			$timer = $vali->numberOnly($_POST['maxturner']);
+			$charrer = (isSet($_POST['maxchar']) && (int)$_POST['maxchar'] >= 800) ? $vali->numberOnly($_POST['maxchar']) : 0;
 
-			}
-			else{
-				//$timer = 8;
-				$timer = $vali->numberOnly($_POST['maxturner']);
-				$charrer=0;
-			}
+			//}
+			//else{
+			//	//$timer = 8;
+			//	$timer = $vali->numberOnly($_POST['maxturner']);
+			//	$charrer=0;
+			//}
 
 
 			$listerOne = ($master && isSet($_POST['lister'])) ? $_POST['lister'] : '';

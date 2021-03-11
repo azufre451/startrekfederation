@@ -82,12 +82,37 @@ if(isSet($_GET['registerUser']))
 	
 	
 	$pgNew->sendWelcomePadd();
- 
-	
-	
+ 	
 	mysql_query("INSERT INTO connlog (user,time,ip) VALUES ($pgNewID,$curTime,'".$_SERVER['REMOTE_ADDR']."')");
 	$pgName=stripslashes($pgName);
-	mail($emai,"Star Trek Federation - Benvenuto!","Star Trek Federation - Benvenuto:\n\nCiao, $pgName,\n\nTu, o qualcuno per te, ha provveduto ad eseguire la registrazione del tuo indirizzo email a Star Trek Federation. L'operazione ha avuto esito positivo.\n\nUSERNAME: $pgName\nPASSWORD: $passer\n\nPotrai cambiare la password loggandoti in Star Trek Federation al link http://www.stfederation.it\n\nCi auguriamo di vederti presto tra noi!\nIl team di Star Trek: Federation.","From:staff@stfederation.it");
+
+	$headers = "MIME-Version: 1.0" . "\r\n";
+	$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+	$headers .= "From:Star Trek Federation <staff@stfederation.it>\r\n";
+
+	mail($emai,"Benvenuto in Star Trek: Federation, $pgName!","	
+		<p style=\"text-align:center\"><img src=\"https://oscar.stfederation.it/SigmaSys/promo_stf/little_logo.png\" alt=\"Logo STF\"></img></p>
+
+		<p><b>Benvenuto in Star Trek: Federation, $pgName!</b></p>
+
+		<p>Ti sei registrato con successo a Star Trek: Federation.<br /><br />
+
+		L'ufficio personale della Flotta Stellare conferma che il tuo personaggio è stato registrato.<br />
+		Il trasporto per la Starbase Tycho è pronto in hangar, pronto a partire a velocità di curvatura!<br /><br />
+
+		Ecco i dati per effettuare il tuo primo login in STF:</p>
+
+		<p><b>Username</b>: $pgName<br />
+		<b>Password</b>: $passer<br /><br />
+
+		<i>(Potrai cambiare la password direttamente dalla scheda del personaggio, una volta effettuato il login)</i>
+		</p>
+
+		<p>Puoi effettuare l'accesso collegandoti a: <a href=\"http://www.stfederation.it\">http://www.stfederation.it</a></p>
+
+		<p>Ci auguriamo di vederti presto tra noi!<br />
+		<i>Il team di Star Trek: Federation.</i></p>
+		",$headers);
 		
 	PG::setMostrina($pgNewID,$pgRealTarget);
 
@@ -303,54 +328,6 @@ else if (isSet($_GET['mostrina']))
 		PG::setIncarico($to,$textRecluta);
 	}
 	
-	header("Location:crew.php?equi=$dest");
-	exit;
-}
-
-else if (isSet($_GET['delete']))
-{
-	$to = $vali->numberOnly($_GET['delete']);
-	$pgID = $to;
-	$dest = ($_GET['place']);
-	$timeString =substr(time(),4,4).'_';
-	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
-	{
-	//mysql_query("UPDATE cdb_posts SET owner = 6 WHERE owner = $to");
-
-mysql_query("UPDATE calendar_events SET 'sender' = 6 WHERE sender = '$pgID';");
-mysql_query("UPDATE cdb_calls_comments SET 'owner' = 6 WHERE owner = '$pgID';");
-mysql_query("UPDATE cdb_calls_results SET 'pgUser' = 6 WHERE pgUser = '$pgID';");
-mysql_query("UPDATE cdb_posts SET 'owner' = 6 WHERE owner = '$pgID';");
-mysql_query("UPDATE cdb_posts SET 'coOwner' = 6 WHERE coOwner = '$pgID';");
-mysql_query("UPDATE cdb_topics SET 'topicLastUser' = 6 WHERE topicLastUser = '$pgID';");
-mysql_query("UPDATE db_elements SET 'lvisit' = 6 WHERE lvisit = '$pgID';");
-mysql_query("UPDATE federation_chat SET 'sender' = 6 WHERE sender = '$pgID';");
-mysql_query("UPDATE federation_sessions SET 'sessionOwner' = 6 WHERE sessionOwner = '$pgID';");
-mysql_query("UPDATE fed_pad SET 'paddFrom' = 6 WHERE paddFrom = '$pgID';");
-mysql_query("UPDATE fed_pad SET 'paddTo' = 6 WHERE paddTo = '$pgID';");
-mysql_query("UPDATE fed_sussurri SET 'susFrom' = 6 WHERE susFrom = '$pgID';");
-mysql_query("UPDATE fed_sussurri SET 'susTo' = 6 WHERE susTo = '$pgID';");
-mysql_query("UPDATE pg_notes SET 'owner' = 6 WHERE owner = '$pgID';");
-mysql_query("DELETE FROM cdb_posts_seclarExceptions WHERE pgID = '$pgID';");
-#mysql_query("DELETE FROM connlog WHERE user = '$pgID';");
-mysql_query("DELETE FROM fed_ambient_auth WHERE pgID = '$pgID';");
-mysql_query("DELETE FROM fed_food_replications WHERE user = '$pgID';");
-mysql_query("DELETE FROM pgDotazioni WHERE pgID = '$pgID';");
-mysql_query("DELETE FROM pgMedica WHERE pgID = '$pgID';");
-mysql_query("DELETE FROM pg_abilita_levels WHERE pgID = '$pgID';");
-mysql_query("DELETE FROM pg_achievement_assign WHERE owner = '$pgID';");
-mysql_query("DELETE FROM pg_alloggi WHERE pgID = '$pgID';");
-mysql_query("DELETE FROM pg_brevetti_assign WHERE owner = '$pgID';");
-mysql_query("DELETE FROM pg_groups_ppl WHERE pgID = '$pgID';");
-mysql_query("DELETE FROM pg_objects WHERE owner = '$pgID';");
-mysql_query("DELETE FROM pg_service_stories WHERE owner = '$pgID';");
-mysql_query("DELETE FROM pg_users_bios WHERE pgID = '$pgID';");
-mysql_query("DELETE FROM pg_users_pointStory WHERE owner = '$pgID';");
-mysql_query("DELETE FROM pg_users_tutorial WHERE pgID = '$pgID';");
-mysql_query("DELETE FROM pg_user_stories WHERE pgID = '$pgID';");
-mysql_query("UPDATE pg_users SET pgUser = CONCAT('$timeString',pgUser), pgLocation = 'BAVO',pgAssign='BAVO', email = CONCAT('$timeString',email), pgRoom ='BAVO',pgIncarico = '-', pgAuthOMA='BAN', pgOffAvatarC = '', pgOffAvatarN='' WHERE pgID = $to");
-
-	}
 	header("Location:crew.php?equi=$dest");
 	exit;
 }

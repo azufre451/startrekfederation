@@ -202,8 +202,11 @@ else if ($mode == 'sh' || ($mode == 'shM' && PG::mapPermissions('M',$currentUser
 			}	
 		}
 		
-		
+		$texts = array('redAlert' => 'ROSSA', 'yellowAlert' => 'GIALLA', 'greenAlert' => 'VERDE', 'blueAlert' => 'BLU', 'greyAlert' => 'GRIGIA', 'intruderAlert' => 'INTRUSO', 'quarantineAlert' => 'QUARANTENA');
+		$place['textCondition'] = $texts[$place['placeAlert']];
+
 		$template->place=$place;
+		
 		$tr = explode(',',$place['status']);
 		foreach ($tr as $element) $statuses[] = $element;
 		$template->statuses = $statuses;
@@ -242,10 +245,22 @@ else if($mode == 'seR')
 {
 	$template = new  PHPTAL('TEMPLATES/padd_send_custom.htm');
 	
-	$template->to = $_GET['to'];
-	$template->sub = ($_GET['sub'] != "") ? (strstr($_GET['sub'],'Re: ') ? $_GET['sub'] : 'Re: '.addslashes($_GET['sub']) ) : addslashes($_GET['sub']) ;
+
+	$template->to = htmlentities($_GET['to']);
 	
-	$template->prevType = isSet($_GET['prevType']) ? $_GET['prevType'] : 0;
+
+	if(isSet($_GET['sub']))
+	{
+		if(strstr($_GET['sub'],'Re: '))
+	 		$sub = $_GET['sub'];
+	 	else
+	 		$sub = 'Re: '.addslashes($_GET['sub']);
+	}
+	else
+		$sub = '';
+	
+	$template->sub = $sub;
+	$template->prevType = isSet($_GET['prevType']) ? $vali->numberOnly($_GET['prevType']) : 0;
  }
 
 else if($mode == 'ds')
@@ -473,6 +488,7 @@ else {
 		
 
 		if (isSet($_GET['ps'])) $template->paddSent = true;
+		if (isSet($_GET['anm'])) $template->animate = 1;
 
 		$template->user = $currentUser;
 		

@@ -245,8 +245,14 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 
 	function paddOpen(){
 		pars=getSizeOf('padd');
-		window.open ('padd.php','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width='+pars['w']+',height='+pars['h']);
+		window.open ('padd.php?anm=yes','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width='+pars['w']+',height='+pars['h']);
 	}
+
+	function paddOpenTo(ida){
+		pars=getSizeOf('padd'); 
+		window.open ('padd.php?s=seR&to='+ida,'padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width='+pars['w']+',height='+pars['h']);
+	}
+	 
 	
 	function statusOpen(){
 		pars=getSizeOf('padd');

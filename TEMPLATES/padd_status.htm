@@ -68,7 +68,7 @@
 		
 		<div style="width:225px; left:360px; bottom:176px;" class="statusContainer radiusBordered">
 				<table><tbody>
-				<tr><td style="width:100px;">CONDIZIONE</td><td><img tal:attributes="src string:TEMPLATES/img/interface/paddInterface/${place/placeAlert}.gif" /></td><td style="width:120px; text-align:center;" tal:content="php:(place['placeAlert'] == 'redAlert') ? 'ROSSA' : ((place['placeAlert'] == 'yellowAlert') ? 'GIALLA' : ((place['placeAlert'] == 'greenAlert') ? 'VERDE' : ((place['placeAlert'] == 'blueAlert') ? 'BLU' : ((place['placeAlert'] == 'greyAlert') ? 'GRIGIA' : (place['placeAlert'] == 'intruderAlert') ? 'INTRUSO' :((place['placeAlert'] == 'quarantineAlert') ? 'QUARANTENA' : ''))))) "></td><td><img tal:attributes="src string:TEMPLATES/img/interface/paddInterface/${place/placeAlert}.gif" /></td></tr>
+				<tr><td style="width:100px;">CONDIZIONE  </td><td><img tal:attributes="src string:TEMPLATES/img/interface/paddInterface/${place/placeAlert}.gif" /></td><td style="width:120px; text-align:center;"><span tal:content="place/textCondition"></span></td><td><img tal:attributes="src string:TEMPLATES/img/interface/paddInterface/${place/placeAlert}.gif" /></td></tr>
 				<tr tal:condition="php:(stat == 'posizionata')"><td style="width:100px;">POSIZIONE</td><td style="width:100px;" colspan="3"><a href="javascript:void(0);" onclick="javascript:window.open ('chart.php','chart', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=617');" class="interfaceLink">(- VEDI MAPPA -)</a></td></tr>
 				
 				<tr tal:condition="php:(stat == 'attraccata')" style="height:30px;">

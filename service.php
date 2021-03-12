@@ -256,7 +256,7 @@ if (isSet($_GET['setAlert']))
 	
 	if($g == 'red' || $g=='intruder' || $g == 'yellow' || $g == 'blue' || $g == 'green' || $g == 'grey' || $g == 'quarantine')
 	{
-		if($g=='red') mysql_query("UPDATE fed_ambient SET ambientLightColor='#d10000' WHERE ambientLocation='$place'");
+		if($g=='red' || $g=='intruder') mysql_query("UPDATE fed_ambient SET ambientLightColor='#d10000' WHERE ambientLocation='$place'");
 		else if($g=='yellow') mysql_query("UPDATE fed_ambient SET ambientLightColor='#e8cd05' WHERE ambientLocation='$place'");
 		else if($g=='green') mysql_query("UPDATE fed_ambient SET ambientLightColor='#ffeecb' WHERE ambientLocation='$place'");
 		else if($g=='grey' || $g=='quarantine'){ mysql_query("UPDATE fed_ambient SET ambientLight=2 WHERE ambientLocation='$place'");}

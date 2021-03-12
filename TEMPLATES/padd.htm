@@ -25,7 +25,8 @@
 
 <script tal:condition="exists:animate">
 	jQuery(function(){
-		setTimeout(function(){jQuery('#A2').fadeIn(300); jQuery('#contentBypass').fadeIn(800);},1500)
+		//setTimeout(function(){jQuery('#A2').fadeIn(300); jQuery('#contentBypass').fadeIn(800);},1500)
+		jQuery('#A1').on('animationend',function(){ jQuery('#A2').fadeIn(100); jQuery('#contentBypass').fadeIn(800); });
 	});
 </script>
 <style tal:condition="exists:animate">

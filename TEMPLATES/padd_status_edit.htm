@@ -47,9 +47,7 @@
 
 <div id="paddContainer">
 
-<div id="intestLeft">
-<a title="Principale" href="padd.php"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/padd.png" /></a><a title="Federation Tribune" href="padd.php?s=tr"><img class="iconelement" tal:attributes="src php:(tribuneNews == true) ? 'TEMPLATES/img/interface/paddInterface/tribune_news.png' : 'TEMPLATES/img/interface/paddInterface/tribune.png'" /></a><a title="Status Nave" href="padd.php?s=sh"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/nave.png" /></a><a title="Note" href="padd.php?s=no"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/note.png" /></a>
-</div>
+<div metal:use-macro="TEMPLATES/padd_metal.htm/paddIntestLeft" />
 
 <div style="position:absolute; top:20px; right:350px; font-size:13px;">
 <form method="POST" tal:attributes="action string:service.php?warpSpeed=${place/placeID}" tal:condition="php:(stat == 'posizionata' && (place['placeType'] == 'Nave' || place['placeType'] == 'Navetta'))">
@@ -95,7 +93,7 @@
 			<p style="font-size:22px; margin:0px;" tal:content="place/placeName"/>
 			 </div>	
 	<form method="POST" tal:attributes="action string:service.php?updateStatus=&place=${place/placeID}">	
-		<div class="statusContainer radiusBordered" style="width:285px; left:30px; bottom:42px;">
+		<div class="statusContainer radiusBordered" style="width:265px; left:30px; bottom:42px;">
 			<p style="text-align:center; font-size:14px; margin:2px;">STATO DEI SISTEMI</p>
 			<table><tbody>
 			<tr tal:repeat="stat statuses"><td tal:content="php:labels[repeat.stat.key]">SCAFO</td><td style="width:120px; text-align:right;"><input type="text" tal:attributes="name repeat/stat/key ; id repeat/stat/key ; value stat" style="text-align:center; font-weight:bold; padding-left:2px; width:30px; height:13px;" />
@@ -104,28 +102,19 @@
 			</tbody></table>
 		</div>
 		
-		<div style="width:225px; left:360px; bottom:276px;" class="statusContainer radiusBordered">
-			<table><tbody>
-				<tr>
-					<td style="width:100px;">CONDIZIONE</td>
-					<td colspan="3"><a tal:attributes="href string:service.php?setAlert=red&place=${place/placeID}"><img src="TEMPLATES/img/interface/paddInterface/redAlert.gif" title="Allarme Rosso" /></a>
-						&nbsp;&nbsp;&nbsp;
-						<a tal:attributes="href string:service.php?setAlert=yellow&place=${place/placeID}" ><img src="TEMPLATES/img/interface/paddInterface/yellowAlert.gif" title="Allarme Giallo"/></a>
-						&nbsp;&nbsp;&nbsp;
-						<a tal:attributes="href string:service.php?setAlert=green&place=${place/placeID}" ><img src="TEMPLATES/img/interface/paddInterface/greenAlert.gif" title="Condizione Verde"/></a>
-						&nbsp;&nbsp;&nbsp;
-						<a tal:attributes="href string:service.php?setAlert=blue&place=${place/placeID}" ><img src="TEMPLATES/img/interface/paddInterface/blueAlert.gif" title="Condizione Blu "/></a>
-						&nbsp;&nbsp;&nbsp;
-						<a tal:attributes="href string:service.php?setAlert=grey&place=${place/placeID}" ><img src="TEMPLATES/img/interface/paddInterface/greyAlert.gif" title="Condizione Grigia "/></a>
-						&nbsp;&nbsp;&nbsp;
-						<a tal:attributes="href string:service.php?setAlert=quarantine&place=${place/placeID}" title="Procedura di Quarantena"><img src="TEMPLATES/img/interface/paddInterface/greenAlert.gif" /></a>&nbsp;&nbsp;&nbsp;
-						<a tal:attributes="href string:service.php?setAlert=intruder&place=${place/placeID}" title="Allarme Intruso"><img src="TEMPLATES/img/interface/paddInterface/greenAlert.gif" /></a></td>
-				</tr> 
-			</tbody></table>
-		</div>	
-		
+		<div style="width:290px; left:320px; bottom:270px; font-size: 14px; padding: 3px; font-variant: small-caps;text-align: center; color: gray;" class="statusContainer radiusBordered">
+					<span style="padding-bottom: 15px; font-size: 16px; "> --- Condizione ---</span><br></br> 
+					<a tal:attributes="href string:service.php?setAlert=red&place=${place/placeID}"><img src="TEMPLATES/img/interface/paddInterface/redAlert.gif" title="Allarme Rosso" /></a> <span style="color: red;"> Rossa </span>
+					<a tal:attributes="href string:service.php?setAlert=yellow&place=${place/placeID}" ><img src="TEMPLATES/img/interface/paddInterface/yellowAlert.gif" title="Allarme Giallo"/></a> <span style="color: yellow;"> Gialla </span>
+					<a tal:attributes="href string:service.php?setAlert=green&place=${place/placeID}" ><img src="TEMPLATES/img/interface/paddInterface/greenAlert.gif" title="Condizione Verde"/></a> <span style="color: green;"> Verde </span>
+					<a tal:attributes="href string:service.php?setAlert=blue&place=${place/placeID}" ><img src="TEMPLATES/img/interface/paddInterface/blueAlert.gif" title="Condizione Blu "/></a> <span style="color: dodgerblue;"> Blu </span><br></br> 
+					<a tal:attributes="href string:service.php?setAlert=grey&place=${place/placeID}" ><img src="TEMPLATES/img/interface/paddInterface/greyAlert.gif" title="Condizione Grigia "/></a> Grigia
+					<a tal:attributes="href string:service.php?setAlert=quarantine&place=${place/placeID}" title="Procedura di Quarantena"><img src="TEMPLATES/img/interface/paddInterface/quarantineAlert.gif" /></a> <span style="color: Fuchsia;"> Quarantena </span> 
+					<a tal:attributes="href string:service.php?setAlert=intruder&place=${place/placeID}" title="Allarme Intruso"><img src="TEMPLATES/img/interface/paddInterface/IntruderAlert.gif" /></a> Intruso
+				
+		</div>
 		<div>
-			<textarea  placeholder="Messaggio di stato" tal:content="place/note" name="note" cols="33" rows="8" style="padding:10px; width:215px; height:205px; left:360px; bottom:42px; font-size:11px;" class="statusContainer radiusBordered"/>
+			<textarea  placeholder="Messaggio di stato" tal:content="place/note" name="note" cols="33" rows="8" style="padding:10px; width:280px; height:205px; left:320px; bottom:42px; font-size:11px;" class="statusContainer radiusBordered"/>
 		</div>
 		<!-- Hack geometrico XD -->
 		<div style="position:absolute; bottom:58px; left:327px; border-top:1px solid #444; height:1px; width:33px;" />

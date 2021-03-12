@@ -6,10 +6,15 @@
 	
 	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/padd.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<!-- CDB CSS -->
+	<link href="TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
-	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
+	
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+
+	<script type="text/javascript" src="TEMPLATES/js/caret.js?v=${gameOptions/numericVersion}"></script>
+
 	<title>FEDERATION - PADD</title>
 
 	<script>
@@ -22,6 +27,13 @@
 
 
 			jQuery(function(){
+
+
+			jQuery('.tooltip, #intestLeft a, .BBbuttonList input[type=button]').tooltip({
+          		content: function () {
+              	return jQuery(this).prop('title');
+          	}
+      		});
 
 			jQuery( "#users")
 			// don't navigate away from the field on tab when selecting an item
@@ -66,7 +78,9 @@
 	</script>
 	</head><body style="background-color:black; overflow:hidden;">
 	
-	<div id="paddContainer"><div id="intestLeft"><a title="Principale" href="padd.php"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/padd.png" /></a><a title="Tychonian Eagle" href="padd.php?s=tr"><img class="iconelement" tal:attributes="src php:(tribuneNews == true) ? 'TEMPLATES/img/interface/paddInterface/tribune_news.png' : 'TEMPLATES/img/interface/paddInterface/tribune.png'" /></a><a title="Status Nave" href="padd.php?s=sh"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/nave.png" /></a><a title="Note" href="padd.php?s=no"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/note.png" /></a></div>
+	<div id="paddContainer">
+
+	<div metal:use-macro="TEMPLATES/padd_metal.htm/paddIntestLeft" />
 	<div id="intestLeftPost">
 		<a href="padd.php?h=se"><div class="btn" id="newBTN"/></a>
 		<a href="padd.php?h=ou"> <div class="btn" id="sentBTN"/></a>
@@ -75,33 +89,42 @@
 	 
 	
 	<div id="newPadd" class="paddMain radiusBordered">
-		<div class="innerPadd" style="margin-right:auto;margin-left:auto; width:510px; overflow:hidden;">
-			<form action='padd.php?s=newP' method="POST">
+		<div class="innerPadd"  style="margin-right:5px;margin-left:15px; width:625px; height: 310px; overflow:hidden;">
+			<form action='padd.php?s=newP' id="formContent" method="POST">
+
+	<div style="position:absolute; top:73px; right:25px;"><img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/info.png" title="&Egrave; possibile selezionare pi&ugrave; di un contatto) - Es. Picard, Barclay, Janeway..."/></div>
+
 				<table cellspacing="0px">
-					<tr>
-						<td style="border-bottom:1px dotted #333; width:140px;">A:</td>
-						<td class="newPaddtd"><input type="text" class="neon" id="users" name="users" style="width:400px; border-color:#222" tal:attributes="value string:${to},"/></td>
+					<tr style="height: 12px;">
+						<td style="width:110px; font-size: 12px;">DESTINATARIO/I: </td>
+						<td class="newPaddtd"><input type="text" class="neon" id="users" name="users" style="width:450px" tal:attributes="value string:${to},"/></td>
 					</tr>
+					<tr style="height:3px;" />
+					<tr style="height: 12px;">
+						<td style="width:110px; font-size: 12px;">OGGETTO:</td>
+						<td class="newPaddtd"><input type="text" class="neon" maxlength="25" name="titolo" style="width:450px;" tal:attributes="value string:${sub}"/></td>
+						</tr>	
+					<tr style="height:5px;" />
 						<tr>
-							<td style="width:140px; border-bottom:1px dotted #333;">OGGETTO</td><td class="newPaddtd"><input type="text" class="neon" maxlength="25" name="titolo" style="width:400px;" tal:attributes="value string:${sub}"/></td></tr>	<tr style="height:20px;" />
-						<tr>
-							<td style="width:140px; border-bottom:1px dotted #333; ">TESTO</td>
-							<td class="newPaddtd"><textarea name="testo" style="width:400px; height:160px;"/></td>
+							<td style="width:110px; padding-top: 6px; ">
+						<!-- START BLOCCO BOTTONI -->
+							<div metal:use-macro="TEMPLATES/padd_metal.htm/paddBBCodeBlock" />
+							</td>
+							<td class="newPaddtd">
+								<textarea name="testo" id="postContent" style=" padding: 5px 6px 5px 6px; margin:2px; border-radius: 12px; width:440px; height:188px;"/>
+									<div style="margin-top:5px;">
+										<select class="neon" name="paddType" tal:condition="php:(prevType!=3)" style="margin-right: 10px; width:160px; font-size: 16px; font-variant: small-caps;">
+												<option tal:attributes="selected php:((prevType==0) ? 'selected' : '')" value="0">On-Game</option>
+												<option tal:attributes="selected php:((prevType==1) ? 'selected' : '')" value="1">Off-Game</option>
+												<option tal:condition="exists:isGuide" value="3">Guide/Revisioni</option>
+												<option tal:attributes="selected php:((prevType==4) ? 'selected' : '')" tal:condition="exists:isMaster" value="4">Evento Master</option>
+												<option tal:condition="exists:isAdmin" value="1S">Off-Game-Forzamail</option>
+										</select>
+									<input type="submit" value="INVIA" class="sendpadd" />
+								</div>
+							</td>
 						</tr>
-						<tr>
-							<input type="hidden" name="paddType" id="paddType" tal:condition="php:(prevType==3)" tal:attributes="value string:3" />
-							<td colspan="2" style="text-align:center;" >
-								<select class="neon" name="paddType" tal:condition="php:(prevType!=3)">
-								<option tal:attributes="selected php:((prevType==0) ? 'selected' : '')" value="0">ON-Game</option>
-								<option tal:attributes="selected php:((prevType==1) ? 'selected' : '')" value="1">OFF-Game</option>
-								<option tal:condition="exists:isGuide" value="3">Guide/Revisioni</option>
-								<option tal:attributes="selected php:((prevType==4) ? 'selected' : '')" tal:condition="exists:isMaster" value="4">Evento Master</option>
-								<option tal:condition="exists:isAdmin" value="1S">OFF-Game-Forzamail</option>
-								</select>
-								<input style="width:50px;" type="submit" value="INVIA" />
-								</td>
-						</tr>
-				</table>
+					</table>				
 			</form>
 		</div>
 	</div>

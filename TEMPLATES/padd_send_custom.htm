@@ -10,72 +10,14 @@
 	<link href="TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
-	
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 
 	<script type="text/javascript" src="TEMPLATES/js/caret.js?v=${gameOptions/numericVersion}"></script>
+	<script type="text/javascript" src="TEMPLATES/js/padd.js?v=${gameOptions/numericVersion}"></script>
 
 	<title>FEDERATION - PADD</title>
 
-	<script>
-			function split( val ) {
-			return val.split( /,\s*/ );
-		}
-		function extractLast( term ) {
-			return split( term ).pop();
-		}
 
-
-			jQuery(function(){
-
-
-			jQuery('.tooltip, #intestLeft a, .BBbuttonList input[type=button]').tooltip({
-          		content: function () {
-              	return jQuery(this).prop('title');
-          	}
-      		});
-
-			jQuery( "#users")
-			// don't navigate away from the field on tab when selecting an item
-			.bind( "keydown", function( event ) {
-				if ( event.keyCode === $.ui.keyCode.TAB &&
-						$( this ).data( "autocomplete" ).menu.active ) {
-					event.preventDefault();
-				}
-			})
-			.autocomplete({
-				source: function( request, response ) {
-					$.getJSON( "ajax_userGetter.php?extGropus=do", {
-						term: extractLast( request.term )
-					}, response );
-				},
-				search: function()
-				{
-					// custom minLength
-					var term = extractLast( this.value );
-					if ( term.length < 1 ) {
-						return false;
-					}
-				},
-				focus: function() {
-					// prevent value inserted on focus
-					return false;
-				},
-				select: function( event, ui ) {
-					var terms = split( this.value );
-					// remove the current input
-					terms.pop();
-					// add the selected item
-					terms.push( ui.item.value );
-					// add placeholder to get the comma-and-space at the end
-					terms.push( "" );
-					this.value = terms.join( ", " );
-					return false;
-				}
-			})
-			
-			});
-	</script>
 	</head><body style="background-color:black; overflow:hidden;">
 	
 	<div id="paddContainer">
@@ -112,7 +54,7 @@
 							</td>
 							<td class="newPaddtd">
 								<textarea name="testo" id="postContent" style=" padding: 5px 6px 5px 6px; margin:2px; border-radius: 12px; width:440px; height:188px;"/>
-									<div style="margin-top:5px;">
+									<div tal:attributes="style php:(prevType!=3) ? 'margin-top:5px;;' : 'margin-top:5px;; text-align:center;;' ">
 										<select class="neon" name="paddType" tal:condition="php:(prevType!=3)" style="margin-right: 10px; width:160px; font-size: 16px; font-variant: small-caps;">
 												<option tal:attributes="selected php:((prevType==0) ? 'selected' : '')" value="0">On-Game</option>
 												<option tal:attributes="selected php:((prevType==1) ? 'selected' : '')" value="1">Off-Game</option>

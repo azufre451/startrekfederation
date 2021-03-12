@@ -166,7 +166,7 @@
 <table>
 	<tr tal:repeat="padd incoming/0" tal:attributes="id string:padd_${padd/ID}">
 		<td style="width:15px;" class="incoming unread"><div class="unselectedPadd" title="seleziona" tal:attributes="id padd/ID ; onclick string: javascript:togglePaddIndicator(this);"  style="cursor:pointer;"/> </td>
-		<td style="width:300px;" class="tdMessageNew"><a tal:attributes="href string:padd.php?s=read&paddID=${padd/ID} ; title padd/paddText ; class php:( (padd['paddType']) ? 'tooltip offPadd_' . padd['paddType'] . '  tdMessageNew' : 'tdMessageNew')" tal:content="padd/title" /></td>
+		<td style="width:300px;" class="tdMessageNew"><a tal:attributes="href string:padd.php?s=read&paddID=${padd/ID} ; title padd/paddText ; class php:( (padd['paddType']) ? 'tooltip offPadd_' . padd['paddType'] . '  tdMessageNew' : 'tooltip tdMessageNew')" tal:content="padd/title" /></td>
 		<td style="width:200px;" class="tdMessageNew" tal:content="padd/time"></td>
 		<td style="width:150px;" class="tdMessageNew" tal:content="padd/from"></td>
 		

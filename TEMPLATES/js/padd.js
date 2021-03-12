@@ -6,6 +6,7 @@ function jmp(to)
 			jQuery('#authBlock').show();
 		
 		jQuery('.padderMain').fadeOut(100);
+		jQuery('#contentBypass').show();
 		jQuery('#'+to).fadeIn(400);
 	}
 	

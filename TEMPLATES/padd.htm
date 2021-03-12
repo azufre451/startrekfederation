@@ -8,19 +8,32 @@
 
 	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/padd.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
- 
+
+	<link tal:condition="php:user.getCTS()" tal:attributes="href php:'TEMPLATES/css/' . user.getCTS() . '?v=' . gameOptions['numericVersion'] " rel="stylesheet" type="text/css" />	
+
+	<link href="TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 	 
 	
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
-	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
+	
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+
+	<script type="text/javascript" src="TEMPLATES/js/caret.js?v=${gameOptions/numericVersion}"></script>
+	
+
 	<title>FEDERATION - PADD</title>	
 	
 <script type="text/javascript">
 		function jmp(to)
 		{
-			jQuery('.padderMain').fadeOut(400);
+			if(to ==  'newPadd')
+				jQuery('#authBlock').fadeOut(400);
+			else
+				jQuery('#authBlock').show(400);
+			
+			jQuery('.padderMain').fadeOut(100);
 			jQuery('#'+to).fadeIn(400);
 		}
 		
@@ -33,7 +46,8 @@
 
 		jQuery(function(){
 
-			jQuery('.tooltip, img').tooltip({
+			
+		jQuery('.tooltip, #intestLeft a, .BBbuttonList input[type=button]').tooltip({
           		content: function () {
               	return jQuery(this).prop('title');
           	}
@@ -76,8 +90,13 @@
 					this.value = terms.join( ", " );
 					return false;
 				}
-			})
+			});
+
+			setTimeout(function(){jQuery('#A2').fadeIn(300); jQuery('#contentBypass').fadeIn(1000);},1250)
 			
+
+
+
 			});
 			function togglePaddIndicator(ida)
 			{if(jQuery(ida).hasClass('selectedPadd')) jQuery(ida).removeClass('selectedPadd').addClass('unselectedPadd'); else jQuery(ida).removeClass('unselectedPadd').addClass('selectedPadd');}
@@ -114,7 +133,12 @@
 				if(jQuery('#outgoing').css('display') == 'block') aggregator = '.outgoing';
 				jQuery(aggregator+'.incoming.read > .unselectedPadd').removeClass('unselectedPadd').addClass('selectedPadd');
 			} 
-</script>
+
+
+
+ </script>
+
+
 <style>
 	.offPadd_1:after{color:#4991c3; content:'[OFF]'; font-size:9px; margin-left:5px;}
 	.offPadd_1:hover:after{text-decoration: none !important; color:white;}
@@ -124,6 +148,27 @@
 	.offPadd_3:hover:after{text-decoration: none !important; color:white;}
 	.offPadd_4:after{color:#ff3600; content:'[EV. MASTER]'; font-size:9px; margin-left:5px;}
 	.offPadd_4:hover:after{text-decoration: none !important; color:white;}
+
+
+/* Animation */
+#authBlock #A1{
+  animation: animated-text 0.8s steps(30,end) 1s 1 normal both;
+  height: 40px;
+  white-space: nowrap;
+  overflow: hidden; 
+  width: 480px;
+ 
+}
+
+/* text animation */
+
+@keyframes animated-text{
+  from{width: 0;}
+  to{width: 480px;}
+}
+
+/* cursor animations */
+
 </style>
 </head>
 
@@ -131,50 +176,89 @@
 
 <div id="paddContainer">
 
-<div id="intestLeft">
-<a title="Principale" href="padd.php"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/padd.png" /></a><a title="Tychonian Herald" href="padd.php?s=tr"><img class="iconelement" tal:attributes="src php:(tribuneNews == true) ? 'TEMPLATES/img/interface/paddInterface/tribune_news.png' : 'TEMPLATES/img/interface/paddInterface/tribune.png'" /></a><a title="Status Nave" href="padd.php?s=sh"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/nave.png" /></a><a title="Note" href="padd.php?s=no"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/note.png" /></a>
-</div>
+<div metal:use-macro="TEMPLATES/padd_metal.htm/paddIntestLeft" />
+
+
 <div id="intestLeftPost" >
 <a href="javascript:jmp('newPadd')"><div class="btn" id="newBTN"/></a> <a href="javascript:jmp('outgoing');"><div class="btn" id="sentBTN"/></a> <a href="javascript:jmp('incoming')"><div class="btn" id="receivedBTN"/></a> <a onclick="return confirm('Conferma cancellazione');" href="javascript:deleteSelected();"><div class="btn" id="delselBTN"/></a></div>
 
 <div id="messaSend" class="radiusBordered12" style="font-variant:small-caps; display:none; font-size:16px; position:absolute; top:50%; left:50%; width:300px; border:1px solid #777; height:20px; margin-left:-155px; margin-right:-15px; background-color:black; padding:5px; text-align:center; font-size:13px" tal:condition="exists:paddSent">Padd Inviato</div>
 <script type="text/javascript" tal:condition="exists:paddSent">jQuery('#messaSend').fadeIn(1000); setTimeout("jQuery('#messaSend').fadeOut(500)",2500);</script>
 
+<div style="font-variant: small-caps;
+    position: absolute;
+    left: 5%;
+    top: 43px;
+    width:590px;
+    font-size: 14px;" id="authBlock"> 
+    
+    <p style="line-height: 16px; float:left; margin-top:3px;" id="A1">
+
+
+    	    	<img style="width:20px; vertical-align: middle;" src="https://www.stfederation.it/TEMPLATES/img/ruolini/brevetti/starfleet_brev.png " />
+				<span style="font-weight:bold; font-variant: small-caps;">Accesso Autorizzato</span>
+
+    	    	<span style="display:inline-block; margin-left:5px; padding-left:5px; border-left:2px solid #999; color:var(--custom_section_color,#ffcc00); font-weight:bold; padding-left:5px;" tal:content="string:${user/pgGrado} ${user/pgUser}, ${user/pgNomeC}" />
+
+    </p>
+
+    <p style="float:right; display: none;" id="A2">
+    	<span style="margin-left:5px; padding: 2px 10px 4px 10px; background-color: #151515; border: 1px solid var(--custom_section_color,#ffcc00); border-radius: 5px;"> <img  style="vertical-align: middle;" tal:attributes="src string:TEMPLATES/img/seclar/seclar${user/pgSeclar}.png" /></span>
+    </p>
+
+    </div>
+
+
+<div id="contentBypass" style="display:none;">
+
 <div id="newPadd" tal:attributes="style php:(submode=='se') ? 'display:block;;' : 'display:none;;'" class="paddMain padderMain radiusBordered">
-<div class="innerPadd" style="margin-right:auto;margin-left:auto; width:510px; overflow:hidden;">
+<div class="innerPadd" style="margin-right:5px;margin-left:15px; width:625px; height: 310px; overflow:hidden;">
 
+<form action="padd.php?s=newP" id="formContent" method="POST">
 
-<form action="padd.php?s=newP" method="POST">
+	<div style="position:absolute; top:73px; right:25px;">
+		<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/info.png" title="&Egrave; possibile selezionare pi&ugrave; di un contatto) - Es. Picard, Barclay, Janeway..."/>
+	</div>
 
-<table cellspacing="0px">
-	<tr><td style="border-bottom:1px dotted #333; width:140px;">A:</td><td class="newPaddtd"><input type="text" class="neon" id="users" name="users" style="width:400px;"/></td></tr>
-	<tr style="height:20px;"><td /><td class="newPaddtd" style="font-size:11px; color:#777;">(&Egrave; possibile selezionare pi&ugrave; di un contatto) - Es. "Picard, Barclay, Janeway..."</td></tr>
-	<tr><td style="width:140px; border-bottom:1px dotted #333;">OGGETTO</td><td class="newPaddtd"><input type="text" class="neon" maxlength="25" name="titolo" style="width:400px;"/></td></tr>
-	<tr style="height:20px;" />
-	<tr><td style="width:140px; border-bottom:1px dotted #333; ">TESTO</td><td class="newPaddtd"><textarea name="testo" style="width:400px; height:150px;"/></td></tr>
-  
-	<tr><td colspan="2" style="text-align:center;">
-		<select class="neon" name="paddType">
-			<option value="0">ON-Game</option>
-			<option value="1">OFF-Game</option>
-			<option tal:condition="exists:isGuide" value="3">Guide/Revisioni</option>
-			<option tal:condition="exists:isMaster" value="4">Evento Master</option>
-			<option tal:condition="exists:isAdmin" value="1S">OFF-Game-Forzamail</option>
-		</select>
-
-		<input style="width:50px;" type="submit" value="INVIA" /></td></tr>
-
-
-</table>
-
+	<table cellspacing="0px">
+		<tr style="height: 12px;">
+			<td style="width:110px; font-size: 12px;">DESTINATARIO/I: </td>
+			<td class="newPaddtd"><input type="text" class="neon" id="users" name="users" style="width:450px"/></td>
+		</tr>
+		<tr style="height:3px;" />
+		<tr style="height: 12px;">
+			<td style="width:110px; font-size: 12px;">OGGETTO:</td>
+			<td class="newPaddtd"><input type="text" class="neon" maxlength="25" name="titolo" style="width:450px;"/></td></tr>
+		<tr style="height:5px;" />
+		<tr>
+			<td style="width:110px; padding-top: 6px; ">
+			<!-- START BLOCCO BOTTONI -->
+			<div metal:use-macro="TEMPLATES/padd_metal.htm/paddBBCodeBlock" />
+			</td>
+		<td class="newPaddtd">
+			<textarea name="testo" id="postContent" style=" padding: 5px 6px 5px 6px; margin:2px; border-radius: 12px; width:440px; height:188px;"/>
+			<div style="margin-top:5px;">
+				<select class="neon" name="paddType"  style="margin-right: 10px; width:160px; font-size: 16px; font-variant: small-caps;">
+				<option value="0">On-Game</option>
+				<option value="1">Off-Game</option>
+				<option tal:condition="exists:isGuide" value="3">Guide/Revisioni</option>
+				<option tal:condition="exists:isMaster" value="4">Evento Master</option>
+				<option tal:condition="exists:isAdmin" value="1S">Off-Game-Forzamail</option>
+				</select>
+				<input type="submit" value="INVIA" class="sendpadd" />
+			</div>
+		</td>
+	</tr>
+	</table>
 
 </form>
 </div>
+
 </div>
 
 <div id="incoming" tal:attributes="style php:(submode=='in') ? 'display:block;;' : 'display:none;;' ; class php:(user.pgSpecie=='Romulana') ? 'paddRomulanMain padderMain radiusBordered' : 'paddMain padderMain radiusBordered'">
 
-<div class="innerPadd"><form action="padd.php?s=delInPad" id="delPadds" method="POST">
+<div class="innerPadd" style="height:260px;"><form action="padd.php?s=delInPad" id="delPadds" method="POST">
 <table>
 	<tr tal:repeat="padd incoming/0" tal:attributes="id string:padd_${padd/ID}">
 		<td style="width:15px;" class="incoming unread"><div class="unselectedPadd" title="seleziona" tal:attributes="id padd/ID ; onclick string: javascript:togglePaddIndicator(this);"  style="cursor:pointer;"/> </td>
@@ -203,7 +287,7 @@
 </div>
 
 <div id="outgoing" tal:attributes="style php:(submode=='ou') ? 'display:block;;' : 'display:none;;' ; class php:(user.pgSpecie=='Romulana') ? 'paddRomulanMain padderMain radiusBordered' : 'paddMain padderMain radiusBordered'">
-<div class="innerPadd">
+<div class="innerPadd" style="height:260px;">
 <table>
 	<tr tal:repeat="padd outgoing/0" tal:attributes="id string:padd_${padd/ID}">
 		<td style="width:15px;" class="outgoing read"><div class="unselectedPadd" title="seleziona" tal:attributes="id padd/ID ; onclick string: javascript:togglePaddIndicator(this);" style="cursor:pointer;"/> </td>
@@ -228,6 +312,8 @@
 <a href="javascript:selectAll(0)"><div class="btn" id="selectaBTN"/></a>
 <a href="javascript:selectAll(1)"><div class="btn" id="noneBTN"/></a>
 </div>
+</div>
+
 </div>
 
 

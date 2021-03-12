@@ -1,0 +1,30 @@
+<div metal:define-macro="paddBBCodeBlock" class="BBbuttonList" style="padding-right:10px;">		
+		<input type="button" value="B" class="w25font" title="Grassetto" style="font-weight: bold; " onclick="bbstyle(0)" />
+		<input type="button" value="I" class="w25font" title="Corsivo" style="font-style: italic;" onclick="bbstyle(2)" />
+		<input type="button" value="U" class="w25font" title="Sottolineato" style="text-decoration: underline; " onclick="bbstyle(4)" />
+	<br />	
+		<input type="button" title="Allinea a Sinistra" class="w25font w25left" onclick="bbstyle(8)" />
+		<input type="button" title="Allinea al Centro" class="w25font w25center" onclick="bbstyle(6)" />
+		<input type="button" title="Allinea a Destra" class="w25font w25right" onclick="bbstyle(10)" />
+	<br />		
+		<input type="button" value="A" title="Piccolo" class="w25font" style="font-size:9px; " href="" onclick="bbstyle(26)" />
+		<input type="button" value="A" title="Medio" class="w25font" style="font-size:12px; " href="" onclick="bbstyle(28)" />
+		<input type="button" value="A" title="Grande" class="w25font" style="font-size:16px; " href="" onclick="bbstyle(30)" />
+	<br />
+		<input type="button" class="w25 w25red" title="Rosso" onclick="bbstyle(14)" />
+		<input type="button" class="w25 w25yellow" title="Giallo" onclick="bbstyle(16)" /> 
+		<input type="button" class="w25 w25cyan" title="Azzurro" onclick="bbstyle(18)" />
+	<br />		
+		<input type="button" class="w25 w25gray" title="Grigio" onclick="bbstyle(20)" />
+		<input type="button" class="w25 w25white" title="Bianco"  onclick="bbstyle(22)" />
+		<input type="button" class="w25 w25green" title="Verde" onclick="bbstyle(24)" />
+	<br />
+		<input type="button" title="inserisci Immagine" class="w25font w25img"  onclick="bbstyle(12)" />
+		<input type="button" title="Inserisci Link" class="w25font w25url" onclick="bbstyle(32)" />
+		<input type="button" title="Citazione" class="w25font w25quote" onclick="bbstyle(34)" />
+</div>
+
+
+<div metal:define-macro="paddIntestLeft" id="intestLeft">
+	<a title="Principale" href="padd.php"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/padd.png" /></a><a title="Tychonian Herald" href="padd.php?s=tr"><img class="iconelement" tal:attributes="src php:(tribuneNews == true) ? 'TEMPLATES/img/interface/paddInterface/tribune_news.png' : 'TEMPLATES/img/interface/paddInterface/tribune.png'" /></a><a title="Status Nave" href="padd.php?s=sh"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/nave.png" /></a><a title="Note" href="padd.php?s=no"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/note.png" /></a>
+</div>

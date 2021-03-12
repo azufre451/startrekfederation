@@ -17,6 +17,7 @@
 	<script type="text/javascript" src="TEMPLATES/js/progressBarHandler/jsProgressBarHandler.js"></script>
 
 	<script type="text/javascript">
+
 				
 				Event.observe(window, 'load', function(){
 						new JS_BRAMUS.jsProgressBar($('0'),parseInt(document.getElementById('0').innerHTML));
@@ -42,9 +43,7 @@
 
 <div id="paddContainer">
 
-<div id="intestLeft">
-<a title="Principale" href="padd.php"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/padd.png" /></a><a title="Tychonian Eagle" href="padd.php?s=tr"><img class="iconelement" tal:attributes="src php:(tribuneNews == true) ? 'TEMPLATES/img/interface/paddInterface/tribune_news.png' : 'TEMPLATES/img/interface/paddInterface/tribune.png'" /></a><a title="Status Nave" href="padd.php?s=sh"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/nave.png" /></a><a title="Note" href="padd.php?s=no"><img class="iconelement" src="TEMPLATES/img/interface/paddInterface/note.png" /></a>
-</div>
+<div metal:use-macro="TEMPLATES/padd_metal.htm/paddIntestLeft" />
 
 <div id="intestLeftPost" style="top:20px; left:170px;">
 <a tal:condition="php:(modify==true)" href="padd.php?s=shM" class="interfaceLink"><img src="TEMPLATES/img/interface/paddInterface/padd_edit.png" alt="Modifica Stato Nave" /></a>
@@ -56,13 +55,13 @@
 		<div style="margin-right:20px;  text-align:center; font-family:Arial; font-variant:small-caps; font-width:bold; margin-top:5px; margin-left:185px; height:100%;">
 			<p style="font-size:22px; margin:0px;" tal:content="place/placeName"/>
 			<p style="font-size:16px; font-style:italic; margin:0px;" tal:content="place/placeMotto"/>
-			<p style="font-size:12px; text-align:right; position:relative; font-style:italic;" tal:content="structure place/placeClass"/>
+			<p style="font-size:14px; text-align:right; position:relative; font-style:italic;" tal:content="structure place/placeClass"/>
 		</div>	
 		
 		<div class="statusContainer radiusBordered" style="width:285px; left:30px; bottom:42px;">
 			<p style="text-align:center; font-size:14px; margin:2px;">STATO DEI SISTEMI</p>
 			<table><tbody>
-			<tr tal:repeat="stat statuses"><td tal:content="php:labels[repeat.stat.key]">SCAFO</td><td><span tal:attributes="id repeat/stat/key" style="padding-left:1px; font-size:9px;" tal:content="stat" />
+			<tr tal:repeat="stat statuses"><td tal:content="php:labels[repeat.stat.key]">SCAFO</td><td> <span tal:attributes="id repeat/stat/key" style="padding-left:1px; font-size:12px;" tal:content="stat" />
 			</td></tr>
 			</tbody></table>
 		</div>

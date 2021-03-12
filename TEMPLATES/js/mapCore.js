@@ -108,6 +108,9 @@
 			} 
 			else jQuery('#federation_rightBottomSussurro').prop('class','sussOFF'); 
 				
-		if(('TEMPLATES/css/'+data['AL']+'.css') != jQuery('#alerter').prop('href')) jQuery('#alerter').prop('href','TEMPLATES/css/'+data['AL']+'.css');
+		if(('TEMPLATES/css/'+data['AL']+'.css') != jQuery('#alerter').attr('href'))
+			{
+				jQuery('#alerter').prop('href','TEMPLATES/css/'+data['AL']+'.css');
+			}
 		//else alert(('TEMPLATES/css/'+data['AL']+'.css')+' IS EQUAL TO '+jQuery('#alerter').prop('href'));
 		}

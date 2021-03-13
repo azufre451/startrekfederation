@@ -1102,6 +1102,9 @@ $template->prestigioLabels = $prestigioLabels;
 		}
 	 
 		$template->pendingBGS = $r;
+
+
+
 	}
 
 	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
@@ -1111,6 +1114,38 @@ $template->prestigioLabels = $prestigioLabels;
 		while($rel = mysql_fetch_assoc($rea)) $sessions[] = $rel;
 
 		$template->sessions = $sessions;
+
+
+		/**/
+		$images = glob('TEMPLATES/img/maps/*.jpg');
+		$shipIMG=mysql_query("SELECT placeMap1, placeMap2, placeMap3 FROM pg_places WHERE placeType IN ('Nave','Navetta','Stazione')");
+		$excludeShips=array();
+		while($res=mysql_fetch_assoc($shipIMG))
+		{
+			$excludeShips[] = $res['placeMap1'];
+			$excludeShips[] = $res['placeMap2'];
+			$excludeShips[] = $res['placeMap3'];
+		}
+
+		foreach($images as $kv=>$planetImage)
+			if (in_array(basename($planetImage), $excludeShips))
+				unset($images[$kv]);
+
+		$template->availableMaps=$images;
+
+		$images = glob('TEMPLATES/img/logo/*.{jpg,png}',GLOB_BRACE);
+		$logos = array('assignLogos'=>array(), 'logos'=>array(),'inclogos' => array());
+		
+		foreach($images as $logoPath){
+			$logoImage=basename($logoPath);
+			if (strpos($logoImage,"assign_logo") === 0)
+				$logos['assignLogos'][] = $logoImage;
+			elseif (strpos($logoImage,"logo_") === 0)
+				$logos['logos'][] = $logoImage;
+			elseif (strpos($logoImage,"r_logo") === 0)
+				$logos['inclogos'][] = $logoImage;
+			}
+		$template->logos=$logos;
 	}
 
 	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
@@ -1133,7 +1168,6 @@ $template->prestigioLabels = $prestigioLabels;
 	}
 
 
-	//exit;
 	$template->resLastPGS = $resLastPGS;
 
 
@@ -1150,9 +1184,6 @@ pgDotazioni.pgID AND prio = rankCode AND medID = dotazioneIcon AND medID IN (27,
 
 	$template->valedictsAssignee = $valedictsAssignee;
 
-
-	//echo "<pre>".var_dump($YTP['2381'])."</pre>";
-	//PRESENZE
 
 	$presentiTW=array();
 	$presentimeta=array();

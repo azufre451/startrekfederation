@@ -96,8 +96,6 @@
 						jQuery('#player_record_'+ida).append(gen);	
 					});
 
-
-				
 			},
 			type: 'POST'
 			});
@@ -131,6 +129,9 @@
 		<p style="font-size:14px;" tal:condition="exists:bonusA"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#piallachat').toggle();" >&raquo; TOOL PIALLA CHAT</a></p>
 
 		<p style="font-size:14px;"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#presenzaStaff').toggle();" >&raquo; TOOL PRESENZA STAFF</a></p>
+
+		<p style="font-size:14px;"  tal:condition="exists:bonusSM"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#planetCreate').toggle();" >&raquo; CREAZIONE PIANETI </a></p>
+
 
 	</div>
 
@@ -427,6 +428,143 @@
 				</div>
 		</div>
 
+		<div id="planetCreate" tal:condition="exists:bonusSM" style="display:none">
+
+			<p class="title">Creazione Pianeta</p>
+			<form action="service.php?cPlanetCreate=do" method="POST">
+				<table>
+
+					<tr>
+						<td style="font-weight:bold; width:100px;">Nome Pianeta</td>
+						<td><input required="required" type="text" class="neon" style="width:100%;" name="pName" placeholder="Vulcano" /></td>
+					</tr>
+					<tr>
+						<td style="font-weight:bold; width:100px;">ID Pianeta</td>
+						<td><input required="required" type="text" class="neon" style="width:100%;" name="pID" placeholder="VUL1" /></td>
+					</tr>
+
+					<tr>
+						<td style="font-weight:bold; width:100px;">Classe</td>
+						<td> <select name="placeClass" class="neon">
+							<option value="Classe A">Classe A: Pianeta Geotermico di classe A</option>
+							<option value="Classe B">Classe B: Pianeta Geotermico di classe B</option>
+							<option value="Classe C">Classe C: Pianeta Geo-inattivo</option>
+							<option value="Classe D">Classe D: Planetoidi Nani</option>
+							<option value="Classe E">Classe E: Pianeti Geo-plastici</option>
+							<option value="Classe F">Classe F: Pianeti Geo-metallici</option>
+							<option value="Classe G">Classe G: Pianeti Geo-cristallini</option>
+							<option value="Classe H">Classe H: Pianeti Desertici</option>
+							<option value="Classe I">Classe I: Giganti Ghiacciati - Uraniani</option>
+							<option value="Classe J">Classe J: Giganti Gassosi - Gioviano</option>
+							<option value="Classe K">Classe K: Pianeti Adattabili</option>
+							<option value="Classe L">Classe L: Pianteri Marginali</option>
+							<option value="Classe M" selected="selected">Classe M: Pianeti Terrestri</option>
+							<option value="Classe N">Classe N: Pianeti Inospitali - Riducenti</option>
+							<option value="Classe O">Classe O: Pianeti Pelagici</option>
+							<option value="Classe P">Classe P: Pianeti Glaciali</option>
+							<option value="Classe Q">Classe Q: Pianeti Variabili</option>
+							<option value="Classe R">Classe R: Pianeti Instabili - Erranti - Orfani</option>
+							<option value="Classe S">Classe S: Pianeti Supergiganti Gassosi</option>
+							<option value="Classe T">Classe T: Pianeti Ultragiganti Gassosi</option>
+							<option value="Classe X">Classe X: Pianeti Ctonii</option>
+							<option value="Classe Y">Classe Y: Pianeti Desertico-Tossici</option>
+						</select></td>
+					</tr>
+
+					<tr>
+						<td style="font-weight:bold; width:100px;">Nome Scientifico</td>
+						<td><input type="text" class="neon" style="width:100%;" name="placeSciName" placeholder="40 Eridani A II" /></td>
+					</tr>
+
+					<tr>
+						<td style="font-weight:bold; width:100px;">Specie Dominante</td>
+						<td><input type="text" class="neon" style="width:100%;" name="placePopulationText" placeholder="Vulcaniani" /></td>
+					</tr>
+
+					<tr>
+						<td style="font-weight:bold; width:100px;">Popolazione</td>
+						<td><input type="text" class="neon" style="width:100%;" name="placePopulation" placeholder="5 Miliardi" /></td>
+					</tr>
+
+					<tr>
+						<td style="font-weight:bold; width:100px;">Allineamento</td>
+						<td><input type="text" class="neon" style="width:100%;" name="placeAlignment" placeholder="Confederazione di Vulcano - UFP" /></td>
+					</tr>
+
+
+					<tr>
+						<td style="font-weight:bold; width:100px;">Info Pianeta</td>
+						<td><textarea class="neon" maxlength="300" name="placeNote" style="width:95%; height:70px;" placeholder="Pianeta di Classe M, clima tendente al torrido nonostante la classe. (43°C - 52°C), sede della Confederazione Vulcaniana."></textarea></td>
+					</tr>
+
+					<tr>
+						<td style="font-weight:bold; width:100px;">Coordinate</td>
+						<td>
+							<select name="placeCoordSector" class="neon"> <option value="A">Quad. Alpha</option> <option selected="selected" value="D">Quad. Delta</option> </select>
+							<input required="required" type="text" class="neon" style="width:40px;" name="placeCoordX" placeholder="4004" />,  
+							<input required="required" type="text" class="neon" style="width:40px;" name="placeCoordY" placeholder="4133" />							
+						</td>
+					</tr>
+
+					<tr>
+						<td style="font-weight:bold; width:100px;">Descr. Settore</td>
+						<td>
+							<input type="text" class="neon" style="width:200px;" name="placeLocation" placeholder="Settore 001 - Quad. Alpha" />							
+						</td>
+					</tr>
+					
+
+					<tr tal:repeat="idx php:range(1,3)">
+						<td style="font-weight:bold; width:100px;" tal:content="string:Mappa ${idx}"></td>
+						<td><select class="neon" tal:attributes="name string:pMap${idx} ; onchange string:javascript:jQuery(this).next().attr('src',this.value)"><option tal:repeat="image availableMaps" tal:content="php:str_replace('.jpg','',explode('/',image)[3])" tal:attributes="value image"/></select>
+						<img style="margin-top:5px; display:block; width:95%; border:1px solid #444; padding:3px;" />
+						</td>
+					</tr>
+
+					<tr>
+						<td style="font-weight:bold; width:100px;"> Localizzatore</td>
+						<td><select style="width:200px" class="neon" name="assignLogo" tal:attributes="onchange string:javascript:jQuery(this).next().attr('src','TEMPLATES/img/logo/'+this.value)"><option tal:repeat="image logos/assignLogos" tal:content="image" tal:attributes="value image ; selected php:(image=='assign_logo_empty.jpg') ? 'selected' : ''"/></select>
+						<img style="width:200px; vertical-align: middle; height:120px; border:1px solid #444; padding:3px;" />
+						</td>
+					</tr>
+
+					<tr>
+						<td style="font-weight:bold; width:100px;"> Logo </td>
+						<td><select style="width:200px" class="neon" name="placeLogo" tal:attributes="onchange string:javascript:jQuery(this).next().attr('src','TEMPLATES/img/logo/'+this.value)"><option tal:repeat="image logos/logos" tal:content="image" tal:attributes="value image ; selected php:(image=='logo_empty.png') ? 'selected' : ''"/></select>
+						<img style="width:150px; height:150px; vertical-align: middle; border:1px solid #444; padding:3px;" />
+						</td>
+					</tr>
+
+					<tr>
+						<td style="font-weight:bold; width:100px;"> Logo Incarico </td>
+						<td><select style="width:200px" class="neon" name="placeIncLogo" tal:attributes="onchange string:javascript:jQuery(this).next().attr('src','TEMPLATES/img/logo/'+this.value)"><option tal:repeat="image logos/inclogos" tal:content="image" tal:attributes="value image ; selected php:(image=='r_logo_empty.png') ? 'selected' : ''"/></select>
+						<img style="width:200px; height:20px; vertical-align: middle; border:1px solid #444; padding:3px;" />
+						</td>
+					</tr>
+
+					<tr>
+						<td style="font-weight:bold; width:100px;">Altro</td>
+						<td>
+							<input type="checkbox" name="hasCrew"/> Compare nella pagina CDB/Organigrammi<br />
+							Tempo Rotazione (ore): <input type="text" class="neon" style="width:50px;" name="placeRotation" placeholder="24" /><br />
+							Offset Rotazione (ore): <input type="text" class="neon" style="width:50px;" name="placeRotationOffset" placeholder="1" /><br />
+							Meteo: <input type="text" class="neon" style="width:300px;" name="placeMeteo" placeholder="Sereno, 20°C" />
+
+
+						</td>
+					</tr>
+
+					<tr>
+						<td colspan="2" style="text-align:center;">
+							<input type="submit" value=" Crea Pianeta" style="font-size:16px; padding:5px; width:120px; margin-top:10px;"/>
+						</td>
+					</tr>
+
+
+
+				</table>
+			</form>
+		</div>
 		<div id="piallachat" tal:condition="exists:bonusA" style="display:none">  
 
 			<script type="text/javascript">

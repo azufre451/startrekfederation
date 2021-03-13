@@ -238,10 +238,7 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 		pars=getSizeOf('db');
 		window.open ('db.php?litref='+ida,'db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
-	
-
-	//function locOpen(){window.open ('localize.php','localize', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=505,height=605');}
-	
+		
 
 	function paddOpen(){
 		pars=getSizeOf('padd');
@@ -410,6 +407,12 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 
 
 	function metaPOpen(par,fun){ fun(par); }
+
+	function link2place(ida){
+		
+		ida = ida.match(/[a-zA-Z0-9]+/g);
+		window.location.href = 'main.php?l='+ida;
+	}
 	
 	function tribuneOpen(ida){
 		pars=getSizeOf('padd');
@@ -439,7 +442,8 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 
 	function schedaPOpen(ida){
 		pars=getSizeOf('scheda');
-		window.open ('scheda.php?pgID='+ida,'schedaP', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+		if(typeof(ida) == 'number')
+			window.open ('scheda.php?pgID='+ida,'schedaP', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
 
 
@@ -463,13 +467,15 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 
 	function repliOpen(toIda){
 		pars=getSizeOf('replicator');
+		toIda = toIda.match(/[a-zA-Z0-9]+/g);
 		window.open ('replicator.php?loc='+toIda,'replicator', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
 	
 
 	function repliOpenP(toFood){
 		pars=getSizeOf('replicator');
-		window.open ('replicator.php?loc='+jQuery('#locID').val()+'&foodID='+toFood,'replicator', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+		if(typeof(ida) == 'number')
+			window.open ('replicator.php?loc='+jQuery('#locID').val()+'&foodID='+toFood,'replicator', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
 	
 

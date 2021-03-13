@@ -58,7 +58,7 @@
 			<p style="font-size:14px; text-align:right; position:relative; font-style:italic;" tal:content="structure place/placeClass"/>
 		</div>	
 		
-		<div class="statusContainer radiusBordered" style="width:285px; left:30px; bottom:42px;">
+		<div class="statusContainer radiusBordered" style="width:295px; left:30px; bottom:42px;">
 			<p style="text-align:center; font-size:14px; margin:2px;">STATO DEI SISTEMI</p>
 			<table><tbody>
 			<tr tal:repeat="stat statuses"><td tal:content="php:labels[repeat.stat.key]">SCAFO</td><td> <span tal:attributes="id repeat/stat/key" style="padding-left:1px; font-size:12px;" tal:content="stat" />
@@ -66,10 +66,11 @@
 			</tbody></table>
 		</div>
 		
-		<div style="width:225px; left:360px; bottom:176px;" class="statusContainer radiusBordered">
+		<div style="width:235px; left:360px; bottom:205px;" class="statusContainer radiusBordered">
 				<table><tbody>
-				<tr><td style="width:100px;">CONDIZIONE  </td><td><img tal:attributes="src string:TEMPLATES/img/interface/paddInterface/${place/placeAlert}.gif" /></td><td style="width:120px; text-align:center;"><span tal:content="place/textCondition"></span></td><td><img tal:attributes="src string:TEMPLATES/img/interface/paddInterface/${place/placeAlert}.gif" /></td></tr>
-				<tr tal:condition="php:(stat == 'posizionata')"><td style="width:100px;">POSIZIONE</td><td style="width:100px;" colspan="3"><a href="javascript:void(0);" onclick="javascript:window.open ('chart.php','chart', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=617');" class="interfaceLink">(- VEDI MAPPA -)</a></td></tr>
+				<tr><td style="width:100px; height: 20px;">CONDIZIONE</td><td><img tal:attributes="src string:TEMPLATES/img/interface/paddInterface/${place/placeAlert}.gif" /></td><td style="width:120px; text-align:center;" tal:content="php:(place['placeAlert'] == 'redAlert') ? 'ROSSA' : ((place['placeAlert'] == 'yellowAlert') ? 'GIALLA' : ((place['placeAlert'] == 'greenAlert') ? 'VERDE' : ((place['placeAlert'] == 'blueAlert') ? 'BLU' : ((place['placeAlert'] == 'greyAlert') ? 'GRIGIA' : (place['placeAlert'] == 'intruderAlert') ? 'INTRUSO' :((place['placeAlert'] == 'quarantineAlert') ? 'QUARANTENA' : ''))))) "></td><td><img tal:attributes="src string:TEMPLATES/img/interface/paddInterface/${place/placeAlert}.gif" /></td></tr>
+				<tr tal:condition="php:(stat == 'posizionata')"><td style="width:100px;">POSIZIONE</td><td style="width:100px; text-align: center;" colspan="3"><a href="javascript:void(0);" onclick="javascript:window.open ('chart.php','chart', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=617');" class="interfaceLink">(- VEDI MAPPA -)</a></td></tr>
+
 				
 				<tr tal:condition="php:(stat == 'attraccata')" style="height:30px;">
 					<td style="width:100px; font-size:11px;">ATTRACCATA A:</td><td colspan="3" style="text-align:center; font-size:11px;" tal:content="attraccata">attracco</td>
@@ -81,10 +82,10 @@
 				</tbody></table>
 		</div>	
 		
-		<div style="padding:10px; width:215px; height:105px; left:360px; bottom:42px; overflow-y:auto;" class="statusContainer radiusBordered" tal:content="structure note" />
+		<div style="padding:10px; width:225px; height:135px; left:360px; bottom:42px; overflow-y:auto;" class="statusContainer radiusBordered" tal:content="structure note" />
 		<!-- Hack geometrico XD -->
-		<div style="position:absolute; bottom:58px; left:327px; border-top:1px solid #444; height:1px; width:33px;" />
-		<div style="position:absolute; bottom:148px; left:327px; border-top:1px solid #444; height:1px; width:33px;" />
+		<div style="position:absolute; bottom:58px; left:337px; border-top:1px solid #444; height:1px; width:23px;" />
+		<div style="position:absolute; bottom:148px; left:337px; border-top:1px solid #444; height:1px; width:23px;" />
 </div>
 
 </div>

@@ -54,11 +54,12 @@
 							</td>
 							<td class="newPaddtd">
 								<textarea name="testo" id="postContent" style=" padding: 5px 6px 5px 6px; margin:2px; border-radius: 12px; width:440px; height:188px;"/>
-									<div tal:attributes="style php:(prevType!=3) ? 'margin-top:5px;;' : 'margin-top:5px;; text-align:center;;' ">
-										<select class="neon" name="paddType" tal:condition="php:(prevType!=3)" style="margin-right: 10px; width:160px; font-size: 16px; font-variant: small-caps;">
+
+										<div style="margin-top:5px;">
+										<select class="neon" name="paddType" style="margin-right: 10px; width:160px; font-size: 16px; font-variant: small-caps;">
 												<option tal:attributes="selected php:((prevType==0) ? 'selected' : '')" value="0">On-Game</option>
 												<option tal:attributes="selected php:((prevType==1) ? 'selected' : '')" value="1">Off-Game</option>
-												<option tal:condition="exists:isGuide" value="3">Guide/Revisioni</option>
+												<option tal:attributes="selected php:((prevType==3) ? 'selected' : '')" value="3">Guide/Revisioni</option>
 												<option tal:attributes="selected php:((prevType==4) ? 'selected' : '')" tal:condition="exists:isMaster" value="4">Evento Master</option>
 												<option tal:condition="exists:isAdmin" value="1S">Off-Game-Forzamail</option>
 										</select>

@@ -21,7 +21,7 @@
 	<!-- <script type="text/javascript" src="TEMPLATES/js/lazyload.js"></script> -->
 	<title>STAR TREK FEDERATION - SCHEDA</title>		 
 	<style>
-		#lastpgs{ margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;}
+		#lastpgs{ margin-left:5px; margin-right:5px; padding:3px; margin-top:5px; text-align:center;}
 		.ongoing{display:block; background-color: #945416; color: white; padding:2px; border: 1px solid white;}
 		.closed{display:block; background-color: black; color: white; padding:2px; border: 1px solid white;}
 		.forced{display:block; background-color: #961c1c; color: white; padding:2px; border: 1px solid white;}
@@ -61,6 +61,10 @@
 .timeline-pol2 table td img {height:12px;}
 
 
+.verticalrot{
+  writing-mode: vertical-rl;
+  text-orientation: sideways;
+}
 
  
 
@@ -141,12 +145,13 @@
 
 			<table>
 
-				<tr>
-					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;  width:150px;"> Personaggio</td>
-					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;  width:60px;"> Lock</td>
-					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;  width:60px;"> Alloggio</td>
-					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;  width:60px;"> Incarico</td>
-					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;  width:60px;"> App. BG</td> 
+				<tr style="height: 80px;">
+					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;  width:180px;"> Personaggio</td>
+					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;  width:30px;"><p class="verticalrot"> Lock</p></td>
+					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;  width:30px;"><p class="verticalrot">Alloggio</p></td>
+					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;  width:30px;"> <p class="verticalrot">Incarico</p></td>
+					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;  width:30px;"><p class="verticalrot"> App. BG</p></td> 
+					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;  width:30px;"><p class="verticalrot"> Reset?</p></td>
 					<td style="font-weight:bold; color:#FC0; border-bottom:1px solid white;" colspan="2">Comandi Staff</td>
 				</tr>
 				<tbody tal:repeat="person resLastPGS"> 
@@ -167,15 +172,22 @@
 
 					</td> 
 
+					<td style="border:1px solid #111;">
+							<!-- Inserire codice. Bollino rosso nessun reset, bollino verde, RESET, passandoci sopra con il mouse, title con le date dei reset -->
+							<img src="TEMPLATES/img/interface/yellow_dot_icon.png" tal:attributes="title string:Abilità Resettate l'ultima volta in data: ${person/lastCarEdit}" tal:condition="exists:person/lastCarEdit" />
+
+							
+
+					</td>
+
 					<td style="border:1px solid #111; text-align:left;"><a class="interfaceLink" href="javascript:void(0)" tal:attributes="onclick php:'if(confirm(\'Attenzione: i Padd inviati da questo tool, così come le risposte inviate, saranno visibili a tutto lo staff tramite il multi-tool. Ciò permane anche se la conversazione procede tramite -Padd normali- dopo il messaggio iniziale\' ) ){ window.open(\'padd.php?s=seR&to=' . addslashes(person['pgUser']) . '&sub=&prevType=3\',\'padd\', config=\'scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403\')}'"> <img src="TEMPLATES/img/interface/envelope.png" title="Invia un Padd" /> </a> <a tal:condition="php:(person['pgBackground'] != 1)" tal:attributes="onclick php:((person['lastReminder']) ? 'return confirm(\'Sicuro di voler inviare UN ALTRO reminder?\');;' : 'return confirm(\'Sicuro di voler inviare un  reminder?\');;') ; href string:multitool.php?s=remindBackground&pgID=${person/pgID}" class="interfaceLinkBlue"> <img tal:attributes="title php:((person['lastReminder']) ? person['supervision'] . ' in data: '.date('d/m/y',person['lastReminder']) : 'Invia Reminder') ; src php:((person['lastReminder']) ? 'TEMPLATES/img/interface/exclamation_mark_active.png' : 'TEMPLATES/img/interface/exclamation_mark_inactive.png' )"  /> </a>
-
-
 
 						<a tal:condition="php:(person['pgBackground'] != 1 && meRole != 'M')" class="interfaceLinkGreen" tal:attributes="href string:multitool.php?s=preapproveBackground&pgID=${person/pgID}"> <img src="TEMPLATES/img/interface/ok_access.png" title="Pre-Approva BG" /> </a>
 					<a tal:condition="php:(person['pgLock'])" tal:attributes="href string:multitool.php?s=setUnlock&pgID=${person/pgID}"> <img src="TEMPLATES/img/interface/lock.png" title="Sblocca PG" /> </a>
-					
-
 					</td> 
+
+
+
 					<td style="width:25px">
 						<a class="interfaceLink" href="javascript:void(0)" tal:condition="php:(person['commpadd'])" tal:attributes="onclick string:ajax_getProfilingPadds(${person/pgID})">[ <span tal:content="person/commpadd" /> ]</a>
 					</td>

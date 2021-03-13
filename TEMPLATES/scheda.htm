@@ -59,8 +59,6 @@
 	text-align:justify;
 	}
 
-	.buttonOk{width:60px; padding:3px; background-color:#0e501c; border-color:#8ede1c; font-size:14px; border-radius:5px; cursor:pointer;}
-	.buttonOk:hover{color:white; background-color:#255714;}
 
 </style>
 </head>
@@ -209,11 +207,24 @@ ondblclick php:(smasterPanel== true) ? 'javascript:removeDotazione(\'nota\',' . 
 
 </div>
 
-<div id="logDownloader" tal:condition="php:editable=='yes'" style="height:200px; margin-top:-50px; background-color:rgba(0,0,0,0.9); display:none; border:1px solid #333; position:absolute; top:50%; left:50%; width:400px; padding:10px; font-family:Helvetica; margin-left:-200px;">
+<div id="logDownloader" tal:condition="php:editable=='yes'" style="height:375px; margin-top:-170px; background-color:rgba(0,0,0,0.95); display:none; border:1px solid #333; position:absolute; top:50%; left:50%; width:400px; padding:10px; font-family:Helvetica; margin-left:-200px;">
 
 
-	<p class="title"> Scarica i log del personaggio </p>
-	<p style="font-size:14px;">Questa funzione ti permette di scaricare in formato HTML un archivio con tutte le tue giocate. Se desideri scaricare i contenuti più vecchi di 6 mesi contatta un Global Master per farti sbloccare le opzioni "Ultimo anno" e "Tutti"</p>
+	<p class="title" style="font-size:16px;">Accedi ai log del personaggio </p>
+
+	<p style="font-size:15px;">Scorri le tue giocate e visualizza i log. Potrai scaricarli uno per uno!</p>
+
+	<p style="text-align:center; margin:0px;">
+	<a tal:attributes="href string:scheda.php?s=mySessions&pgID=${userData/ID}">
+		<input type="submit" class="buttonOk" value="Vai ai Log"></input>
+	</a>
+	</p>
+
+	<hr />
+
+	<p class="title" style="font-size:16px;"> Scarica i log del personaggio </p>
+
+	<p style="font-size:15px;">Questa funzione ti permette di scaricare in formato HTML un archivio con tutte le tue giocate. Se desideri scaricare i contenuti più vecchi di 6 mesi contatta un Global Master per farti sbloccare le opzioni "Ultimo anno" e "Tutti"</p>
 
 	<form method="POST" tal:attributes="action string:getLog.php?getAllPlayerLogs=${userData/ID}"> 
 		Scarica i log di: <select id="logLimit" name="logLimit" class="neon">
@@ -229,7 +240,7 @@ ondblclick php:(smasterPanel== true) ? 'javascript:removeDotazione(\'nota\',' . 
 
 
 
-		</select><br />
+		</select><br /><br />
  		<input type="checkbox" name="masterLog" tal:condition="php:isMaster" /> <span tal:condition="php:isMaster"> Solo sessioni da Master</span><br /><br/>
 
 		<p style="text-align:center; margin:0px;"><input type="submit" class="buttonOk" value="Scarica"> Scarica </input></p>

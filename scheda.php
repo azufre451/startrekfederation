@@ -162,18 +162,68 @@ elseif($mode == 'addPointCar'){
 	header("location:scheda.php?pgID=$selector&s=bvadd&absel=$car");
 	exit;
 }
+
+elseif($mode == 'mySessions')
+{
+
+	if ($selectedUser != $_SESSION['pgID'] && $currentUser->pgAuthOMA != 'A'){ header("location:scheda.php"); exit;}
+
+	$template = new PHPTAL('TEMPLATES/scheda_mysessions.htm');
+
+	$sessions = mysql_query("SELECT DISTINCT federation_sessions_participation.sessionID,sessionPlace,sessionStart,sessionLabel,sessionMaster,sessionPrivate,sessionPlace,locName,placeName, placeLogo, placeID, kind FROM federation_sessions_participation,federation_sessions,fed_ambient,pg_places  WHERE sessionPlace = locID AND placeID = ambientLocation AND federation_sessions.sessionID = federation_sessions_participation.sessionID AND pgID = $selectedUser ORDER BY sessionID");
+
+//	echo mysql_error();exit;
+
+	$mst=0;
+	$sessionsRes=array();
+	$sessionMaster=array();
+	while($res=mysql_fetch_assoc($sessions))
+	{
+		if ($res['kind'] == 'MASTER'){
+			$mst+=1;
+			$sessionMaster[$res['sessionID']] = 1;
+		}
+
+		if(!array_key_exists($res['placeID'], $sessionsRes))
+			$sessionsRes[$res['placeID']] = array('placeName'=> $res['placeName'], 'logo' => $res['placeLogo'],'nSessions' => 0, 'sessions' => array());
+		
+		$sessionsRes[$res['placeID']]['sessions'][$res['sessionID']] = $res;
+		 
+	}
+
+	$itp=0;
+	foreach($sessionsRes as $place=>$vct){
+		$itp+=count($vct['sessions']);
+		foreach ($vct['sessions'] as $sessionKey=>$sess){
+			if(!array_key_exists($sessionKey, $sessionMaster))
+			{
+				$sessionsRes[$place]['nSessions'] =1;
+				break;
+			}
+
+		}
+	} 
+
+	function cmp($a, $b) { return (count($a['sessions']) < count($b['sessions']));}
+
+
+	
+
+	uasort($sessionsRes,'cmp');
+	$template->sessionsRes = $sessionsRes;
+	$template->sessionMaster = $sessionMaster;
+	$template->avLog = $itp;
+	if($mst > 0) $template->mst = 1;
+
+}
+
 elseif($mode == 'bv')
 {
 	$ptl= PG::getSomething($selectedUser,'upgradePoints');
-	
-	//if(($ptl['pgUpgradePoints']+$ptl['pgSocialPoints']+$ptl['pgSpecialistPoints'] > 0) && !isSet($_GET['escape']) && $selectedUser == $_SESSION['pgID']) header("Location:scheda.php?s=bvadd&pgID=$selectedUser");
-	
+		
 	$template = new PHPTAL('TEMPLATES/scheda_ruolino.htm');
 	
 	$resQ = mysql_query("SELECT pg_abilita.abID,abName,abDescription, abImage, abClass, abDiff, value as level, abLevelDescription_1,abLevelDescription_2,abLevelDescription_3,abLevelDescription_4,abLevelDescription_5,abDepString FROM pg_abilita_levels, pg_abilita WHERE pgID = $selectedUser AND pg_abilita_levels.abID = pg_abilita.abID ORDER BY abDiff,abName");
-	// $i=0;
-	//echo mysql_error();
-	// $k=0;
 
 
 
@@ -1026,7 +1076,6 @@ elseif($mode == 'master')
 	$images = scandir('TEMPLATES/img/ruolini/lauree');
 	$template->images=array_diff($images,array('.','..'));
 
-	// $template->availBrevetti=$availBrevetti;
 	
 	$template->thisYear = $thisYear;
 	$template->alloggi = $alloggi;
@@ -1046,11 +1095,6 @@ elseif($mode == 'master')
 	
 }
 
-// elseif($mode=='kavanagh')
-// { 
-	// $namea = PG::getSomething($_GET['pgID'],'username');
-	// mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",".$_GET['pgID'].",'::special::achiev','L\'ho sentita.::Evidentemente... la celebrità non è... tutto. Vero, signor $namea?',".time().",0,'http://miki.stfederation.it/minik.png')");
-// }
 
 elseif($mode=='edit_extras')
 {
@@ -1072,10 +1116,6 @@ elseif($mode=='edit_extras')
 }
 elseif($mode=='kavanagh')
 { 
-	//$selectedDUser->preload_objects();
-
-
-		
 	$namea = PG::getSomething($_GET['pgID'],'username');
 	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",".$_GET['pgID'].",'::special::achiev','L\'ho sentita...::Chi siete? Dove andate? Un asciugamano!',".time().",0,'https://oscar.stfederation.it/SigmaSys/PNG/Kavanagh_001.png')");
 	header('Location:scheda.php?pgID='.$_GET['pgID']);
@@ -1857,7 +1897,6 @@ $dataA = $vali->numberOnly($_POST['dataA']);
 elseif ($mode == 'addNote')
 { 
 	$note = $vali->killChars($_POST['note']);
-//$note = str_replace('FOL/','TEMPLATES/img/ruolini/medaglie/',$nastrini);
 
 	if (PG::mapPermissions('SL',$currentUser->pgAuthOMA))
 		$selectedDUser->addNote($note,$currentUser->ID);
@@ -2200,16 +2239,11 @@ $template->isJMaster = (PG::mapPermissions('JM',$selectedOMA) && PG::isMasCapabl
 $template->isMaster = (PG::mapPermissions("M",$selectedOMA)) ? true : false;
 $template->isMMaster = (PG::mapPermissions("MM",$selectedOMA)) ? true : false;
 $template->isSuperMaster = (PG::mapPermissions("SM",$selectedOMA)) ? true : false;
-$template->isLorenzo = false;
 $template->isGuide = (PG::mapPermissions("G",$selectedOMA)) ? true : false;
 $template->isAdmin = (PG::mapPermissions("A",$selectedOMA)) ? true : false;
 
 $template->selectedUser = $selectedUser;
 $template->gameOptions = $gameOptions;
-// $template->gameName = $gameName;
-// $template->gameVersion = $gameVersion;
-// $template->debug = $debug;
-// $template->gameServiceInfo = $gameServiceInfo;
 $template->dateFormat = "d/m/Y H:i:s";
 
 	try 

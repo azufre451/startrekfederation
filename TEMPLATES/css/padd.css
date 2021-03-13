@@ -351,4 +351,14 @@ div.paddMessage.masterPadd::after{
 .sendpadd:hover {
 		background-color: green;
 		color: white;
+
 }
+
+.offPadd_1:after{color:#4991c3; content:'[OFF]'; font-size:9px; margin-left:5px;}
+.offPadd_1:hover:after{text-decoration: none !important; color:white;}
+.offPadd_2:after{color:#FFCC00; content:'[AUTO]'; font-size:9px; margin-left:5px;}
+.offPadd_2:hover:after{text-decoration: none !important; color:white;}
+.offPadd_3:after{color:#31F367; content:'[REV. BG]'; font-size:9px; margin-left:5px;}
+.offPadd_3:hover:after{text-decoration: none !important; color:white;}
+.offPadd_4:after{color:#ff3600; content:'[EV. MASTER]'; font-size:9px; margin-left:5px;}
+.offPadd_4:hover:after{text-decoration: none !important; color:white;}

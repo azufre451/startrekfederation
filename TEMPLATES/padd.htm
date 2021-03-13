@@ -15,159 +15,74 @@
 
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 	 
-	
-	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
-	
-	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 
+	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
+
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	<script type="text/javascript" src="TEMPLATES/js/caret.js?v=${gameOptions/numericVersion}"></script>
+	<script type="text/javascript" src="TEMPLATES/js/padd.js?v=${gameOptions/numericVersion}"></script>
 	
 
 	<title>FEDERATION - PADD</title>	
-	
-<script type="text/javascript">
-		function jmp(to)
-		{
-			if(to ==  'newPadd')
-				jQuery('#authBlock').fadeOut(400);
-			else
-				jQuery('#authBlock').show(400);
-			
-			jQuery('.padderMain').fadeOut(100);
-			jQuery('#'+to).fadeIn(400);
-		}
-		
-		function split( val ) {
-			return val.split( /,\s*/ );
-		}
-		function extractLast( term ) {
-			return split( term ).pop();
-		}
 
-		jQuery(function(){
+<script tal:condition="exists:animate">
+	jQuery(function(){
+		//setTimeout(function(){jQuery('#A2').fadeIn(300); jQuery('#contentBypass').fadeIn(800);},1500)
+		jQuery('#A1').on('animationend',function(){ jQuery('#A2').fadeIn(100); jQuery('#contentBypass').fadeIn(800); });
+	});
+</script>
+<style tal:condition="exists:animate">
 
-			
-		jQuery('.tooltip, #intestLeft a, .BBbuttonList input[type=button]').tooltip({
-          		content: function () {
-              	return jQuery(this).prop('title');
-          	}
-      		});
+	#authBlock #A1{ animation: animated-text 1s steps(30,end) 1s 1 normal both;}
+	/* text animation */
+	#authBlock #A2, #contentBypass {display: none;}
 
-			jQuery( "#users")
-			// don't navigate away from the field on tab when selecting an item
-			.bind( "keydown", function( event ) {
-				if ( event.keyCode === $.ui.keyCode.TAB &&
-						$( this ).data( "autocomplete" ).menu.active ) {
-					event.preventDefault();
-				}
-			})
-			.autocomplete({
-				source: function( request, response ) {
-					$.getJSON( "ajax_userGetter.php?extGropus=do", {
-						term: extractLast( request.term )
-					}, response );
-				},
-				search: function()
-				{
-					// custom minLength
-					var term = extractLast( this.value );
-					if ( term.length < 1 ) {
-						return false;
-					}
-				},
-				focus: function() {
-					// prevent value inserted on focus
-					return false;
-				},
-				select: function( event, ui ) {
-					var terms = split( this.value );
-					// remove the current input
-					terms.pop();
-					// add the selected item
-					terms.push( ui.item.value );
-					// add placeholder to get the comma-and-space at the end
-					terms.push( "" );
-					this.value = terms.join( ", " );
-					return false;
-				}
-			});
-
-			setTimeout(function(){jQuery('#A2').fadeIn(300); jQuery('#contentBypass').fadeIn(1000);},1250)
-			
-
-
-
-			});
-			function togglePaddIndicator(ida)
-			{if(jQuery(ida).hasClass('selectedPadd')) jQuery(ida).removeClass('selectedPadd').addClass('unselectedPadd'); else jQuery(ida).removeClass('unselectedPadd').addClass('selectedPadd');}
-			
-			function deleteSelected()
-			{
-			var padds = new Array(); 
-			var i = 0;
-			jQuery('.selectedPadd').each(function(e){
-				padds[i++] = jQuery(this).prop('id');
-			});
-			
-			jQuery.post('ajax_padds.php?action=deleteMany', {padds: padds}, function(data){
-				if(data['OK'])
-					jQuery('.selectedPadd').each(function(e){
-						jQuery('#padd_'+jQuery(this).prop('id')).fadeOut(350);
-					});
-			}, 'json');
-			}
-			
-			function selectAll(mode)
-			{
-				var aggregator;
-				if(jQuery('#incoming').css('display') == 'block') aggregator = '.incoming';
-				if(jQuery('#outgoing').css('display') == 'block') aggregator = '.outgoing';
-				if(mode==0) jQuery(aggregator+' > .unselectedPadd').removeClass('unselectedPadd').addClass('selectedPadd');
-				if(mode==1) jQuery(aggregator+' > .selectedPadd').removeClass('selectedPadd').addClass('unselectedPadd');
-			}
-			
-			function selectRead()
-			{
-				var aggregator;
-				if(jQuery('#incoming').css('display') == 'block') aggregator = '.incoming';
-				if(jQuery('#outgoing').css('display') == 'block') aggregator = '.outgoing';
-				jQuery(aggregator+'.incoming.read > .unselectedPadd').removeClass('unselectedPadd').addClass('selectedPadd');
-			} 
-
-
-
- </script>
-
+	@keyframes animated-text{
+	  from{width: 0;}
+	  to{width: 480px;}
+	}
+</style>
 
 <style>
-	.offPadd_1:after{color:#4991c3; content:'[OFF]'; font-size:9px; margin-left:5px;}
-	.offPadd_1:hover:after{text-decoration: none !important; color:white;}
-	.offPadd_2:after{color:#FFCC00; content:'[AUTO]'; font-size:9px; margin-left:5px;}
-	.offPadd_2:hover:after{text-decoration: none !important; color:white;}
-	.offPadd_3:after{color:#31F367; content:'[REV. BG]'; font-size:9px; margin-left:5px;}
-	.offPadd_3:hover:after{text-decoration: none !important; color:white;}
-	.offPadd_4:after{color:#ff3600; content:'[EV. MASTER]'; font-size:9px; margin-left:5px;}
-	.offPadd_4:hover:after{text-decoration: none !important; color:white;}
 
 
-/* Animation */
+#authBlock{
+	font-variant: small-caps;
+    position: absolute;
+    left: 5%;
+    top: 43px;
+    width:590px;
+    font-size: 14px;
+}
+
 #authBlock #A1{
-  animation: animated-text 0.8s steps(30,end) 1s 1 normal both;
   height: 40px;
   white-space: nowrap;
   overflow: hidden; 
   width: 480px;
- 
+  line-height: 16px;
+  float:left;
+  margin-top:3px;
+ }
+
+ #authBlock #A1 span.userTag
+ {
+ 	display:inline-block;
+ 	margin-left:5px;
+ 	padding-left:5px;
+ 	border-left:2px solid #999;
+ 	color:var(--custom_section_color,#ffcc00);
+ 	font-weight:bold;
+ 	padding-left:5px;
+ }
+
+#authBlock #A2 span.seclarBox{
+	margin-left:5px;
+	padding: 2px 10px 4px 10px;
+	background-color: #151515;
+	border: 1px solid var(--custom_section_color,#ffcc00);
+	border-radius: 5px;
 }
-
-/* text animation */
-
-@keyframes animated-text{
-  from{width: 0;}
-  to{width: 480px;}
-}
-
-/* cursor animations */
 
 </style>
 </head>
@@ -185,29 +100,59 @@
 <div id="messaSend" class="radiusBordered12" style="font-variant:small-caps; display:none; font-size:16px; position:absolute; top:50%; left:50%; width:300px; border:1px solid #777; height:20px; margin-left:-155px; margin-right:-15px; background-color:black; padding:5px; text-align:center; font-size:13px" tal:condition="exists:paddSent">Padd Inviato</div>
 <script type="text/javascript" tal:condition="exists:paddSent">jQuery('#messaSend').fadeIn(1000); setTimeout("jQuery('#messaSend').fadeOut(500)",2500);</script>
 
-<div style="font-variant: small-caps;
-    position: absolute;
-    left: 5%;
-    top: 43px;
-    width:590px;
-    font-size: 14px;" id="authBlock"> 
-    
-    <p style="line-height: 16px; float:left; margin-top:3px;" id="A1">
+<div id="authBlock"> 
 
-
-    	    	<img style="width:20px; vertical-align: middle;" src="TEMPLATES/img/ruolini/brevetti/starfleet_brev.png " />
-				<span style="font-weight:bold; font-variant: small-caps;">Accesso Autorizzato</span>
-
-    	    	<span style="display:inline-block; margin-left:5px; padding-left:5px; border-left:2px solid #999; color:var(--custom_section_color,#ffcc00); font-weight:bold; padding-left:5px;" tal:content="string:${user/pgGrado} ${user/pgUser}, ${user/pgNomeC}" />
-
+    <p id="A1">
+    	<img style="width:20px; vertical-align: middle;" src="TEMPLATES/img/ruolini/brevetti/starfleet_brev.png " />
+		<span style="font-weight:bold; font-variant: small-caps;">Accesso Autorizzato</span>
+    	<span class="userTag" tal:content="string:${user/pgGrado} ${user/pgUser}, ${user/pgNomeC}" />
     </p>
 
-    <p style="float:right; display: none;" id="A2">
-    	<span style="margin-left:5px; padding: 2px 10px 4px 10px; background-color: #151515; border: 1px solid var(--custom_section_color,#ffcc00); border-radius: 5px;"> <img  style="vertical-align: middle;" tal:attributes="src string:TEMPLATES/img/seclar/seclar${user/pgSeclar}.png" /></span>
+    <p style="float:right;" id="A2">
+    	<span class="seclarBox"><img  style="vertical-align: middle;" tal:attributes="src string:TEMPLATES/img/seclar/seclar${user/pgSeclar}.png" /></span>
     </p>
-
     </div>
 
+<div id="contentBypass">
+<div id="newPadd" tal:attributes="style php:(submode=='se') ? 'display:block;;' : 'display:none;;'" class="paddMain padderMain radiusBordered">
+<div class="innerPadd" style="margin-right:5px;margin-left:15px; width:625px; height: 310px; overflow:hidden;">
+
+<form action="padd.php?s=newP" id="formContent" method="POST">
+
+	<div style="position:absolute; top:73px; right:25px;">
+		<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/info.png" title="&Egrave; possibile selezionare pi&ugrave; di un contatto) - Es. Picard, Barclay, Janeway..."/>
+	</div>
+
+	<table cellspacing="0px">
+		<tr style="height: 12px;">
+			<td style="width:110px; font-size: 12px;">DESTINATARIO/I: </td>
+			<td class="newPaddtd"><input type="text" class="neon" id="users" name="users" style="width:450px"/></td>
+		</tr>
+		<tr style="height:3px;" />
+		<tr style="height: 12px;">
+			<td style="width:110px; font-size: 12px;">OGGETTO:</td>
+			<td class="newPaddtd"><input type="text" class="neon" maxlength="25" name="titolo" style="width:450px;"/></td></tr>
+		<tr style="height:5px;" />
+		<tr>
+			<td style="width:110px; padding-top: 6px; ">
+			<!-- START BLOCCO BOTTONI -->
+			<div metal:use-macro="TEMPLATES/padd_metal.htm/paddBBCodeBlock" />
+			</td>
+		<td class="newPaddtd">
+			<textarea name="testo" id="postContent" style=" padding: 5px 6px 5px 6px; margin:2px; border-radius: 12px; width:440px; height:188px;"/>
+			<div style="margin-top:5px;">
+				<select class="neon" name="paddType"  style="margin-right: 10px; width:160px; font-size: 16px; font-variant: small-caps;">
+				<option value="0">On-Game</option>
+				<option value="1">Off-Game</option>
+				<option tal:condition="exists:isGuide" value="3">Guide/Revisioni</option>
+				<option tal:condition="exists:isMaster" value="4">Evento Master</option>
+				<option tal:condition="exists:isAdmin" value="1S">Off-Game-Forzamail</option>
+				</select>
+				<input type="submit" value="INVIA" class="sendpadd" />
+			</div>
+		</td>
+	</tr>
+	</table>
 
 <div id="contentBypass" style="display:none;">
 

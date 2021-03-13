@@ -256,7 +256,7 @@ if (isSet($_GET['setAlert']))
 	
 	if($g == 'red' || $g=='intruder' || $g == 'yellow' || $g == 'blue' || $g == 'green' || $g == 'grey' || $g == 'quarantine')
 	{
-		if($g=='red') mysql_query("UPDATE fed_ambient SET ambientLightColor='#d10000' WHERE ambientLocation='$place'");
+		if($g=='red' || $g=='intruder') mysql_query("UPDATE fed_ambient SET ambientLightColor='#d10000' WHERE ambientLocation='$place'");
 		else if($g=='yellow') mysql_query("UPDATE fed_ambient SET ambientLightColor='#e8cd05' WHERE ambientLocation='$place'");
 		else if($g=='green') mysql_query("UPDATE fed_ambient SET ambientLightColor='#ffeecb' WHERE ambientLocation='$place'");
 		else if($g=='grey' || $g=='quarantine'){ mysql_query("UPDATE fed_ambient SET ambientLight=2 WHERE ambientLocation='$place'");}
@@ -550,6 +550,68 @@ else if(isSet($_GET['coorArriveTo']))
 	}
 		header('Location:padd.php?s=sh');
 		exit;
+}
+
+else if (isSet($_GET['cPlanetCreate']))
+{
+
+
+	if(!PG::mapPermissions('SM',$currentUser->pgAuthOMA)) exit;
+
+	$pName = addslashes($_POST['pName']);
+	$pID = addslashes($_POST['pID']);
+	$placeSciName = addslashes($_POST['placeSciName']);
+	$placeMotto = addslashes($placeSciName . ' - ' . $_POST['placeClass']);
+	$placePopulation = addslashes($_POST['placePopulation']);
+	$placeAlignment = addslashes($_POST['placeAlignment']);
+	$placeNote = addslashes($_POST['placeNote']);
+	$placePopulationText = addslashes($_POST['placePopulationText']);
+	
+	$placeCoordSector = $_POST['placeCoordSector'];
+	$placeCoordX = $vali->numberOnly($_POST['placeCoordX']);
+	$placeCoordY = $vali->numberOnly($_POST['placeCoordY']);
+	$pointerL = addslashes($placeCoordSector).':'.$placeCoordX.';'.$placeCoordY;
+	$placeIncLogo = addslashes($_POST['placeIncLogo']);
+	$placeLocation = addslashes($_POST['placeLocation']);
+	$pMap1 = addslashes(basename($_POST['pMap1']));
+	$pMap2 = addslashes(basename($_POST['pMap2']));
+	$pMap3 = addslashes(basename($_POST['pMap3']));
+	$assignLogo = addslashes($_POST['assignLogo']);
+	$placeLogo = addslashes($_POST['placeLogo']);
+	$placeRotation = $vali->numberOnly($_POST['placeRotation']);
+	$placeRotationOffset = $vali->numberOnly($_POST['placeRotationOffset']);
+	$placeMeteo = addslashes($_POST['placeMeteo']);
+	$hasCrew = isSet($_POST['hasCrew']) ? '1' : '0';
+
+
+	$rtp=mysql_query("SELECT 1 FROM pg_places WHERE placeID = '$pID'");
+	if (mysql_affected_rows()){
+		echo "Errore di Inserimento. La chiave/ID $pID esiste gia'. Tornare indietro, scegliere un'altra chiave e ripetere l'operazione;";
+
+		exit;
+
+	}
+	
+
+	mysql_query("INSERT INTO pg_places (placeID,placeName,placeType,placeMap1,placeMap2,placeMap3,placeLogo,hasCrew,placeRotationTime,placeRotationOffset,placeClass,place_littleLogo1,pg_assigner,placeMotto,pointerL,weather,placeAuxName,placeAlignment,placeLocation,placePopulation,placeAux1) VALUES ('$pID','$pName','Pianeta','$pMap1','$pMap2','$pMap3','$placeLogo','$hasCrew',$placeRotation,$placeRotationOffset,'$placePopulationText','$assignLogo','$placeIncLogo','$placeMotto','$pointerL','$placeMeteo','$placeSciName','$placeAlignment','$placeLocation','$placePopulation','$placeNote')");
+
+	if(!mysql_error())
+	{ 
+		mysql_query("INSERT INTO fed_ambient (locID,locName,ambientLocation,ambientType) VALUES ('$pID','Sulla Superficie','$pID','DEFAULT');");
+		if(!mysql_error())
+		{
+			$currentUser->sendNotification("Nuovo Pianeta Aggiunto", $pID . ' | ' . $_POST['pName'] . ' | '. $_POST['placeClass'] ,$_SESSION['pgID'],"TEMPLATES/img/logo/".$assignLogo,'link2place',$pID);
+			header("Location:multitool.php");
+		}
+
+		else
+			echo mysql_error();
+	}
+	else
+		echo mysql_error();
+
+	exit;
+
 }
 
 else if (isSet($_GET['addMapLocation']))

@@ -209,7 +209,7 @@
 </div>
 
 <div id="intestRight"> 
-<a title="Invia un Padd" tal:attributes='href string:javascript:paddOpen("${userData/pgUser}")'><img class="iconelement" src="TEMPLATES/img/interface/personnelInterface/messaggio.png" /></a><img tal:attributes="src php:(isBan) ? 'TEMPLATES/img/interface/personnelInterface/player_lock.png' : ((userData.ONLINE) ? 'TEMPLATES/img/interface/personnelInterface/player_on.png' : 'TEMPLATES/img/interface/personnelInterface/player_off.png') ; class php:(isBan) ? 'iconlit' : 'iconelement' ; title php:(userData.ONLINE) ? 'PG ONLINE' : ((masterPanel=='true') ? 'PG OFFLINE DAL ' . date(dateFormat,userData.pgLastAct)  : 'PG OFFLINE')" /><img tal:attributes="
+<a title="Invia un Padd" tal:attributes='href string:javascript:paddOpenTo("${userData/pgUser}")'><img class="iconelement" src="TEMPLATES/img/interface/personnelInterface/messaggio.png" /></a><img tal:attributes="src php:(isBan) ? 'TEMPLATES/img/interface/personnelInterface/player_lock.png' : ((userData.ONLINE) ? 'TEMPLATES/img/interface/personnelInterface/player_on.png' : 'TEMPLATES/img/interface/personnelInterface/player_off.png') ; class php:(isBan) ? 'iconlit' : 'iconelement' ; title php:(userData.ONLINE) ? 'PG ONLINE' : ((masterPanel=='true') ? 'PG OFFLINE DAL ' . date(dateFormat,userData.pgLastAct)  : 'PG OFFLINE')" /><img tal:attributes="
 
 src php:
 	(isAdmin) ? 'TEMPLATES/img/interface/personnelInterface/admin_sm.png' : 

@@ -1,0 +1,112 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link tal:condition="php:userData.getCTS()" tal:attributes="href php:'TEMPLATES/css/' . userData.getCTS() . '?v=' . gameOptions['numericVersion'] " rel="stylesheet" type="text/css" />
+
+	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/personnel.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" /> 
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
+
+	<title>STAR TREK FEDERATION - SCHEDA</title>				
+
+	<style>
+		.active{
+			color:#FFCC00;
+			border-bottom:1px solid #FFCC00;
+		}
+
+		.locationLogList{
+			margin-left:10px;
+			margin-top:5px;
+			display:none;
+			border-left:2px solid var(--custom_section_color, #ff3600);
+			padding-left:18px;
+		}
+
+		.locationLogList a{
+			color: var(--custom_section_color, #ff3600);
+			font-size:14px;
+		}
+
+		.locationLogList a:hover{
+			color:white;
+			text-decoration: underline;
+		}
+
+
+		.locationLogList div.logo {float:left; width:110px;}
+		.locationLogList div.logo img {width: 100px;}
+		.locationLogList div.rapList {float:left; width:360px;}
+
+		.counter{ color: var(--custom_section_color, #ff3600); font-size:13px; font-weight:bold; }
+		
+	</style>
+	<script>
+		function setview(ida){
+			jQuery('#dtx_'+ida).toggle(120,function(){
+
+				jQuery('#ctrl_'+ida).toggleClass('active');
+			});
+		}
+
+		function toggleMaster(ide){
+
+			if (ide.checked)
+				jQuery('.masterPart, .locationLogList').fadeIn(120,function(){
+
+					jQuery('a.selectorlink').addClass('active');
+				});
+			else jQuery('.masterPart').fadeOut(120);
+		}
+
+	</script>		
+</head>
+
+<body style="background-color:black; overflow:hidden;  padding:-5px;">
+<div id="schedaContainer">
+
+	<div metal:use-macro="TEMPLATES/metal.htm/schedaIntro" />
+
+	<div id="mainContainer" >
+
+	<p class="title" style="font-size:16px;" > Ci sono <span tal:content="avLog" style="color:#FFCC00" /> Log Disponibili per <span tal:content="userData/pgUser">XXX</span> </p>
+
+	<p style="text-align:right" tal:condition="exists:mst"><input id="tgm" type="checkbox" onclick="javascript:toggleMaster(this)" checked='checked' /> <span style="font-size:14px;"> Mostra sessioni dove hai fatto il master</span></p>
+	<hr />
+
+	<div tal:repeat="sessionBlock sessionsRes">
+		<p style="margin:8px;" tal:attributes="class php:(sessionBlock['nSessions']) ? '' : 'masterPart'" ><a class="selectorlink interfaceLink" style="cursor:pointer; font-size:14px;" tal:attributes="id string:ctrl_${repeat/sessionBlock/key}; onclick string:setview('${repeat/sessionBlock/key}')" tal:content="sessionBlock/placeName" /> [ <span class="counter" tal:content="php:count(sessionBlock['sessions'])"/> ]</p>
+
+		<div  style="margin-top:5px; display:none;" tal:attributes="id string:dtx_${repeat/sessionBlock/key} ; class php:(sessionBlock['nSessions']) ? 'locationLogList' : 'locationLogList masterPart'">
+			<div class="logo">
+				<img tal:attributes="src string:TEMPLATES/img/logo/${sessionBlock/logo}" />
+			</div>
+
+			<div class="rapList">
+				<p tal:repeat="sessionEntry sessionBlock/sessions" tal:attributes="class php: (array_key_exists(sessionEntry['sessionID'],sessionMaster)) ? 'masterPart' : ''"> 
+					<a tal:attributes="href string:getLog.php?session=${sessionEntry/sessionID}" target="_blank" class="interfaceLink"><span tal:content="sessionEntry/sessionLabel" /></a><br />
+					<span tal:content="sessionEntry/locName"> </span> [ <span style="color:#999" tal:content="php:date('d/m/Y H:i',sessionEntry['sessionStart'])"> </span> ]
+					<span tal:condition="php:(array_key_exists(sessionEntry['sessionID'],sessionMaster))" style="color:red; font-size:11px; font-weight: bold;" title="Eri Master in questa sessione"> [ M ] </span>
+
+					<span tal:condition="php:(sessionEntry['sessionMaster'] & !array_key_exists(sessionEntry['sessionID'],sessionMaster))" style="color:#FFCC00; font-size:11px; font-weight: bold;" title="Sessione Master"> [ M ] </span>
+
+				</p>
+			</div>
+			<div style="clear:both;" />
+
+		</div>
+
+	</div>
+
+
+	</div>
+</div>
+</body>
+</html>

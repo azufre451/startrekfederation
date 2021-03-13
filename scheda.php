@@ -174,7 +174,6 @@ elseif($mode == 'mySessions')
 
 //	echo mysql_error();exit;
 
-	$itp=0;
 	$mst=0;
 	$sessionsRes=array();
 	$sessionMaster=array();
@@ -189,10 +188,12 @@ elseif($mode == 'mySessions')
 			$sessionsRes[$res['placeID']] = array('placeName'=> $res['placeName'], 'logo' => $res['placeLogo'],'nSessions' => 0, 'sessions' => array());
 		
 		$sessionsRes[$res['placeID']]['sessions'][$res['sessionID']] = $res;
-		$itp++;
+		 
 	}
 
+	$itp=0;
 	foreach($sessionsRes as $place=>$vct){
+		$itp+=count($vct['sessions']);
 		foreach ($vct['sessions'] as $sessionKey=>$sess){
 			if(!array_key_exists($sessionKey, $sessionMaster))
 			{
@@ -201,10 +202,14 @@ elseif($mode == 'mySessions')
 			}
 
 		}
-	}
+	} 
+
+	function cmp($a, $b) { return (count($a['sessions']) < count($b['sessions']));}
 
 
-	ksort($sessionsRes);
+	
+
+	uasort($sessionsRes,'cmp');
 	$template->sessionsRes = $sessionsRes;
 	$template->sessionMaster = $sessionMaster;
 	$template->avLog = $itp;

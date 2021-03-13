@@ -272,10 +272,12 @@ elseif(isSet($_GET['equi']))
 		$template->ccol = $ccols;
 		$template->clab = $clab; 
 		$template->cclogos = $cclogs;
-		$crew = mysql_query("SELECT placeID, placeMotto, placeName, placeLogo, place_littleLogo1, placeClass, catGDB, catDISP, catRAP, pgGrado,pgUser,pgNomeC,ordinaryUniform FROM pg_places LEFT JOIN (pg_users JOIN pg_ranks ON rankCode = prio) ON pgID = placeCommander WHERE placeID = '$equi'");
+		$crew = mysql_query("SELECT placeID, placeMotto, placeName, placeLogo, place_littleLogo1, placeClass, catGDB, catDISP, catRAP, pgGrado,pgUser,pgNomeC,ordinaryUniform, placeType, placePopulation, placeAlignment FROM pg_places LEFT JOIN (pg_users JOIN pg_ranks ON rankCode = prio) ON pgID = placeCommander WHERE placeID = '$equi'");
 	
+
+
 		while($reissA = mysql_fetch_array($crew))
-		$place = array('placeName' => $reissA['placeName'], 'placeMotto' => $reissA['placeMotto'], 'placeClass' => $reissA['placeClass'], 'placeLittle' => $reissA['place_littleLogo1'],'placeLogo' => $reissA['placeLogo'], 'placeID' => $reissA['placeID'], 'catRAP' => $reissA['catRAP'], 'catGDB' => $reissA['catGDB'], 'catDISP' => $reissA['catDISP'],'commander' => ($reissA['pgGrado'] != NULL) ? $reissA['pgGrado'].' '.$reissA['pgNomeC'].' '.$reissA['pgUser'] : '','uniform' => ($reissA['pgGrado'] != NULL) ? $reissA['ordinaryUniform'] : '');
+		$place = array('placeName' => $reissA['placeName'], 'placeMotto' => $reissA['placeMotto'], 'placeClass' => $reissA['placeClass'], 'placeLittle' => $reissA['place_littleLogo1'],'placeLogo' => $reissA['placeLogo'], 'placeID' => $reissA['placeID'], 'catRAP' => $reissA['catRAP'], 'catGDB' => $reissA['catGDB'], 'catDISP' => $reissA['catDISP'],'commander' => ($reissA['pgGrado'] != NULL) ? $reissA['pgGrado'].' '.$reissA['pgNomeC'].' '.$reissA['pgUser'] : '','uniform' => ($reissA['pgGrado'] != NULL) ? $reissA['ordinaryUniform'] : '', 'placeType' => $reissA['placeType'],'placePopulation' => $reissA['placePopulation'],'placeAlignment' => $reissA['placeAlignment']);
 		$template->place=$place;
 		
 		
@@ -338,35 +340,26 @@ else if (isSet($_GET['createPNG']))
 		
 		$currentUser = new PG($_SESSION['pgID']);
 		$re1=mysql_query("SELECT 1 FROM pg_users WHERE pgUser = '$pgSurname'");
-		//echo "<br/>A-".mysql_error();
+
 		if (mysql_affected_rows()){header("Location:index.php?error=96"); exit;}
 		
 		mysql_query("INSERT INTO pg_users(pgUser,pgNomeC, pgPass, pgAuth, pgLocation, pgRoom, pgAuthOMA, pgSpecie, pgSesso, rankCode, email,pgLock,pgFirst,png, pgMatricola) VALUES ('$pgSurname','$pgName','$pgPassword1','$pgAuth','$equi','$equi','N','$pgSpecie','$pgSesso',$pngRankCode,'$emai',0,0,1,'".createRandomMatricola()."')");
-		//echo "<br/>B-".mysql_error();
 
 		$rek=mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$pgSurname'"));
-		//echo "<br/>B1-".mysql_error();
 
 		$rekU = $rek['pgID'];
 		PG::setMostrina($rekU,$pngRankCode);
 
 		$nPN = new PG($rekU);
 		$nPN->addNote("Password: $passy",$_SESSION['pgID']);
-		//echo "<br/>C0-".mysql_error();
 
 		mysql_query("INSERT INTO pg_incarichi (pgID,incIncarico,incSezione,incDivisione,incDipartimento,pgPlace,incMain) VALUES('$rekU','$pgIncarico','$pgSezione','$pgDivisione','$pgDipartimento','$equi','1')");
-		//echo "<br/>C-".mysql_error();
 
 		mysql_query("INSERT INTO pg_users_bios (pgID) VALUES ($rekU)");
-		//echo "<br/>D-".mysql_error();
 
 		mysql_query("INSERT INTO connlog (user,time,ip) VALUES ($rekU,$curTime,'".$_SERVER['REMOTE_ADDR']."')");
-		//echo "<br/>E-".mysql_error();
-
 
 	}
-	//echo mysql_error();exit;
-	
 
 	header('Location:crew.php?equi='.$equi);
 }
@@ -375,17 +368,22 @@ else if (isSet($_GET['createPNG']))
 else 
 {
 		$template = new PHPTAL('TEMPLATES/cdb_assign.htm');
-		$reiss = mysql_query("SELECT placeID, placeMotto, placeName, placeLogo, place_littleLogo1, placeClass, catGDB, catDISP, catRAP,pgGrado,pgUser,pgNomeC,ordinaryUniform FROM pg_places LEFT JOIN (pg_users JOIN pg_ranks ON rankCode = prio) ON pgID = placeCommander WHERE hasCrew > 0 ORDER BY placeType, ordering");
+		$reiss = mysql_query("SELECT placeID, placeMotto, placeName, placeLogo, place_littleLogo1, placeClass, catGDB, catDISP, catRAP,pgGrado,pgUser,pgNomeC,ordinaryUniform,placeType,placePopulation,placeAlignment FROM pg_places LEFT JOIN (pg_users JOIN pg_ranks ON rankCode = prio) ON pgID = placeCommander WHERE hasCrew > 0 ORDER BY placeType, ordering");
 		$places = array();
 		
 		while($reissA = mysql_fetch_array($reiss))
-		$places[] = array('placeName' => $reissA['placeName'],'placeNameE' => str_replace("'","",$reissA['placeName']), 'placeMotto' => $reissA['placeMotto'], 'placeClass' => $reissA['placeClass'], 'placeLittle' => $reissA['place_littleLogo1'],'placeLogo' => $reissA['placeLogo'], 'placeID' => $reissA['placeID'], 'catRAP' => $reissA['catRAP'], 'catGDB' => $reissA['catGDB'], 'catDISP' => $reissA['catDISP'],'commander' => ($reissA['pgGrado'] != NULL) ? $reissA['pgGrado'].' '.str_replace("'","\'",$reissA['pgNomeC']).' '.str_replace("'","\'",$reissA['pgUser']) : '','uniform' => ($reissA['pgGrado'] != NULL) ? $reissA['ordinaryUniform'] : '');
+		{
+			
+			$reissA["placeNameE"] = str_replace("'","",$reissA['placeName']);
+			$reissA["placeLittle"] = $reissA['place_littleLogo1'];
+			$reissA["commander"] = ($reissA['pgGrado'] != NULL) ? $reissA['pgGrado'].' '.str_replace("'","\'",$reissA['pgNomeC']).' '.str_replace("'","\'",$reissA['pgUser']) : '';
+			$reissA["uniform"] = ($reissA['pgGrado'] != NULL) ? $reissA['ordinaryUniform'] : '';
+			$places[] = $reissA;
+		}
 		
 		$template->places = $places;
 		
 }
-
-
 
 	$resLocations = mysql_query("SELECT placeID,placeName FROM pg_places");
  

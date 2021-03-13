@@ -114,47 +114,6 @@
     </div>
 
 <div id="contentBypass">
-<div id="newPadd" tal:attributes="style php:(submode=='se') ? 'display:block;;' : 'display:none;;'" class="paddMain padderMain radiusBordered">
-<div class="innerPadd" style="margin-right:5px;margin-left:15px; width:625px; height: 310px; overflow:hidden;">
-
-<form action="padd.php?s=newP" id="formContent" method="POST">
-
-	<div style="position:absolute; top:73px; right:25px;">
-		<img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/info.png" title="&Egrave; possibile selezionare pi&ugrave; di un contatto) - Es. Picard, Barclay, Janeway..."/>
-	</div>
-
-	<table cellspacing="0px">
-		<tr style="height: 12px;">
-			<td style="width:110px; font-size: 12px;">DESTINATARIO/I: </td>
-			<td class="newPaddtd"><input type="text" class="neon" id="users" name="users" style="width:450px"/></td>
-		</tr>
-		<tr style="height:3px;" />
-		<tr style="height: 12px;">
-			<td style="width:110px; font-size: 12px;">OGGETTO:</td>
-			<td class="newPaddtd"><input type="text" class="neon" maxlength="25" name="titolo" style="width:450px;"/></td></tr>
-		<tr style="height:5px;" />
-		<tr>
-			<td style="width:110px; padding-top: 6px; ">
-			<!-- START BLOCCO BOTTONI -->
-			<div metal:use-macro="TEMPLATES/padd_metal.htm/paddBBCodeBlock" />
-			</td>
-		<td class="newPaddtd">
-			<textarea name="testo" id="postContent" style=" padding: 5px 6px 5px 6px; margin:2px; border-radius: 12px; width:440px; height:188px;"/>
-			<div style="margin-top:5px;">
-				<select class="neon" name="paddType"  style="margin-right: 10px; width:160px; font-size: 16px; font-variant: small-caps;">
-				<option value="0">On-Game</option>
-				<option value="1">Off-Game</option>
-				<option tal:condition="exists:isGuide" value="3">Guide/Revisioni</option>
-				<option tal:condition="exists:isMaster" value="4">Evento Master</option>
-				<option tal:condition="exists:isAdmin" value="1S">Off-Game-Forzamail</option>
-				</select>
-				<input type="submit" value="INVIA" class="sendpadd" />
-			</div>
-		</td>
-	</tr>
-	</table>
-
-<div id="contentBypass" style="display:none;">
 
 <div id="newPadd" tal:attributes="style php:(submode=='se') ? 'display:block;;' : 'display:none;;'" class="paddMain padderMain radiusBordered">
 <div class="innerPadd" style="margin-right:5px;margin-left:15px; width:625px; height: 310px; overflow:hidden;">

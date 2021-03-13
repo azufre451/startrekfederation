@@ -192,16 +192,19 @@
 		<div style="margin-right:20px;  text-align:center; font-family:Arial; font-variant:small-caps; font-width:bold; margin-left:210px; height:100%;">
 			<p style="font-size:28px;" tal:content="place/placeName"/>
 			<p style="font-size:18px; font-style:italic;" tal:content="place/placeMotto"/> 
-			<p style="font-size:14px; text-align:right; position:relative; font-style:italic;" tal:content="structure place/placeClass"/>
-			<p style="font-size:14px; text-align:right;  font-style:italic;">
+
+			<p style="font-size:14px; text-align:right; position:relative; font-style:italic;"> <span tal:content="structure place/placeClass"/><span tal:content="string:, ${place/placePopulation}" tal:condition="php:place['placeType'] == 'Pianeta'"/></p>
+			<p style="font-size:14px; text-align:right; position:relative; font-style:italic;"  tal:condition="php:place['placeType'] == 'Pianeta'"> <span tal:content="place/placeAlignment"/></p>
+
+			<p style="font-size:14px; text-align:right;  font-style:italic;" tal:condition="php:(place['commander'] != '')">
 				<img tal:attributes="src string:TEMPLATES/img/ranks/${place/uniform}.png" style="vertical-align:middle;" />
 				<span tal:content="structure place/commander" />
 			</p>
 		</div>	
 		
 		<div id='cdber' style="position:absolute; top:90px; left:210px; text-align:right;">
-			<p style="margin:0px; margin-top:5px;"><a tal:attributes="href string:cdb.php?cat=${place/catGDB}"><img src="TEMPLATES/img/interface/tdisposizioni_2.png" /></a></p>		
-			<p style="margin:0px; margin-top:5px;"><a tal:attributes="href string:cdb.php?cat=${place/catDISP}"><img src="TEMPLATES/img/interface/tgiornale_2.png" /></a></p>
+			<p tal:condition="php:place['catGDB']" style="margin:0px; margin-top:5px;"><a tal:attributes="href string:cdb.php?cat=${place/catGDB}"><img src="TEMPLATES/img/interface/tdisposizioni_2.png" /></a></p>		
+			<p tal:condition="php:place['catGDB']" style="margin:0px; margin-top:5px;"><a tal:attributes="href string:cdb.php?cat=${place/catDISP}"><img src="TEMPLATES/img/interface/tgiornale_2.png" /></a></p>
 			<!--<p style="margin:0px; margin-top:5px;"><a tal:attributes="href string:cdb.php?cat=${place/catRAP}"><img src="TEMPLATES/img/interface/trapporti_2.png"  /></a></p>-->
 		</div>
 </div>

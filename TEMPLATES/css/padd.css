@@ -351,6 +351,7 @@ div.paddMessage.masterPadd::after{
 .sendpadd:hover {
 		background-color: green;
 		color: white;
+
 }
 
 .offPadd_1:after{color:#4991c3; content:'[OFF]'; font-size:9px; margin-left:5px;}

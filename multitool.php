@@ -1157,7 +1157,7 @@ $template->prestigioLabels = $prestigioLabels;
 		$template->lastchats = $lastchats;
 	}
 
-	$lastPGS =  mysql_query("SELECT pg_users.pgID,pgUser,ordinaryUniform,pgLock,(SELECT 1 FROM pg_alloggi WHERE pg_alloggi.pgID = pg_users.pgID LIMIT 1) as pgAlloggio,(SELECT 1 FROM pg_incarichi WHERE pg_incarichi.pgID = pg_users.pgID LIMIT 1) as pgIncarico, valid as pgBackground, supervision, lastReminder, (SELECT COUNT(*) FROM fed_pad WHERE (paddTo = pg_users.pgID OR paddFrom = pg_users.pgID) AND paddType = 3) as commpadd FROM pg_users,pg_ranks,pg_users_bios WHERE pg_users_bios.pgID = pg_users.pgID AND rankCode = prio AND pgBavo =0 AND png=0 and pgAuthOMA <> 'BAN' AND ( (pgLastAct > $oneMonthAgo AND valid < 1) OR iscriDate > $oneMonthAgo) ORDER BY iscriDate DESC");
+	$lastPGS =  mysql_query("SELECT pg_users.pgID,pgUser,ordinaryUniform,pgLock,(SELECT 1 FROM pg_alloggi WHERE pg_alloggi.pgID = pg_users.pgID LIMIT 1) as pgAlloggio,(SELECT 1 FROM pg_incarichi WHERE pg_incarichi.pgID = pg_users.pgID LIMIT 1) as pgIncarico, valid as pgBackground, supervision, lastReminder, (SELECT COUNT(*) FROM fed_pad WHERE (paddTo = pg_users.pgID OR paddFrom = pg_users.pgID) AND paddType = 3) as commpadd, (SELECT FROM_UNIXTIME(timeCode,'%d/%m/%Y %k:%i') FROM pg_notestaff WHERE pgTo = pg_users.pgID AND what LIKE 'AB-Reset:%' ORDER BY timeCode DESC LIMIT 1) as lastCarEdit FROM pg_users,pg_ranks,pg_users_bios WHERE pg_users_bios.pgID = pg_users.pgID AND rankCode = prio AND pgBavo =0 AND png=0 and pgAuthOMA <> 'BAN' AND ( (pgLastAct > $oneMonthAgo AND valid < 1) OR iscriDate > $oneMonthAgo) ORDER BY iscriDate DESC");
 
 	 
 	while($resa = mysql_fetch_assoc($lastPGS))

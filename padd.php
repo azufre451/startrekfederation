@@ -261,6 +261,7 @@ else if($mode == 'seR')
 	
 	$template->sub = $sub;
 	$template->prevType = isSet($_GET['prevType']) ? $vali->numberOnly($_GET['prevType']) : 0;
+
  }
 
 else if($mode == 'ds')
@@ -488,6 +489,7 @@ else {
 		
 
 		if (isSet($_GET['ps'])) $template->paddSent = true;
+
 		if (isSet($_GET['anm'])) $template->animate = 1;
 
 		$template->user = $currentUser;

@@ -245,7 +245,11 @@ else if($mode == 'seR')
 	$template->to = $_GET['to'];
 	$template->sub = ($_GET['sub'] != "") ? (strstr($_GET['sub'],'Re: ') ? $_GET['sub'] : 'Re: '.addslashes($_GET['sub']) ) : addslashes($_GET['sub']) ;
 	
-	$template->prevType = isSet($_GET['prevType']) ? $_GET['prevType'] : 0;
+
+	$template->sub = $sub;
+	
+	$template->prevType = isSet($_GET['prevType']) ? $vali->numberOnly($_GET['prevType']) : 0;
+
  }
 
 else if($mode == 'ds')

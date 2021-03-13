@@ -14,12 +14,17 @@
 	<title>STAR TREK FEDERATION - CDB</title>
 	
 	<script type="text/javascript">
-	function setLittle(variant,name,motto,classe,p1,p2,p3,commander,mostriner)
+	function setLittle(variant,name,motto,classe,p1,p2,p3,commander,mostriner,type,population,alignment)
 	{	
 		jQuery('#littleAssign').prop('src',variant);
 		jQuery('#textAssign').html(name);
 		jQuery('#textMotto').html(motto);
-		jQuery('#textClass').html(classe);
+
+		
+		if(type=='Pianeta')
+			jQuery('#textClass').html(classe + ', ' + population + '<br />' + alignment);
+		else
+			jQuery('#textClass').html(classe);	
 		
 		if(commander != '')
 		{jQuery('#commander').html(commander); 
@@ -75,7 +80,7 @@
 	
 	<div style="margin-top:20px;">
 	
-	<a tal:repeat="place places" tal:attributes="href string:crew.php?equi=${place/placeID}"><div class="littleShipLogo" tal:attributes="title place/placeName ; onmouseover string:javascript:setLittle('TEMPLATES/img/logo/${place/placeLittle}','${place/placeNameE}','${place/placeMotto}','${place/placeClass}','${place/catGDB}','${place/catDISP}','${place/catRAP}','${place/commander}','${place/uniform}');" onmouseout="jQuery('#cdber').css('display','none')"><img tal:attributes="src string:TEMPLATES/img/logo/${place/placeLogo}" width="150px" /></div></a>
+	<a tal:repeat="place places" tal:attributes="href string:crew.php?equi=${place/placeID}"><div class="littleShipLogo" tal:attributes="title place/placeName ; onmouseover string:javascript:setLittle('TEMPLATES/img/logo/${place/placeLittle}','${place/placeNameE}','${place/placeMotto}','${place/placeClass}','${place/catGDB}','${place/catDISP}','${place/catRAP}','${place/commander}','${place/uniform}','${place/placeType}','${place/placePopulation}','${place/placeAlignment}');" onmouseout="jQuery('#cdber').css('display','none')"><img tal:attributes="src string:TEMPLATES/img/logo/${place/placeLogo}" width="150px" /></div></a>
 	
 	</div>
 	

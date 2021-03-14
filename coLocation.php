@@ -59,7 +59,7 @@ if ($_GET['get'] == 'quarters')
 		
 	}
 	
-	function p20($i){return $i*20;}
+	function p20($i){return $i*22;}
 	
 	$template->max = array_map("p20",$max);
 	

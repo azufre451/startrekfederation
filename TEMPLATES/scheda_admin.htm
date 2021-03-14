@@ -96,7 +96,7 @@
 		<span style="font-weight:bold;">SPECIE / SESSO</span>
 
 <form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=spesex" method="POST">
-<select name="specie" tal:attributes="value userData/pgSpecie">
+<select class="neon" name="specie" tal:attributes="value userData/pgSpecie">
 <option value="Andoriana">Andoriana</option>
 <option value="Bajoriana">Bajoriana</option>
 <option value="Bajoriana-Cardassiana">Bajoriana-Cardassiana</option>
@@ -145,7 +145,7 @@
 <option value="Zakdorn">Zakdorn</option>
 <option value="Zaldan">Zaldan</option>
 </select>
-<select name="sesso">
+<select class="neon" name="sesso">
 	<option value="M">M</option>
 	<option value="F">F</option>
 	<option value="T">T</option>
@@ -155,7 +155,7 @@
 
 <div style="border:1px solid #2e7ec8; margin-top:10px; padding:4px;"><span style="font-weight:bold;">AUTH NOMA</span>
 <form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setAutoma" method="POST">
-	<select name="aut">
+	<select  class="neon" name="aut">
 	<option tal:attributes="selected php:(userData.pgAuthOMA=='N') ? 'selected': false" value="N">Utente Normale</option>
 	<option tal:attributes="selected php:(userData.pgAuthOMA=='G') ? 'selected': false" value="G">Guida x tt Anlfbt Fnznl</option>
 	<option tal:attributes="selected php:(userData.pgAuthOMA=='N') ? 'selected': false" value="O">Olomaster</option>
@@ -169,7 +169,7 @@
 </div>
 <div style="border:1px solid #2e7ec8; margin-top:10px; padding:4px;"><span style="font-weight:bold;">LOCATION ATTUALE</span>
 <form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setLocation" method="POST">
-	<select name="location">
+	<select class="neon" name="location" style="width:100%;">
 		<optgroup tal:repeat="locGRP locations" tal:attributes="label repeat/locGRP/key">
 
 			<option tal:repeat="location locGRP" tal:attributes="value repeat/location/key ; selected php:(repeat.location.key == userData.pgLocation) ? 'selected' : false"  tal:content="location"/>
@@ -182,15 +182,15 @@
 <div style="border:1px solid #2e7ec8; margin-top:10px; padding:4px;"><span style="font-weight:bold;">FEDERATION POINTS</span>
 <form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=addPoints" method="POST">
 	<input type="hidden" value="aa11" name="addPoints"/>
-	<input type="text" placeholder="Punti" name="points" style="width:40px;" /> 
-	<input type="text" placeholder="Ragione" name="pointDetail" style="width:120px;" /> 
+	<input class="neon" type="text" placeholder="Punti" name="points" style="width:40px;" /> 
+	<input class="neon" type="text" placeholder="Ragione" name="pointDetail" style="width:120px;" /> 
 	<input type="submit" value="VAI" />
 </form>
 </div>
 
 <div style="border:1px solid #2e7ec8; margin-top:10px; padding:4px;"><span style="font-weight:bold;">IMPOSTA UP</span>
 <form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setUPPoints" method="POST">
-	<input type="text" placeholder="Punti" tal:attributes="value pgUpgradePoints" name="points" style="width:40px;" /> 
+	<input class="neon" type="text" placeholder="Punti" tal:attributes="value pgUpgradePoints" name="points" style="width:40px;" /> 
 
 	<!--<select name="type" style="width:120px;"><option value="skills">UP Abilità</option><option value="specials">UP Speciali</option><option value="social">UP Sociali</option></select>-->
 	<input type="submit" value="VAI" style="background-color:green; font-weight:bold; color:white;" />
@@ -199,7 +199,7 @@
 
 <div style="border:1px solid #2e7ec8; margin-top:10px; padding:4px;"><span style="font-weight:bold;">IMPOSTA LUCKYPOINTS</span>
 <form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setSpecialistPoints" method="POST">
-	<img src="TEMPLATES/img/interface/stopicon.png" style="width:25px; vertical-align:middle;" /> <input type="text" placeholder="Punti" tal:attributes="value pgSpecialistPoints" name="points" style="width:40px;" /> <img src="TEMPLATES/img/interface/stopicon.png" style="width:25px; vertical-align:middle;" />
+	<img src="TEMPLATES/img/interface/stopicon.png" style="width:25px; vertical-align:middle;" /> <input class="neon" type="text" placeholder="Punti" tal:attributes="value pgSpecialistPoints" name="points" style="width:40px;" /> <img src="TEMPLATES/img/interface/stopicon.png" style="width:25px; vertical-align:middle;" />
 
 	<!--<select name="type" style="width:120px;"><option value="skills">UP Abilità</option><option value="specials">UP Speciali</option><option value="social">UP Sociali</option></select>-->
 
@@ -254,7 +254,7 @@
 		<ul style="text-align:left;"><li tal:repeat="ETP commandedPlaces" tal:content="ETP/placeName"></li></ul></p>
 
 		<form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setAsCommanderOf" method="POST">
-			<select name="placeID">
+			<select class="neon" name="placeID">
 				<optgroup label="Navi">
 					<option tal:repeat="location locations/Nave" tal:attributes="value repeat/location/key ; selected php:(repeat.location.key == userData.pgLocation) ? 'selected' : false"  tal:content="location"/>
 				</optgroup>

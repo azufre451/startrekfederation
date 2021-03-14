@@ -34,7 +34,7 @@
 
      <style>.ui-tooltip-content {
     font-family:Helvetica;
-	font-size:12px; 
+	font-size:14px; 
   	}
   .ui-tooltip {max-width: 400px;}
   .tt_unidiv{float:left; width:100px; text-align:center;}
@@ -121,7 +121,7 @@
 
 	<div id="federation_interfaceCenterTitle">
 		<div style="text-align:center; font-family:helvetica; font-weight:bold; margin-top:10px; font-size:14px;"><span tal:content="placeName" id="placeName" /><br /><span tal:content="ambient/locName" style="font-variant:small-caps;" id="ambientName" /><a href="javascript:void(0);" onclick="javascript:jQuery('#locationInfo').fadeIn(150);" class="interfaceLink"> <span class="tooltip"  style="color:#c1bf25; font-weight:bold;" title="Informazioni su questo ambiente">[?]</span>
- </a>  <!--<a href="javascript:void(0);" onclick="javascript:jQuery('#locationMap').fadeIn(150);" tal:condition="php:(ambient['locationable'] == 1)" class="interfaceLink">(POS)</a>--> <a onclick="javascript:jQuery('#masterDicePanel').fadeIn(150);" tal:condition="exists:isMaster" title="Esiti Master" style="color:#ff3600; font-style:italic; font-size:12px; cursor: pointer"> [M] </a> </div>
+ </a>  <!--<a href="javascript:void(0);" onclick="javascript:jQuery('#locationMap').fadeIn(150);" tal:condition="php:(ambient['locationable'] == 1)" class="interfaceLink">(POS)</a>--> <a onclick="javascript:jQuery('#masterDicePanel').fadeIn(150);" tal:condition="exists:isMaster" title="Esiti Master" style="color:#ff3600; font-style:italic; font-size:14px; cursor: pointer"> [M] </a> </div>
 	</div>
 	<a href="#" onClick="javascript:cdbOpen();"><div tal:condition="php:(setDBOn==false)" id="btnComputer" /><div tal:condition="php:(setDBOn==true)" id="btnComputer_a" /></a>
 	<a href="#" onClick="javascript:dbOpen();"><div id="btnDatabase" /></a>
@@ -176,7 +176,7 @@
 				</select>
 				</div>
 				<div style="float:left; margin-left:20px;" id="chatMainBar">
-				<textarea id="chatInput" tal:attributes="class php:(ambient['sessionOwner'] == user.ID) ? '' : 'cappable'" style="width:100%; vertical-align:middle; height:40px;"  onkeyup="javascript:sX(event);"/> <script>resizeBar();</script>
+				<textarea id="chatInput" tal:attributes="class php:(ambient['sessionOwner'] == user.ID && isSet(isMaster)) ? '' : 'cappable'" style="width:100%; vertical-align:middle; height:40px;"  onkeyup="javascript:sX(event);"/> <script>resizeBar();</script>
 				<input type="hidden" id="ambientID" tal:attributes="value ambient/locID" />
 				<input type="hidden" id="initialID" tal:attributes="value minID" />
 				<input type="hidden" id="lastID" tal:attributes="value maxVIS" />
@@ -239,7 +239,7 @@
 <p class="clockTitle blackOpacity" tal:content="ambient/locName" />
 <div id="locationDesc" class="blackOpacity radiusBordered12">
 <p style="text-align:center;"><a href="#" onclick="javascript:jQuery('#locationDesc').fadeOut(150); jQuery('#textShower').fadeIn(150); " class="interfaceLink">( Nascondi )</a> <a href="#" onclick="javascript:jQuery('#locationDesc').fadeOut(150); jQuery('#textShower').fadeIn(150); jQuery('#locationEdit').fadeIn(150);  " class="interfaceLink" tal:condition="exists:isSuperMaster">( Modifica )</a> <a tal:condition="php:ambient['ambientType']=='SALA_OLO'" href="javascript:showRanker();" class="interfaceLink">( OLOMOSTRINE )</a></p>
-<p style="font-family:Helvetica; font-size:14px; margin-top:10px;" tal:content="structure string:${ambient/descrizione}" tal:condition="php:(ambient['ambientType']!='DECKMAP')"/>
+<p style="font-family:Helvetica; font-size:14px; line-height:1.3em; margin-top:10px;" tal:content="structure string:${ambient/descrizione}" tal:condition="php:(ambient['ambientType']!='DECKMAP')"/>
 
 <p tal:condition="php:(ambient['ambientType']=='DECKMAP')" style="margin:0px; margin-bottom:10px;">
 	<p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:18px;;">Accedi a:</p>
@@ -294,7 +294,7 @@
 
 	<p class="clockTitle blackOpacity" style="text-align:center;  margin:0px; margin-bottom:20px; font-size:22px;">Lancia un dado</p>
 
-	<select class="neon" onchange="javascript:diceChanger()" id="selectedDiceSkill" ><optgroup tal:repeat="cat php:abilDescriptor::getAllAbil()" tal:attributes="label php:abilDescriptor::translate(repeat.cat.key)"><option tal:repeat="ab cat" tal:attributes="value ab/abID" tal:content="ab/abName"></option></optgroup></select>
+	<select class="neon" onchange="javascript:diceChanger()" id="selectedDiceSkill" style="font-size:15px"><optgroup tal:repeat="cat php:abilDescriptor::getAllAbil()" tal:attributes="label php:abilDescriptor::translate(repeat.cat.key)"><option tal:repeat="ab cat" tal:attributes="value ab/abID" tal:content="ab/abName"></option></optgroup></select>
 
 	<div style="clear:both"></div>
 	<div class="abilDiceBox">
@@ -341,14 +341,18 @@
 
 	<div class="table">
 
-			<p style="font-weight:bold;"> <span class="tooltip" id="strDicer"  style="color:#c1bf25; font-weight:bold;">[?]</span>  Previsione sul lancio del d20:  </p>
+			<p style="font-weight:bold; font-size:14px;"> <span class="tooltip" id="strDicer"  style="color:#c1bf25; font-weight:bold;">[?]</span>  Previsione sul lancio del d20:  </p>
 			<div tal:repeat="t php:range(1,10)" tal:attributes="id string:dicer_${t}"><p tal:content="t"></p>  </div>	
 			<div tal:repeat="t php:range(11,20)" tal:attributes="id string:dicer_${t}"><p tal:content="t"></p>  </div>
 
 	</div>
 	<div style="clear: both" />
 	<div style="margin-top:20px">
-			<input onclick="javascript:rollDice();" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:#1e7597;" value="Lancia il Dado!" class="ui-button ui-widget ui-state-default ui-corner-all" />
+			<button class="NBT_Roddenberry green"  onclick="javascript:rollDice();">Lancia il Dado!</button>
+
+			<!--<input onclick="javascript:rollDice();" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:#1e7597;" value="Lancia il Dado!" class="ui-button ui-widget ui-state-default ui-corner-all" />-->
+
+
 	</div>
 
 

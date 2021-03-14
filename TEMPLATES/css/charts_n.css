@@ -26,7 +26,7 @@
 	font-weight:bold;
 }
 
-.bdr{border:1px solid #333;}
+.bdr{border:1px solid #333; font-size:14px;}
 .bdr img{vertical-align: middle;}
 .borderOne{border:1px dotted #111; border-right:0px;}
 .backgrounder{background-repeat:no-repeat; background-size:100px; height:100px; width:100px; background-position:center center;}

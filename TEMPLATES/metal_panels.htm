@@ -198,14 +198,14 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 
 <div style="border:1px solid #0f2c4b; padding:10px; margin:10px; position:relative;">
 <p style="font-size:20px; position:absolute; top:4px; left:4px; margin:0px;" class="clockTitle">Da:</p>
-<p style="margin:0px; height:20px;" id="locationTeleportNotifierP"><span id="locationTeleportNotifier" tal:content="php:ucfirst(strtolower(ambient['locName']))" style="font-size:12px; color:#777; font-variant:small-caps;" /> <a style="font-size:9px; margin-left:20px;" href="javascript:showTeleportChanger();" class="interfaceLink">( Cambia )</a></p>
+<p style="margin:0px; height:20px;" id="locationTeleportNotifierP"><span id="locationTeleportNotifier" tal:content="php:ucfirst(strtolower(ambient['locName']))" style="font-size:16px; color:#777; font-variant:small-caps;" /> <a style="font-size:12px; margin-left:20px;" href="javascript:showTeleportChanger();" class="interfaceLink">( Cambia )</a></p>
 
 <p style="margin:0px; display:none; height:20px;" id="teleportChangerP"><select class="neon" id="teleportChanger" style="margin-left:50px;">
 	<optgroup tal:repeat="location locations" tal:attributes="label repeat/location/key">
 		<option tal:repeat="place location" tal:attributes="value place/a" tal:content="place/b" />
 	</optgroup>
 </select>
-<a id="teleportPanelConfirmButton" style="border:1px solid #999; padding:3px; font-size:11px;" href="javascript:sendayaTeleportFromChange();" class="interfaceLink">Ok</a></p> 
+<a id="teleportPanelConfirmButton" style="border:1px solid #999; padding:3px; font-size:11px;" href="javascript:sendayaTeleportFromChange();" class="interfaceLink">[ - Ok - ]</a></p> 
 
 <div id="userSigner">
 <div class="littleUserSign"  tal:repeat="user people" tal:attributes="title user/pgUser ; id string:tele_${user/pgID} ; style string:background-image:url('${user/pgAvatarSquare}') ; onclick string:javascript:selectTeleportable('tele_${user/pgID}');" ></div> 
@@ -222,7 +222,9 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 
 </div><div style="clear:both;"/>
 
-<button onclick="javascript:doTeleport();" style="margin-top:10px;">ENERGIA!</button>
+
+<button onclick="javascript:doTeleport();" class="NBT_Roddenberry green">ENERGIA!</button>
+
 
 <div class="xButton" onclick="jQuery('#teleportPanel').fadeOut(100);"></div>
 
@@ -243,7 +245,7 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 		#additionalVestImage{width:70%;}
 		#uniformBoxL{float:left; width:150px; height:270px; border:1px solid #333;}
 		#uniformBoxL p{float:left; margin:0px; margin-left:10px} 
-		#dscr{float:left; width:390px; font-family:Helvetica; overflow-y:auto; height:250px; border:1px solid #333; text-align:justify; margin-left:20px; font-size:13px; padding:10px;}
+		#dscr{float:left; width:390px; font-family:Helvetica; overflow-y:auto; height:250px; border:1px solid #333; text-align:justify; margin-left:20px; font-size:14px; padding:10px;}
 		
 		#currentDotazione {float:left; width:320px; padding:5px; font-size:13px; font-family: Helvetica}
 		#currentDotazione p {width:40px; height:40px; background-size:100%; background-repeat: no-repeat; background-position:center center; border:1px solid #666; border-radius:10px; padding:3px; display:block; margin-left:5px; float:left; cursor:pointer;}
@@ -319,44 +321,46 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 	<p class="clockTitle blackOpacity" style="text-align:center;  margin:0px; margin-bottom:20px; font-size:22px;">Gestore di Sessioni:</p>
 	
 	<div id="NoSessions" style="display:none;">
-		<div style="width:85%; margin:auto;"><br />
-			<div class="sessionMark">Nessuna sessione in corso</div>
-		</div> 
+
 		
-		 
-		<hr style="border-color:#AAA;"/>
-		<p style="font-size:1.2em; font-family:Helvetica"> Apri una nuova sessione</p>
-		<input type="text" class="neon" style="width:90%" id="sessionLabel" placeholder="Titolo della sessione" /><br/>
-		<p style="text-align:left; margin-left:10px;" tal:condition="exists:isMasteringJuniorMasterOrMod"><input type="checkbox" id="masterCheck" /> Sessione Master</p>
-		<p style="text-align:left; margin-left:35px;" tal:condition="exists:isMasteringJuniorMasterOrMod" > accesso riservato a: <input type="text" placeholder="Tutti" id="tusers" class="neon" name="tusers" onfocus="this.select();" /> </p>
-		<p style="text-align:left; margin-left:25px; margin-top:10px; font-family:Helvetica; font-size:14px;" >Attesa massima in turno:
-			<select placeholder="Tutti" id="maxturner" class="neon" name="maxturner">
-				<option tal:condition="exists:isMasteringJuniorMasterOrMod" value="0"> Infinita </option>
-				<option tal:condition="exists:isMasteringJuniorMasterOrMod" value="3"> 3 Minuti </option>
-				<option value="4"> 4 Minuti </option>
-				<option value="5"> 5 Minuti </option>
-				<option value="6" selected="selected"> 6 Minuti </option>
-				<option value="7"> 7 Minuti </option>
-				<option value="8"> 8 Minuti </option>
-				<option value="9"> 9 Minuti </option>
-				<option value="10"> 10 Minuti </option>
-			</select>
-		</p>
-		<p style="text-align:left; margin-left:25px; margin-top:10px; font-family:Helvetica; font-size:14px;">
-		Caratteri Max /azione: 
-			<select id="tcharrer" class="neon" name="tcharrer">
-			<option value="0" selected="selected"> Infiniti </option>
-			<option value="800"> 800 </option>
-			<option value="1000"> 1000 </option>
-			<option value="1200"> 1200 </option>
-			<option value="1400"> 1400 </option>
-			<option value="1600"> 1600 </option>
-			<option value="1600"> 1800 </option>
-			</select>
-		</p>
-		<p style="clear:both; margin-top:15px;">
-		<a class="interfaceLinkBlue" style="font-size:12px;" href="javascript:void(0);" onclick="javascript:openSession()">[ - APRI LA SESSIONE - ]</a>
-		</p>
+		<p style="font-size:1.2em; font-family:Helvetica">Non c'è nessuna sessione in corso.<br />Puoi aprire una nuova sessione:</p>
+		
+
+		<div style="margin-top:20px;">
+			<input type="text" class="neon" style="width:90%" id="sessionLabel" placeholder="Titolo della sessione" />
+			<p style="text-align:left; margin-left:10px;" tal:condition="exists:isMasteringJuniorMasterOrMod"><input type="checkbox" id="masterCheck" /> Sessione Master</p>
+			<p style="text-align:left; margin-left:35px;" tal:condition="exists:isMasteringJuniorMasterOrMod" >accesso riservato a: <input type="text" placeholder="Tutti" id="tusers" class="neon" name="tusers" onfocus="this.select();" /> </p>
+			<p style="text-align:left; margin-left:25px; margin-top:10px; font-family:Helvetica; font-size:14px;" >Attesa massima in turno:
+				<select placeholder="Tutti" id="maxturner" class="neon" name="maxturner">
+					<option tal:condition="exists:isMasteringJuniorMasterOrMod" value="0"> Infinita </option>
+					<option tal:condition="exists:isMasteringJuniorMasterOrMod" value="3"> 3 Minuti </option>
+					<option value="4"> 4 Minuti </option>
+					<option value="5"> 5 Minuti </option>
+					<option value="6" selected="selected"> 6 Minuti </option>
+					<option value="7"> 7 Minuti </option>
+					<option value="8"> 8 Minuti </option>
+					<option value="9"> 9 Minuti </option>
+					<option value="10"> 10 Minuti </option>
+				</select>
+			</p>
+			<p style="text-align:left; margin-left:25px; margin-top:10px; font-family:Helvetica; font-size:14px;">
+			Caratteri Max /azione: 
+				<select id="tcharrer" class="neon" name="tcharrer">
+				<option value="0" selected="selected"> Infiniti </option>
+				<option value="800"> 800 </option>
+				<option value="1000"> 1000 </option>
+				<option value="1200"> 1200 </option>
+				<option value="1400"> 1400 </option>
+				<option value="1600"> 1600 </option>
+				<option value="1600"> 1800 </option>
+				</select>
+			</p>
+			<p style="clear:both; margin-top:15px;">
+
+
+			<a href="javascript:void(0);" onclick="javascript:openSession()"><button class="NBT_Roddenberry green">Apri Sessione</button></a>
+			</p>
+		</div>
 		
 	</div>
 	
@@ -364,7 +368,9 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 		<div style="width:85%; margin:auto;">
 			<div class="sessionMark" id="sessionDivLabel" />
 			<div class="sessionMark viewQuest" id="sessionQuest">Sessione Master <span id="sessionDivTimer" /></div>
-			<div style="margin-top:5px;"><div class="sessionMark" id="sessionDivOwner"><span id="sessionDivOwnerPlace"/></div><div class="sessionMark" id="sessionDivDate" /></div>
+			<div style="margin-top:5px;">
+				<div class="sessionMark" id="sessionDivOwner">Di: <span id="sessionDivOwnerPlace"/></div><div class="sessionMark" id="sessionDivDate" />
+			</div>
 			
 		</div>
 		<div style="clear:both" />
@@ -375,7 +381,9 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 		
 		<hr/>
 		<p id="PtablePG"></p>
-		<a class="interfaceLinkBlue"   href="javascript:void(0);"  onclick="javascript:closeSession()">[ - Chiudi questa sessione - ]</a><p class="viewQuest" style="display:none;"> (Solo un master può chiudere una sessione di quest)</p>
+		<p style="margin-top:10px;"><a href="javascript:void(0);" onclick="javascript:closeSession()"><button class="NBT_Roddenberry red">Chiudi Sessione</button></a></p>
+		<p class="viewQuest" style="display:none;"> (Solo un master può chiudere una sessione Master)</p>
+
 	</div> 
 	
 	
@@ -383,9 +391,7 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 	
 	
 	<style>
-		.buttonOpen{ width:200px; height:30px; border:1px solid #333; font-weight:bold; border-radius:8px; transition:.5s;}
-		.buttonOpen:hover{ background-color:green;}
-		.sessionMark{ line-height:30px; font-family:Verdana; font-size:1.3em; text-align:center; height:30px; border:1px solid #333; margin:auto; font-weight:bold; border-radius:8px; transition:.5s;}
+		.sessionMark{ line-height:30px; font-size:1.3em; text-align:center; height:30px; margin:auto; font-weight:bold; border-radius:8px; transition:.5s;}
 		#sessionDivLabel{width:100%;   background-color: #053468;}
 		#sessionDivOwner{width:38%; float:left;  background-color: #4e4e4e;}
 		#sessionDivDate{width:45%; float:right;   background-color: #4e4e4e;}
@@ -393,56 +399,6 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 	</style>
 </div>
 </div>
-  
- 
-
-<!--<div metal:define-macro="privatePanel">
-<div id="privateP" class="popup blackOpacity">
-
-	<button style="position:absolute; top:7px; right:7px;" onclick="javascript:jQuery('#privateP').fadeOut(150);">X</button>
-	<p class="clockTitle blackOpacity" style="text-align:center;  margin:0px; margin-bottom:20px; font-size:22px;">Gestore di Giocate Private:</p>
-	
-	<div id="NoPrivate" style="display:none;">
-		<div style="width:85%; margin:auto;"><br />
-			<div class="sessionMarkpvt">Questa chat è aperta a tutti al momento</div>
-		</div> 
-		<hr />
-		<div tal:condition="exists:protectable">
-			<p style="font-size:1.3em"> Rendi questa chat privata per i seguenti giocatori:</p>
-			<textarea id="tusers" name="tusers" style="width:95%; height:40px; font-size:15px; font-weight:bold;" onfocus="this.select();" tal:content="string:${user/pgUser}, " /><br/>
-			<a class="interfaceLinkBlue" href="javascript:void(0);" onclick="javascript:startPrivate(jQuery('#tusers').val())">[ - Rendi la chat privata - ]</a>
-		</div>
-		
-		<div tal:condition="not:exists:protectable"><p>Puoi avviare chat private solo nel tuo alloggio!</p></div>
-		
-	
-		
-	</div>
-	
-	<div id="YesPrivate" style="display:none;">
-		<div style="width:90%; margin:auto;"><br />
-			<div class="sessionMarkpvt">&Egrave; in corso una giocata privata<br/>ristretta ai seguenti giocatori:</div>
-		</div> 
-	
-		<div style="margin-top:10px;">
-			<table style="width:40%; text-align:center;"><tbody id="tablePG"></tbody></table>
-		</div>
-		<p id="privateSwitch"><a class="interfaceLinkBlue" tal:condition="exists:owner_of_private" href="javascript:void(0);" onclick="javascript:stopPrivate();">[ - Chiudi questa chat privata - ]</a></p>
-	</div>
-	
-	
-	
-	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
-	
-	<script src="TEMPLATES/js/gameprivate.js"></script>
-	
-	<style>
-		.buttonOpen{ width:200px; height:30px; border:1px solid #333; font-weight:bold; border-radius:8px; transition:.5s;}
-		.buttonOpen:hover{ background-color:green;}
-		.sessionMarkpvt{ line-height:30px; font-family:Verdana; font-size:1.3em; text-align:center; height:60px;
-	</style>
-</div>
-</div>-->
 
 <div metal:define-macro="statusBox" >
 

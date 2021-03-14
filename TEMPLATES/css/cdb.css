@@ -617,23 +617,52 @@ color: black;
 }
 /* Classe Invia */
 
-.BBbuttonList .send {
-		width: 100px; 
-		height: 50px; 
+
+.NBT_Roddenberry,.BBbuttonList .send {
+    	font-size: 20px;
+		width:auto;
 		border-radius: 15px;  
 		font-family: Roddenberry;
-		font-size:28px;
 		background-color: black;
 		transition-duration: 0.5s;
    		cursor: pointer; 
-   		padding-top: 3px;
+   		padding: 5px 15px;
+   		letter-spacing: 2px;
+   		font-weight:normal;
 }
 
-.BBbuttonList .send:hover {
-		background-color: green;
-		color: white;
+.NBT_Roddenberry.green{
+	border-color:green;
+	background-color: #0e210b;
+}
+.NBT_Roddenberry.green:hover, .BBbuttonList .send:hover {
+	background-color: green;
+	color: white;
 }
 
+.NBT_Roddenberry.red{
+	border-color:#800000;
+	background-color: #2b1212;
+}
+.NBT_Roddenberry.red:hover {
+	background-color: #800000;
+	color: white;
+}
+
+.NBT_Roddenberry.blue{
+	border-color:#005180;
+	background-color: #182246;
+}
+.NBT_Roddenberry.blue:hover {
+	background-color: #005180;
+	color: white;
+}
+
+.BBbuttonList .send{
+	font-size:28px;
+	height: 50px; 
+	width: 100px; 
+}
 
 /* Classe Invia PADD */
 

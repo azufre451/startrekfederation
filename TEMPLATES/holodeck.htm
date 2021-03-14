@@ -5,6 +5,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
+	<link tal:condition="php:user.getCTS()" tal:attributes="href php:'TEMPLATES/css/' . user.getCTS() . '?v=' . gameOptions['numericVersion'] " rel="stylesheet" type="text/css" />	
 	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" /> 
 	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" /> 
 	
@@ -20,6 +21,25 @@
 	
 	<title>STAR TREK FEDERATION</title>
 </head>	
+
+<style>
+	.alloLink{font-size:13px;}
+	span.deck{
+		font-size:12px; 
+		border:1px solid var(--custom_section_darkcolor, #d7a436);
+		padding:2px; padding-left:3px;
+		font-family:Helvetica;
+		padding-right:3px;
+		margin-left:10px;
+		display:inline-block;
+		padding:2px 5px;
+		font-weight:bold;
+		color:var(--custom_section_color, #d7a436);
+	}
+	p.alloLink:hover span.deck{
+		color:white;
+	}
+</style>
 <body style="background-color:black; background-image:url('TEMPLATES/img/main_login.jpg')"  onkeyup="swish(event)">
 
 <div id="federation_interfaceContainer">
@@ -90,9 +110,14 @@
 
 	<div id="limOverNavfore" style="text-align:center; background-color:black;" class="radiusBordered35" >
 	<p class="clockTitle" style="margin-top:0px; text-align:center;">Sale Ologrammi</p>
-	<div tal:repeat="holo places"><a tal:repeat="pla holo" tal:attributes="href string:chat.php?amb=${pla/locID}"  class="interfaceLink"><p>
-	<span style="font-size:9px; width:20px; border:1px solid #d7a436; padding:2px; padding-left:3px; padding-right:3px; color:#d7a436;" class="radiusBordered5" tal:content="string: DECK ${pla/ambientLevel_deck}" /> <span tal:content="pla/locName" />
-	</p></a></div>
+	<div tal:repeat="holo places" style="width:40%; margin:auto;">
+		<a tal:repeat="pla holo" tal:attributes="href string:chat.php?amb=${pla/locID}"  class="interfaceLink">
+			<p style="text-align:left;" class="alloLink">
+				<span class="deck radiusBordered5" tal:content="string: DECK ${pla/ambientLevel_deck}" /> 
+				<span tal:content="pla/locName"/>
+			</p>
+		</a>
+	</div>
 	
 	</div>
 	

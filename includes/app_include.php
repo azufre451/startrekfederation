@@ -6,7 +6,7 @@ ini_set("display_errors", 1);
 setlocale(LC_ALL, 'it_IT');
 date_default_timezone_set('Europe/Rome');
 
-error_reporting(E_ALL ^ E_DEPRECATED);
+error_reporting(E_ALL ^ E_DEPRECATED ^ E_NOTICE);
 
 Database::tdbConnect($db_Host,$db_User, $db_Pass,$db_Name);
 Database::query('SET NAMES utf8');

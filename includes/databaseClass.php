@@ -450,7 +450,7 @@ class Ambient
 {	
 	public static function getAmbient($ambientID)
 	{
-		$res = mysql_query("SELECT locID,ambientType, locName,ambientLocation,ambientLevel_deck,descrizione,image,icon,imageMap, locationable,ambientLight,ambientLightColor,ambientTemperature,ambientAudio,chatPwd,planetSub, sessionOwner FROM fed_ambient LEFT JOIN federation_sessions ON sessionPlace = locID WHERE locID = '$ambientID' ORDER BY sessionStart DESC LIMIT 1");
+		$res = mysql_query("SELECT locID,ambientType, locName,ambientLocation,ambientLevel_deck,descrizione,image,icon,imageMap, locationable,ambientLight,ambientLightColor,ambientTemperature,ambientAudio,chatPwd,planetSub, IF(sessionStatus = 'ONGOING', sessionOwner, NULL) as sessionOwner FROM fed_ambient LEFT JOIN federation_sessions ON sessionPlace = locID WHERE locID = '$ambientID' ORDER BY sessionStart DESC LIMIT 1");
 
 
 		$resa = mysql_fetch_array($res);

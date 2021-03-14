@@ -553,29 +553,30 @@ if($mode == 'switch')
 		$OLDPGU=addslashes(trim($sel[0]));
 		$NEWPGU=addslashes(trim($sel[1]));
 
-		$mycoOLD =  mysql_fetch_assoc(mysql_query("SELECT pgID,pgSpecialistPoints FROM pg_users WHERE pgUser = '$OLDPGU' LIMIT 1"));
+		$mycoOLD =  mysql_fetch_assoc(mysql_query("SELECT pgID,pgPoints,pgSpecialistPoints,iscriDate FROM pg_users WHERE pgUser = '$OLDPGU' LIMIT 1"));
 		$mycoNEW =  mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$NEWPGU' LIMIT 1"));
 		 
 		$mycoOLDIDD = $mycoOLD['pgID'];
+		$mycoOLDPOINTS = $mycoOLD['pgPoints'];
+		$mycoOLDISCRIDATE = $mycoOLD['iscriDate'];		
 		$mycoOLDSPEC = $mycoOLD['pgSpecialistPoints']; 
 		$mycoNEWIDD = $mycoNEW['pgID'];
 
 		
 					mysql_query("UPDATE pg_users SET mainPG = $mycoNEWIDD WHERE mainPG = $mycoOLDIDD;");
 					mysql_query("UPDATE pg_users SET mainPG = $mycoNEWIDD, pgType='OLD' WHERE pgID = $mycoOLDIDD;");
-
 					mysql_query("UPDATE pg_users SET mainPG = $mycoNEWIDD, pgType='MAIN' WHERE pgID = $mycoNEWIDD;");
 
 					mysql_query("DELETE FROM pg_users_pointStory WHERE owner = $mycoNEWIDD;");
 					mysql_query("UPDATE pg_users_pointStory SET owner = $mycoNEWIDD, causeE = CONCAT(causeE,CONCAT(' *',(SELECT pgUser FROM pg_users WHERE pgID = $mycoOLDIDD))) WHERE owner = $mycoOLDIDD;");
 
-					mysql_query("CREATE TABLE temp1 AS SELECT iscriDate FROM pg_users WHERE pgID = $mycoOLDIDD;");
-					mysql_query("UPDATE pg_users SET iscriDate = (SELECT iscriDate FROM temp1 WHERE 1 LIMIT 1),pgPoints = (SELECT SUM(points) FROM pg_users_pointStory WHERE owner = $mycoNEWIDD), pgSpecialistPoints = (SELECT pgSpecialistPoints FROM pg_users_pointStory WHERE owner = $mycoOLDIDD) WHERE pgID = $mycoNEWIDD;");
+					//mysql_query("CREATE TABLE temp1 AS SELECT iscriDate FROM pg_users WHERE pgID = $mycoOLDIDD;");
+					//mysql_query("UPDATE pg_users SET iscriDate = (SELECT iscriDate FROM temp1 WHERE 1 LIMIT 1),pgPoints = (SELECT SUM(points) FROM pg_users_pointStory WHERE owner = $mycoNEWIDD), pgSpecialistPoints = (SELECT pgSpecialistPoints FROM pg_users_pointStory WHERE owner = $mycoOLDIDD) WHERE pgID = $mycoNEWIDD;");
 
 					mysql_query("UPDATE pg_users SET pgSpecialistPoints = 0,pgPoints=0 WHERE pgID = $mycoOLDIDD;");
-					mysql_query("UPDATE pg_users SET pgSpecialistPoints = $mycoOLDSPEC WHERE pgID = $mycoNEWIDD;");
+					mysql_query("UPDATE pg_users SET pgSpecialistPoints = $mycoOLDSPEC, iscriDate='$mycoOLDISCRIDATE',pgPoints='$mycoOLDPOINTS'  WHERE pgID = $mycoNEWIDD;");
 
-					mysql_query("DROP TABLE temp1;");
+					//mysql_query("DROP TABLE temp1;");
 
 					mysql_query("INSERT INTO pg_notestaff(pgFrom, pgTo, what, timeCode) VALUES (518,$mycoOLDIDD, CONCAT('Cambio pg da: ',CONCAT((SELECT pgUser FROM pg_users WHERE pgID = $mycoOLDIDD),CONCAT(' a: ',(SELECT pgUser FROM pg_users WHERE pgID = $mycoNEWIDD)))), UNIX_TIMESTAMP());");
 

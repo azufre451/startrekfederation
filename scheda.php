@@ -893,7 +893,7 @@ elseif($mode == 'edit')
 	$template->paddMail = $options['paddMail'];
 	$template->email = $options['email'];
 	
-	$template->parlatCSS = ($options['parlatCSS'] != '') ? explode(';',$options['parlatCSS']) : array('13','#EEEEEE','#D7A436');
+	$template->parlatCSS = ($options['parlatCSS'] != '') ? explode(';',$options['parlatCSS']) : array('14','#EEEEEE','#D7A436');
 	//$template->actionCSS = ($options['actionCSS'] != '') ? explode(';',$options['actionCSS']) : array('12','#3188F3','#999');
 	
 	// Size User
@@ -904,7 +904,7 @@ elseif($mode == 'edit')
 	// Color Comm Text
 	
 	
-	$template->otherCSS = ($options['otherCSS'] != '') ? explode(';',$options['otherCSS']) : array('13','15','12','#999999','#e8a30e','#ffefcc','11','#d7a436','#FF0000','#FF0000','#c67729','#c67729');
+	$template->otherCSS = ($options['otherCSS'] != '') ? explode(';',$options['otherCSS']) : array('14','15','12','#999999','#e8a30e','#ffefcc','12','#d7a436','#FF0000','#FF0000','#c67729','#c67729');
 	
 	$template->audioEnable = $selectedDUser->audioEnable;
 	$template->audioextEnable = $selectedDUser->audioextEnable;

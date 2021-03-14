@@ -734,12 +734,12 @@ position:relative;
 .chatAction{color:#3188F3; line-height:1.3em;}
 .subspaceCom,.commMessage{color:#ffefcc;}
 .subspaceComPre,.commPreamble{font-size:11px;color:#e8a30e;}
-.chatDirect{font-size:13px;color:#EEE;}
+.chatDirect{font-size:14px;color:#EEE;}
 .chatInvisi{height:0px;}
 .chatQuotation{color:#d7a436;}
 .chatQuotationAction,.chatUser{color:#999;}
 
-.chatTag{font-size:11px;color: var(--custom_section_tagcolor, #d7a436);}
+.chatTag{font-size:12px;color: var(--custom_section_tagcolor, #d7a436);}
 .chatUser{margin-right:5px;}
 .highlight{
 text-shadow: 0 0 2px #47cd35;

@@ -33,7 +33,7 @@ class Session
 	.chatAction{color:#3188F3; line-height:1.3em;}
 	.subspaceCom,.commMessage{color:#ffefcc;}
 	.subspaceComPre,.commPreamble{font-size:12px;color:#e8a30e;}
-	.chatDirect{font-size:15px;color:#EEE;}
+	.chatDirect{font-size:14px;color:#EEE;}
 	.chatInvisi{height:0px;}
 	.chatQuotation{color:#d7a436;}
 	.chatQuotationAction,.chatUser{color:#999;}

@@ -42,18 +42,23 @@ include('includes/validate_class.php');
 			
 				//$string[0] = '';
 				$sended = addslashes(PG::getSomething($_SESSION['pgID'],'username'));
+
+				$quotes_from_array = array('&lt;','&gt;','[',']');
+				$quotes_to_array = array(' <span class="chatQuotation">&laquo;','&raquo;</span> ',' <span class="chatQuotation">&laquo;','&raquo;</span> ');
+
+				$MString = ucfirst(ltrim(str_replace($quotes_from_array,$quotes_to_array,$string)));
 				 
 				if($userSpecific != 0){
 				$masSpec = 'MASTERSPEC';
 				$received = addslashes(PG::getSomething($userSpecific,'username')); 
 				$string = '<div style="position:relative;" class="specificMasterAction">
-				<div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Inviata da: '.$sended.' ('.date('H:i').')\nResponso di un Master o Junior Master alle azioni di un singolo personaggio, la visione di questo responso &egrave; riservata al master ed al giocatore del personaggio selezionato. Indica elementi di cui solo il personaggio sembra accorgersi come consolle personali, impressioni sensoriali, stati fisici e mentali"/> Responso Master: '.$received.'</div>'.ucfirst(ltrim($string)).'</div>';
+				<div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Inviata da: '.$sended.' ('.date('H:i').')\nResponso di un Master o Junior Master alle azioni di un singolo personaggio, la visione di questo responso &egrave; riservata al master ed al giocatore del personaggio selezionato. Indica elementi di cui solo il personaggio sembra accorgersi come consolle personali, impressioni sensoriali, stati fisici e mentali"/> Responso Master: '.$received.'</div>'.$MString.'</div>';
 				}
 
 				else {  
 				$masSpec= 'MASTER';
 				$string = '<div style="position:relative;" data-timecode="'.$curTime.'" data-loctag="'.$stag.'" class="masterAction">
-				<div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Inviata da: '.$sended.' ('.date('H:i').')\nResponso di un Master o Junior Master alle azioni del/i personaggio/i o utilizzata per descrizioni ambientali di singole location di gioco."/> Responso Master</div>'.ucfirst(ltrim($string)).'</div>';
+				<div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Inviata da: '.$sended.' ('.date('H:i').')\nResponso di un Master o Junior Master alle azioni del/i personaggio/i o utilizzata per descrizioni ambientali di singole location di gioco."/> Responso Master</div>'.$MString.'</div>';
 				}
 				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,specReceiver,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'$masSpec',$userSpecific,IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))"); 
 			}
@@ -61,7 +66,7 @@ include('includes/validate_class.php');
 			{
 
 				$string = '<div style="position:relative;" class="oloMasterAction">
-				<div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Inviata da: '.$sended.' ('.date('H:i').')\nAzione descrittiva di un ambiente olografico responso di un Entertainer (un player abilitato a fornire esiti solo in simulazione e NON facente parte dello staff) collegata strettamente ad una sala ologrammi o sala parzialmente attrezzata per gli ologrammi. L\\\'entertainer non può masterare PnG o situazioni reali, ma solo ambienti e situazioni simulate sul ponte ologrammi."/> Entertainer</div>'.ucfirst(ltrim($string)).'</div>';
+				<div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Inviata da: '.$sended.' ('.date('H:i').')\nAzione descrittiva di un ambiente olografico responso di un Entertainer (un player abilitato a fornire esiti solo in simulazione e NON facente parte dello staff) collegata strettamente ad una sala ologrammi o sala parzialmente attrezzata per gli ologrammi. L\\\'entertainer non può masterare PnG o situazioni reali, ma solo ambienti e situazioni simulate sul ponte ologrammi."/> Entertainer</div>'.$MString.'</div>';
 
 				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,specReceiver,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'MASTER',0,IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))"); 
 

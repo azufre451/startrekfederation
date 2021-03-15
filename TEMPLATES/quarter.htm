@@ -129,7 +129,7 @@
 	
 	<div style="margin:3px; vertical-align:middle; width:150px; margin:3px; text-align:left;margin-left:15px; float:left;">
 	<span style="font-size:12px;  padding:2px; padding-left:8px; padding-right:8px;" class="deck radiusBordered5" tal:content="string: D${pla/AL/ambientLevel_deck}" /> <span tal:content="string:Alloggio ${pla/AL/ambientNumber}" style="margin-right:10px; vertical-align:middle;" /></div>
-	<div tal:attributes="style php:(count(pla['US']) == 1 && max[pla['AL']['ambientLevel_deck']] > 20) ? 'float:right;; text-align:left;; width:220px;; margin-top:10px;;' : 'float:right;; text-align:left;; width:220px;; margin-top:0px;;'">
+	<div tal:attributes="style php:(count(pla['US']) == 1 && max[pla['AL']['ambientLevel_deck']] > 20) ? 'float:right;; text-align:left;; width:220px;; margin-top:4px;;' : 'float:right;; text-align:left;; width:220px;; margin-top:0px;;'">
 		<p tal:repeat="user pla/US" style="margin:0px;"><img tal:attributes="src string:TEMPLATES/img/ranks/${user/ordinaryUniform}.png" style="vertical-align:middle;" /> <span tal:content="user/pgUser" style="vertical-align:middle;" /></p>
 	</div>
 	

@@ -148,15 +148,12 @@ class abilDescriptor
 	}
 
 	public function rollDice($abID,$lucky=0){
-		$val = mt_rand(1,20);
 
-		if($val == 1){
-			$val = (mt_rand(1,10) > 5) ? 1 : mt_rand(1,20);
-		}
+		$val = real_mt_rand(1,20);
 
-		/**/
-		/**/
-		
+		if($val == 1)
+			$val = (real_mt_rand(1,10) > 5) ? 1 : real_mt_rand(1,20);
+	
 		$ara = $this->explainDice($abID,0,$lucky);
 
 		return array('v'=>$val,'threshold'=>$ara['vs'],'outcome'=>$ara['ara'][(string)($val)]);

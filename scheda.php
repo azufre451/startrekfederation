@@ -52,12 +52,10 @@ if($mode == 'bg')
 			$template->showRevBackground = True;
 		}
 	}
-
-} 
+}
 
 elseif($mode == 'bvadd')
 {
-
 	if($selectedUser == $_SESSION['pgID'] || $currentUser->pgAuthOMA == 'A')
 	{
 
@@ -66,10 +64,8 @@ elseif($mode == 'bvadd')
 		$resPoints = PG::getSomething($selectedUser,'upgradePoints');
 		$resUPoints = $resPoints['pgUpgradePoints'];
 		
-		//if ($resUPoints <= 0) header("Location:scheda.php?s=bv&pgID=$selectedUser");
-		
-		$a = new abilDescriptor($selectedUser);
 
+		$a = new abilDescriptor($selectedUser);
 
 		$abil=array();
 		$resQ = mysql_query("SELECT pg_abilita.abID,abName, abImage,abEImage,abDescription,abDiff, abClass, value FROM pg_abilita LEFT JOIN pg_abilita_levels ON pg_abilita_levels.abID = pg_abilita.abID AND pgID = $selectedUser ORDER BY abDiff ASC");
@@ -108,7 +104,6 @@ elseif($mode == 'bvadd')
 	  		foreach ($dep as $depK=>$depV){
 	  			$totThr += (float)$depV[2];
 	  			$depsArray[] ='depFrom_'.$depV[0]['abID'];
-	  			//echo $totThr;
 	  		}
 
 			$abil[$abClass][] = array(
@@ -128,7 +123,7 @@ elseif($mode == 'bvadd')
 				'levelperc' => ceil((float)($resCats['value'])/15*100)			
 			);
 		}
-		//print_r($abil['COMB']); exit;
+
 		ksort($abil);
 		$template->abil = $abil;
 		$template->resUPoints = $resUPoints;
@@ -271,8 +266,6 @@ elseif($mode == 'bv')
 			$depsText= (!empty($ability['deps'])) ? ' | Dipende da: ' : '';
 
 			foreach($ability['deps'] as $depVal){
-				//print_r($depVal);
-
 				$connectedLevel=$abil['ABIL'][$depVal[0]]['level'];
 				$depsText.= '<img src="TEMPLATES/img/interface/personnelInterface/abilita/'.$abil['ABIL'][$depVal[0]]['abImage'].'" /> ';
 
@@ -289,7 +282,6 @@ elseif($mode == 'bv')
 			
 	}
 
-	//print_r($abil);exit;
 	mysql_query("SELECT 1 FROM pg_users_bios WHERE pgID = $selectedUser AND valid = 2");
 
 	if (mysql_affected_rows())
@@ -301,10 +293,6 @@ elseif($mode == 'bv')
 	$template->labeler = array('GEN'=>'Ab. Generali','COMB'=>'Ab. Combattimento','ATT'=>'Ab. Attitudinali','SPE'=>'Ab. Speciali','TEC'=>'Ab. Tecniche','SCI'=>'Ab. Scientifiche','ABIL'=>'Caratteristiche');
  	$template->uniform = PG::getSomething($selectedUser,'uniform'); 
  	$template->pgSpecie = $selectedDUser->pgSpecie;
-
-
-
-
 }
 
 elseif($mode == 'ssto')
@@ -335,8 +323,6 @@ elseif($mode == 'ssto')
 	$res = mysql_query("SELECT * FROM pg_user_stories WHERE pgID = $selectedUser ORDER BY dater");
 	$storiesRuol = array();
 
-
-	
 		while($resA = mysql_fetch_array($res))
 		{
 			if (!$resA['pgGroup']){ 
@@ -348,8 +334,6 @@ elseif($mode == 'ssto')
 				{
 					$storiesRuol[$resA['pgGroup']]['associatedHTML'] = '';
 					$storiesRuol[$resA['pgGroup']]['commonYear'] = '';
-
-
 				}
 				$storiesRuol[$resA['pgGroup']]['commonYear'] .= substr($resA['dater'],0,4).'#';
 				$storiesRuol[$resA['pgGroup']]['associatedHTML'] .= '<p><img src="TEMPLATES/img/ranks/'.$resA['rankImage'].'.png" /> <span style="color:#CCC; font-size:10px; text-transform:uppercase">'.substr($resA['dater'],0,4).'</span>  <span style="color:#999; font-size:10px; text-transform:uppercase">'.$resA['what'].'</span> </p>';
@@ -401,15 +385,10 @@ elseif($mode == 'ssto')
 	$template->locations = $locArray;
 	$template->storiesRuol = $storiesRuol; 
 	$template->stories = $stories;
-	
-
-
-	
 } 
 
 elseif($mode == 'addssto' || $mode == 'addexam' || $mode == 'editsstoDo')
 {
-	//5$user = $vali->numberOnly($_POST['userSelector']);
 	$dateG = str_pad($vali->numberOnly($_POST['dataG']),2,'0',STR_PAD_LEFT);
 	$dateM = str_pad($vali->numberOnly($_POST['dataM']),2,'0',STR_PAD_LEFT);
 	$dateA = $vali->numberOnly($_POST['dataA']);
@@ -457,10 +436,8 @@ elseif($mode == 'addssto' || $mode == 'addexam' || $mode == 'editsstoDo')
 
 		if (isSet($padTit))
 			$selectedDUser->sendNotification($padTit,$paddTex,$_SESSION['pgID'],"https://oscar.stfederation.it/SigmaSys/logo/logoufp.png",'schedaSstoOpen');
-
 	}
 	
-
 	header("Location:scheda.php?pgID=$selectedUser&s=ssto");
 	exit;
 }
@@ -481,28 +458,27 @@ else if ($mode == 'editssto')
 	$w = $vali->numberOnly($_GET['sID']);
 	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA)){
 		
-		$template = new PHPTAL('TEMPLATES/scheda_edit_stato_servizio.htm');
-		$template->thisYear = $thisYear+$bounceYear;
+	$template = new PHPTAL('TEMPLATES/scheda_edit_stato_servizio.htm');
+	$template->thisYear = $thisYear+$bounceYear;
 
 
 
-		$rea=mysql_fetch_assoc(mysql_query("SELECT * FROM pg_service_stories WHERE recID = $w AND owner = $selectedUser LIMIT 1"));
-		$rtp=explode('-',$rea['timer']);
+	$rea=mysql_fetch_assoc(mysql_query("SELECT * FROM pg_service_stories WHERE recID = $w AND owner = $selectedUser LIMIT 1"));
+	$rtp=explode('-',$rea['timer']);
 
-		$rea['dYear'] = $rtp[0];
-		$rea['dMonth'] = $rtp[1];
-		$rea['dDay'] = $rtp[2];
-		$template->serviceStory= $rea;
+	$rea['dYear'] = $rtp[0];
+	$rea['dMonth'] = $rtp[1];
+	$rea['dDay'] = $rtp[2];
+	$template->serviceStory= $rea;
 
-		$resLocations = mysql_query("SELECT placeID,placeName FROM pg_places WHERE placeType <> 'Navetta' ORDER BY placeName");
+	$resLocations = mysql_query("SELECT placeID,placeName FROM pg_places WHERE placeType <> 'Navetta' ORDER BY placeName");
 		
-	
-		$locArray=array();
-		while($resLoc = mysql_fetch_array($resLocations))
-			$locArray[$resLoc['placeID']] = $resLoc['placeName'];
+	$locArray=array();
+	while($resLoc = mysql_fetch_array($resLocations))
+		$locArray[$resLoc['placeID']] = $resLoc['placeName'];
 
-		$template->locations = $locArray;
-		
+	$template->locations = $locArray;
+
 	} 
 }
 
@@ -527,23 +503,18 @@ elseif($mode == 'me')
 	$template->statoSalute = $statoSalute;
 	
 	$template->currentUserSignature = $currentUser->pgGrado.' '.$currentUser->pgUser;
-	//$mEG = ;
 	
 	if (PG::mapPermissions('M',$currentUser->pgAuthOMA) || $currentUser->hasBrevetto(array(15))){$template->showPsiEdit = true; $template->SHT = true; }
 	if (PG::mapPermissions('M',$currentUser->pgAuthOMA) || $currentUser->hasBrevetto(array(10))){$template->showMedEdit = true; $template->SHT = true;}
 	
-	$template->thisYear = $thisYear+$bounceYear;
- 
- 
+	$template->thisYear = $thisYear+$bounceYear; 
 }
 
 
 else if ($mode == 'meAdd')
 {
-	//$id = addslashes($_GET['medicA']);
 	$id = $vali->numberOnly($_GET['pgID']);
 	 
-
 	$medicName = isSet($_POST['medicName']) ?  addslashes($_POST['medicName']) : addslashes($currentUser->pgGrado.' '.$currentUser->pgUser);
 	$medicCode = isSet($_POST['medicCode']) ? addslashes($_POST['medicCode']) : '';
 	$medicAnamnesi = isSet($_POST['medicAnamnesi']) ?  addslashes($_POST['medicAnamnesi']) : '';
@@ -568,7 +539,6 @@ else if ($mode == 'meAdd')
 		{
 		mysql_query("INSERT INTO pgMedica(pgID, medico, time, unita, type, medAnamnesi, medVisiv, medStrument, medDiagnosi, medTerapia, medDecorso, medCode,tdate) VALUES ($id,'$medicName',$curTime,'".addslashes($currentUser->pgLocation)."','$tType','$medicAnamnesi','$medicVisi','$medicStrum','$medicDiagnos','$medicTerap','$medicDecorso','$medicCode','$dateDef')");
 		//$selectedDUser->sendPadd('OFF: NUOVO REFERTO','Un nuovo referto medico è stato aggiunto alla tua scheda PG. Consulta la sezione "Scheda Medica" per vedere i dettagli.');
-		#$text,$subtext,$text,$from = '518',$image='
 		$selectedDUser->sendNotification("Nuovo referto medico","Un nuovo referto medico è stato aggiunto alla tua scheda PG",$_SESSION['pgID'],"https://oscar.stfederation.it/SigmaSys/logo/nl_med.r.png",'schedaMedOpen');
 
 		if (!$selectedDUser->png) $currentUser->addPoints(1,'MEDIC','Inserimento Referto Medico','Inserimento Referto Medico '.$selectedDUser->pgUser);
@@ -602,7 +572,6 @@ elseif ($mode == 'meEdi')
 
 else if ($mode == 'meEdiE')
 {
-	//$id = addslashes($_GET['medicA']);
 	$id = $vali->numberOnly($_POST['ediRecID']);
 	$pgID = $vali->numberOnly($_POST['pgID']);
 	
@@ -687,8 +656,6 @@ elseif($mode == 'getStory')
 	{
 		echo json_encode($resA);
 	}
-
-	
 	exit;
 }
 
@@ -703,7 +670,6 @@ elseif($mode == 'oj')
 	
 	$template->objects = $objects;
 	$template->editable = ($selectedUser == $_SESSION['pgID'] || PG::mapPermissions('SM',$currentUser->pgAuthOMA) ) ? true : false;
-	
 }
 
 elseif($mode == 'addObj')
@@ -740,15 +706,12 @@ elseif($mode == 'remObj')
 			mysql_query("DELETE FROM fed_objects WHERE oID = $objID AND oType = 'PERSONAL'");
 		}
 	}
-	
 	header("Location:scheda.php?pgID=$selectedUser&s=oj");
 	exit;
 }
 
-
 elseif($mode == 'movObj')
 {
-	
 	$rem = $vali->numberOnly($_POST['mover']);
 
 	$toUser = addslashes($_POST['userB']);
@@ -775,7 +738,6 @@ elseif($mode == 'movObj')
 			$tu->sendNotification("Oggetto ricevuto","$usera ti ha inviato: $ojName",$selectedUser,$imago,'schedaOpen');
 		}
 	}
-	
 	header("Location:scheda.php?pgID=$selectedUser&s=oj");
 	exit;
 }
@@ -800,7 +762,6 @@ elseif($mode == 'addStory')
 	
 	if ($selectedUser == $_SESSION['pgID'] || $currentUser->pgAuthOMA == 'A')
 	{
-
 		if($storyEdit)
 		{
 			$tu =mysql_query("SELECT pgID FROM pg_user_stories WHERE storyID = $storyEdit");
@@ -868,9 +829,7 @@ elseif($mode == 'al')
 	while($allo = mysql_fetch_array($all)) $alloggi[] = $allo;
 	
 	$unita= PG::getSomething($selectedUser,"pgAlloggio");
-	//$res = mysql_query("SELECT locName,`desc` FROM fed_ambient WHERE locID = '$unita'");
 	
-	//$resA=mysql_fetch_array($res);
 	$template->alloggi = $alloggi;
 	$template->desc = CDB::bbcode($unita['descrizione']);
 	$template->locName = $unita['locName']; 
@@ -968,26 +927,19 @@ elseif($mode == 'master')
 			if(in_array($logQA['IP'],$encountered)) continue;
 			$encountered[] = $logQA['IP'];
 			
-			
 			$logE = mysql_query("SELECT DISTINCT pgUser FROM pg_users,connlog WHERE pgID = user AND pgID <> $pgID AND (pgID <> 1762 AND pgID <> 1677) AND png=0  AND IP = '".$logQA['IP']."'");
 			if(mysql_affected_rows()) $stringDoppi.= (PHP_EOL).' - '.$logQA['IP'];
 			
-			
 			while ($logQE = mysql_fetch_array($logE))
 			$stringDoppi.= ' '.$logQE['pgUser'].', ';
-			
-
 			$logE = mysql_query("SELECT DISTINCT pgUser FROM pg_users,connlog WHERE pgID = user AND pgID <> $pgID  AND png=1 AND IP = '".$logQA['IP']."'");
 			if(mysql_affected_rows()) $stringPNGDoppi.= (PHP_EOL).' - '.$logQA['IP'];
 			
 			while ($logQE = mysql_fetch_array($logE))
 			$stringPNGDoppi.= ' '.$logQE['pgUser'].', ';
-			
-
 		}
 
 		$selectedDUser->getIncarichi();
-
 		$allServiceObjects = array();
 		
 		$re=mysql_query("SELECT oID,oName FROM fed_objects WHERE oType = 'SERVICE'");
@@ -995,11 +947,8 @@ elseif($mode == 'master')
 		{
 			$allServiceObjects[] = $res;
 		}
-
-
 		
 		$template->allServiceObjects = $allServiceObjects;
-		
 		$template->stringDoppi = $stringDoppi;
 		$template->stringPNGDoppi = $stringPNGDoppi;
 		$template->stringPGPartial = array(); //$stringPGPartial; 
@@ -1009,7 +958,6 @@ elseif($mode == 'master')
 		$template->email = $resB['email'];
 		
 	}
-
 
 	$alloTypes = array();
 	$rusA=mysql_query("SELECT alloName,placeName,typeID FROM pg_alloggi_types,pg_places WHERE location = placeID");
@@ -1023,21 +971,15 @@ elseif($mode == 'master')
 	
 
 	$atAdd = (!PG::mapPermissions('SM',$currentUser->pgAuthOMA)) ? 'AND secret = 0' : '';
-	
 	$resNote = mysql_query("SELECT pg_notestaff.*,pgUser FROM pg_notestaff,pg_users WHERE pgID = pgFrom AND pgTo = $pgID $atAdd ORDER BY recID DESC");
 	$resNoteA = array();
 	while ($til = mysql_fetch_assoc($resNote))
 		$resNoteA[] = $til;
 
-
-	//$resDoppi = mysql_query("SELECT pgUser,pgID,ordinaryUniform,pgPoints,pgType FROM pg_users,pg_ranks WHERE prio = rankCode AND pgID = $selectedUser");
-
 	$resDoppi = mysql_query("SELECT pgUser,pgID,ordinaryUniform,pgPoints,pgType FROM pg_users,pg_ranks WHERE prio = rankCode AND mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $pgID) ORDER BY rankerprio DESC");
 	$resDoppiA = array();
 	while ($til = mysql_fetch_assoc($resDoppi))
 		$resDoppiA[] = $til;
-
-
 
 	$res_extra=mysql_query("SELECT * FROM pg_extra_values WHERE pgID = $pgID");
 	$res_extras=array();
@@ -1058,6 +1000,7 @@ elseif($mode == 'master')
 
 	$repli_food = mysql_query("SELECT foodName,timer, food as tr, ( SELECT COUNT(recID) FROM fed_food_replications WHERE food = tr AND user = $pgID AND YEAR(FROM_UNIXTIME(timer)) = $thisYear) as cnt FROM fed_food,fed_food_replications WHERE foodID = food AND user = $pgID  AND YEAR(FROM_UNIXTIME(timer)) = $thisYear ORDER BY timer DESC LIMIT 25");
 
+	$replicated_foods=array();
 	while($ftd = mysql_fetch_assoc($repli_food))
 	{
 		$replicated_foods[] = $ftd;
@@ -1067,16 +1010,12 @@ elseif($mode == 'master')
 	$repli_food_ov = mysql_fetch_assoc(mysql_query("SELECT COUNT(recID) as cnt FROM fed_food,fed_food_replications WHERE foodID = food AND user = $pgID AND YEAR(FROM_UNIXTIME(timer)) = $thisYear"));
 
 	$template->ov_replications = $repli_food_ov['cnt'];
-
 	$template->replicated_foods=$replicated_foods;
-	
 	$template->res_extras = $res_extras;
 	$template->res_temp_auths = $res_temp_auths;
-
 	$images = scandir('TEMPLATES/img/ruolini/lauree');
 	$template->images=array_diff($images,array('.','..'));
 
-	
 	$template->thisYear = $thisYear;
 	$template->alloggi = $alloggi;
 	$template->lock = $resA['pgLock'];
@@ -1094,7 +1033,6 @@ elseif($mode == 'master')
 	if (PG::mapPermissions('SL',$currentUser->pgAuthOMA)) $template->bonusSL = 'show';
 	
 }
-
 
 elseif($mode=='edit_extras')
 {
@@ -1141,7 +1079,6 @@ elseif($mode=='matto')
 	exit;
 }
 
-// }
 elseif($mode=='reminder') 
 { 
 	$namea = PG::getSomething($_GET['pgID'],'username');
@@ -1150,12 +1087,12 @@ elseif($mode=='reminder')
 	exit;
 }
 
-
 elseif ($mode == 'ajax_getstats'){
 	echo json_encode($selectedDUser->getStatsRecord());
 	include('includes/app_declude.php');
 	exit;
 }
+
 elseif ($mode == 'ajax_getactivityrecord'){
 	echo json_encode($selectedDUser->getPlayRecord(28,'master'));
 	include('includes/app_declude.php');
@@ -1182,9 +1119,7 @@ elseif($mode == 'admin')
 
 		$locArray[$resLoc['placeType']][$resLoc['placeID']] = $resLoc['placeName'];	
 	}
-	
-	
-	
+
 	$res = mysql_query("SELECT medID,medName,medgroup FROM pg_medals WHERE 1 ORDER BY medPrio ASC");
 	$nasArray=array();
 	while($resD = mysql_fetch_array($res))
@@ -1236,12 +1171,9 @@ elseif($mode == 'admin')
 	if (mysql_affected_rows())
 		$mainPGRec=mysql_fetch_assoc($mainPGRecQ);
 	else
-                $mainPGRec=array();
+        $mainPGRec=array();
 
-	//$e= mysql_query("SELECT pgUser,points,cause,causeE,causeM,timer FROM pg_users_pointStory,pg_users WHERE pgID = assigner AND owner = $pgID AND cause LIKE '%DISP%' ORDER BY timer DESC LIMIT 50");	
-	//$pstory = array();
-	//while ($d = mysql_fetch_array($e))
-	//$pstory[] = $d;	
+
 
     $commandedPlaces = array();
     $ras=mysql_query("SELECT placeName FROM pg_places WHERE placeCommander = '$pgID' AND placeType <> 'Navetta'");
@@ -1257,15 +1189,12 @@ elseif($mode == 'admin')
 	$template->nastrini = $nasArray;
 	$template->pgUpgradePoints = $resA['pgUpgradePoints'];
 	$template->pgSpecialistPoints = $resA['pgSpecialistPoints']; 
-
-
 	$template->locations = $locArray;
 	$template->png = ($resA['png'] == 1) ? true : false;
 	$template->email = $resA['email'];
 	$template->pgSSF = $resA['pgSSF']; 
 	$template->pgType = $resA['pgType'];
 	$template->isMasCapableEnable = PG::isMasCapable($pgID);
-
 	$carObj = new abilDescriptor($pgID);
 	$template->caratt = $carObj->getCars();
 
@@ -1283,15 +1212,12 @@ elseif ($mode == 'editS')
 	$ediDataN = addslashes($_POST['ediDataN']);
 	$ediAvatar = addslashes($_POST['ediAvatar']);
 	$ediAvatarSquare = addslashes($_POST['ediAvatarSquare']);
-	
 	$ediFis = addslashes($_POST['ediFis']);
 	$ediBack = addslashes($_POST['ediBack']);
 	$ediCarat = addslashes($_POST['ediCarat']);
 	$ediFamil = addslashes($_POST['ediFamil']);
 	$ediVarie = addslashes($_POST['ediVarie']);
 	$ediIlSegreto = addslashes($_POST['ediIlSegreto']);
-	
-	
 	$ediAllo = isSet($_POST['ediAllo']) ? addslashes($_POST['ediAllo']) : '';
 	$ediStaCiv = addslashes($_POST['ediStaCiv']);
 	$pgOffAvatarN = addslashes($_POST['pgOffAvatarN']);
@@ -1302,8 +1228,6 @@ elseif ($mode == 'editS')
 	
 	//CustomCSS
 	$parlatCSS = $vali->numberOnly($_POST['parlatCSSFontSize']).';'.addslashes($_POST['parlatCSSFontColor']).';'.addslashes($_POST['parlatCSSFontColorEscape']);
-	#$actionCSS = $vali->numberOnly($_POST['actionCSSFontSize']).';'.addslashes($_POST['actionCSSFontColor']).';'.addslashes($_POST['actionCSSFontColorEscape']);
-	//$actionCSS = '';
 
 	$concatFields = array($vali->numberOnly($_POST['otherCSSSizeUser']),
 	$vali->numberOnly($_POST['otherCSSSizeMaster']),
@@ -1323,10 +1247,7 @@ elseif ($mode == 'editS')
 
 	$otherCSS = implode(';',$concatFields);
 	
- 
 	mysql_query("UPDATE pg_users SET pgNomeC = '$ediName', paddMail=$paddMail,audioEnvEnable = $audioEnvEnableSet, audioEnable = $audioEnableSet, pgNomeSuff = '$ediSuff', pgLuoN = '$ediLuoN', pgDataN = '$ediDataN', pgAvatar = '$ediAvatar', pgAvatarSquare = '$ediAvatarSquare' ,pgOffAvatarN = '$pgOffAvatarN',pgOffAvatarC = '$pgOffAvatarC', pgStatoCiv = '$ediStaCiv', parlatCSS = '$parlatCSS', otherCSS = '$otherCSS' WHERE pgID = $ediID");
-	
-
 	
 	$ral=mysql_fetch_assoc(mysql_query("SELECT png FROM pg_users WHERE pgID = $ediID"));
 	if ($ral['png']){
@@ -1352,16 +1273,11 @@ elseif ($mode == 'editS')
 		}
 	}
 	
-
 	mysql_query("INSERT INTO pg_users_bios (pgID,pgBiometrics,pgIlSegreto,pgBackground,pgCarattere,pgFamily,pgVarie,valid,tim,edituser) VALUES ($ediID,'$ediFis','$ediIlSegreto','$ediBack','$ediCarat','$ediFamil','$ediVarie',$validity,$curTime,".$currentUser->ID.")");
 
 
 	if(isSet($_POST['ediAllo'])) mysql_query("UPDATE fed_ambient SET descrizione = '$ediAllo' WHERE locID = '$alloID'");
 	
-	
-
-	//echo "UPDATE pg_users SET pgNomeC = '$ediName', pgNomeSuff = '$ediSuff', pgLuoN = '$ediLuoN', pgDataN = '$ediDataN', pgAvatar = '$ediAvatar', pgAuth ='$ediAuth', pgScheda = '$ediBack'<br />".mysql_error();
-	//exit;
 	header("Location:scheda.php?pgID=$ediID");
 	exit;
 }
@@ -1384,7 +1300,6 @@ elseif ($mode == 'toggleSSF')
 	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
 	{	mysql_query("UPDATE pg_users SET pgSSF = !pgSSF WHERE pgID = $pgID");
 		$pgIDU = PG::getSomething($pgID,'username');
-		///**/
 	}
 	header("Location:scheda.php?pgID=$pgID&s=admin");
 	exit;
@@ -1412,7 +1327,6 @@ elseif ($mode == 'png')
 	header("Location:scheda.php?pgID=$pgID&s=admin");
 	exit;
 }
-
 
 elseif ($mode == 'setSalute')
 {
@@ -1531,8 +1445,6 @@ elseif ($mode == 'creAllo')
 					
 				}
 			}
-
-
 		} 
 		else {
 			$lo = mysql_fetch_array($c); 
@@ -1591,7 +1503,6 @@ elseif ($mode == 'toggle_bavosize'){
 
 }
 
-
 elseif ($mode == 'toggleActIncarico'){
 
 	$recID = $vali->numberOnly($_GET['recID']);
@@ -1627,8 +1538,6 @@ elseif ($mode == 'setIncarico')
 		mysql_query("INSERT INTO pg_incarichi (pgID,incIncarico,incSezione,incDivisione,incDipartimento,incGroup,pgPlace,incMain) VALUES('$pgID','$incIncarico','$incSezione','$incDivisione','$incDipartimento','$incGroup','$assegnazione','$incMain')");
 
 		mysql_query("INSERT INTO pg_user_stories (pgID,rankImage,dater,what,wherer,rankName) VALUES ('$pgID',(SELECT ordinaryUniform FROM pg_ranks,pg_users WHERE prio = rankCode AND pgID = '$pgID'),'$dateDef','$incIncarico',(SELECT placeName FROM pg_places WHERE placeID = '$assegnazione'),(SELECT Note FROM pg_ranks,pg_users WHERE prio = rankCode AND pgID = '$pgID'))");
- 
-		
 	}
 	header("Location:scheda.php?pgID=$pgID&s=master#setIncarichi");
 	exit;
@@ -1896,9 +1805,9 @@ elseif ($mode == 'setRanker')
 
 elseif ($mode == 'setNastrini')
 {
-$pgID = $vali->numberOnly($_GET['pgID']);
-$nastrini = $vali->numberOnly($_POST['nastrini']);
-$dataA = $vali->numberOnly($_POST['dataA']);
+	$pgID = $vali->numberOnly($_GET['pgID']);
+	$nastrini = $vali->numberOnly($_POST['nastrini']);
+	$dataA = $vali->numberOnly($_POST['dataA']);
 
 	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
 	{	
@@ -1921,72 +1830,60 @@ elseif ($mode == 'addNote')
 	exit;
 }
 
-/*elseif ($mode == 'toggleMasCap')
-{
-$pgID = $vali->numberOnly($_GET['pgID']);
-//$note = str_replace('FOL/','TEMPLATES/img/ruolini/medaglie/',$nastrini);
-
-	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
-		mysql_query("UPDATE pg_users SET isMasCapable = !isMasCapable WHERE pgID = $pgID");
-	header("Location:scheda.php?pgID=$pgID&s=admin");
-}*/
-
 elseif ($mode == 'setUPPoints')
 {
-$pgID = $vali->numberOnly($_GET['pgID']);
-$points = $vali->numberOnly($_POST['points']);
-if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
-	{
-		mysql_query("UPDATE pg_users SET pgUpgradePoints = $points WHERE pgID = $pgID");
-		$selectedDUser->addNote("Assegnazione di $points UP",$currentUser->ID);	
-	}
-header("Location:scheda.php?pgID=$pgID&s=admin");
+	$pgID = $vali->numberOnly($_GET['pgID']);
+	$points = $vali->numberOnly($_POST['points']);
+	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
+		{
+			mysql_query("UPDATE pg_users SET pgUpgradePoints = $points WHERE pgID = $pgID");
+			$selectedDUser->addNote("Assegnazione di $points UP",$currentUser->ID);	
+		}
+	header("Location:scheda.php?pgID=$pgID&s=admin");
 }
 
 elseif ($mode == 'setSpecialistPoints')
 {
-$pgID = $vali->numberOnly($_GET['pgID']);
-$points = $vali->numberOnly($_POST['points']);
-if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
-	{
-		mysql_query("UPDATE pg_users SET pgSpecialistPoints = $points WHERE pgID = $pgID");
-		$selectedDUser->addNote("Assegnazione di $points Lucky Points",$currentUser->ID);	
-	}
-header("Location:scheda.php?pgID=$pgID&s=admin");
-exit;
+	$pgID = $vali->numberOnly($_GET['pgID']);
+	$points = $vali->numberOnly($_POST['points']);
+	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
+		{
+			mysql_query("UPDATE pg_users SET pgSpecialistPoints = $points WHERE pgID = $pgID");
+			$selectedDUser->addNote("Assegnazione di $points Lucky Points",$currentUser->ID);	
+		}
+	header("Location:scheda.php?pgID=$pgID&s=admin");
+	exit;
 }
 
 elseif ($mode == 'setMainPG')
 {
-$pgID = $vali->numberOnly($_GET['pgID']);
-$targetPG = addslashes($_POST['targetPGID']);
-$pgIDRole = addslashes($_POST['pgIDRole']);
-//$propagate = $vali->numberOnly($_POST['propagate']);
+	$pgID = $vali->numberOnly($_GET['pgID']);
+	$targetPG = addslashes($_POST['targetPGID']);
+	$pgIDRole = addslashes($_POST['pgIDRole']);
 
 
-if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
-{
-	$rea=mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$targetPG' LIMIT 1");
-	if (mysql_affected_rows())
+	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
 	{
-		$resPG=mysql_fetch_assoc($rea);
-		$targetPGID = $resPG['pgID'];
-		mysql_query("UPDATE pg_users SET mainPG = $targetPGID, pgType = '$pgIDRole' WHERE pgID = $pgID");
+		$rea=mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$targetPG' LIMIT 1");
+		if (mysql_affected_rows())
+		{
+			$resPG=mysql_fetch_assoc($rea);
+			$targetPGID = $resPG['pgID'];
+			mysql_query("UPDATE pg_users SET mainPG = $targetPGID, pgType = '$pgIDRole' WHERE pgID = $pgID");
+		}
 	}
-}
-		
-	
-header("Location:scheda.php?pgID=$pgID&s=admin");
-exit;
+
+	header("Location:scheda.php?pgID=$pgID&s=admin");
+	exit;
 }
 
 
 
 elseif ($mode == 'setPrestige')
 {
-$pgID = $vali->numberOnly($_GET['pgID']);
-$points = $vali->numberOnly($_POST['points']);
-$reason = addslashes($_POST['reason']);
+	$pgID = $vali->numberOnly($_GET['pgID']);
+	$points = $vali->numberOnly($_POST['points']);
+	$reason = addslashes($_POST['reason']);
 
 if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
 	{
@@ -2003,53 +1900,53 @@ if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
 			[COLOR=YELLOW][B]".$prestigioLabels[$points]['name']."[/COLOR][/B]:
 			[I]".$prestigioLabels[$points]['long_desc']."[/I] ",$_SESSION['pgID']);
 	}
-header("Location:scheda.php?pgID=$pgID&s=master");
+	header("Location:scheda.php?pgID=$pgID&s=master");
 }
 
 elseif ($mode == 'addServiceObject')
 { 
-$oID = $vali->numberOnly($_POST['oID']);
+	$oID = $vali->numberOnly($_POST['oID']);
 
-if(PG::mapPermissions('SM',$currentUser->pgAuthOMA))
-	mysql_query("INSERT INTO fed_objects_ownership(oID,owner) VALUES ($oID,$selectedUser)");
+	if(PG::mapPermissions('SM',$currentUser->pgAuthOMA))
+		mysql_query("INSERT INTO fed_objects_ownership(oID,owner) VALUES ($oID,$selectedUser)");
 
-header("Location:scheda.php?pgID=$selectedUser&s=master");
-exit;
+	header("Location:scheda.php?pgID=$selectedUser&s=master");
+	exit;
 }
 
 
 else if($mode== 'assignAchi')
 {
-$pgID = $vali->numberOnly($_GET['pgID']);
-$achi = $vali->numberOnly($_GET['achi']);
+	$pgID = $vali->numberOnly($_GET['pgID']);
+	$achi = $vali->numberOnly($_GET['achi']);
 
-$ra = mysql_query("SELECT 1 FROM pg_achievement_assign WHERE owner = $pgID AND achi = $achi");
+	$ra = mysql_query("SELECT 1 FROM pg_achievement_assign WHERE owner = $pgID AND achi = $achi");
 
-if(PG::mapPermissions('A',$currentUser->pgAuthOMA))
-{
-
-	if(!mysql_affected_rows())
+	if(PG::mapPermissions('A',$currentUser->pgAuthOMA))
 	{
-	mysql_query("INSERT INTO pg_achievement_assign (owner,achi,timer) VALUES ($pgID,$achi,".time().")");
-	
-	$res = mysql_query("SELECT aText,aImage FROM pg_achievements WHERE aID = $achi");
-	$resA = mysql_fetch_array($res);
-	$Descri =$resA['aText'];
-	$ima =$resA['aImage'];
-	
-	$cString = addslashes("Congratulazioni!!<br />Hai sbloccato un nuovo achievement!<br /><br /><p style='text-align:center'><img src='TEMPLATES/img/interface/personnelInterface/$ima' /><br /><span style='font-weight:bold'>$Descri</span></p><br />Il Team di Star Trek: Federation");
-	$eString = addslashes("Hai un nuovo achievement!::$Descri");
-	
-	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,paddType) VALUES (".$_SESSION['pgID'].",$pgID,'OFF: Nuovo Achievement!','$cString',".time().",0,1)");
- 
-	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",$pgID,'::special::achiev','$eString',".time().",0,'TEMPLATES/img/interface/personnelInterface/$ima')");
-	
+
+		if(!mysql_affected_rows())
+		{
+		mysql_query("INSERT INTO pg_achievement_assign (owner,achi,timer) VALUES ($pgID,$achi,".time().")");
+		
+		$res = mysql_query("SELECT aText,aImage FROM pg_achievements WHERE aID = $achi");
+		$resA = mysql_fetch_array($res);
+		$Descri =$resA['aText'];
+		$ima =$resA['aImage'];
+		
+		$cString = addslashes("Congratulazioni!!<br />Hai sbloccato un nuovo achievement!<br /><br /><p style='text-align:center'><img src='TEMPLATES/img/interface/personnelInterface/$ima' /><br /><span style='font-weight:bold'>$Descri</span></p><br />Il Team di Star Trek: Federation");
+		$eString = addslashes("Hai un nuovo achievement!::$Descri");
+		
+		mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,paddType) VALUES (".$_SESSION['pgID'].",$pgID,'OFF: Nuovo Achievement!','$cString',".time().",0,1)");
+	 
+		mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",$pgID,'::special::achiev','$eString',".time().",0,'TEMPLATES/img/interface/personnelInterface/$ima')");
+		
+		}
+		else{
+			#WOLO
+			mysql_query("DELETE FROM pg_achievement_assign WHERE achi = $achi AND owner IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $pgID))");
+		}
 	}
-	else{
-		#WOLO
-		mysql_query("DELETE FROM pg_achievement_assign WHERE achi = $achi AND owner IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $pgID))");
-	}
-}
 	header("Location:scheda.php?pgID=$pgID&sOff=off");
 	exit;
 }
@@ -2059,30 +1956,26 @@ elseif ($mode == 'addPoints')
 	$pgID = $vali->numberOnly($_GET['pgID']);
 	$code = $vali->killChars($_POST['addPoints']);
 	$pointDetail = addslashes($_POST['pointDetail']);
-	//$note = str_replace('FOL/','TEMPLATES/img/ruolini/medaglie/',$nastrini);
-	$p=0;$l="A";
-	//if($code == "a1"){$p=1;$little="Q1";$mex = "Partecipazione Giocata";$l="SL";}
-	//if($code == "a2"){$p=2;$little="Q2";$mex = "Partecipazione Giocata";$l="SL";}
-	//if($code == "f2"){$p=2;$little="F2";$mex = "Punti Minishot";$l="SL";}
-	//if($code == "a3"){$p=3;$little="Q3";$mex = "Partecipazione Giocata";$l="SL";}
-	//if($code == "a4"){$p=4;$little="Q4";$mex = "Partecipazione Giocata";$l="SL";}
-	//if($code == "a5"){$p=5;$little="Q5";$mex = "Partecipazione Giocata";$l="SL";}
-	//if($code == "a6"){$p=6;$little="Q6";$mex = "Partecipazione Giocata";$l="SL";}
-	//if($code == "a7"){$p=7;$little="Q7";$mex = "Partecipazione Giocata";$l="SL";}
-	//if($code == "a8"){$p=8;$little="Q8";$mex = "Partecipazione Giocata";$l="SL";}
-	//if($code == "a9"){$p=9;$little="Q9";$mex = "Partecipazione Giocata";$l="SL";}
-	//if($code == "a10"){$p=10;$little="Q10";$mex = "Partecipazione Giocata";$l="SL";}
-	//if($code == "b5"){$p=5;$little="B1";$mex = "Mastering One Shot";$l="SL";}
-	//
-	//elseif($code == "r2"){$p=2;$little="R";$mex = "Stesura Rapporto";$l="SL";}
+
+	$p=0;
+	$l="A";
 
 	if($code == "kz1"){$p=20;$little="DISP";$mex = "Piccola Integrazione";$l="SM";}
 	elseif($code == "kz2"){$p=50;$little="DISP+";$mex = "Dispensa Completa";$l="SM";}
 	elseif($code == "aa11")
 	{
 		$p=(int)$_POST['points'];
-		if($p > 0){$little="Q00"; $mex = 'Punteggio Admin'; $l="A"; $p=$vali->numberOnly($_POST['points']);}
-		if($p <= 0){$little="QDEC"; $mex = 'Decurtazione di Punteggio'; $l="A"; $p=0-$vali->numberOnly($_POST['points']);}
+		if($p > 0){
+			$little="Q00";
+			$mex = 'Punteggio Admin';
+			$l="A"; $p=$vali->numberOnly($_POST['points']);
+		}
+		if($p <= 0){
+			$little="QDEC";
+			$mex = 'Decurtazione di Punteggio';
+			$l="A";
+			$p=0-$vali->numberOnly($_POST['points']);
+		}
 	}
 
 	if (PG::mapPermissions($l,$currentUser->pgAuthOMA)) // && $_SESSION['pgID'] != $pgID)
@@ -2215,7 +2108,6 @@ else
 			else{$variationColor = 'red'; $prefix='';}
 
 			$prestigioEntries .= timeHandler::extrapolateDay($resE['time']) . ' - ' . $resE['reason'] . '(<span style="color:'.$variationColor.'" >'.$prefix.$resE['variation'].'</span>) <br />';
-			//$prestigioEntries[] =$resE;
 		}
 
 	 
@@ -2235,7 +2127,7 @@ $rea = mysql_query("SELECT pg_assigner FROM pg_places WHERE placeID = '".$select
 $reaa = mysql_fetch_array($rea);
 $template->unit = $reaa['pg_assigner'];
 
-//var_dump(PG::getSomething($selectedDUser->ID,'pgPoints'));exit;
+
 $template->masterPanel = (PG::mapPermissions("SL",$currentUser->pgAuthOMA)) ? true : false;
 $template->omasterPanel = (PG::mapPermissions("M",$currentUser->pgAuthOMA)) ? true : false;
 $template->moderativePanel = (PG::mapPermissions("MM",$currentUser->pgAuthOMA)) ? true : false;
@@ -2269,6 +2161,7 @@ $template->dateFormat = "d/m/Y H:i:s";
 		catch (Exception $e){
 	echo $e;
 	}
+
 include('includes/app_declude.php');	
 ?>
 

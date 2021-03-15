@@ -68,6 +68,10 @@ class Session
 		margin:5px;
 		text-align:center;
 	}
+	
+	.masterAction .chatQuotation{color:#ff8989;}
+	.specificMasterAction .chatQuotation{color:#ffc286;}
+
 	.globalAction > div:first-child , .masterAction > div:first-child, .oloMasterAction > div:first-child, .offAction > div:first-child, .auxAction > div:first-child, .specificMasterAction   > div:first-child, .diceAction  > div:first-child, .oloMasterAction  > div:first-child {
 	float:left;
 	font-size: 12px;
@@ -83,7 +87,7 @@ class Session
 	.globalAction > div:first-child {background-color: #14335a; border-color:#3188F3; color:white;}
 
 	/*Master*/
-	.masterAction{border-color:red; color:red;}
+	.masterAction{border-color:red; color:#ff1717;}
 	.masterAction > div:first-child {background-color: #850000; border-color:red; color:white;} 
 
 	/*OFF*/

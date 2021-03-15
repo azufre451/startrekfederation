@@ -749,8 +749,10 @@ class PG
 			$masterBorderColor = $other[9];
 			$masterSpecColor = $other[10];
 			$masterSpecBorderColor = $other[11];
+			$masterColorQuoter = $other[12];
+			$masterSpecColorQuoter = $other[13];
 			
-			$this->customCSS = ".chatDirect{color:$parlatColor; font-size:$parlatSize;} .chatQuotation{color:$parlatQuoteColor;} .chatUser{color:$nomePGColor; font-size:$nomePGSize} .masterAction, .globalAction,.offAction,.auxAction,.specificMasterAction,.oloMasterAction{font-size:$masterSize} .subspaceCom,.commMessage{font-size:$commSize; color:$commColorTex;} .subspaceComPre,.commPreamble{font-size:$commSize;color:$commColor;} .chatTag{font-size:$tagSize; color:$tagColor} .masterAction {color:$masterColor; border-color:$masterBorderColor;} .specificMasterAction {color:$masterSpecColor; border-color:$masterSpecBorderColor;}";
+			$this->customCSS = ".chatDirect{color:$parlatColor; font-size:$parlatSize;} .chatQuotation{color:$parlatQuoteColor;} .chatUser{color:$nomePGColor; font-size:$nomePGSize} .masterAction, .globalAction,.offAction,.auxAction,.specificMasterAction,.oloMasterAction{font-size:$masterSize} .subspaceCom,.commMessage{font-size:$commSize; color:$commColorTex;} .subspaceComPre,.commPreamble{font-size:$commSize;color:$commColor;} .chatTag{font-size:$tagSize; color:$tagColor} .masterAction {color:$masterColor; border-color:$masterBorderColor;} .specificMasterAction {color:$masterSpecColor; border-color:$masterSpecBorderColor;} .masterAction .chatQuotation{color:$masterColorQuoter;} .specificMasterAction .chatQuotation{color:$masterSpecColorQuoter;}";
 			
 			}
 			else $this->customCSS = '';

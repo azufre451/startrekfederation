@@ -904,7 +904,7 @@ elseif($mode == 'edit')
 	// Color Comm Text
 	
 	
-	$template->otherCSS = ($options['otherCSS'] != '') ? explode(';',$options['otherCSS']) : array('14','15','12','#999999','#e8a30e','#ffefcc','12','#d7a436','#FF0000','#FF0000','#c67729','#c67729');
+	$template->otherCSS = ($options['otherCSS'] != '') ? explode(';',$options['otherCSS']) : array('14','15','12','#999999','#e8a30e','#ffefcc','12','#d7a436','#ff1717','#FF0000','#c67729','#c67729','#ff8989','#ffc286');
 	
 	$template->audioEnable = $selectedDUser->audioEnable;
 	$template->audioextEnable = $selectedDUser->audioextEnable;
@@ -1305,7 +1305,23 @@ elseif ($mode == 'editS')
 	#$actionCSS = $vali->numberOnly($_POST['actionCSSFontSize']).';'.addslashes($_POST['actionCSSFontColor']).';'.addslashes($_POST['actionCSSFontColorEscape']);
 	//$actionCSS = '';
 
-	$otherCSS = $vali->numberOnly($_POST['otherCSSSizeUser']).';'.$vali->numberOnly($_POST['otherCSSSizeMaster']).';'.$vali->numberOnly($_POST['otherCSSSizeComm']).';'.addslashes($_POST['otherCSSColorUser']).';'.addslashes($_POST['otherCSSColorCommUser']).';'.addslashes($_POST['otherCSSColorCommText']).';'.$vali->numberOnly($_POST['otherCSSSizeTag']).';'.addslashes($_POST['otherCSSColorTag']).';'.addslashes($_POST['otherCSSColorMaster']).';'.addslashes($_POST['otherCSSColorMasterBorder']).';'.addslashes($_POST['otherCSSColorSpecMaster']).';'.addslashes($_POST['otherCSSColorSpecMasterBorder']);
+	$concatFields = array($vali->numberOnly($_POST['otherCSSSizeUser']),
+	$vali->numberOnly($_POST['otherCSSSizeMaster']),
+	$vali->numberOnly($_POST['otherCSSSizeComm']),
+	addslashes($_POST['otherCSSColorUser']),
+	addslashes($_POST['otherCSSColorCommUser']),
+	addslashes($_POST['otherCSSColorCommText']),
+	$vali->numberOnly($_POST['otherCSSSizeTag']),
+	addslashes($_POST['otherCSSColorTag']),
+	addslashes($_POST['otherCSSColorMaster']),
+	addslashes($_POST['otherCSSColorMasterBorder']),
+	addslashes($_POST['otherCSSColorSpecMaster']),
+	addslashes($_POST['otherCSSColorSpecMasterBorder']),
+	addslashes($_POST['otherCSSColorMasterQuote']),
+	addslashes($_POST['otherCSSColorSpecMasterQuote']));
+
+
+	$otherCSS = implode(';',$concatFields);
 	
  
 	mysql_query("UPDATE pg_users SET pgNomeC = '$ediName', paddMail=$paddMail,audioEnvEnable = $audioEnvEnableSet, audioEnable = $audioEnableSet, pgNomeSuff = '$ediSuff', pgLuoN = '$ediLuoN', pgDataN = '$ediDataN', pgAvatar = '$ediAvatar', pgAvatarSquare = '$ediAvatarSquare' ,pgOffAvatarN = '$pgOffAvatarN',pgOffAvatarC = '$pgOffAvatarC', pgStatoCiv = '$ediStaCiv', parlatCSS = '$parlatCSS', otherCSS = '$otherCSS' WHERE pgID = $ediID");

@@ -12,7 +12,7 @@ $user=new PG($_SESSION['pgID']);
 $userName = $user->pgUser;
 $userID = $user->ID;
 
-
+$connOptions = array('db_Host' => $db_Host,'db_User' => $db_User,'db_Pass' => $db_Pass,'db_Name'=>$ND-47_federation_db1,'archivedb_Name' => $archivedb_Name);
 
 if (isSet($_GET['getAllPlayerLogs']))
 {
@@ -58,7 +58,7 @@ if (isSet($_GET['getAllPlayerLogs']))
 
 			while($resession = mysql_fetch_assoc($re))
 			{
-				$sessionToAdd = new Session($resession['sessionID']);
+				$sessionToAdd = new Session($resession['sessionID'],$connOptions);
 
 		 		if ($sessionToAdd->sessionIniTime > 0 && $sessionToAdd->sessionStopTime > 0 )
 		 		{
@@ -104,7 +104,7 @@ else
 	if ($sessionID > 0)
 	{
 
-		$sesser = new Session($sessionID);
+		$sesser = new Session($sessionID,$connOptions);
 		if(isSet($_GET['toFile']))
 			$sesser->getText(1,PG::mapPermissions("SM",$user->pgAuthOMA));
 		else
@@ -117,4 +117,5 @@ include('includes/app_declude.php');
 
 
 ?>
+
 

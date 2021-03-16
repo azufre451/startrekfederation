@@ -263,7 +263,7 @@ class Session
 	<div style="float:left; width:40%; border:1px solid #333; margin-left:30px; padding:20px;"><p style="text-align:center;color:orange; font-weight:bold;">Presenti alla giocata:</p><br /><table><tr style="padding:20px; font-size:12px; text-align:center;"><td style="width:180px;">PG</td><td>Prima Azione</td><td>Ultima Azione</td><td>Azioni</td></tr>
 	';
 	
-	public function __construct($sessid)
+	public function __construct($sessid,$connOptions)
 	{
 		$sesser = mysql_fetch_assoc(mysql_query("SELECT * from federation_sessions LEFT JOIN fed_ambient ON locID = sessionPlace LEFT JOIN pg_places ON placeID =  ambientLocation WHERE sessionID = $sessid"));
 
@@ -278,11 +278,14 @@ class Session
 		$this->sessionLabel=$sesser['sessionLabel'];
 		$this->isPrivate = ($sesser['sessionPrivate']) ? 1 : 0;
 		$this->sessionPrivate = ($sesser['sessionPrivate']) ? '<p style="font-size:15; color:red; font-weight:bold;"> Giocata Privata </p>' : ''; 
+
+		$this->connOptions = $connOptions;
 		 
 	}
 
 	public function getText($tofile,$showPrivate,$showDWL=0)
 	{
+		//include('includes/conf.php');
 		if ($this->archived == 1)
 		{
 			$sessionFile='../stf-data/saved_sessions/archive_all/'.strtoupper($this->locID).'_session_'.$this->sessionID.'.html';
@@ -300,10 +303,10 @@ class Session
 		{
 			if ($this->archived == 2)
 			{
-
-				include('includes/conf.php');
-				Database::tdbConnect($db_Host,$db_User, $db_Pass,$archivedb_Name);
+				//echo $this->connOptions['archivedb_Name']; exit;
+				Database::tdbConnect($this->connOptions['db_Host'],$this->connOptions['db_User'],$this->connOptions['db_Pass'],$this->connOptions['archivedb_Name']);
 				Database::query('SET NAMES utf8');
+
 				
 			}
 
@@ -346,8 +349,9 @@ class Session
 			if ($this->archived == 2)
 			{
 
+
 				Database::tdbClose();
-				Database::tdbConnect($db_Host,$db_User, $db_Pass,$db_Name);
+				Database::tdbConnect($this->connOptions['db_Host'],$this->connOptions['db_User'],$this->connOptions['db_Pass'],$this->connOptions['db_Name']);
 				Database::query('SET NAMES utf8');
 
 			}

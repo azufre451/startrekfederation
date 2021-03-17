@@ -160,7 +160,7 @@
 					<p tal:condition="php:(count(event['pres']) == 0)" style="font-weight:bold; font-size:12px;">Ancora nessun partecipante:</p> 
 					
 					<p style="margin-left:15px; margin-top:8px; float:left;" tal:attributes="id string:participationBox_${event/Tevent/evID}">
-						<span tal:repeat="person event/pres" tal:attributes="id string:participationBox_element_${person/pgID}; class php:'eventParticip ' . str_replace(' ','_',person['pgSezione'])">
+						<span tal:repeat="person event/pres" tal:attributes="id string:participationBox_element_${person/pgID}; class php:'eventParticip ' . str_replace(' ','_',person['pgSezione']) ; onclick string:schedaPOpen(${person/pgID})">
 							<img tal:attributes="src person/pgAvatarSquare ; title person/pgUser"/>
 						</span>
 

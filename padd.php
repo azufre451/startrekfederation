@@ -203,6 +203,7 @@ else if ($mode == 'sh' || ($mode == 'shM' && PG::mapPermissions('M',$currentUser
 		}
 		
 		$texts = array('redAlert' => 'ROSSA', 'yellowAlert' => 'GIALLA', 'greenAlert' => 'VERDE', 'blueAlert' => 'BLU', 'greyAlert' => 'GRIGIA', 'intruderAlert' => 'INTRUSO', 'quarantineAlert' => 'QUARANTENA');
+		
 		$place['textCondition'] = $texts[$place['placeAlert']];
 
 		$template->place=$place;

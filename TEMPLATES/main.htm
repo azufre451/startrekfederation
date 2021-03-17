@@ -204,7 +204,7 @@
 			<tr>
 				<td />
 				<td colspan="2" tal:attributes="id string:participationBox_${event/evID}">
-					<span tal:repeat="person event/presences" style="cursor:pointer" tal:attributes="id string:participationBox_element_${person/pgID}; class php:'eventParticip ' . str_replace(' ','_',person['pgSezione']); onclick string:schedaPOpen('${person/pgID}')">
+					<span tal:repeat="person event/presences" style="cursor:pointer" tal:attributes="id string:participationBox_element_${person/pgID}; class php:'eventParticip ' . str_replace(' ','_',person['pgSezione']); onclick string:schedaPOpen(${person/pgID})">
 						<img tal:attributes="src person/pgAvatarSquare ; title person/pgUser"/>
 					</span>
 				</td>

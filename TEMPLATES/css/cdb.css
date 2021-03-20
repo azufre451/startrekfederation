@@ -664,21 +664,3 @@ color: black;
 	width: 100px; 
 }
 
-/* Classe Invia PADD */
-
-.BBbuttonList .sendpadd {
-		width: 80px; 
-		height: 28px; 
-		border-radius: 8px;  
-		font-family: Roddenberry;
-		font-size:20px;
-		background-color: black;
-		transition-duration: 0.5s;
-   		cursor: pointer; 
-   		padding-top: 1px;
-}
-
-.BBbuttonList .sendpadd:hover {
-		background-color: green;
-		color: white;
-}

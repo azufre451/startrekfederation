@@ -31,7 +31,7 @@
 	 
 	
 	<div id="newPadd" class="paddMain radiusBordered">
-		<div class="innerPadd"  style="margin-right:5px;margin-left:15px; width:625px; height: 310px; overflow:hidden;">
+		<div class="innerPadd"  style="margin-right:5px;margin-left:15px; width:625px; height: 510px; overflow:hidden;">
 			<form action='padd.php?s=newP' id="formContent" method="POST">
 
 	<div style="position:absolute; top:73px; right:25px;"><img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/info.png" title="&Egrave; possibile selezionare pi&ugrave; di un contatto) - Es. Picard, Barclay, Janeway..."/></div>
@@ -48,22 +48,26 @@
 						</tr>	
 					<tr style="height:5px;" />
 						<tr>
-							<td style="width:110px; padding-top: 6px; ">
+							<td style="width:110px; padding-top: 6px; text-align: center;">
 						<!-- START BLOCCO BOTTONI -->
 							<div metal:use-macro="TEMPLATES/padd_metal.htm/paddBBCodeBlock" />
-							</td>
-							<td class="newPaddtd">
-								<textarea name="testo" id="postContent" style=" padding: 5px 6px 5px 6px; margin:2px; border-radius: 12px; width:440px; height:188px;"/>
-
-										<div style="margin-top:5px;">
-										<select class="neon" name="paddType" style="margin-right: 10px; width:160px; font-size: 16px; font-variant: small-caps;">
+							
+							<select class="neon" name="paddType" style="margin-right: 3px; width:100px; font-size: 12px; font-variant: small-caps;">
 												<option tal:attributes="selected php:((prevType==0) ? 'selected' : '')" value="0">On-Game</option>
 												<option tal:attributes="selected php:((prevType==1) ? 'selected' : '')" value="1">Off-Game</option>
 												<option tal:attributes="selected php:((prevType==3) ? 'selected' : '')" value="3">Guide/Revisioni</option>
 												<option tal:attributes="selected php:((prevType==4) ? 'selected' : '')" tal:condition="exists:isMaster" value="4">Evento Master</option>
 												<option tal:condition="exists:isAdmin" value="1S">Off-Game-Forzamail</option>
 										</select>
+										<br /><br />
 									<input type="submit" value="INVIA" class="sendpadd" />
+
+							</td>
+							<td class="newPaddtd">
+								<textarea name="testo" id="postContent" style=" padding: 5px 6px 5px 6px; margin:10px 2px; border-radius: 12px; width:440px; height:410px;"/>
+
+										<div style="margin-top:5px;">
+										
 								</div>
 							</td>
 						</tr>

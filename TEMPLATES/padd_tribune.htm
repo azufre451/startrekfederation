@@ -62,16 +62,31 @@
 
 
 <div id="newHerald" tal:condition="php:(masterable==true)"  class="heraldMain radiusBordered" style="display:none;">
-<div class="innerPadd" style="margin-right:auto;margin-left:auto; width:510px; overflow:hidden;">
+<div class="innerPadd" style="margin-right:auto;margin-left:auto; width:575px; height: 420px; overflow:hidden;">
 
 <form action="padd.php?s=newH" method="POST">
 
 <table cellspacing="0px">
-	<tr><td style="border:1px dotted #333; width:140px;">TITOLO</td><td class="newPaddtd"><input maxlength="37" id="titolo" name="titolo" style="width:400px;"/></td></tr>
-	<tr><td style="border:1px dotted #333; width:140px;">SOTTOTITOLO</td><td class="newPaddtd"><input id="sottotitolo" name="sottotitolo" style="width:400px;"/></td></tr>
-	<tr><td style="width:140px; border:1px dotted #333; ">TESTO</td><td class="newPaddtd"><textarea name="testo" style="width:400px; height:160px;"/></td></tr>
-	<tr tal:condition="php:(adminable==true)"><td style="width:140px; border:1px dotted #333; ">TESTO</td><td class="newPaddtd">
-	<!--
+	<tr>
+		<td class="newPaddtd">
+			<div style="font-family: Roddenberry; font-size: 22px; text-align: center; font-variant: small-caps; ">Titolo</div>
+			<input maxlength="37" id="titolo" name="titolo" style="font-size: 17px; border-radius: 6px; width:550px;"/>
+		</td>
+	</tr>
+	<tr>
+		<td class="newPaddtd">
+			<div style="font-family: Roddenberry; font-size: 22px; text-align: center; font-variant: small-caps; ">Sottotitolo</div>
+			<input id="sottotitolo" name="sottotitolo" style="font-size: 17px; border-radius: 6px; width:550px;"/>
+		</td>
+	</tr>
+	<tr>
+		<td class="newPaddtd">
+		<div style="font-family: Roddenberry; font-size: 22px; text-align: center; font-variant: small-caps; ">Testo</div>
+			<textarea name="testo" style="font-size: 15px; border-radius: 12px; width:550px; height:240px;"/>
+		</td>
+	</tr>
+	<!-- <tr tal:condition="php:(adminable==true)"><td style="width:140px; border:1px dotted #333; ">TESTO</td><td class="newPaddtd">
+
 	<select name="aleXX">
 		<option value="FED">FED</option>
 		<option value="ROM">ROM</option>
@@ -82,22 +97,22 @@
 		<option value="SPA">Spazio</option>
 		<option value="TRK">Trek</option>
 		<option value="FDX">STFederation</option>
-	</select>-->
+	</select>
 
 	</td></tr>
-
-	<tr><td colspan="2" style="text-align:center;"><input style="width:50px;" type="submit" value="INVIA" /></td></tr>
+-->
+	<tr><td colspan="2" style="text-align:center;"><input class="sendpadd" style="margin-top: 5px;" type="submit" value="INVIA" /></td></tr>
 </table>
 </form>
 </div>
 </div>
 
 <div id="news" class="heraldMain radiusBordered" style="text-align:center; margin-top:10px;">
-	<ul id="caSli" style="width:100%; height:235px; padding:0px; margin:0px;">
+	<ul id="caSli" style="width:100%; height:433px; padding:0px; margin:0px;">
 		<li tal:repeat="not news">
-			<p class="titoloarticolo" style="margin:0px; font-size:32px;" tal:content="not/title" />
-			<p class="titolosubarticolo" style="margin:0px;" tal:content="structure not/subtitle" />
-			<p class="testoNews" style="margin:0px; font-size:13px; margin-top:10px; height:170px;  line-height:17px; padding-right:10px; overflow-y:auto; text-align:justify"><span style="font-weight:bold;" tal:content="not/time" />&nbsp;&nbsp;<span tal:content="structure not/text"/></p>
+			<p class="titoloarticolo" style="margin-top:3px; font-size:32px;" tal:content="not/title" />
+			<p class="titolosubarticolo" style="font-size: 22px; margin-top:5px;" tal:content="structure not/subtitle" />
+			<p class="testoNews" style="margin:0px; font-size:15px; margin-top:10px; height:360px;  line-height:19px; padding-right:10px; overflow-y:auto; text-align:justify"><span style="font-weight:bold;" tal:content="not/time" />&nbsp;&nbsp;<span tal:content="structure not/text"/></p>
 			
 		</li>
 	</ul>

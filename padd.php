@@ -212,12 +212,12 @@ else if ($mode == 'sh' || ($mode == 'shM' && PG::mapPermissions('M',$currentUser
 		$template->statuses = $statuses;
 		$template->note = nl2br($place['note']);
 	
-		if($place['placeType'] == 'Nave' && $place['placeSubType'] == 'ROMULAN') $template->labels = array('SCAFO','INT. STRUTTURALE','SCUDI DEFLETTORI', 'PHASER e SILURI', 'OCCULTAMENTO','MOTORI R.C.S.','MOTORI I.P.S.','MOTORI WARP','COMUNICAZIONI','SENSORI','SUPPORTO VITALE','TELETRASPORTO');
-		else if($place['placeType'] == 'Nave' && $place['placeSubType'] != 'ROMULAN') $template->labels = array('SCAFO','INT. STRUTTURALE','SCUDI DEFLETTORI', 'PHASER e SILURI', 'DEFLETTORE','MOTORI R.C.S.','MOTORI I.P.S.','MOTORI WARP','COMUNICAZIONI','SENSORI','SUPPORTO VITALE','TELETRASPORTO');
-		else if($place['placeType'] == 'Pianeta') $template->labels =  array('SENSORI','INFRASTRUTTURE','TELETRASPORTO', 'SISTEMI DIFESA', 'CONT. ATMOSFERICO','RETI ENERGETICHE','RETE DATI','CAPACITA\'','COMUNICAZIONI','RIS. EMERGENZA','SIST. AMBIENTALI','SVILUPPO');
-		else if($place['placeType'] == 'Navetta') $template->labels = array('SCAFO','CORAZZA ABLATIVA','SCUDI DEFLETTORI', 'BANCHI PHASER', 'LANCIASILURI','MOTORI R.C.S.','MOTORI I.P.S.','MOTORI WARP','COMUNICAZIONI','SENSORI','SUPPORTO VITALE','TELETRASPORTO');
-		else if($place['placeType'] == 'Stazione') $template->labels = array('SCAFO','CORAZZA ABLATIVA','SCUDI DEFLETTORI', 'BANCHI PHASER', 'LANCIASILURI','MOTORI R.C.S.','RETE EPS','ATTRACCHI','COMUNICAZIONI','SENSORI','SUPPORTO VITALE','TELETRASPORTO');
-		else if($place['placeType'] == 'Accademia') $template->labels =  array('SENSORI','INFRASTRUTTURE','TELETRASPORTO', 'SISTEMI DIFESA', 'CONT. ATMOSFERICO','RETI ENERGETICHE','RETE DATI','CAPACIA\'','COMUNICAZIONI','RIS. EMERGENZA','SIST. AMBIENTALI','SVILUPPO');
+		if($place['placeType'] == 'Nave' && $place['placeSubType'] == 'ROMULAN') $template->labels = array('Scafo','Integrtà Strutturale','Scudi Deflettori', 'Phaser e Siluri', 'Occultamento','Motori R.C.S.','Motori I.P.S.','Motori Warp','Comunicazioni','Sensori','Supporto Vitale','Teletrasporto');
+		else if($place['placeType'] == 'Nave' && $place['placeSubType'] != 'ROMULAN') $template->labels = array('Scafo','Integrità Strutturale','Scudi Deflettori', 'Phaser e Siluri', 'Deflettore','Motori R.C.S.','Motori I.P.S.','Motori WARP','Comunicazioni','Sensori','Supporto Vitale','Teletrasporto');
+		else if($place['placeType'] == 'Pianeta') $template->labels =  array('Sensori','Infrastrutture','Teletrasporto', 'Sistemi di Difesa', 'Controllo Amosferico','Reti Energetiche','Rete Dati','Capacità','Comunicazioni','RIS. EMERGENZA','Sistemi Ambientali','Sviluppo');
+		else if($place['placeType'] == 'Navetta') $template->labels = array('Scafo','Corazza Ablativa','Scudi Deflettori', 'Banchi Phaser', 'Lanciasiluri','Motori R.C.S.','Motori I.P.S.','Motori WARP','Comunicazioni','Sensori','Supporto Vitale','Teletrasporto');
+		else if($place['placeType'] == 'Stazione') $template->labels = array('Scafo','Corazza Ablativa','Sscudi Deflettori', 'Banche Phaser', 'Lanciasiluri','Motori R.C.S.','Rete EPS','Attracchi','Comunicazioni','Sensori','Supporto Vitale','Teletrasporto');
+		else if($place['placeType'] == 'Accademia') $template->labels =  array('Sensori','Infrastrutture','Teletrasporto', 'Sistemi di Difesa', 'Controllo Atmosferico','Reti Energetiche','Rete Dati','Capacità','Comunicazioni','RIS. EMERGENZA','Sistemi Ambientali','Sviluppo');
 	
 		//if 
 		$template->modify = (PG::mapPermissions('M',$currentUser->pgAuthOMA)) ? true : false;

@@ -29,7 +29,7 @@
 .anythingSlider-default {
 	margin: 0 auto;
 	/* 45px right & left padding for the arrows, 28px @ bottom for navigation */
-	padding: 0 45px 28px 45px;
+	padding: 0 20px 28px 20px;
 }
 /* slider window - top & bottom borders, default state */
 .anythingSlider-default .anythingWindow {

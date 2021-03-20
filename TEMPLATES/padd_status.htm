@@ -37,6 +37,8 @@
 			</script>
 	
 	<title>FEDERATION - STATO NAVE</title>	
+	<style> span[id$="percentText"]{margin-left:4px;}</style>
+
 </head>
 
 <body style="background-color:black; overflow:hidden;">
@@ -51,24 +53,26 @@
 
 
 <div id="mainStatus" tal:attributes="class php:(user.pgSpecie=='Romulana') ? 'paddRomulanMain radiusBordered' : 'paddMain radiusBordered'">
-		<div style="float:left; width:150px;"><img src="TEMPLATES/img/logo/${place/place_littleLogo1}" style="width:150px;" /></div>
+		<div style="float:left; width:200px; padding: 6px;"><img src="TEMPLATES/img/logo/${place/place_littleLogo1}" style="width:200px;" /></div>
 		<div style="margin-right:20px;  text-align:center; font-family:Arial; font-variant:small-caps; font-width:bold; margin-top:5px; margin-left:185px; height:100%;">
 			<p style="font-size:22px; margin:0px;" tal:content="place/placeName"/>
 			<p style="font-size:16px; font-style:italic; margin:0px;" tal:content="place/placeMotto"/>
 			<p style="font-size:14px; text-align:right; position:relative; font-style:italic;" tal:content="structure place/placeClass"/>
 		</div>	
 		
-		<div class="statusContainer radiusBordered" style="width:295px; left:30px; bottom:42px;">
-			<p style="text-align:center; font-size:14px; margin:2px;">STATO DEI SISTEMI</p>
-			<table><tbody>
-			<tr tal:repeat="stat statuses"><td tal:content="php:labels[repeat.stat.key]">SCAFO</td><td> <span tal:attributes="id repeat/stat/key" style="padding-left:1px; font-size:12px;" tal:content="stat" />
-			</td></tr>
+		<div class="statusContainer radiusBordered" style="width:295px; left:30px; bottom:40px; height:380px;">
+			<p style="text-align:center; font-size:22px; margin:2px; color: #0077c3; font-weight: bold; font-variant: small-caps;">Stato dei Sistemi</p>
+			<table style="width: 98%;"><tbody>
+			<tr style="height: 25px; " tal:repeat="stat statuses">
+				<td style="font-size: 13px; text-transform: uppercase; text-align: center; vertical-align: middle; " tal:content="php:labels[repeat.stat.key]" ></td>
+					<td style="width: 155px; text-align: center; "><span tal:attributes="id repeat/stat/key" style="padding-left:2px; font-size:11px; " tal:content="stat" /></td>
+		</tr>
 			</tbody></table>
 		</div>
 		
-		<div style="width:235px; left:360px; bottom:205px;" class="statusContainer radiusBordered">
+		<div style="width:235px; left:360px; bottom:345px;" class="statusContainer radiusBordered">
 				<table><tbody>
-				<tr><td style="width:100px; height: 20px;">CONDIZIONE</td><td><img tal:attributes="src string:TEMPLATES/img/interface/paddInterface/${place/placeAlert}.gif" /></td><td style="width:120px; text-align:center;" tal:content="php:(place['placeAlert'] == 'redAlert') ? 'ROSSA' : ((place['placeAlert'] == 'yellowAlert') ? 'GIALLA' : ((place['placeAlert'] == 'greenAlert') ? 'VERDE' : ((place['placeAlert'] == 'blueAlert') ? 'BLU' : ((place['placeAlert'] == 'greyAlert') ? 'GRIGIA' : (place['placeAlert'] == 'intruderAlert') ? 'INTRUSO' :((place['placeAlert'] == 'quarantineAlert') ? 'QUARANTENA' : ''))))) "></td><td><img tal:attributes="src string:TEMPLATES/img/interface/paddInterface/${place/placeAlert}.gif" /></td></tr>
+				<tr><td style="width:100px; height: 20px;">CONDIZIONE</td><td><img tal:attributes="src string:TEMPLATES/img/interface/paddInterface/${place/placeAlert}.gif" /></td><td style="width:120px; text-align:center;" tal:content="place/textCondition"></td><td><img tal:attributes="src string:TEMPLATES/img/interface/paddInterface/${place/placeAlert}.gif" /></td></tr>
 				<tr tal:condition="php:(stat == 'posizionata')"><td style="width:100px;">POSIZIONE</td><td style="width:100px; text-align: center;" colspan="3"><a href="javascript:void(0);" onclick="javascript:window.open ('chart.php','chart', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=617');" class="interfaceLink">(- VEDI MAPPA -)</a></td></tr>
 
 				
@@ -82,12 +86,13 @@
 				</tbody></table>
 		</div>	
 		
-		<div style="padding:10px; width:225px; height:135px; left:360px; bottom:42px; overflow-y:auto;" class="statusContainer radiusBordered" tal:content="structure note" />
+		<div style="padding:10px; width:225px; height:275px; left:360px; bottom:42px; overflow-y:auto;" class="statusContainer radiusBordered" tal:content="structure note" />
 		<!-- Hack geometrico XD -->
-		<div style="position:absolute; bottom:58px; left:337px; border-top:1px solid #444; height:1px; width:23px;" />
-		<div style="position:absolute; bottom:148px; left:337px; border-top:1px solid #444; height:1px; width:23px;" />
+		<div style="position:absolute; bottom:158px; left:337px; border-top:1px solid #444; height:1px; width:23px;" />
+		<div style="position:absolute; bottom:248px; left:337px; border-top:1px solid #444; height:1px; width:23px;" />
 </div>
 
 </div>
 </body>
+
 </html>

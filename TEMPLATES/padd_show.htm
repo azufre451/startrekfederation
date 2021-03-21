@@ -10,9 +10,6 @@
 	<link href="TEMPLATES/css/padd.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 
-	<link rel="preconnect" href="https://fonts.gstatic.com" />
-	<link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet" />
-	
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
@@ -81,9 +78,8 @@ border-color: var(--custom_section_color, #0077c3);
 				</div>
 
 				<div style="margin:5px 4px 0px 0px; text-align:center;"><img tal:attributes="src string:TEMPLATES/img/ranks/${padd/ordinaryUniform}.png ; title string:${padd/frompgGrado} - ${padd/frompgSezione}" class="tooltip" style="vertical-align:middle;"  /> <img class="tooltip" style="vertical-align:middle; vertical-align:middle;" tal:attributes="src php:(padd['pgSesso'] == 'M') ? 'TEMPLATES/img/specie/' . padd['pgSpecie'] . '_m.png' : ((padd['pgSesso'] == 'F') ? 'TEMPLATES/img/specie/' . padd['pgSpecie'] . '_f.png' : 'TEMPLATES/img/specie/' . padd['pgSpecie'] . '_t.png' ) ; title php:(padd['pgSesso'] == 'M') ? padd['pgSpecie'] . ' - Maschio' : ((padd['pgSesso'] == 'F') ? padd['pgSpecie'] . ' - Femmina' : padd['pgSpecie'] . ' - Terzo Genere' )"  /> </div>
-				
-				<div class="sectioncolor" style="text-align:center; font-size: 32px; font-style: italic; font-family: century gothic, arial, Helvetica, sans-serif; margin: 4px 7px 0px 0px;">
-					<span tal:content="phour" /><span style="font-size: 20px;"> : </span><span tal:content="pmin" /><br />
+				<div class="sectioncolor" style="text-align:center; font-size: 34px; font-style: italic; font-family: 'OpenSans-LightItalic', sans-serif;  margin: 4px 7px 0px 0px;">
+					<span tal:content="phour" /><span style="font-size: 24px;"> : </span><span tal:content="pmin" /><br />
 				<span tal:content="pday" style="font-size:18px;" />
 				</div>
 			

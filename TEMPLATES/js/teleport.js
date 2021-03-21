@@ -26,7 +26,7 @@
 				//alert(data[pg]['pgUser']);
 				var pgUser=data[pg]['pgID'];
 				
-				 stringer+= "<div class=\"littleUserSign\"  title=\""+data[pg]['pgUser']+"\" id=\"tele_"+pgUser+"\" style=\"background-image:url('"+data[pg]['pgAvatar']+"')\" onclick=\"javascript:selectTeleportable('tele_"+pgUser+"');\" ></div>";
+				 stringer+= "<div class=\"littleUserSign\"  title=\""+data[pg]['pgUser']+"\" id=\"tele_"+pgUser+"\" style=\"background-image:url('"+data[pg]['miniAvatar']+"')\" onclick=\"javascript:selectTeleportable('tele_"+pgUser+"');\" ></div>";
 			}
 			 jQuery('.littleUserSign').fadeOut(100,function(){
 			

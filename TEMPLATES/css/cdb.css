@@ -11,6 +11,12 @@ src: url('../Roddenberry.woff2') format("woff2");
 src: url('../Roddenberry.ttf') format('truetype');
 }
 
+@font-face{font-family:'OpenSans-LightItalic';
+/*src: url('../OpenSans-LightItalic.eot') format('eot');
+src: url('../OpenSans-LightItalic.ttf') format('truetype');*/
+src: url('../OpenSans-LightItalic.woff') format('woff');
+}
+
 body
 {	 
 	background-repeat:no-repeat;

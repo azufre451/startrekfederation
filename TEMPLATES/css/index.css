@@ -416,3 +416,121 @@ padding-right:12px;
 
     border-radius: inherit;
      }
+
+.tipBox
+{
+  z-index:10; 
+  width:340px; 
+  font-size:11px;
+  color:black;
+  height:110px;
+  border:1px solid #222;
+  margin-bottom:5px;
+  /*background: rgb(100, 100, 100);
+  background: rgba(100, 100, 100, 0.4);
+  filter: alpha(opacity = 40);*/
+  text-align:center;
+  background-color: #4040405e;
+}
+
+#centralContainer
+{
+  width:1037px;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:30px;
+}
+
+#superLoginDiv
+{
+display:none;
+width:686px;
+height:437px;
+float:left;
+margin-top:10px;
+}
+
+
+#loginDiv
+{
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  top: 50%;
+  margin-top: -90px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  width: 85%;
+  background: radial-gradient(circle, rgba(0,0,0,0.8407738095238095) 40%, rgba(0,0,0,0.4009978991596639) 82%);
+
+
+
+  font-weight: bold;
+  color: white;
+}
+
+
+
+#loginForm 
+{
+  font-size:18px;
+  
+}
+
+#loginForm input,#loginForm button
+{
+  background-color:black;
+  color:#999;
+  border:1px solid #999;
+  font-weight:bold;
+  padding:4px;
+  font-size:14px;
+  border:0;
+  background-color: transparent;
+}
+
+#loginForm input{ 
+  border:0px;
+  border-bottom:1px solid #666;
+  padding:5px 3px;
+  width:165px;
+  background-color: none;
+}
+
+#loginForm input:hover, #loginForm  input:active, #loginForm  input:focus{ 
+  border-color:red;
+  outline: none;
+  color:white;
+}
+
+#loginForm button, #loginForm input[type="submit"]{
+  border:1px solid white;
+  padding: 5px 3px;
+  background-color: black;
+  cursor: pointer;
+}
+#loginForm button:focus, #loginForm button:hover
+{
+  color:white;
+  
+}
+
+
+.radiusBordered12
+{
+  -moz-border-radius: 12px;
+    -webkit-border-radius: 12px;
+    -khtml-border-radius: 12px;
+  border-radius:12px;
+}
+
+#indi_header
+{
+  background-image:url('../img/interface/index/header_trsps.png');
+  width:1037px;
+  cursor:pointer;
+  height:158px;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:0px;
+}

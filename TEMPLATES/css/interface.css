@@ -989,10 +989,10 @@ border-radius:13px;
 
 @font-face{
 font-family:'federationFont';
-src: url('../Roddenberry.eot') format('eot');
-src: url('../Roddenberry.woff') format("woff");
-src: url('../Roddenberry.woff2') format("woff2");
-src: url('../Roddenberry.ttf') format('truetype');
+src: url('../fonts/Roddenberry.eot') format('eot');
+src: url('../fonts/Roddenberry.woff') format("woff");
+src: url('../fonts/Roddenberry.woff2') format("woff2");
+src: url('../fonts/Roddenberry.ttf') format('truetype');
 }
 
 

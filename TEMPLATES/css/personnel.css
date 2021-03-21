@@ -1,26 +1,26 @@
 @font-face{
 font-family:'romulanFaceM';
-src: url('../ROMULAN.eot');
-src: url('../ROMULAN.TTF') format('truetype');
+src: url('../fonts/ROMULAN.eot');
+src: url('../fonts/ROMULAN.TTF') format('truetype');
 }
 
 @font-face{
 font-family:'federationFont';
-src: url('../Roddenberry.eot');
-src: url('../Roddenberry.ttf') format('truetype');
+src: url('../fonts/Roddenberry.eot');
+src: url('../fonts/Roddenberry.ttf') format('truetype');
 }
 
 
 @font-face{
 font-family:'federationFontI';
-src: url('../Roddenberry Oblique.eot');
-src: url('../Roddenberry Oblique.ttf') format('truetype');
+src: url('../fonts/Roddenberry Oblique.eot');
+src: url('../fonts/Roddenberry Oblique.ttf') format('truetype');
 }
 
 
 @font-face{
 font-family:'enterpriseFont';
-src: url('../Enterprise_Bold.ttf') format('truetype');
+src: url('../fonts/Enterprise_Bold.ttf') format('truetype');
 }
 td.tds,td.tdsa{text-align:center; padding:3px; margin-top:3px;margin-left:4px; 
     font-size: 12px;}

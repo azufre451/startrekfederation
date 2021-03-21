@@ -12,10 +12,7 @@
 
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
-	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
-
-
 
 	<script>
 			jQuery(function(){
@@ -27,17 +24,13 @@
 			});
 	</script>
 
-<style type="text/css">
-
-.sectioncolor{
-color: var(--custom_section_color, #0077c3);
-border-color: var(--custom_section_color, #0077c3);
-}
-
-
-
-</style>
-
+	<style type="text/css">
+		.sectioncolor{
+			color: var(--custom_section_color, #0077c3);
+			border-color: var(--custom_section_color, #0077c3);
+		}
+		
+	</style>
 
 	<title>FEDERATION - PADD</title>
 
@@ -56,45 +49,45 @@ border-color: var(--custom_section_color, #0077c3);
 		
 		<div id="padder" class="paddMain radiusBordered">
 			<div class="innerPadd">
-			
-			<div style="width:135px; float:left; margin-top:3px; margin-right: 5px;">
-			
-			<!-- DA A -->
-			<div>
+				<div style="width:135px; float:left; margin-top:3px; margin-right: 5px;">
+				
+					<!-- DA A -->
+					<div>
+						<p class="sectioncolor" style="font-weight:bold; font-variant: small-caps; padding-bottom: 1px;">Da: 
+						<a tal:attributes="onclick string:schedaPOpen(${padd/FromPGID})" class="interfaceLink" href="#" tal:content="padd/FromPG" /> 
+						<span tal:condition="php:(!padd['frompng'] & (padd['pgATOMA'] == 'M' || padd['pgATOMA'] == 'SM' || padd['pgATOMA'] == 'A' || padd['pgATOMA'] == 'G'))" tal:attributes="class string:tooltip gani_${padd/pgATOMA} ; title php:( (padd['pgATOMA'] == 'M') ? 'Master' : ((padd['pgATOMA'] == 'A') ? 'Admin' : ((padd['pgATOMA'] == 'G') ? 'Guida' : ((padd['pgATOMA'] == 'SM') ? 'Global Master' : '') )  )  ) " ></span> </p>
+						
+						<p class="sectioncolor" style="margin-left: 7px; font-weight:bold; font-variant: small-caps;">A: 
+							<a tal:attributes="onclick string:schedaPOpen(${padd/ToPGID})" class="interfaceLink" href="#" tal:content="padd/ToPG" /> 
+						</p>
+					</div>
 
-			<p class="sectioncolor" style="font-weight:bold; font-variant: small-caps; padding-bottom: 1px;">Da: 
-			<a tal:attributes="onclick string:schedaPOpen(${padd/FromPGID})" class="interfaceLink" href="#" tal:content="padd/FromPG" /> 
-			<span tal:condition="php:(!padd['frompng'] & (padd['pgATOMA'] == 'M' || padd['pgATOMA'] == 'SM' || padd['pgATOMA'] == 'A' || padd['pgATOMA'] == 'G'))" tal:attributes="class string:tooltip gani_${padd/pgATOMA} ; title php:( (padd['pgATOMA'] == 'M') ? 'Master' : ((padd['pgATOMA'] == 'A') ? 'Admin' : ((padd['pgATOMA'] == 'G') ? 'Guida' : ((padd['pgATOMA'] == 'SM') ? 'Global Master' : '') )  )  ) " ></span> </p>
-			
-			<p class="sectioncolor" style="margin-left: 7px; font-weight:bold; font-variant: small-caps;">A: 
-			<a tal:attributes="onclick string:schedaPOpen(${padd/ToPGID})" class="interfaceLink" href="#" tal:content="padd/ToPG" /> 
-		</p>
-			
-			</div>
+					<!-- Avatar -->				
+					<div>
+						<img style="width:120px; height:120px; margin: 12px 0px 4px 5px; " tal:attributes="src padd/pgAvatarSquare" class="radiusBordered12" />
+					</div>
 
-<!-- Avatar -->				
-				<div>
-					<img style="width:120px; height:120px; margin: 12px 0px 4px 5px; " tal:attributes="src padd/pgAvatarSquare" class="radiusBordered12" />
+					<div style="margin:5px 4px 0px 0px; text-align:center;">
+						<img tal:attributes="src string:TEMPLATES/img/ranks/${padd/ordinaryUniform}.png ; title string:${padd/frompgGrado} - ${padd/frompgSezione}" class="tooltip" style="vertical-align:middle;"  /> <img class="tooltip" style="vertical-align:middle; vertical-align:middle;" tal:attributes="src php:(padd['pgSesso'] == 'M') ? 'TEMPLATES/img/specie/' . padd['pgSpecie'] . '_m.png' : ((padd['pgSesso'] == 'F') ? 'TEMPLATES/img/specie/' . padd['pgSpecie'] . '_f.png' : 'TEMPLATES/img/specie/' . padd['pgSpecie'] . '_t.png' ) ; title php:(padd['pgSesso'] == 'M') ? padd['pgSpecie'] . ' - Maschio' : ((padd['pgSesso'] == 'F') ? padd['pgSpecie'] . ' - Femmina' : padd['pgSpecie'] . ' - Terzo Genere' )"  />
+					</div>
+					<div class="sectioncolor" style="text-align:center; font-size: 34px; font-family: 'OpenSans-LightItalic', sans-serif;  margin: 4px 7px 0px 0px;">
+						<span tal:content="phour" /><span style="font-size: 24px;"> : </span><span tal:content="pmin" /><br />
+						<span tal:content="pday" style="font-size:18px;" />
+					</div>
+				
 				</div>
 
-				<div style="margin:5px 4px 0px 0px; text-align:center;"><img tal:attributes="src string:TEMPLATES/img/ranks/${padd/ordinaryUniform}.png ; title string:${padd/frompgGrado} - ${padd/frompgSezione}" class="tooltip" style="vertical-align:middle;"  /> <img class="tooltip" style="vertical-align:middle; vertical-align:middle;" tal:attributes="src php:(padd['pgSesso'] == 'M') ? 'TEMPLATES/img/specie/' . padd['pgSpecie'] . '_m.png' : ((padd['pgSesso'] == 'F') ? 'TEMPLATES/img/specie/' . padd['pgSpecie'] . '_f.png' : 'TEMPLATES/img/specie/' . padd['pgSpecie'] . '_t.png' ) ; title php:(padd['pgSesso'] == 'M') ? padd['pgSpecie'] . ' - Maschio' : ((padd['pgSesso'] == 'F') ? padd['pgSpecie'] . ' - Femmina' : padd['pgSpecie'] . ' - Terzo Genere' )"  /> </div>
-				<div class="sectioncolor" style="text-align:center; font-size: 34px; font-style: italic; font-family: 'OpenSans-LightItalic', sans-serif;  margin: 4px 7px 0px 0px;">
-					<span tal:content="phour" /><span style="font-size: 24px;"> : </span><span tal:content="pmin" /><br />
-				<span tal:content="pday" style="font-size:18px;" />
+				<div id="paddMessage">
+					<!-- OGGETTO -->
+					<div class="oggettoBox"><span>Oggetto</span> <span tal:content="padd/paddTitle"/> </div>
+
+					<!-- CONTENT --> 
+					<div id="paddContent" tal:content="structure pcontent" />
+				
+					
 				</div>
-			
 			</div>
-			<div style="border-left: 1px solid var(--custom_section_color, #0077c3); float: left; margin-top: 1px; padding: 3px 0px 3px 0px; ">
-				<!-- OGGETTO -->
-				<div class="sectioncolor" style="font-size: 14px; font-weight:bold; float:right; padding: 7px 20px 7px 20px; margin-bottom: 15px; border-radius: 15px;">Oggetto: <span style="color: white;" tal:content="padd/paddTitle"/> </div>
-			<br></br>
-			<br></br>
-				<!-- CONTENT --> 
-			<div id="paddContent"  style="border: 0px solid gray; " tal:content="structure pcontent" />
-			
-			<div style="clear:both;" />
 		</div>
-			</div>
-			</div>
 	</div>
-</body></html>
+</body>
+</html>

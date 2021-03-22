@@ -9,10 +9,13 @@
 	<link href="TEMPLATES/css/cdb_styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	
 	<link href="TEMPLATES/css/padd.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+
+	<link href="TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 	<link tal:attributes="href php:(user.pgSpecie == 'Romulana') ? 'TEMPLATES/css/anythingslider_green.css' : 'TEMPLATES/css/anythingslider.css'" rel="stylesheet" type="text/css" />
 	 
-	
+	<script type="text/javascript" src="TEMPLATES/js/caret.js?v=${gameOptions/numericVersion}"></script>
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
@@ -64,25 +67,29 @@
 <div id="newHerald" tal:condition="php:(masterable==true)"  class="heraldMain radiusBordered" style="display:none;">
 <div class="innerPadd" style="margin-right:auto;margin-left:auto; width:575px; height: 420px; overflow:hidden;">
 
-<form action="padd.php?s=newH" method="POST">
+<form action="padd.php?s=newH" id="formContent" method="POST">
 
 <table cellspacing="0px">
 	<tr>
-		<td class="newPaddtd">
-			<div style="font-family: Roddenberry; font-size: 22px; text-align: center; font-variant: small-caps; ">Titolo</div>
+		<td colspan="2" class="newPaddtd">
+			<div class="titleRoddenberry">Titolo</div>
 			<input maxlength="37" id="titolo" name="titolo" style="font-size: 17px; border-radius: 6px; width:550px;"/>
 		</td>
 	</tr>
 	<tr>
-		<td class="newPaddtd">
-			<div style="font-family: Roddenberry; font-size: 22px; text-align: center; font-variant: small-caps; ">Sottotitolo</div>
+		<td colspan="2" class="newPaddtd">
+			<div class="titleRoddenberry">Sottotitolo</div>
 			<input id="sottotitolo" name="sottotitolo" style="font-size: 17px; border-radius: 6px; width:550px;"/>
 		</td>
 	</tr>
 	<tr>
+		<td rowspan="2" style="width: 80px;">
+		<!-- START BLOCCO BOTTONI -->
+			<div metal:use-macro="TEMPLATES/padd_metal.htm/paddBBCodeBlock" />	
+		</td>
 		<td class="newPaddtd">
-		<div style="font-family: Roddenberry; font-size: 22px; text-align: center; font-variant: small-caps; ">Testo</div>
-			<textarea name="testo" style="font-size: 15px; border-radius: 12px; width:550px; height:240px;"/>
+		<div class="titleRoddenberry">Testo Dell'Articolo</div>
+			<textarea name="testo" id="postContent" style="font-size: 15px; border-radius: 12px; width:430px; height:240px;"/>
 		</td>
 	</tr>
 	<!-- <tr tal:condition="php:(adminable==true)"><td style="width:140px; border:1px dotted #333; ">TESTO</td><td class="newPaddtd">

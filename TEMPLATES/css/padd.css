@@ -386,3 +386,10 @@ div.paddMessage.masterPadd::after{
 .offPadd_3:hover:after{text-decoration: none !important; color:white;}
 .offPadd_4:after{color:#ff3600; content:'[EV. MASTER]'; font-size:9px; margin-left:5px;}
 .offPadd_4:hover:after{text-decoration: none !important; color:white;}
+
+.titleRoddenberry {
+		font-family: Roddenberry; 
+		font-size: 22px; 
+		text-align: center; 
+		text-transform: uppercase;
+}

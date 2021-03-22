@@ -26,11 +26,11 @@
 <div metal:use-macro="TEMPLATES/padd_metal.htm/paddIntestLeft" />
 
 <div id="intestLeftPost" style="top:50px; left:20px;">
-<a tal:condition="php:(masterable==true)" href="javascript:jmp('newHerald')" class="interfaceLink"><img src="TEMPLATES/img/interface/paddInterface/padd_new.png" alt="Nuovo" /></a> <a href="padd.php?s=tr" class="interfaceLink"><img src="TEMPLATES/img/interface/paddInterface/padd_back.png" alt="Indietro" /></a>
+<a href="padd.php?s=tr" class="interfaceLink"><img src="TEMPLATES/img/interface/paddInterface/padd_back.png" alt="Indietro" /></a>
 </div>
 
 <div style="text-align:right; margin-right:30px;"><img src="TEMPLATES/img/interface/paddInterface/fed_eagle.jpg" />
-<br /><span class="titoloarticolo" style="font-size:1.2em; padding:0px;" tal:content="datae" />
+<br /><span class="titoloarticolo" style="font-size:1.2em; padding:0px;" tal:content="string: Edizione del ${datae}" />
 </div>
 
 <div id="newHerald" class="heraldMain radiusBordered" style="display:none;">

@@ -75,7 +75,7 @@ if($mode == 'deletePoints')
 		{
 			mysql_query("DELETE FROM pg_users_pointStory WHERE recID = $rec");
 			$ok = mysql_affected_rows();
-			mysql_query("UPDATE pg_users SET pgPoints = (SELECT SUM(points) FROM pg_users_pointStory WHERE owner = $pgID) WHERE pgID = $pgID ORDER BY recID ASC");
+			mysql_query("UPDATE pg_users SET pgPoints = pgPoints - $points WHERE pgID = $pgID");
 			
 			if($ok) echo json_encode(array('OK' => 'Ok'));	 
 		}
@@ -449,27 +449,6 @@ if($mode == "removeServiceObj")
 }
 
 
-if($mode == "insmaster")
-{
-/*	if (!PG::mapPermissions('M',$currentUser->pgAuthOMA)) exit;
-	$eventTitle = addslashes($_POST['eventTitle']);
-	$eventText = addslashes($_POST['eventText']);
-	$place = $currentUser->pgAssign;
-	$time = time();
-	
-	mysql_query("INSERT INTO fed_master_news (title,content,time,place) VALUES ('$eventTitle','$eventText',$time,'$place')");
-	header('Location:multitool.php');
-	
-	$curID = $_SESSION['pgID'];
-	$oneMonth = $curTime - 2505600; 
-	$idR = mysql_query("SELECT pgID,pgUser FROM pg_users WHERE pgLock=0 AND png=0 AND pgAssign = '$place' AND pgLastAct >= $oneMonth");
-	while($res = mysql_fetch_assoc($idR))
-	{ 
-			$idA = $res['pgID']; 
-			mysql_query("INSERT INTO fed_pad (paddFrom, paddTo, paddTitle, paddText, paddTime, paddRead) VALUES (518, $idA, 'NUOVO EVENTO MASTER', 'È stato inserito un nuovo evento master ($eventTitle) nel Computer di Bordo. Controlla la sezione Eventi Master del computer per visualizzarlo!',$curTime,0)");
-	}	*/
-}
-
 if($mode == 'delete' || $mode == 'bavosize')
 {
 	if (!PG::mapPermissions('A',$currentUser->pgAuthOMA)) exit;
@@ -817,6 +796,7 @@ if($mode== "stor")
 	
 	$template->raa=$arra;
 	$template->causes=$causes;
+	$template->gameOptions = $gameOptions;
 	
 	if(PG::mapPermissions('A',$currentUser->pgAuthOMA)) $template->isAdmin=true;
 	

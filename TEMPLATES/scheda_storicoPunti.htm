@@ -5,18 +5,16 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/localize.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
-	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
-	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 
-	<!-- <script type="text/javascript" src="TEMPLATES/js/lazyload.js"></script> -->
 	<title>STAR TREK FEDERATION - LOCALIZZATORE</title>
 	
 	<script>
 		function deletePoints(recid) {
-			jQuery.post('shadow_scheda.php?s=deletePoints', {idR: recid}, function(data){
+			jQuery.post('multitool.php?s=deletePoints', {idR: recid}, function(data){
 				if(data['OK'] == 'Ok')
 					jQuery('#poi_'+recid).fadeOut(50);
 				else if(data['OK'] == 'No') alert("Impossibile eseguire da tool: i punti eventualmente rimossi confliggono con le soglie di attribuzione UP!");
@@ -27,16 +25,26 @@
 	<style>
 		.bdrodd {background-color:#333;}
 		.bdreven {background-color:#555;}
+		#locContainer
+	{
+		font-family:Arial;
+		width:500px;
+		height:600px;
+		position:absolute;
+		top:0px;
+		left:0px;
+		background-image:url('TEMPLATES/img/interface/localizer/cornice_localizzatore.png');
+	}
 	</style>
 	
 </head>
 <body style="background-color:black">
 <div>
 	<div style="margin-left:105px; text-transform:uppercase; width:275px; text-align:center; font-family:Helvetica; font-weight:bold;">ULTIMI 500 PUNTI</div>
-	<p style="margin:0px; font-size:11px;"> I colori raggruppano per causale: a colore uguale corrisponde causale uguale</p>
+	<p style="margin:0px; font-size:14px;"> I colori raggruppano per causale: a colore uguale corrisponde causale uguale</p>
 	
 	<div style="margin-top:10px; overflow-x:auto; width:99%; margin-left:auto;margin-right:auto;">
-	<table style="font-size:11px; width:100%;">
+	<table style="font-size:12px; width:100%; font-family:Helvetica">
 		<tr><td/><td/><td class="bdr" style="text-align:center; width:40px;"><img src="TEMPLATES/img/interface/personnelInterface/punteggio.png" alt="Punteggio"/></td><td style="width:60px; text-align:center;" class="bdr"><img src="TEMPLATES/img/interface/personnelInterface/data.jpg" alt="data"/></td><td colspan="3" class="bdr" style="text-align:center; width:150px;"><img src="TEMPLATES/img/interface/personnelInterface/descrizione.png" alt="descrizione"/></td></tr>
 		<tr tal:repeat="point raa" tal:attributes="id string:poi_${point/recID} ; class php: repeat.point.odd ? 'bdrodd' : 'bdreven'"><td style="width:50px;" class="bdr" tal:content="string:${point/PB}" /><td style="width:50px;" class="bdr" tal:content="string:${point/PA}" /><td class="bdr" style="width:40px;"><span tal:content="php:(point['points'] LT 0) ? '-' . abs(point['points']) : '+' . point['points']" /> <a onclick="return confirm('Confermi?');" tal:attributes="href string:javascript:deletePoints(${point/recID})" tal:condition="exists:isAdmin"><img src="TEMPLATES/img/interface/delete.png" /></a></td><td style="width:60px;" class="bdr" tal:content="php:(date('d/m/Y',point['timer']))" /><td class="bdr" style="width:30px;" tal:content="point/cause" tal:attributes="title point/causeM"/><td class="bdr" style="width:150px;" tal:content="point/causeE" /><td tal:attributes="style php:'width:10px;; background-color:' . causes[point['causeE']]"/></tr>
 		

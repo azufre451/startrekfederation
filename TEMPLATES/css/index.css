@@ -448,7 +448,9 @@ width:686px;
 height:437px;
 float:left;
 margin-top:10px;
+position:relative;
 }
+
 
 
 #loginDiv
@@ -462,9 +464,6 @@ margin-top:10px;
   padding-bottom: 40px;
   width: 85%;
   background: radial-gradient(circle, rgba(0,0,0,0.8407738095238095) 40%, rgba(0,0,0,0.4009978991596639) 82%);
-
-
-
   font-weight: bold;
   color: white;
 }
@@ -477,7 +476,7 @@ margin-top:10px;
   
 }
 
-#loginForm input,#loginForm button
+#loginForm input, #resetBTN button
 {
   background-color:black;
   color:#999;
@@ -485,7 +484,6 @@ margin-top:10px;
   font-weight:bold;
   padding:4px;
   font-size:14px;
-  border:0;
   background-color: transparent;
 }
 
@@ -497,24 +495,18 @@ margin-top:10px;
   background-color: none;
 }
 
-#loginForm input:hover, #loginForm  input:active, #loginForm  input:focus{ 
+#loginForm input:hover, #loginForm  input:active, #loginForm input:focus, #resetBTN button:hover{ 
   border-color:red;
   outline: none;
   color:white;
 }
 
-#loginForm button, #loginForm input[type="submit"]{
+#loginForm input[type="submit"], #resetBTN button{
   border:1px solid white;
   padding: 5px 3px;
   background-color: black;
   cursor: pointer;
 }
-#loginForm button:focus, #loginForm button:hover
-{
-  color:white;
-  
-}
-
 
 .radiusBordered12
 {

@@ -62,11 +62,14 @@
 			<tr><td style="width:100px; font-size:14px;">Nome Utente</td><td><input autofocus="autofocus" type="text" name="loginUser" tal:attributes="value php:(isSet(test)) ? 'test' : ''"/></td></tr>
 			<tr><td style="width:100px; font-size:14px;">Password</td><td><input type="password" name="loginPass"  tal:attributes="value php:(isSet(test)) ? 'stf2020' : ''" /></td></tr>
 			<tr><td colspan="2" style="text-align:center; width:250px;"><br />
-			<button onclick="javascript:window.open ('recuperaPWD.htm','pwd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=200,left=200,width=390,height=320'); return false;" style="width:160px;">Recupera Password</button> <input type="submit" style="width:70px;" value="LOGIN">INVIA</input></td></tr>
+			<input type="submit" style="width:120px;" value="LOGIN">INVIA</input>
+			</td></tr>
 			
 		</table>
 </form>
 </div>
+
+<div style="position: absolute; bottom: 23px; right: 53px; padding:3px;" id="resetBTN"><button onclick="javascript:window.open ('recuperaPWD.htm','pwd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=200,left=200,width=390,height=320'); return false;">Recupera Password</button></div>
 </div>
 
 <div style="float:left; width:340px; margin-left:10px; text-align:center;">

@@ -5,15 +5,26 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/styles.css?v=1.2" rel="stylesheet" type="text/css" />
-	<link href="TEMPLATES/css/localize.css?v=1.2" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	
 	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
-	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
-	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=1.5.1"/>
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 
 	<!-- <script type="text/javascript" src="TEMPLATES/js/lazyload.js"></script> -->
 	<title>STAR TREK FEDERATION - LOCALIZZATORE</title>
 	
+	<style>
+		#locContainer
+	{
+		font-family:Arial;
+		width:500px;
+		height:600px;
+		position:absolute;
+		top:0px;
+		left:0px;
+		background-image:url('TEMPLATES/img/interface/localizer/cornice_localizzatore.png');
+	}
+	</style>
 </head>
 <body style="background-color:black">
 <div id="locContainer">

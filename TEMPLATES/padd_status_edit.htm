@@ -1,4 +1,4 @@
-﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
@@ -49,9 +49,9 @@
 
 <div metal:use-macro="TEMPLATES/padd_metal.htm/paddIntestLeft" />
 
-<div style="position:absolute; top:85px; right:320px; font-size:13px;">
+<div style="position:absolute; top:85px; left:200px; font-size:16px; vertical-align: middle; color: #66c4ff; font-variant: small-caps;">
 <form method="POST" tal:attributes="action string:service.php?warpSpeed=${place/placeID}" tal:condition="php:(stat == 'posizionata' && (place['placeType'] == 'Nave' || place['placeType'] == 'Navetta'))">
-	Curvatura: <input type="text" value="6" name="factor" style="margin-top:0px; text-align:center; height:15px; width:35px" /> <input type="submit" value="WARP" style="height:20px;"/>
+	Curvatura: <input type="text" value="6" name="factor" style="margin-top:0px; text-align:center; height:15px; width:35px" /> <input style="font-variant: small-caps;" type="submit" class="sendpadd" value="WARP" />
 </form>
 </div>
 
@@ -68,7 +68,7 @@
 
 <!-- Uscita Curvatura -->
 <div style="position:absolute; top:80px; background-color:black; left:190px; font-size:16px; margin-top:3px; margin-bottom: 5px; z-index:11" tal:condition="php:(stat == 'curvatura')">
-<div id="questioner"> <span style=" font-variant: small-caps; "> Arriva a: </span><a href="javascript:showSearch();" class="interfaceLink"> <span style="color: #66c4ff ; font-variant: small-caps;"> - Cerca le Coordinate - </span> </a> | <a href="javascript:showManualInput();" class="interfaceLink"> <span style="color: #0077c3; font-variant: small-caps;">-  Inserisci le coordinate - </span></a>  |  <a href="javascript:alterwarp();" class="interfaceLink"> <span style="color: #66c4ff; font-variant: small-caps;"> - Cambia - </span></a></div>
+<div id="questioner"> <span style=" font-variant: small-caps; "> Arriva a: </span><a href="javascript:showSearch();" class="interfaceLinkBlue"> - Cerca le Coordinate - </a> | <a href="javascript:showManualInput();" class="interfaceLinkBlue"> -  Inserisci le coordinate - </a>  |  <a href="javascript:alterwarp();" class="interfaceLinkBlue"> - Cambia - </a></div>
 
 <div style="vertical-align: middle; color: #66c4ff; font-variant: small-caps;"><form id="alterwarp" class="warpField" style="display:none;"  method="POST" tal:attributes="action string:service.php?warpSpeed=${place/placeID}">
 	 Curvatura: <input type="text" value="6" name="factor" style="text-align:center; height:22px; width:35px" /> <input style="font-variant: small-caps;" type="submit" class="sendpadd" value="CAMBIA" />
@@ -97,9 +97,9 @@
 		<div class="statusContainer radiusBordered" style="width:265px; height: 400px; left:30px; bottom:42px;">
 			<p style="text-align:center; font-size:14px; margin:2px;">STATO DEI SISTEMI</p>
 			<table><tbody>
-			<tr tal:repeat="stat statuses"><td tal:content="php:labels[repeat.stat.key]">SCAFO</td><td style="width:120px; text-align:right;"><input type="text" tal:attributes="name repeat/stat/key ; id repeat/stat/key ; value stat" style="text-align:center; font-weight:bold; padding-left:2px; width:30px; height:13px;" />
+			<tr tal:repeat="stat statuses"><td tal:content="php:labels[repeat.stat.key]">SCAFO</td><td style="width:120px; text-align:right;"><input class="neon" type="text" tal:attributes="name repeat/stat/key ; id repeat/stat/key ; value stat" style="text-align:center; font-weight:bold; padding-left:2px; width:30px; height:13px;" />
 			</td></tr>
-			<tr><td colspan="2" style="text-align:center;"><input type="submit" value="AGGIORNA" /></td></tr>
+			<tr><td colspan="2" style="text-align:center;"><input type="submit" style="width:130px;" class="sendpadd" value="AGGIORNA" /></td></tr>
 			</tbody></table>
 		</div>
 		
@@ -115,7 +115,7 @@
 				
 		</div>
 		<div>
-			<textarea  placeholder="Messaggio di stato" tal:content="place/note" name="note" cols="33" rows="8" style="padding:10px; width:280px; height:305px; left:320px; bottom:42px; font-size:11px;" class="statusContainer radiusBordered"/>
+			<textarea  placeholder="Messaggio di stato" tal:content="place/note" name="note" cols="33" rows="8" style="padding:10px; width:280px; height:305px; left:320px; bottom:42px; font-size:13px;" class="statusContainer radiusBordered"/>
 		</div>
 
 	</form>

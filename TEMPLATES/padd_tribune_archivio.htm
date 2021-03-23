@@ -19,18 +19,18 @@
 
 </head>
 
-<body style="background-color:black; overflow:hidden; height:305px;">
+<body style="background-color:black; overflow:hidden; height:505px;">
 
 <div id="paddContainer">
 
 <div metal:use-macro="TEMPLATES/padd_metal.htm/paddIntestLeft" />
 
 <div id="intestLeftPost" style="top:50px; left:20px;">
-<a tal:condition="php:(masterable==true)" href="javascript:jmp('newHerald')" class="interfaceLink"><img src="TEMPLATES/img/interface/paddInterface/padd_new.png" alt="Nuovo" /></a> <a href="padd.php?s=tr" class="interfaceLink"><img src="TEMPLATES/img/interface/paddInterface/padd_back.png" alt="Indietro" /></a>
+<a href="padd.php?s=tr" class="interfaceLink"><img src="TEMPLATES/img/interface/paddInterface/padd_back.png" alt="Indietro" /></a>
 </div>
 
 <div style="text-align:right; margin-right:30px;"><img src="TEMPLATES/img/interface/paddInterface/fed_eagle.jpg" />
-<br /><span class="titoloarticolo" style="font-size:1.2em; padding:0px;" tal:content="datae" />
+<br /><span class="titoloarticolo" style="font-size:1.2em; padding:0px;" tal:content="string: Edizione del ${datae}" />
 </div>
 
 <div id="newHerald" class="heraldMain radiusBordered" style="display:none;">
@@ -41,7 +41,7 @@
 <table cellspacing="0px">
 	<tr><td style="border:1px dotted #333; width:140px;">TITOLO</td><td class="newPaddtd"><input maxlength="50" id="titolo" name="titolo" style="width:400px;"/></td></tr>
 	<tr><td style="border:1px dotted #333; width:140px;">SOTTOTITOLO</td><td class="newPaddtd"><input maxlength="70" id="sottotitolo" name="sottotitolo" style="width:400px;"/></td></tr>
-	<tr><td style="width:140px; border:1px dotted #333; ">TESTO</td><td class="newPaddtd"><textarea name="testo" style="width:400px; height:160px;"/></td></tr>
+	<tr><td style="width:140px; border:1px dotted #333; ">TESTO</td><td class="newPaddtd"><textarea name="testo" style="width:400px; height:360px;"/></td></tr>
 	<tr><td colspan="2" style="text-align:center;"><input style="width:50px;" type="submit" value="INVIA" /></td></tr>
 </table>
 </form>
@@ -49,7 +49,7 @@
 </div>
 
 <div id="archive" class="heraldMain radiusBordered" style="text-align:center; margin-top:10px;">
-	<div class="innerPadd" style="height:230px;">
+	<div class="innerPadd" style="height:430px;">
 	<table>
 	<tr tal:repeat="neu news">
 		<td style="width:300px;" class="tdMessage"><a class="topicNormal" tal:attributes="href string:padd.php?s=readTribune&newsID=${neu/ID}" tal:content="neu/title" /></td>

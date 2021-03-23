@@ -49,47 +49,64 @@
 </div> 
 
 
-<p style="font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif; margin:0px; text-align: center; text-shadow: 0 0 5px #00C6FF; font-weight:bold;font-size:20px; text-decoration: underline; font-weight:bold;"> Appunti Personali </p>
+<p style="font-family: 'BebasNeueRegular', Arial, Helvetica,sans-serif; margin:0px; text-align: center; text-shadow: 0 0 5px #00C6FF; font-weight:bold;font-size:20px; text-decoration: underline; font-weight:bold;"> Appunti Personali </p>
 
-<div id="newNote" class="paddMain radiusBordered" style="display:none; height:300px;">
+<div id="newNote" class="paddMain radiusBordered" style="display:none; height:500px;">
 
-<div class="innerPadd" style="margin-right:auto;margin-left:auto; width:510px; overflow:hidden;">
+<div class="innerPadd" style="margin-right:auto;margin-left:auto; width:575px; overflow:hidden;">
 
-
-<form action="padd.php?s=newNote" method="POST">
-
-<table cellspacing="0px">
-	<tr><td style="width:140px; border:1px dotted #333;">TITOLO</td><td class="newPaddtd"><input maxlength="25" name="titolo" style="width:400px;"/></td></tr>
-	<tr style="height:20px;" />
-	<tr><td style="width:140px; border:1px dotted #333; ">TESTO</td><td class="newPaddtd"><textarea name="testo" style="width:400px; height:160px;"/></td></tr>
-	<tr><td colspan="2" style="text-align:center;"><input style="width:50px;" type="submit" value="INVIA" /></td></tr>
-</table>
-</form>
+	<form action="padd.php?s=newNote" method="POST">
+		<table cellspacing="0px">
+			<tr>
+				<td class="newPaddtd">
+					<p class="titleRoddenberry">TITOLO</p>	
+					
+					<input maxlength="25" name="titolo" style="width:550px; border-radius: 5px; font-size: 17px; padding: 6px;"/>
+				</td>
+			</tr>
+			<tr><td class="newPaddtd">
+				<p class="titleRoddenberry" style="margin-top: 5px;">TESTO della nota</p>
+				
+				<textarea name="testo" style="border-radius: 12px; padding: 6px;  width:550px; height:325px; font-size: 15px;"/>
+			</td>
+		</tr>
+			<tr><td colspan="2" style="text-align:center; "><input class="sendpadd" type="submit" value="INVIA" style="margin-top: 5px;" /></td></tr>
+		</table>
+	</form>
 </div>
 </div>
 
-<div id="ediNote" class="paddMain radiusBordered" style="display:none; height:300px;">
+<div id="ediNote" class="paddMain radiusBordered" style="display:none; height:500px;">
 
-<div class="innerPadd" style="margin-right:auto;margin-left:auto; width:510px; overflow:hidden;">
-
+<div class="innerPadd" style="margin-right:auto;margin-left:auto; width:575px; overflow:hidden;">
 
 <form action="padd.php?s=ediNote" method="POST">
-
 <table cellspacing="0px">
-	<tr><td style="width:140px; border:1px dotted #333;">TITOLO</td><td class="newPaddtd"><input maxlength="25" name="titolo" tal:attributes="value title" style="width:400px;"/></td></tr>
-	<tr style="height:20px;" />
-	<tr><td style="width:140px; border:1px dotted #333; ">TESTO</td><td class="newPaddtd"><textarea name="testo" tal:content="textP" style="width:400px; height:160px;"/></td></tr>
-	<tr><td colspan="2" style="text-align:center;"><input style="width:50px;" type="submit" value="INVIA" /></td></tr>
-</table>
+		<tr>
+			<td class="newPaddtd">
+					<p class="titleRoddenberry">TITOLO - modifica</p>	
+					
+					<input maxlength="25" name="titolo" tal:attributes="value title" style="width:550px; border-radius: 5px; font-size: 17px; padding: 6px;"/>
+				</td>
+			</tr>
+			<tr><td class="newPaddtd">
+				<p class="titleRoddenberry" style="margin-top: 5px;">TESTO della nota - Modifica</p>
+				
+				<textarea name="testo" tal:content="textP" style="border-radius: 12px; padding: 6px;  width:550px; height:325px; font-size: 15px;"/>
+			</td>
+		</tr>
+			<tr><td colspan="2" style="text-align:center; "><input class="sendpadd" type="submit" value="INVIA" style="margin-top: 5px;" /></td></tr>
+		</table>
 <input type="hidden" name="ID" tal:attributes="value ID" />
 </form>
+
 </div>
 </div>
 
-<div class="paddMain radiusBordered" style="height:300px;">
+<div class="paddMain radiusBordered" style="height:500px;">
 <div class="innerPadd">
-	<p style="text-align:center; font-size:16px; font-weight:bold; border-bottom:1px solid #999;" tal:content="title" />
-	<p style="text-align:justify; width:auto; margin:10px;" tal:content="structure text"  />
+	<p style="font-family: roddenberry; text-align:center; font-size:30px; font-variant: small-caps; margin-bottom: 2px; border-bottom:1px solid #0077c3;" tal:content="title" />
+	<p style="text-align:justify; width:auto; margin:10px; font-size: 15px;" tal:content="structure text"  />
 </div>
 </div>
 

@@ -1,14 +1,20 @@
 @font-face{font-family:'enterpriseFont';
-src: url('../Enterprise.eot') format('eot');
-src: url('../Enterprise.woff') format("woff");
-src: url('../Enterprise.woff2') format("woff2");
-src: url('../Enterprise.ttf') format('truetype');
+src: url('../fonts/Enterprise.eot') format('eot');
+src: url('../fonts/Enterprise.woff') format("woff");
+src: url('../fonts/Enterprise.woff2') format("woff2");
+src: url('../fonts/Enterprise.ttf') format('truetype');
 }
 @font-face{font-family:'Roddenberry';
-src: url('../Roddenberry.eot') format('eot');
-src: url('../Roddenberry.woff') format("woff");
-src: url('../Roddenberry.woff2') format("woff2");
-src: url('../Roddenberry.ttf') format('truetype');
+src: url('../fonts/Roddenberry.eot') format('eot');
+src: url('../fonts/Roddenberry.woff') format("woff");
+src: url('../fonts/Roddenberry.woff2') format("woff2");
+src: url('../fonts/Roddenberry.ttf') format('truetype');
+}
+
+@font-face{font-family:'OpenSans-LightItalic';
+/*src: url('../OpenSans-LightItalic.eot') format('eot');
+src: url('../OpenSans-LightItalic.ttf') format('truetype');*/
+src: url('../fonts/OpenSans-LightItalic.woff') format('woff');
 }
 
 body
@@ -373,6 +379,7 @@ margin-right:10px;
 	text-align:center; 
 	vertical-align:middle; 
 	font-family: Helvetica;
+	margin-bottom:10px;
 }
 
 
@@ -664,21 +671,3 @@ color: black;
 	width: 100px; 
 }
 
-/* Classe Invia PADD */
-
-.BBbuttonList .sendpadd {
-		width: 80px; 
-		height: 28px; 
-		border-radius: 8px;  
-		font-family: Roddenberry;
-		font-size:20px;
-		background-color: black;
-		transition-duration: 0.5s;
-   		cursor: pointer; 
-   		padding-top: 1px;
-}
-
-.BBbuttonList .sendpadd:hover {
-		background-color: green;
-		color: white;
-}

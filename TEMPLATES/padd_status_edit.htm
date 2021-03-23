@@ -1,4 +1,4 @@
-﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
@@ -49,9 +49,9 @@
 
 <div metal:use-macro="TEMPLATES/padd_metal.htm/paddIntestLeft" />
 
-<div style="position:absolute; top:20px; right:350px; font-size:13px;">
+<div style="position:absolute; top:85px; left:200px; font-size:16px; vertical-align: middle; color: #66c4ff; font-variant: small-caps;">
 <form method="POST" tal:attributes="action string:service.php?warpSpeed=${place/placeID}" tal:condition="php:(stat == 'posizionata' && (place['placeType'] == 'Nave' || place['placeType'] == 'Navetta'))">
-	Curvatura: <input type="text" value="6" name="factor" style="margin-top:0px; text-align:center; height:15px; width:35px" /> <input type="submit" value="WARP" style="height:20px;"/>
+	Curvatura: <input type="text" value="6" name="factor" style="margin-top:0px; text-align:center; height:15px; width:35px" /> <input style="font-variant: small-caps;" type="submit" class="sendpadd" value="WARP" />
 </form>
 </div>
 
@@ -62,24 +62,25 @@
 </div>
 
 <!-- De-Attracco -->
-<div style="position:absolute; top:20px; right:20px; font-size:13px;" tal:condition="php:(stat == 'attraccata')">
+<div style="position:absolute; top:75px; right:20px; font-size:13px;" tal:condition="php:(stat == 'attraccata')">
 <a tal:attributes="href string:service.php?exitHangar=${place/placeID}" class="interfaceLink">ESCI DALL'HANGAR</a>
 </div>
 
 <!-- Uscita Curvatura -->
-<div style="position:absolute; top:20px; background-color:black; left:170px; font-size:13px; margin-top:3px; z-index:11" tal:condition="php:(stat == 'curvatura')">
-<div id="questioner">ARRIVA A: <a href="javascript:showSearch();" class="interfaceLink">Cerca le Coordinate</a> | | <a href="javascript:showManualInput();" class="interfaceLink">Inserisci le coordinate</a> | |  <a href="javascript:alterwarp();" class="interfaceLink">Cambia</a></div>
+<div style="position:absolute; top:80px; background-color:black; left:190px; font-size:16px; margin-top:3px; margin-bottom: 5px; z-index:11" tal:condition="php:(stat == 'curvatura')">
+<div id="questioner"> <span style=" font-variant: small-caps; "> Arriva a: </span><a href="javascript:showSearch();" class="interfaceLinkBlue"> - Cerca le Coordinate - </a> | <a href="javascript:showManualInput();" class="interfaceLinkBlue"> -  Inserisci le coordinate - </a>  |  <a href="javascript:alterwarp();" class="interfaceLinkBlue"> - Cambia - </a></div>
 
-<form id="alterwarp" class="warpField" style="display:none;"  method="POST" tal:attributes="action string:service.php?warpSpeed=${place/placeID}">
-	Curvatura: <input type="text" value="6" name="factor" style="margin-top:0px; text-align:center; height:15px; width:35px" /> <input type="submit" value="CAMBIA" style="height:20px;"/>
-</form>
+<div style="vertical-align: middle; color: #66c4ff; font-variant: small-caps;"><form id="alterwarp" class="warpField" style="display:none;"  method="POST" tal:attributes="action string:service.php?warpSpeed=${place/placeID}">
+	 Curvatura: <input type="text" value="6" name="factor" style="text-align:center; height:22px; width:35px" /> <input style="font-variant: small-caps;" type="submit" class="sendpadd" value="CAMBIA" />
+	
+</form></div>
 
 <form id="searcher" class="warpField"  style="display:none;"  method="POST" tal:attributes="action string:service.php?punctualArriveTo=${place/placeID}">
-	Cerca: <input id="systemSearcher" name="systemSearcher" type="text" style="width:200px;" /><input style="margin-left:20px;" type="submit" value="ARRIVA" />
+	<span style="color: #66c4ff; font-variant: small-caps;"> Cerca: </span><input id="systemSearcher" name="systemSearcher" type="text" style="width:200px;" /><input style="margin-top: 5px; margin-left:20px;" class="sendpadd" type="submit" value="ARRIVA" />
 </form>
 
 <form id="coordin" class="warpField"  style="display:none;"  method="POST" tal:attributes="action string:service.php?coorArriveTo=${place/placeID}">
-	Settore: Coordinate | X: <input type="text" name="coX" style="font-size:center; width:30px;" /> Y: <input type="text" name="coY" style="font-size:center; width:30px;" /> <input style="margin-left:20px;" type="submit" value="ARRIVA" /> 
+	<span style="font-variant: small-caps; color: #0077c3;" > Coordinate <span style="color:white;"> | </span> X: </span><input type="text" name="coX" style="font-size:center; width:30px; " /> <span style="font-variant: small-caps; color: #0077c3;"> Y: </span><input type="text" name="coY" style="font-size:center; width:30px;" /> <input style="margin-top: 5px; margin-left:20px;" class="sendpadd" type="submit" value="ARRIVA" /> 
 </form>
 
 </div>
@@ -93,16 +94,16 @@
 			<p style="font-size:22px; margin:0px;" tal:content="place/placeName"/>
 			 </div>	
 	<form method="POST" tal:attributes="action string:service.php?updateStatus=&place=${place/placeID}">	
-		<div class="statusContainer radiusBordered" style="width:265px; left:30px; bottom:42px;">
+		<div class="statusContainer radiusBordered" style="width:265px; height: 400px; left:30px; bottom:42px;">
 			<p style="text-align:center; font-size:14px; margin:2px;">STATO DEI SISTEMI</p>
 			<table><tbody>
-			<tr tal:repeat="stat statuses"><td tal:content="php:labels[repeat.stat.key]">SCAFO</td><td style="width:120px; text-align:right;"><input type="text" tal:attributes="name repeat/stat/key ; id repeat/stat/key ; value stat" style="text-align:center; font-weight:bold; padding-left:2px; width:30px; height:13px;" />
+			<tr tal:repeat="stat statuses"><td tal:content="php:labels[repeat.stat.key]">SCAFO</td><td style="width:120px; text-align:right;"><input class="neon" type="text" tal:attributes="name repeat/stat/key ; id repeat/stat/key ; value stat" style="text-align:center; font-weight:bold; padding-left:2px; width:30px; height:13px;" />
 			</td></tr>
-			<tr><td colspan="2" style="text-align:center;"><input type="submit" value="AGGIORNA" /></td></tr>
+			<tr><td colspan="2" style="text-align:center;"><input type="submit" style="width:130px;" class="sendpadd" value="AGGIORNA" /></td></tr>
 			</tbody></table>
 		</div>
 		
-		<div style="width:290px; left:320px; bottom:270px; font-size: 14px; padding: 3px; font-variant: small-caps;text-align: center; color: gray;" class="statusContainer radiusBordered">
+		<div style="width:290px; left:320px; bottom:380px; font-size: 14px; padding: 3px; font-variant: small-caps;text-align: center; color: gray;" class="statusContainer radiusBordered">
 					<span style="padding-bottom: 15px; font-size: 16px; "> --- Condizione ---</span><br></br> 
 					<a tal:attributes="href string:service.php?setAlert=red&place=${place/placeID}"><img src="TEMPLATES/img/interface/paddInterface/redAlert.gif" title="Allarme Rosso" /></a> <span style="color: red;"> Rossa </span>
 					<a tal:attributes="href string:service.php?setAlert=yellow&place=${place/placeID}" ><img src="TEMPLATES/img/interface/paddInterface/yellowAlert.gif" title="Allarme Giallo"/></a> <span style="color: yellow;"> Gialla </span>
@@ -110,15 +111,13 @@
 					<a tal:attributes="href string:service.php?setAlert=blue&place=${place/placeID}" ><img src="TEMPLATES/img/interface/paddInterface/blueAlert.gif" title="Condizione Blu "/></a> <span style="color: dodgerblue;"> Blu </span><br></br> 
 					<a tal:attributes="href string:service.php?setAlert=grey&place=${place/placeID}" ><img src="TEMPLATES/img/interface/paddInterface/greyAlert.gif" title="Condizione Grigia "/></a> Grigia
 					<a tal:attributes="href string:service.php?setAlert=quarantine&place=${place/placeID}" title="Procedura di Quarantena"><img src="TEMPLATES/img/interface/paddInterface/quarantineAlert.gif" /></a> <span style="color: Fuchsia;"> Quarantena </span> 
-					<a tal:attributes="href string:service.php?setAlert=intruder&place=${place/placeID}" title="Allarme Intruso"><img src="TEMPLATES/img/interface/paddInterface/IntruderAlert.gif" /></a> Intruso
+					<a tal:attributes="href string:service.php?setAlert=intruder&place=${place/placeID}" title="Allarme Intruso"><img src="TEMPLATES/img/interface/paddInterface/intruderAlert.gif" /></a> Intruso
 				
 		</div>
 		<div>
-			<textarea  placeholder="Messaggio di stato" tal:content="place/note" name="note" cols="33" rows="8" style="padding:10px; width:280px; height:205px; left:320px; bottom:42px; font-size:11px;" class="statusContainer radiusBordered"/>
+			<textarea  placeholder="Messaggio di stato" tal:content="place/note" name="note" cols="33" rows="8" style="padding:10px; width:280px; height:305px; left:320px; bottom:42px; font-size:13px;" class="statusContainer radiusBordered"/>
 		</div>
-		<!-- Hack geometrico XD -->
-		<div style="position:absolute; bottom:58px; left:327px; border-top:1px solid #444; height:1px; width:33px;" />
-		<div style="position:absolute; bottom:148px; left:327px; border-top:1px solid #444; height:1px; width:33px;" />
+
 	</form>
 </div>
 

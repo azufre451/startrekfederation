@@ -2,18 +2,18 @@
 {
 	font-family:Arial;
 	width:650px;
-	height:400px;
+	height:600px; /*400 */
 	position:absolute;
 	top:0px;
 	left:0px;
-	background-image:url('../img/interface/paddInterface/cornice_padd_n.png');
+	background-image:url('../img/interface/paddInterface/cornice_padd_big.png');
 }
 
 #paddMainContainer
 {
 	font-family:Arial;
 	width:650px;
-	height:400px;
+	height:600px; /*400*/
 	position:absolute;
 	top:0px;
 	left:0px;
@@ -113,12 +113,12 @@ padding: 4px;
 	margin-left:20px;
 	margin-right:20px;
 	text-align:justify;
-	height:320px;
+	height:520px; /*320 */
 	background-image:url('../img/interface/cdbBkg.jpg');
 }
 
 #incoming, #outgoing{
-	height:280px;
+	height:480px;
 	margin-top:50px;
 }
 
@@ -128,18 +128,18 @@ padding: 4px;
 	margin-left:20px;
 	margin-right:20px;
 	text-align:justify;
-	height:320px;
+	height:520px;
 	background-image:url('../img/interface/rcdbBkg.png');}
 
 .heraldMain
 {
 	border:1px solid #333;
 	margin-top:25px;
-	padding:10px;
+	padding:5px;
 	margin-left:20px;
 	margin-right:20px;
 	text-align:justify;
-	height:250px;
+	height:450px;
 	background-image:url('../img/interface/cdbBkg.jpg');
 }
 
@@ -148,7 +148,7 @@ padding: 4px;
 	overflow-x:auto;
 	font-size:12px;
 	margin:10px;
-	height:280px;
+	height:500px;
 }
 
 .iconelement
@@ -170,7 +170,7 @@ z-index:4;
 {
 	text-transform:uppercase;
 	font-family:Helvetica;
-	font-size:11px;
+	font-size:14px;
 }
 
 .tdMessageNew
@@ -220,6 +220,15 @@ a.topicNormal:hover
 	behavior: url(border-radius.htc);
 }
 
+.radiusBordered12
+{
+	-moz-border-radius: 12px;
+    -webkit-border-radius: 12px;
+    -khtml-border-radius: 12px;
+	border-radius:12px;
+	behavior: url(border-radius.htc);
+}
+
 
 .statusContainer
 {
@@ -253,15 +262,32 @@ border:1px solid #444;
 .unselectedPadd{background-image:url('../img/interface/indicator_amber_off.png'); width:12px; height:12px;}
 
 #paddContent{
- width:395px;
- overflow-x:hidden;
- overflow:y:auto;
- margin-top:10px;
- margin-left:15px;
- padding:10px;
- float:left;
- border:1px solid #999;
- height:218px;
+	 width:430px;
+	 overflow-x:hidden;
+	 overflow-y:auto;
+	 margin: 0px 0px 10px 3px; 
+	 padding:2px; 
+	 height:430px; 
+}
+
+#paddMessage{
+	border-left: 1px solid var(--custom_section_color, #0077c3);
+	float: left;
+	margin-top: 1px;
+	padding: 3px 0px 3px 0px;
+}
+
+#paddMessage .oggettoBox{
+	font-size: 14px;
+	font-weight:bold;
+	text-align:right;
+	padding: 7px 20px 7px 20px;
+	margin-bottom: 15px;
+	border-radius: 15px;
+}
+
+#paddMessage .oggettoBox span:first-of-type{
+	color: var(--custom_section_color, #0077c3);
 }
 
 #paddContent p.quoter{
@@ -272,7 +298,6 @@ border:1px solid #444;
 	
 
 }
-
 
 .cdbPostRed{color:red;}
 .cdbPostBlue{color:#0077c3;}
@@ -351,7 +376,6 @@ div.paddMessage.masterPadd::after{
 .sendpadd:hover {
 		background-color: green;
 		color: white;
-
 }
 
 .offPadd_1:after{color:#4991c3; content:'[OFF]'; font-size:9px; margin-left:5px;}
@@ -362,3 +386,10 @@ div.paddMessage.masterPadd::after{
 .offPadd_3:hover:after{text-decoration: none !important; color:white;}
 .offPadd_4:after{color:#ff3600; content:'[EV. MASTER]'; font-size:9px; margin-left:5px;}
 .offPadd_4:hover:after{text-decoration: none !important; color:white;}
+
+.titleRoddenberry {
+		font-family: Roddenberry; 
+		font-size: 22px; 
+		text-align: center; 
+		text-transform: uppercase;
+}

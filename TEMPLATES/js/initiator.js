@@ -410,7 +410,7 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 
 	function link2place(ida){
 		
-		ida = ida.match(/[a-zA-Z0-9]+/g);
+		ida = ida.match(/[a-zA-Z0-9_,]+/g);
 		window.location.href = 'main.php?l='+ida;
 	}
 	
@@ -467,7 +467,7 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 
 	function repliOpen(toIda){
 		pars=getSizeOf('replicator');
-		toIda = toIda.match(/[a-zA-Z0-9]+/g);
+		toIda = toIda.match(/[a-zA-Z0-9_,]+/g);
 		window.open ('replicator.php?loc='+toIda,'replicator', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
 	

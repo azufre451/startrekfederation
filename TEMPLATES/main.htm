@@ -29,6 +29,33 @@
 	
 	<style>@font-face{font-family:'federationFont';src: url('TEMPLATES/Roddenberry.eot');src: url('TEMPLATES/Roddenberry.ttf') format('truetype');} .hourCol{font-family:federationFont, Impact; vertical-align:middle; font-size:18px; color:#0077c3; width:40px;} .expiring{color:#FC0;}
 	</style>
+	<style type="text/css">
+		.sendcom {
+		width: 80px; 
+		height: 38px; 
+		border-radius: 15px;  
+		font-family: Roddenberry;
+		font-size:20px;
+		background-color: black;
+		transition-duration: 0.5s;
+   		cursor: pointer; 
+}
+
+		.sendcom:hover {
+		background-color: #216e35;
+		color: white;
+		border-color: green;
+}
+
+		.sectioncolor{
+			color: var(--custom_section_color, #0077c3);
+			border-color: var(--custom_section_color, #0077c3);
+		}
+		
+	</style>
+
+
+
 </head>
 
 <body style="background-color:black; background-image:url('TEMPLATES/img/main_login.jpg')">
@@ -225,6 +252,7 @@
 <div metal:use-macro="TEMPLATES/metal_panels.htm/alertPanel" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/statusBox" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/localizeBox" />
+<div metal:use-macro="TEMPLATES/metal_panels.htm/comunicatorBox" />
 
 <div metal:use-macro="TEMPLATES/questionar.htm/sondaggio" />
 

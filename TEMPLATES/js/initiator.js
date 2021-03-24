@@ -419,9 +419,12 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 		window.open ('padd.php?s=readTribune&newsID='+ida,'padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width='+pars['w']+',height='+pars['h']);
 	}
 	
-	function commOpen(){
+	/*function commOpen(){
 		pars=getSizeOf('comm');
 		window.open ('comm.php','comm', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+	}*/
+		function commOpen(){
+		jQuery.when(localizeRefresh()).then(function(){jQuery('#comunicatorBox').toggle('blind',100)});
 	}
 	
 

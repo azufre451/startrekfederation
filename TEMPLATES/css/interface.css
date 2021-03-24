@@ -1454,3 +1454,55 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
 		.locControl_shipName{
 			float:left; vertical-align:middle; padding-top:12px;
 		}
+
+
+
+#comContainer{
+	display:block;
+	border:1px solid #123258;
+	z-index:10;
+	padding:5px;
+	position:absolute;
+	top:80px;
+	left:100px;
+	width:640px;
+	height:264px;
+    border-radius:11px;
+	background-color:rgba(0,0,0,0.8);
+	padding:5px;
+	-moz-box-shadow: 0px 0px 20px #0099ff;
+    -webkit-box-shadow: 0px 0px 20px #0099ff;
+    box-shadow: 0px 0px 20px #0099ff;
+	background-image:url('../img/interface/commInterface/communicator_sfondo.png');
+}
+
+.leftButton{
+	border-radius: 7px;
+	border:1px solid #999;
+	height: 33px;
+	margin: 1px 2px 0px 4px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

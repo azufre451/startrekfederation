@@ -83,8 +83,10 @@ elseif($currentAmbient['ambientType'] == 'SALA_OLO'){
 	$ranks['Default']['norank'] = array('note' => 'Nessun Ologrado');
 	$my = mysql_query("SELECT prio,Note,ordinaryUniform,aggregation FROM pg_ranks $oloRankFilter ORDER BY rankerprio DESC");
 	while($myA = mysql_fetch_array($my))
-	$ranks[$myA['aggregation']][$myA['prio']] = array('note' => $myA['Note']);
+		$ranks[$myA['aggregation']][$myA['prio']] = array('uniform'=>$myA['ordinaryUniform'], 'note' => $myA['Note']);
 	$template->ranks = $ranks;
+
+
 	
 	$resPgPresenti = mysql_query("SELECT pgID, pgUser FROM pg_users WHERE pgRoom = '".$currentAmbient['locID']."' AND pgLastAct >= ".($curTime-1800)." ORDER BY pgUser");
 	

@@ -359,7 +359,7 @@ else if(isSet($_GET['comm']))
 	if($currentUser->pgLock){header('Location:comm.php'); exit;}
 	if ($type=='ppl')
 	{
-		$to = (htmlentities(addslashes(($_POST['personTo'])),ENT_COMPAT, 'UTF-8'));
+		$to = (htmlentities(addslashes(($_POST['to'])),ENT_COMPAT, 'UTF-8'));
 		$row = (htmlentities(addslashes(($_POST['rowSend'])),ENT_COMPAT, 'UTF-8'));
 		
 		if($to != 0)

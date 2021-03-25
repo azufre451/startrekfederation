@@ -12,10 +12,13 @@
 			setInterval('lamp()',600);
 			jQuery('#messageOfStatus').fadeIn(700);
 			jQuery('.tooltip').tooltip();
+
+			jQuery(".draggableSTFModal").draggable({containment:'#federation_interfaceContainer'});
 		});
 
 
 		jQuery(window).keyup(swish);
+
 
 
 	

@@ -16,6 +16,8 @@
           		}
       		});
 
+      		jQuery(".draggableSTFModal").draggable({containment:'#federation_interfaceContainer'});
+
 		});
 		
 		jQuery(window).keyup(swish);
@@ -23,7 +25,6 @@
 		$(window).resize(function() {
 			resizeBar();
 		});
-
 
 		function notifyDesktop(txt,icon,func,title){
 			

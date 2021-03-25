@@ -113,7 +113,7 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 		case 49: jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv1").fadeIn('fast'); break;
 		case 50: jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv2").fadeIn('fast'); break;
 		case 51: jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv3").fadeIn('fast'); break;
-		case 27: jQuery(".popup, .escape_popup").fadeOut('fast'); break;
+		case 27: jQuery(".popup, .escape_popup, .draggableSTFModal").fadeOut('fast'); break;
 	}
 	}
 	
@@ -283,7 +283,7 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 	}
 
 	function localizeRefreshAuto(){if (jQuery('#localizeBox').is(':visible')) {localizeRefresh();}}
-	function commRefreshAuto(){if (jQuery('#communicatorBox').is(':visible')) {localizeRefresh();}}
+	function commRefreshAuto(){if (jQuery('#communicatorBox').is(':visible')) {commRefresh(jQuery('#commStyle').val() );}}
 
 	function sendcomm(){
 
@@ -297,7 +297,8 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 			{
 				url: 'service.php?comm=do',
 				data: {commType: commStyle, to:dest, rowSend: message},
-				success: function(){message=jQuery('#commMessage').val(''); jQuery('#communicatorBox').fadeOut(200);},
+				success: function(e){message=jQuery('#commMessage').val(''); jQuery('#communicatorBox').fadeOut(200);},
+				complete: noti,
 				type: 'POST',
 				dataType: 'json',
 				timeout: 4500
@@ -333,6 +334,7 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 	function commRefreshPlacesIterator(e)
 	{
 		jQuery('#commDestOpt').html('');
+		jQuery('#commDestImg').attr('title','');
 		jQuery('#commDestImg').css('background-image',"url('TEMPLATES/img/logo/logo_sfc.png')");
 
 		jQuery.each(e['places'],function(k){
@@ -505,7 +507,10 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 		window.open ('comm.php','comm', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}*/
 		function commOpen(){
-		jQuery.when(commRefresh('ppl')).then(function(){jQuery('#communicatorBox').toggle('blind',100)});
+		jQuery.when(commRefresh('ppl')).then(
+		function(){
+			jQuery('#communicatorBox').toggle('blind',100);
+		});
 	}
 	
 

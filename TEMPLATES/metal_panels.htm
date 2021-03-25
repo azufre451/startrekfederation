@@ -1,6 +1,6 @@
 ﻿<div metal:define-macro="corePanels">
 
-	<div id="dotazioner" class="popup blackOpacity" style="width:590px; height:430px; margin-left:-300px;	margin-top:-220px; text-align:center; border:2px solid #444;">
+	<div id="dotazioner" class="popup draggableSTFModal">
 		
 		<div class="xButton" onclick="jQuery('#dotazioner').fadeOut(100);"></div>
 
@@ -68,7 +68,8 @@
 	</div>
 
 	<!-- <div metal:define-macro="localizeBox" >-->
-	<div id="localizeBox" class="escape_popup">
+	<div id="localizeBox" class="draggableSTFModal">
+		<div class="xButton" onclick="jQuery(this).parent().fadeOut(100);" style="top:15px; right:15px;"></div>
 		<div id="localizeBoxHead">ONLINE</div>
 		<div id="localizeBoxContainer" />
 		<div id="localizeBoxTail"></div>
@@ -76,7 +77,8 @@
 
 
 	<!-- <div metal:define-macro="comunicatorBox" >-->
-	<div id="communicatorBox" class="escape_popup">
+	<div id="communicatorBox" class="draggableSTFModal">
+		<div class="xButton" onclick="jQuery('#communicatorBox').fadeOut(100);"></div>
 				<style>
 					#commDestOpt optgroup {color: var(--custom_section_color,#ffcc00); text-decoration: underline;}
 					#commDestOpt option {color: #ffffff; font-size: 14px;}
@@ -181,71 +183,70 @@
 	<script>function retooltip(){$('img.imageRepli').tooltip();}</script>
 </div>
 
-<div metal:define-macro="climatePanel">
-<div id="climate" class="popup blackOpacity">
-<p class="clockTitle blackOpacity" style="text-align:center;  margin:0px; font-size:22px;">Controlli ambientali: </p>
-<br /><b>Luci: </b><select class="neon" id="lightSet">
-<option value="5" tal:attributes="selected php:(ambient['ambientLight'] == 5)">Piena Illuminazione</option>
-<option value="4" tal:attributes="selected php:(ambient['ambientLight'] == 4)">Illuminazione Media</option>
-<option value="3" tal:attributes="selected php:(ambient['ambientLight'] == 3)">Luci soffuse</option>
-<option value="2" tal:attributes="selected php:(ambient['ambientLight'] == 2)">Luci Basse</option>
-<option value="1" tal:attributes="selected php:(ambient['ambientLight'] == 1)">Luci Spente</option>
-</select><br />
-
-<b>Temperatura: </b> <select class="neon" id="tempSet" style="font-size:14px; margin-top:5px; font-weight:bold; width:80px; padding:4px; color:#3188F3;text-align:center;"><option tal:repeat="temp php:range(3,39)" tal:attributes="value  temp ; selected php:(ambient['ambientTemperature'] == temp) ? 'selected' : false" tal:content="string:${temp} &deg;C" class="aex" /></select><br /><br />
- <b>Colore Luce: </b>
-    <link href="TEMPLATES/css/jquery.minicolors.css" rel="stylesheet" />
-	<script src="TEMPLATES/js/jquery.minicolors.js"></script>
-    <input id="afw" tal:attributes="value ambient/ambientLightColor"/>
-	<script>jQuery('#afw').minicolors();</script><br />
-
-<div style="margin-top:10px;">
 
 
-<button onclick="javascript:climateSet(jQuery('#lightSet').prop('value'),jQuery('#tempSet').prop('value'),jQuery('#afw').prop('value'));" class="NBT_Roddenberry green" >Conferma</button> 
+<div metal:define-macro="climatePanel" id="climate" class="popup draggableSTFModal">
+	<div class="xButton" onclick="jQuery('#climate').fadeOut(100);"></div>
+	
+	<p class="clockTitle blackOpacity" style="text-align:center;  margin:20px 0 0 0; font-size:22px;">Controlli ambientali: </p>
+	<br /><b>Luci: </b><select class="neon" id="lightSet">
+	<option value="5" tal:attributes="selected php:(ambient['ambientLight'] == 5)">Piena Illuminazione</option>
+	<option value="4" tal:attributes="selected php:(ambient['ambientLight'] == 4)">Illuminazione Media</option>
+	<option value="3" tal:attributes="selected php:(ambient['ambientLight'] == 3)">Luci soffuse</option>
+	<option value="2" tal:attributes="selected php:(ambient['ambientLight'] == 2)">Luci Basse</option>
+	<option value="1" tal:attributes="selected php:(ambient['ambientLight'] == 1)">Luci Spente</option>
+	</select><br />
 
-<button onclick="javascript:climateSet(5,20,'#ffeecb');"  class="NBT_Roddenberry red">Reset</button>
-</div>
+	<b>Temperatura: </b> <select class="neon" id="tempSet" style="font-size:14px; margin-top:5px; font-weight:bold; width:80px; padding:4px; color:#3188F3;text-align:center;"><option tal:repeat="temp php:range(3,39)" tal:attributes="value  temp ; selected php:(ambient['ambientTemperature'] == temp) ? 'selected' : false" tal:content="string:${temp} &deg;C" class="aex" /></select><br /><br />
+	 <b>Colore Luce: </b>
+	    <link href="TEMPLATES/css/jquery.minicolors.css" rel="stylesheet" />
+		<script src="TEMPLATES/js/jquery.minicolors.js"></script>
+	    <input id="afw" tal:attributes="value ambient/ambientLightColor"/>
+		<script>jQuery('#afw').minicolors();</script><br />
 
-<div class="xButton" onclick="jQuery('#climate').fadeOut(100);"></div>
+	<div style="margin-top:15px;">
 
-<script>
-var arr = ['#492DE6', '#332DE6', '#2C3BE6', '#2B50E6', '#2B65E6', '#2A7AE6', '#2A8FE6', '#29A5E6', '#28BAE6', '#28D0E6', '#27E6E5', '#26E6CF', '#26E6B9', '#25E6A3', '#25E68C', '#24E676', '#23E65F', '#23E648', '#22E631', '#29E621', '#3FE621', '#56E620', '#6CE620', '#82E61F', '#99E61E', '#B0E61E', '#C7E61D', '#DEE61D', '#E6D61C', '#E6BF1B', '#E6A71B', '#E68F1A', '#E67819', '#E66019', '#E64818', '#E62F18', '#E61717'];
-jQuery('.aex').each(function(index, value){
-jQuery(value).css('color',arr[index]);
-});
+	<button onclick="javascript:climateSet(jQuery('#lightSet').prop('value'),jQuery('#tempSet').prop('value'),jQuery('#afw').prop('value'));" class="NBT_Roddenberry green" >Conferma</button>&nbsp;&nbsp; 
 
-function climateSet(ide,ida,eda){
+	<button onclick="javascript:climateSet(5,20,'#ffeecb');"  class="NBT_Roddenberry red">Reset</button>
+	</div>
 
-jQuery.post('ajax_setIllumino.php', {ambient: jQuery('#ambientID').prop('value'), light: ide, temperature: ida,color:eda},function(){jQuery.post(jQuery('#getterURL').prop('value')+'?ts='+new Date().getMilliseconds(), {ambient: jQuery('#ambientID').prop('value'), lastID: jQuery('#lastID').prop('value')}, selfUpdater, 'json');}, 'json');
+	<script>
+	var arr = ['#492DE6', '#332DE6', '#2C3BE6', '#2B50E6', '#2B65E6', '#2A7AE6', '#2A8FE6', '#29A5E6', '#28BAE6', '#28D0E6', '#27E6E5', '#26E6CF', '#26E6B9', '#25E6A3', '#25E68C', '#24E676', '#23E65F', '#23E648', '#22E631', '#29E621', '#3FE621', '#56E620', '#6CE620', '#82E61F', '#99E61E', '#B0E61E', '#C7E61D', '#DEE61D', '#E6D61C', '#E6BF1B', '#E6A71B', '#E68F1A', '#E67819', '#E66019', '#E64818', '#E62F18', '#E61717'];
+	jQuery('.aex').each(function(index, value){
+	jQuery(value).css('color',arr[index]);
+	});
 
-jQuery('#climate').fadeOut(200);
-}
+	function climateSet(ide,ida,eda){
 
-function lightSet(eda){
+	jQuery.post('ajax_setIllumino.php', {ambient: jQuery('#ambientID').prop('value'), light: ide, temperature: ida,color:eda},function(){jQuery.post(jQuery('#getterURL').prop('value')+'?ts='+new Date().getMilliseconds(), {ambient: jQuery('#ambientID').prop('value'), lastID: jQuery('#lastID').prop('value')}, selfUpdater, 'json');}, 'json');
 
-jQuery('#afw').value(eda);
-}
+	jQuery('#climate').fadeOut(200);
+	}
 
-function toggleIllumino()
-{ 
-	jQuery.ajax(
-	{
-		url: 'ajax_setIllumino.php?toggle=true',
-		data:{ambient: jQuery('#ambientID').prop('value')},
-		complete: noti, 
-		type: 'POST',
-		dataType : 'json',
-	}); 
-}
+	function lightSet(eda){
 
-</script>
+	jQuery('#afw').value(eda);
+	}
 
-</div>
+	function toggleIllumino()
+	{ 
+		jQuery.ajax(
+		{
+			url: 'ajax_setIllumino.php?toggle=true',
+			data:{ambient: jQuery('#ambientID').prop('value')},
+			complete: noti, 
+			type: 'POST',
+			dataType : 'json',
+		}); 
+	}
+
+	</script>
+
 </div>
 
 <div metal:define-macro="commPanel">
-<div id="commsub" class="popup blackOpacity">
+<div id="commsub" class="popup draggableSTFModal">
 <p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:22px;">COMUNICAZIONI SUBSPAZIALI</p>
 <input  type="text" name="subspaceMex" id="subspaceMex" class="neon radiusBordered12" style="width:330px; margin-top:10px; margin-left:10px; margin-right:10px;" />
 	<select class="neon" id="locationer">
@@ -273,7 +274,7 @@ function toggleIllumino()
 </div>
 
 <div metal:define-macro="olorankerPanel">
-<div id="oloRanker" class="popup blackOpacity">
+<div id="oloRanker" class="popup draggableSTFModal">
 <p class="clockTitle blackOpacity" style="text-align:center;  margin:0px; font-size:22px;">Assegna Gradi Olografici</p>
 <br /><b>ASSEGNA A: </b> <img src="TEMPLATES/img/ranks/CIV.png" id="oloRankPreview" /> <select class="neon" id="tizio"><option tal:repeat="user people" tal:attributes="value user/pgID" tal:content="user/pgUser" /></select>
 
@@ -319,7 +320,6 @@ function toggleIllumino()
 
 <div metal:define-macro="alertPanel">
 	<div id="messageAlert" class="radiusBordered12">
-		
 		<div class="xButton" onclick="jQuery('#messageAlert').fadeOut(100);"></div>
 
 		<img class="imager" style="float:left;" />
@@ -343,8 +343,7 @@ function toggleIllumino()
 	</div>
 </div>  
 
-<div metal:define-macro="teleporterPanel">
-	<div id="teleportPanel" style="display:none;" class="popup blackOpacity">
+<div metal:define-macro="teleporterPanel" id="teleportPanel" style="display:none;" class="popup draggableSTFModal">
 	<script type="text/javascript" src="TEMPLATES/js/teleport.js?v=${gameOptions/numericVersion}"></script>
 	<p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:22px;">TELETRASPORTO</p>
 
@@ -380,12 +379,10 @@ function toggleIllumino()
 
 	<div class="xButton" onclick="jQuery('#teleportPanel').fadeOut(100);"></div>
 
-	</div>
 </div>
   
  
-<div metal:define-macro="sessionsPanel" >
-<div id="sessionsP" class="popup blackOpacity">
+<div metal:define-macro="sessionsPanel" id="sessionsP" class="popup draggableSTFModal">
 	
 	<div class="xButton" onclick="jQuery('#sessionsP').fadeOut(100);"></div>
 	
@@ -415,7 +412,7 @@ function toggleIllumino()
 				</select>
 			</p>
 			<p style="text-align:left; margin-left:25px; margin-top:10px; font-family:Helvetica; font-size:14px;">
-			Caratteri Max /azione: 
+			Caratteri Max / azione: 
 				<select id="tcharrer" class="neon" name="tcharrer">
 				<option value="0" selected="selected"> Infiniti </option>
 				<option value="800"> 800 </option>
@@ -469,11 +466,9 @@ function toggleIllumino()
 		#sessionQuest{width:100%; float:left; margin-top:10px; margin-bottom:10px;  backgroundtusers-color: #4e0000; font-size:1em; line-height:20px; height:20px; display:none;}
 	</style>
 </div>
-</div>
 
-<div metal:define-macro="masterDicePanel">
-<div id="masterDicePanel" class="popup blackOpacity">
 
+<div metal:define-macro="masterDicePanel" id="masterDicePanel" class="popup draggableSTFModal">
 
 	<script>
 		function recompute(fo){
@@ -543,14 +538,10 @@ function toggleIllumino()
 
 		<tr tal:repeat="adlerDice diceEvents" tal:attributes="class string:diceEvent r_${adlerDice/recID}"><td tal:content="adlerDice/pgUser"></td><td><img tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/abilita/${adlerDice/abImage}" style="width:50px;" /></td><td><span class="valDice" tal:content="adlerDice/outcome"></span>  <input class="abiDice" type="hidden" tal:attributes="value adlerDice/abID" /> <input class="recID" type="hidden" tal:attributes="value adlerDice/recID" /> <input class="pgID" type="hidden" tal:attributes="value adlerDice/pgID"  />  </td>  <td><span tal:content="adlerDice/threshold" />+ <select class="abMod" onchange="recompute(this);"><option value="-6">-6</option> <option value="-3">-3</option> <option value="0" selected="selected">0</option> <option value="-99">Annulla</option> <option value="3">+3</option> <option value="6">+6</option> </select></td> <td class="abiOutcome" tal:content="adlerDice/outcomeW"></td></tr>
 
-
 	</table>
 	</div>
 
 	<input onclick="distributeDice();" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:#1e7597; cursor:pointer;" value="Lancia l'Utente!" class="ui-button ui-widget ui-state-default ui-corner-all" />
-
-
-</div>
 
 </div> 
 

@@ -1466,7 +1466,7 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
 	top:80px;
 	left:100px;
 	width:640px;
-	height:264px;
+	height:263px;
     border-radius:11px;
 	background-color:rgba(0,0,0,0.8);
 	padding:5px;
@@ -1479,10 +1479,39 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
 .leftButton{
 	border-radius: 7px;
 	border:1px solid #999;
-	height: 33px;
-	margin: 1px 2px 0px 4px;
+	height: 25px;
+	padding: 1px;
+	margin: 4px 6px 4px 11px;
+	background-color: black;
 }
 
+
+.sendcom {
+	width: 80px; 
+	height: 40px; 
+	border-radius: 13px;  
+	font-family: Roddenberry;
+	font-size:26px;
+	background-color: transparent;
+	transition-duration: 0.5s;
+   	cursor: pointer; 
+   	color: #a60808;
+   	border-color: #a60808;
+}
+
+.sendcom:hover {
+	/*background-color: #216e35;*/
+	color: green;
+	border-color: green;
+}
+
+.sectioncolor{
+	color: var(--custom_section_color, #0077c3);
+	border-color: var(--custom_section_color, #0077c3);
+}
+
+
+	
 
 
 

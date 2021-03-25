@@ -24,36 +24,21 @@
 
  
 	<script tal:condition="exists:noauth">alert("Attenzione: in questa chat si sta svolgendo una giocata privata ad invito e l'accesso è riservato!");</script>
+
+	<script>
+			jQuery(function(){
+			jQuery('.tooltip, #comunicatorBox').tooltip({
+          			content: function (){
+          						return $(this).prop('title');
+          					}
+					});	
+			});
+	</script>
  
 	<title>STAR TREK FEDERATION</title>
 	
 	<style>@font-face{font-family:'federationFont';src: url('TEMPLATES/Roddenberry.eot');src: url('TEMPLATES/Roddenberry.ttf') format('truetype');} .hourCol{font-family:federationFont, Impact; vertical-align:middle; font-size:18px; color:#0077c3; width:40px;} .expiring{color:#FC0;}
 	</style>
-	<style type="text/css">
-		.sendcom {
-		width: 80px; 
-		height: 38px; 
-		border-radius: 15px;  
-		font-family: Roddenberry;
-		font-size:20px;
-		background-color: black;
-		transition-duration: 0.5s;
-   		cursor: pointer; 
-}
-
-		.sendcom:hover {
-		background-color: #216e35;
-		color: white;
-		border-color: green;
-}
-
-		.sectioncolor{
-			color: var(--custom_section_color, #0077c3);
-			border-color: var(--custom_section_color, #0077c3);
-		}
-		
-	</style>
-
 
 
 </head>

@@ -1480,7 +1480,7 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
 	border:1px solid #999;
 	height: 25px;
 	padding: 1px;
-	margin: 4px 6px 4px 11px;
+	margin: 4px 0px 4px 4px;
 	background-color: black;
 }
 

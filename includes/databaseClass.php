@@ -842,7 +842,7 @@ class PG
 		
 		$re = array();
 		if(mysql_affected_rows()) while($rea = mysql_fetch_array($res)) $re[] = $rea; 
-		else return 0;
+		
 		return $re;
 	}
 	

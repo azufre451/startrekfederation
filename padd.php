@@ -265,7 +265,7 @@ else if($mode == 'seR')
 
  }
 
-else if($mode == 'ds')
+/*else if($mode == 'ds')
 {
 	$template = new  PHPTAL('TEMPLATES/duties_index.htm');
 	
@@ -278,7 +278,7 @@ else if($mode == 'ds')
 	}
 	
 	$template->availDuties = $availDuties;
-}
+}*/
 
 else if($mode == 'tr' || $mode == 'ta')
 {

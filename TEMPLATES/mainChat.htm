@@ -5,7 +5,6 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link tal:condition="php:user.getCTS()" tal:attributes="href php:'TEMPLATES/css/' . user.getCTS() . '?v=' . gameOptions['numericVersion'] " rel="stylesheet" type="text/css" />	
-	<link href="TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}.545ar4" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" /> 
 	<link href="TEMPLATES/css/circle.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
@@ -20,18 +19,10 @@
 	<script type="text/javascript" src="TEMPLATES/js/easyNotify.js"></script>
 	<script type="text/javascript" src="TEMPLATES/js/highlight.js"></script>
  
-	<title tal:content="string:STF ${ambient/locName}">STAR TREK: FEDERATION</title>
+	<title tal:content="string:STF ${ambient/locName}" />
 	
 	<style tal:content="user/customCSS" tal:condition="php:(user.customCSS != '')" />
 	
-
-	<script> jQuery(function() { jQuery('.tooltip').tooltip({
-          content: function () {
-              return jQuery(this).prop('title');
-          }
-      });});
-     </script>
-
      <style>.ui-tooltip-content {
     font-family:Helvetica;
 	font-size:14px; 
@@ -89,8 +80,6 @@
 		<div id="federation_rightTop" />
 
 		
-		<div metal:use-macro="TEMPLATES/metal_panels.htm/reminderST" />
-		<div metal:use-macro="TEMPLATES/metal_panels.htm/reminderAvatar" />
 		
 		<div id="reminderClima" tal:condition="php:(ambient['ambientType']=='ALLOGGIO')" class="reminder" style="margin-top:20px; text-align:center;">
 			<a href="javascript:void(0);" onclick="toggleIllumino();" ><img id="reminderLight" tal:attributes="src string:TEMPLATES/img/interface/mainInterface/l${ambient/ambientLight}.png" title="Livello Illuminazione"  /></a>
@@ -235,7 +224,7 @@
 	</div>
 </div>
 
-<div id="locationInfo" tal:attributes="style string:background-image:url('${ambient/image}')" class="popup blackOpacity">
+<div id="locationInfo" tal:attributes="style string:background-image:url('${ambient/image}')" class="popup draggableSTFModal">
 <p class="clockTitle blackOpacity" tal:content="ambient/locName" />
 <div id="locationDesc" class="blackOpacity radiusBordered12">
 <p style="text-align:center;"><a href="#" onclick="javascript:jQuery('#locationDesc').fadeOut(150); jQuery('#textShower').fadeIn(150); " class="interfaceLink">( Nascondi )</a> <a href="#" onclick="javascript:jQuery('#locationDesc').fadeOut(150); jQuery('#textShower').fadeIn(150); jQuery('#locationEdit').fadeIn(150);  " class="interfaceLink" tal:condition="exists:isSuperMaster">( Modifica )</a> <a tal:condition="php:ambient['ambientType']=='SALA_OLO'" href="javascript:showRanker();" class="interfaceLink">( OLOMOSTRINE )</a></p>
@@ -290,7 +279,7 @@
 
 </div>
 
-<div id="dicePanel" class="popup blackOpacity">
+<div id="dicePanel" class="popup draggableSTFModal">
 
 	<p class="clockTitle blackOpacity" style="text-align:center;  margin:0px; margin-bottom:20px; font-size:22px;">Lancia un dado</p>
 
@@ -365,6 +354,10 @@
 </div>
 
 
+
+<div metal:use-macro="TEMPLATES/metal_panels.htm/corePanels" />
+
+
 <div metal:use-macro="TEMPLATES/metal_panels.htm/locationMapPanel" tal:condition="php:(ambient['locationable'])"/>
 <div metal:use-macro="TEMPLATES/metal_panels.htm/replicatorPanel" tal:condition="php:(ambient['ambientType']=='ALLOGGIO' || ambient['ambientType']=='REPLICATORE')"/>
 <div metal:use-macro="TEMPLATES/metal_panels.htm/teleporterPanel" tal:condition="php:(ambient['ambientType']=='SALA_TEL' || ambient['ambientType']=='PLANCIA' || ambient['ambientType']=='INFERMERIA')"/>
@@ -374,10 +367,7 @@
 <div metal:use-macro="TEMPLATES/metal_panels.htm/sessionsPanel" />
 <!--<div metal:use-macro="TEMPLATES/metal_panels.htm/alertPanelChat" />-->
 
-<div metal:use-macro="TEMPLATES/metal_panels.htm/dotazionePanel" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/masterDicePanel" tal:condition="exists:isMaster" />
-<div metal:use-macro="TEMPLATES/metal_panels.htm/statusBox" />
-<div metal:use-macro="TEMPLATES/metal_panels.htm/localizeBox" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/remindStaffPresence" tal:condition="exists:presenceForce" />
 
 <div metal:use-macro="TEMPLATES/guidar.htm/guidePanel" />

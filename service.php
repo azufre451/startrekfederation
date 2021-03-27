@@ -356,14 +356,13 @@ else if (isSet($_GET['updateStatus']))
 
 else if(isSet($_GET['comm']))
 {
-	$type = $_GET['comm'];
+	/* AJAX CALL */
+	$type = $_POST['commType'];
 	if($currentUser->pgLock){header('Location:comm.php'); exit;}
-	if ($type=='sendCommUser')
+	if ($type=='ppl')
 	{
-		$to = (htmlentities(addslashes(($_POST['personTo'])),ENT_COMPAT, 'UTF-8'));
+		$to = (htmlentities(addslashes(($_POST['to'])),ENT_COMPAT, 'UTF-8'));
 		$row = (htmlentities(addslashes(($_POST['rowSend'])),ENT_COMPAT, 'UTF-8'));
-		
-		
 		
 		if($to != 0)
 		{
@@ -371,7 +370,6 @@ else if(isSet($_GET['comm']))
 			$toQE = mysql_fetch_array($toQ);
 			$toRoom = $toQE['pgRoom'];
 			$toPg = addslashes($toQE['pgUser']);
-			
 			
 			$string = '<p class="commMessage">'.date('H:i').' <span class="commPreamble">'.addslashes($currentUser->pgUser)." a $toPg:</span> ".$row.'</p>';
 			if($toRoom != $currentUser->pgRoom) mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'".$currentUser->pgRoom."','$string',".time().",'ACTION')");
@@ -381,7 +379,7 @@ else if(isSet($_GET['comm']))
 		
 		else if ($to == 0)
 		{
-			$allAmb = mysql_query('SELECT locID FROM fed_ambient WHERE ambientLocation = \''.$currentUser->pgLocation.'\' AND locID <> \''.$currentUser->pgLocation.'\'');
+			$allAmb = mysql_query("SELECT locID FROM fed_ambient,pg_places WHERE placeID = ambientLocation AND (ambientLocation = '".$currentUser->pgLocation."' OR attracco = '".$currentUser->pgLocation."') AND locID <> '".$currentUser->pgLocation."'");
 			
 			$string = '<p class="commMessage">'.date('H:i').' <span class="commPreamble">'.addslashes($currentUser->pgUser)." a tutto il personale:</span> ".$row.'</p>';
 			
@@ -390,12 +388,11 @@ else if(isSet($_GET['comm']))
 			$toRoom = $rea['locID'];
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','$string',".time().",'ACTION')");
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','commbadge',".time().",'AUDIO')");
-			// mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','<audio autoplay=\"autoplay\"><source src=\"https://oscar.stfederation.it/audioBase/commbadge.ogg\" type=\"audio/ogg\" /><source src=\"https://oscar.stfederation.it/audioBase/commbadge.mp3\" type=\"audio/mpeg\" /></audio>',".time().",'AUDIO')");
 			}
 		}
 	}
 	
-	else if ($type=='sendCommDeck')
+	/*else if ($type=='sendCommDeck')
 	{
 		$to = addslashes($_POST['deckTo']);
 		
@@ -413,11 +410,11 @@ else if(isSet($_GET['comm']))
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','$string',".time().",'ACTION')");
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','commbadge',".time().",'AUDIO')");
 			}
-	}
+	}*/
 	
-	else if ($type=='sendCommAmbient')
+	else if ($type=='pla')
 	{
-		$to = (htmlentities(addslashes(($_POST['ambTo'])),ENT_COMPAT, 'UTF-8'));
+		$to = (htmlentities(addslashes(($_POST['to'])),ENT_COMPAT, 'UTF-8'));
 		$row = (htmlentities(addslashes(($_POST['rowSend'])),ENT_COMPAT, 'UTF-8'));
 		
 		if(!$ambientName = Ambient::getAmbientName($to)) exit;
@@ -427,12 +424,10 @@ else if(isSet($_GET['comm']))
 		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$to','$string',".time().",'ACTION')");
 		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$to','commbadge',".time().",'AUDIO')");
 		
-		
-		if($to != $currentUser->pgRoom){ mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'".$currentUser->pgRoom."','$string',".time().",'ACTION')");}
-		
+		if($to != $currentUser->pgRoom){mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'".$currentUser->pgRoom."','$string',".time().",'ACTION')");}
 	}
 	
-	echo "<html><script type='text/javascript'>window.close();</script></html>";
+	echo json_encode(array('STAT'=>'OK'));
 }
 
 else if(isSet($_GET['warpSpeed']))

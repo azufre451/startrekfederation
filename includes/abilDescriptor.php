@@ -94,8 +94,6 @@ class abilDescriptor
 		$strr = $this->abilDict[$abID]['abDepString'];
 		$krr=array();
 
-		
-
 		if($strr != '')
 		{
 			$t = explode('__',$strr);
@@ -241,8 +239,6 @@ class abilDescriptor
 		mysql_query("DELETE FROM pg_abilita_levels WHERE pgID = $uID");
 	}
 
-
-
 	public function resetAndRestore($initialDistribution)
 	{
 
@@ -289,12 +285,9 @@ class abilDescriptor
 
 	public function superImposeRace($race)
 	{  
-
-
 		$file_handle = fopen("data/char_progression.txt", "r");
 		while (!feof($file_handle)) {
 			$line = fgets($file_handle);
-
 		}
 		
 		$tt = array('ABI' => array(), 'CAR' => array());
@@ -305,33 +298,6 @@ class abilDescriptor
 			
 			$tt[$resA['type']][$resA['species']][] = array($resA['abID'],$resA['abMod']);
 		}
-
-		/*$t['Umana']= array(	array(38,0),array(31,1) );
-		$t['Vulcaniana']=  array(array(60,2),array(59,1),array(61,1),array(56,0));
-		$t['Betazoide'] = array(array(61,2),array(20,0),array(60,2));
-		$t['Trill'] =array(array(21,1),array(20,1),array(9,0),array(35,2));
-		$t['Andoriana'] = array(array(10,2),array(21,1),array(17,1),array(52,2),array(4,3));
-		$t['Bajoriana'] = array(array(7,1),array(12,3),array(18,1),array(21,2),array(19,0));
-		$t['Boliana'] = array(array(7,2),array(11,2),array(35,2),array(34,0),array(20,2), array(19,1));
-		$t['Terosiana'] = array(array(42,1),array(18,1),array(8,2),array(11,2));
-		$t['Caitiana'] = array(array(10,1),array(12,3),array(21,2));
-		$t['Koyar'] = array(array(60,2),array(61,1),array(12,2),array(11,1),array(21,0));
-		$t['Xenita'] = array(array(12,1),array(21,2),array(52,1),array(56,1));
-		$t['Tellarita'] = array(array(35,2),array(13,2),array(8,2),array(22,1),array(34,2),array(21,2),array(33,1));
-		$t['Zaldan'] = array(array(13,1),array(10,3),array(4,1),array(8,2),array(21,2));
-		
-		$r['Vulcaniana']=  array(array('WP',1),array('HT',1)); // 11 + 15 = 26 (79)
-		$r['Betazoide'] = array(array('HT',-1),array('WP',2)); // -3 +11+16 = 24 (79)
-		$r['Trill'] =array(array('IQ',1),array('HT',2)); // 20 + 15+19 = 54 (100)
-		$r['Andoriana'] = array(array('DX',1),array('HT',1)); // 15+15 = 30 (84)
-		$r['Bajoriana'] = array(array('WP',2),array('PE',1)); // 11+11 = 22 (84)
- 		$r['Boliana'] = array(array('DX',-2),array('PE',2),array('WP',1)); // 11+11 = 22 (84)
- 		$r['Terosiana'] = array(array('DX',2),array('WP',1),array('HT',-1)); // 11+11 = 22 (84)
- 		$r['Caitiana'] = array(array('DX',1),array('PE',2),array('HT',-2)); // (85)
- 		$r['Koyar'] = array(array('HT',-1),array('DX',+1),array('WP',+2));
- 		$r['Xenita'] = array(array('IQ',-2),array('DX',+1),array('WP',+1),array('PE',+2));
- 		$r['Tellarita'] = array(array('DX',-2),array('HT',+1));
- 		$r['Zaldan'] = array(array('DX',-2),array('HT',+3),array('WP',-1));*/
 
 		if (array_key_exists($race,$tt['ABI']))
 			$this->superSet($tt['ABI'][$race]);
@@ -383,7 +349,6 @@ class abilDescriptor
 			}
 		}
 	}
-	
 }
 
 ?>

@@ -136,13 +136,9 @@
 			 
 			 jQuery('#federation_chatDiv span.chatUser, #federation_chatDiv p .actionUser, #federation_chatDiv p.directiveRemove, #federation_chatDiv div.masterAction').reverse().each(function(e){
 				
-
-				// https://www.youtube.com/watch?v=ulOb9gIGGd0 //
 				//thisTimer = jQuery(this).data('timecode');
 				tname=(jQuery(this).attr("class") == 'masterAction') ? 'MASTER' : jQuery(this).text();
  
-
-
 				if(nonConsiderer.indexOf(tname) == -1){ 
 					
 					//add the removed to the nonconsider list
@@ -175,7 +171,6 @@
 				if(indexer[index] == currentUsername){classer = ' style="color:#3188F3;" '; isme=1;}
 				if(indexer[index] == 'MASTER') classer = ' style="color:red;" '; 
 
-			
 				//it's you turn, madafaka
 				if(index == 0 && indexer[index] == currentUsername)
 				{			
@@ -186,16 +181,7 @@
 
 					if (lastACT >0 && rtime > (maxIntervalTime * 60))
 					{
-						//alert(indexer[indexer.length-1 ]['pgUser'] + ' - ' + indexer[indexer.length-1]['tc'] + ' - ' + indexer[index]['pgUser'] + ' - ' + (Date.now() / 1000 | 0)+ ' ---> ' + rtime + ' ' + parseInt(jQuery('#maxIntervalTime').val()) * 60);
 						removeTurner('');
-
-						//console.log('REMOVEYOY!');
-
-
-					}
-					else
-					{
-						console.log( (Date.now() / 1000 | 0)+ '-' +lastACT + ' ---> ' + rtime + ' (' + maxIntervalTime+')');
 					}
 
 					stringer+= '<p class="turnElement myTurnElement lamp" '+classer+'>'+indexer[index]+'</p>'; 
@@ -322,7 +308,6 @@
 			url: 'ajax_sendChatLineU.php',
 			data: {amb: jQuery('#locID').prop('value'), chatLine: text, userSpecific: jQuery('#chatUser').val(), chatTag: jQuery('#chatTag').prop('value')},
 			success: notiEC,
-			async:false,
 			type: 'POST'
 			});
 		}

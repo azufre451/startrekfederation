@@ -16,7 +16,7 @@
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 	 
 
-	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
+	<script type="text/javascript" src="TEMPLATES/js/jquery-3.6.0.min.js" />
 
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	<script type="text/javascript" src="TEMPLATES/js/caret.js?v=${gameOptions/numericVersion}"></script>
@@ -140,7 +140,7 @@
 			<!-- START BLOCCO BOTTONI -->
 			<div metal:use-macro="TEMPLATES/padd_metal.htm/paddBBCodeBlock" />
 			
-			<select class="neon" name="paddType"  style="margin-right: 3px; width:100px; font-size: 12px; font-variant: small-caps;">
+			<select class="neon" name="paddType"  style="margin-right: 3px; width:100px; font-size: 12px;">
 				<option value="0">On-Game</option>
 				<option value="1">Off-Game</option>
 				<option tal:condition="exists:isGuide" value="3">Guide/Revisioni</option>

@@ -405,7 +405,7 @@ display:none;  margin-bottom:5px; padding:3px; min-height:41px; width:368px; flo
 		font-size: 13px;
 		border: 1px solid white;
 		padding: 10px;
-		font-family: Verdana;
+		font-family: Helvetica;
 }
 .popupPsi{
 	height: 290px;
@@ -443,3 +443,7 @@ span.sfs::after{
 		background-color: green;
 		color: white;
 }
+
+
+.thrExplain{ display:inline; margin:0px; }
+.thrExplain img{ width:25px; vertical-align: middle; }

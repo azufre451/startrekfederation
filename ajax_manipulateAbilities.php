@@ -3,6 +3,7 @@ session_start();
 if (!isSet($_SESSION['pgID'])){header("Location:login.php"); exit;}
 
 include('includes/app_include.php');
+include('includes/abilDescriptor.php');
 include('includes/validate_class.php');
 $vali = new validator();
 
@@ -11,6 +12,7 @@ $currentUser = new PG($_SESSION['pgID']);
 if ($currentUser->pgAuthOMA == 'BAN'){header("Location:404"); exit;}
 
 $a = new abilDescriptor($currentUser->ID);
+
 
 if ($_GET['action'] == 'getAbil'){
 

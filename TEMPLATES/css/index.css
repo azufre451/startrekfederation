@@ -46,13 +46,7 @@ span.carEmph{
   padding:10px;
 }
 
-p.bonus{margin-top:1px dashed #333; margin-top:5px;}
-p.bonus img{
-  width:35px; vertical-align:middle;
-}
-p.bonus span {
-  font-family:federationFont; font-size:18px; letter-spacing: 0.1em;
-}
+p.bonusBlock { margin-top:5px; font-family:federationFont; font-size:18px; letter-spacing: 0.1em; color:#FFCC00; }
 
 #newsS > div {
   margin-bottom:10px;

@@ -22,7 +22,7 @@
 		<link href="TEMPLATES/css/index.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />	
 
 
-		<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
+		<script type="text/javascript" src="TEMPLATES/js/jquery-3.6.0.min.js" />
 		<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 		<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}" async="async"/>
 		<script type="text/javascript" src="TEMPLATES/js/index.js?v=${gameOptions/numericVersion}" async="async"/>
@@ -399,29 +399,53 @@ farti un'idea?</span> Prova Star Trek: Federation<br/> Username: Test<br/>Passwo
 							<div class="menureg top head">La razza che hai scelto: <span id="mirror_razza_t" /></div>
 							
 								<div class="species_spec" id="sp_Umana">Gli umani sono la razza con la maggiore espansione nella Federazione Unita dei Pianeti. Originari del pianeta Terra nel sistema Sol gli esseri umani sono stati la spinta iniziale alla fondazione della Federazione Unita dei Pianeti e si sono diffusi in tutti i quadranti con migliaia di colonie maggiori, molte delle quali divenute a loro volta indipendenti e membri della Federazione. Gli esseri umani sono poliedrici ed è impossibile definire un carattere comune, le loro più grandi forze sono la versatilità, la capacità di adattamento e la capacità di lavorare in gruppo. Per questo motivo gli esseri umani sono la spina dorsale della Flotta Stellare i cui membri umani superano di gran lunga il numero di altre specie.
-								<p class="bonus"> <span  style="color:#FFCC00; margin-top:10px;"> Bonus di Razza: </span></p> 
-								<p class="bonus" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_umani" />
+								<p class="bonusBlock">Bonus di Razza:</p> 
 
+								<div>
+			 						<p class="bonus tooltip" tal:repeat="bonus bonuses/Umana" tal:attributes="title bonus/reason">
+			 							<img tal:condition="php:(bonus['abImage'] !='')"  tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/abilita/${bonus/abImage}" />
+			 							<span tal:content="bonus/abMod" tal:attributes="class php:(bonus['abMod'] GT 0) ? 'positive' : ((bonus['abMod'] == '*') ? 'activated' : (!bonus['special'] ? 'negative' : ''))"/>
+			 						</p>
+			 					</div>
 
 								</div>
 								
 								<div class="species_spec" id="sp_Vulcaniana">Logica. La logica muove i fili della vita di tutti i giorni di un vulcaniano ed i vulcaniani amano ricordare quanto la logica della ragione sia più importante delle emozioni. Razza umanoide del tutto simile ad un essere umano esteriormente se non per le orecchie leggermente allungate ed appuntite. Vivono secondo un rigido codice comportamentale che prevede l'estraniazione delle emozioni dalla loro esistenza, sviluppato in tempi antichi dopo grandi tumulti a causa della natura aggressiva e violenta degli antichi vulcaniani. I vulcaniani sono dotati di capacità telepatiche al contatto. Per le loro caratteristiche ed i metodi utilizzati i vulcaniani si inseriscono perfettamente in tutte le discipline civili e militari. I vulcaniani sono tra i più grandi promotori e partecipanti dello sviluppo tecnologico e culturale della Federazione Unita dei Pianeti. I vulcaniani sono dotati di una forza fisica che ha pochi uguali nei quadranti Alpha e Beta.
 								
-								<p class="bonus"> <span  style="color:#FFCC00; margin-top:10px;"> Bonus di Razza: </span></p> 
+								<p class="bonusBlock">Bonus di Razza:</p>  
 								
-								<p class="bonus" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_vulcaniani" />
+								
+								<div>
+			 						<p class="bonus tooltip" tal:repeat="bonus bonuses/Vulcaniana" tal:attributes="title bonus/reason">
+			 							<img tal:condition="php:(bonus['abImage'] !='')"  tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/abilita/${bonus/abImage}" />
+			 							<span tal:content="bonus/abMod" tal:attributes="class php:(bonus['abMod'] GT 0) ? 'positive' : ((bonus['abMod'] == '*') ? 'activated' : (!bonus['special'] ? 'negative' : ''))"/>
+			 						</p>
+			 					</div>
 								</div> 
 								
 								<div class="species_spec" id="sp_Trill">I trill sono una razza umanoide del quadrante Alpha membro della federazione. Trill mantiene molto del proprio pianeta in una sorta di segretezza a cui hanno accesso solo i membri del Consiglio Federale di Sicurezza ed il presidente. La scelta di questi segreti è collegata alla natura molto intima delle leggi sui simbionti. Trill infatti è un mondo che ospita due specie dominanti. Una di queste, i trill ospiti, è divisa in due sottospecie ed ha una cultura ed una civiltà del tutto simile a quella di molte altre specie umanoidi. La seconda è un simbionte alieno dall'aspetto di una grossa larva che vive in caverne e bacini di proliferazione. Ospite e simbionte possono essere uniti, il simbionte trasferisce nell'ospite tutti i propri ricordi e quelli dei precedenti ospiti, in cambio l'ospite permette al simbionte di "vivere" al di fuori del suo stato larvale muovendosi con il corpo umanoide. I due individui comunque coesistono, l'ospite continua la propria normale esistenza, assume il nome del simbionte come proprio cognome. [Alla registrazione ogni trill è da considerarsi NON unito. L'unione potrà essere richiesta durante il gioco in una fase avanzata e sottoposto ad approvazione o reinvio]
 
-								<p class="bonus"> <span  style="color:#FFCC00; margin-top:10px;"> Bonus di Razza: </span></p> 
-								<p class="bonus" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_trill" />
+								<p class="bonusBlock">Bonus di Razza:</p> 
+
+								
+								<div>
+			 						<p class="bonus tooltip" tal:repeat="bonus bonuses/Trill" tal:attributes="title bonus/reason">
+			 							<img tal:condition="php:(bonus['abImage'] !='')"  tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/abilita/${bonus/abImage}" />
+			 							<span tal:content="bonus/abMod" tal:attributes="class php:(bonus['abMod'] GT 0) ? 'positive' : ((bonus['abMod'] == '*') ? 'activated' : (!bonus['special'] ? 'negative' : ''))"/>
+			 						</p>
+			 					</div>
 								</div>
 								
 								<div class="species_spec" id="sp_Andoriana">Fieri, sicuri, precisi. Gli andoriani, membri fondatori della Federazione Unita dei Pianeti, sono una razza aliena dalla pelle di colore azzurro dotati di ricettori uditivi accessori nella forma di due antenne sulla fronte. Gli andoriani sono una razza che presenta quattro distinti sessi, due con connotazioni prettamente maschili e due con connotazioni femminili, per procreare gli andoriani devono essere un gruppo di quattro individui che partecipano in momenti differenti al concepimento. Gli andoriani tendono ad assumere comportamenti scontrosi quando nervosi, sono una razza pronta all'azione prima ancora che alla parola questo fa di loro un nervo importante dei sottodipartimenti di Comando, Tattica e Sicurezza. 
 								
-								<p class="bonus"> <span  style="color:#FFCC00; margin-top:10px;"> Bonus di Razza: </span></p> 
-								<p class="bonus" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_andoriani" />
+								<p class="bonusBlock">Bonus di Razza:</p> 
+
+								<div>
+			 						<p class="bonus tooltip" tal:repeat="bonus bonuses/Andoriana" tal:attributes="title bonus/reason">
+			 							<img tal:condition="php:(bonus['abImage'] !='')"  tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/abilita/${bonus/abImage}" />
+			 							<span tal:content="bonus/abMod" tal:attributes="class php:(bonus['abMod'] GT 0) ? 'positive' : ((bonus['abMod'] == '*') ? 'activated' : (!bonus['special'] ? 'negative' : ''))"/>
+			 						</p>
+			 					</div>
 							</div>
 								
 								<!--
@@ -440,15 +464,31 @@ farti un'idea?</span> Prova Star Trek: Federation<br/> Username: Test<br/>Passwo
 
 								<div class="species_spec" id="sp_Terosiana">I Terosiani sono una razza nativa del pianeta Terosia, nel Quadrante Delta. Sono bipedi, dalla statura simile a quella umana, abili nuotatori, e hanno una pelle che può variare dal blu (più diffuso), al giallo, al rosso. I Terosiani sono in grado di muoversi e sviluppare una forza ed una agilità di gran lunga superiori sott’acqua, grazie alla pelle idrodinamica e alla loro particolare conformazione scheletrica e muscolare. I Terosiani soffrono in maniera marcata le temperature  calde (oltre i trenta gradi), mentre sopportano in maniera eccellente il freddo (fino a -30 gradi). All’altezza dell’osso sacro, sviluppano una piccola coda, essenziale al loro equilibrio, che cresce sino a raggiungere la sua massima estensione intorno ai 25 anni. Ad eccezione dei capelli, i Terosiani sono completamente glabri; sono inoltre dotati di un poderoso udito. I Terosiani sono stati estremamente importanti per l'esplorazione della Federazione nel Quadrante Delta, divendando prima protettorato federale, e poi membro della Federazione. La società Terosiana è allineata su posizioni prettamente matriarcali e consumistiche. Recentemente, diversi Terosiani sono entrati nei ranghi della Flotta Stellare, sia con arruolamenti diretti, che tramite la nuova sede dell'Accademia della Flotta Stellare su Terosia.
 
-								<p class="bonus"> <span  style="color:#FFCC00; margin-top:10px;"> Bonus di Razza: </span></p> 
-								<p class="bonus" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_terosiani" />
+								<p class="bonusBlock">Bonus di Razza:</p> 
+
+								
+								<div>
+			 						<p class="bonus tooltip" tal:repeat="bonus bonuses/Terosiana" tal:attributes="title bonus/reason">
+			 							<img tal:condition="php:(bonus['abImage'] !='')"  tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/abilita/${bonus/abImage}" />
+			 							<span tal:content="bonus/abMod" tal:attributes="class php:(bonus['abMod'] GT 0) ? 'positive' : ((bonus['abMod'] == '*') ? 'activated' : (!bonus['special'] ? 'negative' : ''))"/>
+			 						</p>
+			 					</div>
+
 								</div>
 
 								
 								<div class="species_spec" id="sp_Bajoriana">Religiosi, testardi, orgogliosi. I Bajoriani sono una delle ultime specie ad essersi unite alla Federazione Unita dei Pianeti, dopo la Guerra con il Dominio e dopo anni di occupazione del loro pianeta e delle loro colonie da parte della vicina Unione Cardassiana. La fede religiosa è radicata nei bajoriani più di molte altre razze, vedono ai loro dei, i Profeti, delle guide che prestabiliscono gli eventi perché seguano un preciso percorso per il bene comune. I Vedek ed il Kai sono guide spirituali con una forte influenza anche sulla vita politica bajoriana e per anni sono stati uno dei freni per l'annessione di Bajor nello spazio federale, testardi ed orgogliosi i bajoriani si dimostrano spesso adatti ad incarichi nei sottodipartimenti di Tattica e Sicurezza. Esteriormente sono del tutto simili ad un essere umano, a parte per la caratteristica forma delle creste nasali. 
 
-								<p class="bonus"> <span  style="color:#FFCC00; margin-top:10px;"> Bonus di Razza: </span></p> 
-								<p class="bonus" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_bajoriani" />
+								<p class="bonusBlock">Bonus di Razza:</p> 
+
+								
+								<div>
+			 						<p class="bonus tooltip" tal:repeat="bonus bonuses/Bajoriana" tal:attributes="title bonus/reason">
+			 							<img tal:condition="php:(bonus['abImage'] !='')"  tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/abilita/${bonus/abImage}" />
+			 							<span tal:content="bonus/abMod" tal:attributes="class php:(bonus['abMod'] GT 0) ? 'positive' : ((bonus['abMod'] == '*') ? 'activated' : (!bonus['special'] ? 'negative' : ''))"/>
+			 						</p>
+			 					</div>
+
 								</div>
 								
 						<div class="menureg top head">Il Ruolo che hai scelto: </div>

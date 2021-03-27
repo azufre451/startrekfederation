@@ -1,6 +1,7 @@
 .htaccess
 includes/conf.php
 TEMPLATES/img/
+TEMPLATES/img
 error_log
 favicon.ico
 includes/PHPTAL/

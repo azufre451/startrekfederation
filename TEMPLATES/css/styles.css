@@ -435,3 +435,23 @@ display:none;
     background-size:cover;  
     display: inline-block;
 }
+
+
+p.bonus{
+		margin-top:5px;
+		display:inline-block;
+	  	width:70px;
+}
+p.bonus img{
+	width:45px; vertical-align:middle; margin-left:5px; 
+}
+p.bonus span {
+	font-family:federationFont;
+	font-size:18px;
+	margin-left:5px;
+	letter-spacing: 0.1em;
+}
+
+p.bonus span.negative{color:red;}
+p.bonus span.activated { font-size:20px;}
+p.bonus span.positive:before { content:'+'; }

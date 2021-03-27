@@ -21,36 +21,39 @@ $vali = new validator();
 	
 	if($ra['pointerL'] != '')
 	{
-		$coords = explode(':',$ra['pointerL']); 
+		$coords = explode(':',$ra['pointerL']);
 		$ipo = explode(';',$coords[1]);
 	}	
 	else $ipo =  explode(';',"-1;-1");
 	 
 	$template->yPos = $ipo;
 	
-	$ra = mysql_query("SELECT DISTINCT pointerL FROM pg_places WHERE pointerL NOT IN ('A:','D:') AND pointerL LIKE '$subChart:%' ");
+	$ra = mysql_query("SELECT pointerL,placeType FROM pg_places WHERE pointerL NOT IN ('A:','D:') AND attracco ='' AND pointerL LIKE '$subChart:%' ");
 	$markers = array();
 	while ($res = mysql_fetch_array($ra))
 	{	
-		$coords = explode(':',$res['pointerL']); 
-		$ele = explode(';',$coords[1]); 
-		$markers[] = array($ele[0],$ele[1]);
+
+		if (! array_key_exists($res['pointerL'], $markers))
+			$markers[$res['pointerL']] = array();
+		$markers[$res['pointerL']][] = $res['placeType'];
 	}
 	
+	$markersOrder = array();
+	foreach($markers as $mk => $mklist)
+	{
+		$uniQ = array_unique($mklist);
+		if (count($uniQ) == 1)
+			$type = $uniQ[0];
+		else
+			$type = 'MIX';
+
+		$coords = explode(':',$mk);
+		$ele = explode(';',$coords[1]);
+		$markersOrder[] = array($ele[0],$ele[1],$type);
+	}
+
 	
-	// if($id!=0){
-	// $markers= new MarkerCollection();
-	// $ra = mysql_query("SELECT placeName,pointer,placeType, place_littleLogo1, placeClass FROM pg_places WHERE sector = $id");
-	
-	// while ($re = mysql_fetch_array($ra))
-	// {
-		// $po = explode(';',$re['pointer']);
-		// $markers->addMarker($po[0],$po[1],$re['placeName']);
-	// }
-	// $template->markers = $markers->getmark();
-	// } 
-	
-	$template->markers = json_encode($markers);
+	$template->markers = json_encode($markersOrder);
 	$template->gameOptions = $gameOptions;
 	$template->subChart=$subChart;
 	try 

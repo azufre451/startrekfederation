@@ -127,6 +127,25 @@ $template->mod = (isSet($_GET['mod'])) ? $_GET['mod'] : '';
 /*Aut Reg*/
 $template->aut = $a1[rand(0,24)].' '.$a1[rand(0,24)].' '.rand(0,10).' '.rand(0,10);
 
+
+/*Bonus*/
+
+$bonuses=array();
+$resModQ=mysql_query("SELECT abName,abImage,abMod,reason,0 as special,species FROM pg_abilita_bonus,pg_abilita WHERE pg_abilita.abID = pg_abilita_bonus.abID ORDER BY type ASC, abMod ASC");
+while($resMod=mysql_fetch_assoc($resModQ))
+{
+	if(!array_key_exists($resMod['species'],$bonuses))
+		$bonuses[$resMod['species']] = array();
+
+	$resMod['abMod'] = str_replace('0','*',$resMod['abMod']);
+	$resMod['reason'] = '<span style="font-weight:bold; color:#FFCC00">'.$resMod['abName'].'</span> - '.$resMod['reason'];
+	$bonuses[$resMod['species']][] = $resMod;
+}
+$bonuses['Umana'][]= array('abName'=>'Punti Bonus','abImage'=>'','abMod'=>'+50 UP','reason'=>'In luce della loro elevata versatilità, gli umani ottengono un bonus di 50 Upgrade Points','special'=>1);
+
+
+$template->bonuses = $bonuses;
+
  
 $template->tips = $tips;
 $template->resNews = $resNews;

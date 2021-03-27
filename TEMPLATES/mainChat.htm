@@ -11,7 +11,7 @@
 	<link id="alerter" tal:attributes="href string:TEMPLATES/css/${alertCSS}.css" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 	
-	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" /> 
+	<script type="text/javascript" src="TEMPLATES/js/jquery-3.6.0.min.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	<script type="text/javascript" src="TEMPLATES/js/gamesessions.js?v=${gameOptions/numericVersion}"></script>
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
@@ -365,7 +365,7 @@
 <div metal:use-macro="TEMPLATES/metal_panels.htm/climatePanel" tal:condition="php:(ambient['ambientType']=='ALLOGGIO')" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/commPanel" tal:condition="php:(ambient['ambientType']=='PLANCIA')" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/sessionsPanel" />
-<div metal:use-macro="TEMPLATES/metal_panels.htm/alertPanelChat" />
+<!--<div metal:use-macro="TEMPLATES/metal_panels.htm/alertPanelChat" />-->
 
 <div metal:use-macro="TEMPLATES/metal_panels.htm/masterDicePanel" tal:condition="exists:isMaster" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/remindStaffPresence" tal:condition="exists:presenceForce" />

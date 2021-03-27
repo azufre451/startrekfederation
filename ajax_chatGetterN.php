@@ -74,7 +74,7 @@ while($chatLi = mysql_fetch_array($chatLines)){
 
 	if ($chatLi['type'] == 'DICERSPEC' && $chatLi['dicerAbil'] != ''){
 		
-
+		include_once('includes/abilDescriptor.php');
 		$a = new abilDescriptor($chatLi['sender']);
 		$abi = $a->abilDict[$chatLi['dicerAbil']];
 		$stat = $a->explaindice($chatLi['dicerAbil']);

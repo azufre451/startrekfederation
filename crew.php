@@ -34,7 +34,7 @@ function cmp($a, $b) {
     	
     	if ( (preg_match('#comando#i', strtolower($a)) === 1)) $rw=-1;
     	elseif ( (preg_match('#comando#i', strtolower($b)) === 1)) $rw=1;
-    	else $rw = ($a > $b);
+    	else $rw = (int)($a > $b);
 
     	return $rw;
 

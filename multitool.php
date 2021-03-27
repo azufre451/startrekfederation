@@ -518,6 +518,8 @@ if($mode == 'group')
 
 if($mode == 'switch')
 { 
+	include_once('includes/abilDescriptor.php');
+	
 	if (!PG::mapPermissions('A',$currentUser->pgAuthOMA)) exit;
 
 	$sel=explode(',',$_POST['listof']);

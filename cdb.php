@@ -350,7 +350,6 @@ else if(isSet($_GET['moveTopicDo']))
 	exit;
 }
 
-
 else if(isSet($_GET['topicLock']))
 {
 	$nan = $vali->numberOnly($_GET['topicLock']);
@@ -419,8 +418,6 @@ else if (isSet($_GET['addPost']))
 		$matches = array(); 
 		preg_match_all('~\[SECLAR=([0-9]?)\].*\[/SECLAR\]~s',$content,$matches);
 
-		
-
 		$maxReqSeclar=max($matches[1]);
 	}
 	else{
@@ -437,8 +434,6 @@ else if (isSet($_GET['addPost']))
 	$usersToClear=array();
 	while($rasSec = mysql_fetch_assoc($resSec))
 		$usersToClear[]=$rasSec['pgID'];
-
-
 	
 	if (PG::mapPermissions("M",$currentUser->pgAuthOMA) && ($_POST['usersMaster'] != ""))
 	{
@@ -658,7 +653,7 @@ else if(isSet($_GET['postE']))
 	$postOwner = $resAPost['owner'];
 	$template->postOwnerUser = PG::getSomething($postOwner,'username');
 	$postCoOwner = $resAPost['coOwner'];
-	$template->postCoOwnerUser = PG::getSomething($postCoOwner,'username');
+	$template->postCoOwnerUser = ($resAPost['coOwner']) ? PG::getSomething($postCoOwner,'username') : '';
 	$topicID = $resAPost['topicID'];
 	}
 	

@@ -4,6 +4,7 @@ if (!isSet($_SESSION['pgID'])) { header("Location:index.php?login=do"); exit;}
 if (!$_SESSION['pgID']){ header("Location:index.php?login=do"); exit;}
 
 include('includes/app_include.php');
+include_once('includes/abilDescriptor.php');
 include('includes/validate_class.php');
 include('includes/prestige.php');
 include('includes/cdbClass.php');
@@ -12,7 +13,7 @@ include("includes/PHPTAL/PHPTAL.php");
 PG::updatePresence($_SESSION['pgID']);
 
 ini_set("display_errors", 1);
-error_reporting(E_ALL ^ E_DEPRECATED);
+
 
 $vali = new validator();
 $currentUser = new PG($_SESSION['pgID']);
@@ -278,8 +279,6 @@ elseif($mode == 'bv')
 
 			$ability['levelThrperc'] = min(100, ceil((float)($thrVal)/($ability['abClass'] == 'ABIL' ? 15 : 20)   *100));
 		}
-
-			
 	}
 
 	mysql_query("SELECT 1 FROM pg_users_bios WHERE pgID = $selectedUser AND valid = 2");
@@ -290,6 +289,22 @@ elseif($mode == 'bv')
 
 	ksort($abil);
 	$template->abi = $abil;
+
+	$bonuses=array();
+	$resModQ=mysql_query("SELECT abName,abImage,abMod,reason,0 as special FROM pg_abilita_bonus,pg_abilita WHERE pg_abilita.abID = pg_abilita_bonus.abID AND species = '".$selectedDUser->pgSpecie."' ORDER BY type ASC, abMod ASC");
+	while($resMod=mysql_fetch_assoc($resModQ))
+	{
+		$resMod['abMod'] = str_replace('0','*',$resMod['abMod']);
+		$resMod['reason'] = '<span style="font-weight:bold; color:#FFCC00">'.$resMod['abName'].'</span> - '.$resMod['reason'];
+		$bonuses[] = $resMod;
+	}
+
+	if($selectedDUser->pgSpecie == 'Umana')
+		$bonuses[] = array('abName'=>'Punti Bonus','abImage'=>'','abMod'=>'+50 UP','reason'=>'In luce della loro elevata versatilità, gli umani ottengono un bonus di 50 Upgrade Points','special'=>1);
+
+
+	$template->bonuses = $bonuses;
+
 	$template->labeler = array('GEN'=>'Ab. Generali','COMB'=>'Ab. Combattimento','ATT'=>'Ab. Attitudinali','SPE'=>'Ab. Speciali','TEC'=>'Ab. Tecniche','SCI'=>'Ab. Scientifiche','ABIL'=>'Caratteristiche');
  	$template->uniform = PG::getSomething($selectedUser,'uniform'); 
  	$template->pgSpecie = $selectedDUser->pgSpecie;
@@ -831,8 +846,10 @@ elseif($mode == 'al')
 	$unita= PG::getSomething($selectedUser,"pgAlloggio");
 	
 	$template->alloggi = $alloggi;
-	$template->desc = CDB::bbcode($unita['descrizione']);
-	$template->locName = $unita['locName']; 
+
+
+	$template->desc = ($unita) ? CDB::bbcode($unita['descrizione']) : '';
+	$template->locName = ($unita) ? $unita['locName'] : ''; 
 }
 
 elseif($mode == 'resetCSS') { mysql_query("UPDATE pg_users SET parlatCSS = '', otherCSS = '' WHERE pgID = ".$_SESSION['pgID']); header("Location:scheda.php?pgID=$selectedUser&s=edit"); exit;}
@@ -2035,8 +2052,8 @@ else
 
 
 
-	function cmp($a, $b) { if (!$a['owned'] && !$b['owned']) return -1; else return ($a['rt'] < $b['rt']);	}
-	function cmp2($a, $b) { if ($a == 'Non assegnabili') return -1; else return ($a < $b);	}
+	function cmp($a, $b) { if (!$a['owned'] && !$b['owned']) return -1; else return (int)($a['rt'] < $b['rt']);	}
+	function cmp2($a, $b) { if ($a == 'Non assegnabili') return -1; else return (int)($a < $b);	}
 	foreach ($achi as $achiCat => $achiRecord)
 		uasort($achi[$achiCat], 'cmp'); 
 
@@ -2125,7 +2142,7 @@ else
 $template->userData = $selectedDUser;
 $rea = mysql_query("SELECT pg_assigner FROM pg_places WHERE placeID = '".$selectedDUser->pgAssign."'");
 $reaa = mysql_fetch_array($rea);
-$template->unit = $reaa['pg_assigner'];
+$template->unit = (mysql_affected_rows()) ? $reaa['pg_assigner'] : '';
 
 
 $template->masterPanel = (PG::mapPermissions("SL",$currentUser->pgAuthOMA)) ? true : false;
@@ -2164,4 +2181,3 @@ $template->dateFormat = "d/m/Y H:i:s";
 
 include('includes/app_declude.php');	
 ?>
-

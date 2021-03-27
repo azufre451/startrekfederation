@@ -1196,6 +1196,8 @@ elseif($mode == 'admin')
     $ras=mysql_query("SELECT placeName FROM pg_places WHERE placeCommander = '$pgID' AND placeType <> 'Navetta'");
     while($res = mysql_fetch_assoc($ras))
     	$commandedPlaces[] = $res;
+
+    $template->availableSpecies = array('Andoriana', 'Bajoriana', 'Bajoriana-Cardassiana', 'Benzita', 'Betazoide', 'Boliana', 'Borg', 'Breen', 'Caitiana', 'Capelliana', 'Cardassiana', 'Deltana', 'Denobulana', 'El-Auriana', 'Elaysiana', 'Ferengi', 'Fondatore', 'Gorn', 'Grazerita', 'Jem\'Hadar', 'Koyar', 'Klingon', 'Nausicaana', 'Ocampa', 'Orioniana', 'Risiana', 'Romulana', 'Sauriana', 'Sconosciuta', 'Talariana', 'Talassiana', 'Tellarita', 'Terosiana', 'Tholiana', 'Trill', 'Tzenkethi', 'Umana', 'Umana-Betazoide', 'Umana-Vulcaniana', 'Umana-Klingon', 'Umana_Romulana', 'Vorta', 'Vulcaniana', 'Vulcaniana-Romulana', 'Xenita', 'Zakdorn', 'Zaldan');
     
 	
 	$template->commandedPlaces = $commandedPlaces;

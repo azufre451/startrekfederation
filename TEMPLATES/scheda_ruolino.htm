@@ -1,7 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
@@ -10,7 +9,6 @@
 	<link href="TEMPLATES/css/circle.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/personnel.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" /> 
-	
 
 	<script type="text/javascript" src="TEMPLATES/js/jquery-3.6.0.min.js" />
 	
@@ -35,44 +33,7 @@
 				return true;
 			}
 	}
-	function paddOpen(who){window.open ('padd.php?s=seR&to='+who+'&sub=','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
 	
-	function removeItem(ider,pgi)
-	{	
-		if(confirm('Conferma eliminazione?'))
-		window.location.href="scheda.php?s=remDotazione&brever=true&ider="+ider+'&pgID='+pgi;
-	}
-	
-	function addBreverItem(ider,pgi)
-	{
-		window.location.href="scheda.php?s=addBrevetto&ider="+ider+'&pgID='+pgi;
-	}
-	
-	function removeDotazione(ider,pgi)
-	{	
-		if(confirm('Conferma eliminazione?'))
-		window.location.href="scheda.php?s=remDotazione&laurer=true&ider="+ider+'&pgID='+pgi;
-	}
-	
-	function showRuolino()
-	{
-		if(jQuery('#mainRuolino').css('display') == 'block') jQuery('#mainRuolino').fadeOut(200,function(){jQuery('#ruolinoER').fadeIn(200); jQuery('#linkerR').prop('src','TEMPLATES/img/interface/personnelInterface/schedaImage.png'); });
-		else jQuery('#ruolinoER').fadeOut(200,function(){jQuery('#mainRuolino').fadeIn(200); jQuery('#linkerR').prop('src','TEMPLATES/img/interface/personnelInterface/ruolinoImage.png'); });
-	}
-	
-	function viewAdder()
-	{
-		jQuery('#rankAdder').fadeIn(200, function(){jQuery('#viewAdderToggle').fadeOut(100)});
-	}
-	
-	function switchsect()
-	{
-		if (jQuery('#personalAbil').css('display') == 'none')
-		{
-			jQuery('#tecAbil').fadeOut(100,function(){jQuery('#personalAbil').fadeIn(100);});
-		}
-		else {jQuery('#personalAbil').fadeOut(100,function(){jQuery('#tecAbil').fadeIn(100);});}
-	}
 	
 	 jQuery(function() { jQuery('.tooltip, img').tooltip({
           content: function () {
@@ -98,8 +59,6 @@
 <div id="mainContainer">
 <div id="mainRuolino" style="margin:0px; margin-left:10px; position:relative; overflow:hidden; margin-right:0px; height:530px;">
 	
-	  	<!--<div style="width: 200px; height: 510px; position: absolute;  z-index:0; background-image:url('TEMPLATES/img/uniformi/test67.png');"> </div>-->
-
 		<div id="backUniformDiv" tal:attributes="style string:background-image:url('TEMPLATES/img/uniformi/${uniform}.png');; top: 22px;; z-index:1;; right: 10px;;"> </div>
 		
 		<div style="overflow-y:auto; height:530px; width:100%;  z-index:10; position:absolute;">
@@ -184,8 +143,6 @@
 			 		</p>
 			 	</div>
 			</div>
-			
-
 		<div style="clear: both" />
 		<div>
 			<p tal:condition="not:exists:restrictEditCar" style="margin:0;font-style:italic;">NB: La somma deve essere uguale a <span style="color:#FFCC00; font-weight:bold;">23</span></p>
@@ -194,10 +151,7 @@
 			</div>
 
 		</div>
-		</form>	
- 
-	
-	
+		</form>		
 	<div style="position:absolute; top:5px; right:15px; cursor:pointer;" onclick="jQuery('#sReset').fadeOut(100);"> <button title="Chiudi" class=" plusButtonRed" style="vertical-align:middle;"><img src="TEMPLATES/img/interface/personnelInterface/deleteicon.png" style="width:20px;" /></button> </div>
 </div> 
 	

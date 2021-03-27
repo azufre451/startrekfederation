@@ -7,7 +7,7 @@ include("includes/PHPTAL/PHPTAL.php"); //NEW
 
 
 
-$template = new PHPTAL('keon/allachi.htm');
+$template = new PHPTAL('keon/htm/allachi.htm');
 
 if(isSet($_SESSION['pgID']))
 {

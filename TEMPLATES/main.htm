@@ -19,19 +19,8 @@
 	<script type="text/javascript" src="TEMPLATES/js/mapCore.js?v=${gameOptions/numericVersion}" async="async"/>
 
 	<script type="text/javascript" src="TEMPLATES/js/easyNotify.js" async="async"></script>
-
  
 	<script tal:condition="exists:noauth">alert("Attenzione: in questa chat si sta svolgendo una giocata privata ad invito e l'accesso è riservato!");</script>
-
-	<script>
-			jQuery(function(){
-			jQuery('.tooltip, #comunicatorBox').tooltip({
-          			content: function (){
-          						return $(this).prop('title');
-          					}
-					});	
-			});
-	</script>
  
 	<title>STAR TREK FEDERATION</title>
 	

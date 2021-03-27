@@ -1,180 +1,68 @@
+<html>
+<head>
+	<style>
+		body{ color:white; background-color: black; font-size:14px; font-family:Helvetica; }
+		td{border:1px solid #AAA;}
+	</style>
+</head>
 <?php
 chdir('../');
 include('includes/app_include.php');
-
- 
-$a=new abilDescriptor(5);
-
-print "<br />Umani (+53)<br />";
-
-print $a->calculateVariationCost(array(
-	array(38,0),
-	array(31,1),
-	)) +50; 
+include('includes/abilDescriptor.php');
 
 
-print "<br />BAJ<br />";
+/*Bonus*/
 
-print $a->calculateVariationCost(array(
-	array(7,1),
-	array(12,3),
-	array(18,1),
-	array(21,2),
-	array(19,0),
-	array('WP',6),
-	array('PE',5),
-	));
+$bonuses=array();
+$info=array();
+$resModQ=mysql_query("SELECT pg_abilita.abID,abName,abImage,abMod,reason,0 as special,species,type FROM pg_abilita_bonus,pg_abilita WHERE pg_abilita.abID = pg_abilita_bonus.abID ORDER BY type ASC, abMod ASC");
+while($resMod=mysql_fetch_assoc($resModQ))
+{
+	if(!array_key_exists($resMod['species'],$bonuses))
+		$bonuses[$resMod['species']] = array('ABI'=>array(), 'CAR'=>array());
 
-
-print "<br />vulcaniani<br />";
-
-print $a->calculateVariationCost(array(
-	array(60,2),
-	array(59,1),
-	array(61,1),
-	array(56,0),
-	array('WP',6),
-	array('HT',6),
-	));
-
-print "<br />AND<br />";
-
-print $a->calculateVariationCost(array(
-	array(10,2),
-	array(21,1),
-	array(17,1),
-	array(52,2),
-	array(4,3),
-	array('DX',6),
-	array('HT',6)
-	));
-
-print "<br />trilli<br />";
-
-print $a->calculateVariationCost(array(
-	array(21,1),
-	array(20,1),
-	array(9,1),
-	array(35,2),
-	array('IQ',6),
-	array('HT',7)
-	));
-
-
-print "<br />Betamerde<br />";
-
-print $a->calculateVariationCost(array(
-	array(61,2),
-	array(20,0),
-	array(60,2), 
-	array('HT',4),
-	array('WP',6)
-	));
-
-
-print "<br />Keyral<br />";
-
-print $a->calculateVariationCost(array(
-	array(60,2), 
-	array(61,1),
-	array(12,2),
-	array(11,1),
-	array(21,0),
-	array('HT',4),
-	array('DX',6),
-	array('WP',6)
 	
-	));
+	$bonuses[$resMod['species']][$resMod['type']][] = $resMod;
 
-print "<br />Boliani<br />";
+	$info[$resMod['abID']] = array('abName'=>$resMod['abName'], 'abImage'=>$resMod['abImage']);
+}
 
-print $a->calculateVariationCost(array(
-	array(7,2),
-	array(11,2),
-	array(35,2),
-	array(34,0),
-	array(20,2), 
-	array(19,1), 
-	array('DX',3),
-	array('WP',5),
-	array('PE',6)
-	));
+$a=new abilDescriptor(5); //Namor
 
-print "<br />Xenex<br />";
+$cuAb=$a->getCars();
+$speciesTO=array('Umana','Bajoriana','Caitiana','Vulcaniana','Andoriana','Trill','Betazoide','Boliana','Xenita','Terosiana','Tellarita','Zaldan','Koyar');
+sort($speciesTO);
+foreach ($speciesTO as $species)
+{
+	
+	echo "<div style='width:300px; height:500px; float:left; margin-left:10px;'><table style='width:100%; border:1px solid black;'><tr><td colspan=2><b>".$species."</b></td><td /></tr>";
 
-print $a->calculateVariationCost(array(
-	array(12,1),
-	array(21,2),
-	array(52,1),
-	array(56,1), 
-	array('IQ',3),# 5 -2
-	array('DX',6),# 5 +1
-	array('WP',6),# 4 +1
-	array('PE',6) # 4 +2
-	));
+	$var=array();
 
+	foreach( $bonuses[$species]['CAR'] as $car){
+		$var[] = array($car['abID'],$cuAb[$car['abID']]+$car['abMod']);
+		$tneg=($car['abMod'] < 0) ? 'style="color:red;"' : '';
+		echo '<tr><td><img title="'.$car['reason'].'" src="../TEMPLATES/img/interface/personnelInterface/abilita/' . $info[$car['abID']]['abImage'] . '" style="width:40px;" /></td><td '.$tneg.'>' . $car['abMod'] . '</td><td>'.$info[$car['abID']]['abName'].'</td></tr>';
+	}
 
-print "<br />Terosiani<br />";
+	
+	foreach( $bonuses[$species]['ABI'] as $abi)
+	{
+		$var[] = array($abi['abID'],$abi['abMod']);
+		$tneg=($abi['abMod'] < 0) ? 'style="color:red;"' : '';
+		echo '<tr><td><img title="'.$abi['reason'].'" src="../TEMPLATES/img/interface/personnelInterface/abilita/' . $info[$abi['abID']]['abImage'] . '" style="width:40px;" /></td><td '.$tneg.'>' . $abi['abMod'] . '</td><td>'.$info[$abi['abID']]['abName'].'</td></tr>';
+	}
 
-print $a->calculateVariationCost(array(
-    array(42,1),
-    array(18,1),
-    array(8,2),
-    array(11,2),
-	array('DX',7),
-	array('WP',5), 
-	array('HT',4)
-	));
+	$cost=$a->calculateVariationCost($var);
+	//print_r($var);
+	if($species == 'Umana') $cost = ($cost+50) . '***';
+	echo "<tr><td colspan=2><b>".$species."</b></td><td>".$cost."</td></tr></table></div>";
+	
+}
 
-
-print "<br />Caitiani<br />";
-
-print $a->calculateVariationCost(array(
-	array(10,1),
-	array(12,3),
-	array(21,2),
-	array('DX',6),
-	array('PE',6),
-	array('HT',3)
-	));
-
-
-
-
-print "<br />Tellar<br />";
-
-print $a->calculateVariationCost(array(
-	array('DX',3),
-	array('HT',6),
-	array('WP',6),
-	array(13,2),	
-	array(8,2), //
-	array(22,1),
-	array(34,2),
-	array(21,2),
-	array(33,1)
-	));
-
-
-print "<br />Zaldan<br />";
-
-print $a->calculateVariationCost(array(
-	array('DX',3),// -2
-	array('HT',8), //+3
-	array('WP',3), //-1
-	array('IQ',5), //
-	array('PE',4), //
-	array(13,1),	
-	array(10,3),
-	array(4,1),
-	array(8,2),
-	array(21,2)
-
-	));
-
-//echo var_dump($aar);
-
+exit;
 
  include('includes/app_declude.php');
 ?>
 
+</html>

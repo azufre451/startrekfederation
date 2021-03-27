@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('includes/app_include.php');
+include_once('includes/abilDescriptor.php');
 include('includes/validate_class.php');
 
  
@@ -8,6 +9,7 @@ include('includes/validate_class.php');
 
 if(isSet($_GET['registerUser']))
 {	
+
 	$pgTarget= explode('_',$_POST['select_grado']);
 
 	$vali = new validator();

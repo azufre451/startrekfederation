@@ -4,9 +4,8 @@ if (!isSet($_SESSION['pgID'])) {header("location:index.php?login=do"); exit; }
 
 include('includes/app_include.php');
 include('includes/validate_class.php');
-
+include_once('includes/abilDescriptor.php');
 include('includes/notifyClass.php');
-
 include("includes/PHPTAL/PHPTAL.php"); //NEW 
 include('includes/markerClass.php');
 include('includes/cdbClass.php');
@@ -233,7 +232,7 @@ if (PG::mapPermissions('JM',$currentUser->pgAuthOMA) && (PG::mapPermissions('SL'
 if (PG::mapPermissions('M',$currentUser->pgAuthOMA)) $template->isMaster = true;
 if (PG::mapPermissions('SM',$currentUser->pgAuthOMA)) $template->isSuperMaster = true;
 
-if (PG::mapPermissions('SM',$currentUser->pgAuthOMA) || $currentAmbient['locID'] == PG::getSomething($_SESSION['pgID'],'pgAlloggioRealID')) $template->protectable = true;
+//if (PG::mapPermissions('SM',$currentUser->pgAuthOMA) || $currentAmbient['locID'] == PG::getSomething($_SESSION['pgID'],'pgAlloggioRealID')) $template->protectable = true;
 
 if(substr($_SERVER['REQUEST_URI'],-4,4) == '%261') $template->showM = '1';
 

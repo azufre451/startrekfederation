@@ -63,7 +63,7 @@ elseif(isSet($_GET['abSearch']))
 }
 
 
-$template = new PHPTAL('keon/test_abilities.htm');
+$template = new PHPTAL('keon/htm/test_abilities.htm');
 
 
 $bonuses=array();

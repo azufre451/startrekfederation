@@ -96,54 +96,8 @@
 		<span style="font-weight:bold;">SPECIE / SESSO</span>
 
 <form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=spesex" method="POST">
-<select class="neon" name="specie" tal:attributes="value userData/pgSpecie">
-<option value="Andoriana">Andoriana</option>
-<option value="Bajoriana">Bajoriana</option>
-<option value="Bajoriana-Cardassiana">Bajoriana-Cardassiana</option>
-<option value="Benzita">Benzita</option>
-<option value="Betazoide">Betazoide</option>
-<option value="Boliana">Boliana</option>
-<option value="Borg">Borg</option>
-<option value="Breen">Breen</option>
-<option value="Caitiana">Caitiana</option>
-<option value="Capelliana">Capellana</option>
-<option value="Cardassiana">Cardassiana</option>
-<option value="Deltana">Deltana</option>
-<option value="Denobulana">Denobulana</option>
-<option value="El-Auriana">El-Auriana</option>
-<option value="Elaysiana">Elaysiana</option>
-<option value="Ferengi">Ferengi</option>
-<option value="Fondatore">Fondatore</option>
-<option value="Gorn">Gorn</option>
-<option value="Grazerita">Grazerita</option>
-<option value="Jem'Hadar">Jem'Hadar</option>
-<option value="Koyar">Koyar</option>
-<option value="Klingon">Klingon</option>
-<option value="Nausicaana">Nausicaana</option>
-<option value="Ocampa">Ocampa</option>
-<option value="Orioniana">Orioniana</option>
-<option value="Risiana">Risiana</option>
-<option value="Romulana">Romulana</option>
-<option value="Sauriana">Sauriana</option>
-<option value="Sconosciuta">Sconosciuta</option>
-<option value="Talariana">Talariana</option>
-<option value="Talassiana">Talassiana</option>
-<option value="Tellarita">Tellarita</option>
-<option value="Terosiana">Terosiana</option>
-<option value="Tholiana">Tholiana</option>
-<option value="Trill">Trill</option>
-<option value="Tzenkethi">Tzenkethi</option>
-<option value="Umana">Umana</option>
-<option value="Umana-Betazoide">Umana-Betazoide</option>
-<option value="Umana-Vulcaniana">Umana-Vulcaniana</option>
-<option value="Umana-Klingon">Umana-Klingon</option>
-
-<option value="Vorta">Vorta</option>
-<option value="Vulcaniana">Vulcaniana</option>
-<option value="Vulcaniana-Romulana">Vulcaniana-Romulana</option>
-<option value="Xenita">Xenita</option>
-<option value="Zakdorn">Zakdorn</option>
-<option value="Zaldan">Zaldan</option>
+<select class="neon" name="specie">
+	<option tal:repeat="species availableSpecies" tal:content="species" tal:attributes="value species ; selected php:(species == userData.pgSpecie) ? 'selected' : ''" />
 </select>
 <select class="neon" name="sesso">
 	<option value="M">M</option>
@@ -157,7 +111,7 @@
 <form tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=setAutoma" method="POST">
 	<select  class="neon" name="aut">
 	<option tal:attributes="selected php:(userData.pgAuthOMA=='N') ? 'selected': false" value="N">Utente Normale</option>
-	<option tal:attributes="selected php:(userData.pgAuthOMA=='G') ? 'selected': false" value="G">Guida x tt Anlfbt Fnznl</option>
+	<option tal:attributes="selected php:(userData.pgAuthOMA=='G') ? 'selected': false" value="G">Guida</option>
 	<option tal:attributes="selected php:(userData.pgAuthOMA=='N') ? 'selected': false" value="O">Olomaster</option>
 	<option tal:attributes="selected php:(userData.pgAuthOMA=='M') ? 'selected': false" value="M">Master</option>
 	<option tal:attributes="selected php:(userData.pgAuthOMA=='JM') ? 'selected': false" value="JM">Junior Master</option>
@@ -215,10 +169,6 @@
 		<input style="background-color:#282f8c; padding:2px; font-weight:bold; color:white;" type="submit" value="Reset and restore (ab + razza + UP)" />
 	</form>					
 </div>
-
-<!--<a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=resetAbilToRace" onclick="javascript: return confirm('Sicuro? Contatta Moreno prima di usare questo comando!');"><div style="border:1px solid #2e7ec8; margin-top:10px;">Carica Profilo Abilità di Razza</div></a>
-
-<a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=resetAbilTotal" onclick="javascript: return confirm('Sicuro?');"><div style="border:1px solid #2e7ec8; margin-top:10px;" >Reset Totale Abilità</div></a> -->
 
 </div>
 
@@ -282,16 +232,6 @@
 		<br />
 		<input type="submit" value="VAI" style="padding:3px 8px; margin:5px;" />
 		</form>
-		
-		<!--
-		<a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=refirst">
-			<div style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;">Riabilita Sondaggio</div>
-			</a>
-
-		<a tal:attributes="href string:scheda.php?s=toggleMasCap&pgID=${selectedUser}">
-			<div style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;" tal:content="php:(isMasCapableEnable==true) ? 'DISABILITA MASCAP' : 'ABILITA MASCAP'"></div>
-			</a>
-		-->
 
 		<a tal:attributes="href string:scheda.php?s=kavanagh&pgID=${selectedUser}">
 			<div style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;">Kavanagh</div>
@@ -311,10 +251,6 @@
 		<a tal:attributes="href string:scheda.php?s=document&pgID=${selectedUser}">
 			<div style="border:1px solid #2e7ec8; float:left; margin-top:10px; width:140px;">Padd Benvenuto</div>
 			</a>
-
-
-
-	
 
 		<a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=toggleSSF">
 
@@ -345,12 +281,6 @@
 			<tr><td tal:content="structure last/1" colspan="2" /></tr>
 			</div>
 		</table>
-		
-		<!--<table style="font-size:11px;">
-		<tr><td class="bdr" style="width:40px; text-align:center;"><img src="TEMPLATES/img/interface/personnelInterface/punteggio.png" alt="Punteggio"/></td><td style="width:60px; text-align:center;" class="bdr"><img src="TEMPLATES/img/interface/personnelInterface/data.jpg" alt="data"/></td><td colspan="2" class="bdr" style="text-align:center;"><img src="TEMPLATES/img/interface/personnelInterface/descrizione.png" alt="descrizione"/></td></tr>
-		<tr tal:repeat="point pstory" tal:attributes="title string:Assegnato da ${point/pgUser}"><td style="width:50px;" class="bdr" tal:content="string:+${point/points}" /><td style="width:60px;" class="bdr" tal:content="php:(date('d/m/Y',point['timer']))" /><td class="bdr" style="width:30px;" tal:content="point/cause"  tal:attributes="title point/causeM"/><td class="bdr" tal:content="point/causeE" /></tr>
-		
-		</table>-->
 	</div>
 	
 	<div id="averterBox" style="position:absolute; top:50%; left:50%; width:300px; height:500px; margin-top:-250px; margin-left:-150px; border:1px solid white; display:none;">

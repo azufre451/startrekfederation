@@ -8,6 +8,16 @@
 			setInterval(function(){ $('.lamp').each( function(){ $(this).css('visibility' , $(this).css('visibility') === 'hidden' ? '' : 'hidden') } ); }, 350);
 
 			jQuery("#federation_chatDiv").scrollTop(jQuery("#federation_chatDiv")[0].scrollHeight);	
+
+
+			jQuery('.tooltip').tooltip({
+          		content: function () {
+              	return jQuery(this).prop('title');
+          		}
+      		});
+
+      		jQuery(".draggableSTFModal").draggable({containment:'#federation_interfaceContainer'});
+
 		});
 		
 		jQuery(window).keyup(swish);
@@ -15,7 +25,6 @@
 		$(window).resize(function() {
 			resizeBar();
 		});
-
 
 		function notifyDesktop(txt,icon,func,title){
 			

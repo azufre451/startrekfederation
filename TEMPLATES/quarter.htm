@@ -88,10 +88,7 @@
 
 		<div id="reminderST" class="reminder" tal:content="string:D.S. ${currentStarDate}">
 		</div>
-		
-		<div metal:use-macro="TEMPLATES/metal_panels.htm/reminderST" />
-		<div metal:use-macro="TEMPLATES/metal_panels.htm/reminderAvatar" />
-		
+
 		<div id="federation_alertRight">
 			<div id="rightAlert" />
 		</div>
@@ -138,11 +135,7 @@
 	
 	</div>
 
-
-<div metal:use-macro="TEMPLATES/metal_panels.htm/statusBox" />
-<!--<div metal:use-macro="TEMPLATES/metal_panels.htm/alertPanel" />-->
-<div metal:use-macro="TEMPLATES/metal_panels.htm/localizeBox" />
-<div metal:use-macro="TEMPLATES/metal_panels.htm/dotazionePanel" />
+<div metal:use-macro="TEMPLATES/metal_panels.htm/corePanels" />
 <div metal:use-macro="TEMPLATES/guidar.htm/guidePanel" />
 <div metal:use-macro="TEMPLATES/audioSegments.htm/audioNotifier" />
 <div metal:use-macro="TEMPLATES/audioSegments.htm/whisperPaddAlert" />

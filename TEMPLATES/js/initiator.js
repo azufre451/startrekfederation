@@ -113,7 +113,7 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 		case 49: jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv1").fadeIn('fast'); break;
 		case 50: jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv2").fadeIn('fast'); break;
 		case 51: jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv3").fadeIn('fast'); break;
-		case 27: jQuery(".popup, .escape_popup").fadeOut('fast'); break;
+		case 27: jQuery(".popup, .escape_popup, .draggableSTFModal").fadeOut('fast'); break;
 	}
 	}
 	
@@ -283,6 +283,89 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 	}
 
 	function localizeRefreshAuto(){if (jQuery('#localizeBox').is(':visible')) {localizeRefresh();}}
+	function commRefreshAuto(){if (jQuery('#communicatorBox').is(':visible')) {commRefresh(jQuery('#commStyle').val() );}}
+
+	function sendcomm(){
+
+		dest=jQuery('#commDestOpt').val();
+		commStyle=jQuery('#commStyle').val();
+		message=jQuery('#commMessage').val();
+
+		if (commStyle == 'ppl' || commStyle == 'pla')
+		{
+			jQuery.ajax(
+			{
+				url: 'service.php?comm=do',
+				data: {commType: commStyle, to:dest, rowSend: message},
+				success: function(e){message=jQuery('#commMessage').val(''); jQuery('#communicatorBox').fadeOut(200);},
+				complete: noti,
+				type: 'POST',
+				dataType: 'json',
+				timeout: 4500
+			}); 
+		}		
+	}
+
+	function setAvatar(src)
+	{
+		jQuery('#commDestImg').fadeOut(100,function(){
+			avt=jQuery(src).find('option:selected').attr('data-avatar');
+			if ( avt.includes('c_generic.png'))
+				avt='TEMPLATES/img/logo/logo_sfc.png';
+
+			jQuery('#commDestImg').css('background-image', "url('"+avt+"')");
+			jQuery('#commDestImg').attr('title', jQuery(src).find('option:selected').attr('data-title'));
+			jQuery('#commDestImg').fadeIn(100);
+		});
+	}
+
+	function commRefreshPplIterator(e)
+	{
+		jQuery('#commDestOpt').html('<option value="0" selected="selected" data-avatar="TEMPLATES/img/logo/logo_sfc.png"> Tutto il Personale </option>');
+		jQuery('#commDestImg').css('background-image',"url('TEMPLATES/img/logo/logo_sfc.png')");
+		jQuery.each(e['people'],function(k){
+			jQuery('#commDestOpt').append('<optgroup label="'+e['people'][k]['plName']+'" id="com_'+k+'"></optgroup>');
+			e['people'][k]['ppl'].forEach(function(p){
+				jQuery('#com_'+k).append('<option value="'+p['ID']+'" data-title="'+p['user_grado']+' - Sezione '+p['user_sezione']+'" data-avatar="'+p['pgAvatar']+'">'+p['pgUser']+'</option>')
+			})
+		});
+	}
+
+	function commRefreshPlacesIterator(e)
+	{
+		jQuery('#commDestOpt').html('');
+		jQuery('#commDestImg').attr('title','');
+		jQuery('#commDestImg').css('background-image',"url('TEMPLATES/img/logo/logo_sfc.png')");
+
+		jQuery.each(e['places'],function(k){
+			jQuery('#commDestOpt').append('<optgroup label="'+e['places'][k]['plName']+'" id="com_pla_'+k+'"></optgroup>');
+			e['places'][k]['places'].forEach(function(p){
+				current = (p['myLocat'] == 1) ? 'selected="selected"' : "" ;
+
+				jQuery('#com_pla_'+k).append('<option value="'+p['locID']+'" data-avatar="'+p['image']+'" '+current+'>'+p['locName']+'</option>')
+			})
+		});		
+	}
+
+	function commRefresh(stm){
+
+		if(stm == 'ppl')
+			refresher=commRefreshPplIterator;
+		if(stm == 'pla')
+			refresher=commRefreshPlacesIterator;
+
+		jQuery('#commStyle').val(stm);
+		
+
+		jQuery.ajax(
+				{
+				url: 'ajax_localize.php?s=comm&stm='+stm+'&ts='+new Date().getMilliseconds(),
+				success: refresher, 
+				type: 'POST',
+				dataType : 'json',
+				timeout:4500
+				});
+	}
 
 	function localizeRefresh(){
 
@@ -294,7 +377,7 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 		
 		jQuery.ajax(
 			{
-			url: 'ajax_localize.php?ts='+new Date().getMilliseconds(),
+			url: 'ajax_localize.php?s=loc&ts='+new Date().getMilliseconds(),
 			success: function(e){
 				
 
@@ -419,9 +502,15 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 		window.open ('padd.php?s=readTribune&newsID='+ida,'padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width='+pars['w']+',height='+pars['h']);
 	}
 	
-	function commOpen(){
+	/*function commOpen(){
 		pars=getSizeOf('comm');
 		window.open ('comm.php','comm', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+	}*/
+		function commOpen(){
+		jQuery.when(commRefresh('ppl')).then(
+		function(){
+			jQuery('#communicatorBox').toggle('blind',100);
+		});
 	}
 	
 

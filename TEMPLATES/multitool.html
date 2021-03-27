@@ -10,7 +10,6 @@
 	<link href="TEMPLATES/css/personnel.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/cdb_styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="TEMPLATES/js/jquery-3.6.0.min.js" />
-	
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}" />
@@ -19,7 +18,7 @@
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 
 	<!-- <script type="text/javascript" src="TEMPLATES/js/lazyload.js"></script> -->
-	<title>STAR TREK FEDERATION - SCHEDA</title>		 
+	<title>STAR TREK FEDERATION - MULTITOOL</title>		 
 	<style>
 		#lastpgs{ margin-left:5px; margin-right:5px; padding:3px; margin-top:5px; text-align:center;}
 		.ongoing{display:block; background-color: #945416; color: white; padding:2px; border: 1px solid white;}
@@ -44,29 +43,26 @@
 		.no{background-color:#b52d2d;}
 		.noblack{background-color:#000000;}
 		.timeline-pol{
-  overflow-x: auto;
-  border:1px solid #777;
-}
+		  overflow-x: auto;
+		  border:1px solid #777;
+		}
 
-.timeline-pol2{
-  overflow-x: auto;
-  padding:2px;
-  width: intrinsic;           /* Safari/WebKit uses a non-standard name */
-  width: -moz-max-content;    /* Firefox/Gecko */
-  width: -webkit-max-content; /* Chrome */
-}
+		.timeline-pol2{
+		  overflow-x: auto;
+		  padding:2px;
+		  width: intrinsic;           /* Safari/WebKit uses a non-standard name */
+		  width: -moz-max-content;    /* Firefox/Gecko */
+		  width: -webkit-max-content; /* Chrome */
+		}
 
-.timeline-pol2 table td 
-{height:10px; text-align:left; height:10px; float:left; margin:0px; border-left:1px solid #777; width:10px; font-size:10px;}
-.timeline-pol2 table td img {height:12px;}
+		.timeline-pol2 table td 
+		{height:10px; text-align:left; height:10px; float:left; margin:0px; border-left:1px solid #777; width:10px; font-size:10px;}
+		.timeline-pol2 table td img {height:12px;}
 
-
-.verticalrot{
-  writing-mode: vertical-rl;
-  text-orientation: sideways;
-}
-
- 
+		.verticalrot{
+		  writing-mode: vertical-rl;
+		  text-orientation: sideways;
+		} 
 
 	</style>
 
@@ -99,7 +95,6 @@
 					jQuery('#player_record_btn_'+ida).fadeOut(100,function(){
 						jQuery('#player_record_'+ida).append(gen);	
 					});
-
 			},
 			type: 'POST'
 			});
@@ -113,36 +108,36 @@
 
 
 	<div style="float:left; width:170px;">
-		<p style="font-size:14px;" tal:condition="exists:bonusM"><a href="javascript:void(0);" class="interfaceLink" onclick="jQuery('#multiedit').toggle();" >&raquo; EDIT SCHEDE MULTIPLE </a></p>
+		<p style="font-size:14px;" tal:condition="exists:bonusM"><a href="javascript:void(0);" class="interfaceLink" onclick="setview('multiedit');" >&raquo; EDIT SCHEDE MULTIPLE </a></p>
 
 		<p style="font-size:14px;"><a onclick="window.open ('multitool.php?s=stor','prestav', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=490,height=605');" href="javascript:void(0);" class="interfaceLink">&raquo; TUTTI I PUNTI</a></p>
 
 		<p style="font-size:14px;" ><a href="javascript:void(0);" class="interfaceLink" onclick="window.open ('multitool.php?s=timeline','prestav', config='scrollbars=yes,status=no,location=no,resizable=no');" >&raquo; TIMELINE (Beta)</a></p>
 
-		<p style="font-size:14px;" ><a href="javascript:void(0);" class="interfaceLink" onclick="jQuery('#valedictorians').toggle();" >&raquo; MEDAGLIE CONTROLLATE</a></p>
+		<p style="font-size:14px;" ><a href="javascript:void(0);" class="interfaceLink" onclick="setview('valedictorians');" >&raquo; MEDAGLIE CONTROLLATE</a></p>
 
-		<p style="font-size:14px;"  tal:condition="exists:bonusM"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#masterEvents').toggle();" >&raquo; EVENTI MASTER </a></p>    
+		<p style="font-size:14px;"  tal:condition="exists:bonusM"><a href="javascript:void(0)" class="interfaceLink" onclick="setview('masterEvents');" >&raquo; EVENTI MASTER </a></p>    
 
-		<p style="font-size:14px;"  tal:condition="exists:bonusSM"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#closingTool').toggle();" >&raquo; GESTORE SESSIONI </a></p>  
+		<p style="font-size:14px;"  tal:condition="exists:bonusSM"><a href="javascript:void(0)" class="interfaceLink" onclick="setview('closingTool');" >&raquo; GESTORE SESSIONI </a></p>  
 
 		<!-- _________________________- -->
-		<p style="font-size:14px;"  tal:condition="exists:bonusA"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#approvals').toggle();" >&raquo; APPROVAZIONE BG </a></p>
+		<p style="font-size:14px;"  tal:condition="exists:bonusA"><a href="javascript:void(0)" class="interfaceLink" onclick="setview('approvals');" >&raquo; APPROVAZIONE BG </a></p>
 
-		<p style="font-size:14px;"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#lastpgs').toggle();" >&raquo; TOOL ULTIMI PG </a></p>
+		<p style="font-size:14px;"><a href="javascript:void(0)" class="interfaceLink" onclick="setview('lastpgs');" >&raquo; TOOL ULTIMI PG </a></p>
 
-		<p style="font-size:14px;" tal:condition="exists:bonusA"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#piallachat').toggle();" >&raquo; TOOL PIALLA CHAT</a></p>
+		<p style="font-size:14px;" tal:condition="exists:bonusA"><a href="javascript:void(0)" class="interfaceLink" onclick="setview('piallachat');" >&raquo; TOOL PIALLA CHAT</a></p>
 
-		<p style="font-size:14px;"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#presenzaStaff').toggle();" >&raquo; TOOL PRESENZA STAFF</a></p>
+		<p style="font-size:14px;"><a href="javascript:void(0)" class="interfaceLink" onclick="setview('presenzaStaff')" >&raquo; TOOL PRESENZA STAFF</a></p>
 
-		<p style="font-size:14px;"  tal:condition="exists:bonusSM"><a href="javascript:void(0)" class="interfaceLink" onclick="jQuery('#planetCreate').toggle();" >&raquo; CREAZIONE PIANETI </a></p>
+		<p style="font-size:14px;"  tal:condition="exists:bonusSM"><a href="javascript:void(0)" class="interfaceLink" onclick="setview('planetCreate');" >&raquo; CREAZIONE PIANETI </a></p>
 
-
+		<p style="font-size:14px;" ><a class="interfaceLink" href="keon/test_abilities.php" target="_blank">&raquo; PG BUILD EXPLORER</a></p>
 	</div>
 
 	<div style="float:left; width:600px; height:520px; font-size:13px; font-family:Helvetica; overflow-y:auto; margin-left:30px; margin-top:40px;">
 
 
-		<div id="lastpgs" tal:attributes="style php:((isSet(viewLasts)) ? 'display:block' : 'display:none' )"> 
+		<div id="lastpgs" class="multitoolPanel" tal:attributes="style php:((isSet(viewLasts)) ? 'display:block' : 'display:none' )"> 
 
 			<table>
 
@@ -205,7 +200,7 @@
 		</div>
 
 
-		<div tal:condition="exists:bonusM" id="masterEvents" style="display:none; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+		<div tal:condition="exists:bonusM" id="masterEvents" class="multitoolPanel" style="display:none; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
 		Inserisci Evento Master Globale per il Vascello<br /><br />
 			<form method="POST" action="cdb.php?insertMasterEvent=do">
 				<input type="text" class="neon" name="eventTitle" placeholder="Titolo Evento Master" style="width:400px;" /><br /> <br />
@@ -219,7 +214,7 @@
 
 		 
 
-		<div id="valedictorians"  style="display:none; border:1px solid orange; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:left;">
+		<div id="valedictorians" class="multitoolPanel" style="display:none; border:1px solid orange; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:left;">
 				<table tal:repeat="assigneegroup valedictsAssignee">
 				
 					<tr style="background-color:#444; font-weight:bold;"> <td style="width:30px;"> Medaglia </td> <td> PG </td> <td> Assegnata nell'Anno </td></tr>
@@ -236,7 +231,7 @@
 				</table>
 		</div>
 		
-		<div tal:condition="exists:bonusSM" id="closingTool" style="display:none; border:1px solid orange; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
+		<div tal:condition="exists:bonusSM" id="closingTool" class="multitoolPanel" style="display:none; border:1px solid orange; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
 			
 			<table>
 				<tr style="background-color:#444; font-weight:bold;"> <td style="width:30px;"> ID </td> <td> Luogo </td> <td> Owner </td> <td>Data Inizio </td> <td> Stato </td> </tr>
@@ -255,7 +250,7 @@
 		</div>
 
 
-		<div style="display:none;" tal:condition="exists:bonusM" id="multiedit"> 
+		<div style="display:none;" tal:condition="exists:bonusM" class="multitoolPanel" id="multiedit"> 
 
 			<p style="color:red; font-weight:bold;"> Attenzione! <span style="color:white;">Con questa scheda stai lavorando su un <span style="color:orange;"> GRUPPO </span> di personaggi. Le modifiche riguarderanno tutti i PG del gruppo.</span></p>
 
@@ -397,7 +392,7 @@
 
 		</div>	
 
-		<div id="approvals" tal:condition="exists:bonusA" tal:attributes="style php:((isSet(viewApprovals)) ? 'display:block' : 'display:none' )"> 
+		<div id="approvals" class="multitoolPanel" tal:condition="exists:bonusA" tal:attributes="style php:((isSet(viewApprovals)) ? 'display:block' : 'display:none' )"> 
 			
 			<div style="width:400px;">
 				<a tal:repeat="approBG pendingBGS" tal:content="repeat/approBG/key" style="margin-left:5px; border-left:2px solid #333; " class="interfaceLink" tal:attributes="onclick string:jQuery('#tyl_${repeat/approBG/key}').toggle();" />
@@ -440,7 +435,7 @@
 				</div>
 		</div>
 
-		<div id="planetCreate" tal:condition="exists:bonusSM" style="display:none">
+		<div id="planetCreate" class="multitoolPanel" tal:condition="exists:bonusSM" style="display:none">
 
 			<p class="title">Creazione Pianeta</p>
 			<form action="service.php?cPlanetCreate=do" method="POST">
@@ -577,7 +572,7 @@
 				</table>
 			</form>
 		</div>
-		<div id="piallachat" tal:condition="exists:bonusA" style="display:none">  
+		<div id="piallachat" class="multitoolPanel" tal:condition="exists:bonusA" style="display:none">  
 
 			<script type="text/javascript">
 		function delchat(ida){
@@ -669,7 +664,7 @@
 			</table>
 		</div>
 
-		<div id="presenzaStaff" tal:attributes="style php:((isSet(presenzaStaff)) ? 'display:block' : 'display:none')"> 
+		<div id="presenzaStaff" class="multitoolPanel" tal:attributes="style php:((isSet(presenzaStaff)) ? 'display:block' : 'display:none')"> 
 			<style>
 				.cclass{width:50px; height:20px; padding:3px; text-align:center; }
 				.cclass span {font-weight:bold;}

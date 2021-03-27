@@ -1,0 +1,153 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link href="../TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="../TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="../TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+	<script type="text/javascript" src="../TEMPLATES/js/jquery-3.6.0.min.js" />
+
+	<script type="text/javascript" src="../TEMPLATES/js/JU.js" />
+	<script type="text/javascript" src="../TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
+	<script type="text/javascript" src="test_abilities.js" />
+
+	<title>STAR TREK FEDERATION - CDB</title>
+
+	<style>
+		table{font-family:Helvetica;}
+		.neg{color:red;}
+		td{border-bottom: 1px solid #333;}
+		tbody img {width:40px;}
+		thead td {text-align: center;}
+		thead tr.thBottom td{border-bottom-color:#FFCC00; padding-bottom:5px; font-weight: bold;}
+		.msgDiv {font-size:13px; }
+		.msgDiv p span{ color:#FC0; font-weight: bold;}
+		.ui-tooltip {
+			font-size:14px;
+			text-align:justify;
+		}
+
+	</style>
+</head>
+
+<script> jQuery(function(){jQuery('.tooltip').tooltip();});</script>
+
+<body style="background-repeat:no-repeat; background-color:black; background-position:top center;">
+
+
+<div id="federation_interfaceContainer">
+	<div id="leftCol" style="width:123px;">
+		<div id="leftC1" />
+		<div id="leftC3" />
+	</div>
+	
+	<div id="supCol">
+		<div tal:condition="exists:user" metal:use-macro="../TEMPLATES/metal.htm/cdbHeading" />
+	</div>
+	
+	<div id="fillerBax">
+		<div id="barbot1" />
+	</div>
+	<div id="cdbContainer" >
+		<div tal:condition="exists:user" metal:use-macro="../TEMPLATES/metal.htm/cdbIntro" />
+
+		<div style="font-size:12px;  margin-left:5px; text-transform:uppercase; "><a href="../cdb.php" class="interfaceLink">CDB</a> <span style="color:red; font-size:11px;">></span> <a class="interfaceLink" href=".">SHOWCASE STF</a> <span style="color:red; font-size:11px;">></span> <span style="text-transform:uppercase;" class="interfaceLink">ABILITA INIZIALI & BUILD CREATOR</span></div>
+
+	 
+
+	<div style="margin:20px;">
+
+
+		<div style="width:300px; height:500px; float:left; margin-left:10px; background-color: #111; padding:10px; border:1px solid #FFCC00; position:relative;">
+
+
+			<div style="height:410px; overflow-y:auto;">
+
+				<table style='width:100%; border:1px solid black;' >
+				
+					<thead>
+					<tr>
+						<td colspan="3">
+							<img src="../TEMPLATES/img/specie/Sconosciuta_m.png" />
+							<img src="../TEMPLATES/img/specie/Sconosciuta_f.png" />
+
+							<span style="font-weight:bold; color:white;"> Nuova Specie <img src="../TEMPLATES/img/interface/personnelInterface/info.png" title="<div class='msgDiv'>Valori di partenza: <p><span>Costituzione:</span> 5</p>
+								<p><span>Destrezza:</span> 5</p>
+								<p><span>Forza di Volontà:</span> 4</p>
+								<p><span>Intelletto:</span> 5</p>
+								<p><span>Percezione:</span> 4</p></div>" class="tooltip"/></span>
+							<span id="upter" style="font-weight:bold; color:#FC0;"> ?? UP </span>
+
+						</td>
+					</tr>
+					<tr class="thBottom">
+						<td colspan="2">Abilità</td>
+						<td>Bonus</td>
+					</tr>
+							
+					</thead>
+
+					<tbody id="fifi" />
+
+				</table>
+			</div>
+
+
+
+			<div style="bottom:20px; width:90%; text-align: center; position:absolute;">
+
+				<input class="neon" type="text" id="inputSpecc" style="width:95%;" placeholder="cerca abilità"/>
+
+				<p><a href="javascript:void(0)" onclick="javascript:sendCar()" class="interfaceLinkGreen"> Calcola Costo </a>
+				| <a href="javascript:void(0)" onclick="javascript:jQuery('#fifi').html('')" class="interfaceLinkRed"> Azzera </a><br /><br /><input id="stringer" style="width:90%; display:none" onfocus="jQuery(this).select()"/></p></div>
+		</div>
+
+
+
+		<div style='width:300px; font-family:Helvetica; height:500px; float:left; margin-left:10px;' tal:repeat="species speciesOut">
+		
+			<table style='width:100%; border:1px solid black;' >
+			
+				<thead>
+				<tr>
+					<td colspan="3">
+						<img tal:attributes="title repeat/species/key ; src string:../TEMPLATES/img/specie/${repeat/species/key}_f.png" />
+						<img tal:attributes="title repeat/species/key ; src string:../TEMPLATES/img/specie/${repeat/species/key}_m.png" />
+						<span style="font-weight:bold; color:white;" tal:content="repeat/species/key"></span>
+
+						<span style="font-weight:bold; color:#FFCC00;" tal:content="string:${species/cost} UP" />
+
+					</td>
+
+				</tr>
+				<tr class="thBottom">
+					<td colspan="2">Abilità</td>
+					<td>Bonus</td>
+				</tr>
+
+				</thead>
+				<tbody>
+
+				<tr tal:repeat="abi species/mods">
+					<td style="width:50px;"><img class="tooltip" tal:attributes="title abi/reason ; src string:../TEMPLATES/img/interface/personnelInterface/abilita/${abi/img}" /></td>
+					<td tal:content="abi/abName"></td>
+					<td tal:content="php:str_replace('0','Attivata',abi['abMod'])" tal:attributes="class php:(abi['abMod'] LT 0) ? 'neg' : ''"></td>
+
+				</tr>
+				</tbody>
+
+			</table>
+		</div>
+
+
+
+	</div>
+	 
+	</div>
+</div>
+</body>
+</html>

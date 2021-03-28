@@ -1,7 +1,6 @@
 ---
 name: Bug report
 about: "Segnala un Bug in STF (\U0001F1EE\U0001F1F9)"
-title: "[BUG]"
 labels: bug
 assignees: azufre451
 

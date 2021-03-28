@@ -171,9 +171,7 @@
 </div>
 
 
-
-
-<div id="messageOfStatus" tal:condition="php:(note != '' && user.pgFirst==0)" tal:attributes="class php:(user.pgSpecie=='Romulana') ? 'popup radiusBordered12 planetLocationElement_a_rom': 'popup radiusBordered12 planetLocationElement_a'">
+<div id="messageOfStatus" tal:condition="php:(note != '' && user.pgFirst==0)" tal:attributes="class php:(user.pgSpecie=='Romulana') ? 'popup radiusBordered12 planetLocationElement_a_rom draggableSTFModal': 'popup radiusBordered12 planetLocationElement_a draggableSTFModal'">
 	<p class="clockTitle" style="border-bottom:1px solid #777; width:60%; margin:auto; margin-bottom:10px; padding-bottom:5px;">INFORMAZIONI DI SERVIZIO</p>
 	<p tal:condition="exists:isIpad"><a href="javascript:tomap(1)" class="interfaceLink" alt=""> Mappa 1 </a> - <a href="javascript:tomap(2)" class="interfaceLink" alt=""> Mappa 2 </a> </p>
 	<div style="font-size:13px; text-align:justify;" tal:content="structure note" />
@@ -219,10 +217,6 @@
 </div>
 
 <div metal:use-macro="TEMPLATES/metal_panels.htm/corePanels" />
-<div metal:use-macro="TEMPLATES/metal_panels.htm/alertPanel" />
-
-<div metal:use-macro="TEMPLATES/questionar.htm/sondaggio" />
-
 
 <div tal:condition="exists:melialPoints" id="pointBox" class="popup blackOpacity">
 	<style>

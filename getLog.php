@@ -12,7 +12,7 @@ $user=new PG($_SESSION['pgID']);
 $userName = $user->pgUser;
 $userID = $user->ID;
 
-$connOptions = array('db_Host' => $db_Host,'db_User' => $db_User,'db_Pass' => $db_Pass,'db_Name'=>$fvkpphtr_federation_db1,'archivedb_Name' => $archivedb_Name);
+$connOptions = array('db_Host' => $db_Host,'db_User' => $db_User,'db_Pass' => $db_Pass,'db_Name'=>$db_Name,'archivedb_Name' => $archivedb_Name);
 
 if (isSet($_GET['getAllPlayerLogs']))
 {

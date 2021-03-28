@@ -182,8 +182,6 @@
 				
 				<div id="buttonst" style="float: right; width: 180px; text-align:center; margin-top:-10px;">
 				<a href='javascript:void(0);' onclick="javascript:window.location.reload()"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_ref.png" style="vertical-align:middle;"/></a>
-
-				<!--<a href='javascript:void(0);' onclick="javascript:jQuery('#locationInfo').fadeIn(200);"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_desc.png" style="vertical-align:middle;"/></a>-->
 			
 				<a tal:condition="php:(ambient['ambientType']=='ALLOGGIO')" href='javascript:void(0);' onclick="javascript:dlindlon(jQuery('#locID').prop('value'));"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_ring.png" title="Suona il Campanello" style="vertical-align:middle;"/></a>
 				<a tal:condition="php:(ambient['ambientType']=='ALLOGGIO' || ambient['ambientType']=='REPLICATORE')" href='javascript:void(0);'  tal:attributes="onclick string:javascript:repliOpen('${ambient/locID}')"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_repl.png" title="Replicatore" style="vertical-align:middle;"/></a>
@@ -191,9 +189,6 @@
 				<a tal:condition="php:(ambient['ambientType']=='PLANCIA')" href='javascript:void(0);'  onclick="javascript:jQuery('#commsub').fadeIn(200);"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_comm.png" title="Comunicazioni Subspaziali" style="vertical-align:middle;"/></a>
 				<a tal:condition="php:(ambient['ambientType']=='HANGAR')" tal:attributes="href string:hangar.php?of=${ambient/ambientLocation}"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_shut.png" title="Accedi alle navette" style="vertical-align:middle;"/></a>
 				<a tal:condition="php:(ambient['ambientType']=='SALA_TEL' || ambient['ambientType']=='INFERMERIA' || ambient['ambientType']=='PLANCIA')" href='javascript:void(0);'  onclick="javascript:jQuery('#teleportPanel').fadeIn(200);"><img class="imaLer" src="TEMPLATES/img/interface/mainInterface/icon_tt.png" title="Teletrasporto" style="vertical-align:middle;"/></a>
-
-
-				<!--<a tal:condition="php:(ambient['ambientAudio']) != ''" href='javascript:void(0);' onclick="javascript:toggleAudio();"><img id="audioControl" class="imaLer" tal:attributes="src php:(user.audioEnvEnable) ? 'TEMPLATES/img/interface/mainInterface/icon_audio.png' : 'TEMPLATES/img/interface/mainInterface/icon_audio_off.png' ; title php:(user.audioEnvEnable) ? 'Disabilita Audio' : 'Abilita Audio'" style="vertical-align:middle;"/></a>-->
 				
 
 				<a href='javascript:void(0);' onclick="javascript:toggleMPI()" id="MPIbtn" tal:attributes="class php:((count(mpi) ||  ( ambient['ambientAudio'] != '' && user.audioEnvEnable) ) ? 'mpi btnnotify' : ( ambient['ambientAudio'] != '' ? 'mpi btnon' : 'mpi btnhidden') )" ><img id="audioControl" class="imaLer" src='TEMPLATES/img/interface/mainInterface/icon_audio_off.png' title="Multimedia" style="vertical-align:middle;"/></a>
@@ -357,7 +352,6 @@
 
 <div metal:use-macro="TEMPLATES/metal_panels.htm/corePanels" />
 
-
 <div metal:use-macro="TEMPLATES/metal_panels.htm/locationMapPanel" tal:condition="php:(ambient['locationable'])"/>
 <div metal:use-macro="TEMPLATES/metal_panels.htm/replicatorPanel" tal:condition="php:(ambient['ambientType']=='ALLOGGIO' || ambient['ambientType']=='REPLICATORE')"/>
 <div metal:use-macro="TEMPLATES/metal_panels.htm/teleporterPanel" tal:condition="php:(ambient['ambientType']=='SALA_TEL' || ambient['ambientType']=='PLANCIA' || ambient['ambientType']=='INFERMERIA')"/>
@@ -365,7 +359,6 @@
 <div metal:use-macro="TEMPLATES/metal_panels.htm/climatePanel" tal:condition="php:(ambient['ambientType']=='ALLOGGIO')" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/commPanel" tal:condition="php:(ambient['ambientType']=='PLANCIA')" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/sessionsPanel" />
-<!--<div metal:use-macro="TEMPLATES/metal_panels.htm/alertPanelChat" />-->
 
 <div metal:use-macro="TEMPLATES/metal_panels.htm/masterDicePanel" tal:condition="exists:isMaster" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/remindStaffPresence" tal:condition="exists:presenceForce" />

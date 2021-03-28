@@ -491,7 +491,7 @@ font-weight:bold;
 	font-size:13px;
 }
 
-#adder,#messageOfStatus,#helper,#messageAlert
+#adder,#messageOfStatus,#helper
 {
 
 text-align:center;
@@ -502,23 +502,6 @@ font-family:Helvetica;
 filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#D8000000,endColorstr=#D8000000);
 }
 
-#messageAlert
-{
-width:450px;
-height:65px;
-bottom:20px;
-z-index:10;
-display:none;
-position:absolute;
-padding:15px;
-font-size:12px;
-margin-left:-235px;
-bottom:20px;
-left:50%;
-	-moz-box-shadow: 0px 0px 20px #ffcb40;
-    -webkit-box-shadow: 0px 0px 20px #ffcb40;
-    box-shadow: 0px 0px 20px #ffcb40;
-}
 
 #adder 
 {

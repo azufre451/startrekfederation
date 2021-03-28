@@ -318,31 +318,6 @@
 </div>
 </div>
 
-<div metal:define-macro="alertPanel">
-	<div id="messageAlert" class="radiusBordered12">
-		<div class="xButton" onclick="jQuery('#messageAlert').fadeOut(100);"></div>
-
-		<img class="imager" style="float:left;" />
-		<div style="float:left; text-align:left; margin-left:30px; font-family:Helvetica; font-weight:bold;">
-		<p id="alertTitle"  class="clockTitle" style="margin:0px;"/> 
-		<p id="alertMessage" style="width:300px;" />
-		</div>
-	</div>
-</div>
-
-<div metal:define-macro="alertPanelChat">
-	<div id="messageAlert" style="bottom:120px;" class="radiusBordered12">
-			<div class="xButton" onclick="jQuery('#messageAlert').fadeOut(100);"></div>
-
-
-		<img class="imager" style="float:left;" />
-		<div style="float:left; text-align:left; margin-left:30px; font-family:Helvetica; font-weight:bold;">
-		<p id="alertTitle"  class="clockTitle" style="margin:0px;"/> 
-		<p id="alertMessage" style="width:300px;" />
-		</div>
-	</div>
-</div>  
-
 <div metal:define-macro="teleporterPanel" id="teleportPanel" style="display:none;" class="popup draggableSTFModal">
 	<script type="text/javascript" src="TEMPLATES/js/teleport.js?v=${gameOptions/numericVersion}"></script>
 	<p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:22px;">TELETRASPORTO</p>

@@ -20,14 +20,10 @@
 			
 		});
 
-
 		jQuery(window).keyup(swish);
-
-
-
-	
 		
 		// nota Moreno. Funzione SETTER dei parametri di configurazione della ghiera esterna.
+		
 		function ccc()
 		{ // JQUERY YOUR SISTER! 
 			jQuery.ajax(
@@ -39,7 +35,6 @@
 			timeout:3000
 			}); 
 		}
-
 
 		function notifyDesktop(txt,icon,func,title){
 

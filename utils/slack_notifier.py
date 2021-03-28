@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+# Original Author: Moreno Zolfo (moreno.zolfo@gmail.com)
+# Star Trek: Federation Slack Bot Notifier
+
+
 import requests
 import json
 import os
@@ -16,8 +20,7 @@ fedDb = mysql.connector.connect(
   database=DBConf.fed_database,
 )
 
-
-ppl={'Rezaei': 'U7ZV57YEL', 'Prevost': 'U801DFLLQ', 'Bykov': 'U81FQ6X2S', 'de Groot': 'U01BNQUFFE1', 'Banks':'U80H8PJFM' ,'Wagner':'U84NDQFQW','Wilburn':'U80L83010','Grant':'U01BB516SEB'}
+ppl = DBConf.ppl
 
 print(fedDb)
 

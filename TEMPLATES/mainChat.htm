@@ -220,62 +220,60 @@
 </div>
 
 <div id="locationInfo" tal:attributes="style string:background-image:url('${ambient/image}')" class="popup draggableSTFModal">
-<p class="clockTitle blackOpacity" tal:content="ambient/locName" />
-<div id="locationDesc" class="blackOpacity radiusBordered12">
-<p style="text-align:center;"><a href="#" onclick="javascript:jQuery('#locationDesc').fadeOut(150); jQuery('#textShower').fadeIn(150); " class="interfaceLink">( Nascondi )</a> <a href="#" onclick="javascript:jQuery('#locationDesc').fadeOut(150); jQuery('#textShower').fadeIn(150); jQuery('#locationEdit').fadeIn(150);  " class="interfaceLink" tal:condition="exists:isSuperMaster">( Modifica )</a> <a tal:condition="php:ambient['ambientType']=='SALA_OLO'" href="javascript:showRanker();" class="interfaceLink">( OLOMOSTRINE )</a></p>
-<p style="font-family:Helvetica; font-size:14px; line-height:1.3em; margin-top:10px;" tal:content="structure string:${ambient/descrizione}" tal:condition="php:(ambient['ambientType']!='DECKMAP')"/>
+	<div class="xButton" title="Chiudi" />
+	<p class="clockTitle blackOpacity" tal:content="ambient/locName" />
+	<div id="locationDesc" class="blackOpacity radiusBordered12">
+	<p style="text-align:center;"><a href="#" onclick="javascript:jQuery('#locationDesc').fadeOut(150); jQuery('#textShower').fadeIn(150); " class="interfaceLink">( Nascondi )</a> <a href="#" onclick="javascript:jQuery('#locationDesc').fadeOut(150); jQuery('#textShower').fadeIn(150); jQuery('#locationEdit').fadeIn(150);  " class="interfaceLink" tal:condition="exists:isSuperMaster">( Modifica )</a> <a tal:condition="php:ambient['ambientType']=='SALA_OLO'" href="javascript:showRanker();" class="interfaceLink">( OLOMOSTRINE )</a></p>
+	<p style="font-family:Helvetica; font-size:14px; line-height:1.3em; margin-top:10px;" tal:content="structure string:${ambient/descrizione}" tal:condition="php:(ambient['ambientType']!='DECKMAP')"/>
 
-<p tal:condition="php:(ambient['ambientType']=='DECKMAP')" style="margin:0px; margin-bottom:10px;">
-	<p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:18px;;">Accedi a:</p>
-	<p style="margin:0px; text-align:center;" tal:repeat="place connectedPlaces"><a tal:content="place" tal:attributes="href string:chat.php?amb=${repeat/place/key}" class="interfaceLink"/></p>
-</p>
-</div>
+	<p tal:condition="php:(ambient['ambientType']=='DECKMAP')" style="margin:0px; margin-bottom:10px;">
+		<p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:18px;;">Accedi a:</p>
+		<p style="margin:0px; text-align:center;" tal:repeat="place connectedPlaces"><a tal:content="place" tal:attributes="href string:chat.php?amb=${repeat/place/key}" class="interfaceLink"/></p>
+	</p>
+	</div>
 
-<div id="locationEdit" tal:condition="exists:isSuperMaster" style="display:none; background-color: black; padding:5px; margin:auto; margin-top:10px;">
-		
-	<form method="POST" tal:attributes="action string:service.php?editMapLocation=${ambient/locID}">
-		<table>
-			<tr><td>Nome Localit&agrave;</td><td><input class="neon" maxlength="35" name="name" style="width:300px;" type="text" tal:attributes="value ambient/locName" /></td></tr>
-			<tr><td>Descrizione <span style="font-size:11px;">(HTML+BBCODE)</span></td><td><textarea name="descript" style="width:300px; height:80px;" tal:content="ambient/descrizione" /></td></tr>
-			<tr><td>URL Icona (http://)</td><td><input class="neon" name="icon" style="width:300px;" type="text" tal:attributes="value ambient/icon" /></td></tr>
-			<tr><td>URL Immagine Interna (http://)</td><td><input class="neon" name="internalImage" style="width:300px;" type="text" tal:attributes="value ambient/image" /></td></tr>
-			<tr><td>Tipologia</td><td><select name="typer">
-				<option tal:attributes="selected php:((ambient['ambientType'] == 'DEFAULT') ? 'selected' : false)" value="DEFAULT">Default</option>
-				<option tal:attributes="selected php:((ambient['ambientType'] == 'ALLOGGIO') ? 'selected' : false)" value="ALLOGGIO">Alloggio/Ufficio</option>
-				<option tal:attributes="selected php:((ambient['ambientType'] == 'NORMAL') ? 'selected' : false)" value="NORMAL">Normale</option>
-				<option tal:attributes="selected php:((ambient['ambientType'] == 'PLANCIA') ? 'selected' : false)" value="PLANCIA">Plancia</option>
-				<option tal:attributes="selected php:((ambient['ambientType'] == 'HANGAR') ? 'selected' : false)" value="HANGAR">Hangar di lancio</option>
-				<option tal:attributes="selected php:((ambient['ambientType'] == 'SALA_OLO') ? 'selected' : false)" value="SALA_OLO">Sala ologrammi</option>
-				<option tal:attributes="selected php:((ambient['ambientType'] == 'REPLICATORE') ? 'selected' : false)" value="REPLICATORE">Solo Replicatore</option>
-				<option tal:attributes="selected php:((ambient['ambientType'] == 'DECKMAP') ? 'selected' : false)" value="DECKMAP">Ponte</option>
-				<option tal:attributes="selected php:((ambient['ambientType'] == 'SALA_TEL') ? 'selected' : false)" value="SALA_TEL">Sala Teletrasporto</option>
-				<option tal:attributes="selected php:((ambient['ambientType'] == 'INFERMERIA') ? 'selected' : false)" value="INFERMERIA">Infermeria</option>
-				<option tal:attributes="selected php:((ambient['ambientType'] == 'SECRET') ? 'selected' : false)" value="SECRET">Il segreto</option>
-			</select> </td></tr>
-			<tr><td>Numero mappa:</td><td><select name="mappNo" >
-				<option tal:attributes="selected php:((ambient['planetSub'] == '1') ? 'selected' : false)" value="1">1</option> 
-				<option tal:attributes="selected php:((ambient['planetSub'] == '2') ? 'selected' : false)" value="2">2</option>
-				<option tal:attributes="selected php:((ambient['planetSub'] == '3') ? 'selected' : false)" value="3">3</option>
-			</select>, (irrilevante per non-pianeti) | Ponte: <input class="neon" maxlength="35" name="pontNo" style="width:100px;" type="text" tal:attributes="value ambient/ambientLevel_deck" /> </td>
+	<div id="locationEdit" tal:condition="exists:isSuperMaster" style="display:none; background-color: black; padding:5px; margin:auto; margin-top:10px;">
+			
+		<form method="POST" tal:attributes="action string:service.php?editMapLocation=${ambient/locID}">
+			<table>
+				<tr><td>Nome Localit&agrave;</td><td><input class="neon" maxlength="35" name="name" style="width:300px;" type="text" tal:attributes="value ambient/locName" /></td></tr>
+				<tr><td>Descrizione <span style="font-size:11px;">(HTML+BBCODE)</span></td><td><textarea name="descript" style="width:300px; height:80px;" tal:content="ambient/descrizione" /></td></tr>
+				<tr><td>URL Icona (http://)</td><td><input class="neon" name="icon" style="width:300px;" type="text" tal:attributes="value ambient/icon" /></td></tr>
+				<tr><td>URL Immagine Interna (http://)</td><td><input class="neon" name="internalImage" style="width:300px;" type="text" tal:attributes="value ambient/image" /></td></tr>
+				<tr><td>Tipologia</td><td><select name="typer">
+					<option tal:attributes="selected php:((ambient['ambientType'] == 'DEFAULT') ? 'selected' : false)" value="DEFAULT">Default</option>
+					<option tal:attributes="selected php:((ambient['ambientType'] == 'ALLOGGIO') ? 'selected' : false)" value="ALLOGGIO">Alloggio/Ufficio</option>
+					<option tal:attributes="selected php:((ambient['ambientType'] == 'NORMAL') ? 'selected' : false)" value="NORMAL">Normale</option>
+					<option tal:attributes="selected php:((ambient['ambientType'] == 'PLANCIA') ? 'selected' : false)" value="PLANCIA">Plancia</option>
+					<option tal:attributes="selected php:((ambient['ambientType'] == 'HANGAR') ? 'selected' : false)" value="HANGAR">Hangar di lancio</option>
+					<option tal:attributes="selected php:((ambient['ambientType'] == 'SALA_OLO') ? 'selected' : false)" value="SALA_OLO">Sala ologrammi</option>
+					<option tal:attributes="selected php:((ambient['ambientType'] == 'REPLICATORE') ? 'selected' : false)" value="REPLICATORE">Solo Replicatore</option>
+					<option tal:attributes="selected php:((ambient['ambientType'] == 'DECKMAP') ? 'selected' : false)" value="DECKMAP">Ponte</option>
+					<option tal:attributes="selected php:((ambient['ambientType'] == 'SALA_TEL') ? 'selected' : false)" value="SALA_TEL">Sala Teletrasporto</option>
+					<option tal:attributes="selected php:((ambient['ambientType'] == 'INFERMERIA') ? 'selected' : false)" value="INFERMERIA">Infermeria</option>
+					<option tal:attributes="selected php:((ambient['ambientType'] == 'SECRET') ? 'selected' : false)" value="SECRET">Il segreto</option>
+				</select> </td></tr>
+				<tr><td>Numero mappa:</td><td><select name="mappNo" >
+					<option tal:attributes="selected php:((ambient['planetSub'] == '1') ? 'selected' : false)" value="1">1</option> 
+					<option tal:attributes="selected php:((ambient['planetSub'] == '2') ? 'selected' : false)" value="2">2</option>
+					<option tal:attributes="selected php:((ambient['planetSub'] == '3') ? 'selected' : false)" value="3">3</option>
+				</select>, (irrilevante per non-pianeti) | Ponte: <input class="neon" maxlength="35" name="pontNo" style="width:100px;" type="text" tal:attributes="value ambient/ambientLevel_deck" /> </td>
 
-			</tr>
+				</tr>
 
-			<tr><td><input type="submit" value="INVIA" style="width:60px;" /></td><td><span style="color:#FF0006; font-weight:bold;">ATTENZIONE</span></td></tr>
+				<tr><td><input type="submit" value="INVIA" style="width:60px;" /></td><td><span style="color:#FF0006; font-weight:bold;">ATTENZIONE</span></td></tr>
 
-		</table>
-	</form>
+			</table>
+		</form>
 
-</div>
+	</div>
 
-<button style="position:absolute; bottom:7px; right:30px; display:none;" id="textShower" onclick="javascript:jQuery('#locationDesc').fadeIn(150); jQuery('#textShower').fadeOut(150);">VEDI DESCRIZIONE</button>
-
-<div class="xButton" onclick="jQuery('#locationInfo').fadeOut(100);"></div>
-
+	<button style="position:absolute; bottom:7px; right:30px; display:none;" id="textShower" onclick="javascript:jQuery('#locationDesc').fadeIn(150); jQuery('#textShower').fadeOut(150);">VEDI DESCRIZIONE</button>
 
 </div>
 
 <div id="dicePanel" class="popup draggableSTFModal">
-
+	<div class="xButton" title="Chiudi" />
 	<p class="clockTitle blackOpacity" style="text-align:center;  margin:0px; margin-bottom:20px; font-size:22px;">Lancia un dado</p>
 
 	<select class="neon" onchange="javascript:diceChanger()" id="selectedDiceSkill" style="font-size:15px"><optgroup tal:repeat="cat php:abilDescriptor::getAllAbil()" tal:attributes="label php:abilDescriptor::translate(repeat.cat.key)"><option tal:repeat="ab cat" tal:attributes="value ab/abID" tal:content="ab/abName"></option></optgroup></select>
@@ -343,7 +341,7 @@
 	<div tal:condition="php:(residualLuckyPoints)" id="dicerLuckOpt" style="font-size:15px; position:absolute;bottom:10px; right:10px; width:auto;"> <input type="checkbox" onclick="javascript:diceChanger()"  id="abUsePoint" /> Puoi usare <span style="color: #c1bf25; font-weight:bold;" tal:content="residualLuckyPoints" /> punto/i <span style="color: #c1bf25; font-weight:bold;">"Fortuna Critica"</span>  <span class="tooltip" title="Usando questa opzione la tua azione avrà successo critico in maniera automatica, indipendentemente dal dado. Usa i punti fortuna con attenzione: sono assegnati raramente!" style="color:#c1bf25; font-weight:bold;">[?]</span></div> 
 	</div>
 
-	<div class="xButton" onclick="jQuery('#dicePanel').fadeOut(100);"></div>
+	
 
 
 </div>

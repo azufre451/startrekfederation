@@ -2,7 +2,7 @@
 
 	<div id="dotazioner" class="popup draggableSTFModal">
 		
-		<div class="xButton" onclick="jQuery('#dotazioner').fadeOut(100);"></div>
+		<div class="xButton" />
 
 		<div style="margin-top:10px;">
 			<div id="uniformBoxL">
@@ -69,7 +69,7 @@
 
 	<!-- <div metal:define-macro="localizeBox" >-->
 	<div id="localizeBox" class="draggableSTFModal">
-		<div class="xButton" onclick="jQuery(this).parent().fadeOut(100);" style="top:15px; right:15px;"></div>
+		<div class="xButton" title="Chiudi" style="top:15px; right:15px;" />
 		<div id="localizeBoxHead">ONLINE</div>
 		<div id="localizeBoxContainer" />
 		<div id="localizeBoxTail"></div>
@@ -78,7 +78,7 @@
 
 	<!-- <div metal:define-macro="comunicatorBox" >-->
 	<div id="communicatorBox" class="draggableSTFModal">
-		<div class="xButton" onclick="jQuery('#communicatorBox').fadeOut(100);"></div>
+		<div class="xButton" title="Chiudi" />
 				<style>
 					#commDestOpt optgroup {color: var(--custom_section_color,#ffcc00); text-decoration: underline;}
 					#commDestOpt option {color: #ffffff; font-size: 14px;}
@@ -134,13 +134,12 @@
 
 
 <div metal:define-macro="locationMapPanel">
+	<div class="xButton" title="Chiudi" />
 	<div id="locationMap" class="popup blackOpacity" tal:attributes="style php:(isSet(showM)) ? 'display:block' : ''">
-<p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:22px;;" tal:content="ambient/locName" />
-<div tal:attributes="style string:width:550px;; background-repeat:no-repeat;; height:400px;; background-image:url('TEMPLATES/img/maps/piante/${ambient/imageMap}');;" id="mapperImage" onclick="setPgPosition(event);">
-	<div tal:repeat="pla markers" class="signaler"  tal:attributes="style string:top:${pla/posY}px;;left:${pla/posX}px;; ; title pla/placeString"></div>
-</div>
-
-<div class="xButton" onclick="jQuery('#locationMap').fadeOut(100);"></div>
+	<p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:22px;;" tal:content="ambient/locName" />
+	<div tal:attributes="style string:width:550px;; background-repeat:no-repeat;; height:400px;; background-image:url('TEMPLATES/img/maps/piante/${ambient/imageMap}');;" id="mapperImage" onclick="setPgPosition(event);">
+		<div tal:repeat="pla markers" class="signaler"  tal:attributes="style string:top:${pla/posY}px;;left:${pla/posX}px;; ; title pla/placeString"></div>
+	</div>
 </div>
 
 <script>
@@ -186,7 +185,7 @@
 
 
 <div metal:define-macro="climatePanel" id="climate" class="popup draggableSTFModal">
-	<div class="xButton" onclick="jQuery('#climate').fadeOut(100);"></div>
+	<div class="xButton" title="Chiudi" />
 	
 	<p class="clockTitle blackOpacity" style="text-align:center;  margin:20px 0 0 0; font-size:22px;">Controlli ambientali: </p>
 	<br /><b>Luci: </b><select class="neon" id="lightSet">
@@ -246,79 +245,76 @@
 </div>
 
 <div metal:define-macro="commPanel">
-<div id="commsub" class="popup draggableSTFModal">
-<p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:22px;">COMUNICAZIONI SUBSPAZIALI</p>
-<input  type="text" name="subspaceMex" id="subspaceMex" class="neon radiusBordered12" style="width:330px; margin-top:10px; margin-left:10px; margin-right:10px;" />
-	<select class="neon" id="locationer">
-		<option tal:repeat="location locationsA" tal:attributes="value repeat/location/key" tal:content="location"/>
-	</select>
-<button onclick="javascript:subspaceCom();" style="margin-top:10px;">INVIA</button>
+	<div id="commsub" class="popup draggableSTFModal">
+		<div class="xButton" title="Chiudi" />
+		<p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:22px;">COMUNICAZIONI SUBSPAZIALI</p>
+		<input  type="text" name="subspaceMex" id="subspaceMex" class="neon radiusBordered12" style="width:330px; margin-top:10px; margin-left:10px; margin-right:10px;" />
+			<select class="neon" id="locationer">
+				<option tal:repeat="location locationsA" tal:attributes="value repeat/location/key" tal:content="location"/>
+			</select>
+		<button onclick="javascript:subspaceCom();" style="margin-top:10px;">INVIA</button>
 
-<div class="xButton" onclick="jQuery('#commsub').fadeOut(100);"></div>
-
-<script>
-		function subspaceCom()
-		{
-			jQuery('#commsub').fadeOut(150);
-			jQuery.ajax(
+		<script>
+			function subspaceCom()
 			{
-			url: 'ajax_subcom.php',
-			data: {amb: jQuery('#locID').prop('value'), chatLine: jQuery('#subspaceMex').prop('value'), to: jQuery('#locationer').prop('value')},
-			success: noti,
-			async:false,
-			type: 'POST'
-			});
-		}
-</script>
-</div>
+				jQuery('#commsub').fadeOut(150);
+				jQuery.ajax(
+				{
+				url: 'ajax_subcom.php',
+				data: {amb: jQuery('#locID').prop('value'), chatLine: jQuery('#subspaceMex').prop('value'), to: jQuery('#locationer').prop('value')},
+				success: noti,
+				async:false,
+				type: 'POST'
+				});
+			}
+		</script>
+	</div>
 </div>
 
 <div metal:define-macro="olorankerPanel">
-<div id="oloRanker" class="popup draggableSTFModal">
-<p class="clockTitle blackOpacity" style="text-align:center;  margin:0px; font-size:22px;">Assegna Gradi Olografici</p>
-<br /><b>ASSEGNA A: </b> <img src="TEMPLATES/img/ranks/CIV.png" id="oloRankPreview" /> <select class="neon" id="tizio"><option tal:repeat="user people" tal:attributes="value user/pgID" tal:content="user/pgUser" /></select>
+	<div id="oloRanker" class="popup draggableSTFModal">
+		<div class="xButton" title="Chiudi" />
+		<p class="clockTitle blackOpacity" style="text-align:center;  margin:0px; font-size:22px;">Assegna Gradi Olografici</p>
+		<br /><b>ASSEGNA A: </b> <img src="TEMPLATES/img/ranks/CIV.png" id="oloRankPreview" /> <select class="neon" id="tizio"><option tal:repeat="user people" tal:attributes="value user/pgID" tal:content="user/pgUser" /></select>
 
-<br /><br />
-<select class="neon" style="width:80%" id="rankCode" onchange="javascript:setUniform(this);">
-	<optgroup tal:repeat="ranker ranks" tal:attributes="label repeat/ranker/key">
-	<option tal:repeat="rnk ranker" tal:attributes="value repeat/rnk/key ; data-uniform php:rnk['uniform']" tal:content="rnk/note"/>
-	</optgroup>
-</select>
+		<br /><br />
+		<select class="neon" style="width:80%" id="rankCode" onchange="javascript:setUniform(this);">
+			<optgroup tal:repeat="ranker ranks" tal:attributes="label repeat/ranker/key">
+				<option tal:repeat="rnk ranker" tal:attributes="value repeat/rnk/key ; data-uniform php:rnk['uniform']" tal:content="rnk/note"/>
+			</optgroup>
+		</select>
 
+		<button style="width: 150px; margin-top: 15px; padding: 6px 6px 5px 10px; font-size: 23px;" onclick="javascript:olorankerSet(jQuery('#tizio').prop('value'),jQuery('#rankCode').prop('value'));" class="NBT_Roddenberry green">CONFERMA</button>
 
-<button style="width: 150px; margin-top: 15px; padding: 6px 6px 5px 10px; font-size: 23px;" onclick="javascript:olorankerSet(jQuery('#tizio').prop('value'),jQuery('#rankCode').prop('value'));" class="NBT_Roddenberry green">CONFERMA</button>
-
-
-<div class="xButton" onclick="jQuery('#oloRanker').fadeOut(100);"></div>
-
-<script>
-		
-		function setUniform(ida){
-			jQuery('#oloRankPreview').attr('src','TEMPLATES/img/ranks/'+jQuery(ida).find('option:selected').attr('data-uniform')+'.png');
-		}
-		function showRanker()
-		{
-			jQuery('#locationInfo').fadeOut(300,function(){jQuery('#oloRanker').fadeIn(300)});
-		}
-		
-		function olorankerSet(ida,ibex)
-		{
-			
-			jQuery.ajax(
-			{
-			url: 'ajax_olorankerSet.php',
-			data: {person: ida, whatassign: ibex},
-			async:false,
-			type: 'POST'
-			});
-			jQuery('#oloRanker').fadeOut(300);
-			
-		}
-</script>
-</div>
+		<script>
+				
+				function setUniform(ida){
+					jQuery('#oloRankPreview').attr('src','TEMPLATES/img/ranks/'+jQuery(ida).find('option:selected').attr('data-uniform')+'.png');
+				}
+				function showRanker()
+				{
+					jQuery('#locationInfo').fadeOut(300,function(){jQuery('#oloRanker').fadeIn(300)});
+				}
+				
+				function olorankerSet(ida,ibex)
+				{
+					
+					jQuery.ajax(
+					{
+					url: 'ajax_olorankerSet.php',
+					data: {person: ida, whatassign: ibex},
+					async:false,
+					type: 'POST'
+					});
+					jQuery('#oloRanker').fadeOut(300);
+					
+				}
+		</script>
+	</div>
 </div>
 
 <div metal:define-macro="teleporterPanel" id="teleportPanel" style="display:none;" class="popup draggableSTFModal">
+	<div class="xButton" title="Chiudi" />
 	<script type="text/javascript" src="TEMPLATES/js/teleport.js?v=${gameOptions/numericVersion}"></script>
 	<p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:22px;">TELETRASPORTO</p>
 
@@ -348,18 +344,13 @@
 
 	</div><div style="clear:both;"/>
 
-
 	<button onclick="javascript:doTeleport();" class="NBT_Roddenberry green">ENERGIA!</button>
-
-
-	<div class="xButton" onclick="jQuery('#teleportPanel').fadeOut(100);"></div>
 
 </div>
   
  
 <div metal:define-macro="sessionsPanel" id="sessionsP" class="popup draggableSTFModal">
-	
-	<div class="xButton" onclick="jQuery('#sessionsP').fadeOut(100);"></div>
+	<div class="xButton" title="Chiudi" />
 	
 	<p class="clockTitle blackOpacity" style="text-align:center;  margin:0px; margin-bottom:20px; font-size:22px;">Gestore di Sessioni:</p>
 	
@@ -444,7 +435,7 @@
 
 
 <div metal:define-macro="masterDicePanel" id="masterDicePanel" class="popup draggableSTFModal">
-
+	<div class="xButton" title="Chiudi" />
 	<script>
 		function recompute(fo){
 		
@@ -503,8 +494,7 @@
 
 	</script>
 
-	
-	<div class="xButton" onclick="jQuery('#masterDicePanel').fadeOut(100);"></div>
+		
 	<p class="clockTitle blackOpacity" style="text-align:center;  margin:0px; margin-bottom:20px; font-size:22px;">Assegna Esiti Master</p>
 
 	<div style="height:210px; overflow-y:auto;">

@@ -14,6 +14,10 @@
 			jQuery('.tooltip').tooltip();
 
 			jQuery(".draggableSTFModal").draggable({containment:'#federation_interfaceContainer'});
+			jQuery(".xButton").on('click',function(){
+				jQuery(this).parent().fadeOut(100);
+			});
+			
 		});
 
 

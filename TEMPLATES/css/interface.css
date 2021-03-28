@@ -1547,16 +1547,78 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
 	color: white;
 }
 
+.NBT_Roddenberry.gray {
+	color:#666;
+	cursor: auto;
+}
+
+.NBT_Roddenberry.gray:hover {
+	border-color:#999;
+}
+
 .BBbuttonList .send{
 	font-size:28px;
 	height: 50px; 
 	width: 100px; 
 }
 
+#commDestOpt optgroup {
+	color: var(--custom_section_color,#ffcc00);
+	text-decoration: underline;
+}
 
+#commDestOpt option {
+	color: #ffffff; font-size: 14px;
+}
 
+#commMessage {
+	width: 480px;
+	height: 90px;
+	border-radius: 12px;
+	padding: 10px;
+}
 
+#fromToCommBox{
+	float: left; width: 330px;
+	text-align: center;
+}
 
+#fromToCommBox div.sectioncolor{
+	text-transform: uppercase;
+	font-size: 14px;
+	height: 26px;
+	font-family: Helvetica;
+}
+
+#commDestOpt{
+	width: 245Px;
+	margin-top: 8px;
+}
+.commAvatar{
+	float: left;
+	height:80px;
+	width: 80px;
+	border-radius: 12px;
+	margin: 10px 2px 2px 2px;
+}
+#commDestImg{
+	background-size: 100% auto;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+#commLeft{
+	width: 120px;
+	float: left;
+	text-align: center;
+}
+#commRight
+{
+	width:520px;
+	height: 115px;
+	float: left;
+	margin-top: 20px;
+}
 
 
 

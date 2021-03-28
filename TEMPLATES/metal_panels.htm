@@ -1,5 +1,7 @@
 ﻿<div metal:define-macro="corePanels">
+<!-- BEGIN corePanels" -->
 
+	<!-- BEGIN dotazioner" -->
 	<div id="dotazioner" class="popup draggableSTFModal">
 		
 		<div class="xButton" />
@@ -56,9 +58,9 @@
 			</div>
 		</div>
 	</div>
+	<!-- END dotazioner" -->
 
-	<!--<div metal:define-macro="statusBox" >-->
-
+	<!-- BEGIN statusBox" -->
 	<div id="statusBox" class="escape_popup">
 		<p style="text-align:center; margin:4px; font-size:20px; font-weight:bold; font-family:federationFont; letter-spacing: 0.1em;"> Notifiche</p>
 		<div id="statusContainer">
@@ -66,59 +68,56 @@
 
 		<div style="text-align:center"><a href="javascript:void(0);" class="interfaceLinkBlue" onclick="javascript:statusOpen();"> APRI STATO NAVE </a></div>
 	</div>
-
-	<!-- <div metal:define-macro="localizeBox" >-->
+	<!-- END statusBox" -->
+	
+	<!-- BEGIN localizeBox" -->
 	<div id="localizeBox" class="draggableSTFModal">
 		<div class="xButton" title="Chiudi" style="top:15px; right:15px;" />
 		<div id="localizeBoxHead">ONLINE</div>
 		<div id="localizeBoxContainer" />
 		<div id="localizeBoxTail"></div>
-	</div>
+	</div> 
+	<!-- END localizeBox" -->
 
-
-	<!-- <div metal:define-macro="comunicatorBox" >-->
+	<!-- BEGIN communicatorBox" -->
 	<div id="communicatorBox" class="draggableSTFModal">
 		<div class="xButton" title="Chiudi" />
-				<style>
-					#commDestOpt optgroup {color: var(--custom_section_color,#ffcc00); text-decoration: underline;}
-					#commDestOpt option {color: #ffffff; font-size: 14px;}
-				</style>
-
-				<div style="width: 120px; float: left;">
-					<div>
+				<div id="commLeft">
+					<div style="width:67px">
 						<a href="javascript:void(0);" onclick="commRefresh('ppl');"><img class="leftButton" src="../TEMPLATES/img/interface/commInterface/communicator_people.png" title="Comunicatore - Persone" /></a>
 						<a href="javascript:void(0);" onclick="commRefresh('pla');"><img class="leftButton" style="margin-left: 0px" src="../TEMPLATES/img/interface/commInterface/communicator_ambient.png" title="Comunicatore - Ambienti" /></a>
 					</div>
-					<div style="float: left; text-align:center;">
-						<img style="padding: 11px 2px 8px 5px; float: left; width: 100px;" src="../TEMPLATES/img/interface/commInterface/communicator_logo.png"  />
-
-						<button onclick="javascript:sendcomm();" class="NBT_Roddenberry green">INVIA</button>
+					<div>
+						<img style="margin-top: 10px; width: 100px;" src="../TEMPLATES/img/interface/commInterface/communicator_logo.png"  />
+						<button tal:attributes="onclick php:isSet(htmlLiner) ? 'javascript:sendcomm()' : '' ; class php:isSet(htmlLiner) ? 'NBT_Roddenberry green' : 'NBT_Roddenberry gray'">INVIA</button>
 					</div>
 				</div>
-				<div style="width:520px; height: 115px; float: left; margin-top: 20px; "> 
-					 <img class="tooltip" style="float: left; width: 80px; border-radius: 12px; margin: 10px 2px 2px 2px; " tal:attributes="src user/pgAvatarSquare ; title string:Mittente: ${user/pgUser}"  />
+				<div id="commRight"> 
+					 <img class="tooltip commAvatar" tal:attributes="src user/pgAvatarSquare ; title string:Mittente: ${user/pgUser}"  />
 					
-					<div style="float: left; width: 330px; text-align: center; ">
-						<div style="text-transform: uppercase; font-size: 14px; height: 26px; font-family: Helvetica; " class="sectioncolor"> <img style="height: 12px; " tal:attributes="src string:TEMPLATES/img/ranks/${user/pgMostrina}.png; title string:${user/pgGrado} - Sezione ${user/pgSezione}" id="remindMos" /> <span tal:content="user/pgGrado" /> <span tal:content="user/pgUser" />
+					<div id="fromToCommBox">
+						<div class="sectioncolor">
+							<img tal:attributes="src string:TEMPLATES/img/ranks/${user/pgMostrina}.png; title string:${user/pgGrado} - Sezione ${user/pgSezione}" /> <span tal:content="user/pgGrado" /> <span tal:content="user/pgUser" />
 						</div>
 						<img style="width: 30px; margin: 12px; " src="../TEMPLATES/img/interface/commInterface/communicator_frequence.png" />
 						<div>
-							<select style="width: 245Px; margin-top: 8px;" id="commDestOpt" onchange="javascript:setAvatar(this);" class="neon" name="">
-							<option value="0" selected="selected"> Tutto il Personale </option>
+							<select id="commDestOpt" onchange="javascript:setAvatar(this);" class="neon" name="">
+								<option value="0" selected="selected"> Tutto il Personale </option>
 							</select>
 							<input type="hidden" id="commStyle" />
 	 
 						</div>
 					</div>
-					<div id="commDestImg" class="tooltip" style="background-size: 100% auto;  background-repeat: no-repeat; background-position: center;float: left; width: 80px; height: 80px; border-radius: 12px; margin: 10px 2px 2px 2px;" />
-					
+					<div id="commDestImg" class="tooltip commAvatar" />
 				</div>	
 				<div>
-					<textarea id="commMessage" style="width: 480px; height: 90px; border-radius: 12px; padding: 10px;"></textarea>
+					<textarea tal:attributes="placeholder php:isSet(htmlLiner) ? 'Messaggio' : 'Per inviare un messaggio con il comunicatore devi essere in una chat' ; readonly php:isSet(htmlLiner) ? '' : 'readonly'"   id="commMessage"></textarea>
 				</div>
 	</div>
+	<!-- END communicatorBox" -->
 
-	<!--Reminder-->
+
+	<!-- BEGIN reminders" -->
 	<div id="reminderST" class="reminder" tal:content="string:D.S. ${currentStarDate}" />
 
 	<div id="reminderAvatar" class="reminder">
@@ -129,9 +128,8 @@
 
 			<img tal:attributes="src string:TEMPLATES/img/seclar/seclar${user/pgSeclar}.png" style="padding:4px;" />
 	</div>
+<!-- END core Panels" -->
 </div>
-
-
 
 <div metal:define-macro="locationMapPanel">
 	<div class="xButton" title="Chiudi" />

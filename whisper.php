@@ -5,6 +5,7 @@ if (!isSet($_SESSION['pgID'])){ header("Location:index.php?login=do"); exit;}
 include('includes/app_include.php');
 include('includes/validate_class.php');
 include("includes/PHPTAL/PHPTAL.php");
+mysql_query('SET NAMES utf8mb4');
 mysql_query('UPDATE fed_sussurri SET reade = 1 WHERE reade=0 AND susTo = '.$_SESSION['pgID']);
 
 $currentUser = new PG($_SESSION['pgID']);

@@ -10,6 +10,7 @@ function stringToColorCode($str) {
 
 include('includes/app_include.php');
 include('includes/validate_class.php');
+mysql_query('SET NAMES utf8mb4');
 
 		
 		$string= str_replace("\xE2\x80\x8B", "", htmlentities(addslashes(($_POST['chatLine'])),ENT_COMPAT, 'UTF-8'));

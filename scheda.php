@@ -1224,7 +1224,7 @@ elseif ($mode == 'editS')
 {
 	$ediID = $_POST['ediID'];
 
-	$alloID = PG::getSomething($ediID,"pgAlloggioRealID");
+	
 	$ediName = addslashes($_POST['ediNome']);
 	$ediSuff = addslashes($_POST['ediSuff']);
 	$ediLuoN =addslashes($_POST['ediLuoN']);
@@ -1295,7 +1295,11 @@ elseif ($mode == 'editS')
 	mysql_query("INSERT INTO pg_users_bios (pgID,pgBiometrics,pgIlSegreto,pgBackground,pgCarattere,pgFamily,pgVarie,valid,tim,edituser) VALUES ($ediID,'$ediFis','$ediIlSegreto','$ediBack','$ediCarat','$ediFamil','$ediVarie',$validity,$curTime,".$currentUser->ID.")");
 
 
-	if(isSet($_POST['ediAllo'])) mysql_query("UPDATE fed_ambient SET descrizione = '$ediAllo' WHERE locID = '$alloID'");
+	if(isSet($_POST['ediAllo']))
+		{
+			$alloID = PG::getSomething($ediID,"pgAlloggioRealID");
+			mysql_query("UPDATE fed_ambient SET descrizione = '$ediAllo' WHERE locID = '$alloID'");
+		}
 	
 	header("Location:scheda.php?pgID=$ediID");
 	exit;

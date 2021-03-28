@@ -1,5 +1,5 @@
 <?php
-chdir('/home/fvkpphtr/public_html/');
+chdir('../');
 include('includes/app_include.php');
 
 mysql_query( "DELETE FROM pg_users_presence WHERE 1");

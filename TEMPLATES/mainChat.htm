@@ -5,7 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link tal:condition="php:user.getCTS()" tal:attributes="href php:'TEMPLATES/css/' . user.getCTS() . '?v=' . gameOptions['numericVersion'] " rel="stylesheet" type="text/css" />	
-	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}.545ar4" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" /> 
 	<link href="TEMPLATES/css/circle.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link id="alerter" tal:attributes="href string:TEMPLATES/css/${alertCSS}.css" rel="stylesheet" type="text/css" />

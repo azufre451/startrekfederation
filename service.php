@@ -611,6 +611,17 @@ else if (isSet($_GET['cPlanetCreate']))
 
 }
 
+else if (isSet($_GET['editWeather']))
+{
+	$to = addslashes($_GET['editWeather']);
+	$weatherEdit = addslashes($_POST['weatherEdit']); 
+
+	mysql_query("UPDATE pg_places SET weather = '$weatherEdit' WHERE placeID = '$to'");
+
+	header('Location:main.php');	
+	exit;
+}
+
 else if (isSet($_GET['addMapLocation']))
 {
 	$to = addslashes($_GET['addMapLocation']);

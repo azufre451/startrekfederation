@@ -64,11 +64,7 @@ p.iColor{float:right; margin:0px;}
 .ui-autocomplete li {
     height:25px;
     padding:2px;
-    font-size:12px;
-}
-    
-* html .ui-autocomplete {
-    height: 120px;
+    font-size:13px;
 }
 
 #searcher{
@@ -78,6 +74,7 @@ p.iColor{float:right; margin:0px;}
     position: absolute;
     right: 45px;
     top: 26px;
+    z-index:8;
 }
 
 #introb{margin-left:10px; font-size:12px; letter-spacing:2px;}

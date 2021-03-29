@@ -157,6 +157,7 @@ $template->gameServiceInfo = $gameServiceInfo;
 }
 
 $template->online = timeHandler::getOnline(NULL);
+$template->thisYear = $thisYear;
 $template->gameOptions = $gameOptions;
 $template->keywords="Star Trek, Voyager, Enterprise, The Next Generation, Tricorder, Phaser, Borg. Gioco di Ruolo, Federazione, Klingon, Romulani, Starbase Tycho, GDR, Play by Chat, Picard, Discovery";
 $template->description="Gioco di Ruolo online che unisce l'interpretazione di un eroe del serial televisivo alla scrittura creativa via chat. Crea il tuo personaggio oggi!";

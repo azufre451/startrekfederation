@@ -44,6 +44,7 @@
 		    border-radius: 20px;
 		    cursor: pointer;
 		    margin-top:10px;
+		    font-family: Helvetica;
 		}
 
 		.tile:hover
@@ -51,16 +52,12 @@
 			box-shadow: inset 3px 0px 17px 5px #46b1ffc9;
 		}
 
-		
-
-
 		.tile.facebook{
 			border-color: #2583a2;
 		}
 		.tile.facebook:hover{
 			box-shadow: inset 3px 0px 17px 5px #46b1ffc9;
 		}
-
 
 		.tile.twitter{
 			border-color: #d2f4ff;
@@ -90,25 +87,19 @@
 			box-shadow: inset 3px 0px 17px 5px #e43737c9;
 		}
 		
-
-		span.title
+		div.tile span
 		{
-			font-family: Verdana, Helvetica;
+			
 			letter-spacing: 1px;
 			font-variant: small-caps;
-			margin:0px;
-			font-size:1.4em;
-			text-align:center;
-		}
-
-		.tile .interfaceLink{
+			font-size:1.8em;
+			font-weight:bold;
 			display:inline-block;
     		border-bottom:1px solid white;
     		padding-bottom:2px;
-    		
-    		
+    		margin-left:10px;
 		}
-		.tile:hover .interfaceLink span.title, .tile .interfaceLink:hover span.title
+		div.tile:hover span
 		{
 			color:white;
 			text-shadow:2px 0px 5px #00c6ff;			
@@ -126,41 +117,52 @@
 		<div id="indi_central">
 				<div metal:use-macro="TEMPLATES/metal_index.htm/indexMenu" />
 
-			 
-				
 				<div style="clear: both"> </div>
 
 				<div style="float:left; width: 450px;">
 
-				<div class="tile">
-						<a href="http://www.facebook.com/federation.pbc" target="_blank"><img src="https://oscar.stfederation.it/SigmaSys///promo_stf/stf_social_logo_fb.png" style="vertical-align:middle;" /></a>
-						<a href="http://www.facebook.com/federation.pbc" class="interfaceLink" style="margin-left:10px;" target="_blank"><span class="title">Star Trek: Federation</span></a>		
-				</div>
+				<a href="http://www.facebook.com/federation.pbc" target="_blank">
+					<div class="tile">
+							<img src="https://oscar.stfederation.it/SigmaSys///promo_stf/stf_social_logo_fb.png" style="vertical-align:middle;" />
+							<span>Star Trek: Federation</span>		
+					</div>
+				</a>
 
-				<div class="tile twitter">
-						<a href="https://twitter.com/STFederation" target="_blank"><img src="https://oscar.stfederation.it/SigmaSys///promo_stf/stf_social_logo_tw.png" style="vertical-align:middle;" /></a>
-						<a href="https://twitter.com/STFederation" class="interfaceLink" style="margin-left:10px;" target="_blank"><span class="title">Twitter: @STFederation</span></a>		
-				</div>
+				<a href="https://twitter.com/STFederation" target="_blank">
+					<div class="tile twitter">
+						<img src="https://oscar.stfederation.it/SigmaSys///promo_stf/stf_social_logo_tw.png" style="vertical-align:middle;" />
+						<span>Twitter: @STFederation</span>		
+					</div>
+				</a>
 
-				<div class="tile instagram">
-						<a href="http://www.facebook.com/federation.pbc" target="_blank"><img src="https://oscar.stfederation.it/SigmaSys///promo_stf/stf_social_logo_ig.png" style="vertical-align:middle;" /></a>
-						<a href="https://www.instagram.com/stfederation/" class="interfaceLink" style="margin-left:10px;" target="_blank"><span class="title">Insagram: STFederation</span></a>		
+				<a href="https://www.instagram.com/stfederation/" target="_blank">
+					<div class="tile instagram">
+						<img src="https://oscar.stfederation.it/SigmaSys///promo_stf/stf_social_logo_ig.png" style="vertical-align:middle;" />
+						<span>Insagram: STFederation</span>	
 				</div>
+				</a>
 
-				<div class="tile gdo">
-						<a href="https://www.gdr-online.com/star_trek_federation.asp" target="_blank"><img src="https://oscar.stfederation.it/SigmaSys///promo_stf/stf_social_logo_gdo.png" style="vertical-align:middle;" /></a>
-						<a href="https://www.gdr-online.com/star_trek_federation.asp" class="interfaceLink" style="margin-left:10px;" target="_blank"><span class="title">GDR Online - STF</span></a>		
+				<a href="https://www.gdr-online.com/star_trek_federation.asp" target="_blank">
+					<div class="tile gdo">
+						<img src="https://oscar.stfederation.it/SigmaSys///promo_stf/stf_social_logo_gdo.png" style="vertical-align:middle;" /> 
+						<span>GDR Online - STF</span>		
 				</div>
+				</a>
 
-				<div class="tile yt">
-						<a href="https://www.youtube.com/channel/UC7-uyNUE4OwIU-q9Xc3BFPw" target="_blank"><img src="https://oscar.stfederation.it/SigmaSys///promo_stf/stf_social_logo_yt.png" style="vertical-align:middle;" /></a>
-						<a href="https://www.youtube.com/channel/UC7-uyNUE4OwIU-q9Xc3BFPw" class="interfaceLink" style="margin-left:10px;" target="_blank"><span class="title">Youtube - STF</span></a>		
-				</div>
+				<a href="https://www.youtube.com/channel/UC7-uyNUE4OwIU-q9Xc3BFPw" target="_blank">
+					<div class="tile yt">
+						<img src="https://oscar.stfederation.it/SigmaSys///promo_stf/stf_social_logo_yt.png" style="vertical-align:middle;" />
+						<span>Youtube - STF</span>		
+					</div>
+				</a>
 
-				<div class="tile twitter">
-						<a href="https://t.me/stfederation" target="_blank"><img src="https://oscar.stfederation.it/SigmaSys///promo_stf/stf_social_logo_tg.png" style="vertical-align:middle;" /></a>
-						<a href="https://t.me/stfederation" class="interfaceLink" style="margin-left:10px;" target="_blank"><span class="title">Canale Telegram STF</span></a>		
-				</div>
+
+				<a href="https://t.me/stfederation" target="_blank">
+					<div class="tile twitter">
+						<img src="https://oscar.stfederation.it/SigmaSys///promo_stf/stf_social_logo_tg.png" style="vertical-align:middle;" />
+						<span>Canale Telegram STF</span>	
+					</div>
+				</a>
 
 			</div>
 			<div style="float:left; width:50%; margin-top:70px; font-family:Helvetica;">

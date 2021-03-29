@@ -1133,7 +1133,7 @@ $template->prestigioLabels = $prestigioLabels;
 
 	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
 	{
-		$rea = mysql_query("SELECT federation_chat.*,pgUser,ordinaryUniform,pgID FROM federation_chat,pg_users,pg_ranks WHERE type <> '' AND rankCode = prio AND pgID = sender ORDER BY IDE DESC LIMIT 150");
+		$rea = mysql_query("SELECT federation_chat.*,pgUser,ordinaryUniform,pgID FROM federation_chat,pg_users,pg_ranks WHERE type <> '' AND rankCode = prio AND type <> 'SERVICE' AND pgID = sender ORDER BY IDE DESC LIMIT 150");
 		$lastchats=array();
 		while($rel = mysql_fetch_assoc($rea)) $lastchats[] = $rel;
 

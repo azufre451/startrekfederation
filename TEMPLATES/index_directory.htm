@@ -23,13 +23,21 @@
 		<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}" async="async"/>
 		<script type="text/javascript" src="TEMPLATES/js/index.js?v=${gameOptions/numericVersion}" async="async"/>
 		
-
 		<meta charset="UTF-8" />
 		<meta http-equiv="content-language" content="IT" />
 		<meta name="keywords" tal:attributes="content keywords"/>
 		<meta name="description" content="Credits & Partners di Star Trek: Federation. Siti amici, link alle risorse esterne"  />
 
-		
+		<style>
+			
+			.ctpText{
+				font-size:14px;
+				font-family:Lato, Helvetica;
+				font-weight:bold;
+
+			}
+		</style>
+
 	</head>
 	
 <body style="margin-left:40px; margin-right:40px; margin-left:40px; margin-right:40px;">
@@ -40,90 +48,113 @@
 				<div metal:use-macro="TEMPLATES/metal_index.htm/indexMenu" />
 
 			 
-<p class="title" style="margin-top:20px; float:left; text-align:left; width:30%;">Credits & Partners</p>
-					<div style="margin-right:60px; text-align:center; width:500px; padding:5px; float:right">
-					
-					
-						<div style="text-align:center; margin-top:70px;">
-						<a href="http://www.kuro-rpg.net" class="interfaceLink" target="_blank"><img src="http://kuro-rpg.net/banner/kurorpg-banner-468.jpg" /><br />
-						Autorizzazione ufficiale all'utilizzo dei rankset di Kuro-RPG<br />che ha realizzato per noi un apposito set di mostrine.</a>
-					 	</div>
+		<p class="title" style="margin-top:15px; float:left; text-align:left; width:30%;">Credits & Partners</p>
 
-						<div style="text-align:center; margin-top:10px;">
-							<a href="http://roddenberry.forumcommunity.net/" target="_blank" title="Star Trek Equilibrium" alt="Star Trek Equilibrium">
-							<img src="TEMPLATES/img/interface/index/banner_equilibrium_50_265.png" />
-						</a><br />
-						<a href="https://roddenberry.forumcommunity.net/" class="interfaceLink"> Star Trek: Equilibrium - Play by Forum </a>
-						</div>
-
-						<div style="text-align:center; margin-top:10px;">
-							<a href="http://www.undead-rpg.org" target="_blank" title="Undead RPG" >
-							<img src="TEMPLATES/img/interface/index/Undead390x50_zps49e25b5b.jpg" style=" border:1px solid #BBB;"/>
-						</a><br />
-						<a href="http://www.undead-rpg.org" class="interfaceLink"> Undead RPG - Play by Chat </a>
-						</div>
-
-                                                <div style="text-align:center; margin-top:10px;">
-                                                        <a href="http://starfleetitaly.it/" target="_blank" title="Starfleet Italy" >
-                                                        <img src="/TEMPLATES/img/interface/index/STI_banner_2.gif" style=" border:1px solid #BBB;"/>
-                                                </a><br />
-                                                <a href="http://starfleetitaly.it/" class="interfaceLink">Starfleet Italy - Simulazioni Italiane di Star Trek via Mail</a>
-
-                                                </div>
-
- 
+		<div style="margin-right:60px; margin-top:-40px; text-align:center; width:500px; padding:5px; float:right">
 						
-					
-					<br />
-					  
-					<p style="font-family:Helvetica; font-weight: bold; color:#FFCC00">Licenza dei Contenuti</p>
-					<div style="font-family:Helvetica; width:400px; font-size:14px; margin:auto;"><div style="float:left; width:100px;"><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Licenza Creative Commons" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a></div>
-					<div style="float:left; width:300px;"><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text" property="dct:title" rel="dct:type">I testi del <b>Database</b> </span> di <a xmlns:cc="http://creativecommons.org/ns#" href="http://www.stfederation.it" property="cc:attributionName" rel="cc:attributionURL">Star Trek: Federation</a> sono distribuiti con Licenza <a class="interfaceLink" rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribuzione - Condividi allo stesso modo 4.0</a>.<br />Se utilizzi il nostro materiale, cita questa pagina web fra gli autori, grazie!</div></div>
-					
-					</div>
-					
-					<div style="margin-left:20px; text-align:center; width:430px; padding:5px; float:left">
-					
-					
-					<div style="text-align:center; margin-top:20px; padding-left:30px;">
-					
-					<a href="http://validator.w3.org/check?uri=http%3A%2F%2Fstfederation.it%2F;st=1" target="_blank"><img src="TEMPLATES/img/interface/index/icons/html5.png" style="height:35px" title="Sito HTML5 Valido" alt="Codice Valido"/></a> 
-					<img src="TEMPLATES/img/interface/index/icons/php.png" style="height:35px" title="Sito sviluppato in PHP7" alt="html5"/> 
-					<img src="TEMPLATES/img/interface/index/icons/mysql.png" style="height:35px" title="Sito supportato da MySQL DBMS" alt="Mysql"/> 
-					<img src="TEMPLATES/img/interface/index/icons/phptal.png" style="height:35px" title="PHPTAL Template System" alt="phptal"/> 
-					<img src="TEMPLATES/img/interface/index/icons/jQueryLogo.png" style="height:35px" title="JQuery Plugin" alt="jQuery"/> 
-					</div>
-					
-					<div style="font-size:12px; color:#999; font-family:Helvetica; line-height:1.2em; text-align:justify; margin-left:40px; padding:20px; border:1px solid #AAA; border-radius:10px;  
-background-image:url('TEMPLATES/img/pattern_banded_50.png'); ">
-					Tutte le immagini in uso da Star Trek Federation sono state impiegate nel rispetto delle vigenti leggi in materia di Copyright e Diritto d'Autore. Star Trek Federation non impiega immagini specificatamente coperte da diritti d'autore che ne impediscano l'utilizzo, preferendo le fonti di immagini rilasciate sotto pubblico dominio, o licenza Creative Commons. Star Trek Federation si impegna altresì a collaborare con i rispettivi autori qualora si riscontrassero situazioni di violazione del Diritto d'Autore, eliminando od integrando, su richiesta dei legittimi proprietari, o dei loro delegati autorizzati, ogni contenuto.
-					
-					<b>Le immagini per la realizzazione di Star Trek Federation</b>, del suo materiale informativo e di gioco, nonché per la realizzazione degli elementi dell'interfaccia utente sono accreditate ai seguenti soggetti (o nicknames).<br /><br />
-					
-					<b>Igor Sontacchi, Giuseppe Buffa, Moreno Zolfo, Gianmaria Genetlici, Geoffrey Mandel, Doug Drexler, Jokuckuk333, metlesitsfleetyards, Hatvoc, Sukosu, Animaniacarts, jestr, Lnx991, jmdollan, guilpan, bloknayrb, buzzkilled, Thobewill, sbowers, fungun, Chance Ragen, Neethis, zhar2, bdfd, Rob Sanders, Gileryd, Mr. Frenzy, vanderghast, estauffer, Irrilinvention, Zeleni, Medjai di Scifi-Meshes, Steve Mallory, <a href="https://haphazartgeek.deviantart.com" target="_blank">HaphazArtGeek</a>,  <a href="https://www.facebook.com/STVGP/" target="_blank">Star Trek Voyager Game Project</a>.</b>
-					<br />
-					<br />Si ringrazia lo Staff de <a class="interfaceLink" href="https://www.ilgrandeinverno.it" target="_blank">"Il Grande Inverno"</a> per averci permesso di adattare ed utilizzare il Regolamento di Gioco da loro sviluppato.
-					</div>
-					
+			<div style="text-align:center; margin-top:70px;">
+				<a href="http://www.kuro-rpg.net" class="interfaceLink" target="_blank"><img src="http://kuro-rpg.net/banner/kurorpg-banner-468.jpg" /><br />
+				Autorizzazione ufficiale all'utilizzo dei rankset di Kuro-RPG<br />che ha realizzato per noi un apposito set di mostrine.</a>
+			</div>
+
+			<div style="text-align:center; margin-top:10px;">
+				<a href="http://roddenberry.forumcommunity.net/" target="_blank" title="Star Trek Equilibrium" alt="Star Trek Equilibrium">
+				<img src="TEMPLATES/img/interface/index/banner_equilibrium_50_265.png" />
+				</a><br />
+				
+				<a href="https://roddenberry.forumcommunity.net/" class="interfaceLink"> Star Trek: Equilibrium - Play by Forum </a>
+			</div>
+
+			<div style="text-align:center; margin-top:10px;">
+				<a href="http://www.undead-rpg.org" target="_blank" title="Undead RPG" >
+					<img src="TEMPLATES/img/interface/index/Undead390x50_zps49e25b5b.jpg" style=" border:1px solid #BBB;"/>
+				</a><br />
+				
+				<a href="http://www.undead-rpg.org" class="interfaceLink"> Undead RPG - Play by Chat </a>
+			</div>
+
+			<div style="text-align:center; margin-top:10px;">
+				<a href="http://starfleetitaly.it/" target="_blank" title="Starfleet Italy" >
+					<img src="/TEMPLATES/img/interface/index/STI_banner_2.gif" style=" border:1px solid #BBB;"/>
+				</a><br />
+				<a href="http://starfleetitaly.it/" class="interfaceLink">Starfleet Italy - Simulazioni Italiane di Star Trek via Mail</a>
+			</div>
+
+			<br />
+						  
+			<p class="ctpText" style="color:#FFCC00; font-size:16px; border-bottom:1px solid #666; padding-bottom:5px; width:60%; margin:auto;">Licenza dei Contenuti</p>
+			<div style="width:400px; margin:auto; margin-top:10px;">
+				<div style="float:left; width:100px;">
+					<a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/deed.it"><img alt="Licenza Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+				</div>
+				
+
+				<div style="float:left; width:300px; text-align: left;">
+					<p style="font-size:1.3em; " xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/">I testi e le immagini del <a property="dct:title" rel="cc:attributionURL" href="db.php" target="_blank" class="interfaceLink" style="display:inline-block; text-decoration: underline">Database</a> di Star Trek: Federation sono distribuiti con licenza  <a class="interfaceLink"  href="https://creativecommons.org/licenses/by-nc/4.0/deed.it" target="_blank" rel="license noopener noreferrer" style="display:inline-block; text-decoration: underline">Creative Commons CC BY-NC 4.0</a> Se utilizzi il nostro materiale, cita questa pagina web fra gli autori, grazie!</p>
+				</div>
+			</div>
+
+			<p class="ctpText" style="color:#FFCC00; font-size:16px; border-bottom:1px solid #666; padding-bottom:5px; width:60%; margin:auto;">Codebase</p>
+			<div style="width:400px; margin:auto; margin-top:10px;">
+				<div style="float:left; width:100px; margin-top:10px;">
+					<a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/deed.it"><img alt="Licenza GNU Affero General Public License 3 (GNU AGPLv3)" src="TEMPLATES/img/interface/index/icons/agpl_logo.png" /></a>
+				</div>
+				
+
+				<div style="float:left; width:300px; text-align: left;">
+					<p style="font-size:1.3em; ">Il codice di Star Trek: Federation è liberamente consultabile su <a class="interfaceLink" href="https://github.com/azufre451/startrekfederation/" target="_blank" style="display:inline-block; text-decoration: underline">GitHub</a>, ed è distribuito con licenza <a class="interfaceLink" href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" style="display:inline-block; text-decoration: underline">GNU Affero GPL v3</a></p>
+					<p style="text-align:right;"><img src="https://badgen.net/github/release/azufre451/startrekfederation" /> <img src="https://badgen.net/github/license/azufre451/startrekfederation" /></p>
+				</div>
+			</div>
 
 
-					</div>
-
-
-
-		</div> 
-			 
-			 
 			
-			  
-			
+		</div>
+					
+		<div style="margin-left:65px;  margin-top:20px; text-align:center; width:400px;  float:left">
+					
+			<p class="ctpText">Star Trek: Federation è reso possibile<br />grazie a questo software Open Source:</p>
 
-
-
-		</div><!-- indi_mainContainer -->
+			<div style="text-align:center; margin-top:20px;">
+					
+				<a target="_blank" href="https://www.php.net/releases/8.0/en.php"><img src="TEMPLATES/img/interface/index/icons/php8_logo.png" style="height:35px" title="Sito sviluppato in PHP8" alt="PHP8"/> </a>
+				<a target="_blank" href="https://mariadb.org/"><img src="TEMPLATES/img/interface/index/icons/mariadb_log.png" style="height:35px" title="Sito supportato da MariaDB DBMS" alt="MariaDB"/> </a>
+				<a target="_blank" href="https://phptal.org/"><img src="TEMPLATES/img/interface/index/icons/phptal.png" style="height:35px" title="PHPTAL Template System" alt="phptal"/> </a>
+				<a target="_blank" href="https://jquery.com/"><img src="TEMPLATES/img/interface/index/icons/jQueryLogo.png" style="height:35px" title="JQuery Plugin" alt="jQuery"/> </a>
+				<a target="_blank" href="https://leafletjs.com/"><img src="TEMPLATES/img/interface/index/icons/leaflet_logo.png" style="height:35px" title="Leaflet" alt="Leaflet"/> </a>
+				<a target="_blank" href="https://parsedown.org/"><img src="TEMPLATES/img/interface/index/icons/parsedown_logo.jpg" style="height:35px" title="PHP ParseDown" alt="ParseDown"/> </a>
+			</div>
+					
+			<div style="font-size:12px; color:#999; line-height:1.2em; text-align:justify; margin-top:20px; padding:20px; border:1px solid #AAA; border-radius:10px; background-image:url('TEMPLATES/img/pattern_banded_50.png');">
+				Le immagini in uso da Star Trek Federation sono utilizzate nel
+				rispetto delle vigenti leggi in materia di Copyright e Diritto d'Autore.
+				Star Trek Federation non impiega immagini specificatamente coperte da diritti
+				d'autore che ne impediscano l'utilizzo, preferendo le fonti di immagini rilasciate
+				sotto pubblico dominio, o licenza Creative Commons. Star Trek Federation si impegna
+				altresì a collaborare con i rispettivi autori qualora si riscontrassero situazioni di
+				violazione del Diritto d'Autore, eliminando od integrando, su richiesta dei legittimi
+				proprietari, o dei loro delegati autorizzati, ogni contenuto.
+					
+				<b>Le immagini per la realizzazione di Star Trek Federation</b>,
+				del suo materiale informativo e di gioco, nonché per la realizzazione degli elementi
+				dell'interfaccia utente sono accreditate ai seguenti soggetti (o nicknames).<br /><br />
+					
+				<b>Igor Sontacchi, Giuseppe Buffa, Moreno Zolfo, Gianmaria Genetlici, Geoffrey Mandel,
+					Doug Drexler, Jokuckuk333, metlesitsfleetyards, Hatvoc, Sukosu, Animaniacarts, 
+					jestr, Lnx991, jmdollan, guilpan, bloknayrb, buzzkilled, Thobewill,
+					sbowers, fungun, Chance Ragen, Neethis, zhar2, bdfd, Rob Sanders,
+					Gileryd, Mr. Frenzy, vanderghast, estauffer, Irrilinvention, Zeleni,
+					Medjai di Scifi-Meshes, Steve Mallory,
+					<a class="interfaceLink" href="https://haphazartgeek.deviantart.com" target="_blank">HaphazArtGeek</a>,
+					<a class="interfaceLink" href="https://www.facebook.com/STVGP/" target="_blank">Star Trek Voyager Game Project</a></b>
+				<br />
+				<br />Si ringrazia lo Staff de <a class="interfaceLink" href="https://www.ilgrandeinverno.it" target="_blank">"Il Grande Inverno"</a> per averci permesso di adattare ed utilizzare il Regolamento di Gioco da loro sviluppato.
+				</div>
+			</div>
+		</div>  
+	</div><!-- indi_mainContainer -->
 		
-		<!-- FOOTER -->
-		
+<!-- FOOTER -->	
 <div metal:use-macro="TEMPLATES/metal.htm/footer" />
 </body>
 </html>

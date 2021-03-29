@@ -361,7 +361,7 @@ a.topic_ext_white{color:white !important;}
 .cdbPostYellow{color:#FFCC00;}
 .cdbPostWhite{color:white;}
 .cdbPostGray{color:#999;}
-.cdbPostLittleSize{font-size:12px;}
+.cdbPostLittleSize{font-size:12px; letter-spacing: 0.03em;}
 .cdbPostNormalSize{font-size:13px;}
 .cdbPostBigSize{font-size:16px;}
    

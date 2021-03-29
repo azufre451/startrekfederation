@@ -1403,7 +1403,7 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
 	width: 80px; 
 	height: 40px; 
 	border-radius: 13px;  
-	font-family: Roddenberry;
+	font-family: Roddenberry,federationFont;
 	font-size:26px;
 	background-color: transparent;
 	transition-duration: 0.5s;
@@ -1441,7 +1441,7 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
     	font-size: 20px;
 		width:auto;
 		border-radius: 15px;  
-		font-family: Roddenberry;
+		font-family: Roddenberry, federationFont;
 		background-color: black;
 		transition-duration: 0.5s;
    		cursor: pointer; 

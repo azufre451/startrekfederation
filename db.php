@@ -178,7 +178,7 @@ else if (isSet($_GET['adiDo']))
 
 else if (isSet($_GET['ediDo']))
 {
-	if(!PG::verifyOMA($_SESSION['pgID'],'A')){header('Location:db.php'); exit;}	
+	if(!PG::verifyOMA($_SESSION['pgID'],'SM')){header('Location:db.php'); exit;}	
 	$ID = $vali->numberOnly(addslashes($_GET['ediDo']));
 	$IDF = addslashes($_POST['IDF']);
 	$tag = addslashes($_POST['tag']);
@@ -238,7 +238,7 @@ else if(isSet($_GET['edielement'])){
 
 
 
-	if(!PG::verifyOMA($_SESSION['pgID'],'A')){header('Location:db.php'); exit;}	
+	if(!PG::verifyOMA($_SESSION['pgID'],'SM')){header('Location:db.php'); exit;}	
 
 
 	$cats = mysql_query("SELECT catID,catName FROM db_cats");
@@ -443,7 +443,7 @@ $template->laster = $laster;
 $template->categories = $categories;
 }
 
-if (isSet($_SESSION['pgID']) && PG::verifyOMA($_SESSION['pgID'],'A')){$template->isAdmin = true;}
+if (isSet($_SESSION['pgID']) && PG::verifyOMA($_SESSION['pgID'],'SM')){$template->isAdmin = true;}
 
 $template->searchable = (isSet($_SESSION['pgID'])) ? true : false;
 //$template->user = $currentUser;

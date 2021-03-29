@@ -638,9 +638,9 @@ position:relative;
 #sessionsP,#privateP
 {
 	width:450px;
-	height:400px;
+	height:420px;
 	margin-left:-225px;
-	margin-top:-205px;
+	margin-top:-215px;
 }
 
 #dicePanel,#masterDicePanel{

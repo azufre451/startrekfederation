@@ -14,7 +14,7 @@ height:200px;
 
 }
 .fluctuator p{margin:0px; margin-bottom:5px; font-size:15px;}
-.evidenceYelo{color:#FC0; font-size:11px; text-transform:uppercase; font-weight:bold;}
+.evidenceYelo{color:#FC0; text-transform:uppercase; font-weight:bold;}
 
 .arrowLeft, .arrowRight, .arrowTop{z-index:10; position:absolute; top:-100px; left:-100px; width:45px; height:45px;}
 .arrowLeft{background-image:url('TEMPLATES/img/interface/mainInterface/lookme_little_left.png');}
@@ -28,7 +28,7 @@ height:200px;
 	[],
 	[49,141,38,90,'TASTO MAPPA','Il pulsante <span class="evidenceYelo">MAPPA</span> ti permette di visualizzare la mappa del luogo in cui ti trovi. Le unità ed i pianeti hanno da una a tre mappe e decine di location, se ti sei perso premi questo tasto e tornerai alla prima mappa, punto di partenza al tuo ingresso nel gioco!','top','left','arrowLeft'],	
 	[80,141,69,90,'TASTO ONLINE','Il pulsante <span class="evidenceYelo">ONLINE</span> ti permette di aprire il localizzatore, ovvero la lista dei PG connessi divisi per unità o pianeta in cui si trovano. Al suo interno accanto al nome del personaggio troverai anche la chat dove si trova, il nome della location funge anche da link rapido ad essa, attento a non perderti!','top','left','arrowLeft'],	
-	[180,141,169,90,'TASTO PADD','Il pulsante <span class="evidenceYelo">D-PADD</span> ti permette di aprire lo strumento che <ol><li>permette lo scambio di "posta" tra personaggi;</li><li>permette di leggere le news del <span class="evidenceYelo">Federation Tribune</span>, pubblicate dai giornalisti o dallo staff di Federation; </li><li> permette di mantenere delle cartelle appunti personali riservate.</li></ol>','top','left','arrowLeft'],
+	[180,141,169,90,'TASTO PADD','Il pulsante <span class="evidenceYelo">D-PADD</span> ti permette di aprire lo strumento che <ol><li>permette lo scambio di "posta" tra personaggi;</li><br /><li>permette di leggere le news del <span class="evidenceYelo">Tychonian Eagle</span>, pubblicate dai giornalisti o dallo staff di Federation; </li><br /><li> permette di mantenere delle cartelle appunti personali riservate.</li></ol>','top','left','arrowLeft'],
 	[210,141,203,90,'TASTO COMM','Il pulsante <span class="evidenceYelo">COMM</span>  ti permette, all\'interno di una chat, di utilizzare il "comunicatore" per parlare con un altro personaggio che si trova in una chat differente come un telefono in vivavoce. Puoi comunicare anche direttamente ad una location, rivolgendoti a tutti presenti in essa o un intero ponte dell\'unità in cui ti trovi.','top','left','arrowLeft'],
 	[247,141,237,90,'SCHEDA PG','La tua scheda personale. All\'interno saranno riassunte tutte le informazioni del tuo personaggio, compresi il background e le abilità acquisite. Alcune sezioni della scheda sono riservate ai master e gli admin, non ti preoccupare se non puoi accedervi.','top','left','arrowLeft'],
 	[250,141,195,90,'TASTO CHARTS','Con il pulsante <span class="evidenceYelo">CHARTS</span> accedi alle mappe stellari di Star Trek che ti permettono di visualizzare il settore in cui ti trovi, di cercare basi e pianeti e di avere essenziali informazioni su di essi. Le charts di Federation sono una grande mappa di 10.000x10.000 pixel completamente navigabile su cu sono evidenziate le unità ed i pianeti che possiedono location giocabili al momento!','bottom','left','arrowLeft'],
@@ -38,15 +38,15 @@ height:200px;
 	[85,550,40,160,'DATABASE','Il database di Federation è la raccolta della documentazione inerente al gioco. Dall\'ambientazione alle regole della Flotta Stellare, dal regolamento alle guide alle specie giocabili e non. Il sistema è dotato di un sistema di ricerca che puoi usare per navigare la documentazione.','top','right','arrowTop'],
 	[85,600,220,170,'REMINDER','Il reminder è un semplicissimo strumento che ti ricorda brevemente con quale personaggio sei loggato, utile specialmente a chi è autorizzato a muovere personaggi non giocanti, oltre che il suo grado e livello di sicurezza. Sopra di essi la Data Stellare, comoda da copiare durante la stesura dei rapporti. Cliccando qui puoi anche <span style="color:#FFCC00"> modificare uniforme/vestiario e dotazione personale del tuo PG</span>, accedendo agli oggetti che il tuo personaggio possiede.','top','right','arrowRight'],
 	[250,600,300,150,'GUIDA','Un momento di smarrimento improvviso? Non ricordi come funzionano alcuni elementi dell\'interfaccia? Questo pulsante ti permette di accedere ad un menu di aiuto, contenente diversi tutoriali di gioco (incluso questo)!','bottom','right','arrowRight'],
-	[250,600,150,150,'SUSSURRI','I sussurri sono una chat per i giocatori rigorosamente OFF. Sussurri è comune a tutte le chat e permette quindi a tutti i giocatori, anche giocanti in luoghi differenti, di rimanere in contatto con il resto della community. Una chat "Accoglienza" è dedicata ai nuovi giocatori come te, troverai il link sotto l\'elenco dei giocatori. Non dimenticare di presentarti alla community!','bottom','right','arrowRight'],
+	[250,600,150,150,'SUSSURRI','I sussurri sono una chat libera e OFF-game. Questa chat permette a tutti i giocatori, indipendentemente da dove siano in gioco, di rimanere in contatto con il resto della community. Una chat "Accoglienza" è dedicata ai nuovi giocatori come te, troverai il link sotto l\'elenco dei giocatori.<br /><br />Federation utilizza le <span style="color:#FFCC00; font-weight:bold;">"notifiche desktop"</span> per avvisarti delle novità. Assicurati di abilitarle nel tuo browser per non perderti proprio nulla. Se non sai come fare, chiedi allo staff, saremo lieti di aiutarti!','bottom','right','arrowRight'],
 	
 	]
 	
 	function goNext(ida)
 	{
 		idaN = parseInt(ida)+1;
-		if(idaN > 12){ terminate(1); return;}
-		if(idaN == 12){jQuery('#continuaL, #terminaK').fadeOut(150,function(){jQuery('#terminaAl').fadeIn();});}
+		if(idaN > 13){ terminate(1); return;}
+		if(idaN == 13){jQuery('#continuaL, #terminaK').fadeOut(150,function(){jQuery('#terminaAl').fadeIn();});}
 		
 		if(positions[idaN][6] == 'bottom')
 		{
@@ -86,8 +86,8 @@ height:200px;
 		});
 		jQuery('#tutorialBox').css('margin','0px');
 		
-		window.moveTo(0, 0);
-		window.resizeTo(screen.width, screen.height);
+		//window.moveTo(0, 0);
+		//window.resizeTo(screen.width, screen.height);
 		
 	}	
 	

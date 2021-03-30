@@ -42,7 +42,7 @@ fromHook= '<@'+ppl[fromUserRec['pgUser']]+'>' if fromUserRec['pgUser'] in ppl el
  
 blocks = []
 if args.param == 'approval' or args.param == 'pre-approval':
-	wekbook_url ='https://hooks.slack.com/services/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'
+	wekbook_url = DBConf.hookup_backgrounds
 	if args.param == 'pre-approval': 
 		heading1 = ":ok: *Notifica di Pre-Approvazione BG*"
 		ref1=":exploding_head: *Guida:*\n"+fromHook
@@ -90,7 +90,7 @@ if args.param == 'approval' or args.param == 'pre-approval':
 	data = {'blocks': blocks,'text': heading1}
 
 if args.param == 'newuser':
-	wekbook_url ='https://hooks.slack.com/services/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'
+	wekbook_url = DBConf.hookup_general
 	heading1 = ":monkey: *Nuovo Utente*"
 
 	blocks= [

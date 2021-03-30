@@ -6,7 +6,7 @@ function mysql_error(){return mysqli_error(Database::$link);}
 function mysql_affected_rows(){return mysqli_affected_rows(Database::$link);}
 
 class Database
-{
+{ 
 	public static $link;
 
 	public static function tdbConnect($db_Host,$db_User, $db_Pass,$db_Name)
@@ -691,7 +691,7 @@ class PG
 
 
 		$reA=mysql_fetch_assoc(mysql_query("SELECT COUNT(*) as cnt FROM fed_food WHERE presenter IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $pgID))"));
-		$reB=mysql_fetch_assoc(mysql_query("SELECT COUNT(*) as cnt FROM fed_food_replications WHERE timer <= 1483228800 AND user IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $pgID))"));
+		$reB=mysql_fetch_assoc(mysql_query("SELECT COUNT(*) as cnt FROM fed_food_replications WHERE user IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $pgID))"));
 
 		$stats['FOOD'] = array('Proposed'=>$reA['cnt'], 'Replicated'=>$reB['cnt']);
 
@@ -921,10 +921,11 @@ class PG
 		}
 		elseif($var == 'uniform')
 		{
+
 			$res = mysql_query("SELECT uniform FROM pg_users,pg_uniforms WHERE pgMostrina = mostrina AND pgID = $id");
-			if(mysql_affected_rows()) $re = mysql_fetch_array($res);  
+			if(mysql_affected_rows()) $re = mysql_fetch_array($res)['uniform'];  
 			else $re = 'nouniformm'; 
-		return $re['uniform'];
+		return $re;
 		
 		}
 		elseif($var == 'pgPoints')

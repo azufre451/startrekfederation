@@ -1197,7 +1197,7 @@ elseif($mode == 'admin')
     while($res = mysql_fetch_assoc($ras))
     	$commandedPlaces[] = $res;
 
-    $template->availableSpecies = array('Andoriana', 'Bajoriana', 'Bajoriana-Cardassiana', 'Benzita', 'Betazoide', 'Boliana', 'Borg', 'Breen', 'Caitiana', 'Capelliana', 'Cardassiana', 'Deltana', 'Denobulana', 'El-Auriana', 'Elaysiana', 'Ferengi', 'Fondatore', 'Gorn', 'Grazerita', 'Jem\'Hadar', 'Koyar', 'Klingon', 'Nausicaana', 'Ocampa', 'Orioniana', 'Risiana', 'Romulana', 'Sauriana', 'Sconosciuta', 'Talariana', 'Talassiana', 'Tellarita', 'Terosiana', 'Tholiana', 'Trill', 'Tzenkethi', 'Umana', 'Umana-Betazoide', 'Umana-Vulcaniana', 'Umana-Klingon', 'Umana_Romulana', 'Vorta', 'Vulcaniana', 'Vulcaniana-Romulana', 'Xenita', 'Zakdorn', 'Zaldan');
+    $template->availableSpecies = array('Andoriana', 'Bajoriana', 'Bajoriana-Cardassiana', 'Benzita', 'Betazoide', 'Boliana', 'Borg', 'Breen', 'Caitiana', 'Capelliana', 'Cardassiana', 'Deltana', 'Denobulana', 'El-Auriana', 'Elaysiana', 'Ferengi', 'Fondatore', 'Gorn', 'Grazerita', 'Jem\'Hadar', 'Koyar', 'Klingon', 'Nausicaana', 'Ocampa', 'Orioniana', 'Risiana', 'Romulana', 'Sauriana', 'Sconosciuta', 'Talariana', 'Talassiana', 'Tellarita', 'Terosiana', 'Tholiana', 'Trill', 'Tzenkethi', 'Umana', 'Umana-Betazoide', 'Umana-Vulcaniana', 'Umana-Klingon', 'Umana-Romulana', 'Vorta', 'Vulcaniana', 'Vulcaniana-Romulana', 'Xenita', 'Zakdorn', 'Zaldan');
     
 	
 	$template->commandedPlaces = $commandedPlaces;
@@ -1845,9 +1845,10 @@ elseif ($mode == 'setNastrini')
 elseif ($mode == 'addNote')
 { 
 	$note = $vali->killChars($_POST['note']);
+	$reg = isSet($_POST['REG']);
 
 	if (PG::mapPermissions('SL',$currentUser->pgAuthOMA))
-		$selectedDUser->addNote($note,$currentUser->ID);
+		$selectedDUser->addNote($note,$currentUser->ID,$reg);
 
 	header("Location:scheda.php?pgID=".$selectedDUser->ID."&s=master");
 	exit;
@@ -2030,9 +2031,7 @@ else
 
 	$resAchi = mysql_query("SELECT owner,aID,aImage,aText,aHidden,category,timer as rt,assignable  FROM pg_achievements LEFT JOIN pg_achievement_assign ON aID = achi AND owner IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $selectedUser)) ORDER BY owner DESC,timer DESC,aHidden ASC,aImage ASC");
 
-
-	$achi=array('PG Attivo nel...'=>array(),'PG & Scheda'=>array(),'Community'=>array(),'Contenuti'=>array(),'Segreti'=>array(),'Non assegnabili'=>array());
-
+	$achi=array('Giocatore Attivo nel...'=>array(),'PG & Scheda'=>array(),'Community'=>array(),'Contenuti'=>array(),'Segreti'=>array(),'Non assegnabili'=>array());
 
 	while($reseAchi = mysql_fetch_assoc($resAchi))
 	{

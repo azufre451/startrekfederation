@@ -124,7 +124,7 @@ elseif($currentAmbient['ambientType'] == 'SALA_TEL' || $currentAmbient['ambientT
 	if($currentAmbient['ambientType']=='PLANCIA')
 	{
 
-	$resLocations = mysql_query("SELECT placeID,placeName FROM pg_places WHERE placePlancia <> '' ORDER BY placeName");
+	$resLocations = mysql_query("SELECT placeID,placeName FROM pg_places WHERE placePlancia <> '' AND attracco='' ORDER BY placeName");
 	$locArray=array();
 	while($resLoc = mysql_fetch_array($resLocations))
 	$locArray[$resLoc['placeID']] = $resLoc['placeName'];

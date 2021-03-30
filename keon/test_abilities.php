@@ -83,7 +83,13 @@ while($resMod=mysql_fetch_assoc($resModQ))
 $a=new abilDescriptor(5); //Namor
 
 $cuAb=$a->getCars();
-$speciesTO=array('Umana','Bajoriana','Caitiana','Vulcaniana','Andoriana','Trill','Betazoide','Boliana','Xenita','Terosiana','Tellarita','Zaldan','Koyar');
+$speciesTO=array('Umana','Bajoriana','Caitiana','Deltana','Vulcaniana','Andoriana','Trill','Betazoide','Boliana','Xenita','Terosiana','Tellarita','Zaldan','Koyar');
+
+$speciesTO=array();
+$rus=mysql_query("SELECT DISTINCT species FROM pg_abilita_bonus");
+while($ra = mysql_fetch_assoc($rus))
+	$speciesTO[]=$ra['species'];
+
 sort($speciesTO);
 
 $speciesOut=array();

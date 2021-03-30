@@ -414,7 +414,6 @@ Template: <select type="text" class="neon" name="alloType"><optgroup tal:repeat=
 </div>
 
 
-
 <a name="noteStaff" />
 <div style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
 	
@@ -424,7 +423,8 @@ Template: <select type="text" class="neon" name="alloType"><optgroup tal:repeat=
 
 		<div style="margin-top:15px;">
 		<form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=addNote">
-			<input type="text" name="note" style="width:300px;" class="neon" placeholder="Aggiungi nota..." />
+			<input type="text" name="note" style="width:300px;" class="neon" placeholder="Aggiungi nota..." /><br />
+			<input type="checkbox" value="REG" name="REG" /> Richiamo/Regolamento <br />
 			<input type="submit" value="VAI" />
 		</form>
 		</div>
@@ -432,11 +432,14 @@ Template: <select type="text" class="neon" name="alloType"><optgroup tal:repeat=
 		<div style="margin-top:15px; border-top:1px solid #666;">
 		<table>
 		<tr tal:repeat="not note">
-			<td tal:condition="php:adminOstePanel"> <a tal:attributes="href string:scheda.php?s=deleteNoteStaff&sID=${not/recID}"> [X]</a></td>
+			<td tal:condition="php:adminPanel"> <a tal:attributes="href string:scheda.php?s=deleteNoteStaff&sID=${not/recID}"> [X]</a></td>
 			<td style=" width:55px;" tal:content="php:date('d-m-Y',not['timeCode'])" class="dateclass" />
 			
 			<td tal:content="string:(${not/pgUser})" style="width:55px; font-size:10px; color:#888;"/>
-			<td style="width:300px; text-align:left; font-size:13px;" tal:content="not/what" />
+			<td style="width:300px; text-align:left; font-size:13px;"> 
+				<span tal:condition="php:not['reg']" title="Nota Regolamento" style="color:#FFCC00; font-weight:bold;">[DSC]</span>
+				<span tal:content="not/what" />
+			</td>
 		</tr>
 		</table>
 		</div>

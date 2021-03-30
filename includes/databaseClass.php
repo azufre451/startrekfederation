@@ -668,13 +668,14 @@ class PG
 		mysql_query("INSERT INTO pgDotazioni (pgID,dotazioneIcon,doatazioneType,dotazioneAlt) VALUES ($pgID,'$what','MEDAL','$dater')");
 	}
 	
-	public function addNote($what,$from=518)
+	public function addNote($what,$from=518,$reg=false)
 	{
 		$thisID = $this->ID;
 		$thisString = addslashes($what);
+		$regS = ($reg) ? '1' : '0';
 		
 		$curTime = time();
-		mysql_query("INSERT INTO pg_notestaff (pgFrom,pgTo,what,timeCode) VALUES ($from,$thisID,'$thisString',$curTime)"); 
+		mysql_query("INSERT INTO pg_notestaff (pgFrom,pgTo,what,timeCode,reg) VALUES ($from,$thisID,'$thisString',$curTime,$regS)"); 
 	}
 
 	public function getStatsRecord(){

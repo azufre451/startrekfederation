@@ -16,7 +16,7 @@
 	
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 
-	<title>STAR TREK FEDERATION - SCHEDA</title>
+	<title tal:content="string: ${userData/pgUser} - Star Trek: Federation" />
 	<script type="text/javascript">
 
 	function showOff()
@@ -85,11 +85,8 @@
 			
 		</div>
 	</div>
- 
-		
-		<!--	<div style="width:196px; padding:2px 2px 3px 2px; margin-top:20px; border:1px dotted #999; margin-left:auto; margin-right:auto;"><img style="vertical-align:middle;" tal:attributes="src string:TEMPLATES/img/ranks/${userData/pgMostrina}.png ; title string:${userData/pgGrado} - Sezione ${userData/pgSezione}" /> <img style="vertical-align:middle;" tal:attributes="src php:(userData.pgSesso == 'M') ? 'TEMPLATES/img/specie/' . userData.pgSpecie . '_m.png' : ((userData.pgSesso == 'F') ? 'TEMPLATES/img/specie/' . userData.pgSpecie . '_f.png' : 'TEMPLATES/img/specie/' . userData.pgSpecie . '_t.png' ) ; title php:(userData.pgSesso == 'M') ? userData.pgSpecie . ' - Maschio' : ((userData.pgSesso == 'F') ? userData.pgSpecie . ' - Femmina' : userData.pgSpecie . ' - Terzo Genere' )"  /> <span style="vertical-align:middle; font-size:13px;" tal:content="userData/pgUser" /></div>-->
 			
-			<p style="position:absolute; bottom:-14px; z-index:10; left:0px;" tal:condition="php:(!userData.png)"><a onclick="showOff();" href="javascript:void(0);" class="interfaceLink"><img src="TEMPLATES/img/interface/personnelInterface/scheda_off_btn.png" /></a></p>
+	<p style="position:absolute; bottom:-14px; z-index:10; left:0px;" tal:condition="php:(!userData.png)"><a onclick="showOff();" href="javascript:void(0);" class="interfaceLink"><img src="TEMPLATES/img/interface/personnelInterface/scheda_off_btn.png" /></a></p>
 			
 </div>
 <div id="schedaRight">

@@ -20,6 +20,11 @@
 	<title>STAR TREK FEDERATION - CDB</title>
 
 	<script>
+
+		function prestigeView(){
+			jQuery('.sliding').fadeOut(120).promise().done( function(){jQuery('#prestigeList').fadeIn(120);});
+		}
+
 		function orgaView(ida){
 			jQuery('.sliding').fadeOut(120).promise().done( function(){jQuery('#orga_'+ida).fadeIn(120);});
 
@@ -104,25 +109,18 @@
 			margin-left:5px;
 			text-align:center;
 			text-transform: uppercase;
-
 		}
-		.sbtn:hover{background-color:#FFF; color:black !important;}
+		.sbtn:hover{background-color:#FFF; color:black}
+		.sbtn.golden {margin-left:0; border-color:#FFCC00}
+		.sbtn.golden:hover {color:#FFCC00; background-color: black;}
 
-		.sccolRed, a.ccolRed,p.ccolRed{ color:red; }
-		.sccolGre, a.ccolGre,p.ccolGre{ color:#6fbf22; }
-		.sccolYelo, a.ccolYelo,p.ccolYelo{ color:#FFCC00; }
-		.sccolBlue, a.ccolBlue,p.ccolBlue{ color:#2264bf; }
-		.sccolTeal, a.ccolTeal,p.ccolTeal{ color:teal; }
-
-		
-		
-		
-		
-		
+		.sccolRed, span.ccolRed, a.ccolRed,p.ccolRed{ color:red; }
+		.sccolGre, span.ccolGre, a.ccolGre,p.ccolGre{ color:#6fbf22; }
+		.sccolYelo, span.ccolYelo, a.ccolYelo,p.ccolYelo{ color:#FFCC00; }
+		.sccolBlue, span.ccolBlue, a.ccolBlue,p.ccolBlue{ color:#2264bf; }
+		.sccolTeal, span.ccolTeal, a.ccolTeal,p.ccolTeal{ color:teal; }
 
  		p.dipGroup.ccolRed,p.dipGroup.ccolGre,p.dipGroup.ccolYelo,p.dipGroup.ccolBlue,p.dipGroup.ccolTeal{color:#BBB;}
-
-
 		p.dipGroup.ccolRed{ text-decoration-color:red; }
 		p.dipGroup.ccolGre{ text-decoration-color:#6fbf22; }
 		p.dipGroup.ccolYelo{ text-decoration-color:#FFCC00; }
@@ -150,7 +148,7 @@
 		.pngLine,.fpngLine{display:block;}
 		.pgLine,.pngLine,.fpngLine {text-transform: uppercase; font-size:11px;}
 		
-		.fpngLine .itu, .pngLine .itu{color:#777;}
+		.fpngLine .itu, .pngLine .itu{color:#888;}
 		.pngLine .itu{text-decoration: underline;}
 
 		.pgLineCommand{border-top: 1px solid #333; border-bottom: 1px solid #333; padding:10px 5px;}
@@ -158,10 +156,10 @@
 		.pgLineCommand.ccolGre{  border-color:#6fbf22; }
 		.pgLineCommand.ccolYelo{ border-color:#FFCC00; }
 		.pgLineCommand.ccolBlue{ border-color:#2264bf; }
-		.pgLineCommand.ccolTeal{ border-color:teal; }
-
+		.pgLineCommand.ccolTeal{ border-color:teal;}
 		.ui-autocomplete {max-height: 135px;overflow-y: auto;overflow-x: hidden;padding-right: 1px;}
 		.ui-autocomplete li {padding:2px;font-size:12px;} 
+
 	</style>
 </head>
 
@@ -175,9 +173,7 @@
 	</div>
 	
 	<div id="supCol">
-		
 		<div metal:use-macro="TEMPLATES/metal.htm/cdbHeading" />
-
 	</div>
 	
 	<div id="fillerBax">
@@ -213,15 +209,36 @@
 <div style="text-align:center; margin-top:20px; font-family:Helvetica">
 <a tal:repeat="sezione personale" tal:attributes="onclick php:'orgaView(\'' . str_replace(' ','_',repeat.sezione.key) . '\')' ; class php:(array_key_exists(repeat.sezione.key,ccol) ? 'sbtn'.' '.ccol[repeat.sezione.key] : 'sbtn')" tal:content="php:(array_key_exists(repeat.sezione.key,clab) ? clab[repeat.sezione.key] : substr(repeat.sezione.key,0,4) )" />
 
+| <a onclick="prestigeView();" class="sbtn golden">PRESTIGIO</a>
+
 <p style="display:inline-block; float:right; margin-right:10px;"><input type="checkbox" checked="checked" onclick="opng(this)" /> Mostra i PnG</p>
 </div>
 
 <div id="local" class="topicDiv">
 
- 
-
-
 	<div style="clear:both" />
+
+	<div id="prestigeList" style="margin-top:10px; padding-left:20px; font-family: Helvetica; display:none; height:200px," class='sliding'>
+
+	<p style="text-align:center;"> Elenco dei Personaggi ordinato per prestigio </p>
+
+	<div class="pgLine" style="margin-top:10px;">
+		<p tal:repeat="person prestigePeople" tal:attributes="class php:((person['png'] && person['pgID'] == 0) ? 'fpngLine' : ((person['png'] ? 'pngLine' : 'rpgLine')))" >
+
+			<img style="vertical-align:middle;" tal:attributes="src string:TEMPLATES/img/ranks/${person/ordinaryUniform}.png ; title string:${person/pgGrado} - Sezione ${person/pgSezione}" />
+							
+			<img style="vertical-align:middle; vertical-align:middle;" tal:attributes="src php:(person['pgSesso'] == 'M') ? 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_m.png' : ((person['pgSesso'] == 'F') ? 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_f.png' : 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_t.png' ) ; title php:(person['pgSesso'] == 'M') ? person['pgSpecie'] . ' - Maschio' : ((person['pgSesso'] == 'F') ? person['pgSpecie'] . ' - Femmina' : person['pgSpecie'] . ' - Terzo Genere' )"  />
+
+			<span tal:condition="php:(person['pgPrestige'] GT 0)">[ <img tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/notori_image_${person/pgPrestige}.png ; title php:('<span class=\'' . (array_key_exists(person['pgSezione'],ccol) ? 's'.ccol[person['pgSezione']] : '') . '\' >' . prestigioLabels[person['pgPrestige']]['name'] . '</span><br/>' . prestigioLabels[person['pgPrestige']]['desc']) ; class php:(array_key_exists(person['pgSezione'],ccol) ? 'tooltip im1 ' . ccol[person['pgSezione']] : 'tooltip im1')" /> ]</span>&nbsp;&nbsp;
+
+			<a tal:attributes="href string:javascript:schedaPOpen(${person/pgID}) ; title php:(userSL) ? 'ULTIMO LOGIN: ' . date('d-m-Y H:i:s',person['pgLastAct']) : ''"><span class="itu" tal:content="string: ${person/pgNomeSuff} ${person/pgUser}, ${person/pgNomeC}" /></a> 
+				
+			<span style=" font-weight:bold;">></span> <span tal:content="structure person/incIncarico">INCARICO</span>
+
+		</p>
+	</div>
+	</div>
+
 	<div tal:repeat="sezione personale" style="margin-top:10px; font-family: Helvetica; display:none;" class='sliding' tal:attributes="id php:'orga_' .  str_replace(' ','_',repeat.sezione.key)">
 		
 		<div style="text-align:center;" class="pgLine" >
@@ -253,7 +270,6 @@
 
 						<span style="display:inline-block; width:10px;" >
 							<a tal:attributes="href string:crew.php?editAssign=${person/recID}&equia=${equi} " tal:condition="php:(userM == 'yes' && person['png'] && person['pgID'] == 0)"><img src="TEMPLATES/img/interface/edit.png" style="vertical-align:middle;"/></a>
-
 						</span>
 						
 						<img style="vertical-align:middle;" tal:attributes="src string:TEMPLATES/img/ranks/${person/ordinaryUniform}.png ; title string:${person/pgGrado} - Sezione ${person/pgSezione}" />
@@ -261,13 +277,11 @@
 						<img style="vertical-align:middle; vertical-align:middle;" tal:attributes="src php:(person['pgSesso'] == 'M') ? 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_m.png' : ((person['pgSesso'] == 'F') ? 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_f.png' : 'TEMPLATES/img/specie/' . person['pgSpecie'] . '_t.png' ) ; title php:(person['pgSesso'] == 'M') ? person['pgSpecie'] . ' - Maschio' : ((person['pgSesso'] == 'F') ? person['pgSpecie'] . ' - Femmina' : person['pgSpecie'] . ' - Terzo Genere' )"  />
 						
 						<a tal:omit-tag="php:(person['pgID'] == 0)" tal:attributes="href string:javascript:schedaPOpen(${person/pgID}) ; title php:(userSL) ? 'ULTIMO LOGIN: ' . date('d-m-Y H:i:s',person['pgLastAct']) : ''"><span class="itu" tal:content="string: ${person/pgNomeSuff} ${person/pgUser}, ${person/pgNomeC}" /></a> 
-
 			
 					<span  tal:attributes="class php:(array_key_exists(repeat.sezione.key,ccol) ? ccol[repeat.sezione.key] : '')" style=" font-weight:bold;">></span> <span tal:content="structure person/incIncarico">INCARICO</span>
 
 					<span tal:condition="php:(person['pgPrestige'] GT 0)">[ <img tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/notori_image_${person/pgPrestige}.png ; title php:('<span class=\'' . (array_key_exists(repeat.sezione.key,ccol) ? 's'.ccol[repeat.sezione.key] : '') . '\' >' . prestigioLabels[person['pgPrestige']]['name'] . '</span><br/>' . prestigioLabels[person['pgPrestige']]['desc']) ; class php:(array_key_exists(repeat.sezione.key,ccol) ? 'tooltip im1 ' . ccol[repeat.sezione.key] : 'tooltip im1')" /> ]</span>
 						
-	 
 					</p>
 					</div>
 				</div>

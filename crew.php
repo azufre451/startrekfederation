@@ -40,6 +40,20 @@ function cmp($a, $b) {
 
 		}
 
+ 		function cmp3($a, $b) { 
+   			if ($a['pgPrestige'] == $b['pgPrestige'])
+        	{
+        		if($a['rankerprio'] < $b['rankerprio'])
+        			return 1;
+        		else return -1;
+        	}
+        	
+        	elseif ($a['pgPrestige'] < $b['pgPrestige'])
+        		return 1;
+        	elseif ($a['pgPrestige'] > $b['pgPrestige'])
+        		return -1;
+    	}
+
 $start_time = getmicrotime();
 
 
@@ -212,6 +226,7 @@ elseif(isSet($_GET['equi']))
  
 	 		 
 		$personale = array();
+		$prestigePersonale = array();
 		while($rCrew = mysql_fetch_assoc($crew)){
 
 
@@ -244,6 +259,9 @@ elseif(isSet($_GET['equi']))
 				$personale[$r_incSezione][$r_incDivisione][$r_incDipartimento][$r_incGroup] = array();
 
 			$personale[$r_incSezione][$r_incDivisione][$r_incDipartimento][$r_incGroup][] = $rCrew; 
+		
+			if($rCrew['pgPrestige'] > 0 and !array_key_exists($rCrew['pgID'], $prestigePersonale)) 
+				$prestigePersonale[$rCrew['pgID']] = $rCrew;
 		}
 
 
@@ -267,7 +285,10 @@ elseif(isSet($_GET['equi']))
 			} 
 		
 
+		uasort($prestigePersonale,'cmp3');
+
 		$template->personale = $personale;
+		$template->prestigePeople = $prestigePersonale;
 		$template->equi = $equi;
 		$template->ccol = $ccols;
 		$template->clab = $clab; 

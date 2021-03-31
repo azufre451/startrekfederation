@@ -1,9 +1,8 @@
-# Star Trek: Federation #
-
 ![image](https://user-images.githubusercontent.com/25253438/113070814-bff3ac80-91c3-11eb-86bf-a04d0a2c375a.png)
 
-
+# Star Trek: Federation #
 This repo contains the code of www.stfederation.it.
+
 
 ## Requirements
 
@@ -28,6 +27,12 @@ Additional contributors:
 - [Giuseppe Buffa](https://github.com/Cole0283) 
 - [Gianmaria Genetlic](https://github.com/jean-n92) 
 - [Igor Sontacchi](https://twitter.com/igorsontacchi)
+
+## License ##
+
+Star Trek: Federation is released under the terms of the *[GNU Affero General Public License V3](https://www.gnu.org/licenses/agpl-3.0.html)*. If you re-use the code of Star Trek: Federation, you must release it with the same license and include a full copy of the license and cite this repository.
+
+The external components included in this repo are released under their respective terms of license.
 
 ## Releases ##
 

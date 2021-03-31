@@ -13,11 +13,9 @@ if(isSet($_SESSION['pgID']))
     PG::updatePresence($_SESSION['pgID']);
     $currentUser = new PG($_SESSION['pgID']);
 }
-else{
-	header('Location:../login.php');
-	exit;
-}
-if(isSet($_GET['ajax']))
+
+
+if(isSet($_GET['ajax']) && isSet($currentUser))
 {
 
 	$a=new abilDescriptor(5); //Namor
@@ -48,7 +46,7 @@ if(isSet($_GET['ajax']))
 	exit;
 }
 
-elseif(isSet($_GET['abSearch']))
+elseif(isSet($_GET['abSearch']) && isSet($currentUser))
 {
 
 	$term = trim(addslashes($_GET['term']));
@@ -123,6 +121,9 @@ foreach ($speciesTO as $species)
 
 }
 
+
+if(isSet($currentUser) && PG::mapPermissions('G',$currentUser->pgAuthOMA))
+	$template->pgUser = true;
 
 $template->speciesOut = $speciesOut;
 $template->gameOptions = $gameOptions;

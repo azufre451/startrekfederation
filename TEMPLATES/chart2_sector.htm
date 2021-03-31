@@ -1,51 +1,46 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <head>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<meta charset="UTF-8" />
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link tal:attributes="href string:TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link tal:attributes="href string:TEMPLATES/css/db.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/leaflet.css?v=${gameOptions/numericVersion}." rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/charts_n.css?v=${gameOptions/numericVersion}." rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 
-	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" /> 
-	
-	<script type="text/javascript" src="TEMPLATES/js/leaflet.js" />
-	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
-	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
+	<script type="text/javascript" src="TEMPLATES/js/leaflet.js?v=${gameOptions/numericVersion}"/>
+	<script type="text/javascript" src="TEMPLATES/js/jquery-3.6.0.min.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 	<script type="text/javascript" src="TEMPLATES/js/jquery.overscroll.js"></script>
-	<script tal:content="string:jQuery(function(){initiate(${yPos/0},${yPos/1});}); "/>
-	<script tal:condition="php:(subChart == 'D')" src="TEMPLATES/js/chart_delta.js?v=${gameOptions/numericVersion}.57" />
-	<script tal:condition="php:(subChart == 'A')" src="TEMPLATES/js/charts.js?v=${gameOptions/numericVersion}" />
 	
-	<style type="text/css">
-		.ui-autocomplete {
-		max-height: 120px;
-		overflow-y: auto;
-		overflow-x: hidden;
-		padding-right: 1px;
-	}
-	
-	.ui-autocomplete li {
-		height:25px;
-		padding:2px;
-		font-size:12px;
-	}
-	
-	* html .ui-autocomplete {
-		height: 120px;
-	}
-	</style>
-	
+	<script src="TEMPLATES/js/chart_delta.js?v=${gameOptions/numericVersion}.57" />
+
 	<title>FEDERATION - CHARTS </title>	
 </head>
 
-<body>
+<body style="background-repeat:no-repeat; background-color:black;">
 
-<div id="mainDatabase" style="position:relative;">
+<div id="federation_interfaceContainer">
+	<div id="leftCol" style="width:123px;">
+		<div id="leftC1" />
+		<div id="leftC3" />
+	</div>
+	<div id="supCol">
+		<div id="supLeft" />
+		<div id="supRight" />
+	</div>
+	<div id="fillerBax">
+		<div id="barbot1" />
+		<div id="barbot2" />
+	</div>
+</div>
+
+<div id="sectorMap">
+	<div id="map" tal:attributes="data-xpos yPos/0 ; data-ypos yPos/1 ; data-imagery php:(subChart == 'D') ? 'exoDelta7' : 'exo7' ; data-sector subChart"></div>
+</div>
 
 	<div style="position:absolute; top:0px; right:80px; z-index:10;" >
 		<a tal:condition="php:(subChart == 'D')" href="chart.php?ct=A"><div id="alphaBTN" class="btn" /></a>
@@ -54,18 +49,12 @@
 		<div id="Abtn" class="btn" onclick="jQuery('#searcher').fadeIn(200);" />
 	</div>
 
-	<div id="sectorMap">
-		<div id="map" style="height:570px;"></div>
+	<div id="searcher" class="opacityBack">
+		<input id="systemSearcher" name="goer" type="text" style="width:230px;" placeholder="Ricerca" class="radiusBordered12 searchField" />
+		<button id="introb" onclick="javascript:lookerUp()" >VAI</button>
 	</div>
-	
-	<div id="searcher" class="opacityBack" style="height: 48px; padding: 21px 5px 5px; display:none; position: absolute; right: 45px; top: 26px;">
-		<input id="systemSearcher" name="goer" type="text" style="width:230px;" placeholder="Ricerca" class="radiusBordered12 searchField" /><input type="submit" class="introb" style="margin-left:10px; font-size:12px; letter-spacing:2px;" onclick="javascript:lookerUp()" value="VAI" />
-	</div>
-</div> 
 
-<!--<script tal:content="string:jQuery(function(){addMarker(${yPos/0},${yPos/1});});" />  -->
-<script tal:content="structure string:jQuery(function(){addMarkersFromJSon('${markers}')});" />
-
+	<script tal:content="structure string:jQuery(function(){addMarkersFromJSon('${markers}')});" />
 
 </body>
 </html>

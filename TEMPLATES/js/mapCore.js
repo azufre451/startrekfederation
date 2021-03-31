@@ -11,15 +11,19 @@
 			setInterval("ccc();",7000);
 			setInterval('lamp()',600);
 			jQuery('#messageOfStatus').fadeIn(700);
+			jQuery('.tooltip').tooltip();
+
+			jQuery(".draggableSTFModal").draggable({containment:'#federation_interfaceContainer'});
+			jQuery(".xButton").on('click',function(){
+				jQuery(this).parent().fadeOut(100);
+			});
+			
 		});
 
-
 		jQuery(window).keyup(swish);
-
-
-	
 		
 		// nota Moreno. Funzione SETTER dei parametri di configurazione della ghiera esterna.
+		
 		function ccc()
 		{ // JQUERY YOUR SISTER! 
 			jQuery.ajax(
@@ -31,7 +35,6 @@
 			timeout:3000
 			}); 
 		}
-
 
 		function notifyDesktop(txt,icon,func,title){
 

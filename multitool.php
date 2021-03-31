@@ -518,6 +518,8 @@ if($mode == 'group')
 
 if($mode == 'switch')
 { 
+	include_once('includes/abilDescriptor.php');
+	
 	if (!PG::mapPermissions('A',$currentUser->pgAuthOMA)) exit;
 
 	$sel=explode(',',$_POST['listof']);
@@ -542,27 +544,30 @@ if($mode == 'switch')
 		$mycoNEWIDD = $mycoNEW['pgID'];
 
 		
-					mysql_query("UPDATE pg_users SET mainPG = $mycoNEWIDD WHERE mainPG = $mycoOLDIDD;");
-					mysql_query("UPDATE pg_users SET mainPG = $mycoNEWIDD, pgType='OLD' WHERE pgID = $mycoOLDIDD;");
-					mysql_query("UPDATE pg_users SET mainPG = $mycoNEWIDD, pgType='MAIN' WHERE pgID = $mycoNEWIDD;");
+		mysql_query("UPDATE pg_users SET mainPG = $mycoNEWIDD WHERE mainPG = $mycoOLDIDD;");
+		mysql_query("UPDATE pg_users SET mainPG = $mycoNEWIDD, pgType='OLD' WHERE pgID = $mycoOLDIDD;");
+		mysql_query("UPDATE pg_users SET mainPG = $mycoNEWIDD, pgType='MAIN' WHERE pgID = $mycoNEWIDD;");
 
-					mysql_query("DELETE FROM pg_users_pointStory WHERE owner = $mycoNEWIDD;");
-					mysql_query("UPDATE pg_users_pointStory SET owner = $mycoNEWIDD, causeE = CONCAT(causeE,CONCAT(' *',(SELECT pgUser FROM pg_users WHERE pgID = $mycoOLDIDD))) WHERE owner = $mycoOLDIDD;");
+		mysql_query("DELETE FROM pg_users_pointStory WHERE owner = $mycoNEWIDD;");
+		mysql_query("UPDATE pg_users_pointStory SET owner = $mycoNEWIDD, causeE = CONCAT(causeE,CONCAT(' *',(SELECT pgUser FROM pg_users WHERE pgID = $mycoOLDIDD))) WHERE owner = $mycoOLDIDD;");
 
-					//mysql_query("CREATE TABLE temp1 AS SELECT iscriDate FROM pg_users WHERE pgID = $mycoOLDIDD;");
-					//mysql_query("UPDATE pg_users SET iscriDate = (SELECT iscriDate FROM temp1 WHERE 1 LIMIT 1),pgPoints = (SELECT SUM(points) FROM pg_users_pointStory WHERE owner = $mycoNEWIDD), pgSpecialistPoints = (SELECT pgSpecialistPoints FROM pg_users_pointStory WHERE owner = $mycoOLDIDD) WHERE pgID = $mycoNEWIDD;");
+		//mysql_query("CREATE TABLE temp1 AS SELECT iscriDate FROM pg_users WHERE pgID = $mycoOLDIDD;");
+		//mysql_query("UPDATE pg_users SET iscriDate = (SELECT iscriDate FROM temp1 WHERE 1 LIMIT 1),pgPoints = (SELECT SUM(points) FROM pg_users_pointStory WHERE owner = $mycoNEWIDD), pgSpecialistPoints = (SELECT pgSpecialistPoints FROM pg_users_pointStory WHERE owner = $mycoOLDIDD) WHERE pgID = $mycoNEWIDD;");
 
-					mysql_query("UPDATE pg_users SET pgSpecialistPoints = 0,pgPoints=0 WHERE pgID = $mycoOLDIDD;");
-					mysql_query("UPDATE pg_users SET pgSpecialistPoints = $mycoOLDSPEC, iscriDate='$mycoOLDISCRIDATE',pgPoints='$mycoOLDPOINTS'  WHERE pgID = $mycoNEWIDD;");
+		mysql_query("UPDATE pg_users SET pgSpecialistPoints = 0,pgPoints=0 WHERE pgID = $mycoOLDIDD;");
+		mysql_query("UPDATE pg_users SET pgSpecialistPoints = $mycoOLDSPEC, iscriDate='$mycoOLDISCRIDATE',pgPoints='$mycoOLDPOINTS'  WHERE pgID = $mycoNEWIDD;");
 
-					//mysql_query("DROP TABLE temp1;");
+		//mysql_query("DROP TABLE temp1;");
 
-					mysql_query("INSERT INTO pg_notestaff(pgFrom, pgTo, what, timeCode) VALUES (518,$mycoOLDIDD, CONCAT('Cambio pg da: ',CONCAT((SELECT pgUser FROM pg_users WHERE pgID = $mycoOLDIDD),CONCAT(' a: ',(SELECT pgUser FROM pg_users WHERE pgID = $mycoNEWIDD)))), UNIX_TIMESTAMP());");
+		mysql_query("INSERT INTO pg_notestaff(pgFrom, pgTo, what, timeCode) VALUES (518,$mycoOLDIDD, CONCAT('Cambio pg da: ',CONCAT((SELECT pgUser FROM pg_users WHERE pgID = $mycoOLDIDD),CONCAT(' a: ',(SELECT pgUser FROM pg_users WHERE pgID = $mycoNEWIDD)))), UNIX_TIMESTAMP());");
 
-					mysql_query("INSERT INTO pg_notestaff(pgFrom, pgTo, what, timeCode) VALUES (518,$mycoNEWIDD, CONCAT('Cambio pg da: ',CONCAT((SELECT pgUser FROM pg_users WHERE pgID = $mycoOLDIDD),CONCAT(' a: ',(SELECT pgUser FROM pg_users WHERE pgID = $mycoNEWIDD)))), UNIX_TIMESTAMP());");
+		mysql_query("INSERT INTO pg_notestaff(pgFrom, pgTo, what, timeCode) VALUES (518,$mycoNEWIDD, CONCAT('Cambio pg da: ',CONCAT((SELECT pgUser FROM pg_users WHERE pgID = $mycoOLDIDD),CONCAT(' a: ',(SELECT pgUser FROM pg_users WHERE pgID = $mycoNEWIDD)))), UNIX_TIMESTAMP());");
 
-					mysql_query("UPDATE fed_food_replications SET user = $mycoNEWIDD WHERE user = $mycoOLDIDD;");
-					mysql_query("UPDATE fed_food SET presenter = $mycoNEWIDD WHERE presenter = $mycoOLDIDD;");
+		mysql_query("UPDATE fed_food_replications SET user = $mycoNEWIDD WHERE user = $mycoOLDIDD;");
+		mysql_query("UPDATE fed_food SET presenter = $mycoNEWIDD WHERE presenter = $mycoOLDIDD;");
+
+		mysql_query("UPDATE pg_notestaff SET pgTo = $mycoNEWIDD, what = CONCAT(what,CONCAT(' *',(SELECT pgUser FROM pg_users WHERE pgID = $mycoOLDIDD))) WHERE pgTo = $mycoOLDIDD AND reg = 1;");
+
 					
 		$oldPGObj = new PG($mycoOLDIDD);
 		$oldPGAbil = new abilDescriptor($mycoOLDIDD);
@@ -1131,7 +1136,7 @@ $template->prestigioLabels = $prestigioLabels;
 
 	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
 	{
-		$rea = mysql_query("SELECT federation_chat.*,pgUser,ordinaryUniform,pgID FROM federation_chat,pg_users,pg_ranks WHERE type <> '' AND rankCode = prio AND pgID = sender ORDER BY IDE DESC LIMIT 150");
+		$rea = mysql_query("SELECT federation_chat.*,pgUser,ordinaryUniform,pgID FROM federation_chat,pg_users,pg_ranks WHERE type <> '' AND rankCode = prio AND type <> 'SERVICE' AND pgID = sender ORDER BY IDE DESC LIMIT 150");
 		$lastchats=array();
 		while($rel = mysql_fetch_assoc($rea)) $lastchats[] = $rel;
 

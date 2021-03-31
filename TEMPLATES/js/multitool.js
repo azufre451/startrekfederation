@@ -212,4 +212,9 @@ jQuery(function(){
 	
 	function confirmer(data){alert('Operazione Completata per i PG: '+jQuery('#users').val()); jQuery('#users').val('');}
 	
-	
+	function setview(ida){
+		jQuery('.multitoolPanel').hide();
+
+		jQuery('#'+ida).fadeIn(100);	
+		
+	}

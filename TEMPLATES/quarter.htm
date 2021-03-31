@@ -12,15 +12,16 @@
 	<link id="alerter" tal:attributes="href string:TEMPLATES/css/${alertCSS}.css" rel="stylesheet" type="text/css" />
 	 
 	
-	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
-	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
+	<script type="text/javascript" src="TEMPLATES/js/jquery-3.6.0.min.js" />
+	
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
-	<script type="text/javascript" src="TEMPLATES/js/mapCore.js?v=${gameOptions/numericVersion}"/>
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
+	<script type="text/javascript" src="TEMPLATES/js/mapCore.js?v=${gameOptions/numericVersion}"/>
+
 	<script type="text/javascript">
 		function setDeck(ider)
 		{
-			if (jQuery('.visi').size() !=0) jQuery('.visi').fadeOut(100,function(){jQuery('#deck_'+ider).fadeIn(100);}); else jQuery('#deck_'+ider).fadeIn(100);
+			if (jQuery('.visi').length !=0) jQuery('.visi').fadeOut(100,function(){jQuery('#deck_'+ider).fadeIn(100);}); else jQuery('#deck_'+ider).fadeIn(100);
 			jQuery('#limOverNavfore div').removeClass('visi');
 			jQuery('#deck_'+ider).addClass('visi');
 		}
@@ -88,10 +89,7 @@
 
 		<div id="reminderST" class="reminder" tal:content="string:D.S. ${currentStarDate}">
 		</div>
-		
-		<div metal:use-macro="TEMPLATES/metal_panels.htm/reminderST" />
-		<div metal:use-macro="TEMPLATES/metal_panels.htm/reminderAvatar" />
-		
+
 		<div id="federation_alertRight">
 			<div id="rightAlert" />
 		</div>
@@ -138,11 +136,7 @@
 	
 	</div>
 
-
-<div metal:use-macro="TEMPLATES/metal_panels.htm/statusBox" />
-<div metal:use-macro="TEMPLATES/metal_panels.htm/alertPanel" />
-<div metal:use-macro="TEMPLATES/metal_panels.htm/localizeBox" />
-<div metal:use-macro="TEMPLATES/metal_panels.htm/dotazionePanel" />
+<div metal:use-macro="TEMPLATES/metal_panels.htm/corePanels" />
 <div metal:use-macro="TEMPLATES/guidar.htm/guidePanel" />
 <div metal:use-macro="TEMPLATES/audioSegments.htm/audioNotifier" />
 <div metal:use-macro="TEMPLATES/audioSegments.htm/whisperPaddAlert" />

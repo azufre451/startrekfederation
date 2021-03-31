@@ -92,32 +92,30 @@ var windowSizes =
 				}
 		};
 
-
 	function swish(e)
 	{
-	var keynum;
-	var keychar;
-	var numcheck;
+		var keynum;
+		var keychar;
+		var numcheck;
 
-if(window.event) // IE8 e precedenti (farabrutti!)
-	{
-	keynum = e.keyCode;
-	}
-else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
-	{
-	keynum = e.which;
+		if(window.event) // IE8 e precedenti (farabrutti!)
+		{
+			keynum = e.keyCode;
+		}
+		else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
+		{
+			keynum = e.which;
+		}
+		
+		switch(keynum)
+		{  
+			case 49: jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv1").fadeIn('fast'); break;
+			case 50: jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv2").fadeIn('fast'); break;
+			case 51: jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv3").fadeIn('fast'); break;
+			case 27: jQuery(".popup, .escape_popup, .draggableSTFModal").fadeOut('fast'); break;
+		}
 	}
 	
-	switch(keynum)
-	{  
-		case 49: jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv1").fadeIn('fast'); break;
-		case 50: jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv2").fadeIn('fast'); break;
-		case 51: jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv3").fadeIn('fast'); break;
-		case 27: jQuery(".popup, .escape_popup").fadeOut('fast'); break;
-	}
-	}
-	
-
 	function browserDetect(){
 		// Opera 8.0+
 		if ((!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0 )
@@ -142,9 +140,6 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 		// Chrome 1 - 71
 		if (!!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime))
 			return 'Chrome';
-
-
-
 	}
 
 	function tomap(vare)
@@ -154,8 +149,6 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 	
 	function toggleMPI()
 	{
-		
-
 		if( jQuery('#MPIbtn').hasClass('btnon'))
 		{
 		 jQuery('#MPIbtn').removeClass('btnon').addClass('btnactive');
@@ -174,7 +167,6 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 			jQuery('#lateralMPI').hide('blind',{ direction: 'right' });
 
 			jQuery('#audioControl').attr('src','TEMPLATES/img/interface/mainInterface/icon_audio_off.png');
-
 		}
 	}
 	
@@ -199,7 +191,6 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 	else if(ida == 'holo') window.open ('coLocation.php?get=holodeck','fed_main', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0');
 	}
 
-
 	function postOpener(ida){
 		window.open ('chat.php?amb='+ida,'fed_main', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0');
 	}
@@ -209,37 +200,31 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 		window.open ('calendar.php','cdb', config='toolbar=no,scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
 	
-
 	function cdbOpen(){
 		pars=getSizeOf('cdb');
 		window.open ('cdb.php','cdb', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
 	
-
 	function cdbOpenToTopic(ida){
 		pars=getSizeOf('cdb');
 		window.open ('cdb.php?topic='+ida,'cdb', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
-	
 
 	function dbOpen(){
 		pars=getSizeOf('db');
 		window.open ('db.php','db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
 	
-
 	function dbOpenToTopic(ida){
 		pars=getSizeOf('db');
 		window.open ('db.php?element='+ida,'db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
 	
-
 	function dbOpenToTopicLit(ida){
 		pars=getSizeOf('db');
 		window.open ('db.php?litref='+ida,'db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
 		
-
 	function paddOpen(){
 		pars=getSizeOf('padd');
 		window.open ('padd.php?anm=yes','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width='+pars['w']+',height='+pars['h']);
@@ -249,7 +234,6 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 		pars=getSizeOf('padd'); 
 		window.open ('padd.php?s=seR&to='+ida,'padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width='+pars['w']+',height='+pars['h']);
 	}
-	 
 	
 	function statusOpen(){
 		pars=getSizeOf('padd');
@@ -284,6 +268,67 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 
 	function localizeRefreshAuto(){if (jQuery('#localizeBox').is(':visible')) {localizeRefresh();}}
 
+	function setAvatar(src)
+	{
+		jQuery('#commDestImg').fadeOut(100,function(){
+			avt=jQuery(src).find('option:selected').attr('data-avatar');
+			if ( avt.includes('c_generic.png'))
+				avt='TEMPLATES/img/logo/logo_sfc.png';
+
+			jQuery('#commDestImg').css('background-image', "url('"+avt+"')");
+			jQuery('#commDestImg').attr('title', jQuery(src).find('option:selected').attr('data-title'));
+			jQuery('#commDestImg').fadeIn(100);
+		});
+	}
+
+	function commRefreshPplIterator(e)
+	{
+		jQuery('#commDestOpt').html('<option value="0" selected="selected" data-avatar="TEMPLATES/img/logo/logo_sfc.png"> Tutto il Personale </option>');
+		jQuery('#commDestImg').css('background-image',"url('TEMPLATES/img/logo/logo_sfc.png')");
+		jQuery.each(e['people'],function(k){
+			jQuery('#commDestOpt').append('<optgroup label="'+e['people'][k]['plName']+'" id="com_'+k+'"></optgroup>');
+			e['people'][k]['ppl'].forEach(function(p){
+				jQuery('#com_'+k).append('<option value="'+p['ID']+'" data-title="'+p['user_grado']+' - Sezione '+p['user_sezione']+'" data-avatar="'+p['pgAvatar']+'">'+p['pgUser']+'</option>')
+			})
+		});
+	}
+
+	function commRefreshPlacesIterator(e)
+	{
+		jQuery('#commDestOpt').html('');
+		jQuery('#commDestImg').attr('title','');
+		jQuery('#commDestImg').css('background-image',"url('TEMPLATES/img/logo/logo_sfc.png')");
+
+		jQuery.each(e['places'],function(k){
+			jQuery('#commDestOpt').append('<optgroup label="'+e['places'][k]['plName']+'" id="com_pla_'+k+'"></optgroup>');
+			e['places'][k]['places'].forEach(function(p){
+				current = (p['myLocat'] == 1) ? 'selected="selected"' : "" ;
+
+				jQuery('#com_pla_'+k).append('<option value="'+p['locID']+'" data-avatar="'+p['image']+'" '+current+'>'+p['locName']+'</option>')
+			})
+		});		
+	}
+
+	function commRefresh(stm){
+
+		if(stm == 'ppl')
+			refresher=commRefreshPplIterator;
+		if(stm == 'pla')
+			refresher=commRefreshPlacesIterator;
+
+		jQuery('#commStyle').val(stm);
+		
+
+		jQuery.ajax(
+				{
+				url: 'ajax_localize.php?s=comm&stm='+stm+'&ts='+new Date().getMilliseconds(),
+				success: refresher, 
+				type: 'POST',
+				dataType : 'json',
+				timeout:4500
+				});
+	}
+
 	function localizeRefresh(){
 
 		
@@ -294,11 +339,8 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 		
 		jQuery.ajax(
 			{
-			url: 'ajax_localize.php?ts='+new Date().getMilliseconds(),
+			url: 'ajax_localize.php?s=loc&ts='+new Date().getMilliseconds(),
 			success: function(e){
-				
-
-				
 				strhtml = '';
 				ttp=0;
 				jQuery('#localizeBoxContainer').html('');
@@ -318,20 +360,21 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 					jQuery.each(e[k],function(p){
 						pg = e[k][p];
 						ttp+=1;
+						pgt=pg['pgSpecie'];
 
 						if(pg['user_sesso'] == 'M')
 						{  
 							pgs='TEMPLATES/img/specie/' + pg['pgSpecie'] + '_m.png';
-							pgt='Maschio';
+							pgt+=' - Maschio';
 						}
 						else if(pg['user_sesso'] == 'F')
 						{
 							pgs='TEMPLATES/img/specie/' + pg['pgSpecie'] + '_f.png';
-							pgt='Femmina';
+							pgt+=' - Femmina';
 						}
 						else{
 							pgs='TEMPLATES/img/specie/' + pg['pgSpecie'] + '_t.png';
-							pgt='Terzo Genere';
+							pgt+=' - Terzo Genere';
 						}
 
 						if (pg['ambientType'] != 'DEFAULT') goable = '<a href=javascript:void(0);" onclick=\"javascript:fullScreen(\''+pg['pgPlaceI']+'\');\"><span>'+pg['place_name']+'</span></a>';
@@ -349,10 +392,8 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 						strhtml += '<p class="userRow leftCol"><img src="TEMPLATES/img/ranks/'+pg['rank_mostrina']+'.png" title="'+pg['user_grado']+' - Sezione '+pg['user_sezione']+'" ><img src="'+pgs+'" title="'+pgt+'"></img> '+lockValue+'<a class="interfaceLink" href="javascript:void(0);" onclick="schedaPOpen('+pg['ID']+');">'+pg['pgUser']+'</a></p> <p class="userRow rightCol">'+goable+presence+'</p><div style="clear:both"/>';
 					});
 					strhtml += '</div>';
-
 					
 					jQuery('#localizeBoxContainer').append(strhtml);
-					
 					
 					strhtml='';
 				});
@@ -364,18 +405,17 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 			});
 	}
 
-			function fullScreen(chat)
-			{
-				var wi = screen.availWidth - 10;
-				var au = screen.availHeight - 30;
-				window.open("chat.php?amb="+chat, "fed_main", "width=" + wi + ",height=" + au + ",top=0,left=0,location=no,menubar=no,resizable=yes,scrollbar=yes");
-			}
+	function fullScreen(chat)
+	{
+		var wi = screen.availWidth - 10;
+		var au = screen.availHeight - 30;
+		window.open("chat.php?amb="+chat, "fed_main", "width=" + wi + ",height=" + au + ",top=0,left=0,location=no,menubar=no,resizable=yes,scrollbar=yes");
+	}
 
 	function locOpen(){
 		jQuery.when(localizeRefresh()).then(function(){jQuery('#localizeBox').toggle('blind',100)});
 	}
 	
-
 	function toggleMyPresence(eventID){
 			jQuery.ajax(
 			{
@@ -388,14 +428,12 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 						{
 							jQuery('#participationMark_'+eventID).removeClass().addClass('participationYes').prop('title','Conferma Partecipazione');
 							jQuery('#participationBox_'+eventID+' #participationBox_element_'+e['pgID']).fadeOut(function(){jQuery(this).remove()});
-
 						}
 					if(e['mode'] == 'ADD')
 						{
 							jQuery('#participationBox_'+eventID).append('<span style="display:none;" class="eventParticip" id="participationBox_element_'+e['pgID']+'" onclick="toggleMyPresence('+eventID+')"><img src="'+e['pgAvatarSquare']+'" title="'+e['pgUser']+'"/></span>');
 							jQuery('#participationMark_'+eventID).removeClass().addClass('participationNo').prop('title','Annulla Partecipazione');
 							jQuery('#participationBox_'+eventID+' #participationBox_element_'+e['pgID']).fadeIn();
-
 						}
 				}
 			}, 
@@ -405,11 +443,9 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 			}); 
 	}
 
-
 	function metaPOpen(par,fun){ fun(par); }
 
 	function link2place(ida){
-		
 		ida = ida.match(/[a-zA-Z0-9_,]+/g);
 		window.location.href = 'main.php?l='+ida;
 	}
@@ -420,11 +456,12 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 	}
 	
 	function commOpen(){
-		pars=getSizeOf('comm');
-		window.open ('comm.php','comm', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+		jQuery.when(commRefresh('ppl')).then(
+		function(){
+			jQuery('#communicatorBox').toggle('blind',100);
+		});
 	}
 	
-
 	function schedaOpen(){
 		pars=getSizeOf('scheda');
 		window.open ('scheda.php','scheda', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
@@ -442,71 +479,57 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 
 	function schedaPOpen(ida){
 		pars=getSizeOf('scheda');
-		if(typeof(ida) == 'number')
+		if(typeof(ida) == 'number' || typeof(parseInt(ida)))
 			window.open ('scheda.php?pgID='+ida,'schedaP', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
-
 
 	function masterShadow(){
 		pars=getSizeOf('multitool');
 		window.open ('multitool.php','shadow', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
-	
-	
+
 	function chartOpen(){
 		pars=getSizeOf('chart');
 		window.open ('chart.php','chart', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
-	
 
 	function whisperOpen(){
 		pars=getSizeOf('whisper');
 		window.open ('whisper.php','whisper', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
-	
 
 	function repliOpen(toIda){
 		pars=getSizeOf('replicator');
 		toIda = toIda.match(/[a-zA-Z0-9_,]+/g);
 		window.open ('replicator.php?loc='+toIda,'replicator', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
-	
 
 	function repliOpenP(toFood){
 		pars=getSizeOf('replicator');
 		if(typeof(ida) == 'number')
 			window.open ('replicator.php?loc='+jQuery('#locID').val()+'&foodID='+toFood,'replicator', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
-	
 
 	function doLogout(){
-	jQuery.post('login.php?action=logout', {}, function(){
-	window.close();
-	});
+		jQuery.post('login.php?action=logout', {}, function(){
+		window.close();
+		});
 	}
 
 	function getSizeOf(ida)
 	{
-
-
 		if (browserDetect() in windowSizes[ida])
 			browser=browserDetect();
 		else
 			browser='Default';
 		
- 
 		var height=windowSizes[ida][browser]['h'];
 		var width=windowSizes[ida][browser]['w'];
-		
 		//alert(browser+':: '+width+' x '+height);
 		return {'w':width,'h':height};
-		
-
 	}
 
-
 	function openDotazione(){
-
 			jQuery.ajax(
 			{
 			url: 'servicePage.php?getDot=true&me=true', 
@@ -564,17 +587,16 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 		}
 
 		function remDot(ob,ida,eba){
-			jQuery.post('servicePage.php?remDot=true', {iRem: ida,oID: eba}, function(e){ if(e['STA']) {
-				if (e['RT']['oType'] == 'PERSONAL')
-					ol='#selecterAddPers';
-				else 
-					ol='#selecterAddServ';
+				jQuery.post('servicePage.php?remDot=true', {iRem: ida,oID: eba}, function(e){ if(e['STA']){
+					if (e['RT']['oType'] == 'PERSONAL')
+						ol='#selecterAddPers';
+					else 
+						ol='#selecterAddServ';
 
-				jQuery(ol).append('<option value="'+e['RT']['oID']+'">'+e['RT']['oName']+'</option>');
-				jQuery(ob).fadeOut();
-			}
-		},'json');
-
+					jQuery(ol).append('<option value="'+e['RT']['oID']+'">'+e['RT']['oName']+'</option>');
+					jQuery(ob).fadeOut();
+				}
+			},'json');
 		}
 
 		function addDot(ob)
@@ -586,29 +608,22 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 						jQuery('#selecterAdd option[value="'+ob+'"]').remove();
 					}
 				},'json');
-
 		}
  
-
-
 		function prevMostrina(ida)
 		{
-			
 			jQuery.post('servicePage.php?prevMos=true', {emoSel: ida}, function(e){ setFormer(e); if (ida == 'CIV'){
 
 				jQuery('#dscr').append("<textarea id=\"additionalVestDetail\" name=\"additionalVestDetail\" placeholder=\"Puoi inserire qui una descrizione aggiuntiva degli abiti civili: apparirà come popup se qualcuno passerà il cursore sulla mostrina in chat!\"></textarea> URL Immagine: <input class=\"neon\" type=\"text\" id=\"additionalVestImage\" onchange=\"updatePreviewVest(this)\" name=\"additionalVestImage\"></input>");
 				jQuery('#additionalVestDetail').val(jQuery('#additionalVestDetailStatic_stage').val());
 				jQuery('#uniLoc').attr('src',jQuery('#uniloc_stage').val());
 				jQuery('#additionalVestImage').val(jQuery('#uniloc_stage').val());
-
-
 			} }, 'json');
 		}
 
 		function updatePreviewVest(e)
 		{
 			jQuery('#uniLoc').attr('src',jQuery(e).val()); 
-
 		}
 		
 		function setFormer(e)
@@ -627,5 +642,3 @@ else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
 
 			jQuery.post('servicePage.php?setMos=true', {emoSel: ida, civDetail: additionalVestDetail, civimage:additionalVestImage}, function(e){if(e['DLT']) {jQuery('#remindMos').attr('src','TEMPLATES/img/ranks/'+e['DLT']+'.png'); jQuery('#dotazioner').fadeOut();}}, 'json');
 		}
-	
-	

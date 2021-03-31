@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('includes/app_include.php');
+include_once('includes/abilDescriptor.php');
 include('includes/validate_class.php');
 
  
@@ -8,6 +9,7 @@ include('includes/validate_class.php');
 
 if(isSet($_GET['registerUser']))
 {	
+
 	$pgTarget= explode('_',$_POST['select_grado']);
 
 	$vali = new validator();
@@ -39,10 +41,11 @@ if(isSet($_GET['registerUser']))
 
     //832 : tenente JG COM-Strat
 
-	$allRanks=array(837,827,836,831,826,813,809,834,829,824,811,833,828,823,810,806,835,830,825,812,808,101,119,137,155,173,125,143,161,179,103,121,139,157,175,135,153,171,191,127,145,1);
-	$militaryRanks=array(837,827,836,831,826,813,809,834,829,824,811,833,828,823,810,806,835,830,825,812,808,1);
+	//$allRanks=array(837,827,836,831,826,813,809,834,829,824,811,833,828,823,810,806,835,830,825,812,808,101,119,137,155,173,125,143,161,179,103,121,139,157,175,135,153,171,191,127,145,1);
+	//$militaryRanks=array(837,827,836,831,826,813,809,834,829,824,811,833,828,823,810,806,835,830,825,812,808,1);
+	$allowedRanks = array(827,831,826,813,809,805,829,824,811,807,803,828,823,810,806,802,830,825,812,808,804,101,119,137,155,125,143,161, 135,153,171,129,147);
 
-	if ($pgName =='' || !filter_var($emai, FILTER_VALIDATE_EMAIL) || $pgSpecie == '' || $pgSesso == '' || array_sum($abil) != 23 || $abM8 || !in_array($pgSpecie,array('Andoriana','Terosiana','Trill','Umana','Vulcaniana','Bajoriana')) || !in_array($pgRealTarget,$militaryRanks)) 
+	if ($pgName =='' || !filter_var($emai, FILTER_VALIDATE_EMAIL) || $pgSpecie == '' || $pgSesso == '' || array_sum($abil) != 23 || $abM8 || !in_array($pgSpecie,array('Andoriana','Terosiana','Trill','Umana','Vulcaniana','Bajoriana')) || !in_array($pgRealTarget,$allowedRanks)) 
 	{	
 		echo json_encode(array('err'=>'IE'));
 		exit;
@@ -354,14 +357,13 @@ else if (isSet($_GET['updateStatus']))
 
 else if(isSet($_GET['comm']))
 {
-	$type = $_GET['comm'];
+	/* AJAX CALL */
+	$type = $_POST['commType'];
 	if($currentUser->pgLock){header('Location:comm.php'); exit;}
-	if ($type=='sendCommUser')
+	if ($type=='ppl')
 	{
-		$to = (htmlentities(addslashes(($_POST['personTo'])),ENT_COMPAT, 'UTF-8'));
+		$to = (htmlentities(addslashes(($_POST['to'])),ENT_COMPAT, 'UTF-8'));
 		$row = (htmlentities(addslashes(($_POST['rowSend'])),ENT_COMPAT, 'UTF-8'));
-		
-		
 		
 		if($to != 0)
 		{
@@ -369,7 +371,6 @@ else if(isSet($_GET['comm']))
 			$toQE = mysql_fetch_array($toQ);
 			$toRoom = $toQE['pgRoom'];
 			$toPg = addslashes($toQE['pgUser']);
-			
 			
 			$string = '<p class="commMessage">'.date('H:i').' <span class="commPreamble">'.addslashes($currentUser->pgUser)." a $toPg:</span> ".$row.'</p>';
 			if($toRoom != $currentUser->pgRoom) mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'".$currentUser->pgRoom."','$string',".time().",'ACTION')");
@@ -379,7 +380,7 @@ else if(isSet($_GET['comm']))
 		
 		else if ($to == 0)
 		{
-			$allAmb = mysql_query('SELECT locID FROM fed_ambient WHERE ambientLocation = \''.$currentUser->pgLocation.'\' AND locID <> \''.$currentUser->pgLocation.'\'');
+			$allAmb = mysql_query("SELECT locID FROM fed_ambient,pg_places WHERE placeID = ambientLocation AND (ambientLocation = '".$currentUser->pgLocation."' OR attracco = '".$currentUser->pgLocation."') AND locID <> '".$currentUser->pgLocation."'");
 			
 			$string = '<p class="commMessage">'.date('H:i').' <span class="commPreamble">'.addslashes($currentUser->pgUser)." a tutto il personale:</span> ".$row.'</p>';
 			
@@ -388,12 +389,11 @@ else if(isSet($_GET['comm']))
 			$toRoom = $rea['locID'];
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','$string',".time().",'ACTION')");
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','commbadge',".time().",'AUDIO')");
-			// mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','<audio autoplay=\"autoplay\"><source src=\"https://oscar.stfederation.it/audioBase/commbadge.ogg\" type=\"audio/ogg\" /><source src=\"https://oscar.stfederation.it/audioBase/commbadge.mp3\" type=\"audio/mpeg\" /></audio>',".time().",'AUDIO')");
 			}
 		}
 	}
 	
-	else if ($type=='sendCommDeck')
+	/*else if ($type=='sendCommDeck')
 	{
 		$to = addslashes($_POST['deckTo']);
 		
@@ -411,11 +411,11 @@ else if(isSet($_GET['comm']))
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','$string',".time().",'ACTION')");
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','commbadge',".time().",'AUDIO')");
 			}
-	}
+	}*/
 	
-	else if ($type=='sendCommAmbient')
+	else if ($type=='pla')
 	{
-		$to = (htmlentities(addslashes(($_POST['ambTo'])),ENT_COMPAT, 'UTF-8'));
+		$to = (htmlentities(addslashes(($_POST['to'])),ENT_COMPAT, 'UTF-8'));
 		$row = (htmlentities(addslashes(($_POST['rowSend'])),ENT_COMPAT, 'UTF-8'));
 		
 		if(!$ambientName = Ambient::getAmbientName($to)) exit;
@@ -425,12 +425,10 @@ else if(isSet($_GET['comm']))
 		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$to','$string',".time().",'ACTION')");
 		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$to','commbadge',".time().",'AUDIO')");
 		
-		
-		if($to != $currentUser->pgRoom){ mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'".$currentUser->pgRoom."','$string',".time().",'ACTION')");}
-		
+		if($to != $currentUser->pgRoom){mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'".$currentUser->pgRoom."','$string',".time().",'ACTION')");}
 	}
 	
-	echo "<html><script type='text/javascript'>window.close();</script></html>";
+	echo json_encode(array('STAT'=>'OK'));
 }
 
 else if(isSet($_GET['warpSpeed']))
@@ -612,6 +610,17 @@ else if (isSet($_GET['cPlanetCreate']))
 
 	exit;
 
+}
+
+else if (isSet($_GET['editWeather']))
+{
+	$to = addslashes($_GET['editWeather']);
+	$weatherEdit = addslashes($_POST['weatherEdit']); 
+
+	mysql_query("UPDATE pg_places SET weather = '$weatherEdit' WHERE placeID = '$to'");
+
+	header('Location:main.php');	
+	exit;
 }
 
 else if (isSet($_GET['addMapLocation']))

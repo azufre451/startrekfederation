@@ -1,5 +1,5 @@
 <?php
-chdir('/home/ND-47/public_html/');
+chdir('../');
 
 include('includes/app_include.php');
 
@@ -34,7 +34,7 @@ $SITA = "<p style=\"font-family:monospace\">-----------  Rapporto Pulizia  -----
 
 //mysql_query("DELETE FROM federation_chat WHERE time < $eightMonth");
 
-$SITA .= "> Cancello <span style=\"font-weight:bold;color:#096bd0\">".mysql_affected_rows()."</span> righe di chat più vecchie di OTTO mesi<br />";
+//$SITA .= "> Cancello <span style=\"font-weight:bold;color:#096bd0\">".mysql_affected_rows()."</span> righe di chat più vecchie di OTTO mesi<br />";
 
 mysql_query("DELETE FROM fed_sussurri WHERE time < $oneMonth AND susTo IN (0,6)");
 
@@ -240,14 +240,14 @@ $VITA .= " Giocatore che simma, la chat non insozzare <br /> Trama che traballa,
 
   
 
-$moreno = new PG('1892'); 
-$jean = new PG('3'); 
+$AD1 = new PG('1892'); 
+$AD2 = new PG('3'); 
 
-$moreno->sendPadd('Rapporto pulizia',$SITA,702);
-$moreno->sendPadd('Rapporto qualità',$VITA,1580);
+$AD1->sendPadd('Rapporto pulizia',$SITA,702);
+$AD1->sendPadd('Rapporto qualità',$VITA,1580);
 
-$jean->sendPadd('Rapporto pulizia',$SITA,702);
-$jean->sendPadd('Rapporto qualità',$VITA,1580);
+$AD2->sendPadd('Rapporto pulizia',$SITA,702);
+$AD2->sendPadd('Rapporto qualità',$VITA,1580);
 
 @Database::tdbClose(); 
 exit; 

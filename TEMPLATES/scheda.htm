@@ -11,13 +11,12 @@
 	<link href="TEMPLATES/css/personnel.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" /> 
 	
-	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" /> 
-	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
+	<script type="text/javascript" src="TEMPLATES/js/jquery-3.6.0.min.js" /> 
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 
-	<title>STAR TREK FEDERATION - SCHEDA</title>
+	<title tal:content="string: ${userData/pgUser} - Star Trek: Federation" />
 	<script type="text/javascript">
 
 	function showOff()
@@ -86,11 +85,8 @@
 			
 		</div>
 	</div>
- 
-		
-		<!--	<div style="width:196px; padding:2px 2px 3px 2px; margin-top:20px; border:1px dotted #999; margin-left:auto; margin-right:auto;"><img style="vertical-align:middle;" tal:attributes="src string:TEMPLATES/img/ranks/${userData/pgMostrina}.png ; title string:${userData/pgGrado} - Sezione ${userData/pgSezione}" /> <img style="vertical-align:middle;" tal:attributes="src php:(userData.pgSesso == 'M') ? 'TEMPLATES/img/specie/' . userData.pgSpecie . '_m.png' : ((userData.pgSesso == 'F') ? 'TEMPLATES/img/specie/' . userData.pgSpecie . '_f.png' : 'TEMPLATES/img/specie/' . userData.pgSpecie . '_t.png' ) ; title php:(userData.pgSesso == 'M') ? userData.pgSpecie . ' - Maschio' : ((userData.pgSesso == 'F') ? userData.pgSpecie . ' - Femmina' : userData.pgSpecie . ' - Terzo Genere' )"  /> <span style="vertical-align:middle; font-size:13px;" tal:content="userData/pgUser" /></div>-->
 			
-			<p style="position:absolute; bottom:-14px; z-index:10; left:0px;" tal:condition="php:(!userData.png)"><a onclick="showOff();" href="javascript:void(0);" class="interfaceLink"><img src="TEMPLATES/img/interface/personnelInterface/scheda_off_btn.png" /></a></p>
+	<p style="position:absolute; bottom:-14px; z-index:10; left:0px;" tal:condition="php:(!userData.png)"><a onclick="showOff();" href="javascript:void(0);" class="interfaceLink"><img src="TEMPLATES/img/interface/personnelInterface/scheda_off_btn.png" /></a></p>
 			
 </div>
 <div id="schedaRight">
@@ -172,15 +168,16 @@ ondblclick php:(smasterPanel== true) ? 'javascript:removeDotazione(\'nota\',' . 
 
 	<div style="overflow-x:auto; height:400px; margin-top:10px;">
 	<div id="schedaOffLateralL" style="position:relative;">
-		<div style="position:absolute; top:0px; right:0px;"><img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/info.png" title="Se credi di aver raggiunto i requisiti per l'ottenimento di un Achievement, e ancora non ti è stato appuntato, contatta un Amministratore!" /></div>
+		<div style="position:absolute; top:0px; right:0px;"><img class="tooltip" src="TEMPLATES/img/interface/personnelInterface/info.png" title="Se credi di aver raggiunto i requisiti per l'ottenimento di un Achievement, e ancora non ti è stato attivato, contatta un Amministratore!" /></div>
 
 		
 		<div tal:repeat="achiCat achi">
 			
 			
 			
-			<div style="clear:both;">
-				<p style="clear:both; text-align:center; margin-bottom:0px; font-family:federationFont;  font-size:18px; letter-spacing:0.1em;" tal:content="repeat/achiCat/key"  /> 
+			<div style="clear:both;"/>
+			<div>
+				<p style="clear:both; text-align:center; margin-bottom:0px; margin-top:10px; font-family:federationFont;  font-size:21px; letter-spacing:0.11em;" tal:content="repeat/achiCat/key"  /> 
 				<a tal:omit-tag="php:(!adminPanel)" tal:attributes="onclick string:javascript:return confirmAchi('${achiv/text}') ; onmouseover string:javascript:avaBana('${achiv/adminImage}'); href string:scheda.php?pgID=${selectedUser}&s=assignAchi&achi=${achiv/ID}" tal:repeat="achiv achiCat"><div class="tooltip achievementDiv" tal:attributes="title achiv/text ; style string:background-image:url('${achiv/image}')"> <p tal:content="achiv/timer" class="subEti" tal:condition="php:(achiv['owned'])"/></div></a>
 			</div>
 		

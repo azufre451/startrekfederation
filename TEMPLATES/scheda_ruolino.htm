@@ -1,7 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
 	<link rel="shortcut icon" href="favicon.ico" />
@@ -10,10 +9,9 @@
 	<link href="TEMPLATES/css/circle.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/personnel.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" /> 
-	
 
-	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
-	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />
+	<script type="text/javascript" src="TEMPLATES/js/jquery-3.6.0.min.js" />
+	
 	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" /> 
 
@@ -35,44 +33,7 @@
 				return true;
 			}
 	}
-	function paddOpen(who){window.open ('padd.php?s=seR&to='+who+'&sub=','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
 	
-	function removeItem(ider,pgi)
-	{	
-		if(confirm('Conferma eliminazione?'))
-		window.location.href="scheda.php?s=remDotazione&brever=true&ider="+ider+'&pgID='+pgi;
-	}
-	
-	function addBreverItem(ider,pgi)
-	{	
-		window.location.href="scheda.php?s=addBrevetto&ider="+ider+'&pgID='+pgi;
-	}
-	
-	function removeDotazione(ider,pgi)
-	{	
-		if(confirm('Conferma eliminazione?'))
-		window.location.href="scheda.php?s=remDotazione&laurer=true&ider="+ider+'&pgID='+pgi;
-	}
-	
-	function showRuolino()
-	{
-		if(jQuery('#mainRuolino').css('display') == 'block') jQuery('#mainRuolino').fadeOut(200,function(){jQuery('#ruolinoER').fadeIn(200); jQuery('#linkerR').prop('src','TEMPLATES/img/interface/personnelInterface/schedaImage.png'); });
-		else jQuery('#ruolinoER').fadeOut(200,function(){jQuery('#mainRuolino').fadeIn(200); jQuery('#linkerR').prop('src','TEMPLATES/img/interface/personnelInterface/ruolinoImage.png'); });
-	}
-	
-	function viewAdder()
-	{
-		jQuery('#rankAdder').fadeIn(200, function(){jQuery('#viewAdderToggle').fadeOut(100)});
-	}
-	
-	function switchsect()
-	{
-		if (jQuery('#personalAbil').css('display') == 'none')
-		{
-			jQuery('#tecAbil').fadeOut(100,function(){jQuery('#personalAbil').fadeIn(100);});
-		}
-		else {jQuery('#personalAbil').fadeOut(100,function(){jQuery('#tecAbil').fadeIn(100);});}
-	}
 	
 	 jQuery(function() { jQuery('.tooltip, img').tooltip({
           content: function () {
@@ -86,25 +47,9 @@
     font-family:Helvetica;
 	font-size:14px; 
 	max-width:60%;
-
-
-
-  }
-
-
-
-p.bonus{margin-top:1px dashed #333; margin-top:5px;}
-p.bonus img{
-  width:35px; vertical-align:middle; margin-left:5px; 
-}
-p.bonus span {
-  font-family:federationFont; font-size:18px; margin-left:5px; letter-spacing: 0.1sem;
-}
-.thrExplain{ display:inline; margin:0px; }
-.thrExplain img{ width:25px; vertical-align: middle; }
-  
- 
+  	}
 	</style>
+	}
 </head>
 
 <body style="background-color:black; overflow:hidden; height:385px; padding:-5px;">
@@ -114,8 +59,6 @@ p.bonus span {
 <div id="mainContainer">
 <div id="mainRuolino" style="margin:0px; margin-left:10px; position:relative; overflow:hidden; margin-right:0px; height:530px;">
 	
-	  	<!--<div style="width: 200px; height: 510px; position: absolute;  z-index:0; background-image:url('TEMPLATES/img/uniformi/test67.png');"> </div>-->
-
 		<div id="backUniformDiv" tal:attributes="style string:background-image:url('TEMPLATES/img/uniformi/${uniform}.png');; top: 22px;; z-index:1;; right: 10px;;"> </div>
 		
 		<div style="overflow-y:auto; height:530px; width:100%;  z-index:10; position:absolute;">
@@ -136,12 +79,7 @@ p.bonus span {
 										</div>
 							</div>
 
-
-
 						   <div tal:attributes="class string:c100 subf p${abilit/levelThrperc} small" style="z-index:0; position:absolute;">
-								
-								
-		
 										<div class="slice">
 											<div class="bar" ></div>
 											<div class="fill"></div>
@@ -158,13 +96,12 @@ p.bonus span {
 	<p style="position:absolute; bottom:-14px; z-index:10; left:0px;"  tal:condition="php:(editable=='yes' && !userData.png)"><a tal:attributes="href string:scheda.php?pgID=${selectedUser}&s=bvadd" class="interfaceLink"><img src="TEMPLATES/img/interface/personnelInterface/scheda_modifica_btn.png" /></a></p>
 	
 	<p tal:condition="php:editable=='yes'" style="position:absolute; bottom:14px; z-index:10; right:40px;">
-		<a href="javascript:void(0);" onclick="javascript:jQuery('#sReset').fadeIn();"> <button title="Reset" class=" plusButtonRed" style="vertical-align:middle;"><img src="TEMPLATES/img/interface/personnelInterface/deleteicon.png" style="width:20px;" /></button></a>
+		<a href="javascript:void(0);" onclick="javascript:jQuery('#sReset').fadeIn();"> <button title="Pannello Reset Abilità del Personaggio" class=" plusButtonRed" style="vertical-align:middle;"><img src="TEMPLATES/img/interface/personnelInterface/deleteicon.png" style="width:20px;" /></button></a>
 	</p>
-
 </div>
 </div>
 
-<div tal:condition="php:editable=='yes'" id="sReset" class="popup" style="width:430px; height:260px; margin-top:-130px; margin-left:-215px; background-color:rgba(0,0,0,0.85); z-index:10" >
+<div tal:condition="php:editable=='yes'" id="sReset" class="popup" style="width:430px; height:310px; margin-top:-155px; margin-left:-215px; background-color:rgba(0,0,0,0.85); z-index:10" >
 	
 	<p style="margin:0px; margin-top:5px; font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;font-size: 25px;text-align: center;text-shadow: 0 0 5px #00C6FF;font-weight:bold;">  Reset Abilità <br />
 		<span tal:condition="not:exists:restrictEditCar" style="font-size:13px; text-shadow: 0 0 0px #00C6FF"> disponibile solo fino all'approvazione del BG </span>
@@ -182,18 +119,16 @@ p.bonus span {
 			<table style="width:100%" tal:condition="exists:abi/ABIL">
 			<tr tal:repeat="c abi/ABIL"> 
 				<td> <img tal:attributes="title c/abDescription ; src string:TEMPLATES/img/interface/personnelInterface/abilita/${c/abImage}" style="width:23px;" class="tooltip" /> </td>
-				<td><span style="font-size:12px; font-weight:bold;"  tal:content="c/abName" /></td>
-				<td style="font-size:14px; font-weight:bold;"> <select  tal:condition="not:exists:restrictEditCar"  class="editer" tal:attributes="name string:edi_${c/abID}"><option tal:repeat="k php:range(1,8)" tal:attributes="value k; selected php:(k EQ 4) ? 'selected' : ''" tal:content="k"></option></select>
+				<td><span style="font-size:13px; font-weight:bold;"  tal:content="c/abName" /></td>
+				<td style="font-size:15px; font-weight:bold;"> <select  tal:condition="not:exists:restrictEditCar"  class="editer" tal:attributes="name string:edi_${c/abID}"><option tal:repeat="k php:range(1,8)" tal:attributes="value k; selected php:(k EQ 4) ? 'selected' : ''" tal:content="k"></option></select>
 
 				<span tal:condition="exists:restrictEditCar" tal:content="c/level" />
 			</td></tr>
 			</table>
 
-			
-	
 			</div>
 			<div style="float:left; width:20px;   padding:5px;">
-				<p style="margin:0px; margin-top:3px; margin-top:57px; font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;font-size: 33px; text-align: center;text-shadow: 0 0 0px #00C6FF;font-weight:bold;">
+				<p style="margin:0px; margin-top:3px; margin-top:-5px; font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;font-size: 33px; text-align: center;text-shadow: 0 0 0px #00C6FF;font-weight:bold;">
 					+
 				</p>
 			</div>
@@ -201,25 +136,13 @@ p.bonus span {
 			<div style="float:left; width:210px;   padding:5px;">
 				<p style="margin:0px; margin-top:3px; font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;font-size: 13px; text-align: center;text-shadow: 0 0 0px #00C6FF;font-weight:bold;"> Bonus di razza <span style="color:#1f80c4; font-weight:normal; font-style:italic;" tal:content="string:(${pgSpecie})"/>:</p>
 				<hr style="border-color:#555;" />
-			 
-
-					<p class="bonus" tal:condition="php:(pgSpecie == 'Umana')" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_umani" />  
-					<p class="bonus" tal:condition="php:(pgSpecie == 'Trill')" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_trill" />
-					<p class="bonus" tal:condition="php:(pgSpecie == 'Xenita')" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_xeniti" />
-					<p class="bonus" tal:condition="php:(pgSpecie == 'Vulcaniana' || pgSpecie == 'Umana-Vulcaniana')" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_vulcaniani" />
-					<p class="bonus" tal:condition="php:(pgSpecie == 'Andoriana')" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_andoriani" />
-					<p class="bonus" tal:condition="php:(pgSpecie == 'Betazoide' || pgSpecie == 'Umana-Betazoide')" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_betazoidi" />
-					<p class="bonus" tal:condition="php:(pgSpecie == 'Koyar')" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_koyar" />
-					<p class="bonus" tal:condition="php:(pgSpecie == 'Bajoriana')" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_bajoriani" />
-					<p class="bonus" tal:condition="php:(pgSpecie == 'Boliana')" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_boliani" />
-					<p class="bonus" tal:condition="php:(pgSpecie == 'Caitiana')" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_caitiani" />
-					<p class="bonus" tal:condition="php:(pgSpecie == 'Terosiana')" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_terosiani" />
-					<p class="bonus" tal:condition="php:(pgSpecie == 'Tellarita')" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_tellariti" />
-					<p class="bonus" tal:condition="php:(pgSpecie == 'Zaldan')" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_zaldan" />
-					
+			 	<div>
+			 		<p class="bonus tooltip" tal:repeat="bonus bonuses" tal:attributes="title bonus/reason">
+			 			<img tal:condition="php:(bonus['abImage'] !='')"  tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/abilita/${bonus/abImage}" />
+			 			<span tal:content="bonus/abMod" tal:attributes="class php:(bonus['abMod'] GT 0) ? 'positive' : ((bonus['abMod'] == '*') ? 'activated' : (!bonus['special'] ? 'negative' : ''))"/>
+			 		</p>
+			 	</div>
 			</div>
-			
-
 		<div style="clear: both" />
 		<div>
 			<p tal:condition="not:exists:restrictEditCar" style="margin:0;font-style:italic;">NB: La somma deve essere uguale a <span style="color:#FFCC00; font-weight:bold;">23</span></p>
@@ -228,10 +151,7 @@ p.bonus span {
 			</div>
 
 		</div>
-		</form>	
- 
-	
-	
+		</form>		
 	<div style="position:absolute; top:5px; right:15px; cursor:pointer;" onclick="jQuery('#sReset').fadeOut(100);"> <button title="Chiudi" class=" plusButtonRed" style="vertical-align:middle;"><img src="TEMPLATES/img/interface/personnelInterface/deleteicon.png" style="width:20px;" /></button> </div>
 </div> 
 	

@@ -25,7 +25,7 @@
 			<img src="TEMPLATES/img/interface/note.png" style="vertical-align: middle;" /><input style="margin-bottom:10px; margin-left:8px; width: 90%;" class="neon"  type="text" name="postNote" tal:attributes="value php:isSet(editNotes) ? editNotes : ''"  /><input type="hidden" name="topicID" tal:attributes="value topicIDE"/>
 		</div>
 		<div style="text-align: left; margin-right: 100px; ">
-			<textarea name="postContent" id="postContent" style="border-radius: 10px; margin-right: 120px; width: 100%; height:480px; font-family:Helvetica;" tal:content="php:isSet(editContent) ? editContent : ''"></textarea>
+			<textarea name="postContent" id="postContent" class="cdbTextArea" tal:content="php:isSet(editContent) ? editContent : ''"></textarea>
 			<p id="peopleListMirrorContain" style="width:auto; margin-top:3px; display:none; font-size:13px; font-family:Helvetica"> Il post verrà segnalato a: <span id="peopleListMirror" /> con un padd automatico</p>
 			<input type="hidden" style="border:0" id="pepoleList" name="peopleList" value="" />
 		</div>
@@ -72,7 +72,7 @@
 		</div>
 		<!-- Fine Scegli PNG -->
 
-		<div style="text-align: center; font-size: 22px;  font-family: Roddenberry; margin-bottom:10px; ">
+		<div style="text-align: center; font-size: 22px;  font-family: Roddenberry,federationFont; margin-bottom:10px; ">
 			<div tal:condition="not:exists:editID" style="margin-top:10px;">
 				<span style="color: #0077c3; ">Firma</span>
 				<select class="neon"  style="width:90px; font-size: 15px; font-variant: small-caps;" name="postFirma">
@@ -149,11 +149,11 @@
 </div>
 
 <div tal:condition="php:(isSet(debug) && debug==true)" metal:define-macro="versionBox">
-	<div id="versionBox" style="display:block; z-index:10; border:1px solid white; width:300px; font-size:15px; color:white; height:100px; position:absolute; bottom:80px; right:80px; background-color:#000000; opacity:0.8;  filter: alpha(opacity = 80); text-align:center; font-family:Helvetica,">
-		<b>INFORMAZIONE DI SERVIZIO</b><br />
-		<span tal:content="structure gameServiceInfo" /><hr />
-		<i><span tal:content="gameVersion" /></i>
-		<input type="button" style="position:absolute; top:3px; right:3px;" value="X" onclick="javascript:$('#versionBox').fadeOut(200)" />
+	<div id="versionBox" style="height:100px; position:absolute; display:block; width:300px; font-family:Helvetica; bottom:80px; right:80px; text-align:center;" class="draggableSTFModal">
+		<b>STF DEBUG MODE</b><br />
+		<span style="font-size:14px;" tal:content="structure gameServiceInfo" /><hr />
+		<span style="font-style:italic" tal:content="gameVersion" /> 
+		<div class="xButton" onclick="jQuery(this).parent().fadeOut(100);"></div>
 	</div>
 </div> 
 
@@ -199,7 +199,7 @@
 					<img src="TEMPLATES/img/interface/index/cc_saf.png" alt="supporto" title="Questo GdR supporta parzialmente Safari" />
 					<a href="http://twitter.com/STFederation" target="_blank"><img src="TEMPLATES/img/interface/index/twitter_logo.png" class="radiusBordered5" style="margin-left:12px;" alt="Twitter" title="Seguici su Twitter!" /></a>
 				
-					<p>Star Trek: Federation &egrave; un progetto ideato da Moreno Zolfo, Igor Sontacchi e Gianmaria Genetlici &copy; 2012-2020 - Tutti i diritti riservati.<br />I marchi e i loghi di Star Trek sono propriet&agrave; di CBS Inc. Non si intende offendere alcun copyright.</p>
+					<p>Star Trek: Federation &egrave; un progetto ideato da Moreno Zolfo, Igor Sontacchi e Gianmaria Genetlici &copy; 2012-<span tal:content="thisYear"/> - Tutti i diritti riservati.<br />I marchi e i loghi di Star Trek sono propriet&agrave; di CBS Inc. Non si intende offendere alcun copyright.</p>
 					</div>
 </div>
 

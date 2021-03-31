@@ -4,9 +4,8 @@ if (!isSet($_SESSION['pgID'])) {header("location:index.php?login=do"); exit; }
 
 include('includes/app_include.php');
 include('includes/validate_class.php');
-
+include_once('includes/abilDescriptor.php');
 include('includes/notifyClass.php');
-
 include("includes/PHPTAL/PHPTAL.php"); //NEW 
 include('includes/markerClass.php');
 include('includes/cdbClass.php');
@@ -83,8 +82,10 @@ elseif($currentAmbient['ambientType'] == 'SALA_OLO'){
 	$ranks['Default']['norank'] = array('note' => 'Nessun Ologrado');
 	$my = mysql_query("SELECT prio,Note,ordinaryUniform,aggregation FROM pg_ranks $oloRankFilter ORDER BY rankerprio DESC");
 	while($myA = mysql_fetch_array($my))
-	$ranks[$myA['aggregation']][$myA['prio']] = array('note' => $myA['Note']);
+		$ranks[$myA['aggregation']][$myA['prio']] = array('uniform'=>$myA['ordinaryUniform'], 'note' => $myA['Note']);
 	$template->ranks = $ranks;
+
+
 	
 	$resPgPresenti = mysql_query("SELECT pgID, pgUser FROM pg_users WHERE pgRoom = '".$currentAmbient['locID']."' AND pgLastAct >= ".($curTime-1800)." ORDER BY pgUser");
 	
@@ -123,7 +124,7 @@ elseif($currentAmbient['ambientType'] == 'SALA_TEL' || $currentAmbient['ambientT
 	if($currentAmbient['ambientType']=='PLANCIA')
 	{
 
-	$resLocations = mysql_query("SELECT placeID,placeName FROM pg_places WHERE placePlancia <> '' ORDER BY placeName");
+	$resLocations = mysql_query("SELECT placeID,placeName FROM pg_places WHERE placePlancia <> '' AND attracco='' ORDER BY placeName");
 	$locArray=array();
 	while($resLoc = mysql_fetch_array($resLocations))
 	$locArray[$resLoc['placeID']] = $resLoc['placeName'];
@@ -233,7 +234,7 @@ if (PG::mapPermissions('JM',$currentUser->pgAuthOMA) && (PG::mapPermissions('SL'
 if (PG::mapPermissions('M',$currentUser->pgAuthOMA)) $template->isMaster = true;
 if (PG::mapPermissions('SM',$currentUser->pgAuthOMA)) $template->isSuperMaster = true;
 
-if (PG::mapPermissions('SM',$currentUser->pgAuthOMA) || $currentAmbient['locID'] == PG::getSomething($_SESSION['pgID'],'pgAlloggioRealID')) $template->protectable = true;
+//if (PG::mapPermissions('SM',$currentUser->pgAuthOMA) || $currentAmbient['locID'] == PG::getSomething($_SESSION['pgID'],'pgAlloggioRealID')) $template->protectable = true;
 
 if(substr($_SERVER['REQUEST_URI'],-4,4) == '%261') $template->showM = '1';
 

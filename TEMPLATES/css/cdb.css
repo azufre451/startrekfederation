@@ -123,7 +123,7 @@ input, select, textarea, button
 {
 	font-size:14px;
 	color:#fffbe8;
-	font-family:arial;
+	font-family:Helvetica, Arial;
 	text-align:justify;
 	padding:20px;
 	padding-left:10px;
@@ -145,6 +145,15 @@ input, select, textarea, button
 	border-left:2px solid var(--custom_section_color, #0077c3);
 	background-color: #111111;
 	padding:10px;
+}
+
+textarea.cdbTextArea
+{
+	border-radius: 10px;
+	padding:10px;
+	margin-right: 120px;
+	width: 97%;
+	height:480px;
 }
 
 .signature
@@ -352,7 +361,7 @@ a.topic_ext_white{color:white !important;}
 .cdbPostYellow{color:#FFCC00;}
 .cdbPostWhite{color:white;}
 .cdbPostGray{color:#999;}
-.cdbPostLittleSize{font-size:12px;}
+.cdbPostLittleSize{font-size:12px; letter-spacing: 0.03em;}
 .cdbPostNormalSize{font-size:13px;}
 .cdbPostBigSize{font-size:16px;}
    

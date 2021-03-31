@@ -22,7 +22,7 @@
 		<link href="TEMPLATES/css/index.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />	
 
 
-		<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
+		<script type="text/javascript" src="TEMPLATES/js/jquery-3.6.0.min.js" />
 		<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 		<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}" async="async"/>
 		<script type="text/javascript" src="TEMPLATES/js/index.js?v=${gameOptions/numericVersion}" async="async"/>
@@ -202,11 +202,11 @@ farti un'idea?</span> Prova Star Trek: Federation<br/> Username: Test<br/>Passwo
 				 		
 						<div class="menureg head" style="float:left; background-color: #42536d;">Inserici il tuo indirizzo E-mail</div> 
 						<input class="menureg" style="float:left; margin-left:10px; width:55%;" id="select_email" type="email" placeholder="mario.rossi@sito.it" name="select_email" />
-						<div style="clear:both"/>
+						<div style="clear:both;  "/>
 						
-						<hr />
+						
 
-						<p class="t1_content">Scegli il destino del tuo personaggio fra le sequenti opzioni:</p>
+						<p class="t1_content" style="margin-top:20px;">Scegli il destino del tuo personaggio fra le sequenti opzioni:</p>
 						
 						   
 						<div class="container" style="width:45%; float:left;">
@@ -216,7 +216,7 @@ farti un'idea?</span> Prova Star Trek: Federation<br/> Username: Test<br/>Passwo
 						</div>
 						
 						<div class="container" style="width:45%; float:right;">
-						<div class="menureg top head">Sesso del Personaggio</div>
+						<div class="menureg top head">Sesso del Personaggio <span class="tooltip" title="Qualora volessi giocare un personaggio non binario, contatta lo staff non appena iscritto. È possibile giocare personaggi di genere non definito!" style="color:#FFCC00; font-size:16px;">[?]</span></div>
 						<div class="menureg bottom little left sex sex_male selectable" onclick="javascript:selectSex(this,'m');">Maschio</div>
 						<div class="menureg bottom little right sex sex_female selectable" onclick="javascript:selectSex(this,'f');">Femmina</div> 
 						</div><div style="clear:both;"/>
@@ -232,17 +232,20 @@ farti un'idea?</span> Prova Star Trek: Federation<br/> Username: Test<br/>Passwo
 							<div class="rectChoice division selectable d3" onclick="selectDivision(this,'sfI')"><p>Flotta Stellare<br/>Sez. Ingegneria</p></div>   
 							<div class="rectChoice division selectable d4" onclick="selectDivision(this,'sfS')"><p>Flotta Stellare<br/>Sez. Scientifica / Medica </p></div>
 							<div class="rectChoice division selectable d5" onclick="selectDivision(this,'sfN')"><p>Flotta Stellare<br/>Sez. Navigazione</p></div>   
-							<div class="rectChoice division unselectable d6" onclick="selectDivision(this,'bar')"><p>Commerciante<br />o Barista</p></div>
-							<div class="rectChoice division unselectable d7" onclick="selectDivision(this,'ing')"><p style="line-height: 30px;">Ingegnere Civile</p></div>
-							<div class="rectChoice division unselectable d8" onclick="selectDivision(this,'sci')"><p style="line-height: 30px;">Scienziato Civile</p></div>
-							<div class="rectChoice division unselectable d9" onclick="selectDivision(this,'com')"><p style="line-height: 30px;">Pilota commerciale</p></div>  
-							<div class="rectChoice division unselectable d9" onclick="selectDivision(this,'jou')"><p style="line-height: 30px;">Giornalista</p></div>  
-							<div class="rectChoice division unselectable d10" onclick="selectDivision(this,'civ')"><p style="line-height: 30px;">Altro</p></div>  
+							<div class="rectChoice division selectable d6" onclick="selectDivision(this,'bar')"><p>Commerciante<br />o Barista</p></div>
+							<div class="rectChoice division selectable d7" onclick="selectDivision(this,'ing')"><p style="line-height: 30px;">Ingegnere Civile</p></div>
+							<div class="rectChoice division selectable d8" onclick="selectDivision(this,'sci')"><p style="line-height: 30px;">Scienziato Civile</p></div>
+							<div title="Pilota Civile" class="rectChoice division unselectable d9" onclick="selectDivision(this,'com')"><p style="line-height: 30px;">Pilota commerciale</p></div>  
+							<div title="Giornalista" class="rectChoice division unselectable d9" onclick="selectDivision(this,'jou')"><p style="line-height: 30px;">Giornalista</p></div>  
+							<div title="Altro" class="rectChoice division unselectable d10" onclick="selectDivision(this,'civ')"><p style="line-height: 30px;">Altro</p></div>  
 							 
 						</div>
 						
 						<div class="container opaque" style="width:45%; float:right;">
-							<div class="menureg top head">Razza del Personaggio <a title="Guida alle Specie" href="javascript:void(0);" onclick="dbOpenToTopicLit('SPE1')" class="interfaceLink" style="color:#FFCC00; font-size:14px;">[?]</a></div>
+							<div class="menureg top head">Specie del Personaggio
+								<a title="Guida alle Specie" href="javascript:void(0);" onclick="dbOpenToTopicLit('SPE1')" class="interfaceLink tooltip" style="color:#FFCC00; font-size:16px;">[?]</a>
+								<a title="Guida ai Bonus di Specie" href="javascript:void(0);" onclick="window.open ('keon/test_abilities.php','abil', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=731');" class="interfaceLink tooltip" style="color:#FFCC00; font-size:16px;">[?]</a>
+							</div>
 							<div style="margin-top:10px;"> 
 								<div class="squareChoice race selectable" onclick="selectRace(this,'Umana')"> <img src="TEMPLATES/img/specie/tUmana_m.png" class="race_place grayScale"/><img src="TEMPLATES/img/specie/tUmana_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/tUmana_f.png" class="race_fem"/><p>Umani</p></div>    
 								<div class="squareChoice race selectable" onclick="selectRace(this,'Vulcaniana')"> <img src="TEMPLATES/img/specie/Vulcaniana_m.png" class="race_place grayScale"/> <img src="TEMPLATES/img/specie/Vulcaniana_m.png" class="race_mas"/> <img src="TEMPLATES/img/specie/Vulcaniana_f.png" class="race_fem"/><p>Vulcaniani</p></div>    
@@ -279,7 +282,8 @@ farti un'idea?</span> Prova Star Trek: Federation<br/> Username: Test<br/>Passwo
 								
 								<optgroup label="Sottufficiali" >
 									<option value="813_e8">Capo Senior, Sezione  Difesa e Sicurezza  (Flotta Stellare)</option>
-									<option value="809_e7">Capo Specialista, Sezione  Difesa e Sicurezza  (Flotta Stellare)</option>
+									<option value="809_e7" selected="selected">Capo Specialista, Sezione  Difesa e Sicurezza  (Flotta Stellare)</option>
+									<option value="805_e6">Capo, Sezione  Difesa e Sicurezza  (Flotta Stellare)</option>
 								</optgroup>
 							</select> 
 
@@ -295,7 +299,8 @@ farti un'idea?</span> Prova Star Trek: Federation<br/> Username: Test<br/>Passwo
 								
 								<optgroup label="Sottufficiali">
 									<option value="811_e8">Capo Senior, Sezione Operazioni  (Flotta Stellare)</option>
-									<option value="807_e7" selected="selected">Capo Specialista, Sezione Operazioni  (Flotta Stellare)</option>
+									<option value="807_e7" selected="selected">Capo Specialista, Sezione Ingegneria e Operazioni  (Flotta Stellare)</option>
+									<option value="803_e6">Capo, Sezione Ingegneria e Operazioni  (Flotta Stellare)</option>
 								</optgroup>
 							</select> 
 							
@@ -311,6 +316,7 @@ farti un'idea?</span> Prova Star Trek: Federation<br/> Username: Test<br/>Passwo
 								<optgroup label="Sottufficiali">
 									<option value="810_e8">Capo Senior, Sezione Scientifica e Medica (Flotta Stellare)</option>
 									<option value="806_e7" selected="selected">Capo Specialista, Sezione Scientifica e Medica (Flotta Stellare)</option>
+									<option value="802_e6">Capo, Sezione Scientifica e Medica (Flotta Stellare)</option>
 								</optgroup>
 							</select> 
 
@@ -326,6 +332,7 @@ farti un'idea?</span> Prova Star Trek: Federation<br/> Username: Test<br/>Passwo
 								<optgroup label="Sottufficiali">
 									<option value="812_e8">Capo Senior, Sezione  Navigazione  (Flotta Stellare)</option>
 									<option value="808_e7" selected="selected">Capo Specialista, Sezione  Navigazione  (Flotta Stellare)</option>
+									<option value="804_e6">Capo, Sezione Navigazione (Flotta Stellare)</option>
 									
 								</optgroup>
 							</select> 
@@ -335,14 +342,14 @@ farti un'idea?</span> Prova Star Trek: Federation<br/> Username: Test<br/>Passwo
 									 <option value="119">Addetto di Ruolo (Ristorazione)</option>
 									 <option value="137" selected="selected">Capo di Rango (Ristorazione)</option>
 									 <option value="155">Responsabile di Ruolo (Ristorazione)</option>
-									 <option value="173">Direttore (Ristorazione)</option>
+									 <!--<option value="173">Direttore (Ristorazione)</option>-->
 							</select>
 						<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_ing" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
 									 <!--<option value="107">Studente  (Ingegneria Civile)</option><-->
 									 <option value="125">Manutentore (Ingegneria Civile)</option>
 									 <option value="143" selected="selected">Ingegnere (Ingegneria Civile)</option>
 									 <option value="161">Ingegnere Specialista (Ingegneria Civile)</option>
-									 <option value="179">Direttore (Ingegneria Civile)</option>
+									<!--<option value="179">Direttore (Ingegneria Civile)</option>-->
 							</select>
 						<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_com" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
 									 <option value="103">Allievo Ufficiale  (Flotta Civile)</option>
@@ -353,13 +360,14 @@ farti un'idea?</span> Prova Star Trek: Federation<br/> Username: Test<br/>Passwo
 							</select>
 						<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_sci" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
 									 <!--<option value="117">Studente  (Scienze)</option>-->
-									 <option value="135">Ricercatore(Scienze)</option>
-									 <option value="153" selected="selected">Ricercatore Specialista (Scienze)</option>
-									 <option value="171">Vice Direttore (Scienze)</option>
-									 <option value="191">Direttore (Scienze)</option>
+									 <option value="135">Ricercatore Dottorando (Scienze)</option>
+									 <option value="153" selected="selected">Ricercatore (Scienze)</option>
+									 <option value="171">Ricercatore Specialista (Scienze)</option>
+									 <option value="129">Specializzando (Med. Civile)</option>
+									 <option value="147" selected="selected">Medico (Med. Civile)</option>
 							</select>
 						<select class="divihandler" onchange="javascript:setRole(this.value)" id="divi_jou" style="display:none;  font-size:1.5em; border-radius:5px; width:100%;">
-									 <!--<option value="117">Studente  (Scienze)</option>-->
+
 									 <option value="127" selected="selected">Giornalista</option>
 									 <option value="145">Redattore</option> 
 							</select>
@@ -399,29 +407,53 @@ farti un'idea?</span> Prova Star Trek: Federation<br/> Username: Test<br/>Passwo
 							<div class="menureg top head">La razza che hai scelto: <span id="mirror_razza_t" /></div>
 							
 								<div class="species_spec" id="sp_Umana">Gli umani sono la razza con la maggiore espansione nella Federazione Unita dei Pianeti. Originari del pianeta Terra nel sistema Sol gli esseri umani sono stati la spinta iniziale alla fondazione della Federazione Unita dei Pianeti e si sono diffusi in tutti i quadranti con migliaia di colonie maggiori, molte delle quali divenute a loro volta indipendenti e membri della Federazione. Gli esseri umani sono poliedrici ed è impossibile definire un carattere comune, le loro più grandi forze sono la versatilità, la capacità di adattamento e la capacità di lavorare in gruppo. Per questo motivo gli esseri umani sono la spina dorsale della Flotta Stellare i cui membri umani superano di gran lunga il numero di altre specie.
-								<p class="bonus"> <span  style="color:#FFCC00; margin-top:10px;"> Bonus di Razza: </span></p> 
-								<p class="bonus" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_umani" />
+								<p class="bonusBlock">Bonus di Razza:</p> 
 
+								<div>
+			 						<p class="bonus tooltip" tal:repeat="bonus bonuses/Umana" tal:attributes="title bonus/reason">
+			 							<img tal:condition="php:(bonus['abImage'] !='')"  tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/abilita/${bonus/abImage}" />
+			 							<span tal:content="bonus/abMod" tal:attributes="class php:(bonus['abMod'] GT 0) ? 'positive' : ((bonus['abMod'] == '*') ? 'activated' : (!bonus['special'] ? 'negative' : ''))"/>
+			 						</p>
+			 					</div>
 
 								</div>
 								
 								<div class="species_spec" id="sp_Vulcaniana">Logica. La logica muove i fili della vita di tutti i giorni di un vulcaniano ed i vulcaniani amano ricordare quanto la logica della ragione sia più importante delle emozioni. Razza umanoide del tutto simile ad un essere umano esteriormente se non per le orecchie leggermente allungate ed appuntite. Vivono secondo un rigido codice comportamentale che prevede l'estraniazione delle emozioni dalla loro esistenza, sviluppato in tempi antichi dopo grandi tumulti a causa della natura aggressiva e violenta degli antichi vulcaniani. I vulcaniani sono dotati di capacità telepatiche al contatto. Per le loro caratteristiche ed i metodi utilizzati i vulcaniani si inseriscono perfettamente in tutte le discipline civili e militari. I vulcaniani sono tra i più grandi promotori e partecipanti dello sviluppo tecnologico e culturale della Federazione Unita dei Pianeti. I vulcaniani sono dotati di una forza fisica che ha pochi uguali nei quadranti Alpha e Beta.
 								
-								<p class="bonus"> <span  style="color:#FFCC00; margin-top:10px;"> Bonus di Razza: </span></p> 
+								<p class="bonusBlock">Bonus di Razza:</p>  
 								
-								<p class="bonus" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_vulcaniani" />
+								
+								<div>
+			 						<p class="bonus tooltip" tal:repeat="bonus bonuses/Vulcaniana" tal:attributes="title bonus/reason">
+			 							<img tal:condition="php:(bonus['abImage'] !='')"  tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/abilita/${bonus/abImage}" />
+			 							<span tal:content="bonus/abMod" tal:attributes="class php:(bonus['abMod'] GT 0) ? 'positive' : ((bonus['abMod'] == '*') ? 'activated' : (!bonus['special'] ? 'negative' : ''))"/>
+			 						</p>
+			 					</div>
 								</div> 
 								
 								<div class="species_spec" id="sp_Trill">I trill sono una razza umanoide del quadrante Alpha membro della federazione. Trill mantiene molto del proprio pianeta in una sorta di segretezza a cui hanno accesso solo i membri del Consiglio Federale di Sicurezza ed il presidente. La scelta di questi segreti è collegata alla natura molto intima delle leggi sui simbionti. Trill infatti è un mondo che ospita due specie dominanti. Una di queste, i trill ospiti, è divisa in due sottospecie ed ha una cultura ed una civiltà del tutto simile a quella di molte altre specie umanoidi. La seconda è un simbionte alieno dall'aspetto di una grossa larva che vive in caverne e bacini di proliferazione. Ospite e simbionte possono essere uniti, il simbionte trasferisce nell'ospite tutti i propri ricordi e quelli dei precedenti ospiti, in cambio l'ospite permette al simbionte di "vivere" al di fuori del suo stato larvale muovendosi con il corpo umanoide. I due individui comunque coesistono, l'ospite continua la propria normale esistenza, assume il nome del simbionte come proprio cognome. [Alla registrazione ogni trill è da considerarsi NON unito. L'unione potrà essere richiesta durante il gioco in una fase avanzata e sottoposto ad approvazione o reinvio]
 
-								<p class="bonus"> <span  style="color:#FFCC00; margin-top:10px;"> Bonus di Razza: </span></p> 
-								<p class="bonus" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_trill" />
+								<p class="bonusBlock">Bonus di Razza:</p> 
+
+								
+								<div>
+			 						<p class="bonus tooltip" tal:repeat="bonus bonuses/Trill" tal:attributes="title bonus/reason">
+			 							<img tal:condition="php:(bonus['abImage'] !='')"  tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/abilita/${bonus/abImage}" />
+			 							<span tal:content="bonus/abMod" tal:attributes="class php:(bonus['abMod'] GT 0) ? 'positive' : ((bonus['abMod'] == '*') ? 'activated' : (!bonus['special'] ? 'negative' : ''))"/>
+			 						</p>
+			 					</div>
 								</div>
 								
 								<div class="species_spec" id="sp_Andoriana">Fieri, sicuri, precisi. Gli andoriani, membri fondatori della Federazione Unita dei Pianeti, sono una razza aliena dalla pelle di colore azzurro dotati di ricettori uditivi accessori nella forma di due antenne sulla fronte. Gli andoriani sono una razza che presenta quattro distinti sessi, due con connotazioni prettamente maschili e due con connotazioni femminili, per procreare gli andoriani devono essere un gruppo di quattro individui che partecipano in momenti differenti al concepimento. Gli andoriani tendono ad assumere comportamenti scontrosi quando nervosi, sono una razza pronta all'azione prima ancora che alla parola questo fa di loro un nervo importante dei sottodipartimenti di Comando, Tattica e Sicurezza. 
 								
-								<p class="bonus"> <span  style="color:#FFCC00; margin-top:10px;"> Bonus di Razza: </span></p> 
-								<p class="bonus" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_andoriani" />
+								<p class="bonusBlock">Bonus di Razza:</p> 
+
+								<div>
+			 						<p class="bonus tooltip" tal:repeat="bonus bonuses/Andoriana" tal:attributes="title bonus/reason">
+			 							<img tal:condition="php:(bonus['abImage'] !='')"  tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/abilita/${bonus/abImage}" />
+			 							<span tal:content="bonus/abMod" tal:attributes="class php:(bonus['abMod'] GT 0) ? 'positive' : ((bonus['abMod'] == '*') ? 'activated' : (!bonus['special'] ? 'negative' : ''))"/>
+			 						</p>
+			 					</div>
 							</div>
 								
 								<!--
@@ -440,15 +472,31 @@ farti un'idea?</span> Prova Star Trek: Federation<br/> Username: Test<br/>Passwo
 
 								<div class="species_spec" id="sp_Terosiana">I Terosiani sono una razza nativa del pianeta Terosia, nel Quadrante Delta. Sono bipedi, dalla statura simile a quella umana, abili nuotatori, e hanno una pelle che può variare dal blu (più diffuso), al giallo, al rosso. I Terosiani sono in grado di muoversi e sviluppare una forza ed una agilità di gran lunga superiori sott’acqua, grazie alla pelle idrodinamica e alla loro particolare conformazione scheletrica e muscolare. I Terosiani soffrono in maniera marcata le temperature  calde (oltre i trenta gradi), mentre sopportano in maniera eccellente il freddo (fino a -30 gradi). All’altezza dell’osso sacro, sviluppano una piccola coda, essenziale al loro equilibrio, che cresce sino a raggiungere la sua massima estensione intorno ai 25 anni. Ad eccezione dei capelli, i Terosiani sono completamente glabri; sono inoltre dotati di un poderoso udito. I Terosiani sono stati estremamente importanti per l'esplorazione della Federazione nel Quadrante Delta, divendando prima protettorato federale, e poi membro della Federazione. La società Terosiana è allineata su posizioni prettamente matriarcali e consumistiche. Recentemente, diversi Terosiani sono entrati nei ranghi della Flotta Stellare, sia con arruolamenti diretti, che tramite la nuova sede dell'Accademia della Flotta Stellare su Terosia.
 
-								<p class="bonus"> <span  style="color:#FFCC00; margin-top:10px;"> Bonus di Razza: </span></p> 
-								<p class="bonus" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_terosiani" />
+								<p class="bonusBlock">Bonus di Razza:</p> 
+
+								
+								<div>
+			 						<p class="bonus tooltip" tal:repeat="bonus bonuses/Terosiana" tal:attributes="title bonus/reason">
+			 							<img tal:condition="php:(bonus['abImage'] !='')"  tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/abilita/${bonus/abImage}" />
+			 							<span tal:content="bonus/abMod" tal:attributes="class php:(bonus['abMod'] GT 0) ? 'positive' : ((bonus['abMod'] == '*') ? 'activated' : (!bonus['special'] ? 'negative' : ''))"/>
+			 						</p>
+			 					</div>
+
 								</div>
 
 								
 								<div class="species_spec" id="sp_Bajoriana">Religiosi, testardi, orgogliosi. I Bajoriani sono una delle ultime specie ad essersi unite alla Federazione Unita dei Pianeti, dopo la Guerra con il Dominio e dopo anni di occupazione del loro pianeta e delle loro colonie da parte della vicina Unione Cardassiana. La fede religiosa è radicata nei bajoriani più di molte altre razze, vedono ai loro dei, i Profeti, delle guide che prestabiliscono gli eventi perché seguano un preciso percorso per il bene comune. I Vedek ed il Kai sono guide spirituali con una forte influenza anche sulla vita politica bajoriana e per anni sono stati uno dei freni per l'annessione di Bajor nello spazio federale, testardi ed orgogliosi i bajoriani si dimostrano spesso adatti ad incarichi nei sottodipartimenti di Tattica e Sicurezza. Esteriormente sono del tutto simili ad un essere umano, a parte per la caratteristica forma delle creste nasali. 
 
-								<p class="bonus"> <span  style="color:#FFCC00; margin-top:10px;"> Bonus di Razza: </span></p> 
-								<p class="bonus" metal:use-macro="TEMPLATES/metal_bonus_race.htm/bonus_bajoriani" />
+								<p class="bonusBlock">Bonus di Razza:</p> 
+
+								
+								<div>
+			 						<p class="bonus tooltip" tal:repeat="bonus bonuses/Bajoriana" tal:attributes="title bonus/reason">
+			 							<img tal:condition="php:(bonus['abImage'] !='')"  tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/abilita/${bonus/abImage}" />
+			 							<span tal:content="bonus/abMod" tal:attributes="class php:(bonus['abMod'] GT 0) ? 'positive' : ((bonus['abMod'] == '*') ? 'activated' : (!bonus['special'] ? 'negative' : ''))"/>
+			 						</p>
+			 					</div>
+
 								</div>
 								
 						<div class="menureg top head">Il Ruolo che hai scelto: </div>
@@ -516,7 +564,7 @@ farti un'idea?</span> Prova Star Trek: Federation<br/> Username: Test<br/>Passwo
 								
 								<div class="sections_spec" id="se_bar"> Comprende il personale civile in servizio nelle aree deputate alla ristorazione, all'intrattenimento e al commercio. Il personale civile si organizza indipendentemente (liberi professionisti) o mediante la formazione di associazioni e corporazioni.</div>
 								<div class="sections_spec" id="se_ing">  Comprende il personale civile di supporto alla gestione ingegneristica di bordo. Gli ingegneri civili possono operare anche indipendentemente in realtà civli (private o meno). Sui vascelli esterni alla giurisdizione della Flotta Stellare operano di norma come freelance. Il personale civile si organizza indipendentemente (liberi professionisti) o mediante la formazione di associazioni e corporazioni. </div>
-								<div class="sections_spec" id="se_sci">Scienziati e Medici che operano sui vascelli civili, o nelle installazioni non esclusivamente militari. Possono essere impiegati a supporto di missioni scientifiche militari, qualora se ne ravvisasse la necessità. Dipendono di norma dall'autorità sanitaria locale.</div>
+								<div class="sections_spec" id="se_sci">Scienziati e Medici che operano sui vascelli civili, o nelle installazioni non esclusivamente militari. Possono essere impiegati a supporto di missioni scientifiche militari, qualora se ne ravvisasse la necessità. Dipendono di norma dall'autorità sanitaria o scientifica locale.</div>
 								<div class="sections_spec" id="se_com">Piloti civili commerciali: si occupano di trasporti di cose e persone al di là dell'ambito prettamente militare.</div>
 								<div class="sections_spec" id="se_jou">Giornalisti, inviati sulle navi e installazioni della Flotta per documentare quanto avviene ai confini della Federazione. Il giornale più letto (il Federation Tribune) ha una tiratura di diverse milioni di copie.</div>
 								<div class="sections_spec" id="se_civ">Privato cittadino: un personaggio senza un'assegnazione specifica. Puoi usare questo ruolo come punto di partenza per qualsiasi altro ruolo, qualora non fossi ancora sicuro della strada da far intraprendere al tuo PG</div>

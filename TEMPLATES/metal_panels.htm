@@ -1,11 +1,143 @@
-﻿<div metal:define-macro="locationMapPanel">
-	<div id="locationMap" class="popup blackOpacity" tal:attributes="style php:(isSet(showM)) ? 'display:block' : ''">
-<p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:22px;;" tal:content="ambient/locName" />
-<div tal:attributes="style string:width:550px;; background-repeat:no-repeat;; height:400px;; background-image:url('TEMPLATES/img/maps/piante/${ambient/imageMap}');;" id="mapperImage" onclick="setPgPosition(event);">
-	<div tal:repeat="pla markers" class="signaler"  tal:attributes="style string:top:${pla/posY}px;;left:${pla/posX}px;; ; title pla/placeString"></div>
+﻿<div metal:define-macro="corePanels">
+<!-- BEGIN corePanels" -->
+
+	<!-- BEGIN dotazioner" -->
+	<div id="dotazioner" class="popup draggableSTFModal">
+		
+		<div class="xButton" />
+
+		<div style="margin-top:10px;">
+			<div id="uniformBoxL">
+				<input type="hidden" id="uniloc_stage" />
+				<input type="hidden" id="additionalVestDetailStatic_stage" />
+				<p>
+					<img id="uniLoc" style="margin-left:3px; width:90px; margin-top:5px;" />
+				</p>
+				<p>
+					<img id="mostriLoc" />
+					<img id="raceLoc"/>
+				</p>			
+			</div>
+			<div id="dscr">
+				<p id="ordinaryVestDescription"  />
+				<p id="additionalVestDetailStatic" />
+			</div>
+		</div>
+
+		<div>
+			<select class="neon" name="emoSel" id="emoSel" onchange="prevMostrina(this.value)" style="margin-top:20px;" >
+			<option value="">- Modifica divisa/mostrina... -</option>
+			<option value="SER">Uniforme di Servizio</option>
+			<option value="JKT" >Uniforme di Servizio [senza giacca]</option>
+			<option value="HIG">Alta Uniforme</option>
+			<option value="COA" >Cappotto</option>
+			<option value="TAT" >Sbarco - Operativa e Tattica</option>
+			<option value="DES" >Sbarco - Desertica</option>
+			<option value="POL" >Sbarco - Polare</option>
+			<option value="EVA" >Tuta E.V.A.</option>
+			<option value="FLY" >Uniforme di Volo</option> 
+			<option value="ENG" >Tuta ingegneristica</option> 
+			<option value="MED" >Camice chirurgico</option>  
+			<option value="LAB" >Camice da Laboratorio</option>  
+			<option value="CIV">Abiti Civili</option>
+		</select> <button  type="submit" id="confirmer" class="ui-button ui-widget ui-state-default ui-corner-all" onclick="javascript:confirmC();" style="visibility:hidden;">Modifica Abbigliamento </button>
+
+		</div>
+
+		<div style="margin-top:10px; border-top:1px solid #333; width:100%;" >
+
+			<p style="text-align:center; margin:0px; font-size:12px; font-family: Helvetica"><span style="color:#FC0">Dotazione attuale: </span> clicca su un oggetto per rimuoverlo,<br /> oppure aggiungine uno dal tuo inventario usando il menu.<br />Vuoi portare con te un oggetto ma non lo hai in dotazione? Chiedi ad un <span style="color:#F00">Master</span> di assegnartelo!</p>
+			<div id="currentDotazione">
+			</div>
+			<div id="addDotazione">
+				<select class="neon" style="width:130px;" id="selecterAdd">
+					<option value=''>Aggiungi...</option>
+					<optgroup id="selecterAddServ" label="Oggetti di Servizio"></optgroup>
+					<optgroup id="selecterAddPers" label="Oggetti personali"></optgroup>
+				</select> <input type="submit" style="line-height: 2px;" class="ui-button ui-widget ui-state-default ui-corner-all" onclick="javascript:addDot(jQuery('#selecterAdd').val())" value="Aggiungi"></input>
+			</div>
+		</div>
+	</div>
+	<!-- END dotazioner" -->
+
+	<!-- BEGIN statusBox" -->
+	<div id="statusBox" class="escape_popup">
+		<p style="text-align:center; margin:4px; font-size:20px; font-weight:bold; font-family:federationFont; letter-spacing: 0.1em;"> Notifiche</p>
+		<div id="statusContainer">
+		</div>
+
+		<div style="text-align:center"><a href="javascript:void(0);" class="interfaceLinkBlue" onclick="javascript:statusOpen();"> APRI STATO NAVE </a></div>
+	</div>
+	<!-- END statusBox" -->
+	
+	<!-- BEGIN localizeBox" -->
+	<div id="localizeBox" class="draggableSTFModal">
+		<div class="xButton" title="Chiudi" style="top:15px; right:15px;" />
+		<div id="localizeBoxHead">ONLINE</div>
+		<div id="localizeBoxContainer" />
+		<div id="localizeBoxTail"></div>
+	</div> 
+	<!-- END localizeBox" -->
+
+	<!-- BEGIN communicatorBox" -->
+	<div id="communicatorBox" class="draggableSTFModal">
+		<div class="xButton" title="Chiudi" />
+				<div id="commLeft">
+					<div style="width:67px">
+						<a href="javascript:void(0);" onclick="commRefresh('ppl');"><img class="leftButton" src="../TEMPLATES/img/interface/commInterface/communicator_people.png" title="Comunicatore - Persone" /></a>
+						<a href="javascript:void(0);" onclick="commRefresh('pla');"><img class="leftButton" style="margin-left: 0px" src="../TEMPLATES/img/interface/commInterface/communicator_ambient.png" title="Comunicatore - Ambienti" /></a>
+					</div>
+					<div>
+						<img style="margin-top: 10px; width: 100px;" src="../TEMPLATES/img/interface/commInterface/communicator_logo.png"  />
+						<button tal:attributes="onclick php:isSet(htmlLiner) ? 'javascript:sendcomm()' : '' ; class php:isSet(htmlLiner) ? 'NBT_Roddenberry green' : 'NBT_Roddenberry gray'">INVIA</button>
+					</div>
+				</div>
+				<div id="commRight"> 
+					 <img class="tooltip commAvatar" tal:attributes="src user/pgAvatarSquare ; title string:Mittente: ${user/pgUser}"  />
+					
+					<div id="fromToCommBox">
+						<div class="sectioncolor">
+							<img tal:attributes="src string:TEMPLATES/img/ranks/${user/pgMostrina}.png; title string:${user/pgGrado} - Sezione ${user/pgSezione}" /> <span tal:content="user/pgGrado" /> <span tal:content="user/pgUser" />
+						</div>
+						<img style="width: 30px; margin: 12px; " src="../TEMPLATES/img/interface/commInterface/communicator_frequence.png" />
+						<div>
+							<select id="commDestOpt" onchange="javascript:setAvatar(this);" class="neon" name="">
+								<option value="0" selected="selected"> Tutto il Personale </option>
+							</select>
+							<input type="hidden" id="commStyle" />
+	 
+						</div>
+					</div>
+					<div id="commDestImg" class="tooltip commAvatar" />
+				</div>	
+				<div>
+					<textarea tal:attributes="placeholder php:isSet(htmlLiner) ? 'Messaggio' : 'Per inviare un messaggio con il comunicatore devi essere in una chat' ; readonly php:isSet(htmlLiner) ? '' : 'readonly'"   id="commMessage"></textarea>
+				</div>
+	</div>
+	<!-- END communicatorBox" -->
+
+
+	<!-- BEGIN reminders" -->
+	<div id="reminderST" class="reminder" tal:content="string:D.S. ${currentStarDate}" />
+
+	<div id="reminderAvatar" class="reminder">
+			<img tal:attributes="src user/pgAvatarSquare" style="padding:3px;" width="90px" height="90px"/>
+			<img tal:attributes="src string:TEMPLATES/img/ranks/${user/pgMostrina}.png; title string:${user/pgGrado} - Sezione ${user/pgSezione}" id="remindMos" /> 
+
+			<a href="javascript:void(0);" onclick="openDotazione();"><img src="TEMPLATES/img/interface/edit_icon.png" /></a> 
+
+			<img tal:attributes="src string:TEMPLATES/img/seclar/seclar${user/pgSeclar}.png" style="padding:4px;" />
+	</div>
+<!-- END core Panels" -->
 </div>
 
-<div class="xButton" onclick="jQuery('#locationMap').fadeOut(100);"></div>
+<div metal:define-macro="locationMapPanel">
+	<div class="xButton" title="Chiudi" />
+	<div id="locationMap" class="popup blackOpacity" tal:attributes="style php:(isSet(showM)) ? 'display:block' : ''">
+	<p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:22px;;" tal:content="ambient/locName" />
+	<div tal:attributes="style string:width:550px;; background-repeat:no-repeat;; height:400px;; background-image:url('TEMPLATES/img/maps/piante/${ambient/imageMap}');;" id="mapperImage" onclick="setPgPosition(event);">
+		<div tal:repeat="pla markers" class="signaler"  tal:attributes="style string:top:${pla/posY}px;;left:${pla/posX}px;; ; title pla/placeString"></div>
+	</div>
 </div>
 
 <script>
@@ -48,275 +180,175 @@
 	<script>function retooltip(){$('img.imageRepli').tooltip();}</script>
 </div>
 
-<div metal:define-macro="climatePanel">
-<div id="climate" class="popup blackOpacity">
-<p class="clockTitle blackOpacity" style="text-align:center;  margin:0px; font-size:22px;">Controlli ambientali: </p>
-<br /><b>Luci: </b><select class="neon" id="lightSet">
-<option value="5" tal:attributes="selected php:(ambient['ambientLight'] == 5)">Piena Illuminazione</option>
-<option value="4" tal:attributes="selected php:(ambient['ambientLight'] == 4)">Illuminazione Media</option>
-<option value="3" tal:attributes="selected php:(ambient['ambientLight'] == 3)">Luci soffuse</option>
-<option value="2" tal:attributes="selected php:(ambient['ambientLight'] == 2)">Luci Basse</option>
-<option value="1" tal:attributes="selected php:(ambient['ambientLight'] == 1)">Luci Spente</option>
-</select><br />
-
-<b>Temperatura: </b> <select id="tempSet" style="font-size:14px; margin-top:5px; font-weight:bold; width:80px; padding:4px; color:#3188F3;text-align:center;"><option tal:repeat="temp php:range(3,39)" tal:attributes="value  temp ; selected php:(ambient['ambientTemperature'] == temp) ? 'selected' : false" tal:content="string:${temp} &deg;C" class="aex" /></select><br />
- <b>Colore Luce: </b>
-    <link href="TEMPLATES/css/jquery.minicolors.css" rel="stylesheet" />
-	<script src="TEMPLATES/js/jquery.minicolors.js"></script>
-    <input id="afw" tal:attributes="value ambient/ambientLightColor"/>
-	<script>jQuery('#afw').minicolors();</script><br />
-
-<div style="margin-top:10px;">
 
 
-<button onclick="javascript:climateSet(jQuery('#lightSet').prop('value'),jQuery('#tempSet').prop('value'),jQuery('#afw').prop('value'));">Conferma</button>&nbsp;&nbsp;<button onclick="javascript:climateSet(5,20,'#ffeecb');">Valori predefiniti</button></div>
+<div metal:define-macro="climatePanel" id="climate" class="popup draggableSTFModal">
+	<div class="xButton" title="Chiudi" />
+	
+	<p class="clockTitle blackOpacity" style="text-align:center;  margin:20px 0 0 0; font-size:22px;">Controlli ambientali: </p>
+	<br /><b>Luci: </b><select class="neon" id="lightSet">
+	<option value="5" tal:attributes="selected php:(ambient['ambientLight'] == 5)">Piena Illuminazione</option>
+	<option value="4" tal:attributes="selected php:(ambient['ambientLight'] == 4)">Illuminazione Media</option>
+	<option value="3" tal:attributes="selected php:(ambient['ambientLight'] == 3)">Luci soffuse</option>
+	<option value="2" tal:attributes="selected php:(ambient['ambientLight'] == 2)">Luci Basse</option>
+	<option value="1" tal:attributes="selected php:(ambient['ambientLight'] == 1)">Luci Spente</option>
+	</select><br />
 
-<div class="xButton" onclick="jQuery('#climate').fadeOut(100);"></div>
+	<b>Temperatura: </b> <select class="neon" id="tempSet" style="font-size:14px; margin-top:5px; font-weight:bold; width:80px; padding:4px; color:#3188F3;text-align:center;"><option tal:repeat="temp php:range(3,39)" tal:attributes="value  temp ; selected php:(ambient['ambientTemperature'] == temp) ? 'selected' : false" tal:content="string:${temp} &deg;C" class="aex" /></select><br /><br />
+	 <b>Colore Luce: </b>
+	    <link href="TEMPLATES/css/jquery.minicolors.css" rel="stylesheet" />
+		<script src="TEMPLATES/js/jquery.minicolors.js"></script>
+	    <input id="afw" tal:attributes="value ambient/ambientLightColor"/>
+		<script>jQuery('#afw').minicolors();</script><br />
 
-<script>
-var arr = ['#492DE6', '#332DE6', '#2C3BE6', '#2B50E6', '#2B65E6', '#2A7AE6', '#2A8FE6', '#29A5E6', '#28BAE6', '#28D0E6', '#27E6E5', '#26E6CF', '#26E6B9', '#25E6A3', '#25E68C', '#24E676', '#23E65F', '#23E648', '#22E631', '#29E621', '#3FE621', '#56E620', '#6CE620', '#82E61F', '#99E61E', '#B0E61E', '#C7E61D', '#DEE61D', '#E6D61C', '#E6BF1B', '#E6A71B', '#E68F1A', '#E67819', '#E66019', '#E64818', '#E62F18', '#E61717'];
-jQuery('.aex').each(function(index, value){
-jQuery(value).css('color',arr[index]);
-});
+	<div style="margin-top:15px;">
 
-function climateSet(ide,ida,eda){
+	<button onclick="javascript:climateSet(jQuery('#lightSet').prop('value'),jQuery('#tempSet').prop('value'),jQuery('#afw').prop('value'));" class="NBT_Roddenberry green" >Conferma</button>&nbsp;&nbsp; 
 
-jQuery.post('ajax_setIllumino.php', {ambient: jQuery('#ambientID').prop('value'), light: ide, temperature: ida,color:eda},function(){jQuery.post(jQuery('#getterURL').prop('value')+'?ts='+new Date().getMilliseconds(), {ambient: jQuery('#ambientID').prop('value'), lastID: jQuery('#lastID').prop('value')}, selfUpdater, 'json');}, 'json');
+	<button onclick="javascript:climateSet(5,20,'#ffeecb');"  class="NBT_Roddenberry red">Reset</button>
+	</div>
 
-jQuery('#climate').fadeOut(200);
-}
+	<script>
+	var arr = ['#492DE6', '#332DE6', '#2C3BE6', '#2B50E6', '#2B65E6', '#2A7AE6', '#2A8FE6', '#29A5E6', '#28BAE6', '#28D0E6', '#27E6E5', '#26E6CF', '#26E6B9', '#25E6A3', '#25E68C', '#24E676', '#23E65F', '#23E648', '#22E631', '#29E621', '#3FE621', '#56E620', '#6CE620', '#82E61F', '#99E61E', '#B0E61E', '#C7E61D', '#DEE61D', '#E6D61C', '#E6BF1B', '#E6A71B', '#E68F1A', '#E67819', '#E66019', '#E64818', '#E62F18', '#E61717'];
+	jQuery('.aex').each(function(index, value){
+	jQuery(value).css('color',arr[index]);
+	});
 
-function lightSet(eda){
+	function climateSet(ide,ida,eda){
 
-jQuery('#afw').value(eda);
-}
+	jQuery.post('ajax_setIllumino.php', {ambient: jQuery('#ambientID').prop('value'), light: ide, temperature: ida,color:eda},function(){jQuery.post(jQuery('#getterURL').prop('value')+'?ts='+new Date().getMilliseconds(), {ambient: jQuery('#ambientID').prop('value'), lastID: jQuery('#lastID').prop('value')}, selfUpdater, 'json');}, 'json');
 
-function toggleIllumino()
-{
-jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').prop('value')},function(){jQuery.post(jQuery('#getterURL').prop('value')+'?ts='+new Date().getMilliseconds(), {ambient: jQuery('#ambientID').prop('value'), lastID: jQuery('#lastID').prop('value')}, selfUpdater, 'json');}, 'json');
-}
+	jQuery('#climate').fadeOut(200);
+	}
 
+	function lightSet(eda){
 
-</script>
+	jQuery('#afw').value(eda);
+	}
 
-</div>
+	function toggleIllumino()
+	{ 
+		jQuery.ajax(
+		{
+			url: 'ajax_setIllumino.php?toggle=true',
+			data:{ambient: jQuery('#ambientID').prop('value')},
+			complete: noti, 
+			type: 'POST',
+			dataType : 'json',
+		}); 
+	}
+
+	</script>
+
 </div>
 
 <div metal:define-macro="commPanel">
-<div id="commsub" class="popup blackOpacity">
-<p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:22px;">COMUNICAZIONI SUBSPAZIALI</p>
-<input  type="text" name="subspaceMex" id="subspaceMex" class="neon radiusBordered12" style="width:330px; margin-top:10px; margin-left:10px; margin-right:10px;" />
-	<select class="neon" id="locationer">
-		<option tal:repeat="location locationsA" tal:attributes="value repeat/location/key" tal:content="location"/>
-	</select>
-<button onclick="javascript:subspaceCom();" style="margin-top:10px;">INVIA</button>
+	<div id="commsub" class="popup draggableSTFModal">
+		<div class="xButton" title="Chiudi" />
+		<p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:22px;">COMUNICAZIONI SUBSPAZIALI</p>
+		<input  type="text" name="subspaceMex" id="subspaceMex" class="neon radiusBordered12" style="width:330px; margin-top:10px; margin-left:10px; margin-right:10px;" />
+			<select class="neon" id="locationer">
+				<option tal:repeat="location locationsA" tal:attributes="value repeat/location/key" tal:content="location"/>
+			</select>
+		<button onclick="javascript:subspaceCom();" style="margin-top:10px;">INVIA</button>
 
-<div class="xButton" onclick="jQuery('#commsub').fadeOut(100);"></div>
-
-<script>
-		function subspaceCom()
-		{
-			jQuery('#commsub').fadeOut(150);
-			jQuery.ajax(
+		<script>
+			function subspaceCom()
 			{
-			url: 'ajax_subcom.php',
-			data: {amb: jQuery('#locID').prop('value'), chatLine: jQuery('#subspaceMex').prop('value'), to: jQuery('#locationer').prop('value')},
-			success: noti,
-			async:false,
-			type: 'POST'
-			});
-		}
-</script>
-</div>
+				jQuery('#commsub').fadeOut(150);
+				jQuery.ajax(
+				{
+				url: 'ajax_subcom.php',
+				data: {amb: jQuery('#locID').prop('value'), chatLine: jQuery('#subspaceMex').prop('value'), to: jQuery('#locationer').prop('value')},
+				success: noti,
+				async:false,
+				type: 'POST'
+				});
+			}
+		</script>
+	</div>
 </div>
 
 <div metal:define-macro="olorankerPanel">
-<div id="oloRanker" class="popup blackOpacity">
-<p class="clockTitle blackOpacity" style="text-align:center;  margin:0px; font-size:22px;">Assegna Gradi Olografici</p>
-<br /><b>Assegna a: </b><select id="tizio"><option tal:repeat="user people" tal:attributes="value user/pgID" tal:content="user/pgUser" /></select><br /><br /><select id="rankCode">
-	<optgroup tal:repeat="ranker ranks" tal:attributes="label repeat/ranker/key">
-	<option tal:repeat="rnk ranker" tal:attributes="value repeat/rnk/key" tal:content="rnk/note"/>
-	</optgroup>
-</select>
-<button onclick="javascript:olorankerSet(jQuery('#tizio').prop('value'),jQuery('#rankCode').prop('value'));" style="margin-top:10px;"><img src="TEMPLATES/img/interface/conferma.png" /></button>
+	<div id="oloRanker" class="popup draggableSTFModal">
+		<div class="xButton" title="Chiudi" />
+		<p class="clockTitle blackOpacity" style="text-align:center;  margin:0px; font-size:22px;">Assegna Gradi Olografici</p>
+		<br /><b>ASSEGNA A: </b> <img src="TEMPLATES/img/ranks/CIV.png" id="oloRankPreview" /> <select class="neon" id="tizio"><option tal:repeat="user people" tal:attributes="value user/pgID" tal:content="user/pgUser" /></select>
 
-<div class="xButton" onclick="jQuery('#oloRanker').fadeOut(100);"></div>
+		<br /><br />
+		<select class="neon" style="width:80%" id="rankCode" onchange="javascript:setUniform(this);">
+			<optgroup tal:repeat="ranker ranks" tal:attributes="label repeat/ranker/key">
+				<option tal:repeat="rnk ranker" tal:attributes="value repeat/rnk/key ; data-uniform php:rnk['uniform']" tal:content="rnk/note"/>
+			</optgroup>
+		</select>
 
-<script>
-		function showRanker()
-		{
-			jQuery('#locationInfo').fadeOut(300,function(){jQuery('#oloRanker').fadeIn(300)});
-		}
-		
-		function olorankerSet(ida,ibex)
-		{
-			
-			jQuery.ajax(
-			{
-			url: 'ajax_olorankerSet.php',
-			data: {person: ida, whatassign: ibex},
-			async:false,
-			type: 'POST'
-			});
-			jQuery('#oloRanker').fadeOut(300);
-			
-		}
-</script>
-</div>
-</div>
+		<button style="width: 150px; margin-top: 15px; padding: 6px 6px 5px 10px; font-size: 23px;" onclick="javascript:olorankerSet(jQuery('#tizio').prop('value'),jQuery('#rankCode').prop('value'));" class="NBT_Roddenberry green">CONFERMA</button>
 
-<div metal:define-macro="alertPanel">
-<div id="messageAlert" class="radiusBordered12">
-	
-	<div class="xButton" onclick="jQuery('#messageAlert').fadeOut(100);"></div>
-
-	<img class="imager" style="float:left;" />
-	<div style="float:left; text-align:left; margin-left:30px; font-family:Helvetica; font-weight:bold;">
-	<p id="alertTitle"  class="clockTitle" style="margin:0px;"/> 
-	<p id="alertMessage" style="width:300px;" />
+		<script>
+				
+				function setUniform(ida){
+					jQuery('#oloRankPreview').attr('src','TEMPLATES/img/ranks/'+jQuery(ida).find('option:selected').attr('data-uniform')+'.png');
+				}
+				function showRanker()
+				{
+					jQuery('#locationInfo').fadeOut(300,function(){jQuery('#oloRanker').fadeIn(300)});
+				}
+				
+				function olorankerSet(ida,ibex)
+				{
+					
+					jQuery.ajax(
+					{
+					url: 'ajax_olorankerSet.php',
+					data: {person: ida, whatassign: ibex},
+					async:false,
+					type: 'POST'
+					});
+					jQuery('#oloRanker').fadeOut(300);
+					
+				}
+		</script>
 	</div>
 </div>
-</div>
 
-<div metal:define-macro="alertPanelChat">
-<div id="messageAlert" style="bottom:120px;" class="radiusBordered12">
-		<div class="xButton" onclick="jQuery('#messageAlert').fadeOut(100);"></div>
+<div metal:define-macro="teleporterPanel" id="teleportPanel" style="display:none;" class="popup draggableSTFModal">
+	<div class="xButton" title="Chiudi" />
+	<script type="text/javascript" src="TEMPLATES/js/teleport.js?v=${gameOptions/numericVersion}"></script>
+	<p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:22px;">TELETRASPORTO</p>
 
+	<div style="border:1px solid #0f2c4b; padding:10px; margin:10px; position:relative;">
+	<p style="font-size:20px; position:absolute; top:4px; left:4px; margin:0px;" class="clockTitle">Da:</p>
+	<p style="margin:0px; height:20px;" id="locationTeleportNotifierP"><span id="locationTeleportNotifier" tal:content="php:ucfirst(strtolower(ambient['locName']))" style="font-size:16px; color:#777; font-variant:small-caps;" /> <a style="font-size:12px; margin-left:20px;" href="javascript:showTeleportChanger();" class="interfaceLink">( Cambia )</a></p>
 
-	<img class="imager" style="float:left;" />
-	<div style="float:left; text-align:left; margin-left:30px; font-family:Helvetica; font-weight:bold;">
-	<p id="alertTitle"  class="clockTitle" style="margin:0px;"/> 
-	<p id="alertMessage" style="width:300px;" />
+	<p style="margin:0px; display:none; height:20px;" id="teleportChangerP"><select class="neon" id="teleportChanger" style="margin-left:50px;">
+		<optgroup tal:repeat="location locations" tal:attributes="label repeat/location/key">
+			<option tal:repeat="place location" tal:attributes="value place/a" tal:content="place/b" />
+		</optgroup>
+	</select>
+	<a id="teleportPanelConfirmButton" style="border:1px solid #999; padding:3px; font-size:11px;" href="javascript:sendayaTeleportFromChange();" class="interfaceLink">[ - Ok - ]</a></p> 
+
+	<div id="userSigner">
+	<div class="littleUserSign"  tal:repeat="user people" tal:attributes="title user/pgUser ; id string:tele_${user/pgID} ; style string:background-image:url('${user/pgAvatarSquare}') ; onclick string:javascript:selectTeleportable('tele_${user/pgID}');" ></div> 
+	</div><div style="clear:both;"/>
 	</div>
-</div>
-</div>  
 
-<div metal:define-macro="teleporterPanel">
-<div id="teleportPanel" style="display:none;" class="popup blackOpacity">
-<script type="text/javascript" src="TEMPLATES/js/teleport.js?v=${gameOptions/numericVersion}"></script>
-<p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:22px;">TELETRASPORTO</p>
+	<div style="border:1px solid #333; padding:10px; margin:10px; position:relative;">
+	<p style="font-size:20px; position:absolute; top:4px; left:4px; margin:0px;" class="clockTitle">A:</p>
+	<select class="neon" id="teleportTo">
+		<optgroup tal:repeat="location locationsAll" tal:attributes="label repeat/location/key">
+			<option tal:repeat="place location" tal:attributes="value place/a" tal:content="place/b" />
+		</optgroup>
+	</select>
 
-<div style="border:1px solid #0f2c4b; padding:10px; margin:10px; position:relative;">
-<p style="font-size:20px; position:absolute; top:4px; left:4px; margin:0px;" class="clockTitle">Da:</p>
-<p style="margin:0px; height:20px;" id="locationTeleportNotifierP"><span id="locationTeleportNotifier" tal:content="php:ucfirst(strtolower(ambient['locName']))" style="font-size:16px; color:#777; font-variant:small-caps;" /> <a style="font-size:12px; margin-left:20px;" href="javascript:showTeleportChanger();" class="interfaceLink">( Cambia )</a></p>
+	</div><div style="clear:both;"/>
 
-<p style="margin:0px; display:none; height:20px;" id="teleportChangerP"><select class="neon" id="teleportChanger" style="margin-left:50px;">
-	<optgroup tal:repeat="location locations" tal:attributes="label repeat/location/key">
-		<option tal:repeat="place location" tal:attributes="value place/a" tal:content="place/b" />
-	</optgroup>
-</select>
-<a id="teleportPanelConfirmButton" style="border:1px solid #999; padding:3px; font-size:11px;" href="javascript:sendayaTeleportFromChange();" class="interfaceLink">[ - Ok - ]</a></p> 
+	<button onclick="javascript:doTeleport();" class="NBT_Roddenberry green">ENERGIA!</button>
 
-<div id="userSigner">
-<div class="littleUserSign"  tal:repeat="user people" tal:attributes="title user/pgUser ; id string:tele_${user/pgID} ; style string:background-image:url('${user/pgAvatarSquare}') ; onclick string:javascript:selectTeleportable('tele_${user/pgID}');" ></div> 
-</div><div style="clear:both;"/>
-</div>
-
-<div style="border:1px solid #333; padding:10px; margin:10px; position:relative;">
-<p style="font-size:20px; position:absolute; top:4px; left:4px; margin:0px;" class="clockTitle">A:</p>
-<select class="neon" id="teleportTo">
-	<optgroup tal:repeat="location locationsAll" tal:attributes="label repeat/location/key">
-		<option tal:repeat="place location" tal:attributes="value place/a" tal:content="place/b" />
-	</optgroup>
-</select>
-
-</div><div style="clear:both;"/>
-
-
-<button onclick="javascript:doTeleport();" class="NBT_Roddenberry green">ENERGIA!</button>
-
-
-<div class="xButton" onclick="jQuery('#teleportPanel').fadeOut(100);"></div>
-
-</div>
 </div>
   
-<div metal:define-macro="wordrobePanel" id="wordrober" class="popup blackOpacity" style="width:590px; height:320px; margin-left:-300px;	margin-top:-155px; text-align:center; border:2px solid #444;" />
-
-
-<div metal:define-macro="dotazionePanel" id="dotazioner" class="popup blackOpacity" style="width:590px; height:430px; margin-left:-300px;	margin-top:-220px; text-align:center; border:2px solid #444;">
-	
-	<div class="xButton" onclick="jQuery('#dotazioner').fadeOut(100);"></div>
-
-	<style>
-		#additionalVestDetail{width:99%; margin-top:10px; height:140px; border:1px solid #3188F3;}
-		#additionalVestDetailStatic{color:#AAA;}
-		#ordinaryVestDescription{margin-top:0px;}
-		#additionalVestImage{width:70%;}
-		#uniformBoxL{float:left; width:150px; height:270px; border:1px solid #333;}
-		#uniformBoxL p{float:left; margin:0px; margin-left:10px} 
-		#dscr{float:left; width:390px; font-family:Helvetica; overflow-y:auto; height:250px; border:1px solid #333; text-align:justify; margin-left:20px; font-size:14px; padding:10px;}
-		
-		#currentDotazione {float:left; width:320px; padding:5px; font-size:13px; font-family: Helvetica}
-		#currentDotazione p {width:40px; height:40px; background-size:100%; background-repeat: no-repeat; background-position:center center; border:1px solid #666; border-radius:10px; padding:3px; display:block; margin-left:5px; float:left; cursor:pointer;}
-		#currentDotazione p:hover{border:1px solid white; -webkit-box-shadow: 0px 0px 5px 4px #0f2b4b; -moz-box-shadow: 0px 0px 5px 4px #0f2b4b; box-shadow: 0px 0px 5px 4px #0f2b4b; }
-
-		#addDotazione {float:left; width:250px; margin-top:35px !important; padding:5px; font-size:13px; font-family: Helvetica; margin-top:5px;}
-		#selecterAdd{width:150px;} 
-
-		#addDotazione input,#confirmer{margin-left:10px; height:20px; line-height:10px;} 
-	</style>
-	
-
-	<div style="margin-top:10px;">
-		<div id="uniformBoxL">
-			<input type="hidden" id="uniloc_stage" />
-			<input type="hidden" id="additionalVestDetailStatic_stage" />
-
-			<p>
-				<img id="uniLoc" style="margin-left:3px; width:90px; margin-top:5px;" />
-			</p>
-			<p>
-				<img id="mostriLoc" />
-				<img id="raceLoc"/>
-			</p>			
-		</div>
-		<div id="dscr">
-			<p id="ordinaryVestDescription"  />
-			<p id="additionalVestDetailStatic" />
-		</div>
-	</div>
-
-	<div>
-		<select class="neon" name="emoSel" id="emoSel" onchange="prevMostrina(this.value)" style="margin-top:20px;" >
-		<option value="">- Modifica divisa/mostrina... -</option>
-		<option value="SER">Uniforme di Servizio</option>
-		<option value="JKT" >Uniforme di Servizio [senza giacca]</option>
-		<option value="HIG">Alta Uniforme</option>
-		<option value="COA" >Cappotto</option>
-		<option value="TAT" >Sbarco - Operativa e Tattica</option>
-		<option value="DES" >Sbarco - Desertica</option>
-		<option value="POL" >Sbarco - Polare</option>
-		<option value="EVA" >Tuta E.V.A.</option>
-		<option value="FLY" >Uniforme di Volo</option> 
-		<option value="ENG" >Tuta ingegneristica</option> 
-		<option value="MED" >Camice chirurgico</option>  
-		<option value="LAB" >Camice da Laboratorio</option>  
-		<option value="CIV">Abiti Civili</option>
-	</select> <button  type="submit" id="confirmer" class="ui-button ui-widget ui-state-default ui-corner-all" onclick="javascript:confirmC();" style="visibility:hidden;">Modifica Abbigliamento </button>
-
-	</div>
-
-	<div style="margin-top:10px; border-top:1px solid #333; width:100%;" >
-
-		<p style="text-align:center; margin:0px; font-size:12px; font-family: Helvetica"><span style="color:#FC0">Dotazione attuale: </span> clicca su un oggetto per rimuoverlo,<br /> oppure aggiungine uno dal tuo inventario usando il menu.<br />Vuoi portare con te un oggetto ma non lo hai in dotazione? Chiedi ad un <span style="color:#F00">Master</span> di assegnartelo!</p>
-		<div id="currentDotazione">
-		</div>
-		<div id="addDotazione">
-			<select class="neon" style="width:130px;" id="selecterAdd">
-				<option value=''>Aggiungi...</option>
-				<optgroup id="selecterAddServ" label="Oggetti di Servizio"></optgroup>
-				<optgroup id="selecterAddPers" label="Oggetti personali"></optgroup>
-			</select> <input type="submit" style="line-height: 2px;" class="ui-button ui-widget ui-state-default ui-corner-all" onclick="javascript:addDot(jQuery('#selecterAdd').val())" value="Aggiungi"></input>
-		</div>
-	</div>
-</div>
-
  
-<div metal:define-macro="sessionsPanel" >
-<div id="sessionsP" class="popup blackOpacity">
-	
-	<div class="xButton" onclick="jQuery('#sessionsP').fadeOut(100);"></div>
+<div metal:define-macro="sessionsPanel" id="sessionsP" class="popup draggableSTFModal">
+	<div class="xButton" title="Chiudi" />
 	
 	<p class="clockTitle blackOpacity" style="text-align:center;  margin:0px; margin-bottom:20px; font-size:22px;">Gestore di Sessioni:</p>
 	
@@ -344,7 +376,7 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 				</select>
 			</p>
 			<p style="text-align:left; margin-left:25px; margin-top:10px; font-family:Helvetica; font-size:14px;">
-			Caratteri Max /azione: 
+			Caratteri Max / azione: 
 				<select id="tcharrer" class="neon" name="tcharrer">
 				<option value="0" selected="selected"> Infiniti </option>
 				<option value="800"> 800 </option>
@@ -398,49 +430,10 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 		#sessionQuest{width:100%; float:left; margin-top:10px; margin-bottom:10px;  backgroundtusers-color: #4e0000; font-size:1em; line-height:20px; height:20px; display:none;}
 	</style>
 </div>
-</div>
-
-<div metal:define-macro="statusBox" >
-
-	<div id="statusBox" class="escape_popup">
-		<p style="text-align:center; margin:4px; font-size:20px; font-weight:bold; font-family:federationFont; letter-spacing: 0.1em;"> Notifiche</p>
-		<div id="statusContainer">
-		</div>
-
-		<div style="text-align:center"><a href="javascript:void(0);" class="interfaceLinkBlue" onclick="javascript:statusOpen();"> APRI STATO NAVE </a></div>
-	</div>
-</div>
 
 
-<div metal:define-macro="localizeBox" >
-	<div id="localizeBox" class="escape_popup">
-		<div id="localizeBoxHead">ONLINE</div>
-		<div id="localizeBoxContainer" />
-		<div id="localizeBoxTail"></div>
-	</div>
-</div>
-
-
-
-<div metal:define-macro="reminderST" id="reminderST" class="reminder" tal:content="string:D.S. ${currentStarDate}" />
-
-<div metal:define-macro="reminderAvatar" id="reminderAvatar" class="reminder">
-			<img tal:attributes="src user/pgAvatarSquare" style="padding:3px;" width="90px" height="90px"/>
-			<img tal:attributes="src string:TEMPLATES/img/ranks/${user/pgMostrina}.png; title string:${user/pgGrado} - Sezione ${user/pgSezione}" id="remindMos" /> 
-
-			<!--<a tal:condition="php:(user.pgUser != 'Obrind' && user.pgUser != 'Wagner')" href="javascript:void(0);" onclick="jQuery('#wordrober').fadeIn(150,function(){jQuery('#wordrober').load('servicePage.php?wordrobe=t');}); "><img src="TEMPLATES/img/interface/edit_icon.png" /></a> -->
-
-			<a href="javascript:void(0);" onclick="openDotazione();"><img src="TEMPLATES/img/interface/edit_icon.png" /></a> 
-
-
-			<img tal:attributes="src string:TEMPLATES/img/seclar/seclar${user/pgSeclar}.png" style="padding:4px;" />
-</div>
-
-
-<div metal:define-macro="masterDicePanel">
-<div id="masterDicePanel" class="popup blackOpacity">
-
-
+<div metal:define-macro="masterDicePanel" id="masterDicePanel" class="popup draggableSTFModal">
+	<div class="xButton" title="Chiudi" />
 	<script>
 		function recompute(fo){
 		
@@ -499,8 +492,7 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 
 	</script>
 
-	
-	<div class="xButton" onclick="jQuery('#masterDicePanel').fadeOut(100);"></div>
+		
 	<p class="clockTitle blackOpacity" style="text-align:center;  margin:0px; margin-bottom:20px; font-size:22px;">Assegna Esiti Master</p>
 
 	<div style="height:210px; overflow-y:auto;">
@@ -509,14 +501,10 @@ jQuery.post('ajax_setIllumino.php?toggle=true', {ambient: jQuery('#ambientID').p
 
 		<tr tal:repeat="adlerDice diceEvents" tal:attributes="class string:diceEvent r_${adlerDice/recID}"><td tal:content="adlerDice/pgUser"></td><td><img tal:attributes="src string:TEMPLATES/img/interface/personnelInterface/abilita/${adlerDice/abImage}" style="width:50px;" /></td><td><span class="valDice" tal:content="adlerDice/outcome"></span>  <input class="abiDice" type="hidden" tal:attributes="value adlerDice/abID" /> <input class="recID" type="hidden" tal:attributes="value adlerDice/recID" /> <input class="pgID" type="hidden" tal:attributes="value adlerDice/pgID"  />  </td>  <td><span tal:content="adlerDice/threshold" />+ <select class="abMod" onchange="recompute(this);"><option value="-6">-6</option> <option value="-3">-3</option> <option value="0" selected="selected">0</option> <option value="-99">Annulla</option> <option value="3">+3</option> <option value="6">+6</option> </select></td> <td class="abiOutcome" tal:content="adlerDice/outcomeW"></td></tr>
 
-
 	</table>
 	</div>
 
 	<input onclick="distributeDice();" style="height:23px; padding:2px; font-size:12px; letter-spacing:1.4px; background-color:#1e7597; cursor:pointer;" value="Lancia l'Utente!" class="ui-button ui-widget ui-state-default ui-corner-all" />
-
-
-</div>
 
 </div> 
 

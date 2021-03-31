@@ -1,7 +1,9 @@
 # Star Trek: Federation #
 
-This repo contains the code of www.stfederation.it.
+![image](https://user-images.githubusercontent.com/25253438/113070814-bff3ac80-91c3-11eb-86bf-a04d0a2c375a.png)
 
+
+This repo contains the code of www.stfederation.it.
 
 ## Requirements
 
@@ -15,13 +17,13 @@ STFederation runs on LAMP and needs some extra packages:
 
 ## Current Release ##
 
-🟩 **v. 1.8.6** - *Triumphal Zebrafish*
+🟩 **v. 1.8.8** - *Triumphal Zebrafish*
 
 🟨 [dev](https://github.com/azufre451/startrekfederation/tree/parrot-dev) branch (**v. 1.9beta**) is cloned at [efesto.stfederation.it](https://efesto.stfederation.it).
 
 ## Contributions ##
 
-Star Trek: Federation is available on [https://stfederation.it/](https://stfederation.it/) and is maintained by [Moreno Zolfo](https://github.com/azufre451). 
+Star Trek: Federation is available at [https://stfederation.it/](https://stfederation.it/) and is maintained by [Moreno Zolfo](https://github.com/azufre451). 
 Additional contributors:
 - [Giuseppe Buffa](https://github.com/Cole0283) 
 - [Gianmaria Genetlic](https://github.com/jean-n92) 
@@ -67,7 +69,10 @@ Additional contributors:
 - 19/01/2014 - **v. 1.5.5** - *Nebulous Quetzal* - Revisione tecnica minore, bugfix, ottimizzazione pagina di login, estensione abilità, stato di servizio e ruolino in scheda PG, sistema Creative Commons per la documentazione di Database
 - 17/03/2014 - **v. 1.6** - *Occasional Raven* - Replicatore interattivo, revisione completa delle charts, revisione minore dei brevetti, bugfix, miglioramento tecnico gestione dpadd
 - 25/05/2017 - **v. 1.7** - *Prandial Seagull* - Sessioni, Sistema di attribuzione punti automatico, Sessioni e chat private, bugfix, Gestore di dadi, abilità e caratteristiche, Revisione grafica scheda PG, Eliminazione dei brevetti. Riapertura in Alpha Test.
-- 17/10/2017 - **v. 1.7.1** - *Quiescent Tortoise* - Gestione incarichi multipli, gestione approvazioni BG da parte dello staff. Istituzione ruolo OFF di "Guida". Inserimento nuove qualifiche e medaglie. Gestione del SECLAR nelle bacheche. Revisione del Database. Bugfix vari ed assortiti.
+- 17/10/2017 - **v. 1.7.5** - *Quiescent Tortoise* - Gestione incarichi multipli, gestione approvazioni BG da parte dello staff. Istituzione ruolo OFF di "Guida". Inserimento nuove qualifiche e medaglie. Gestione del SECLAR nelle bacheche. Revisione del Database. Bugfix vari ed assortiti.
 - 31/08/2018 - **v. 1.8** - *Rampant Unicorn* - Lettura post in CDB tracciata per ogni utente, implementazione tool notifiche, modifica tool turnazione, implementazione seclar0 e bugfix CDB, implementazione oggettistica e dotazione trasportabile e visibile in giocata, implementazione abiti personalizzati, realizzazione e implementazione charts quadrante delta, modifiche all'algoritmo di attribuzione FP, bugfix generale, uscita dal beta-test, revisione documentazione / dispense.
 - 23/02/2019 - **v. 1.8.5** - *Sophisticated Vicuña* - Strumenti di gestione dei background e backend Guide e Master; migliore gestione dei post in CDB e aggiunta tool di selezione del png (master). Passaggio ad architettura PHP 7.2 su hosting SSD. Modifiche tool organigrammi: aggiunti gruppi e squadre (caccia, intervento). Aggiunta la possibilità di inserire un range nelle date del tool ruolino di servizio. Aggiunta pop up per vedere i PG che condividevano la stessa assegnazione del proprio PG negli anni. Piccole modifiche al tool di gestione delle sessioni e dei dadi. Bugfix minori
 - 13/02/2020 - **v. 1.8.6** - *Triumphal Zebrafish* - Riscrittura sistema BBCode per permettere link dinanici di Post in CDB ed elementi in DB con tag [POST] e [DB]. Seclar Dinamico in post CDB con tag [SECLAR=X]. Revisione messaggi padd su più tipologie (off,on,revisioni etc...). Tracciamento ultima modifica background. Multimedia in gioco (link Youtube, Vimeo, Audio). Migliorie SigmaSystem (tool hosting immagini e audio per master). Revisione modalità cancellazione account non attivi. Modifica soglie e algoritmo attribuzione punti esperienza. Bugfix minori
+- 16/05/2020 - **v. 1.8.7** - (internal version) - Cleanup del codice. Procedure Multitool per il cambio/raggruppamento utente. Sistema CTS (custom CSS diviso per sezione). Deployment routine. Modifiche e pulizia al DB e Bugfix minori.
+- 26/12/2020 - **v. 1.8.8** - (internal version) - Sistema MPI (multimedia panel in chat con possibilità di inviare video da youtube e vimeo). Aggiunta personalizzazione CSS delle master-screen. Sistema autorizzazioni per il download di "tutti i log". Fix bug 2395 del CDB. Sistema stats utenti (numero azioni, cibi replicati etc). Indicatori abilità aggiornati in schedaPG. Brevetti e medaglie rimovibili per GM. Implementazioni varie backend admin.
+- 30/03/2021 - **v. 1.9** - *Ubiquitous Alpaca* - **Charts a tutto schermo** e aggiornamento mappe Quad Delta (v7). Tychonian Herald/Eagle aggiornabile da civili giornalisti. Stato-Servizio modificabile dal GM. Pannello scelta mostrine nel tool ruolino. **Nuova interfaccia D-Padd** e pannello BBCode interimento. **Nuovo comunicatore**. Popup mobili. Modifiche minori all'interfaccia di gioco. Pulizia DB, refactoring codice backend admin/master e bugfixes. Supporto PHP8 / JQuery 3.6 

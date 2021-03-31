@@ -9,9 +9,9 @@ This repo contains the code of www.stfederation.it.
 STFederation runs on LAMP and needs some extra packages:
 
 - [PHPTAL](https://github.com/phptal/PHPTAL)
-- [Leaflet](https://github.com/Leaflet/Leaflet) (included as [leaflet.js](blob/master/TEMPLATES/js/leaflet.js))
-- [PHP Parsedown](https://github.com/erusev/parsedown) and [PHP Parsedown Extra](https://github.com/erusev/parsedown-extra/) (included as [md](blob/master/includes/md/))
-- [TextDiff](https://github.com/pear/Text_Diff) (included as [textdiff](blob/master/TEMPLATES/includes/includes/Text_Diff-1.2.2))
+- [Leaflet](https://github.com/Leaflet/Leaflet) (included as [leaflet.js](TEMPLATES/js/leaflet.js))
+- [PHP Parsedown](https://github.com/erusev/parsedown) and [PHP Parsedown Extra](https://github.com/erusev/parsedown-extra/) (included as [md](includes/md/))
+- [TextDiff](https://github.com/pear/Text_Diff) (included as [textdiff](includes/Text_Diff-1.2.2))
 - Python3
 
 ## Current Release ##

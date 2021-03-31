@@ -360,20 +360,21 @@ var windowSizes =
 					jQuery.each(e[k],function(p){
 						pg = e[k][p];
 						ttp+=1;
+						pgt=pg['pgSpecie'];
 
 						if(pg['user_sesso'] == 'M')
 						{  
 							pgs='TEMPLATES/img/specie/' + pg['pgSpecie'] + '_m.png';
-							pgt='Maschio';
+							pgt+=' - Maschio';
 						}
 						else if(pg['user_sesso'] == 'F')
 						{
 							pgs='TEMPLATES/img/specie/' + pg['pgSpecie'] + '_f.png';
-							pgt='Femmina';
+							pgt+=' - Femmina';
 						}
 						else{
 							pgs='TEMPLATES/img/specie/' + pg['pgSpecie'] + '_t.png';
-							pgt='Terzo Genere';
+							pgt+=' - Terzo Genere';
 						}
 
 						if (pg['ambientType'] != 'DEFAULT') goable = '<a href=javascript:void(0);" onclick=\"javascript:fullScreen(\''+pg['pgPlaceI']+'\');\"><span>'+pg['place_name']+'</span></a>';
@@ -478,7 +479,7 @@ var windowSizes =
 
 	function schedaPOpen(ida){
 		pars=getSizeOf('scheda');
-		if(typeof(ida) == 'number')
+		if(typeof(ida) == 'number' || typeof(parseInt(ida)))
 			window.open ('scheda.php?pgID='+ida,'schedaP', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
 

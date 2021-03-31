@@ -41,10 +41,11 @@ if(isSet($_GET['registerUser']))
 
     //832 : tenente JG COM-Strat
 
-	$allRanks=array(837,827,836,831,826,813,809,834,829,824,811,833,828,823,810,806,835,830,825,812,808,101,119,137,155,173,125,143,161,179,103,121,139,157,175,135,153,171,191,127,145,1);
-	$militaryRanks=array(837,827,836,831,826,813,809,834,829,824,811,833,828,823,810,806,835,830,825,812,808,1);
+	//$allRanks=array(837,827,836,831,826,813,809,834,829,824,811,833,828,823,810,806,835,830,825,812,808,101,119,137,155,173,125,143,161,179,103,121,139,157,175,135,153,171,191,127,145,1);
+	//$militaryRanks=array(837,827,836,831,826,813,809,834,829,824,811,833,828,823,810,806,835,830,825,812,808,1);
+	$allowedRanks = (827,831,826,813,809,805,829,824,811,807,803,828,823,810,806,802,830,825,812,808,804,101,119,137,155,125,143,161, 135,153,171,129,147);
 
-	if ($pgName =='' || !filter_var($emai, FILTER_VALIDATE_EMAIL) || $pgSpecie == '' || $pgSesso == '' || array_sum($abil) != 23 || $abM8 || !in_array($pgSpecie,array('Andoriana','Terosiana','Trill','Umana','Vulcaniana','Bajoriana')) || !in_array($pgRealTarget,$militaryRanks)) 
+	if ($pgName =='' || !filter_var($emai, FILTER_VALIDATE_EMAIL) || $pgSpecie == '' || $pgSesso == '' || array_sum($abil) != 23 || $abM8 || !in_array($pgSpecie,array('Andoriana','Terosiana','Trill','Umana','Vulcaniana','Bajoriana')) || !in_array($pgRealTarget,$allowedRanks)) 
 	{	
 		echo json_encode(array('err'=>'IE'));
 		exit;

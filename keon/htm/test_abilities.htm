@@ -13,7 +13,7 @@
 
 	<script type="text/javascript" src="../../TEMPLATES/js/JU.js" />
 	<script type="text/javascript" src="../../TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
-	<script type="text/javascript" src="htm/test_abilities.js" />
+	<script type="text/javascript" src="htm/test_abilities.js" tal:condition="exists:pgUser" />
 
 	<title>STAR TREK FEDERATION - CDB</title>
 
@@ -62,7 +62,7 @@
 	<div style="margin:20px;">
 
 
-		<div style="width:300px; height:500px; float:left; margin-left:10px; background-color: #111; padding:10px; border:1px solid #FFCC00; position:relative;">
+		<div tal:condition="exists:pgUser" style="width:300px; height:500px; float:left; margin-left:10px; background-color: #111; padding:10px; border:1px solid #FFCC00; position:relative;">
 
 
 			<div style="height:410px; overflow-y:auto;">
@@ -118,8 +118,9 @@
 						<img tal:attributes="title repeat/species/key ; src string:../TEMPLATES/img/specie/${repeat/species/key}_f.png" />
 						<img tal:attributes="title repeat/species/key ; src string:../TEMPLATES/img/specie/${repeat/species/key}_m.png" />
 						<span style="font-weight:bold; color:white;" tal:content="repeat/species/key"></span>
+						<span tal:condition="php:repeat.species.key == 'Umana'"> (+50 UP)</span>
 
-						<span style="font-weight:bold; color:#FFCC00;" tal:content="string:${species/cost} UP" />
+						<span tal:condition="exists:pgUser" style="font-weight:bold; color:#FFCC00;" tal:content="string:${species/cost} UP" />
 
 					</td>
 

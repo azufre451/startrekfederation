@@ -17,6 +17,7 @@ STFederation runs on LAMP and needs some extra packages:
 ## Current Release ##
 
 🟩 **[v. 1.9](https://github.com/azufre451/startrekfederation/releases/tag/v1.9)** - *Ubiquitous Alpaca* 
+
 🟨 [dev](https://github.com/azufre451/startrekfederation/tree/parrot-dev) branch (**v. 1.9beta**) is cloned at [efesto.stfederation.it](https://efesto.stfederation.it).
 
 ## Contributions ##

@@ -195,7 +195,10 @@ include('includes/validate_class.php');
 				if ( $tpl_s > 0 && $tpl_s < 3 ) $rte = 1;
 				else $rte=0;
 
-				$avgpointarray = (float)$totalPta / (count($pointarray)-$rte);
+				if ((count($pointarray)-$rte) != 0)
+					$avgpointarray = (float)$totalPta / (count($pointarray)-$rte);
+				else
+					$avgpointarray = 0;
 
 				if(!array_key_exists($owner,$pointarray)){$pointarray[$owner] = 0.0;}
 
@@ -271,18 +274,5 @@ include('includes/validate_class.php');
 			Ambient::closePrivate($ambientID);
 		 
 		}
- 
 
-/*
-
-Almeo 3 azioni per dare il bonus 
-U(X) = (max_points / log_10(max_length - base_length)) * log_10 (X - (base_length-1)) se base_length < X < max_length 
-0 altrimenti 
- 
-base_length = 450 
-max_length = 1100 
-max_points = 0.8 
- 
-
-*/
-?>						
+?>

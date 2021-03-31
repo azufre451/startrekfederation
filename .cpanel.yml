@@ -1,17 +1,18 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/ND-47/public_html/
+    - export HOMEF=$(realpath ~);
+    - export DEPLOYPATH=${HOMEF}/public_html/
     - /bin/cp -R *.php $DEPLOYPATH
     - /bin/cp -R *.htm $DEPLOYPATH
-    - /home/ND-47/tools/bin/rsync --exclude img -a TEMPLATES/ $DEPLOYPATH/TEMPLATES/
+    - ${HOMEF}/tools/bin/rsync --exclude img -a TEMPLATES/ $DEPLOYPATH/TEMPLATES/
     - /usr/bin/find includes/ -maxdepth 1 -not -name "conf.php" -type f -exec /bin/cp {} $DEPLOYPATH/{} \;
     - /bin/cp -R data/ $DEPLOYPATH
     - /bin/cp -R keon/ $DEPLOYPATH
     - /bin/cp -R utils/ $DEPLOYPATH
-    - /home/ND-47/tools/miniconda3/bin/python /home/ND-47/tools/minify.py $DEPLOYPATH/TEMPLATES/js/mapCore.js $DEPLOYPATH/TEMPLATES/js/mapCore.js
-    - /home/ND-47/tools/miniconda3/bin/python /home/ND-47/tools/minify.py $DEPLOYPATH/TEMPLATES/js/chatCore.js $DEPLOYPATH/TEMPLATES/js/chatCore.js
-    - /home/ND-47/tools/miniconda3/bin/python /home/ND-47/tools/minify.py $DEPLOYPATH/TEMPLATES/js/initiator.js $DEPLOYPATH/TEMPLATES/js/initiator.js
-    - /home/ND-47/tools/miniconda3/bin/python /home/ND-47/tools/minify.py $DEPLOYPATH/TEMPLATES/js/teleport.js $DEPLOYPATH/TEMPLATES/js/teleport.js
-    - /home/ND-47/tools/miniconda3/bin/python /home/ND-47/tools/minify.py $DEPLOYPATH/TEMPLATES/js/replicator.js $DEPLOYPATH/TEMPLATES/js/replicator.js
-    - /home/ND-47/tools/miniconda3/bin/python /home/ND-47/tools/minify.py $DEPLOYPATH/TEMPLATES/js/chart_delta.js $DEPLOYPATH/TEMPLATES/js/chart_delta.js
+    - ${HOMEF}/tools/miniconda3/bin/python ${HOMEF}/tools/minify.py $DEPLOYPATH/TEMPLATES/js/mapCore.js $DEPLOYPATH/TEMPLATES/js/mapCore.js
+    - ${HOMEF}/tools/miniconda3/bin/python ${HOMEF}/tools/minify.py $DEPLOYPATH/TEMPLATES/js/chatCore.js $DEPLOYPATH/TEMPLATES/js/chatCore.js
+    - ${HOMEF}/tools/miniconda3/bin/python ${HOMEF}/tools/minify.py $DEPLOYPATH/TEMPLATES/js/initiator.js $DEPLOYPATH/TEMPLATES/js/initiator.js
+    - ${HOMEF}/tools/miniconda3/bin/python ${HOMEF}/tools/minify.py $DEPLOYPATH/TEMPLATES/js/teleport.js $DEPLOYPATH/TEMPLATES/js/teleport.js
+    - ${HOMEF}/tools/miniconda3/bin/python ${HOMEF}/tools/minify.py $DEPLOYPATH/TEMPLATES/js/replicator.js $DEPLOYPATH/TEMPLATES/js/replicator.js
+    - ${HOMEF}/tools/miniconda3/bin/python ${HOMEF}/tools/minify.py $DEPLOYPATH/TEMPLATES/js/chart_delta.js $DEPLOYPATH/TEMPLATES/js/chart_delta.js

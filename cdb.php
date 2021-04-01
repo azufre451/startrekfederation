@@ -1247,9 +1247,6 @@ $title = (strlen($reso['topicTitle']) > 27) ? substr($reso['topicTitle'],0,27).'
 $lastTopicsLOC[] = array('ID' => $reso['topicID'],'seen' => (($reso['seen'] || $reso['topicLastTime'] < $limiL) ? true : false) , 'title' => $title, 'titleL' => $reso['topicTitle'], 'lastT' => timeHandler::timestampToGiulian($reso['topicLastTime']),"lastTopicEvent" => $reso['lastTopicEvent'], 'lastU' => $reso['pgUser'], 'classExt' =>$reso['topicColorExt'], 'lastTstamp' => $reso['topicLastTime'], 'topicType' => $reso['topicType']);
 }
 
-$re = mysql_fetch_array(mysql_query("SELECT uniform,pgSesso FROM pg_uniforms,pg_users WHERE pgID = ".$_SESSION['pgID']." AND pgMostrina = mostrina"));
-$template->uniform = 'TEMPLATES/img/uniformi/'.isset($re['uniform']).strtolower(isset($re['pgSesso'])).'.png';
-
 $rea = mysql_query("SELECT * FROM fed_master_news WHERE PLACE = '".$currentUser->pgLocation."' ORDER BY time DESC LIMIT 10");
 $newsMas = array();
 while($real = mysql_fetch_array($rea)){$real['datum'] = timeHandler::extrapolateDay($real['time']); $newsMas[] = $real;}

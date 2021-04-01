@@ -89,21 +89,9 @@ include('includes/validate_class.php');
 		else if($string[0] == '*')
 		{ 
 
-			/*
-
-			Tell me why
-			Ain't nothing but a strange play
-			Tell me why
-			Ain't nothing but a mistake
-			Tell me why
-			I never want to hear you play (don't want to hear you play)
-			Lord of the rings here
-
-			*/
 
 			$ambient = Ambient::getAmbient($amb);
 			$image = str_replace('*','',$string); 
-			//mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'IMAGE',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 
 			if (PG::mapPermissions('M',PG::getOMA($_SESSION['pgID'])) || PG::isMasCapable($_SESSION['pgID']))
 			{
@@ -130,7 +118,6 @@ include('includes/validate_class.php');
 				}
 				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,specReceiver,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'$masSpec',$userSpecific,IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 
-				//mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,specReceiver,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'IMAGE',$userSpecific,IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 			}
 			elseif($ambient['ambientType'] == 'SALA_OLO' && PG::mapPermissions('O',PG::getOMA($_SESSION['pgID'])) )
 			{
@@ -190,23 +177,6 @@ include('includes/validate_class.php');
 				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$stringToSend',".time().",'$actionType',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))"); 
 			}
 		}
-
-
-		/*else if(strpos($string,'video::') !== false && (PG::mapPermissions('M',PG::getOMA($_SESSION['pgID'])) || PG::isMasCapable($_SESSION['pgID'])))
-		{ 
-			$string = str_replace('video::','',$string);
-
-			
-
-			$cString=addslashes('<div style="position:relative;" data-timecode="'.$curTime.'" data-loctag="'.$stag.'" class="masterAction">
-				<div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Inviata da: '.$sended.' ('.date('H:i').')\nResponso di un Master o Junior Master alle azioni del/i personaggio/i o utilizzata per descrizioni ambientali di singole location di gioco."/> Responso Master</div>'."<div style=\"float:left; width:40px;\" data-timecode=\"$curTime\" data-video=\"$string\" data-autoplay=\"0\" data-loop=\"1\" id=\"youtube-audio\"></div><div style=\"float:left; width:300px; vertical-align:middle; \">Video YT: $string</div> <div style=\"clear:both;\" /><script src=\"TEMPLATES/js/ytaudio.js\"></script>".'</div>');
-
-			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$cString',".time().",'MASTER',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))"); 
-		}
-		
-*/
-		
-
 		
 		else if($string[0] == '@' && (PG::mapPermissions('M',PG::getOMA($_SESSION['pgID'])) || PG::isMasCapable($_SESSION['pgID'])))
 		{
@@ -276,7 +246,6 @@ include('includes/validate_class.php');
 				$olomostrina = true; 
 			}
 		} 
-		 //$ima1 = addslashes("<img style=\"vertical-align:middle;\" onmouseover=\"javascript:getDotazione(this,$pgID);\"  src=\"TEMPLATES/img/ranks/$mostrina.png\" title=\"$grado - Sezione $sezione\"></img>");
 
 		$ima1 = ($olomostrina) ? addslashes("<div style=\"width:70px; margin-left:5px; text-align:left; margin-right:4.5px; margin-top:2.5px; background-repeat:no-repeat; height:15px; background-image:url('TEMPLATES/img/ranks/$mostrina.png'); float:left;\"  title=\"$grado - Sezione $sezione\"><img onmouseover=\"javascript:getDotazione(this,$pgID);\" src=\"TEMPLATES/img/interface/3little_holoicon.png\" title=\"Mostrina Olografica\"></img></div>") : addslashes("<img style=\"vertical-align:middle;\" onmouseover=\"javascript:getDotazione(this,$pgID);\" src=\"TEMPLATES/img/ranks/$mostrina.png\" title=\"$grado - Sezione $sezione\"></img>");
 
@@ -288,7 +257,7 @@ include('includes/validate_class.php');
 		$stringe = strtolower($string); 
 		$realLen = strlen($string); 
  		
- 		//$string = '<p class="chatDirect">'.date('H:i')." $ima1 ".addslashes($ima2)." <span onclick=\"javascript:schedaPOpen($pgID);\" onmouseover=\"javascript:selectOccur(\'$userN\');\" onmouseout=\"deselectOccur();\" class=\"chatUser\" data-timecode=\"$curTime\" data-loctag=\"$stag\">$userN</span> $tag ".ucfirst(str_replace(array('&lt;','&gt;','&laquo;','&raquo;'),array(' <span class="chatQuotation">&laquo;','&raquo;</span> ',' <span class="chatQuotation">&laquo;','&raquo;</span> '),$string))."</p>";	
+
 		$quotes_from_array = array('&lt;','&gt;','[',']');
 		$quotes_to_array = array(' <span class="chatQuotation">&laquo;','&raquo;</span> ',' <span class="chatQuotation">&laquo;','&raquo;</span> ');
 		

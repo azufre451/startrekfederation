@@ -5,6 +5,7 @@ TEMPLATES/img
 error_log
 favicon.ico
 includes/PHPTAL/
+includes/PHPTAL
 .ftpquota
 TEMPLATES/carousel/images/
 Thumbs.db

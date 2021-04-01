@@ -65,8 +65,11 @@ include('includes/validate_class.php');
 			elseif($ambient['ambientType'] == 'SALA_OLO' && PG::mapPermissions('O',PG::getOMA($_SESSION['pgID'])) )
 			{
 
+				$sended = addslashes(PG::getSomething($_SESSION['pgID'],'username'));
+
+
 				$string = '<div style="position:relative;" class="oloMasterAction">
-				<div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Inviata da: '.$sended.' ('.date('H:i').')\nAzione descrittiva di un ambiente olografico responso di un Entertainer (un player abilitato a fornire esiti solo in simulazione e NON facente parte dello staff) collegata strettamente ad una sala ologrammi o sala parzialmente attrezzata per gli ologrammi. L\\\'entertainer non può masterare PnG o situazioni reali, ma solo ambienti e situazioni simulate sul ponte ologrammi."/> Entertainer</div>'.$MString.'</div>';
+				<div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Inviata da: '.$sended.' ('.date('H:i').')\nAzione descrittiva di un ambiente olografico responso di un Entertainer (un player abilitato a fornire esiti solo in simulazione e NON facente parte dello staff) collegata strettamente ad una sala ologrammi o sala parzialmente attrezzata per gli ologrammi. L\\\'entertainer non può masterare PnG o situazioni reali, ma solo ambienti e situazioni simulate sul ponte ologrammi."/> Entertainer</div>'.ucfirst(ltrim($string)).'</div>';
 
 				mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,specReceiver,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'MASTER',0,IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))"); 
 

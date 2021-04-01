@@ -171,9 +171,8 @@ if(isSet($_GET['registerUser']))
 		mysql_query("INSERT INTO fed_objects_ownership(oID,owner) VALUES (1,$me),(124,$me),(118,$me),(119,$me)");
 
 	
-  
 	echo json_encode('OK');
-	exec('/home/ND-47/tools/miniconda3/bin/python /home/ND-47/public_html/utils/slack_notifier.py newuser '.$me.' 1');
+	exec($svr_home.'/tools/miniconda3/bin/python '.$svr_home.'/public_html/utils/slack_notifier.py newuser '.$me.' 1');
 	exit;
 	
 }

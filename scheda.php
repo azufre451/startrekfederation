@@ -690,7 +690,7 @@ elseif($mode == 'oj')
 elseif($mode == 'addObj')
 {
 	$user = $vali->numberOnly($_POST['userSelector']);
-	$what = (htmlentities(addslashes(($_POST['what'])),ENT_COMPAT, 'UTF-8'));
+	$what = addslashes(($_POST['what']));
 	$image = (htmlentities(addslashes(($_POST['whatI'])),ENT_COMPAT, 'UTF-8'));
 	$description = (htmlentities(addslashes(($_POST['whatD'])),ENT_COMPAT, 'UTF-8'));
 	

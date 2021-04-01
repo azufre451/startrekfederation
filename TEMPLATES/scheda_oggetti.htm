@@ -11,10 +11,10 @@
 	<link rel="stylesheet" href="TEMPLATES/css/gallerific/galleriffic-2.css" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 
-	<script type="text/javascript" src="TEMPLATES/js/JQuery.js" />
+	<script type="text/javascript" src="TEMPLATES/js/jquery-3.6.0.min.js" />
 	<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" /> 
 	
-	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
+	
 	<script src="TEMPLATES/js/galleria-1.2.9.js"></script>
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	<!-- <script type="text/javascript" src="TEMPLATES/js/lazyload.js"></script> -->
@@ -59,13 +59,13 @@
 	<a href="javascript:viewRemover();"  id="viewAdderToggle" tal:condition="php:editable==true" class="interfaceLinkRed" ><button title="Rimuovi un oggetto" class="plusButtonRed" style="vertical-align:middle; background"><img src="TEMPLATES/img/interface/personnelInterface/minusicon.png" style="width:20px;" /></button></a>
 </p>
 
-	<div id="rankAdder" style="position:absolute; top:50%;left:50%; display:none; z-index:10; background-color:black; margin-left:-210px; margin-top:-70px; width:420px; padding:10px; border:2px solid #666;"><br /><table tal:condition="php:editable==true">
+	<div id="rankAdder" style="position:absolute; top:50%;left:50%; display:none; z-index:10; background-color:black; margin-left:-210px; margin-top:-200px; width:420px; padding:10px; height:400px; border:2px solid #666;"><br /><table tal:condition="php:editable==true">
 	<form method="POST" action="scheda.php?s=addObj">
 		
 		<tr><td width="140px; font-size:10px;"><b>Nome Oggetto:</b></td><td><input required="required" type="text" class="neon" style="width:300px;" name="what" /></td></tr>
 		<tr><td width="140px; font-size:10px;"><b>URL Immagine:</b></td><td><input class="neon" type="text" required="required" style="width:300px;" name="whatI" /></td></tr>
-		<tr><td width="140px; font-size:10px;"><b>Descrizione:</b></td><td><textarea style="width:300px;" name="whatD" /></td></tr>
-		<tr><td colspan="2" style="text-align:center;"><input type="submit" value="- Crea oggetto - " /></td></tr>
+		<tr><td width="140px; font-size:10px;"><b>Descrizione:</b></td><td><textarea style="width:280px; padding:10px; height:260px;" name="whatD" /></td></tr>
+		<tr><td colspan="2" style="text-align:center;"><br /><input style="cursor: pointer" type="submit" value="- Crea oggetto - " /></td></tr>
 	<input type="hidden" name="userSelector" tal:attributes="value selectedUser" />
 	</form>
 
@@ -85,7 +85,7 @@
 		 <input type="submit" value=" - Elimina oggetto -" />
 	</form> </div>
 	
-	<div id="objTransfer" style="position:absolute; top:70%;left:50%; display:none; z-index:10; background-color:black; margin-left:-210px; height:200px; margin-top:-100px; width:420px; padding:10px; border:2px solid #666;">
+	<div id="objTransfer" style="position:absolute; top:70%;left:50%; display:none; z-index:10; background-color:black; margin-left:-210px; height:200px; margin-top:-180px; width:420px; padding:10px; border:2px solid #666;">
 	 
 
 	<div class="xButton" onclick="jQuery('#objTransfer').fadeOut(100);"></div>

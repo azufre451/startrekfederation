@@ -1248,7 +1248,7 @@ $lastTopicsLOC[] = array('ID' => $reso['topicID'],'seen' => (($reso['seen'] || $
 }
 
 $re = mysql_fetch_array(mysql_query("SELECT uniform,pgSesso FROM pg_uniforms,pg_users WHERE pgID = ".$_SESSION['pgID']." AND pgMostrina = mostrina"));
-$template->uniform = 'TEMPLATES/img/uniformi/'.$re['uniform'].strtolower($re['pgSesso']).'.png';
+$template->uniform = 'TEMPLATES/img/uniformi/'.isset($re['uniform']).strtolower(isset($re['pgSesso'])).'.png';
 
 $rea = mysql_query("SELECT * FROM fed_master_news WHERE PLACE = '".$currentUser->pgLocation."' ORDER BY time DESC LIMIT 10");
 $newsMas = array();

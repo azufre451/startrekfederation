@@ -166,17 +166,15 @@ width:100%;
 z-index:4;
 }
 
-.tdMessage
+.tdMessage, .tdMessageNew
 {
 	text-transform:uppercase;
 	font-family:Helvetica;
-	font-size:14px;
+	font-size:13px;
 }
 
 .tdMessageNew
 {
-	text-transform:uppercase;
-	font-family:Helvetica;
 	font-weight:bold;
 	color: #FFCC00;
 }

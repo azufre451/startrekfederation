@@ -1,5 +1,8 @@
 <?php
-chdir('../');
+
+$HF=getenv("HOME");
+chdir($HF.'/public_html/');
+
 include('includes/app_include.php');
 
 mysql_query( "DELETE FROM pg_users_presence WHERE 1");

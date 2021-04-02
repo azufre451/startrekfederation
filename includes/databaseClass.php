@@ -619,7 +619,7 @@ class PG
 		//mysql_query("UPDATE cdb_topics SET 'topicLastUser' = 6 WHERE topicLastUser = '$pgID';");
 		//mysql_query("UPDATE db_elements SET lvisit = 6 WHERE lvisit = '$pgID';");
 		mysql_query("UPDATE federation_chat SET sender = 6 WHERE sender = '$pgID';");
-		mysql_query("UPDATE federation_sessions SET 'sessionOwner' = 6 WHERE sessionOwner = '$pgID';");
+		mysql_query("UPDATE federation_sessions SET sessionOwner = 6 WHERE sessionOwner = '$pgID';");
 		//mysql_query("UPDATE fed_pad SET paddFrom = 6 WHERE paddFrom = '$pgID';");
 		//mysql_query("UPDATE fed_pad SET paddTo = 6 WHERE paddTo = '$pgID';");
 		//mysql_query("UPDATE fed_sussurri SET susFrom = 6 WHERE susFrom = '$pgID';"); 

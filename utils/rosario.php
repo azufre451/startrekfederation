@@ -1,5 +1,6 @@
 <?php
-chdir('../');
+$HF=getenv("HOME");
+chdir($HF.'/public_html/');
 
 include('includes/app_include.php');
 

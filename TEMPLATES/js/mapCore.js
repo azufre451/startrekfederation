@@ -123,7 +123,7 @@
 		function initializeSearchBar(){
 			jQuery( "#searchKey" ).autocomplete({
 				source: "ajax_UserSearch.php?filter=PID",
-				minLength: 2,
+				minLength: 3,
 				/* MZ: Funzione che esegue il comando per l'elemento selezionato */
 				select: function(event, ui){
 					
@@ -133,8 +133,12 @@
 						schedaPOpen(ui.item.data.PUD,'ssto');
 					else if ( ui.item.mode == 'Master')
 						schedaPOpen(ui.item.data.PUD,'master');
+					else if ( ui.item.mode == 'Admin')
+						schedaPOpen(ui.item.data.PUD,'admin');
 					else if ( ui.item.mode == 'DPadd')
 						paddOpenTo(ui.item.value);
+					else if ( ui.item.mode == 'Luogo')
+						window.location = "chat.php?amb="+ui.item.data.PUD;
 
 					jQuery('#PGsearchPanel').toggle('slide',{direction:'up'},100);
 					jQuery(this).val('');
@@ -145,9 +149,9 @@
 				create: function () {
 		            jQuery(this).data('ui-autocomplete')._renderItem = function (ul, item) {
 		            	addparticle = (item.mode == 'view') ? '' : ' <span class="mode '+item.mode+'">'+item.mode+'</span>';
-		                return jQuery('<li><div><div style="background-image:url('+item.data.IMA+')"></div>'+item.data.value+addparticle+'</div></li>').appendTo(ul);
+						entryIMA = (item.mode == 'Luogo') ? 'TEMPLATES/img/logo/'+item.data.IMA : item.data.IMA;
+		                return jQuery('<li><div><div style="background-image:url('+entryIMA+')"></div>'+item.data.value+addparticle+'</div></li>').appendTo(ul);
 		            };
 		        }
-
-				});
+			});
 		}

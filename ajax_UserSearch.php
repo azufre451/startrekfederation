@@ -13,16 +13,7 @@ if($disc=="PID"){
 
     $pgID=$_SESSION['pgID'];
         
-        $locQuery = mysql_query(
-            "SELECT 
-                pgLocation, 
-                pointerL
-            FROM
-                pg_places, pg_users 
-            WHERE 
-                pgLocation = placeID AND pgID = $pgID
-            ");
-        $pgLocations = mysql_fetch_array($locQuery);
+        $pgLocations = mysql_fetch_assoc(mysql_query("SELECT pgLocation, pointerL FROM pg_places, pg_users WHERE pgLocation = placeID AND pgID = $pgID"));
         
         $res = mysql_query(
             "(SELECT 
@@ -53,17 +44,17 @@ if($disc=="PID"){
 
     while($row = mysql_fetch_array($res)) {
         if($row['entryType'] == 'person') {
-            $aar[] = array('data'=>$row,'mode'=>'view','value'=> $row['value']) ;
-            $aar[] = array('data'=>$row,'mode'=>'DPadd','value'=> $row['value']) ;
+            $aar[] = array('data'=>$row, 'mode'=>'view', 'modeLabel'=> "Scheda PG" , 'value'=> $row['value']) ;
+            $aar[] = array('data'=>$row, 'mode'=>'dpadd', 'modeLabel'=> "DPadd" , 'value'=> $row['value']) ;
             if (PG::verifyOMA($_SESSION['pgID'],'M')){
-                $aar[] = array('data'=>$row,'mode'=>'Master','value'=> $row['value']);
-                $aar[] = array('data'=>$row,'mode'=>'Stato-Servizio','value'=> $row['value']);
+                $aar[] = array('data'=>$row,'mode'=>'master', 'modeLabel'=> "Scheda Master" , 'value'=> $row['value']);
+                $aar[] = array('data'=>$row,'mode'=>'ssto', 'modeLabel'=> "Stato Servizio" , 'value'=> $row['value']);
                 if (PG::verifyOMA($_SESSION['pgID'], 'A')){
-                    $aar[] = array('data'=>$row,'mode'=>'Admin','value'=> $row['value']);
+                    $aar[] = array('data'=>$row,'mode'=>'admin', 'modeLabel'=> "Scheda Admin" , 'value'=> $row['value']);
                 }
             }
         }
-        else { $aar[] = array('data'=>$row,'mode'=>'Luogo','value'=> $row['value']); }
+        else { $aar[] = array('data'=>$row,'mode'=>'place', 'modeLabel'=> "Chat", 'value'=> $row['value']); }
 }
 }
 else {

@@ -126,18 +126,18 @@
 				minLength: 3,
 				/* MZ: Funzione che esegue il comando per l'elemento selezionato */
 				select: function(event, ui){
-					
+			
 					if( ui.item.mode == 'view')
 						schedaPOpen(ui.item.data.PUD);
-					else if ( ui.item.mode == 'Stato-Servizio')
+					else if ( ui.item.mode == 'sserv')
 						schedaPOpen(ui.item.data.PUD,'ssto');
-					else if ( ui.item.mode == 'Master')
+					else if ( ui.item.mode == 'master')
 						schedaPOpen(ui.item.data.PUD,'master');
-					else if ( ui.item.mode == 'Admin')
+					else if ( ui.item.mode == 'admin')
 						schedaPOpen(ui.item.data.PUD,'admin');
-					else if ( ui.item.mode == 'DPadd')
+					else if ( ui.item.mode == 'dpadd')
 						paddOpenTo(ui.item.value);
-					else if ( ui.item.mode == 'Luogo')
+					else if ( ui.item.mode == 'place')
 						window.location = "chat.php?amb="+ui.item.data.PUD;
 
 					jQuery('#PGsearchPanel').toggle('slide',{direction:'up'},100);
@@ -148,8 +148,8 @@
 				/* MZ: Funzione che crea ogni entry dell'autocomplete */
 				create: function () {
 		            jQuery(this).data('ui-autocomplete')._renderItem = function (ul, item) {
-		            	addparticle = (item.mode == 'view') ? '' : ' <span class="mode '+item.mode+'">'+item.mode+'</span>';
-						entryIMA = (item.mode == 'Luogo') ? 'TEMPLATES/img/logo/'+item.data.IMA : item.data.IMA;
+		            	addparticle = (item.mode == 'view') ? '' : ' <span class="mode '+item.mode+'">'+item.modeLabel+'</span>';
+						entryIMA = (item.mode == 'place') ? 'TEMPLATES/img/logo/'+item.data.IMA : item.data.IMA;
 		                return jQuery('<li><div><div style="background-image:url('+entryIMA+')"></div>'+item.data.value+addparticle+'</div></li>').appendTo(ul);
 		            };
 		        }

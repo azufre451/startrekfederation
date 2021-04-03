@@ -1549,3 +1549,20 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
 	float: left;
 	margin-top: 20px;
 }
+
+
+#PGsearchPanel #searchKey
+{
+	font-size:28px;
+	border:0;
+	width:100%;
+}
+
+#PGsearchPanel
+{
+	height: 40px;
+	top: 50px;
+	padding-left:20px;
+	left: 95px;
+	right:75px;
+}

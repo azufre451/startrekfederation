@@ -92,27 +92,22 @@ var windowSizes =
 				}
 		};
 
+
 	function swish(e)
 	{
+
 		var keynum;
 		var keychar;
 		var numcheck;
 
-		if(window.event) // IE8 e precedenti (farabrutti!)
-		{
-			keynum = e.keyCode;
-		}
-		else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
-		{
-			keynum = e.which;
-		}
-		
+		keynum = e.key;
 		switch(keynum)
 		{  
-			case 49: jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv1").fadeIn('fast'); break;
-			case 50: jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv2").fadeIn('fast'); break;
-			case 51: jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv3").fadeIn('fast'); break;
-			case 27: jQuery(".popup, .escape_popup, .draggableSTFModal").fadeOut('fast'); break;
+			case '1': jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv1").fadeIn('fast'); break;
+			case '2': jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv2").fadeIn('fast'); break;
+			case '3': jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv3").fadeIn('fast'); break;
+			case 'Escape': jQuery(".popup, .escape_popup, .draggableSTFModal").fadeOut('fast'); break;
+			case '+': jQuery('#searchKey').val(''); jQuery('#PGsearchPanel').toggle('slide',{direction:'up'},100); jQuery('#searchKey').focus();  break;
 		}
 	}
 	
@@ -477,10 +472,12 @@ var windowSizes =
 		window.open ('scheda.php?s=ssto','scheda', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
 
-	function schedaPOpen(ida){
+	function schedaPOpen(ida,eba=''){
 		pars=getSizeOf('scheda');
+		ebaE = (eba != '') ? '&s='+eba.match(/[a-zA-Z]+/g) : '';
+
 		if(typeof(ida) == 'number' || typeof(parseInt(ida)))
-			window.open ('scheda.php?pgID='+ida,'schedaP', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+			window.open ('scheda.php?pgID='+ida+ebaE,'schedaP', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
 
 	function masterShadow(){

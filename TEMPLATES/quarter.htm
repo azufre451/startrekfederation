@@ -10,7 +10,8 @@
 	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" /> 
 	
 	<link id="alerter" tal:attributes="href string:TEMPLATES/css/${alertCSS}.css" rel="stylesheet" type="text/css" />
-	 
+ 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
+
 	
 	<script type="text/javascript" src="TEMPLATES/js/jquery-3.6.0.min.js" />
 	
@@ -47,7 +48,7 @@
 	
 	<title>STAR TREK FEDERATION</title>
 </head>
-<body style="background-color:black; background-image:url('TEMPLATES/img/main_login.jpg')"  onkeyup="swish(event)">
+<body style="background-color:black; background-image:url('TEMPLATES/img/main_login.jpg')">
 
 <div id="federation_interfaceContainer">
 	<div id="federation_interfaceColumnLeft">
@@ -140,5 +141,6 @@
 <div metal:use-macro="TEMPLATES/guidar.htm/guidePanel" />
 <div metal:use-macro="TEMPLATES/audioSegments.htm/audioNotifier" />
 <div metal:use-macro="TEMPLATES/audioSegments.htm/whisperPaddAlert" />
+<div metal:use-macro="TEMPLATES/metal_panels.htm/PGsearchPanel" />
 </body>
 </html>

@@ -18,9 +18,12 @@
 				jQuery(this).parent().fadeOut(100);
 			});
 			
+			initializeSearchBar();
+			jQuery(window).keyup(swish);
+			
 		});
 
-		jQuery(window).keyup(swish);
+		
 		
 		// nota Moreno. Funzione SETTER dei parametri di configurazione della ghiera esterna.
 		
@@ -115,5 +118,36 @@
 			{
 				jQuery('#alerter').prop('href','TEMPLATES/css/'+data['AL']+'.css');
 			}
-		//else alert(('TEMPLATES/css/'+data['AL']+'.css')+' IS EQUAL TO '+jQuery('#alerter').prop('href'));
+		}
+
+		function initializeSearchBar(){
+			jQuery( "#searchKey" ).autocomplete({
+				source: "ajax_UserSearch.php?filter=PID",
+				minLength: 2,
+				/* MZ: Funzione che esegue il comando per l'elemento selezionato */
+				select: function(event, ui){
+					
+					if( ui.item.mode == 'view')
+						schedaPOpen(ui.item.data.PUD);
+					else if ( ui.item.mode == 'Stato-Servizio')
+						schedaPOpen(ui.item.data.PUD,'ssto');
+					else if ( ui.item.mode == 'Master')
+						schedaPOpen(ui.item.data.PUD,'master');
+					else if ( ui.item.mode == 'DPadd')
+						paddOpenTo(ui.item.value);
+
+					jQuery('#PGsearchPanel').toggle('slide',{direction:'up'},100);
+					jQuery(this).val('');
+					return false;
+				},
+
+				/* MZ: Funzione che crea ogni entry dell'autocomplete */
+				create: function () {
+		            jQuery(this).data('ui-autocomplete')._renderItem = function (ul, item) {
+		            	addparticle = (item.mode == 'view') ? '' : ' <span class="mode '+item.mode+'">'+item.mode+'</span>';
+		                return jQuery('<li><div><div style="background-image:url('+item.data.IMA+')"></div>'+item.data.value+addparticle+'</div></li>').appendTo(ul);
+		            };
+		        }
+
+				});
 		}

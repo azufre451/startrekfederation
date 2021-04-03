@@ -7,10 +7,18 @@ $disc=(isSet($_GET['filter'])) ? $_GET['filter'] : '';
 $term = addslashes(@$_GET['term']);
 $aar = array();
 
+
+
 if($disc=="PID"){
-    $res = mysql_query("SELECT pgUser AS value, pgID AS PUD FROM pg_users WHERE pgUser LIKE '$term%' LIMIT 20");
+    $res = mysql_query("SELECT pgUser AS value, pgID AS PUD, pgAvatarSquare as IMA FROM pg_users WHERE pgUser LIKE '$term%' LIMIT 20");
     while($row = mysql_fetch_array($res)) {
-        $aar[] = $row;
+        $aar[] = array('data'=>$row,'mode'=>'view','value'=> $row['value']) ;
+        $aar[] = array('data'=>$row,'mode'=>'DPadd','value'=> $row['value']) ;
+
+        if (PG::verifyOMA($_SESSION['pgID'],'M')){
+            $aar[] = array('data'=>$row,'mode'=>'Master','value'=> $row['value']);
+            $aar[] = array('data'=>$row,'mode'=>'Stato-Servizio','value'=> $row['value']);
+        }
     }
 }
 else {

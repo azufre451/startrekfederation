@@ -439,18 +439,16 @@
 		
 			jQuery.ajax(
 			{
-			url: 'ajax_manipulateAbilities.php?action=rollRecompute',
-			data:{abID: jQuery(fo).parent().parent().find('.abiDice').val(),valor:jQuery(fo).parent().parent().find('.valDice').html(), mod:jQuery(fo).val(),'pgID': jQuery(fo).parent().parent().find('.pgID').val() },
-			type: 'POST', 
-			dataType : 'json',
-			timeout:4500,
-			success: function(e){
+				url: 'ajax_manipulateAbilities.php?action=rollRecompute',
+				data:{abID: jQuery(fo).parent().parent().find('.abiDice').val(),valor:jQuery(fo).parent().parent().find('.valDice').html(), mod:jQuery(fo).val(),'pgID': jQuery(fo).parent().parent().find('.pgID').val() },
+				type: 'POST', 
+				dataType : 'json',
+				timeout:4500,
+				success: function(e){
 
-				jQuery(fo).parent().parent().find('.abiOutcome').html(e["outcome"]);
-			}
-
+					jQuery(fo).parent().parent().find('.abiOutcome').html(e["outcome"]);
+				}
 			}); 		
-
 		}  
 
 		function distributeDice(){
@@ -509,19 +507,17 @@
 </div> 
 
 
-<div metal:define-macro="PGsearchPanel" id="PGsearchPanel" class="popup draggableSTFModal" style="height: 50px; width: 200px; margin-top: -100px; margin-left: -100px;">
-	<div class="xButton" />
-	<input type="text" required="required" placeholder="Ricerca" name="searchKey" id="searchKey" class="neon" style="width:70%"/>
-	<script>
-	$( "#searchKey" ).autocomplete({
-		source: "ajax_UserSearch.php?filter=PID",
-		minLength: 2,
-		select: function(event, ui){
-			schedaPOpen(ui.item.PUD);
-			jQuery('#PGsearchPanel').fadeOut(100);
-			jQuery(this).val('');
-			return false;
-		}
-		});
-	</script>
+<div metal:define-macro="PGsearchPanel" id="PGsearchPanel" class="popup draggableSTFModal">
+	<style>
+		.ui-autocomplete{font-size:20px; max-height: 600px; overflow-y: auto; overflow-x: hidden; }
+		.ui-autocomplete li div {clear:both;}
+		.ui-autocomplete li div div{width:30px; height:30px; background-size:cover; background-position:center; float:left; margin-right:5px; border-radius:5px;}
+		.ui-autocomplete .mode{color:#999; text-transform: uppercase; font-size:13px;}
+		.ui-autocomplete .mode:before{content:'[ ';}
+		.ui-autocomplete .mode:after{content:' ]';}
+		.ui-autocomplete .mode.Master{color:red;}
+		.ui-autocomplete .mode.Stato-Servizio{color:#FFCC00;}
+		.ui-autocomplete .mode.DPadd{color:#0077c3;}
+	</style>
+	<input type="text" required="required" placeholder="Ricerca" name="searchKey" id="searchKey" class="neon"/>
 </div>

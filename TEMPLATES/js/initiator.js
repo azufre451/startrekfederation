@@ -107,7 +107,15 @@ var windowSizes =
 			case '2': jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv2").fadeIn('fast'); break;
 			case '3': jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv3").fadeIn('fast'); break;
 			case 'Escape': jQuery(".popup, .escape_popup, .draggableSTFModal").fadeOut('fast'); break;
-			case '+': jQuery('#searchKey').val(''); jQuery('#PGsearchPanel').toggle('slide',{direction:'up'},100); jQuery('#searchKey').focus();  break;
+			case 'Enter': openSearchBar(); break;
+		}
+	}
+
+	function openSearchBar(){
+		if (jQuery('#PGsearchPanel').length){
+			jQuery('#searchKey').val('');
+			jQuery('#PGsearchPanel').toggle('slide',{direction:'up'},100);
+			jQuery('#searchKey').focus();
 		}
 	}
 	
@@ -233,6 +241,11 @@ var windowSizes =
 	function statusOpen(){
 		pars=getSizeOf('padd');
 		window.open ('padd.php?s=sh','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width='+pars['w']+',height='+pars['h']);
+	}
+
+	function openLike(ida,oba){
+		pars=getSizeOf(ida);
+		return window.open ('about:blank',oba, config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=100,width='+pars['w']+',height='+pars['h']);
 	}
 
 	function statusBoxOpen(){
@@ -485,9 +498,10 @@ var windowSizes =
 		window.open ('multitool.php','shadow', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
 
-	function chartOpen(){
+	function chartOpen(toIda=''){
 		pars=getSizeOf('chart');
-		window.open ('chart.php','chart', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+		ida = (toIda != '') ? '?coords='+toIda.match(/[a-zA-Z0-9;:]+/g) : '';
+		window.open ('chart.php'+ida,'chart', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
 
 	function whisperOpen(){

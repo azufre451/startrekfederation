@@ -8,7 +8,8 @@
 
 	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" /> 
 	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" /> 
-	
+	<link href="TEMPLATES/css/map.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+
 	<link id="alerter" tal:attributes="href string:TEMPLATES/css/${alertCSS}.css" rel="stylesheet" type="text/css" />
  	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 
@@ -27,24 +28,6 @@
 			jQuery('#deck_'+ider).addClass('visi');
 		}
 	</script>
-	<style>
-
-	span.deck{
-		font-size:12px; 
-		border:1px solid var(--custom_section_darkcolor, #d7a436);
-		padding:2px; padding-left:3px;
-		font-family:Helvetica;
-		padding-right:3px;
-		margin-left:10px;
-		display:inline-block;
-		padding:2px 5px;
-		font-weight:bold;
-		color:var(--custom_section_color, #d7a436);
-	}
-	span.deck:hover{
-		color:white;
-	}
-</style>
 	
 	<title>STAR TREK FEDERATION</title>
 </head>

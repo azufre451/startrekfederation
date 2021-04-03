@@ -1,0 +1,75 @@
+.ui-autocomplete{
+	font-size:20px;
+	max-height: 600px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+.ui-autocomplete div.mode {
+	clear:both;
+	padding-left:50px;
+	height:30px;
+}
+
+.ui-autocomplete div.mode.view, .ui-autocomplete div.mode.place, .ui-autocomplete div.mode.charts, .ui-autocomplete div.mode.dbElement{
+	padding:5px;
+}
+.ui-autocomplete div.mode div.image{width:30px; height:30px; background-size:cover; background-position:center; float:left; margin-right:5px; border-radius:5px;}
+.ui-autocomplete div.mode span{color:#999; text-transform: uppercase; font-size:12px;}
+
+.ui-autocomplete div.mode span:before{content:' [ ';}
+.ui-autocomplete div.mode span:after{content:' ]';}
+.ui-autocomplete div.mode.master span{color:red;}
+.ui-autocomplete div.mode.ssto span{color:#FFCC00;}
+.ui-autocomplete div.mode.dpadd span{color:#0077c3;}
+.ui-autocomplete div.mode.admin span{color:#b159d2;}
+.ui-autocomplete div.mode.place span{color:white}
+.ui-autocomplete div.mode.pgAuthor span{color:#f98c07}
+.ui-autocomplete div.mode.charts span{color:#25b2b6}
+.ui-autocomplete div.mode.dbElement span{color:#369e1e;}
+.ui-autocomplete div.mode.dbElement div.image {background-position: left center;}
+
+.ui-autocomplete div div.icon{
+	margin-right:5px;
+	width:30px;
+	height:30px;
+	background-repeat: no-repeat;
+	background-position:center;
+	float:left;
+	margin-right:5px;
+}
+
+.ui-autocomplete div.mode.view div.icon{display:none;}
+.ui-autocomplete div.mode.master div.icon{background-image: url('../img/interface/personnelInterface/imaster.png');}
+.ui-autocomplete div.mode.ssto div.icon{background-image: url('../img/interface/personnelInterface/brevetti.png');}
+.ui-autocomplete div.mode.dpadd div.icon{background-image: url('../img/interface/personnelInterface/messaggio.png');}
+.ui-autocomplete div.mode.admin div.icon{background-image: url('../img/interface/personnelInterface/admin.png');}
+.ui-autocomplete div.mode.place div.icon{background-image: url('../img/interface/paddInterface/nave.png');}
+.ui-autocomplete div.mode.pgAuthor div.icon{background-image: url('../img/interface/paddInterface/padd.png');}
+.ui-autocomplete div.mode.charts div.icon{background-image: url('../img/interface/personnelInterface/planetIcon.png');}
+.ui-autocomplete div.mode.dbElement div.icon{background-image: url('../img/interface/personnelInterface/principale.png');}			
+
+span.deck{
+	font-size:12px; 
+	border:1px solid var(--custom_section_darkcolor, #d7a436);
+	padding:2px; padding-left:3px;
+	font-family:Helvetica;
+	padding-right:3px;
+	margin-left:10px;
+	display:inline-block;
+	padding:2px 5px;
+	font-weight:bold;
+	color:var(--custom_section_color, #d7a436);
+}
+
+span.deck:hover{
+	color:white;
+}
+
+.alloLink{font-size:13px;}
+
+p.alloLink:hover span.deck{
+	color:white;
+}
+
+.hourCol{font-family:federationFont, Impact; vertical-align:middle; font-size:18px; color:#0077c3; width:40px;}
+.expiring{color:#FC0;}

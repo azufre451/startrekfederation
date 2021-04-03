@@ -15,16 +15,24 @@ $vali = new validator();
 
 	$template = new PHPTAL('TEMPLATES/chart2_sector.htm');
 	$subChart = (isSet( $_GET['ct'])) ? ((  $_GET['ct'] == 'A' ) ?  $_GET['ct'] : 'D') : 'D';
-
 	$pgID = $_SESSION['pgID'];
-	$ra = mysql_fetch_array(mysql_query("SELECT placeName,pointerL,placeType, place_littleLogo1, placeClass FROM pg_places WHERE placeID = (SELECT pgLocation FROM pg_users WHERE pgID = $pgID)"));
-	
-	if($ra['pointerL'] != '')
+
+	if (isSet($_GET['coords']) && (str_contains($_GET['coords'],':')) &&  (str_contains($_GET['coords'],';')))
 	{
-		$coords = explode(':',$ra['pointerL']);
-		$ipo = explode(';',$coords[1]);
-	}	
-	else $ipo =  explode(';',"-1;-1");
+		$coords = explode(':',addslashes($_GET['coords']));
+		// take 0th element of coords (just need first char ;))
+		$subChart = $coords[0][0];
+	}
+	else{
+		$ra = mysql_fetch_array(mysql_query("SELECT placeName,pointerL,placeType, place_littleLogo1, placeClass FROM pg_places WHERE placeID = (SELECT pgLocation FROM pg_users WHERE pgID = $pgID)"));
+	
+		if($ra['pointerL'] != '')
+			$coords = explode(':',$ra['pointerL']);
+
+		$subChart = (isSet( $_GET['ct'])) ? ((  $_GET['ct'] == 'A' ) ?  $_GET['ct'] : 'D') : 'D';
+	}
+
+	$ipo = (isSet($coords)) ? explode(';',$coords[1]) : explode(';',"-1;-1");
 	 
 	$template->yPos = $ipo;
 	

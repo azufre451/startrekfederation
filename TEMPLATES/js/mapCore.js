@@ -139,6 +139,15 @@
 						paddOpenTo(ui.item.value);
 					else if ( ui.item.mode == 'place')
 						window.location = "chat.php?amb="+ui.item.data.PUD;
+					else if ( ui.item.mode == 'pgAuthor')
+						jQuery.post('cdb.php',{searchKey:ui.item.value,searchPattern:'AUT'}, function (data) {
+    						var w = openLike('cdb','cdb');
+    						w.document.write(data);
+						});
+					else if ( ui.item.mode == 'charts')
+						chartOpen(ui.item.data.PUD);
+					else if ( ui.item.mode == 'dbElement')
+						dbOpenToTopic(ui.item.data.PUD);
 
 					jQuery('#PGsearchPanel').toggle('slide',{direction:'up'},100);
 					jQuery(this).val('');
@@ -148,9 +157,7 @@
 				/* MZ: Funzione che crea ogni entry dell'autocomplete */
 				create: function () {
 		            jQuery(this).data('ui-autocomplete')._renderItem = function (ul, item) {
-		            	addparticle = (item.mode == 'view') ? '' : ' <span class="mode '+item.mode+'">'+item.modeLabel+'</span>';
-						entryIMA = (item.mode == 'place') ? 'TEMPLATES/img/logo/'+item.data.IMA : item.data.IMA;
-		                return jQuery('<li><div><div style="background-image:url('+entryIMA+')"></div>'+item.data.value+addparticle+'</div></li>').appendTo(ul);
+		                return jQuery('<li><div class="mode '+item.mode+'"><div class="image" style="background-image:url('+item.data.IMA+')"></div> <div class="icon"></div>'+ item.data.value + '<span>'+item.modeLabel+'</span></div></li>').appendTo(ul);
 		            };
 		        }
 			});

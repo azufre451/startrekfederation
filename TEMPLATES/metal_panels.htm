@@ -506,23 +506,8 @@
 
 </div> 
 
-
 <div metal:define-macro="PGsearchPanel" id="PGsearchPanel" class="popup draggableSTFModal">
-	<style>
-		.ui-autocomplete{font-size:20px; max-height: 600px; overflow-y: auto; overflow-x: hidden; }
-		.ui-autocomplete li div {clear:both;}
-		.ui-autocomplete li div div{width:30px; height:30px; background-size:cover; background-position:center; float:left; margin-right:5px; border-radius:5px;}
-		.ui-autocomplete .mode{color:#999; text-transform: uppercase; font-size:13px;}
-		.ui-autocomplete .mode:before{content:'[ ';}
-		.ui-autocomplete .mode:after{content:' ]';}
-		.ui-autocomplete .mode.master{color:red;}
-		.ui-autocomplete .mode.ssto{color:#FFCC00;}
-		.ui-autocomplete .mode.dpadd{color:#0077c3;}
-		.ui-autocomplete .mode.admin{color:#f98c07;}
-		.ui-autocomplete .mode.place{color:purple}
-
-	</style>
-	<input type="text" required="required" placeholder="Ricerca" name="searchKey" id="searchKey" class="neon"/>
+	<input type="text" placeholder="Ricerca Schede, Dispense, Pianeti, Luoghi...  " name="searchKey" id="searchKey" class="neon"/>
 </div>
 
 

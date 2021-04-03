@@ -509,3 +509,19 @@
 </div> 
 
 
+<div metal:define-macro="PGsearchPanel" id="PGsearchPanel" class="popup draggableSTFModal" style="height: 50px; width: 200px; margin-top: -100px; margin-left: -100px;">
+	<div class="xButton" />
+	<input type="text" required="required" placeholder="Ricerca" name="searchKey" id="searchKey" class="neon" style="width:70%"/>
+	<script>
+	$( "#searchKey" ).autocomplete({
+		source: "ajax_UserSearch.php?filter=PID",
+		minLength: 2,
+		select: function(event, ui){
+			schedaPOpen(ui.item.PUD);
+			jQuery('#PGsearchPanel').fadeOut(100);
+			jQuery(this).val('');
+			return false;
+		}
+		});
+	</script>
+</div>

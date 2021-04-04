@@ -31,20 +31,20 @@ if($disc=="PID"){
 
         
     $res = mysql_query(
-            "( SELECT pgUser AS value, pgID AS PUD, pgAvatarSquare AS IMA, 'person' AS entryType
+            "( SELECT pgUser AS value, pgID AS PUD, pgAvatarSquare AS IMA, 'person' AS entryType, '' as aux1
                FROM pg_users 
                WHERE pgUser LIKE '$term%' $filtePG
              ) UNION ALL
-             ( SELECT placeName AS value, pointerL AS PUD, CONCAT('TEMPLATES/img/logo/',place_littleLogo1) AS IMA, 'planet' AS entryType
+             ( SELECT placeName AS value, pointerL AS PUD, CONCAT('TEMPLATES/img/logo/',place_littleLogo1) AS IMA, 'planet' AS entryType, '' as aux1
                FROM pg_places 
                WHERE pointerL <> '' AND attracco = ''
                AND placeName LIKE '%$term%'
             ) UNION ALL 
-            ( SELECT IF(type = 'NORMAL', CONCAT(tag,' - ',title),title) AS value, ID AS PUD, CONCAT('TEMPLATES/img/tips/',catImage) AS IMA, 'dbElement' AS entryType
+            ( SELECT IF(type = 'NORMAL', CONCAT(tag,' - ',title),title) AS value, ID AS PUD, CONCAT('TEMPLATES/img/tips/',catImage) AS IMA, 'dbElement' AS entryType, '' as aux1
                FROM db_elements, db_cats
                WHERE db_elements.catID = db_cats.catID AND (title LIKE '%$term%' OR tag LIKE '%$term%')
             ) UNION ALL 
-            ( SELECT locName AS value, locID AS PUD, IF(icon NOT LIKE '%i_generic.png' AND icon <> '',icon,CONCAT('TEMPLATES/img/logo/',placeLogo)) AS IMA, 'place' AS entryType
+            ( SELECT locName AS value, locID AS PUD, IF(icon NOT LIKE '%i_generic.png' AND icon <> '',icon,CONCAT('TEMPLATES/img/logo/',placeLogo)) AS IMA, 'place' AS entryType, placeName as aux1
                 FROM pg_places, fed_ambient 
                 WHERE 
                     ambientLocation = placeID 
@@ -54,7 +54,7 @@ if($disc=="PID"){
                         OR attracco = '{$pgLocations['pgLocation']}'
                         OR (pointerL = '{$pgLocations['pointerL']}' AND pointerL <> ''))
             )  
-            LIMIT 10");
+            LIMIT 15");
 
     while($row = mysql_fetch_array($res)) {
         if($row['entryType'] == 'person') {

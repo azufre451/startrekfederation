@@ -18,14 +18,19 @@
 
 .ui-autocomplete div.mode span:before{content:' [ ';}
 .ui-autocomplete div.mode span:after{content:' ]';}
-.ui-autocomplete div.mode.master span{color:red;}
-.ui-autocomplete div.mode.ssto span{color:#FFCC00;}
-.ui-autocomplete div.mode.dpadd span{color:#0077c3;}
-.ui-autocomplete div.mode.admin span{color:#b159d2;}
-.ui-autocomplete div.mode.place span{color:white}
-.ui-autocomplete div.mode.pgAuthor span{color:#f98c07}
-.ui-autocomplete div.mode.charts span{color:#25b2b6}
-.ui-autocomplete div.mode.dbElement span{color:#369e1e;}
+
+
+.ui-autocomplete div.mode.master span:first-of-type{color:red;}
+.ui-autocomplete div.mode.ssto span:first-of-type{color:#FFCC00;}
+.ui-autocomplete div.mode.dpadd span:first-of-type{color:#0077c3;}
+.ui-autocomplete div.mode.admin span:first-of-type{color:#b159d2;}
+
+.ui-autocomplete div.mode.place span:first-of-type{color:#AAA}
+.ui-autocomplete div.mode.place span:last-of-type{color:#0077c3}
+
+.ui-autocomplete div.mode.pgAuthor span:first-of-type{color:#f98c07}
+.ui-autocomplete div.mode.charts span:first-of-type{color:#25b2b6}
+.ui-autocomplete div.mode.dbElement span:first-of-type{color:#369e1e;}
 .ui-autocomplete div.mode.dbElement div.image {background-position: left center;}
 
 .ui-autocomplete div div.icon{

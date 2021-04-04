@@ -92,27 +92,30 @@ var windowSizes =
 				}
 		};
 
+
 	function swish(e)
 	{
+
 		var keynum;
 		var keychar;
 		var numcheck;
 
-		if(window.event) // IE8 e precedenti (farabrutti!)
-		{
-			keynum = e.keyCode;
-		}
-		else if(e.which) // IE9/Firefox/Chrome/Opera/Safari
-		{
-			keynum = e.which;
-		}
-		
+		keynum = e.key;
 		switch(keynum)
 		{  
-			case 49: jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv1").fadeIn('fast'); break;
-			case 50: jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv2").fadeIn('fast'); break;
-			case 51: jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv3").fadeIn('fast'); break;
-			case 27: jQuery(".popup, .escape_popup, .draggableSTFModal").fadeOut('fast'); break;
+			case '1': jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv1").fadeIn('fast'); break;
+			case '2': jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv2").fadeIn('fast'); break;
+			case '3': jQuery("div[id^='mapDiv']").fadeOut('fast'); jQuery("#mapDiv3").fadeIn('fast'); break;
+			case 'Escape': jQuery(".popup, .escape_popup, .draggableSTFModal").fadeOut('fast'); break;
+			case 'Enter': openSearchBar(); break;
+		}
+	}
+
+	function openSearchBar(){
+		if (jQuery('#PGsearchPanel').length){
+			jQuery('#searchKey').val('');
+			jQuery('#PGsearchPanel').toggle('slide',{direction:'up'},100);
+			jQuery('#searchKey').focus();
 		}
 	}
 	
@@ -238,6 +241,11 @@ var windowSizes =
 	function statusOpen(){
 		pars=getSizeOf('padd');
 		window.open ('padd.php?s=sh','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width='+pars['w']+',height='+pars['h']);
+	}
+
+	function openLike(ida,oba){
+		pars=getSizeOf(ida);
+		return window.open ('about:blank',oba, config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=100,width='+pars['w']+',height='+pars['h']);
 	}
 
 	function statusBoxOpen(){
@@ -477,10 +485,12 @@ var windowSizes =
 		window.open ('scheda.php?s=ssto','scheda', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
 
-	function schedaPOpen(ida){
+	function schedaPOpen(ida,eba=''){
 		pars=getSizeOf('scheda');
+		ebaE = (eba != '') ? '&s='+eba.match(/[a-zA-Z]+/g) : '';
+
 		if(typeof(ida) == 'number' || typeof(parseInt(ida)))
-			window.open ('scheda.php?pgID='+ida,'schedaP', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+			window.open ('scheda.php?pgID='+ida+ebaE,'schedaP', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
 
 	function masterShadow(){
@@ -488,9 +498,10 @@ var windowSizes =
 		window.open ('multitool.php','shadow', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
 
-	function chartOpen(){
+	function chartOpen(toIda=''){
 		pars=getSizeOf('chart');
-		window.open ('chart.php','chart', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
+		ida = (toIda != '') ? '?coords='+toIda.match(/[a-zA-Z0-9;:]+/g) : '';
+		window.open ('chart.php'+ida,'chart', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width='+pars['w']+',height='+pars['h']);
 	}
 
 	function whisperOpen(){

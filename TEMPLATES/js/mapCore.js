@@ -18,9 +18,12 @@
 				jQuery(this).parent().fadeOut(100);
 			});
 			
+			initializeSearchBar();
+			jQuery(window).keyup(swish);
+			
 		});
 
-		jQuery(window).keyup(swish);
+		
 		
 		// nota Moreno. Funzione SETTER dei parametri di configurazione della ghiera esterna.
 		
@@ -115,5 +118,47 @@
 			{
 				jQuery('#alerter').prop('href','TEMPLATES/css/'+data['AL']+'.css');
 			}
-		//else alert(('TEMPLATES/css/'+data['AL']+'.css')+' IS EQUAL TO '+jQuery('#alerter').prop('href'));
+		}
+
+		function initializeSearchBar(){
+			jQuery( "#searchKey" ).autocomplete({
+				source: "ajax_UserSearch.php?filter=PID",
+				minLength: 3,
+				/* MZ: Funzione che esegue il comando per l'elemento selezionato */
+				select: function(event, ui){
+			
+					if( ui.item.mode == 'view')
+						schedaPOpen(ui.item.data.PUD);
+					else if ( ui.item.mode == 'sserv')
+						schedaPOpen(ui.item.data.PUD,'ssto');
+					else if ( ui.item.mode == 'master')
+						schedaPOpen(ui.item.data.PUD,'master');
+					else if ( ui.item.mode == 'admin')
+						schedaPOpen(ui.item.data.PUD,'admin');
+					else if ( ui.item.mode == 'dpadd')
+						paddOpenTo(ui.item.value);
+					else if ( ui.item.mode == 'place')
+						window.location = "chat.php?amb="+ui.item.data.PUD;
+					else if ( ui.item.mode == 'pgAuthor')
+						jQuery.post('cdb.php',{searchKey:ui.item.value,searchPattern:'AUT'}, function (data) {
+    						var w = openLike('cdb','cdb');
+    						w.document.write(data);
+						});
+					else if ( ui.item.mode == 'charts')
+						chartOpen(ui.item.data.PUD);
+					else if ( ui.item.mode == 'dbElement')
+						dbOpenToTopic(ui.item.data.PUD);
+
+					jQuery('#PGsearchPanel').toggle('slide',{direction:'up'},100);
+					jQuery(this).val('');
+					return false;
+				},
+
+				/* MZ: Funzione che crea ogni entry dell'autocomplete */
+				create: function () {
+		            jQuery(this).data('ui-autocomplete')._renderItem = function (ul, item) {
+		                return jQuery('<li><div class="mode '+item.mode+'"><div class="image" style="background-image:url('+item.data.IMA+')"></div> <div class="icon"></div>'+ item.data.value + '<span>'+item.modeLabel+'</span></div></li>').appendTo(ul);
+		            };
+		        }
+			});
 		}

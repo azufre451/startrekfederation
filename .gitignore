@@ -9,3 +9,4 @@ includes/PHPTAL
 .ftpquota
 TEMPLATES/carousel/images/
 Thumbs.db
+.vscode/

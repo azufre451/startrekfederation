@@ -8,6 +8,7 @@
 	<link tal:condition="php:user.getCTS()" tal:attributes="href php:'TEMPLATES/css/' . user.getCTS() . '?v=' . gameOptions['numericVersion'] " rel="stylesheet" type="text/css" />	
 	<link href="TEMPLATES/css/styles.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/map.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	
 	<link id="alerter" tal:attributes="href string:TEMPLATES/css/${alertCSS}.css" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
@@ -21,15 +22,8 @@
 	<script type="text/javascript" src="TEMPLATES/js/easyNotify.js" async="async"></script>
  
 	<script tal:condition="exists:noauth">alert("Attenzione: in questa chat si sta svolgendo una giocata privata ad invito e l'accesso è riservato!");</script>
- 
+
 	<title>STAR TREK: FEDERATION</title>
-	
-	<style>
-		.hourCol{font-family:federationFont, Impact; vertical-align:middle; font-size:18px; color:#0077c3; width:40px;}
-		.expiring{color:#FC0;}
-	</style>
-
-
 </head>
 
 <body style="background-color:black; background-image:url('TEMPLATES/img/main_login.jpg')">
@@ -231,5 +225,6 @@
 <div metal:use-macro="TEMPLATES/metal_special.htm/melial_pointBox" tal:condition="exists:melialPoints" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/remindStaffPresence" tal:condition="exists:presenceForce" />
 
+<div metal:use-macro="TEMPLATES/metal_panels.htm/PGsearchPanel" />
 </body>
 </html>

@@ -84,7 +84,7 @@ elseif ($mode == 'comm')
 	elseif($_GET['stm'] == 'pla'){
 
 		
-		$resAmbient = mysql_query("SELECT locID,placeType, IF(attracco = '',placeID,attracco) as placeID, placeName as ship_name,attracco,locName,image,icon FROM pg_places,fed_ambient WHERE ambientLocation = placeID AND ambientType <> 'DEFAULT' AND (placeID = '$locat' OR attracco = '$locat' OR (pointerL = '$pointerL' AND pointerL <> '')) ORDER BY attracco,locName");
+		$resAmbient = mysql_query("SELECT locID,placeType, IF(attracco = '',placeID,attracco) as placeID, placeName as ship_name,attracco,locName,image,icon FROM pg_places,fed_ambient WHERE ambientLocation = placeID AND ambientType NOT IN ('DEFAULT','SECRET') AND (placeID = '$locat' OR attracco = '$locat' OR (pointerL = '$pointerL' AND pointerL <> '')) ORDER BY attracco,locName");
 
 
 

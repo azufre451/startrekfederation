@@ -1,46 +1,50 @@
-﻿<p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:22px;"> Guida & Aiuto</p> <hr/>
+﻿<style>#regDocu,#regGuid {display:none; margin-left:40px; margin-top:5px;} #regDocu p, #regGuid p {margin:0px;} .tdcLeft{width:330px;} .tdcRight{text-align: right;} .tdcLeft span{font-weight:bold; color:white; font-size:13px;}</style>
+
+<p class="clockTitle blackOpacity" style="text-align:center; margin:0px; font-size:22px;"> Guida & Aiuto</p> <hr/>
 
 <img src="TEMPLATES/img/interface/mainInterface/risorse.png"/>
-<p style="margin:15px 0px 0px 15px;"><a href="javascript:void(0);" onclick=" openSearchBar();" class="interfaceLink">Ricerca Rapida (disponibile in mappa premendo "INVIO")</a></p>
-<p style="margin:5px 0px 0px 15px;"><a href="javascript:void(0);" onclick="jQuery('#regDocu').toggle('fade');" class="interfaceLink">Regolamento e Documentazione</a></p>
-<div id="regDocu" style=" display:none; margin-left:40px; margin-top:5px;">
+<p style="margin:15px 0px 0px 15px;">
+	<a href="javascript:void(0);" onclick=" openSearchBar();" class="interfaceLink">Ricerca Rapida (disponibile in mappa premendo "INVIO")</a>
+</p>
+<p style="margin:5px 0px 0px 15px;">
+	<a href="javascript:void(0);" onclick="jQuery('#regDocu').toggle('fade');" class="interfaceLink">Regolamento e Documentazione</a>
+</p>
+
+<div id="regDocu">
 <!--<p style="margin:0px;"> &raquo; <a href="index.php?guide=true" target="_blank" class="interfaceLinkBlue">Guida al Gioco</a></p>-->
-<p style="margin:0px;"> &raquo;  <a href="javascript:dbOpenToTopic(186)" class="interfaceLinkBlue"> La Federazione Unita dei Pianeti </a></p>
-<p style="margin:0px;"> &raquo;  <a href="javascript:dbOpenToTopic(150)" class="interfaceLinkBlue"> Regolamento di Gioco </a></p>
-<p style="margin:0px;"> &raquo;  <a href="javascript:dbOpenToTopic(151)" class="interfaceLinkBlue"> Frequently Asked Questions </a></p>
-<p style="margin:0px;"> &raquo;  <a href="getLog.php?session=1015" target="_blank" class="interfaceLinkBlue"> Giocata di esempio </a></p>
-
-<p style="margin:0px;"> &raquo;  <a href="javascript:dbOpenToTopic(262)" class="interfaceLinkBlue"> Il Gioco di Ruolo </a></p>
-<p style="margin:0px;"> &raquo; <a href="javascript:dbOpenToTopic(265)"  class="interfaceLinkBlue"> Il sistema dei Federation Points </a></p>
-<p style="margin:0px;"> &raquo; <a href="javascript:dbOpenToTopic(259)"  class="interfaceLinkBlue"> Turnazione</a></p>
-<p style="margin:0px;"> &raquo; <a href="javascript:dbOpenToTopic(248)"  class="interfaceLinkBlue"> Piccolo Glossario Trek </a></p>
-<p style="margin:0px;"> &raquo; <a href="javascript:cdbOpenToTopic(63)"  class="interfaceLinkBlue"> Lo Staff: Admin e Master di STF </a></p>
+	<p> &raquo; <a href="javascript:dbOpenToTopic(186)" class="interfaceLinkBlue"> La Federazione Unita dei Pianeti </a></p>
+	<p> &raquo; <a href="javascript:dbOpenToTopic(150)" class="interfaceLinkBlue"> Regolamento di Gioco </a></p>
+	<p> &raquo; <a href="javascript:dbOpenToTopic(151)" class="interfaceLinkBlue"> Frequently Asked Questions </a></p>
+	<p> &raquo; <a href="getLog.php?session=1015" target="_blank" class="interfaceLinkBlue"> Giocata di esempio </a></p>
+	<p> &raquo; <a href="javascript:dbOpenToTopic(262)" class="interfaceLinkBlue"> Il Gioco di Ruolo </a></p>
+	<p> &raquo; <a href="javascript:dbOpenToTopic(265)"  class="interfaceLinkBlue"> Il sistema dei Federation Points </a></p>
+	<p> &raquo; <a href="javascript:dbOpenToTopic(259)"  class="interfaceLinkBlue"> Turnazione</a></p>
+	<p> &raquo; <a href="javascript:dbOpenToTopic(248)"  class="interfaceLinkBlue"> Piccolo Glossario Trek </a></p>
+	<p> &raquo; <a href="javascript:cdbOpenToTopic(63)"  class="interfaceLinkBlue"> Lo Staff: Admin e Master di STF </a></p>
 </div>
+
 <p style="margin:5px 0px 0px 15px;"><a href="javascript:void(0);" onclick="jQuery('#regGuid').toggle('slide');" class="interfaceLink">Il tuo PG</a></p> 
-<div id="regGuid" style="display:none; margin-left:40px; margin-top:5px;"> 
-<p style="margin:0px;"> &raquo; <a href="javascript:dbOpenToTopic(241)" class="interfaceLinkGreen"> La stesura del Background </a></p>
-<p style="margin:0px;"> &raquo; <a href="javascript:dbOpenToTopic(242)" class="interfaceLinkGreen"> Lauree e Brevetti </a></p>
 
-<p style="margin:0px;"> &raquo; <a href="javascript:dbOpenToTopic(243)" class="interfaceLinkGreen"> Dadi, Abilità e Caratteristiche</a></p>
-
-<p style="margin:0px;" tal:condition="php:user.pgSpecie == 'Umana' || user.pgSpecie == 'Umana-Vulcaniana' || user.pgSpecie == 'Umana-Betazoide'"> &raquo; <a href="javascript:dbOpenToTopic(252)"  class="interfaceLinkGreen"> Umani e Terra del XXIV secolo </a></p>
-<p style="margin:0px;" tal:condition="php:user.pgSpecie == 'Trill'"> &raquo; <a href="javascript:dbOpenToTopic(218)"  class="interfaceLinkGreen">I Trill </a></p>
-<p style="margin:0px;" tal:condition="php:user.pgSpecie == 'Bajoriana'"> &raquo; <a href="javascript:dbOpenToTopic(201)"  class="interfaceLinkGreen">I Bajoriani </a></p>
-<p style="margin:0px;" tal:condition="php:user.pgSpecie == 'Boliana'"> &raquo; <a href="javascript:dbOpenToTopic(290)"  class="interfaceLinkGreen">I Boliani </a></p>
-<p style="margin:0px;" tal:condition="php:user.pgSpecie == 'Vulcaniana' || user.pgSpecie == 'Umana-Vulcaniana'" class="interfaceLinkGreen"> &raquo; <a href="javascript:dbOpenToTopic(213)" >I Vulcaniani </a></p>
-<p style="margin:0px;" tal:condition="php:user.pgSpecie == 'Caitiana'"> &raquo; <a href="javascript:dbOpenToTopic(185)"  class="interfaceLinkGreen">I Caitiani </a></p>
-<p style="margin:0px;" tal:condition="php:user.pgSpecie == 'Betazoide' || user.pgSpecie == 'Umana-Betazoide' "> &raquo; <a href="javascript:dbOpenToTopic(184)"  class="interfaceLinkGreen">I Betazoidi </a></p>
-<p style="margin:0px;" tal:condition="php:user.pgSpecie == 'Zaldan'"> &raquo; <a href="javascript:dbOpenToTopic(194)"  class="interfaceLinkGreen">Gli Zaldan </a></p>
-<p style="margin:0px;" tal:condition="php:user.pgSpecie == 'Andoriana'"> &raquo; <a href="javascript:dbOpenToTopic(191)"  class="interfaceLinkGreen">Gli Andoriani </a></p>
-<p style="margin:0px;" tal:condition="php:user.pgSpecie == 'Tellarita'"> &raquo; <a href="javascript:dbOpenToTopic(181)"  class="interfaceLinkGreen">I Tellariti </a></p>
-
-<p style="margin:0px;" tal:condition="php:user.pgSezione == 'Comando e Strategia'"> &raquo; <a href="javascript:dbOpenToTopic(256)"  class="interfaceLinkRed">La Sez. Comando e Strategia </a></p>
-<p style="margin:0px;" tal:condition="php:user.pgSezione == 'Difesa e Sicurezza'"> &raquo; <a href="javascript:dbOpenToTopic(257)"  class="interfaceLinkGreen">La Sez. Difesa e Sicurezza </a></p>
-<p style="margin:0px;" tal:condition="php:user.pgSezione == 'Scientifica e Medica'"> &raquo; <a href="javascript:dbOpenToTopic(219)"  class="interfaceLinkBlue">La Sez. Medica </a></p>
-<p style="margin:0px;" tal:condition="php:user.pgSezione == 'Scientifica e Medica'"> &raquo; <a href="javascript:dbOpenToTopic(320)"  class="interfaceLinkBlue">La Sez. Scientifica </a></p>
-<p style="margin:0px;" tal:condition="php:user.pgSezione == 'Navigazione'"> &raquo; <a href="javascript:dbOpenToTopic(155)"  class="interfaceLinkBlue">La Sez. Navigazione </a></p>
-<p style="margin:0px;" tal:condition="php:user.pgSezione == 'Ingegneria e Operazioni'"> &raquo; <a href="javascript:dbOpenToTopic(258)"  class="interfaceLink">La Sez. Ingegneria e Operazioni </a></p>
-
+<div id="regGuid"> 
+	<p> &raquo; <a href="javascript:dbOpenToTopic(241)" class="interfaceLinkGreen"> La stesura del Background </a></p>
+	<p> &raquo; <a href="javascript:dbOpenToTopic(242)" class="interfaceLinkGreen"> Lauree e Brevetti </a></p>
+	<p> &raquo; <a href="javascript:dbOpenToTopic(243)" class="interfaceLinkGreen"> Dadi, Abilità e Caratteristiche</a></p>
+	<p tal:condition="php:user.pgSpecie == 'Umana' || user.pgSpecie == 'Umana-Vulcaniana' || user.pgSpecie == 'Umana-Betazoide'"> &raquo; <a href="javascript:dbOpenToTopic(252)"  class="interfaceLinkGreen"> Umani e Terra del XXIV secolo </a></p>
+	<p tal:condition="php:user.pgSpecie == 'Trill'"> &raquo; <a href="javascript:dbOpenToTopic(218)"  class="interfaceLinkGreen">I Trill </a></p>
+	<p tal:condition="php:user.pgSpecie == 'Bajoriana'"> &raquo; <a href="javascript:dbOpenToTopic(201)"  class="interfaceLinkGreen">I Bajoriani </a></p>
+	<p tal:condition="php:user.pgSpecie == 'Boliana'"> &raquo; <a href="javascript:dbOpenToTopic(290)"  class="interfaceLinkGreen">I Boliani </a></p>
+	<p tal:condition="php:user.pgSpecie == 'Vulcaniana' || user.pgSpecie == 'Umana-Vulcaniana'" class="interfaceLinkGreen"> &raquo; <a href="javascript:dbOpenToTopic(213)" >I Vulcaniani </a></p>
+	<p tal:condition="php:user.pgSpecie == 'Caitiana'"> &raquo; <a href="javascript:dbOpenToTopic(185)"  class="interfaceLinkGreen">I Caitiani </a></p>
+	<p tal:condition="php:user.pgSpecie == 'Betazoide' || user.pgSpecie == 'Umana-Betazoide' "> &raquo; <a href="javascript:dbOpenToTopic(184)"  class="interfaceLinkGreen">I Betazoidi </a></p>
+	<p tal:condition="php:user.pgSpecie == 'Zaldan'"> &raquo; <a href="javascript:dbOpenToTopic(194)"  class="interfaceLinkGreen">Gli Zaldan </a></p>
+	<p tal:condition="php:user.pgSpecie == 'Andoriana'"> &raquo; <a href="javascript:dbOpenToTopic(191)"  class="interfaceLinkGreen">Gli Andoriani </a></p>
+	<p tal:condition="php:user.pgSpecie == 'Tellarita'"> &raquo; <a href="javascript:dbOpenToTopic(181)"  class="interfaceLinkGreen">I Tellariti </a></p>
+	<p tal:condition="php:user.pgSezione == 'Comando e Strategia'"> &raquo; <a href="javascript:dbOpenToTopic(256)"  class="interfaceLinkRed">La Sez. Comando e Strategia </a></p>
+	<p tal:condition="php:user.pgSezione == 'Difesa e Sicurezza'"> &raquo; <a href="javascript:dbOpenToTopic(257)"  class="interfaceLinkGreen">La Sez. Difesa e Sicurezza </a></p>
+	<p tal:condition="php:user.pgSezione == 'Scientifica e Medica'"> &raquo; <a href="javascript:dbOpenToTopic(219)"  class="interfaceLinkBlue">La Sez. Medica </a></p>
+	<p tal:condition="php:user.pgSezione == 'Scientifica e Medica'"> &raquo; <a href="javascript:dbOpenToTopic(320)"  class="interfaceLinkBlue">La Sez. Scientifica </a></p>
+	<p tal:condition="php:user.pgSezione == 'Navigazione'"> &raquo; <a href="javascript:dbOpenToTopic(155)"  class="interfaceLinkBlue">La Sez. Navigazione </a></p>
+	<p tal:condition="php:user.pgSezione == 'Ingegneria e Operazioni'"> &raquo; <a href="javascript:dbOpenToTopic(258)"  class="interfaceLink">La Sez. Ingegneria e Operazioni </a></p>
 </div><hr/>
 
 <img src="TEMPLATES/img/interface/mainInterface/tutorial.png"/>
@@ -48,23 +52,23 @@
 <div style="margin-top:20px;">
 	<table style="font-family:Helvetica;  font-weight:bold;">
 	<tr>
-		<td style="width:330px;"><span style="font-weight:bold; color:white; font-size:13px;">L'interfaccia Principale </span></td>
-		<td><a style="display:block; float:right;" href="tutorial.php?what=mainInterface" tal:attributes="class php:(testInitial) ? 'interfaceLinkGreen' : 'interfaceLinkRed'" tal:content="php:(testInitial) ? '[ - RIAVVIA - ]' : '[ - AVVIA - ]'"></a></td>
+		<td class="tdcLeft"><span>L'interfaccia Principale </span></td>
+		<td class="tdcRight"><a href="tutorial.php?what=mainInterface" tal:attributes="class php:(testInitial) ? 'interfaceLinkGreen' : 'interfaceLinkRed'" tal:content="php:(testInitial) ? '[ - RIAVVIA - ]' : '[ - AVVIA - ]'"></a></td>
 	</tr> 
 
 	<tr>
-		<td style="width:330px;"><span style="font-weight:bold; color:white; font-size:13px;">La scheda PG </span></td>
-		<td><a style="display:block; float:right;" href="javascript:void(0);" onclick="window.open ('tutorial.php?what=sch','t_scheda', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=665,height=620'); jQuery('#guidePanel').fadeOut(150);" tal:attributes="class php:(testScheda) ? 'interfaceLinkGreen' : 'interfaceLinkRed'" tal:content="php:(testScheda) ? '[ - RIAVVIA - ]' : '[ - AVVIA - ]'"></a></td>
+		<td class="tdcLeft"><span>La scheda PG </span></td>
+		<td class="tdcRight"><a href="javascript:void(0);" onclick="window.open ('tutorial.php?what=sch','t_scheda', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=665,height=620'); jQuery('#guidePanel').fadeOut(150);" tal:attributes="class php:(testScheda) ? 'interfaceLinkGreen' : 'interfaceLinkRed'" tal:content="php:(testScheda) ? '[ - RIAVVIA - ]' : '[ - AVVIA - ]'"></a></td>
 	</tr> 
  
  	<tr>
-		<td style="width:330px;"><span style="font-weight:bold; color:white; font-size:13px;">Il Computer di Bordo </span></td>
-		<td><a style="display:block; float:right;" href="javascript:void(0);" onclick="window.open ('tutorial.php?what=cdb','t_cdb', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1000,height=660'); jQuery('#guidePanel').fadeOut(150);" tal:attributes="class php:(testCDB) ? 'interfaceLinkGreen' : 'interfaceLinkRed'" tal:content="php:(testCDB) ? '[ - RIAVVIA - ]' : '[ - AVVIA - ]'"></a></td>
+		<td class="tdcLeft"><span>Il Computer di Bordo </span></td>
+		<td class="tdcRight"><a href="javascript:void(0);" onclick="window.open ('tutorial.php?what=cdb','t_cdb', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1000,height=660'); jQuery('#guidePanel').fadeOut(150);" tal:attributes="class php:(testCDB) ? 'interfaceLinkGreen' : 'interfaceLinkRed'" tal:content="php:(testCDB) ? '[ - RIAVVIA - ]' : '[ - AVVIA - ]'"></a></td>
 	</tr> 
  
  	<tr>
-		<td style="width:330px;"><span style="font-weight:bold; color:white; font-size:13px;">Il Database</span></td>
-		<td><a style="display:block; float:right;" href="javascript:void(0);" onclick="window.open ('tutorial.php?what=dbb','t_db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=730'); jQuery('#guidePanel').fadeOut(150);" tal:attributes="class php:(testDB) ? 'interfaceLinkGreen' : 'interfaceLinkRed'" tal:content="php:(testDB) ? '[ - RIAVVIA - ]' : '[ - AVVIA - ]'"></a></td>
+		<td class="tdcLeft"><span>Il Database</span></td>
+		<td class="tdcRight"><a href="javascript:void(0);" onclick="window.open ('tutorial.php?what=dbb','t_db', config='scrollbars=yes,status=no,location=no,resizable=no,resizale=0,top=0,left=100,width=1153,height=730'); jQuery('#guidePanel').fadeOut(150);" tal:attributes="class php:(testDB) ? 'interfaceLinkGreen' : 'interfaceLinkRed'" tal:content="php:(testDB) ? '[ - RIAVVIA - ]' : '[ - AVVIA - ]'"></a></td>
 	</tr> 
 	</table>
 </div>

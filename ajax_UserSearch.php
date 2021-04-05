@@ -54,7 +54,7 @@ if($disc=="PID"){
                         OR attracco = '{$pgLocations['pgLocation']}'
                         OR (pointerL = '{$pgLocations['pointerL']}' AND pointerL <> ''))
             )  
-            LIMIT 15");
+            LIMIT 20");
 
     while($row = mysql_fetch_array($res)) {
         if($row['entryType'] == 'person') {

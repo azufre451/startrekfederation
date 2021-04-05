@@ -209,7 +209,7 @@
 <div style="text-align:center; margin-top:20px; font-family:Helvetica">
 <a tal:repeat="sezione personale" tal:attributes="onclick php:'orgaView(\'' . str_replace(' ','_',repeat.sezione.key) . '\')' ; class php:(array_key_exists(repeat.sezione.key,ccol) ? 'sbtn'.' '.ccol[repeat.sezione.key] : 'sbtn')" tal:content="php:(array_key_exists(repeat.sezione.key,clab) ? clab[repeat.sezione.key] : substr(repeat.sezione.key,0,4) )" />
 
-| <a onclick="prestigeView();" class="sbtn golden">PRESTIGIO</a>
+| <a onclick="prestigeView();" class="sbtn golden">NOTORIETÀ</a>
 
 <p style="display:inline-block; float:right; margin-right:10px;"><input type="checkbox" checked="checked" onclick="opng(this)" /> Mostra i PnG</p>
 </div>
@@ -220,7 +220,7 @@
 
 	<div id="prestigeList" style="margin-top:10px; padding-left:20px; font-family: Helvetica; display:none; height:200px," class='sliding'>
 
-	<p style="text-align:center;"> Elenco dei Personaggi ordinato per prestigio </p>
+	<p style="text-align:center;"> Elenco dei Personaggi ordinato per notorietà </p>
 
 	<div class="pgLine" style="margin-top:10px;">
 		<p tal:repeat="person prestigePeople" tal:attributes="class php:((person['png'] && person['pgID'] == 0) ? 'fpngLine' : ((person['png'] ? 'pngLine' : 'rpgLine')))" >

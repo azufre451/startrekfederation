@@ -1302,8 +1302,11 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
 
 #localizeBoxHead
 {
-	text-transform:uppercase;
-	margin-top:5px;
+	margin-top: 6px;
+    width: 290px;
+    font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;
+    font-size: 16px;
+    text-shadow: 0 0 5px #00c6ff;
 }
 #localizeBoxTail{
 	margin-bottom:15px;
@@ -1536,7 +1539,12 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
 	background-repeat: no-repeat;
 	background-position: center;
 }
-
+/* #commFromImg{
+	background-size: 100% auto;
+	background-repeat: no-repeat;
+	background-position: center;
+	box-shadow: 0 0 8px #00c6ff;
+} GG: sarebbe carino gloware gli avatar, ma il disagio è che il primo simbolo non è rotondo */
 #commLeft{
 	width: 120px;
 	float: left;
@@ -1548,4 +1556,5 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
 	height: 115px;
 	float: left;
 	margin-top: 20px;
+	
 }

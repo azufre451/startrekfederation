@@ -216,15 +216,15 @@
 		</a>
 
 		
-		<div class="radiusBordered_f forumBox MA">
-				<a tal:attributes="href php:(showSearchMaster == 'yes') ? 'cdb.php?aggregator=MA' : '#'">
-				<img src="TEMPLATES/img/interface/forum-master.png" tal:attributes="class php:(showSearchMaster == 'yes') ? 'img' : 'img notAvailable'" />
-				<div tal:attributes="class php:((superCatsCounts['MA']) ? 'notifierBox' : 'notifierBox zero')"><p tal:content="superCatsCounts/MA">16</p></div></a>
-		</div>
+		<a href="cdb.php?aggregator=MA" tal:omit-tag="php:(showSearchMaster != 'yes')" class="activeBox">
+			<div class="radiusBordered_f forumBox MA">
+				<div tal:attributes="class php:((superCatsCounts['MA']) ? 'notifierBox' : 'notifierBox zero')"><p tal:content="superCatsCounts/MA">16</p> </div>
+				<img src="TEMPLATES/img/interface/forum-master.png" tal:attributes="class php:(showSearchMaster == 'yes') ? 'img' : 'img notAvailable'"/>
+			</div>
+		</a>
 
 	</div>  
 </div>
-<!-- tal:condition="php:(showSearchMaster == 'yes')" -->
 
 
 

@@ -93,9 +93,19 @@ function getDotazione(me,pg){
 						abImage=e['DATA']['ABITI'][0]['image'];
 					else abImage='TEMPLATES/img/uniformi/nouniformf_small.png';
 				}
-				else{
+				else
+				{
 					abImage="TEMPLATES/img/uniformi/"+e['currentUniform']+'_small.png'; 
 					abDescr=e['currentDescript']; 
+
+					if (e['DATA']['MEDAL'].length){
+						abDescr+='<div class="medal_overlay"> <p>Medaglie:</p>';
+
+						jQuery.each(e['DATA']['MEDAL'],function(k){
+							abDescr+="<img src=\"TEMPLATES/img/ruolini/medaglie/"+e['DATA']['MEDAL'][k]['medImage']+"\"></img>";
+						});
+						abDescr+='</div>';
+					}
 				}
 
 				if (e['DATA']['OBJECT'].length)
@@ -110,7 +120,7 @@ function getDotazione(me,pg){
 				else dot='';
 
 
-				fcntl="<div class=\"tt_unidiv\"> <img class=\"unif\" src=\""+abImage+"\" ><br /><img src=\"TEMPLATES/img/ranks/"+e['pgMostrina']+".png\" > </div> <div class=\"tt_unidesc\"> "+abDescr+dot+"</div> ";  
+				fcntl="<div class=\"tt_unidiv\"> <img class=\"unif\" src=\""+abImage+"\" ><br /><img src=\"TEMPLATES/img/ranks/"+e['pgMostrina']+".png\" ></img> <p>Notorietà:<img src=\"TEMPLATES/img/interface/personnelInterface/notori_image_"+e['pgPrestigio']+".png\"></img></p> </div> <div class=\"tt_unidesc\"> "+abDescr+dot+"</div> ";  
    				
    				response( fcntl );
   				}); 

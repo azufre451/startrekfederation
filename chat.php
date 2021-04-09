@@ -77,7 +77,7 @@ if($currentAmbient['ambientType'] == 'DECKMAP')
 elseif($currentAmbient['ambientType'] == 'SALA_OLO'){
 
 	$oloRankFilter = (PG::mapPermissions('M',$currentUser->pgAuthOMA)) ? '' : 'WHERE masked = 0'; 
-	mysql_query("UPDATE pg_users SET pgMostrinaOlo = '' WHERE pgID = ".$_SESSION['pgID']);
+
 	$ranks=array();
 	$ranks['Default']['norank'] = array('note' => 'Nessun Ologrado');
 	$my = mysql_query("SELECT prio,Note,ordinaryUniform,aggregation FROM pg_ranks $oloRankFilter ORDER BY rankerprio DESC");

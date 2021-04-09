@@ -1329,6 +1329,21 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
 	width:215px;
 }
 
+.leftCol .ranker{
+	width:70px;
+	margin-left:5px;
+	text-align:left;
+	margin-right:4.5px;
+	margin-top:2.5px;
+	background-repeat:no-repeat;
+	height:15px; 
+	float:left;
+}
+.leftCol .ranker.rOlo:after{
+	content:url('../img/interface/3little_holoicon.png');
+	
+}
+
 .online{
 	border: 1px solid orange;
 	color:#ffe138;

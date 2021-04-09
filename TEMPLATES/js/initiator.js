@@ -392,12 +392,10 @@ var windowSizes =
 						if (pg['pgIC']) presence = '<img title="Il giocatore è attivo nella chat" src="TEMPLATES/img/interface/personnelInterface/online.png" />';
 						else presence = '<img title="Il giocatore non è attivo nella chat" src="TEMPLATES/img/interface/personnelInterface/offline.png" />';
 
-						if (pg['locked'] == 1)
-							lockValue = '<span class="radiusBordered5 lockedIcon">LOCK</span>';
-						else lockValue ='';
+						lockValue = (pg['locked'] == 1) ? '<span class="radiusBordered5 lockedIcon">LOCK</span>' : '';
+						
 
-
-						strhtml += '<p class="userRow leftCol"><img src="TEMPLATES/img/ranks/'+pg['rank_mostrina']+'.png" title="'+pg['user_grado']+' - Sezione '+pg['user_sezione']+'" ><img src="'+pgs+'" title="'+pgt+'"></img> '+lockValue+'<a class="interfaceLink" href="javascript:void(0);" onclick="schedaPOpen('+pg['ID']+');">'+pg['pgUser']+'</a></p> <p class="userRow rightCol">'+goable+presence+'</p><div style="clear:both"/>';
+						strhtml += '<div class="userRow leftCol"><div class="'+pg['rank_class']+'" style="background-image:url(\'TEMPLATES/img/ranks/'+pg['rank_mostrina']+'.png\');" title="'+pg['user_grado']+' - Sezione '+pg['user_sezione']+'"></div><img src="'+pgs+'" title="'+pgt+'"></img> '+lockValue+'<a class="interfaceLink" href="javascript:void(0);" onclick="schedaPOpen('+pg['ID']+');">'+pg['pgUser']+'</a></div> <div class="userRow rightCol">'+goable+presence+'</div><div style="clear:both"/>';
 					});
 					strhtml += '</div>';
 					

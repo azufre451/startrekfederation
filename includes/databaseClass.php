@@ -186,6 +186,8 @@ class Ambient
 		//echo "INSERT INTO federation_sessions(sessionPlace,sessionStart,sessionStatus,sessionOwner,sessionLabel,sessionMaster,sessionPrivate,	//sessionIntervalTime,sessionMaxChars) VALUES ('$ambientID',$curTime,'ONGOING',$owner,'$label',$master,$private,$timer,$maxchar)";
 
 		if(mysql_affected_rows()){ 
+
+			self::resetOloRankOf($ambientID);
 			
 			$string = '<div style="position:relative;" class="'.$col.'"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Azione automatica di risposta del tool sessioni" /> Sessione Avviata </div> &Egrave; stata avviata una nuova sessione: '.$label . ' | ' .  $sessionTimerA.$sessionCharrerA.'</div>';   
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$ambientID','$string',".time().",'OFF')");
@@ -194,12 +196,22 @@ class Ambient
 		}
 		else return 0;
 	}
+
+
+	public static function resetOloRankOf($ambientID){
+		$at= mysql_fetch_assoc(mysql_query("SELECT ambientType FROM fed_ambient WHERE locID = '$ambientID'"))['ambientType'];
+
+		if ($at == 'SALA_OLO')
+			mysql_query("UPDATE pg_users SET pgMostrinaOlo = '' WHERE pgRoom = '$ambientID'");
+	}
 	
 	public static function closeSession($ambientID){
 		$curTime = time();
 		$res = mysql_query("UPDATE federation_sessions SET sessionEnd = $curTime, sessionStatus = 'CLOSED' WHERE sessionPlace = '$ambientID' AND sessionStatus = 'ONGOING'"); 
 		if(mysql_affected_rows()){
 			
+			self::resetOloRankOf($ambientID);
+
 			$string = '<div style="position:relative;" class="auxAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Azione automatica di risposta del tool sessioni" /> Sessione Conclusa</div>&Egrave; stata chiusa la sessione attiva.</div>';   
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$ambientID','$string',".time().",'OFF')");
 			return 1;

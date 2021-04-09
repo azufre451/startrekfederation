@@ -16,7 +16,7 @@ if ($mode == 'loc'){
 		while($ras_pres_loc = mysql_fetch_assoc($resActivity))
 			$pres_loc[] = $ras_pres_loc['sender']; 
  
-	$resPgPresenti = mysql_query("SELECT pgID as ID,place_LittleLogo1 as assign_logo, pgUser,pgSpecie,pgLock as locked,pgSesso as user_sesso,pgLastAct, pgMostrina as rank_mostrina, pgGrado as user_grado, pgSezione as user_sezione,ambientType, placeID,placeName as ship_name,locName as place_name, locID as pgPlaceI FROM pg_users,pg_ranks,fed_ambient,pg_places WHERE pgLocation = placeID AND pgLastAct >=".($curTime-1800)." AND rankCode = prio AND pgRoom = locID AND pgAuthOMA <> 'BAN' ORDER BY rankerprio DESC, pgUser ASC");
+	$resPgPresenti = mysql_query("SELECT pgID as ID,place_LittleLogo1 as assign_logo, pgUser,pgSpecie,pgLock as locked,pgSesso as user_sesso,pgLastAct, pgMostrina, pgMostrinaOlo, pgGrado as user_grado, pgSezione as user_sezione,ambientType, placeID,placeName as ship_name,locName as place_name, locID as pgPlaceI, ambientType FROM pg_users,pg_ranks,fed_ambient,pg_places WHERE pgLocation = placeID AND pgLastAct >=".($curTime-1800)." AND rankCode = prio AND pgRoom = locID AND pgAuthOMA <> 'BAN' ORDER BY rankerprio DESC, pgUser ASC");
 
 	while($p=mysql_fetch_assoc($resPgPresenti))
 	{
@@ -24,6 +24,15 @@ if ($mode == 'loc'){
 			$pres[ $p['placeID'] ] = array();	
 
 		$p['pgIC'] = (in_array($p['ID'],$pres_loc) && $p['ambientType'] != 'DEFAULT');
+		if ($p['ambientType'] == "SALA_OLO" && $p['pgMostrinaOlo'] != '')
+		{
+			$p['rank_mostrina'] = $p['pgMostrinaOlo'];
+			$p['rank_class'] = 'ranker rOlo';
+		}
+		else{
+			$p['rank_mostrina'] = $p['pgMostrina'];
+			$p['rank_class'] = 'ranker';
+		}
 
 		$pres[ $p['placeID'] ][] = $p;
 	}

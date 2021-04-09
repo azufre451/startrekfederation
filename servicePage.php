@@ -128,7 +128,7 @@ elseif(isSet($_GET['getDot']))
 	}
 
 
-	$currentUni = mysql_fetch_array(mysql_query("SELECT uniform,descript FROM pg_uniforms,pg_users WHERE pgID = $id AND pgMostrina = mostrina"));
+	$currentUni = mysql_fetch_assoc(mysql_query("SELECT uniform,descript,isDress,pgPrestige FROM pg_uniforms,pg_users WHERE pgID = $id AND pgMostrina = mostrina"));
 	 
 	$currentUniform = $currentUni['uniform']; 
 	$currentDescript = $currentUni['descript'];
@@ -143,6 +143,7 @@ elseif(isSet($_GET['getDot']))
 		'currentUniform' => $currentUniform,
 		'currentDescript' => $currentDescript,
 		'pgMostrina' => $currentUser->pgMostrina,
+		'pgPrestigio' => $currentUni['pgPrestige'],
 
 		'pgGrado' => $currentUser->pgGrado,
 		'pgSesso' => $currentUser->pgSesso,
@@ -156,10 +157,20 @@ elseif(isSet($_GET['getDot']))
 		$aar['DATA'][$rel['type']][] = $rel;
 	}
  
+	if($currentUni['isDress'])
+	{
+		$ral=mysql_query("SELECT medImage FROM pg_medals,pgDotazioni WHERE dotazioneIcon = medID AND pgID = $id ORDER BY medPrio ASC");
+		while($rel = mysql_fetch_assoc($ral))
+			$aar['DATA']['MEDAL'][] = $rel;
+	
+	}
+
 	echo json_encode($aar); 
 	exit;
 
 }
+
+
 elseif(isSet($_GET['setMos']))
 {
 	$emo = $_POST['emoSel'];

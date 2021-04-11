@@ -44,8 +44,11 @@ function cmp($a, $b) {
    			if ($a['pgPrestige'] == $b['pgPrestige'])
         	{
         		if($a['rankerprio'] < $b['rankerprio'])
-        			return 1;
-        		else return -1;
+	        		return 1;
+	        	elseif ($a['rankerprio'] == $b['rankerprio'])
+	        		return strcmp($a['pgUser'] , $b['pgUser']);
+        		else
+        			return -1;
         	}
         	
         	elseif ($a['pgPrestige'] < $b['pgPrestige'])

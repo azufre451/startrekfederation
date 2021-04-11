@@ -495,21 +495,20 @@ class PG
 		if($this->paddMail || $forceMail)
 		{
 
+
 			$sendTo = $this->email;
 			$receiverName = $this->pgUser;
 			$senderName = PG::getSomething($from,'username');
-				$subject = "[STF] $senderName >> ".$subject;
+			$textP = nl2br(htmlentities(preg_replace('|[[\/\!]*?[^\[\]]*?]|', '', $text)));
+			$subject = "[STF] $senderName >> ".$subject;
 				
-				$message = "<div style=\"text-align:center;\"><img src=\"https://oscar.stfederation.it/SigmaSys/logo/little_logo.png\" /></div><p>$senderName ti ha inviato un dpadd<br /><b>Testo:</b> $text<br /><br />Accedi a <a href=\"http://www.stfederation.it\" target=\"_blank\">Star Trek: Federation</a> per consultare il padd!";
-				
-				
-				$header = "From: $senderName <staff@stfederation.it>\n";
-				$header .= "MIME-Version: 1.0\n";
-				$header .= "Content-Type: text/html; charset=\"iso-8859-1\"\n";
-				$header .= "Content-Transfer-Encoding: 7bit\n\n";
-		
-				mail($sendTo, $subject, $message, $header);
+			$message = "<div style=\"text-align:center;\"><img src=\"https://oscar.stfederation.it/SigmaSys/logo/little_logo.png\" /></div><p>$senderName ti ha inviato un dpadd<br /><b>Testo:</b> $textP<br /><br />Accedi a <a href=\"http://www.stfederation.it\" target=\"_blank\">Star Trek: Federation</a> per consultare il padd!";
 
+			$header = "From: $senderName <staff@stfederation.it>\r\n";
+			$header .= "MIME-Version: 1.0" . "\r\n";
+			$header .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+			mail($sendTo, $subject, $message, $header);
 		}
 
 	}
@@ -1178,8 +1177,12 @@ class Mailer
 	}
 	
 	public static function notificationMail($text,$refU){
-	$string = "TimeStamp: ".date('d/m/Y ore H:i:s',time())."\n MODIFICA CRITICA ESEGUITA\n\n".$text."\n\n"."REFERENZE: User:".$refU->pgUser;
-	//mail("staff@stfederation.it","[FED] Notifica",$string,"From:noreply@stfederation.it");
+		$string = "TimeStamp: ".date('d/m/Y ore H:i:s',time())."\n MODIFICA CRITICA ESEGUITA\n\n".$text."\n\n"."REFERENZE: User:".$refU->pgUser;
+
+		foreach (array(3,1892) as $pgAdmin){
+			$u=new PG($pgAdmin);
+			$u->sendNotification("Modifica Critica di".$refU->pgUser,date('d/m/Y H:i:s',time()).' '.$text,$refU->ID,$refU->pgAvatarSquare,'');	
+		}
 	}
 }
 ?>

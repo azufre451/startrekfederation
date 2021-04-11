@@ -284,6 +284,12 @@ var windowSizes =
 				avt='TEMPLATES/img/logo/logo_sfc.png';
 
 			jQuery('#commDestImg').css('background-image', "url('"+avt+"')");
+
+			if ( jQuery(src).find('option:selected').attr('entity-type') )
+				jQuery('#commDestImg').addClass('boxGlow')
+			else
+				jQuery('#commDestImg').removeClass('boxGlow');
+
 			jQuery('#commDestImg').attr('title', jQuery(src).find('option:selected').attr('data-title'));
 			jQuery('#commDestImg').fadeIn(100);
 		});
@@ -293,19 +299,23 @@ var windowSizes =
 	{
 		jQuery('#commDestOpt').html('<option value="0" selected="selected" data-avatar="TEMPLATES/img/logo/logo_sfc.png"> Tutto il Personale </option>');
 		jQuery('#commDestImg').css('background-image',"url('TEMPLATES/img/logo/logo_sfc.png')");
+		jQuery('#commDestImg').removeClass('boxGlow');
+		
 		jQuery.each(e['people'],function(k){
 			jQuery('#commDestOpt').append('<optgroup label="'+e['people'][k]['plName']+'" id="com_'+k+'"></optgroup>');
 			e['people'][k]['ppl'].forEach(function(p){
-				jQuery('#com_'+k).append('<option value="'+p['ID']+'" data-title="'+p['user_grado']+' - Sezione '+p['user_sezione']+'" data-avatar="'+p['pgAvatar']+'">'+p['pgUser']+'</option>')
+				jQuery('#com_'+k).append('<option entity-type="person" value="'+p['ID']+'" data-title="'+p['user_grado']+' - Sezione '+p['user_sezione']+'" data-avatar="'+p['pgAvatar']+'">'+p['pgUser']+'</option>')
 			})
 		});
 	}
 
 	function commRefreshPlacesIterator(e)
 	{
+		jQuery('#commDestOpt').html('<option value="0" selected="selected" data-avatar="TEMPLATES/img/logo/logo_sfc.png"> Tutto il Personale </option>');
+		jQuery('#commDestImg').css('background-image',"url('TEMPLATES/img/logo/logo_sfc.png')");
+		jQuery('#commDestImg').removeClass('boxGlow');
 		jQuery('#commDestOpt').html('');
 		jQuery('#commDestImg').attr('title','');
-		jQuery('#commDestImg').css('background-image',"url('TEMPLATES/img/logo/logo_sfc.png')");
 
 		jQuery.each(e['places'],function(k){
 			jQuery('#commDestOpt').append('<optgroup label="'+e['places'][k]['plName']+'" id="com_pla_'+k+'"></optgroup>');

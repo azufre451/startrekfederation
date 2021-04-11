@@ -1238,7 +1238,7 @@ while ($reso = mysql_fetch_array($reiss))
 	$superCatsCounts[$reso['catSuper']]=$reso['CPL'];
 
 } 
-$reiss = mysql_query("SELECT pg_visualized_elements.time as seen, lastTopicEvent, topicID,topicTitle,topicLastTime,topicLastUser,topicType,topicColorExt, pgUser FROM pg_users,cdb_topics LEFT JOIN pg_visualized_elements ON (pg_visualized_elements.pgID = $me AND type = 'CDB' AND what = topicID) WHERE pg_users.pgID = topicLastUser AND (topicCat IN (".$currentLocation['catGDB'].",".$currentLocation['catDISP'].",".$currentLocation['catRAP'].")) ORDER by topicLastTime DESC LIMIT 7");
+$reiss = mysql_query("SELECT pg_visualized_elements.time as seen, lastTopicEvent, topicID,topicTitle,topicLastTime,topicLastUser,topicType,topicColorExt, pgUser FROM pg_users,cdb_topics LEFT JOIN pg_visualized_elements ON (pg_visualized_elements.pgID = $me AND type = 'CDB' AND what = topicID) WHERE pg_users.pgID = topicLastUser AND (topicCat IN (".$currentLocation['catGDB'].",".$currentLocation['catDISP'].",".$currentLocation['catRAP'].")) ORDER by topicLastTime DESC LIMIT 6");
 
 
 while ($reso = mysql_fetch_array($reiss))

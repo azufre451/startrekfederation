@@ -511,7 +511,7 @@ margin-top:-150px;
 #messageOfStatus{
 width:400px;
 height:550px;
-padding:10px;
+padding:15px;
 margin-left:-210px;
 margin-top:-285px;
 font-size:14px;
@@ -1302,8 +1302,8 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
 
 #localizeBoxHead
 {
-	text-transform:uppercase;
-	margin-top:15px;
+	margin-top: 6px;
+    font-size: 16px;
 }
 #localizeBoxTail{
 	margin-bottom:15px;
@@ -1546,12 +1546,14 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
 	border-radius: 12px;
 	margin: 10px 2px 2px 2px;
 }
+.boxGlow{
+	box-shadow: 0 0 8px #00c6ff;
+}
 #commDestImg{
 	background-size: 100% auto;
 	background-repeat: no-repeat;
 	background-position: center;
 }
-
 #commLeft{
 	width: 120px;
 	float: left;
@@ -1563,4 +1565,5 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
 	height: 115px;
 	float: left;
 	margin-top: 20px;
+	
 }

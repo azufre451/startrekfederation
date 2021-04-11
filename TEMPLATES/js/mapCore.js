@@ -129,18 +129,18 @@
 			
 					if( ui.item.mode == 'view')
 						schedaPOpen(ui.item.data.PUD);
-					else if ( ui.item.mode == 'sserv')
+					else if ( ui.item.mode == 'ssto')
 						schedaPOpen(ui.item.data.PUD,'ssto');
 					else if ( ui.item.mode == 'master')
 						schedaPOpen(ui.item.data.PUD,'master');
 					else if ( ui.item.mode == 'admin')
 						schedaPOpen(ui.item.data.PUD,'admin');
 					else if ( ui.item.mode == 'dpadd')
-						paddOpenTo(ui.item.value);
+						paddOpenTo(ui.item.data.value);
 					else if ( ui.item.mode == 'place')
 						window.location = "chat.php?amb="+ui.item.data.PUD;
 					else if ( ui.item.mode == 'pgAuthor')
-						jQuery.post('cdb.php',{searchKey:ui.item.value,searchPattern:'AUT'}, function (data) {
+						jQuery.post('cdb.php',{searchKey:ui.item.data.value,searchPattern:'AUT'}, function (data) {
     						var w = openLike('cdb','cdb');
     						w.document.write(data);
 						});
@@ -157,7 +157,8 @@
 				/* MZ: Funzione che crea ogni entry dell'autocomplete */
 				create: function () {
 		            jQuery(this).data('ui-autocomplete')._renderItem = function (ul, item) {
-		                return jQuery('<li><div class="mode '+item.mode+'"><div class="image" style="background-image:url('+item.data.IMA+')"></div> <div class="icon"></div>'+ item.data.value + '<span>'+item.modeLabel+'</span></div></li>').appendTo(ul);
+		            	aux1 = (item.data.aux1 != '') ? ' <span>'+item.data.aux1+'</span>' : '';
+		                return jQuery('<li><div class="mode '+item.mode+'"><div class="image" style="background-image:url('+item.data.IMA+')"></div> <div class="icon"></div>'+ item.data.value + '<span>'+item.modeLabel+'</span>'+aux1+'</div></li>').appendTo(ul);
 		            };
 		        }
 			});

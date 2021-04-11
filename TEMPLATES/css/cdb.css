@@ -28,7 +28,9 @@ body
 	width:400px;
 	overflow:hidden;
 }
+
 img{border:0px;}
+
 a
 {
 	text-decoration:none;
@@ -55,10 +57,7 @@ td.topicTitle
 	text-transform:uppercase;
 	font-weight:bold;
 }
-.littleLink < a
-{
-	font-size:12px;
-}
+
 .topicTitolo
 {
 	text-transform:uppercase;
@@ -297,8 +296,8 @@ textarea.cdbTextArea
 .forumBox.MA {border-color:#01291E;}
 .forumBox.MA .notifierBox{ background-color: #01291E; border-color:#007a53;}
 .forumBox.MA .notifierBox p{ text-shadow: 1px 1px 8px #007a53; }
-.forumBox.MA:hover {border-color:#007a53;}
-.forumBox.MA:hover .notifierBox {background-color:#007a53;}
+a.activeBox > .forumBox.MA:hover {border-color:#007a53;}
+a.activeBox > .forumBox.MA:hover .notifierBox {background-color:#007a53;}
 
 
 .interfaceLink,.interfaceLinkBlue,.interfaceLinkRed,.interfaceLinkGreen,.interfaceLinkYellow,.internalCdbLink

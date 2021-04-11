@@ -42,6 +42,9 @@
 			jQuery('.littleUserSign_active').each(function(e){
 			
 			var ider = jQuery(this).prop('id').substr(5);
+			
+			var doMaster = false
+			var doSound = false
 
 			jQuery.post('ajax_send_teleport.php', {amb: jQuery('#ambientID').prop('value'), destination:jQuery('#teleportTo').prop('value'),  sended: ider}, teleportFromUpdater, 'json');
 			

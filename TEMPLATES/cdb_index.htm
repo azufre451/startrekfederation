@@ -219,7 +219,7 @@
 		<a href="cdb.php?aggregator=MA" tal:omit-tag="php:(showSearchMaster != 'yes')" class="activeBox">
 			<div class="radiusBordered_f forumBox MA">
 				<div tal:attributes="class php:((superCatsCounts['MA']) ? 'notifierBox' : 'notifierBox zero')"><p tal:content="superCatsCounts/MA">16</p> </div>
-				<img src="TEMPLATES/img/interface/forum-master.png" tal:attributes="class php:(showSearchMaster == 'yes') ? 'img' : 'img notAvailable'"/>
+				<img src="TEMPLATES/img/interface/forum-master.png" tal:attributes="style php:(showSearchMaster == 'yes') ? '' : 'opacity: 0.4'"/>
 			</div>
 		</a>
 

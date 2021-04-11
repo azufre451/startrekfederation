@@ -284,12 +284,11 @@ var windowSizes =
 				avt='TEMPLATES/img/logo/logo_sfc.png';
 
 			jQuery('#commDestImg').css('background-image', "url('"+avt+"')");
-			entity = jQuery(src).find('option:selected').attr('entity-type');
-			
-			if ( entity == 'person')
-				jQuery('#commDestImg').css('box-shadow', '0 0 8px #00c6ff')
+
+			if ( jQuery(src).find('option:selected').attr('entity-type') )
+				jQuery('#commDestImg').addClass('boxGlow')
 			else
-				jQuery('#commDestImg').css('box-shadow', '');
+				jQuery('#commDestImg').removeClass('boxGlow');
 
 			jQuery('#commDestImg').attr('title', jQuery(src).find('option:selected').attr('data-title'));
 			jQuery('#commDestImg').fadeIn(100);
@@ -300,6 +299,8 @@ var windowSizes =
 	{
 		jQuery('#commDestOpt').html('<option value="0" selected="selected" data-avatar="TEMPLATES/img/logo/logo_sfc.png"> Tutto il Personale </option>');
 		jQuery('#commDestImg').css('background-image',"url('TEMPLATES/img/logo/logo_sfc.png')");
+		jQuery('#commDestImg').removeClass('boxGlow');
+		
 		jQuery.each(e['people'],function(k){
 			jQuery('#commDestOpt').append('<optgroup label="'+e['people'][k]['plName']+'" id="com_'+k+'"></optgroup>');
 			e['people'][k]['ppl'].forEach(function(p){
@@ -310,16 +311,18 @@ var windowSizes =
 
 	function commRefreshPlacesIterator(e)
 	{
+		jQuery('#commDestOpt').html('<option value="0" selected="selected" data-avatar="TEMPLATES/img/logo/logo_sfc.png"> Tutto il Personale </option>');
+		jQuery('#commDestImg').css('background-image',"url('TEMPLATES/img/logo/logo_sfc.png')");
+		jQuery('#commDestImg').removeClass('boxGlow');
 		jQuery('#commDestOpt').html('');
 		jQuery('#commDestImg').attr('title','');
-		//jQuery('#commDestImg').css('box-shadow', '0 0 0px #00c6ff');
 
 		jQuery.each(e['places'],function(k){
 			jQuery('#commDestOpt').append('<optgroup label="'+e['places'][k]['plName']+'" id="com_pla_'+k+'"></optgroup>');
 			e['places'][k]['places'].forEach(function(p){
 				current = (p['myLocat'] == 1) ? 'selected="selected"' : "" ;
 
-				jQuery('#com_pla_'+k).append('<option entity-type="place" value="'+p['locID']+'" data-avatar="'+p['image']+'" '+current+'>'+p['locName']+'</option>')
+				jQuery('#com_pla_'+k).append('<option value="'+p['locID']+'" data-avatar="'+p['image']+'" '+current+'>'+p['locName']+'</option>')
 			})
 		});		
 	}

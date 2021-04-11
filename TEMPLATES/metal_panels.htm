@@ -73,7 +73,7 @@
 	<!-- BEGIN localizeBox" -->
 	<div id="localizeBox" class="draggableSTFModal">
 		<div class="xButton" title="Chiudi" style="top:15px; right:15px;" />
-		<div id="localizeBoxHead">ONLINE</div>
+		<div class="clockTitle" id="localizeBoxHead">ONLINE</div>
 		<div id="localizeBoxContainer" />
 		<div id="localizeBoxTail"></div>
 	</div> 
@@ -93,7 +93,7 @@
 					</div>
 				</div>
 				<div id="commRight"> 
-					 <img id="commFromImg" class="tooltip commAvatar" tal:attributes="src user/pgAvatarSquare ; title string:Mittente: ${user/pgUser}"  />
+					 <img class="tooltip commAvatar boxGlow" tal:attributes="src user/pgAvatarSquare ; title string:Mittente: ${user/pgUser}"  />
 					
 					<div id="fromToCommBox">
 						<div class="sectioncolor">

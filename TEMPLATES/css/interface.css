@@ -1303,10 +1303,7 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
 #localizeBoxHead
 {
 	margin-top: 6px;
-    width: 290px;
-    font-family: 'BebasNeueRegular',Arial,Helvetica,sans-serif;
     font-size: 16px;
-    text-shadow: 0 0 5px #00c6ff;
 }
 #localizeBoxTail{
 	margin-bottom:15px;
@@ -1534,16 +1531,13 @@ select.neon:hover,select.neon:focus,select.neon:active {border:0px; border-botto
 	border-radius: 12px;
 	margin: 10px 2px 2px 2px;
 }
+.boxGlow{
+	box-shadow: 0 0 8px #00c6ff;
+}
 #commDestImg{
 	background-size: 100% auto;
 	background-repeat: no-repeat;
 	background-position: center;
-}
-#commFromImg{
-	background-size: 100% auto;
-	background-repeat: no-repeat;
-	background-position: center;
-	box-shadow: 0 0 8px #00c6ff;
 }
 #commLeft{
 	width: 120px;

@@ -31,12 +31,6 @@ body
 
 img{border:0px;}
 
-.notAvailable {
-	opacity: 0.4;
-    filter: alpha(opacity=40);
-    background-color: #000;
-}
-
 a
 {
 	text-decoration:none;
@@ -63,10 +57,7 @@ td.topicTitle
 	text-transform:uppercase;
 	font-weight:bold;
 }
-.littleLink
-{
-	font-size:12px;
-}
+
 .topicTitolo
 {
 	text-transform:uppercase;

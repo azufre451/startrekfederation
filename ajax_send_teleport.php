@@ -4,7 +4,6 @@ if (!isSet($_SESSION['pgID'])){exit;}
 
 include('includes/app_include.php');
 include('includes/validate_class.php');
- 		
 		
 		$vali = new validator();  
 		
@@ -27,11 +26,6 @@ $string2 = '<div style="position:relative;" data-timecode="'.$curTime.'" data-lo
 		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$dest','$string2',".time().",'MASTER')");		
 		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES($victim,(SELECT pgRoom FROM pg_users WHERE pgID = $victim),'$string',".time().",'SPECIFIC')");
 		
-		//echo "INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES($victim,'$amb','$string',".time().",'SPECIFIC')";
-		
 		PG::updatePresence($_SESSION['pgID']);
-		
-
-					 
 
 ?>	

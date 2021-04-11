@@ -125,13 +125,9 @@ font-weight:bold;
 text-align:center;
 }
 
-
-
-
 input, select, textarea, button
 {
 	color:#999;
-	
 	border:1px solid #999;
 	background-color:black;
     font-family: Helvetica;

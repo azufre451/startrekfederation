@@ -339,11 +339,14 @@
 			<option tal:repeat="place location" tal:attributes="value place/a" tal:content="place/b" />
 		</optgroup>
 	</select>
-
-	</div><div style="clear:both;"/>
-
+	</div><div style="border:2px solid #333; padding:10px; margin:0px; position:absolute;">
+		<input type="checkbox" class="teleport-checkbox" id="master-checkbox" value="1"/>
+		<label>Master</label>
+		<input type="checkbox" class="teleport-checkbox" id="sound-checkbox" value="1"/>
+		<label>Suono</label>
+	</div>
+	<div style="clear:both;"/>
 	<button onclick="javascript:doTeleport();" class="NBT_Roddenberry green">ENERGIA!</button>
-
 </div>
   
  

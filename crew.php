@@ -355,7 +355,7 @@ else if (isSet($_GET['createPNG']))
 		$a1 = array('ALFA','BETA','GAMMA','DELTA','ETA','EPSILON','ZETA','ETA','THETA','IOTA','KAPPA','LAMBDA','MI','NI','XI','OMICRON','PI','RHO','SIGMA','TAU','YPSILON','PHI','CHI','PSI','OMEGA');
 		$pgAuth= $a1[rand(0,24)].' '.$a1[rand(0,24)].' '.rand(0,10).' '.rand(0,10);
 		
-		if ($pgName =='' || $emai == '' || $pgSpecie == '' || $pgSesso == '') 
+		if ($pgSurname =='' || $emai == '' || $pgSpecie == '' || $pgSesso == '') 
 		{	
 			header('Location:index.php?error=insertion_error');
 			exit;

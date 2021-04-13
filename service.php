@@ -177,59 +177,6 @@ if(isSet($_GET['registerUser']))
 	
 }
 
-if(isSet($_GET['createPNG']))
-{
-//	return;
-	$pgName= ucfirst(addslashes(($_POST['pgName'])));
-	$emai= 'png@stfederation.it';
-	$pgSpecie= (htmlentities(addslashes(($_POST['specie'])),ENT_COMPAT, 'UTF-8'));
-	$pgSesso= (htmlentities(addslashes(($_POST['pgSesso'])),ENT_COMPAT, 'UTF-8'));
-	$passer = addslashes($_POST['password']);
-	$pgPassword1 = md5($passer);
-	
-	$a1 = array('ALFA','BETA','GAMMA','DELTA','ETA','EPSILON','ZETA','ETA','THETA','IOTA','KAPPA','LAMBDA','MI','NI','XI','OMICRON','PI','RHO','SIGMA','TAU','YPSILON','PHI','CHI','PSI','OMEGA');
-	$pgAuth= $a1[rand(0,24)].' '.$a1[rand(0,24)].' '.rand(0,10).' '.rand(0,10);
-	
-	if ($pgName =='' || $emai == '' || $pgSpecie == '' || $pgSesso == '') 
-	{	
-		header('Location:index.php?error=insertion_error');
-		exit;
-	}
-	
-	$assignTOSHIP = 'SOL';
-	
-	$currentUser = new PG($_SESSION['pgID']);
-	if(PG::mapPermissions('SM',$currentUser->pgAuthOMA))
-	{
-	
-	$re1=mysql_query("SELECT 1 FROM pg_users WHERE pgUser = '$pgName'");
-	if (mysql_affected_rows()){header("Location:index.php?error=96"); exit;}
-	
-	mysql_query("INSERT INTO pg_users(pgUser, pgPass, pgGrado, pgSezione, pgAssign, pgSeclar, pgAuth, pgLocation, pgRoom, pgAuthOMA, pgSpecie, pgSesso, pgMostrina, rankCode, email,pgLock,pgFirst,png, pgNote, pgMatricola) VALUES ('$pgName','$pgPassword1','Civile','Nessuna','$assignTOSHIP',1,'$pgAuth','$assignTOSHIP','$assignTOSHIP','N','$pgSpecie','$pgSesso','CIV',1,'$emai',0,0,1,'Password: $passer','".createRandomMatricola()."')");
-	
-	mysql_query("INSERT INTO pg_users_bios (pgID) VALUES ((SELECT pgID FROM pg_users WHERE pgUser = '$pgName'))");
-	
-	
-	mysql_query("INSERT INTO connlog (user,time,ip) VALUES ((SELECT pgID FROM pg_users WHERE pgUser = '$pgName'),$curTime,'".$_SERVER['REMOTE_ADDR']."')");
-	
-	$pgName=stripslashes($pgName);
-	
-	// mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddTest,paddTime,paddRead) VALUES (1,,'Benvenuto!','Ciao<br />Benvenuto in Star Trek Federation. Ti invitiamo a consultare la guida al gioco ed il regolamento e a porre qualunque domanda ai master o agli admin loggati. Buon gioco,<br />Il team di Star Trek Federation',".time().",0)");
-	
-	if(!mysql_error()){
-	header('Location:crew.php?equi=SOL');
-	exit;
-	}
-	else
-	{
-		if (mysql_affected_rows()){header("Location:index.php?error=99"); exit;}
-		exit;
-	}
-	
-	}
-}
-
-
 if(isSet($_GET['addCallComment']))
 {
 $vali = new validator();

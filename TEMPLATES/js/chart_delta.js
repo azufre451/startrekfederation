@@ -76,7 +76,7 @@ function addMarker(e, t, tp) {
         fillColor: ccl,
         fillOpacity: 1,
         weight: 4
-    }).addTo(map);
+    }).bindTooltip(tp+'<p> Clicca per più dettagli</p>',{'className':'chartTooltip'}).addTo(map);
     n.on("click", function() {
         coordinatesContent = getMessage(e + ";" + t);
         if (coordinatesContent.length == 1) {

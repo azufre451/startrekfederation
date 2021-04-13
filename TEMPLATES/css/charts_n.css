@@ -78,3 +78,6 @@ p.iColor{float:right; margin:0px;}
 }
 
 #introb{margin-left:10px; font-size:12px; letter-spacing:2px;}
+
+.chartTooltip{background-color: black; color:white; padding:8px; font-weight:bold; border:1px solid #FC0; max-width:300px;}
+.chartTooltip p{margin:3px 0px 0px 0px; text-decoration: italic; color:#AAA;}

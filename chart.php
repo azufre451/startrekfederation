@@ -36,24 +36,20 @@ $vali = new validator();
 	 
 	$template->yPos = $ipo;
 	
-	$ra = mysql_query("SELECT pointerL,placeType FROM pg_places WHERE pointerL NOT IN ('A:','D:') AND attracco ='' AND pointerL LIKE '$subChart:%' ");
+	$ra = mysql_query("SELECT pointerL,placeType,placeName FROM pg_places WHERE pointerL NOT IN ('A:','D:') AND attracco ='' AND pointerL LIKE '$subChart:%' ORDER BY placeName");
 	$markers = array();
 	while ($res = mysql_fetch_array($ra))
 	{	
 
 		if (! array_key_exists($res['pointerL'], $markers))
 			$markers[$res['pointerL']] = array();
-		$markers[$res['pointerL']][] = $res['placeType'];
+		$markers[$res['pointerL']][] = $res['placeName'];
 	}
 	
 	$markersOrder = array();
 	foreach($markers as $mk => $mklist)
 	{
-		$uniQ = array_unique($mklist);
-		if (count($uniQ) == 1)
-			$type = $uniQ[0];
-		else
-			$type = 'MIX';
+		$type = str_replace("'","&apos;",(implode('<br />',$mklist)));
 
 		$coords = explode(':',$mk);
 		$ele = explode(';',$coords[1]);

@@ -80,11 +80,14 @@
 	
 </div>
 
-<div id="cdbHeader"><div tal:attributes="style string:position:absolute;; height:50px;; width:202px;; top:35px;; left:55px;; background-image:url('TEMPLATES/img/tips/${catImage}')" />
-<p style="text-align:right; margin-right:20px; margin-bottom:3px; padding-bottom:6px; border-bottom:1px dotted #FCFCFC" class="titleFS" tal:content="catName" /> <p style="position:absolute; top:55px; left:260px; font-size:14px;"><a class="interfaceLink" tal:attributes="href string:db.php?cat=${catID}">Torna Indietro</a></p></div>
+<div id="cdbHeader">
+	<div tal:attributes="style string:background-image:url('TEMPLATES/img/tips/${catImage}')" />
+	<p class="titleFS" tal:content="catName" />
+
+	<p id="goBack"><a class="interfaceLink" tal:attributes="href string:db.php?cat=${catID}">Torna Indietro</a></p>
+</div>
 
 <div id="cdbContainer">
-
 <!--<a tal:attributes="href string:db.php?dopdf=${ID}" tal:condition="php:(searchable)" style="margin-left:20px;" class="interfaceLink"><img src="TEMPLATES/img/interface/pdficon.jpg" /> Versione Stampabile</a> --> <a tal:attributes="href string:db.php?edielement=${ID}" title="MODIFICA" tal:condition="exists:isAdmin" ><img src="TEMPLATES/img/interface/cdbInterface/forum_edit.png" /></a> <a onclick="javascript: return confirm('Sicuro?');" tal:attributes="href string:db.php?delelement=${ID}" title="ELIMINA" tal:condition="exists:isAdmin" ><img src="TEMPLATES/img/interface/cdbInterface/forum_delete.png" /></a> 
 
 <div id="mdmacontent" tal:content="structure content" />

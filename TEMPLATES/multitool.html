@@ -235,17 +235,19 @@
 			
 			<table>
 				<tr style="background-color:#444; font-weight:bold;"> <td style="width:30px;"> ID </td> <td> Luogo </td> <td> Owner </td> <td>Data Inizio </td> <td> Stato </td> </tr>
-				<tr style="margin-top:15px; border:1px solid white;" tal:attributes="id string:session_${session/sessionID}" tal:repeat="session sessions"> 
+				<tbody tal:repeat="sday sessions">
+					<tr style="margin-top:15px; border:1px solid white;" tal:attributes="id string:session_${session/sessionID}" tal:repeat="session sday"> 
 
-				<td><span tal:attributes="class php:((session['sessionMaster'] == '1') ? ((session['sessionPrivate'] == '1') ? 'masterPriv': 'master') : 'nomaster')" tal:content="session/sessionID" /></td>
+					<td><span tal:attributes="class php:((session['sessionMaster'] == '1') ? ((session['sessionPrivate'] == '1') ? 'masterPriv': 'master') : 'nomaster')" tal:content="session/sessionID" /></td>
 
-				<td><span tal:content="session/sessionLabel" style="margin:0" /> <span style="font-color:#20527c; font-weight:bold;">@</span> <span tal:content="session/locName" style="margin:0;" /> <a href="javascript:void(0);" tal:attributes="onclick string:closeSession('${session/sessionID}')" class=" commander interfaceLink" style="color:red;" tal:condition="php:(session['sessionStatus'] == 'ONGOING')"> [Chiudi] </a> <a href="javascript:void(0);" tal:attributes="href string:getLog.php?session=${session/sessionID}" target="_blank" style="color:#FFCC00;" tal:condition="php:(session['sessionStatus'] == 'CLOSED')"> [Log] </a> </td>
-				<td tal:content="session/pgUser" />
-				<td><span tal:content="php:(date('d/m/y',session['sessionStart']))" /><br /><span tal:content="php:(date('H:i',session['sessionStart']))" /></td>
-				<td class="statuser"><span tal:attributes="class php:((session['sessionStatus'] == 'ONGOING') ? 'ongoing' : ((session['sessionStatus'] == 'CLOSED') ? 'closed' : '' ) )" tal:content="session/sessionStatus" /></td>
-				
-				
-				</tr>
+					<td><span tal:content="session/sessionLabel" style="margin:0" /> <span style="font-color:#20527c; font-weight:bold;">@</span> <span tal:content="session/locName" style="margin:0;" /> <a href="javascript:void(0);" tal:attributes="onclick string:closeSession('${session/sessionID}')" class=" commander interfaceLink" style="color:red;" tal:condition="php:(session['sessionStatus'] == 'ONGOING')"> [Chiudi] </a> <a href="javascript:void(0);" tal:attributes="href string:getLog.php?session=${session/sessionID}" target="_blank" style="color:#FFCC00;" tal:condition="php:(session['sessionStatus'] == 'CLOSED')"> [Log] </a> </td>
+					<td tal:content="session/pgUser" />
+					<td><span tal:content="php:(date('d/m/y',session['sessionStart']))" /><br /><span tal:content="php:(date('H:i',session['sessionStart']))" /></td>
+					<td class="statuser"><span tal:attributes="class php:((session['sessionStatus'] == 'ONGOING') ? 'ongoing' : ((session['sessionStatus'] == 'CLOSED') ? 'closed' : '' ) )" tal:content="session/sessionStatus" /></td>
+					
+					
+					</tr>
+				</tbody>
 			</table>
 		</div>
 

@@ -53,6 +53,11 @@
 <form method="POST" tal:attributes="action string:service.php?warpSpeed=${place/placeID}" tal:condition="php:(stat == 'posizionata' && (place['placeType'] == 'Nave' || place['placeType'] == 'Navetta'))">
 	Curvatura: <input type="text" value="6" name="factor" style="margin-top:0px; text-align:center; height:15px; width:35px" /> <input style="font-variant: small-caps;" type="submit" class="sendpadd" value="WARP" />
 </form>
+
+
+<form id="coordin" class="warpField"  method="POST" tal:attributes="action string:service.php?coorArriveTo=${place/placeID}">
+	<span style="font-variant: small-caps; color: #0077c3;" > Coordinate <span style="color:white;"> | </span> X: </span><input type="text" name="coX" style="font-size:center; width:30px; " /> <span style="font-variant: small-caps; color: #0077c3;"> Y: </span><input type="text" name="coY" style="font-size:center; width:30px;" /> <input style="margin-top: 5px; margin-left:20px;" class="sendpadd" type="submit" value="ARRIVA" /> 
+</form>
 </div>
 
 <div style="position:absolute; top:20px; right:20px; font-size:13px;" tal:condition="exists:limitrofi">

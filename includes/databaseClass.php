@@ -52,7 +52,24 @@ class Ambient
 		return $ara;
 	}
 	 
-	
+	public static function getLastSessions($limit,$filter='UL')
+	{
+
+		if ($filter == 'UL')
+			$uQ = "SELECT federation_sessions.*,pg_users.pgUser,pg_users.pgID,ordinaryUniform,locName,placeLogo FROM federation_sessions,pg_users,fed_ambient,pg_ranks,pg_places WHERE placeID = ambientLocation AND rankCode = prio AND pgID = sessionOwner AND sessionPlace = locID AND sessionStatus = 'CLOSED' AND sessionPrivate = 0 ORDER BY sessionStatus, sessionID DESC LIMIT $limit";
+		else
+			$uQ = "SELECT federation_sessions.*,pg_users.pgUser,pg_users.pgID,locName FROM federation_sessions,pg_users,fed_ambient WHERE pgID = sessionOwner AND sessionPlace = locID ORDER BY sessionID DESC LIMIT $limit";
+
+		$rea = mysql_query($uQ);
+
+		$sessions=array();
+		while($rel = mysql_fetch_assoc($rea)){
+			$dater = date('d-m-y',$rel['sessionStart']);
+			$sessions[$dater][] = $rel;
+		}
+
+		return $sessions;
+	}
 	
 	public static function getActiveSession($ambientID){
 		$res = mysql_query("SELECT federation_sessions.*, pgUser,pg_users.pgID as openerID FROM federation_sessions,pg_users WHERE pgID = sessionOwner AND sessionPlace = '$ambientID' AND sessionStatus = 'ONGOING'");
@@ -173,7 +190,7 @@ class Ambient
 		
 	}
 	
-	public static function openSession($ambientID,$owner,$label,$master,$private=0,$timer=8,$maxchar=0){
+	public static function openSession($ambientID,$owner,$label,$master,$private=0,$timer=8,$maxchar=0,$descript=''){
 		$curTime = time(); 
 		$col= ($master) ? 'masterAction' : 'auxAction';
 		$timerParticle = ($master) ? 'm' : '';
@@ -182,7 +199,7 @@ class Ambient
 
 		$sessionCharrerA = ($maxchar != 0) ? "<img style=\"vertical-align:middle; width:25px; margin-left:5px;\" title=\"Limite caratteri: $maxchar\" src=\"TEMPLATES/img/interface/sessions/chr_limit.jpg\" /> " : ''; 
 
-		$res = mysql_query("INSERT INTO federation_sessions(sessionPlace,sessionStart,sessionStatus,sessionOwner,sessionLabel,sessionMaster,sessionPrivate,	sessionIntervalTime,sessionMaxChars) VALUES ('$ambientID',$curTime,'ONGOING',$owner,'$label',$master,$private,$timer,$maxchar)"); 
+		$res = mysql_query("INSERT INTO federation_sessions(sessionPlace,sessionStart,sessionStatus,sessionOwner,sessionLabel,sessionDescript,sessionMaster,sessionPrivate,	sessionIntervalTime,sessionMaxChars) VALUES ('$ambientID',$curTime,'ONGOING',$owner,'$label','$descript',$master,$private,$timer,$maxchar)"); 
 		//echo "INSERT INTO federation_sessions(sessionPlace,sessionStart,sessionStatus,sessionOwner,sessionLabel,sessionMaster,sessionPrivate,	//sessionIntervalTime,sessionMaxChars) VALUES ('$ambientID',$curTime,'ONGOING',$owner,'$label',$master,$private,$timer,$maxchar)";
 
 		if(mysql_affected_rows()){ 

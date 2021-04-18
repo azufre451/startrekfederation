@@ -90,8 +90,9 @@ line-height: 1.2em;
 #mdmacontent p.quote{
 	text-align:right;
 	font-style: italic;
-	
+	color:#AAA;
 }
+#mdmacontent h1{ line-height: 1em }
    
 #mdmacontent a.tomo, a.dbInternalLink{
 	color:#2d90c8;
@@ -252,7 +253,7 @@ margin-left:10px;
 	text-align:center;
 	font-family:Arial;
 	font-size:1.3em;
-	width:300px;
+	width:320px;
 	margin-left:auto;
 	margin-right:auto;
 	font-weight:bold;
@@ -288,10 +289,14 @@ text-transform:uppercase;
 #mdmacontent h3.label.blue{border:1px solid #0090ff; background-color:#2e4aa4;}
 #mdmacontent h3.label.orange{border:1px solid #ffce0c; background-color:orange;}
 
-#mdmacontent h3.colorLabel.red{color:red; border-bottom-color: red;}
+#mdmacontent h3.colorLabel.red{color:#c31212; border-bottom-color: red;}
 #mdmacontent h3.colorLabel.yellow{color:#dedb08; border-bottom-color: #dedb08}
+#mdmacontent h3.colorLabel.orange{color:#ffcc00; border-bottom-color: #ffcc00}
 #mdmacontent h3.colorLabel.green{color:#0be82a; border-bottom-color: #0be82a}  
 #mdmacontent h3.colorLabel.blue{color:#2e4aa4; border-bottom-color: #2e4aa4} 
+
+#mdmacontent h3.article{text-align: center; padding-bottom: 5px; } 
+#mdmacontent h3.article span{font-size: 0.9em; color:#AAA; font-style: italic; display:block;} 
 
 
 #cdbHeader
@@ -300,11 +305,30 @@ position:absolute;
 top:20px;
 left:20px;
 width:93%;
+height:90px;
 margin-left:auto;
 margin-right:auto;
-overflow:auto;  
+overflow:hidden;  
 z-index:10;
 }
+
+#cdbHeader div{
+		position:absolute;
+		height:50px;
+		width:202px;
+		top:35px;
+		left:55px; 
+}
+
+#cdbHeader p{
+	text-align:right;
+	margin-right:10px;
+	margin-bottom:3px;
+	padding-bottom:6px;
+	border-bottom:1px dotted #FCFCFC;
+}
+
+#goBack{position:absolute; top:55px; left:260px; font-size:14px; border:0 !important;}
 
 #federation_interfaceContainer
 {
@@ -404,4 +428,90 @@ z-index:10;
 	left:123px;
 	width:241px;
 	height:22px;
+}
+
+#elementsNormal div, #elementsSpecial  div{
+	font-size:14px;
+	letter-spacing:0.08em;
+	padding-left:5px;
+	margin-left:20px;
+	margin-top:7px;
+	border-bottom:1px solid #555;
+	padding-bottom:3px;
+	margin-right:20px; 
+}
+#elementsNormal, #elementsSpecial
+{
+	margin-top:20px;
+	margin-left:20px;
+	margin-right:30px;
+	padding:10px;
+}
+
+/* Ship Register */
+
+.sunk{color:red; text-decoration: line-through;}
+
+#fleetContainer,#classContainer,#alfaContainer,#typesContainer{
+		display:none;
+		margin:auto;
+		width:80%;
+		margin-top:20px;
+		border:1px solid gray;
+		padding:10px;
+}
+#fleetContainer p, .shipFleetList p{margin:0px; margin-top:3px;}
+.shipFleetHeading{margin:20px 0px 0px 30px;}
+.shipFleetList{margin:20px 0px 0px 60px;}
+.Division{
+		padding:10px;
+		padding-left:40px;
+		padding-right:60px;
+		text-align:justify;
+		font-size:14px;
+		margin-right:20px;
+}
+
+@media only screen and (max-width: 700px) {
+	#cdbHeader div{
+		display:none; 
+	}
+	#cdbHeader p{
+		font-size:2em;
+	}
+	#goBack{top:-20px; left:30px;}
+
+	#elementsNormal div, #elementsSpecial  div{
+	width:93%;
+	}
+
+	#fleetContainer,#classContainer,#alfaContainer,#typesContainer{
+		width:98%;
+		padding:0; border:0; 
+	}
+
+	.shipFleetHeading{margin-left:15px}
+	.shipFleetList{margin-left:30px}
+	.Division{
+		padding:10px;
+		padding-left:20px;
+		padding-right:20px;
+		text-align:justify;
+		font-size:14px;
+		margin-right:10px;
+	}
+}
+
+@media only screen and (min-width: 1030px) {
+	#elementsNormal div, #elementsSpecial  div{
+	width:45%;
+	float:left;
+	}
+}
+
+@media only screen and (min-width: 1500px) {
+	#elementsNormal div, #elementsSpecial  div{
+	width:30%;
+	float:left;
+	}
 }

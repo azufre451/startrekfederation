@@ -33,7 +33,25 @@
 	</script>
 
 
-	<style>.ui-tooltip {font-size:12px; text-align:justify;}</style>
+	<style>.ui-tooltip {font-size:12px; text-align:justify; }
+	#authorBox {width: 90%; margin-left:30px; margin-top:20px;}
+	#authorBox img {vertical-align: middle;}
+
+	#authorBox p {margin:0;}
+	#authorBox .ascreen span {font-weight:bold; font-size:14px;}
+	#authorBox table{border:1px solid #444; padding:5px; width:100%;}
+	#authorBox td {border-bottom:1px solid #444; padding:4px;}
+	#authorBox tr:last-of-type td {border-bottom:0px;}
+
+
+	#authorBox td:first-of-type {width:200px; font-family:federationFont; font-size:16px; letter-spacing: 0.1em; text-transform: uppercase;}
+	
+
+
+
+
+
+	</style>
 
 	<title tal:content="string:${title} - Star Trek: Federation GDR">FEDERATION - DATABASE</title>	
 	<meta name="description" tal:content="description" />
@@ -62,16 +80,67 @@
 	
 </div>
 
-<div id="cdbHeader"><div tal:attributes="style string:position:absolute;; height:50px;; width:202px;; top:35px;; left:55px;; background-image:url('TEMPLATES/img/tips/${catImage}')" />
-<p style="text-align:right; margin-right:20px; margin-bottom:3px; padding-bottom:6px; border-bottom:1px dotted #FCFCFC" class="titleFS" tal:content="catName" /> <p style="position:absolute; top:55px; left:260px; font-size:14px;"><a class="interfaceLink" tal:attributes="href string:db.php?cat=${catID}">Torna Indietro</a></p></div>
+<div id="cdbHeader">
+	<div tal:attributes="style string:background-image:url('TEMPLATES/img/tips/${catImage}')" />
+	<p class="titleFS" tal:content="catName" />
+
+	<p id="goBack"><a class="interfaceLink" tal:attributes="href string:db.php?cat=${catID}">Torna Indietro</a></p>
+</div>
 
 <div id="cdbContainer">
-
 <!--<a tal:attributes="href string:db.php?dopdf=${ID}" tal:condition="php:(searchable)" style="margin-left:20px;" class="interfaceLink"><img src="TEMPLATES/img/interface/pdficon.jpg" /> Versione Stampabile</a> --> <a tal:attributes="href string:db.php?edielement=${ID}" title="MODIFICA" tal:condition="exists:isAdmin" ><img src="TEMPLATES/img/interface/cdbInterface/forum_edit.png" /></a> <a onclick="javascript: return confirm('Sicuro?');" tal:attributes="href string:db.php?delelement=${ID}" title="ELIMINA" tal:condition="exists:isAdmin" ><img src="TEMPLATES/img/interface/cdbInterface/forum_delete.png" /></a> 
 
 <div id="mdmacontent" tal:content="structure content" />
 
-<div style="border-top:1px solid #333; width:300px; padding-top:15px; margin-left:30px;"><a class="interfaceLink" rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Licenza Creative Commons CC-BY-NC-SA 4.0" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br /> <a class="interfaceLink" href="index.php?directory=true" target="_blank"> Licenza dei Contenuti </a></div>
+<div tal:condition="exists:refs" id="authorBox">
+
+	<table>
+		<tr tal:condition="php:array_key_exists('AUTHOR',refs)">
+			<td> Autori</td>
+			<td>
+				<p class="ascreen" tal:repeat="aut refs/AUTHOR">
+					<img tal:attributes="src string:TEMPLATES/img/ranks/${aut/ordinaryUniform}.png" />
+					<a tal:omit-tag="not:searchable" href="javascript:void(0);" tal:attributes="onclick string:schedaPOpen('${aut/pgID}')" class="interfaceLink"><span tal:content="aut/pgUser" />  </a>
+				</p>
+			</td>
+		</tr><tr tal:condition="php:array_key_exists('EDITOR',refs)">
+			<td> Impaginazione</td>
+			<td>
+				<p class="ascreen" tal:repeat="aut refs/EDITOR">
+					<img tal:attributes="src string:TEMPLATES/img/ranks/${aut/ordinaryUniform}.png" />
+					<a tal:omit-tag="not:searchable" href="javascript:void(0);" tal:attributes="onclick string:schedaPOpen('${aut/pgID}')" class="interfaceLink"><span tal:content="aut/pgUser" />  </a>
+				</p>
+			</td>
+		</tr><tr tal:condition="php:array_key_exists('REVIEWER',refs)">
+			<td> Revisione</td>
+			<td>
+				<p class="ascreen" tal:repeat="aut refs/REVIEWER">
+					<img tal:attributes="src string:TEMPLATES/img/ranks/${aut/ordinaryUniform}.png" />
+					<a tal:omit-tag="not:searchable" href="javascript:void(0);" tal:attributes="onclick string:schedaPOpen('${aut/pgID}')" class="interfaceLink"><span tal:content="aut/pgUser" />  </a>
+				</p>
+			</td>
+		</tr><tr tal:condition="php:array_key_exists('APPROVAL',refs)">
+			<td> Approvazione</td>
+			<td>
+				<p class="ascreen" tal:repeat="aut refs/APPROVAL">
+					<img tal:attributes="src string:TEMPLATES/img/ranks/${aut/ordinaryUniform}.png" />
+					<a tal:omit-tag="not:searchable" href="javascript:void(0);" tal:attributes="onclick string:schedaPOpen('${aut/pgID}')" class="interfaceLink"><span tal:content="aut/pgUser" />  </a>
+				</p>
+			</td>
+		</tr><tr tal:condition="php:array_key_exists('SOURCES',refs)"> 
+			<td> Fonti</td>
+			<td><p style="margin-left:10px; font-size:15px; font-variant: small-caps;" tal:repeat="aut refs/SOURCES" tal:content="structure aut/auxcontent" /></td>
+		</tr>
+		<tr> 
+			<td> LICENZA DEI CONTENUTI</td>
+			<td>
+				<p style="margin-left:10px;"><a class="interfaceLink" rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Licenza Creative Commons CC-BY-NC-SA 4.0" title="Licenza Creative Commons CC-BY-NC-SA 4.0" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
+			</td>
+		</tr>
+
+	</table>
+
+</div>
 
 
 </div>

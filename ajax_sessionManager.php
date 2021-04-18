@@ -34,6 +34,7 @@ include('includes/validate_class.php');
 			Ambient::closeSession($ambientID); 
 			$master = ((int)($_POST['master'] && PG::mapPermissions('M',$user->pgAuthOMA)))  ? 1 : 0; 
 			$label = addslashes($_POST['label']);
+			$descript = addslashes($_POST['descript']);
 			
 			$vali = new validator();
 			
@@ -52,7 +53,7 @@ include('includes/validate_class.php');
 
 			$listerOne = ($master && isSet($_POST['lister'])) ? $_POST['lister'] : '';
 			$pvtIndex = ($listerOne != '') ? 1 : 0;
-			Ambient::openSession($ambientID,$user->ID,$label,$master,$pvtIndex,$timer,$charrer); 
+			Ambient::openSession($ambientID,$user->ID,$label,$master,$pvtIndex,$timer,$charrer,$descript); 
 			
 			if($pvtIndex){
 				Ambient::openPrivate($ambientID,$user->ID,$listerOne); 

@@ -136,7 +136,7 @@ function openSession(){
 	jQuery.ajax(
 	{
 		url: 'ajax_sessionManager.php?action=open-new',
-		data:{amb: jQuery('#ambientID').prop('value'), master:masterCheck,maxchar:jQuery('#tcharrer').prop('value'),maxturner:jQuery('#maxturner').val(), lister:jQuery('#tusers').val(), label:jQuery('#sessionLabel').prop('value')},
+		data:{amb: jQuery('#ambientID').prop('value'), master:masterCheck,maxchar:jQuery('#tcharrer').prop('value'),maxturner:jQuery('#maxturner').val(), lister:jQuery('#tusers').val(), label:jQuery('#sessionLabel').prop('value'), descript: jQuery('#sessionDescript').prop('value')},
 		complete: function(e){
 			noti(e);
 			initSessionsPanel();

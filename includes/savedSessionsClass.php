@@ -276,6 +276,7 @@ class Session
 		$this->sessionIniTime = $sesser['sessionStart']; 
 		$this->sessionStopTime = $sesser['sessionEnd']; 
 		$this->sessionLabel=$sesser['sessionLabel'];
+		$this->sessionDescript=$sesser['sessionDescript'];
 		$this->isPrivate = ($sesser['sessionPrivate']) ? 1 : 0;
 		$this->sessionPrivate = ($sesser['sessionPrivate']) ? '<p style="font-size:15; color:red; font-weight:bold;"> Giocata Privata </p>' : ''; 
 
@@ -334,11 +335,11 @@ class Session
 
 			$this->htmlLiner.="</table></div><div style=\"float:right; text-align:center; width:30%; margin-left:30px;\"><div style=\"border:1px solid #666; padding:20px;\"><b>Codice Auto-Mostrine per CDB:</b> <i>Copia questa lista e incollala nel tool \"Avanzate\" del CDB per ottenere la lista dei presenti con mostrine e incarichi.</i><br /><br />
 			
-			<input value=\"$userLister\" onclick=\"javascript:this.select();\" style=\"width:97%\"/></div>
+			<input value=\"$userLister\" onclick=\"javascript:this.select();\" style=\"width:97%\"/><br /><br />".$downloadButton."</div>
 			
 			<p style=\"font-family:Arial; font-weight:bold; font-size:22px;\"><img src=\"TEMPLATES/img/logo/".$this->placeLogo."\" height=\"100px\" align=\"left\">".$this->placeName."<br />".$this->locName."</p>".$this->sessionPrivate."
 			
-			</div><div style=\"clear:both\" /><br /><div style=\"clear:both;\"></div> ".$downloadButton." <hr /><div style=\"padding:20px; border:1px solid #666; margin-top:20px;\">
+			</div><div style=\"clear:both\" /><br /><div style=\"clear:both;\"></div><div style=\"width:33%; margin:auto; text-align:center;\"><p style=\"color:#FC0; border-bottom:1px solid #444; padding-bottom:10px; font-weight:bold;\">".$this->sessionLabel."<p style=\"font-style:italic; text-align:justify\">".$this->sessionDescript."</p></div>". " <hr /><div style=\"padding:20px; border:1px solid #666; margin-top:20px;\">
 			";
 			
 

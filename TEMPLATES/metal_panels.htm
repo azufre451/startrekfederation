@@ -360,7 +360,14 @@
 
 		<div style="margin-top:20px;">
 			<input type="text" class="neon" style="width:90%" id="sessionLabel" placeholder="Titolo della sessione" />
-			<p style="text-align:left; margin-left:10px;" tal:condition="exists:isMasteringJuniorMasterOrMod"><input type="checkbox" id="masterCheck" /> Sessione Master</p>
+
+			<p style="margin-top:10px; text-align:left; margin-left:20px;"><a href="javascript:void(0);" onclick="jQuery('#sdt_panel').toggle()" class="interfaceLink">Aggiungi Descrizione ▼</a></p>
+			<div style="display: none; margin-top:10px;" id="sdt_panel">
+			<textarea class="neon" style="width:90%; height:50px; padding:4px;" id="sessionDescript" placeholder="Breve descrizione della sessione. Questo testo apparirà nei log." maxlength="255" />
+			</div>
+
+
+			<p style="text-align:left; margin-left:20px;" tal:condition="exists:isMasteringJuniorMasterOrMod"><input type="checkbox" id="masterCheck" /> Sessione Master</p>
 			<p style="text-align:left; margin-left:35px;" tal:condition="exists:isMasteringJuniorMasterOrMod" >accesso riservato a: <input type="text" placeholder="Tutti" id="tusers" class="neon" name="tusers" onfocus="this.select();" /> </p>
 			<p style="text-align:left; margin-left:25px; margin-top:10px; font-family:Helvetica; font-size:14px;" >Attesa massima in turno:
 				<select placeholder="Tutti" id="maxturner" class="neon" name="maxturner">

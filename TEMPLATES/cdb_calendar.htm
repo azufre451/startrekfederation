@@ -58,12 +58,12 @@
 
 	<div style="font-size:12px; margin-left:5px; text-transform:uppercase; "><a href="cdb.php" class="interfaceLink">CDB</a> <span style="color:red; font-size:11px;">></span> <a class="interfaceLink" tal:attributes="href string:calendar.php">CALENDARIO</a> <span style="color:red; font-size:11px;">></span> <span class="interfaceLink">EVENTI DEI PROSSIMI 10 GIORNI</span></div>
 	
-
-	<div style="font-size:12px; margin-left:5px; float:right;"><a href="javascript:void(0)" onclick="javascript:$('#eventCreate').fadeIn(150);" class="interfaceLink">(- Aggiungi Evento -)</a> <a tal:condition="php:(M=='yes')" href="calendar.php?backwards=do" class="interfaceLink">(- Vedi ultimi 10 Giorni -)</a> </div>
-
 	<div style="text-align:justify; margin-top:20px; font-style:italic; font-family:Helvetica; margin-left:20px; color:#BBB; margin-right:20px; ">
 	<span style="color:red">Avviso</span> Il Calendario &egrave; uno strumento esclusivamente OFF-game per permettere ai giocatori di organizzare giocate ed eventi.
 	</div>
+
+	<div style="font-size:12px; margin-left:5px; float:right;"><a href="javascript:void(0)" onclick="javascript:$('#eventCreate').fadeIn(150);" class="interfaceLink">(- Aggiungi Evento -)</a> <a tal:condition="php:(M=='yes')" href="calendar.php?backwards=do" class="interfaceLink">(- Vedi ultimi 10 Giorni -)</a> <a href="calendar.php?pastsessions=do" class="interfaceLinkYellow">(- Giocate Recenti -)</a> </div>
+
 <div class="popup" id="eventCreate">
 
 <p class="clockTitle" style="margin:0px; margin-bottom:10px; margin-right:10px;">Aggiungi Evento</p><hr />

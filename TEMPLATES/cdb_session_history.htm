@@ -1,0 +1,129 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
+	<link rel="shortcut icon" href="favicon.ico" />
+	<link tal:condition="php:user.getCTS()" tal:attributes="href php:'TEMPLATES/css/' . user.getCTS() . '?v=' . gameOptions['numericVersion'] " rel="stylesheet" type="text/css" />	
+	<link href="TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+ 	<link href="TEMPLATES/css/calendar.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+
+ 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+	
+	<script type="text/javascript" src="TEMPLATES/js/jquery-3.6.0.min.js" />
+	<!--<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />-->
+	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
+
+	<!-- <script type="text/javascript" src="TEMPLATES/js/lazyload.js"></script> -->
+	<title>STAR TREK FEDERATION - CDB</title>
+
+	<script>
+		jQuery(function(){
+			jQuery('.tooltip').tooltip();	
+		});
+	</script>
+	<style>
+		#sessionsBox{font-family: Arial,Helvetica; width:8%0; max-width: 750px; margin:10px auto;}
+		#sessionsBox table{width:100%; margin-top:10px;}
+		#sessionsBox thead td {text-align: center; background-color:#444; font-size:16px; font-weight:bold; border-bottom:2px solid white; }
+		#sessionsBox td {border-bottom:1px solid #555; padding-bottom:5px; text-align: center;}
+		#sessionsBox img {vertical-align: middle;}
+		#sessionsBox td.typer{ width:60px;}
+		#sessionsBox td.typer p {
+	    background-size: 90% 90%;
+	    background-position: center center;
+	    background-repeat: no-repeat;
+	    border: 1px solid #666;
+	    width: 42px;
+	    border-radius: 8px;
+	    margin:auto;
+	    height: 42px;
+		}
+		#sessionsBox td.typer p.master {box-shadow:0px 0px 9px 3px rgb(255 0 0 / 72%); border-color:red;}
+ 
+		#sessionsBox td.hour {font-size:13px;}
+		#sessionsBox td.placer {width:300px; text-align:left;}
+		#sessionsBox td.user {width:150px;}
+		#sessionsBox td.placer p:first-of-type a {text-decoration-color: color:var(--custom_section_color,#FFCC00); color:var(--custom_section_color,#FFCC00); text-decoration: underline; font-weight: bold;}
+		#sessionsBox td.placer p:first-of-type a:hover {text-decoration-color: white; color:white;}
+		#sessionsBox td.placer p.location {color:#AAA; font-style:italic; font-size:14px;}
+		#sessionsBox td.placer p.descript {color:#AAA; font-style:italic; font-size:14px;}
+		
+		#sessionBox span.masterSession::after{ content:'[ M ]', color:red; }
+
+		.ui-tooltip {font-size:13px;}
+	</style>
+</head>
+
+<body style="background-repeat:no-repeat; background-color:black; background-position:top center;">
+ 
+
+<div id="federation_interfaceContainer">
+	<div id="leftCol" style="width:123px;">
+		<div id="leftC1" />
+		<div id="leftC3" />
+	</div>
+	
+	<div id="supCol">
+		<div metal:use-macro="TEMPLATES/metal.htm/cdbHeading" />
+	</div>
+	
+	<div id="fillerBax">
+		<div id="barbot1" />
+	</div>
+
+	<div id="cdbContainer" >
+		<div metal:use-macro="TEMPLATES/metal.htm/cdbIntro" />
+
+		<div style="font-size:12px; margin-left:5px; text-transform:uppercase; "><a href="cdb.php" class="interfaceLink">CDB</a> <span style="color:red; font-size:11px;">></span> <a class="interfaceLink" tal:attributes="href string:calendar.php">CALENDARIO</a> <span style="color:red; font-size:11px;">></span> <span class="interfaceLink"> ULTIME 50 SESSIONI </span></div>
+	
+
+
+		<div style="text-align:justify; margin-top:20px; font-style:italic; font-family:Helvetica; margin-left:20px; color:#BBB; margin-right:20px; ">
+			<span style="color:red">Avviso</span> La lettura delle giocate passate è permessa per non perdersi gli elementi della storia di Star Trek: Federation. Tuttavia, ricordati che, a meno di eventi che coinvolgono chiaramente il tuo personaggio, o sono palesemente noti, non potrai assumere che il tuo personaggio sappia cosa è successo nelle giocate a cui non hai partecipato!
+		</div>
+	
+
+	<div id="sessionsBox">
+		<table tal:repeat="sday sessions">
+
+				<thead>
+					<tr><td colspan="5" style="background-color:black; color:var(--custom_section_color,#FFCC00); font-weight:bold;">
+						<span tal:content="php:(repeat.sday.key == date('d-m-y')) ? 'Oggi' : repeat.sday.key"></span>
+					</td></tr>
+					<tr><td colspan="2"> Giocata / Luogo</td> <td> Utente </td> <td>Inizio </td> <td>Fine</td> </tr>
+				</thead>
+
+					<tr tal:repeat="session sday"> 
+						<td class="typer">
+							<p tal:attributes="class php:(session['sessionMaster']) ? 'master' : '' ; title php:(session['sessionMaster']) ? 'Sessione Master' : 'Sessione Normale' ; style string:background-image:url('TEMPLATES/img/logo/${session/placeLogo}');" />
+						</td>
+						<td class="placer">
+							<p>
+								<a class="tooltip" href="javascript:void(0);" tal:attributes="href string:getLog.php?session=${session/sessionID} ; title string:${session/sessionDescript}" target="_blank" tal:content="session/sessionLabel"></a> - 
+							</p>
+							<p class="location" tal:content="string:[ ${session/locName} ]" />
+						</td>
+						<td class="user">
+							<img tal:attributes="src string:TEMPLATES/img/ranks/${session/ordinaryUniform}.png" />
+							<a class="interfaceLink" href="javascript:void(0)" tal:attributes="onclick string:schedaPOpen('${session/pgID}')"><span tal:content="session/pgUser" /></a>
+						</td>
+						<td class="hour">
+							<span tal:content="php:(date('d/m/y',session['sessionStart']))" /><br /><span tal:content="php:(date('H:i',session['sessionStart']))" />
+						</td>
+						<td class="hour">
+							<span tal:content="php:(date('d/m/y',session['sessionEnd']))" /><br /><span tal:content="php:(date('H:i',session['sessionEnd']))" />
+						</td>
+					</tr>
+			</table>
+
+	</div>
+	</div>
+</div>
+
+</body>
+</html>

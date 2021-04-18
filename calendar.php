@@ -60,6 +60,14 @@ else if(isSet($_GET['removeEvent']))
 	
 }
 
+else if(isSet($_GET['pastsessions']))
+{
+	$template = new PHPTAL('TEMPLATES/cdb_session_history.htm');
+
+	$template->sessions = Ambient::getLastSessions(50);
+
+}
+
 else
 {
 
@@ -110,21 +118,24 @@ $calEvents=array();
 	while ($rea=mysql_fetch_array($rese))
 	$places[] = $rea;
 
-
-
-
 	ksort($calEvents);
-	$template->user = $currentUser;
+
 	$template->calEvents = $calEvents;
 	$template->places = $places;
 	$template->categoriesAvail = $categoriesAvail;
-	$template->gameOptions = $gameOptions;
 
+}	
+
+
+if (isSet($template))
+{
+	$template->gameOptions = $gameOptions;
+	$template->user = $currentUser;
 	$template->SM = (PG::mapPermissions('SM',$currentUser->pgAuthOMA)) ? 'yes' : 'no'; 
 	$template->M = (PG::mapPermissions('M',$currentUser->pgAuthOMA)) ? 'yes' : 'no'; 
-	
 	$template->currentDate = $currentDate;
 	$template->currentStarDate = $currentStarDate;
+
 	try 
 	{
 		echo $template->execute();
@@ -132,8 +143,7 @@ $calEvents=array();
 		catch (Exception $e){
 	echo $e;
 	}
-}	
-
+}
 include('includes/app_declude.php');
 
 ?>

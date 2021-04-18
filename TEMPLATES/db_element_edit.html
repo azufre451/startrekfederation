@@ -21,7 +21,23 @@
 	<script type="text/javascript">
 		jQuery(function(){
 			jQuery('button').button();
+
+			jQuery( ".acp" ).autocomplete({
+			source: "ajax_UserSearch.php",
+			minLength: 2,
+			});
+
 		});
+
+		function addCreditElement (){
+			idp=Math.floor(Math.random() * 1001);
+			jQuery('#creditTable').append('<tr><td><select class="neon" name="REFS_N'+idp+'_role"><option value="AUTHOR">Autore</option><option value="EDITOR">Impaginazione</option><option value="REVIEWER">Revisione</option><option value="APPROVAL">Approvazione</option><option value="SOURCES">Fonti</option></select></td><td><input name="REFS_N'+idp+'_val" type="text" class="acp neon"></input></td><td><a href="javascript:void(0)" class="interfaceLinkRed" onclick="jQuery(this).parent().parent().remove()">X</a></td></tr>');
+
+				jQuery( ".acp" ).autocomplete({
+					source: "ajax_UserSearch.php",
+					minLength: 2,
+				});
+		}
 	</script>
 	<title tal:content="string:${resA/title} - Star Trek: Federation GDR">FEDERATION - DATABASE</title>	
 	<meta name="description" tal:content="description" />
@@ -102,6 +118,35 @@
 		</select>
 
 		<input type="text" class="neon" tal:attributes="value resA/crosslink" style="width:100px;" name="crossLink" placeholder="ID Disp. CrossLink"> </input>
+
+		<br />
+
+		<div>
+		Credits:
+		<table id="creditTable">
+			<tr tal:repeat="ref refs">
+				<td>
+					<select class="neon" tal:attributes="name string:REFS_${ref/recID}_role">
+						<option tal:attributes="selected php:(ref['role'] == 'AUTHOR') ? 'selected' : ''" value="AUTHOR">Autore</option> 
+						<option tal:attributes="selected php:(ref['role'] == 'EDITOR') ? 'selected' : ''" value="EDITOR">Impaginazione</option> 
+						<option tal:attributes="selected php:(ref['role'] == 'REVIEWER') ? 'selected' : ''" value="REVIEWER">Revisione</option> 
+						<option tal:attributes="selected php:(ref['role'] == 'APPROVAL') ? 'selected' : ''" value="APPROVAL">Approvazione</option> 
+						<option tal:attributes="selected php:(ref['role'] == 'SOURCES') ? 'selected' : ''" value="SOURCES">Fonti</option> 
+					</select>
+				</td>
+				<td>
+					<input tal:condition="php:(ref['role'] != 'SOURCES')" type="text" class="acp neon" tal:attributes="value ref/pgUser ; name string:REFS_${ref/recID}_val" />
+
+					<textarea style="width:400px; height:60px;" tal:condition="php:(ref['role'] == 'SOURCES')" type="text" class="acp neon" tal:attributes="name string:REFS_${ref/recID}_val" tal:content="ref/auxcontent" />
+
+				</td>
+				<td>
+					<a href="javascript:void(0)" class="interfaceLinkRed" onclick="jQuery(this).parent().parent().remove()">X</a>
+				</td>
+			</tr>
+			<a href="javascript:void(0)" class="interfaceLinkGreen" onclick="addCreditElement();">Aggiungi</a>
+		</table>
+		</div>
 
 		<div style="text-align:center"><input type="submit" value="Invia"> I  </input>
 

@@ -189,16 +189,47 @@ else if (isSet($_GET['ediDo']))
 	$crossLink = $vali->numberOnly(addslashes($_POST['crossLink']));
 	$catID = $vali->numberOnly(addslashes($_POST['catID']));
 
+	$refsToAssign=array();
+	foreach($_POST as $postVarID=>$postVar){
+		if(str_contains($postVarID,'REFS_')){
+			$insInfo = explode('_',$postVarID);
+			$refsToAssign[$insInfo[1]][$insInfo[2]] = $postVar;
+		}
+	}
 
+	if(count($refsToAssign) > 0)
+	{
+		$elToAdd=array();
+		foreach($refsToAssign as $refQ=>$refData){
+
+			if($refData['role'] == 'SOURCES'){
+				$pgID = "'6'";
+				$auxcontent="'".addslashes($refData['val'])."'";
+			}
+			else{
+				$pgID= "(SELECT pgID FROM pg_users WHERE pgUser = '".addslashes($refData['val'])."')";
+				$auxcontent="''";
+			}
+
+			$elToAdd[] = "('$ID','{$refData['role']}', $pgID, $auxcontent)";
+		}
+		mysql_query("DELETE FROM db_element_refs WHERE dispID = '$ID'");
+		mysql_query("INSERT INTO db_element_refs (dispID,role,pgID,auxcontent) VALUES ". implode(',',$elToAdd));
+
+	}
 	$ft = 'skipBB = 0, enableMD = 0';
 	if($formatType == "2") $ft = 'skipBB = 1, enableMD = 0';
 	if($formatType == "3") $ft = 'skipBB = 0, enableMD = 1';
 
+
+
 	
 	mysql_query("UPDATE db_elements SET IDF = '$IDF', catID = '$catID', title = '$title', content = '$content', crosslink = '$crossLink', type = '$entryType', tag = '$tag', $ft WHERE ID = '$ID'");
-if (mysql_error()){
-		echo mysql_error();exit;
-	}
+	if (mysql_error()){	echo mysql_error();exit;}
+
+
+
+	
 	header('Location:db.php?element='.$ID);
 }
 
@@ -254,6 +285,14 @@ else if(isSet($_GET['edielement'])){
 		$template->resA = $resA; 
 		$template->cats = $Rcats; 
 
+		$catOwn = mysql_query("SELECT recID,pgUser, role, auxcontent FROM db_element_refs,pg_users WHERE pg_users.pgID = db_element_refs.pgID AND  dispID = '$id' ORDER BY role, pgUser");
+
+		$catOwnR=array();
+		while ($rtp = mysql_fetch_assoc($catOwn)){
+			$catOwnR[]=$rtp;
+		}
+		$template->refs = $catOwnR;
+
 	}
 	else {header('Location:db.php'); exit;}
 
@@ -268,6 +307,8 @@ else if(isSet($_GET['element']) || isSet($_GET['litref']))
 	$id = addslashes($id);
 
 	$cat = mysql_query("SELECT db_cats.catID,catName,ID,catImage,title,content,skipBB,crosslink,totallink,enableMD FROM db_cats,db_elements WHERE db_cats.catID = db_elements.catID AND $idf = '$id'");
+
+
 		
 	$Parsedown = new ParsedownExtra();
 	
@@ -281,19 +322,42 @@ else if(isSet($_GET['element']) || isSet($_GET['litref']))
 
 	if ($resA = mysql_fetch_array($cat))
 	{
+
+		$template = new PHPTAL('TEMPLATES/db_element.htm');
+		
+		$catOwn = mysql_query("SELECT pg_users.pgID, pgUser, ordinaryUniform, role, auxcontent FROM db_element_refs,pg_users,pg_ranks WHERE pg_users.pgID = db_element_refs.pgID AND rankCode = prio AND  dispID = '".$resA['ID']."'");
+		if(mysql_affected_rows()){
+			$refArray=array();
+			while($rf=mysql_fetch_assoc($catOwn)){
+				if (!array_key_exists($rf['role'], $refArray))
+					$refArray[$rf['role']] = array();
+
+				if($rf['role'] == 'SOURCES'){
+					$rf['auxcontent'] = CDB::bbcode($rf['auxcontent'] );
+
+				}
+				$refArray[$rf['role']][] = $rf;
+			}
+			$template->refs = $refArray;
+		}
+
+
 		if($resA['crosslink'] != NULL) 
 			if($resA['crosslink'] != '0')
 				header("Location:db.php?element=".$resA['crosslink']);
 
 		if($resA['totallink'] != NULL) header("Location:".$resA['totallink']);
-		$template = new PHPTAL('TEMPLATES/db_element.htm');
+		
 		$template->ID = $resA['ID'];
 		$template->catID = $resA['catID'];
 		$template->catName = $resA['catName'];
 		$template->catImage = $resA['catImage'];
 		$template->title = $resA['title'];
+		
 		$template->content = ($resA['skipBB']) ? $resA['content'] : (($resA['enableMD']) ? CDB::bbcode($Parsedown->text($resA['content']),NULL,NULL,NULL,1) : CDB::bbcode($resA['content'],NULL,NULL,"\n",1)) ; 
 		$template->searchable = (isSet($_SESSION['pgID'])) ? true : false;
+
+
 
 	}
 	else {header('Location:db.php'); exit;}

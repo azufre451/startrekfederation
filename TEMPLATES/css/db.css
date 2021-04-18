@@ -90,6 +90,7 @@ line-height: 1.2em;
 #mdmacontent p.quote{
 	text-align:right;
 	font-style: italic;
+	color:#AAA;
 	
 }
    
@@ -288,10 +289,14 @@ text-transform:uppercase;
 #mdmacontent h3.label.blue{border:1px solid #0090ff; background-color:#2e4aa4;}
 #mdmacontent h3.label.orange{border:1px solid #ffce0c; background-color:orange;}
 
-#mdmacontent h3.colorLabel.red{color:red; border-bottom-color: red;}
+#mdmacontent h3.colorLabel.red{color:#c31212; border-bottom-color: red;}
 #mdmacontent h3.colorLabel.yellow{color:#dedb08; border-bottom-color: #dedb08}
+#mdmacontent h3.colorLabel.orange{color:#ffcc00; border-bottom-color: #ffcc00}
 #mdmacontent h3.colorLabel.green{color:#0be82a; border-bottom-color: #0be82a}  
 #mdmacontent h3.colorLabel.blue{color:#2e4aa4; border-bottom-color: #2e4aa4} 
+
+#mdmacontent h3.article{text-align: center; padding-bottom: 5px; } 
+#mdmacontent h3.article span{font-size: 0.9em; color:#AAA; font-style: italic; display:block;} 
 
 
 #cdbHeader

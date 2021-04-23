@@ -1015,7 +1015,7 @@ elseif($mode == 'master')
 		$res_temp_auths[]=$res_auths_val;
 	}
 
-	$repli_food = mysql_query("SELECT foodName,timer, food as tr, ( SELECT COUNT(recID) FROM fed_food_replications WHERE food = tr AND user = $pgID AND YEAR(FROM_UNIXTIME(timer)) = $thisYear) as cnt FROM fed_food,fed_food_replications WHERE foodID = food AND user = $pgID  AND YEAR(FROM_UNIXTIME(timer)) = $thisYear ORDER BY timer DESC LIMIT 25");
+	$repli_food = mysql_query("SELECT foodName,timer, food as tr, ( SELECT COUNT(recID) FROM fed_food_replications WHERE food = tr AND user = $pgID AND YEAR(FROM_UNIXTIME(timer)) = $thisYear) as cnt FROM fed_food,fed_food_replications WHERE foodID = food AND user = $pgID   ORDER BY timer DESC LIMIT 25");
 
 	$replicated_foods=array();
 	while($ftd = mysql_fetch_assoc($repli_food))

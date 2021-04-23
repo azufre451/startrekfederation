@@ -168,9 +168,10 @@
 
 					</td> 
 
-					<td style="border:1px solid #111;">
+					<td style="border:1px solid #111; width:110px; text-align: left;">
 							<!-- Inserire codice. Bollino rosso nessun reset, bollino verde, RESET, passandoci sopra con il mouse, title con le date dei reset -->
-							<img src="TEMPLATES/img/interface/yellow_dot_icon.png" tal:attributes="title string:Abilità Resettate l'ultima volta in data: ${person/lastCarEdit}" tal:condition="exists:person/lastCarEdit" />
+							<img src="TEMPLATES/img/interface/yellow_dot_icon.png" tal:attributes="title string:Abilità Resettate l'ultima volta in data: ${person/lastCarEdit}" tal:condition="exists:person/lastCarEdit" style="vertical-align: middle;" />
+							<a title="Vai alla Build" class="interfaceLink" href="javascript:void(0);" tal:content="string: [${person/pgUpgradePoints}] UP" tal:attributes="onclick string:schedaPOpen('${person/pgID}','bv')">  </a>
 
 							
 

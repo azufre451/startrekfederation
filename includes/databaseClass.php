@@ -730,7 +730,11 @@ class PG
 
 		$stats['CDB'] = array('All'=>$CDBa['cnt'], 'Diari'=>$CDBb['cnt'], 'Diari (questo PG)'=>$CDBc['cnt']);
 
-		
+		$HOLOa=mysql_fetch_assoc(mysql_query("SELECT COUNT(sessionID) as cnt FROM federation_sessions,pg_users,fed_ambient WHERE pgID = sessionOwner AND sessionPlace = locID AND ambientType = 'SALA_OLO' AND pgID = $pgID"));
+
+		$HOLOb=mysql_fetch_assoc(mysql_query("SELECT COUNT(sessionID) as cnt FROM federation_sessions,pg_users,fed_ambient WHERE pgID = sessionOwner AND sessionPlace = locID AND ambientType = 'SALA_OLO' AND pgID IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $pgID))"));
+
+		$stats['HOLO'] = array('Holosessions (questo PG)'=>$HOLOa['cnt'], 'Holosessions (tutti i PG)'=>$HOLOb['cnt']);
 
 
 		return $stats;

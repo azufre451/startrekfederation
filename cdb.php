@@ -596,13 +596,12 @@ else if (isSet($_GET['editPost']))
 			$k2_res = ($k2 != '') ? mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$k2'")) : NULL;
 			
 			$k3 = explode(',',addslashes($_POST['userSecBypass']));
-
 			mysql_query("DELETE FROM cdb_posts_seclarExceptions WHERE postID = $pID");
 
 			foreach ($k3 as $k3a){
 				$k3a = trim($k3a);
 				$k3a_res = ($k3a != '') ? mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$k3a'")) : NULL;
-				mysql_query("INSERT INTO cdb_posts_seclarExceptions (pgID, postID) VALUES ('".$k3a_res['pgID']."',$pID)"); 
+				$k3a_res != NULL ? mysql_query("INSERT INTO cdb_posts_seclarExceptions (pgID, postID) VALUES ('".$k3a_res['pgID']."',$pID)") : NULL;
 			}
 
 			mysql_query("UPDATE cdb_posts SET owner = ".$k1_res['pgID'].", coOwner = ".(($k2_res) ? $k2_res['pgID'] : 0)." WHERE ID = $pID"); 

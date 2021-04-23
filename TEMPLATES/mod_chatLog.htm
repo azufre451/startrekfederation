@@ -47,7 +47,7 @@
 <p>Log di chat GLOBALI - Da: <span tal:content="fromDate" /> a: <span tal:content="toDate"/></p>
 <div id="federation_chatDiv" style="padding:10px;">
 <div tal:repeat="LhtmlLiner htmlLiner">
-<p style="text-align:left; magin-left:20px;"><a href="javascript:void(0);" class="interfaceLink" tal:content="repeat/LhtmlLiner/key" tal:attributes="onclick string:javascript:tera('${repeat/LhtmlLiner/key}')"></a></p>
+<p style="text-align:left; margin-left:20px;"><a href="javascript:void(0);" class="interfaceLink" tal:content="repeat/LhtmlLiner/key" tal:attributes="onclick string:javascript:tera('${repeat/LhtmlLiner/key}')"></a></p>
 <div style="display:none; border:2px solid #eee; padding:10px;" tal:content="structure LhtmlLiner" tal:attributes="id repeat/LhtmlLiner/key"/>
 </div>
 
@@ -56,20 +56,20 @@
 	<div id="chatBar">
 	
 		<div style="margin-top:20px;">
-			<form method="POST" action="moderativeLog.php">
-				<select id="place" name="place" style="vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:20px; font-size:14px; font-weight:bold; text-align:center;" >
+			<form method="POST" action="mooderativeLurk.php">
+				<select id="place" name="place" style="vertical-align:middle; background-color:#001b2e; height:20px; font-size:14px; font-weight:bold; text-align:center;" >
 				<option tal:repeat="place places" tal:content="place/placeName" tal:attributes="value place/placeID ; selected php:(place['placeID'] == ambientKey) ? 'selected' : false"/>
 				</select>
 				
 				
 				DA: 
-				<input type="text" id="calFrom" name="calFrom" style="vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:20px; font-size:14px; font-weight:bold; text-align:center;" tal:attributes="value php:date('d/m/Y',time()-(24*60*60))"/>
-				<input  type="text" id="calFromH" name="calFromH" style="width:25px;  vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:20px; font-size:12px; font-weight:bold; text-align:center;" tal:attributes="value php:date('H',time()-(24*60*60))"/> :
-				<input id="calFromM" name="calFromM" style="width:25px;  vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:20px; font-size:12px; font-weight:bold; text-align:center;" tal:attributes="value php:date('i',time()-(24*60*60))"/>
+				<input type="text" id="calFrom" name="calFrom" style="vertical-align:middle; background-color:#001b2e; height:20px; font-size:14px; font-weight:bold; text-align:center;" tal:attributes="value php:date('d/m/Y',time()-(24*60*60))"/>
+				<input  type="text" id="calFromH" name="calFromH" style="width:25px;  vertical-align:middle; background-color:#001b2e; height:20px; font-size:12px; font-weight:bold; text-align:center;" tal:attributes="value php:date('H',time()-(24*60*60))"/> :
+				<input id="calFromM" name="calFromM" style="width:25px;  vertical-align:middle; background-color:#001b2e; height:20px; font-size:12px; font-weight:bold; text-align:center;" tal:attributes="value php:date('i',time()-(24*60*60))"/>
 				A:
-				<input type="text" id="calTo" name="calTo" style="vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:20px; font-size:14px; font-weight:bold; text-align:center;" tal:attributes="value php:date('d/m/Y',time())"/>
-				<input type="text"  id="calToH" name="calToH" style="width:25px; vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:20px; font-size:12px; font-weight:bold; text-align:center;" tal:attributes="value php:date('H',time())"/>:
-				<input type="text"  id="calToM" name="calToM" style="width:25px; vertical-align:middle; background-color:#001b2e; color='#0a172a'; height:20px; font-size:12px; font-weight:bold; text-align:center;" tal:attributes="value php:date('i',time())"/>
+				<input type="text" id="calTo" name="calTo" style="vertical-align:middle; background-color:#001b2e; height:20px; font-size:14px; font-weight:bold; text-align:center;" tal:attributes="value php:date('d/m/Y',time())"/>
+				<input type="text"  id="calToH" name="calToH" style="width:25px; vertical-align:middle; background-color:#001b2e; height:20px; font-size:12px; font-weight:bold; text-align:center;" tal:attributes="value php:date('H',time())"/>:
+				<input type="text"  id="calToM" name="calToM" style="width:25px; vertical-align:middle; background-color:#001b2e; height:20px; font-size:12px; font-weight:bold; text-align:center;" tal:attributes="value php:date('i',time())"/>
 				
 				<input type="submit" value="Vai!" />
 			</form>

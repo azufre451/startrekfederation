@@ -213,6 +213,7 @@
 				<input type="hidden" name="userSelector" tal:attributes="value selectedUser" />
 				<span style="font-size:18px;">Incrementa a</span> <select name="target" style="font-size:18px; text-align:center;"><option tal:repeat="ala abilit/exp" tal:attributes="value string:${ala/0}" tal:content="string:Livello ${ala/0} (${ala/1} UP)" /></select> <button class="incButton">Conferma</button>
 			</p>
+			<p style="margin-top:10px;" tal:condition="php:(!hasApprovedBG && abilit['abClass'] == 'ABIL') "> Con i punti iniziali, puoi raggiungere <br />al massimo il livello 10 nelle caratteristiche di base.</p> 
 		</form>
 		</div>
 	</div>

@@ -706,6 +706,13 @@ class PG
 		mysql_query("INSERT INTO pg_notestaff (pgFrom,pgTo,what,timeCode,reg) VALUES ($from,$thisID,'$thisString',$curTime,$regS)"); 
 	}
 
+	public function hasApprovedBG()
+	{
+		$res = mysql_query("SELECT 1 FROM pg_users_bios WHERE valid = 2 AND pgID = '".$this->ID."'");
+		return (mysql_affected_rows()) ? 1 : 0;
+
+	}
+
 	public function getStatsRecord(){
 
 		$stats=array();
@@ -828,15 +835,7 @@ class PG
 		mysql_query("UPDATE pg_users SET rankCode = $grado, pgMostrina = (SELECT ordinaryUniform FROM pg_ranks WHERE prio = $grado), pgGrado = (SELECT Rgrado FROM pg_ranks WHERE prio = $grado), pgSezione = (SELECT Rsezione FROM pg_ranks WHERE prio = $grado), pgSeclar = (SELECT Rseclar FROM pg_ranks WHERE prio = $grado) WHERE pgUser ='$pgL'");
 		echo mysql_error();
 	}
-	
-	/*public static function sendModerationL($pgL,$moder)
-	{
-		$string = '<p class="offAction" title="Moderazione">'."[Moderazione (questo avviso lo vedi solo tu)] ".ucfirst(ltrim($moder)).'</p>';
-		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES((SELECT pgID FROM pg_users WHERE pgUser = '$pgL'),(SELECT pgRoom FROM pg_users WHERE pgUser = '$pgL'),'$string',".time().",'SPECIFIC')");
-		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",(SELECT pgRoom FROM pg_users WHERE pgID = '".$_SESSION['pgID']."'),'$string',".time().",'SPECIFIC')");
-	}*/
-
-	
+		
 	public static function setIncarico($pgID,$testo)
 	{
 		mysql_query("UPDATE pg_users SET pgIncarico = '$testo' WHERE pgID ='$pgID'");

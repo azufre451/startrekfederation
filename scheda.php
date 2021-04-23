@@ -61,7 +61,7 @@ elseif($mode == 'bvadd')
 	{
 
 		$template = new PHPTAL('TEMPLATES/scheda_ruolino_points.htm');
-		
+		$hasApprovedBG = $selectedDUser->hasApprovedBG();
 		$resPoints = PG::getSomething($selectedUser,'upgradePoints');
 		$resUPoints = $resPoints['pgUpgradePoints'];
 		
@@ -84,7 +84,9 @@ elseif($mode == 'bvadd')
 
 			$cL = array();
 			$lastCost = '';
-			for ($i=$resCats['value']+1; $i<=15; $i++)
+			$upperBound = (!$hasApprovedBG && $resCats['abClass'] == 'ABIL') ? 10 : 15;
+
+			for ($i=$resCats['value']+1; $i<=$upperBound; $i++)
 			{
 				$cost = $a->fromToAbil($resCats['value'],$i,$resCats['abID']);
 				if ($resUPoints >= $cost)
@@ -137,6 +139,9 @@ elseif($mode == 'bvadd')
 		}
 		$template->labeler = array('GEN'=>'Ab. Generali','COMB'=>'Ab. Combattimento','ATT'=>'Ab. Attitudinali','SPE'=>'Ab. Speciali','TEC'=>'Ab. Tecniche','SCI'=>'Ab. Scientifiche','ABIL'=>'Caratteristiche');
 		$template->selectedUser = $selectedUser;
+		$template->hasApprovedBG = $hasApprovedBG;
+
+		
 	} else
 	{
 		header('Location:404.htm');
@@ -145,15 +150,21 @@ elseif($mode == 'bvadd')
 }
 
 elseif($mode == 'addPointCar'){
-	
-	$car = $_POST['dcar'];
-	$dest = $_POST['target'];
-	$selector=$vali->numberOnly($_POST['userSelector']);
 
-	if($selectedUser == $_POST['userSelector'] || $currentUser->pgAuthOMA == 'A')
-	{
-		$a = new abilDescriptor($selector); 
-		$a->performVariation(array(array($car,$dest)));
+	$car = addslashes($_POST['dcar']);
+	$abil = mysql_fetch_assoc(mysql_query("SELECT abClass FROM pg_abilita WHERE abID = '$car'"));
+
+	if( mysql_affected_rows()){
+		
+		$upperBound = (!$selectedDUser->hasApprovedBG() && $abil['abClass'] == 'ABIL') ? 10 : 15;
+		$dest = min($vali->numberOnly($_POST['target']),$upperBound);
+		$selector=$vali->numberOnly($_POST['userSelector']);
+
+		if($selectedUser == $_POST['userSelector'] || $currentUser->pgAuthOMA == 'A')
+		{
+			$a = new abilDescriptor($selector); 
+			$a->performVariation(array(array($car,$dest)));
+		}
 	}
 	header("location:scheda.php?pgID=$selector&s=bvadd&absel=$car");
 	exit;
@@ -281,9 +292,7 @@ elseif($mode == 'bv')
 		}
 	}
 
-	mysql_query("SELECT 1 FROM pg_users_bios WHERE pgID = $selectedUser AND valid = 2");
-
-	if (mysql_affected_rows())
+	if ($selectedDUser->hasApprovedBG())
 		$template->restrictEditCar = 1;
 
 

@@ -28,15 +28,7 @@
           			content: function (){
           						return $(this).prop('title');
           					}
-		});	
 		});
-
-		function goback(){
-			if(document.referrer != ''){
-				history.back();	
-				return false;
-			}
-		}
 	</script>
 
 
@@ -88,10 +80,8 @@
 </div>
 
 <div id="cdbHeader">
-	<div tal:attributes="style string:background-image:url('TEMPLATES/img/tips/${catImage}')" />
-	<p class="titleFS" tal:content="catName" />
-
-	<p id="goBack"><a class="interfaceLink" tal:attributes="href string:db.php?cat=${catID}" onclick="javascript:return goback();">Torna Indietro</a></p>
+	<a tal:attributes="href string:db.php?cat=${catID}"><div tal:attributes="style string:background-image:url('TEMPLATES/img/tips/${catImage}')" /></a>
+	<a tal:attributes="href string:db.php?cat=${catID}"><p class="titleFS" tal:content="catName" /></a>
 </div>
 
 <div id="cdbContainer">

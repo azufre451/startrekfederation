@@ -100,7 +100,12 @@
 
 					<tr tal:repeat="session sday"> 
 						<td class="typer">
-							<p tal:attributes="class php:(session['sessionMaster']) ? 'master' : '' ; title php:(session['sessionMaster']) ? 'Sessione Master' : 'Sessione Normale' ; style string:background-image:url('TEMPLATES/img/logo/${session/placeLogo}');" />
+							<p tal:condition="php:session['placeLogo'] != 'logo_empty.png'" tal:attributes="class php:(session['sessionMaster']) ? 'master' : '' ; title php:(session['sessionMaster']) ? 'Sessione Master' : 'Sessione Normale' ; style string:background-image:url('TEMPLATES/img/logo/${session/placeLogo}');" />
+
+							<p tal:condition="php:session['placeLogo'] == 'logo_empty.png'" tal:attributes="class php:(session['sessionMaster']) ? 'master' : '' ; title php:(session['sessionMaster']) ? 'Sessione Master' : 'Sessione Normale'" style="background-image:url('https://oscar.stfederation.it/SigmaSys/logo/logoufp.png'); "/>
+
+
+
 						</td>
 						<td class="placer">
 							<p>

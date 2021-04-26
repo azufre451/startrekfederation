@@ -34,9 +34,11 @@ else if($currentLocation['attracco'] == '' && $pointerL != '')
 if($currentLocation['placeType'] == 'Pianeta')
 {
 	$loca = mysql_query("SELECT locID, locName, planetSub, icon, (SELECT COUNT(*) FROM pg_users WHERE pgRoom = locID AND pgLastAct >= ".($curTime-1800).") as counterPG FROM fed_ambient WHERE ambientType <> 'DEFAULT' AND placeHidden = 0 AND ambientLocation = '".$currentLocation['placeID']."' ORDER BY locName");
-
-	$locationsPlanet= array(1=> array(), 2=> array(), 3=> array());
-
+	
+	$locationsPlanet= array();
+	$locationsPlanet[1]= array();
+	$locationsPlanet[2]= array();
+	$locationsPlanet[3]= array();
 	while ($locar = mysql_fetch_array($loca))
 	{
 		$locationsPlanet[$locar['planetSub']][] = array ('locID' => $locar['locID'], 'locName' => addslashes($locar['locName']), 'icon' => $locar['icon'],'counterPG' => $locar['counterPG']);
@@ -44,17 +46,37 @@ if($currentLocation['placeType'] == 'Pianeta')
 	
 	$a = $currentLocation['placeRotationTime'];
 	$b = $currentLocation['placeRotationOffset'];
-
-	$trascorse = (($curTime/3600)+2+$b) % $a;
-	$pM = date("i",$curTime);
+	$i = time();
+	$trascorse = (($i/3600)+2+$b) % $a;
+	$pM = date("i",$i);
 	$template->clock =  $trascorse.':'.$pM;
 	
 	$template->weather =  $currentLocation['weather'];
 	$template->locationsPlanet = $locationsPlanet;
 
-	if ($currentLocation['placeID'] == 'MELI'){
-		include('plugins/melial.php');
-		$template->melialPoints=melialDataRecord($currentLocation);
+
+	if ($currentLocation['placeID'] == 'MELI')
+	{
+		$extraArray=array();
+		$minimax=array();
+		$extra=mysql_query("SELECT pgAvatarSquare,pg_users.pgID as pgID,pgUser,pgSezione,pg_extra_values.value FROM pg_users, pg_extra_values WHERE pg_users.pgID = pg_extra_values.pgID AND pg_extra_values.key='Melial_Points' GROUP BY pgAvatarSquare,pgID,pgUser,pg_extra_values.value ORDER BY value DESC ");
+		while($extraU = mysql_fetch_assoc($extra))
+		{
+			$extraU['pgSezione'] = str_replace(' ','_',$extraU['pgSezione']);
+			$minimax[] = $extraU['value'];
+			$extraArray[]=$extraU;
+		}
+
+		$vmin=min($minimax);
+		$vmax=max($minimax);
+		foreach($extraArray as $k=>$v)
+		{
+
+			 
+			$extraArray[$k]['nvalue'] = floor(($v['value'] - $vmin) / ($vmax-$vmin) * (300-25)+25);
+		}
+		//if($currentUser->pgUser =='Rezaei') {print_r($extraArray);exit;}
+		$template->melialPoints=$extraArray;
 	}
 }
 	
@@ -89,6 +111,7 @@ while($ra = mysql_fetch_assoc($res))
 			$presences[]=$pres;
 			if ($pres['pgID'] == $_SESSION['pgID'])
 				$ipar=1;
+			
 		}
 	$ra['presences'] = $presences;
 	$ra['ipar'] = $ipar;
@@ -106,6 +129,7 @@ $template->placeType = $currentLocation['placeType'];
 $template->placeMap1 = ($currentLocation['placeMap1']);
 $template->overridePlanetMap = ($currentLocation['overridePlanetMap']) ? true : false;
 $template->Map1 = ($currentLocation['placeMapSupport1']);
+
 $template->Map2 = ($currentLocation['placeMapSupport2']);
 $template->Map3 = ($currentLocation['placeMapSupport3']);
 $template->placeMap2 = ($currentLocation['placeMap2']);
@@ -132,13 +156,13 @@ $template->gameVersion = $gameVersion;
 $template->debug = $debug;
 $template->gameServiceInfo = $gameServiceInfo;
 
-try 
-{
-	echo $template->execute();
-}
-	catch (Exception $e){
+	try 
+	{
+		echo $template->execute();
+	}
+		catch (Exception $e){
 	echo $e;
-}
+	}
 
 include('includes/app_declude.php');	
 ?>

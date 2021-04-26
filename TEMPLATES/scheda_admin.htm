@@ -31,6 +31,8 @@
 		    font-style: italic;
 		}
 
+		#trackInfo b {color:#FFCC00;}
+
 	</style>
 	<script type="text/javascript">
 	function paddOpen(who){window.open('padd.php?s=seR&to='+who+'&sub=','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
@@ -264,12 +266,20 @@
 
 	<div style="clear: both; padding:5px;" id="player_record"> <a id="player_record_btn" tal:attributes="onclick string:javascript:load_playrecord_vector(${selectedUser});" href="javascript:void(0);" class="interfaceLinkGreen"> [Svela Attività] </a>
 	</div>
-	
+
 	<div style="clear: both; padding:5px;" id="player_record"> <a id="player_stats_btn" tal:attributes="onclick string:javascript:load_statsrecord_vector(${selectedUser});" href="javascript:void(0);" class="interfaceLinkGreen"> [Statistiche Aggregate] </a>
 
 	<p id="statsPanel" style="height:150px; padding:5px; display:none; overflow-y:auto; border:1px solid #333; width:100%;">
+
 	</p>
 	</div>
+
+	<div style="clear: both; padding:5px;" id="ipR"> <a id="player_IP_btn" tal:attributes="onclick string:javascript:checkIP(${selectedUser});" href="javascript:void(0);" class="interfaceLinkRed"> [ŋ] </a>
+
+	<p id="trackInfo" style="height:280px; text-align:left; padding:5px; display:none; overflow-y:auto; border:1px solid #333; width:98%;"> 
+	</p>
+	</div>
+
 
 	<div style="clear: both; padding:5px;">
 		<table style="text-align:left;">

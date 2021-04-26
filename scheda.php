@@ -101,6 +101,7 @@ elseif($mode == 'bvadd')
 	  		$dep=$a->explainDependencies($resCats['abID']);
 	  		
 	  		$totThr=0;
+//	  		$myval= -3*($this->abilDict[$abID]['abDiff']);
 
 	  		$depsArray=array();
 	  		foreach ($dep as $depK=>$depV){
@@ -178,6 +179,8 @@ elseif($mode == 'mySessions')
 
 	$sessions = mysql_query("SELECT DISTINCT federation_sessions_participation.sessionID,sessionPlace,sessionStart,sessionLabel,sessionMaster,sessionPrivate,sessionPlace,locName,placeName, placeLogo, placeID, kind FROM federation_sessions_participation,federation_sessions,fed_ambient,pg_places  WHERE sessionPlace = locID AND placeID = ambientLocation AND federation_sessions.sessionID = federation_sessions_participation.sessionID AND pgID = $selectedUser ORDER BY sessionID");
 
+//	echo mysql_error();exit;
+
 	$mst=0;
 	$sessionsRes=array();
 	$sessionMaster=array();
@@ -210,6 +213,9 @@ elseif($mode == 'mySessions')
 
 	function cmp($a, $b) { return (count($a['sessions']) < count($b['sessions']));}
 
+
+	
+
 	uasort($sessionsRes,'cmp');
 	$template->sessionsRes = $sessionsRes;
 	$template->sessionMaster = $sessionMaster;
@@ -225,6 +231,8 @@ elseif($mode == 'bv')
 	$template = new PHPTAL('TEMPLATES/scheda_ruolino.htm');
 	
 	$resQ = mysql_query("SELECT pg_abilita.abID,abName,abDescription, abImage, abClass, abDiff, value as level, abLevelDescription_1,abLevelDescription_2,abLevelDescription_3,abLevelDescription_4,abLevelDescription_5,abDepString FROM pg_abilita_levels, pg_abilita WHERE pgID = $selectedUser AND pg_abilita_levels.abID = pg_abilita.abID ORDER BY abDiff,abName");
+
+
 
 	$abil=array();
 
@@ -356,6 +364,7 @@ elseif($mode == 'ssto')
 			}
 		}
 
+	
 
 	if($selectedUser == $_SESSION['pgID'] || $currentUser->pgAuthOMA == 'A')
 	{
@@ -497,6 +506,7 @@ else if ($mode == 'editssto')
 	} 
 }
 
+
 elseif($mode == 'me')
 {
 	$template = new PHPTAL('TEMPLATES/scheda_medica.htm');
@@ -629,14 +639,16 @@ elseif( $mode == 'addTempAuth'){
 		$authType = addslashes($_POST['authType']);
 		$textR = addslashes($_POST['textR']);
 
+		
+
 		mysql_query("INSERT INTO pg_users_temp_auths (pgID,authStart,authEnd,authType,text,owner) VALUES ($pgID,'$dateFrom','$dateTo','$authType','$textR','".$currentUser->ID."')");
+		
 	}
 	header("Location:scheda.php?pgID=$pgID&s=master");
 	exit;
 }
 
-elseif( $mode == 'delTempAuth')
-{
+elseif( $mode == 'delTempAuth'){
 	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
 	{
 		$pgID = $vali->numberOnly($_GET['pgID']);
@@ -893,8 +905,10 @@ elseif($mode == 'edit')
 
 elseif($mode == 'master')
 {
+	
+
 	$pgID = $vali->numberOnly($_GET['pgID']);
-	if (!PG::mapPermissions('SL',$currentUser->pgAuthOMA)){Mailer::emergencyMailer("Tentativo di accesso a scheda master del pg $pgID",$currentUser); header('Location:scheda.php');} 
+	if (!PG::mapPermissions('M',$currentUser->pgAuthOMA)){Mailer::emergencyMailer("Tentativo di accesso a scheda master del pg $pgID",$currentUser); header('Location:scheda.php');} 
 	
 	$template = new PHPTAL('TEMPLATES/scheda_master.htm');
 	$res = mysql_query("SELECT pgLock, pgSalute,rankCode,pgPrestige FROM pg_users WHERE pgID = $pgID");
@@ -910,7 +924,6 @@ elseif($mode == 'master')
 	$my = mysql_query("SELECT prio,Note,ordinaryUniform,aggregation FROM pg_ranks ORDER BY rankerprio DESC");
 	while($myA = mysql_fetch_array($my))
 	$ranks[$myA['aggregation']][$myA['prio']] = array('note' => $myA['Note'], 'ord' => $myA['ordinaryUniform']);
-	//var_dump($ranks);exit;
 	
 	$all = mysql_query("SELECT defaulta,locID,ambientLevel_deck, ambientNumber,placeName FROM pg_alloggi,fed_ambient,pg_places WHERE pg_alloggi.alloggio = fed_ambient.locID AND ambientLocation = placeID AND pgID = $pgID");
 	$alloggi=array();
@@ -920,42 +933,13 @@ elseif($mode == 'master')
 	}
 	
 	if(PG::mapPermissions('MM',$currentUser->pgAuthOMA)){
-	
-		$res = mysql_query("SELECT png, email FROM pg_users WHERE pgID = $pgID");
-		
-		if(mysql_affected_rows()) $resB = mysql_fetch_array($res);
-		else {header('Location:scheda.php'); exit;}
-		
-		$logQ = mysql_query("SELECT IP FROM connlog WHERE user = $pgID ORDER BY time DESC");
-		
-		$stringDoppi = "";
-		$stringPNGDoppi = "";
-		$stringPGPartial = "";
-		$partiaLusers = array();
-		$encountered = array();
-		
-		while($logQA = mysql_fetch_array($logQ))
-		{
-		
-			if(!isSet($lastIP)) $lastIP = $logQA['IP'];
-			if(in_array($logQA['IP'],$encountered)) continue;
-			$encountered[] = $logQA['IP'];
-			
-			$logE = mysql_query("SELECT DISTINCT pgUser FROM pg_users,connlog WHERE pgID = user AND pgID <> $pgID AND (pgID <> 1762 AND pgID <> 1677) AND png=0  AND IP = '".$logQA['IP']."'");
-			if(mysql_affected_rows()) $stringDoppi.= (PHP_EOL).' - '.$logQA['IP'];
-			
-			while ($logQE = mysql_fetch_array($logE))
-			$stringDoppi.= ' '.$logQE['pgUser'].', ';
-			$logE = mysql_query("SELECT DISTINCT pgUser FROM pg_users,connlog WHERE pgID = user AND pgID <> $pgID  AND png=1 AND IP = '".$logQA['IP']."'");
-			if(mysql_affected_rows()) $stringPNGDoppi.= (PHP_EOL).' - '.$logQA['IP'];
-			
-			while ($logQE = mysql_fetch_array($logE))
-			$stringPNGDoppi.= ' '.$logQE['pgUser'].', ';
-		}
 
+		include("plugins/connCheck.php");	
+
+		$template->IPCHECK = getIPConfictsOfUser($pgID);
 		$selectedDUser->getIncarichi();
-		$allServiceObjects = array();
 		
+		$allServiceObjects = array();
 		$re=mysql_query("SELECT oID,oName FROM fed_objects WHERE oType = 'SERVICE'");
 		while($res = mysql_fetch_assoc(($re)))
 		{
@@ -963,14 +947,6 @@ elseif($mode == 'master')
 		}
 		
 		$template->allServiceObjects = $allServiceObjects;
-		$template->stringDoppi = $stringDoppi;
-		$template->stringPNGDoppi = $stringPNGDoppi;
-		$template->stringPGPartial = array(); //$stringPGPartial; 
-		$template->ip =  $lastIP;
-		$template->host =  gethostbyaddr($lastIP);
-		$template->png = ($resB['png'] == 1) ? true : false;
-		$template->email = $resB['email'];
-		
 	}
 
 	$alloTypes = array();
@@ -999,26 +975,22 @@ elseif($mode == 'master')
 	$res_extras=array();
 	
 	while($res_extra_val = mysql_fetch_assoc($res_extra))
-	{
 		$res_extras[$res_extra_val['key']]=$res_extra_val;
-	}
 
 
 	$res_auths=mysql_query("SELECT pg_users_temp_auths.*,pgUser,pg_users.pgID as signerPgID FROM pg_users_temp_auths,pg_users WHERE owner=pg_users.pgID AND pg_users_temp_auths.pgID = $pgID");
 	$res_temp_auths=array();
 	
 	while($res_auths_val = mysql_fetch_assoc($res_auths))
-	{
 		$res_temp_auths[]=$res_auths_val;
-	}
+
 
 	$repli_food = mysql_query("SELECT foodName,timer, food as tr, ( SELECT COUNT(recID) FROM fed_food_replications WHERE food = tr AND user = $pgID AND YEAR(FROM_UNIXTIME(timer)) = $thisYear) as cnt FROM fed_food,fed_food_replications WHERE foodID = food AND user = $pgID   ORDER BY timer DESC LIMIT 25");
 
 	$replicated_foods=array();
 	while($ftd = mysql_fetch_assoc($repli_food))
-	{
 		$replicated_foods[] = $ftd;
-	}
+	
 
 
 	$repli_food_ov = mysql_fetch_assoc(mysql_query("SELECT COUNT(recID) as cnt FROM fed_food,fed_food_replications WHERE foodID = food AND user = $pgID AND YEAR(FROM_UNIXTIME(timer)) = $thisYear"));
@@ -1045,7 +1017,18 @@ elseif($mode == 'master')
 	if (PG::mapPermissions('A',$currentUser->pgAuthOMA)) $template->bonusA = 'show';
 	if (PG::mapPermissions('M',$currentUser->pgAuthOMA)) $template->bonusM = 'show';
 	if (PG::mapPermissions('SL',$currentUser->pgAuthOMA)) $template->bonusSL = 'show';
-	
+}
+
+elseif($mode=='checkIP'){
+	include("plugins/connCheck.php");
+	include_once('includes/conf_keys.php');
+
+	$pgID = $vali->numberOnly($_GET['pgID']);
+	$lastIP = mysql_fetch_assoc(mysql_query("SELECT IP,notes,ua,ul FROM connlog WHERE user = $pgID ORDER BY TIME DESC LIMIT 1"));
+
+	$traceJSon = checkIP($lastIP,$IPValidation_KEY);
+	echo json_encode($traceJSon);
+	exit;
 }
 
 elseif($mode=='edit_extras')

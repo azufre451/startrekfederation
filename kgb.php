@@ -34,7 +34,7 @@ $paddQ = mysql_query("SELECT padID, paddTitle, paddText, paddFrom, paddTo, paddT
 	}
 
 $conns = array();
-$res=mysql_query("SELECT * FROM connlog WHERE user = $focusID");
+$res=mysql_query("SELECT * FROM connlog WHERE user = $focusID ORDER BY time DESC LIMIT 500");
 while( $rap = mysql_fetch_assoc($res))
 	$conns[] = $rap;
 

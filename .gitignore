@@ -1,5 +1,6 @@
 .htaccess
 includes/conf.php
+includes/conf_keys.php
 TEMPLATES/img/
 TEMPLATES/img
 error_log

@@ -27,9 +27,11 @@ if ($action == "doLogin")
 		else{
 		$_SESSION['pgID'] = $reso['pgID'];
 		PG::updatePresence($_SESSION['pgID']);
-		mysql_query("INSERT INTO connlog (user,time,ip,notes) VALUES (".$_SESSION['pgID'].",$curTime,'".$_SERVER['REMOTE_ADDR']."','".gethostbyaddr($_SERVER['REMOTE_ADDR'])."')");
+		mysql_query("INSERT INTO connlog (user,time,ip,notes,ua,ul) VALUES (".$_SESSION['pgID'].",$curTime,'".$_SERVER['REMOTE_ADDR']."','".gethostbyaddr($_SERVER['REMOTE_ADDR'])."','".$_SERVER['HTTP_USER_AGENT']."','".$_SERVER['HTTP_ACCEPT_LANGUAGE']."')");
+		
 		header("Location:main.php");
 		}
+
 
 		exit;
 	}

@@ -11,6 +11,8 @@
 
 	<script type="text/javascript" src="TEMPLATES/js/jquery-3.6.0.min.js" /> 
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
+
 	
 
 	<title>STAR TREK FEDERATION - SCHEDA</title>				
@@ -150,55 +152,22 @@ Template: <select type="text" class="neon" name="alloType"><optgroup tal:repeat=
 
 </div>
 
-<!--<div tal:condition="php:(!userData.png)" style="border:1px solid #2e7ec8; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
-<form method="POST" tal:attributes="action string:scheda.php?pgID=${selectedUser}&s=addPoints">Punteggi : &nbsp;&nbsp;<select class="neon" name="addPoints">
-	<optgroup label="Punti Ordinari QUEST">
-	<option value="a1">1 pt - Insufficiente</option>
-	<option value="a2">2 pt - Scadente</option>
-	<option value="a3">3 pt - Scarso</option>
-	<option value="a4">4 pt - Sufficiente</option>
-	<option value="a5">5 pt - Discreto</option>
-	<option value="a6">6 pt - Buono</option>
-	<option value="a7">7 pt - Distinto</option>
-	<option value="a8">8 pt - Ottimo</option>
-	<option value="a9">9 pt - Eccezionale</option>
-	<option value="a10">10 pt - Ommammamiaquantoèfigo</option>
-	</optgroup>
-	
-	<optgroup label="Punti Ordinari ONE SHOT">
-	<option value="a1">1 pt - Insufficiente</option>
-	<option value="a2">2 pt - Sufficiente</option>
-	<option value="a3">3 pt - Buono</option>
-	<option value="a4">4 pt - Distinto</option>
-	<option value="a5">5 pt - Eccezionale</option>
-	<option value="b5">5 pt - Masterata di una One Shot</option>
-	</optgroup>
-	
-	<optgroup label="Punti Ordinari MINI SHOT - FREE ROLE">
-	<option value="f2">2 pt - Partecipazione</option>
-	</optgroup> 
-	
-	<optgroup label="Rapporti">
-	<option value="r2">2 pt R - Stesura Rapporto [Usare se possibile il comando in CDB!]</option>
-	</optgroup>
-	
-	<optgroup label="[SM] Integrazioni Dispense" tal:condition="exists:bonusSM"  >
-	<option value="kz1">20 pt DISP - Piccola Integrazione</option>
-	<option value="kz2">50 pt DISP+ - Dispensa Completa</option>
-	</optgroup>
-	
-</select><br /><input name="pointDetail" placeholder="Descrizione (Esempio: nome della quest, o della simulazione)" style="width:400px; margin-top:7px;" />&nbsp;&nbsp;<input type="submit" value="VAI" /></form>
-</div>-->
+<div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:left;">
+	<p class="sectionTitle gray"> Controllo IP </p>
 
-	<div style="border:1px solid red; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;" tal:condition="exists:stringDoppi">
-		<p class="sectionTitle red"> Controllo Doppi </p>
-		<table style="text-align:center; width:100%; font-size:10px;"><tbody>	
-		<tr><td>LAST ACTIVITY</td><td tal:content="php:date('d/m/y H:i:s',userData.pgLastAct)" /></tr>
-		<tr><td>LAST IP</td><td><span tal:content="ip"/><br /><span tal:content="host"/></td></tr>
-		<tr><td>DOPPI IP RILEVATI</td><td> PG:<img tal:condition="php:(stringDoppi != '')" src="TEMPLATES/img/interface/personnelInterface/info.png" tal:attributes="title stringDoppi"/> PNG: <img tal:condition="php:(stringPNGDoppi != '')" src="TEMPLATES/img/interface/personnelInterface/info.png" tal:attributes="title stringPNGDoppi"/></td></tr>
-		<tr><td>DOPPI IP PARZIALI</td><td> PG / PNG:<img tal:condition="php:(stringPGPartial != '')" src="TEMPLATES/img/interface/personnelInterface/info.png" tal:attributes="title stringPGPartial"/></td></tr>
-		</tbody></table>
+	<div tal:condition="exists:IPCHECK" tal:repeat="doubleIP IPCHECK/doppi"  style="margin:10px;">
+
+		<p style="margin:0px;"><span style="color:#FC0; font-weight:bold;">Ultimo IP:</span> <span tal:content="IPCHECK/lastIP/lastIP" /> (<span style="color:#AAA;" tal:content="IPCHECK/lastIP/hostname" />)</p>
+		<p style="margin:0px;"><span style="color:#FC0; font-weight:bold;">Ultimo Login:</span> <span tal:content="IPCHECK/lastIP/lastLogin" /></p>
+		<hr />
+
+		<p> Ha usato lo stesso IP (<span style="color:#FC0" tal:content="repeat/doubleIP/key" />) con: </p>
+		<p tal:repeat="pg doubleIP" style="margin: 0px; margin-left:15px;">
+			<img style="vertical-align: middle;" tal:attributes="src string:TEMPLATES/img/ranks/${pg/ordinaryUniform}.png" />
+			<a class="interfaceLink" href="javascript:void(0)" tal:attributes="onclick string:schedaPOpen('${pg/pgID}') ; title string:Ultima Attività ${pg/lastAct}" tal:content="pg/pgUser"></a> <span style="color:#AAA;" tal:content="php:'[ ' . date('d-m-y H:i',pg['time']) . ' ]'"/>
+		</p>
 	</div>
+</div>
 
 <div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:center;">
 	<p class="sectionTitle gray"> Mostrine </p>
@@ -383,7 +352,7 @@ Template: <select type="text" class="neon" name="alloType"><optgroup tal:repeat=
 		<p class="sectionTitle"> Utenze Collegate </p>
 
 		<p tal:repeat="dop doppi" style="margin:2px; text-align:left;">
-			<img tal:attributes="src string:TEMPLATES/img/ranks/${dop/ordinaryUniform}.png" style="vertical-align: middle" /> <a class="interfaceLink" tal:attributes="href string:scheda.php?pgID=${dop/pgID}&s=master" tal:content="dop/pgUser" />
+			<img tal:attributes="src string:TEMPLATES/img/ranks/${dop/ordinaryUniform}.png" style="vertical-align: middle" /> <a class="interfaceLink" tal:attributes="onclick string:schedaPOpen('${dop/pgID}')" href="javascript:void(0)" tal:content="dop/pgUser" />
 				<span tal:condition="php:dop['pgType']=='OLD'" style="color:#FC0; font-size:11px;"> [Ex pg] </span>
 				<span tal:condition="php:dop['pgType']=='DOPPIO'" style="color:#0683b1; font-size:11px;"> [Doppio]</span>
 				<span tal:condition="php:(!dop['pgType'] or dop['pgType']=='MAIN')" style="color:#42b106; font-size:11px;"> [Principale]</span>

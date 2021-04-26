@@ -101,7 +101,6 @@ elseif($mode == 'bvadd')
 	  		$dep=$a->explainDependencies($resCats['abID']);
 	  		
 	  		$totThr=0;
-//	  		$myval= -3*($this->abilDict[$abID]['abDiff']);
 
 	  		$depsArray=array();
 	  		foreach ($dep as $depK=>$depV){
@@ -179,8 +178,6 @@ elseif($mode == 'mySessions')
 
 	$sessions = mysql_query("SELECT DISTINCT federation_sessions_participation.sessionID,sessionPlace,sessionStart,sessionLabel,sessionMaster,sessionPrivate,sessionPlace,locName,placeName, placeLogo, placeID, kind FROM federation_sessions_participation,federation_sessions,fed_ambient,pg_places  WHERE sessionPlace = locID AND placeID = ambientLocation AND federation_sessions.sessionID = federation_sessions_participation.sessionID AND pgID = $selectedUser ORDER BY sessionID");
 
-//	echo mysql_error();exit;
-
 	$mst=0;
 	$sessionsRes=array();
 	$sessionMaster=array();
@@ -213,9 +210,6 @@ elseif($mode == 'mySessions')
 
 	function cmp($a, $b) { return (count($a['sessions']) < count($b['sessions']));}
 
-
-	
-
 	uasort($sessionsRes,'cmp');
 	$template->sessionsRes = $sessionsRes;
 	$template->sessionMaster = $sessionMaster;
@@ -231,8 +225,6 @@ elseif($mode == 'bv')
 	$template = new PHPTAL('TEMPLATES/scheda_ruolino.htm');
 	
 	$resQ = mysql_query("SELECT pg_abilita.abID,abName,abDescription, abImage, abClass, abDiff, value as level, abLevelDescription_1,abLevelDescription_2,abLevelDescription_3,abLevelDescription_4,abLevelDescription_5,abDepString FROM pg_abilita_levels, pg_abilita WHERE pgID = $selectedUser AND pg_abilita_levels.abID = pg_abilita.abID ORDER BY abDiff,abName");
-
-
 
 	$abil=array();
 
@@ -364,7 +356,6 @@ elseif($mode == 'ssto')
 			}
 		}
 
-	
 
 	if($selectedUser == $_SESSION['pgID'] || $currentUser->pgAuthOMA == 'A')
 	{
@@ -506,7 +497,6 @@ else if ($mode == 'editssto')
 	} 
 }
 
-
 elseif($mode == 'me')
 {
 	$template = new PHPTAL('TEMPLATES/scheda_medica.htm');
@@ -639,10 +629,7 @@ elseif( $mode == 'addTempAuth'){
 		$authType = addslashes($_POST['authType']);
 		$textR = addslashes($_POST['textR']);
 
-		
-
 		mysql_query("INSERT INTO pg_users_temp_auths (pgID,authStart,authEnd,authType,text,owner) VALUES ($pgID,'$dateFrom','$dateTo','$authType','$textR','".$currentUser->ID."')");
-		
 	}
 	header("Location:scheda.php?pgID=$pgID&s=master");
 	exit;
@@ -905,8 +892,6 @@ elseif($mode == 'edit')
 
 elseif($mode == 'master')
 {
-	
-
 	$pgID = $vali->numberOnly($_GET['pgID']);
 	if (!PG::mapPermissions('M',$currentUser->pgAuthOMA)){Mailer::emergencyMailer("Tentativo di accesso a scheda master del pg $pgID",$currentUser); header('Location:scheda.php');} 
 	

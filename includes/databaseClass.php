@@ -34,7 +34,6 @@ class Ambient
 	{
 		$res = mysql_query("SELECT locID,ambientType, locName,ambientLocation,ambientLevel_deck,descrizione,image,icon,imageMap, locationable,ambientLight,ambientLightColor,ambientTemperature,ambientAudio,chatPwd,planetSub, IF(sessionStatus = 'ONGOING', sessionOwner, NULL) as sessionOwner FROM fed_ambient LEFT JOIN federation_sessions ON sessionPlace = locID WHERE locID = '$ambientID' ORDER BY sessionStart DESC LIMIT 1");
 
-
 		$resa = mysql_fetch_array($res);
 		return $resa;
 	}
@@ -178,9 +177,6 @@ class Ambient
 		else{
 			mysql_query("DELETE FROM fed_ambient_auth WHERE locID = '$ambientID'");
 		}
-
-
-		
 		
 	}
 	public static function closePrivate($ambientID)
@@ -258,7 +254,6 @@ class Ambient
 	}
 }
 
-
 class PG
 {
 	public $ID;
@@ -322,9 +317,7 @@ class PG
 		$this->audioextEnable = ($re['audioEnable'] > 1) ? 1 : 0;
 		$this->audioEnvEnable = ($re['audioEnvEnable']) ? 1 : 0;
 		$this->pgBavo = ($re['pgBavo']) ? 1 : 0;
-		
 		$this->ONLINE = ($this->pgLastAct < (time()-1800)) ? false : true;
-
 		$this->pgMostrina = $re['pgMostrina'];
 		$this->pgMostrinaOlo = $re['pgMostrinaOlo'];
 		$this->pgLocation = $re['pgLocation'];
@@ -342,12 +335,10 @@ class PG
 
 
 			$other = explode(';',$re['otherCSS']);		
-		
 
 			$parlatSize = $parlat[0].'px';
 			$parlatColor = $parlat[1];
 			$parlatQuoteColor = $parlat[2];
-			
 			$nomePGSize = $other[0].'px';
 			$masterSize = $other[1].'px';
 			$commSize = $other[2].'px';
@@ -364,10 +355,8 @@ class PG
 			$masterSpecColorQuoter = $other[13];
 			
 			$this->customCSS = ".chatDirect{color:$parlatColor; font-size:$parlatSize;} .chatQuotation{color:$parlatQuoteColor;} .chatUser{color:$nomePGColor; font-size:$nomePGSize} .masterAction, .globalAction,.offAction,.auxAction,.specificMasterAction,.oloMasterAction{font-size:$masterSize} .subspaceCom,.commMessage{font-size:$commSize; color:$commColorTex;} .subspaceComPre,.commPreamble{font-size:$commSize;color:$commColor;} .chatTag{font-size:$tagSize; color:$tagColor} .masterAction {color:$masterColor; border-color:$masterBorderColor;} .specificMasterAction {color:$masterSpecColor; border-color:$masterSpecBorderColor;} .masterAction .chatQuotation{color:$masterColorQuoter;} .specificMasterAction .chatQuotation{color:$masterSpecColorQuoter;}";
-			
 			}
 			else $this->customCSS = '';
-
 		}
 	}
 	
@@ -480,7 +469,6 @@ class PG
  
 	}
 
-
 	public function sendPadd($subject,$text,$from = '518',$type=0,$forceMail=0)
 	{
 		$myID = $this->ID;
@@ -511,7 +499,6 @@ class PG
 
 		if($this->paddMail || $forceMail)
 		{
-
 
 			$sendTo = $this->email;
 			$receiverName = $this->pgUser;
@@ -593,8 +580,6 @@ class PG
 				$eString = addslashes("Upgrade Points!::Hai ottenuto un Upgrade Point!"); 
 				
 				mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField,paddType) VALUES (518,$me,'OFF: Upgrade Points!','$cString',$curTime,0,'',2),(518,$me,'::special::achiev','$eString',$curTime,0,'TEMPLATES/img/interface/personnelInterface/starIcon.png',2)");
-				
-
 			}
 		}
 
@@ -673,8 +658,6 @@ class PG
 		mysql_query("DELETE FROM pg_visualized_elements WHERE pgID = '$pgID';");
 		mysql_query("DELETE FROM pg_users_temp_auths WHERE pgID = '$pgID';");
 
-
-
 		mysql_query("UPDATE pg_users SET pgUser = CONCAT('$timeString',pgUser), pgLocation = 'BAVO', email = CONCAT('$timeString',email), pgRoom ='BAVO',pgIncarico = '-', pgAuthOMA='BAN', pgOffAvatarC = '', pgOffAvatarN='' WHERE pgID = $pgID");
 		$this->addnote("Cancellazione");
 
@@ -689,7 +672,6 @@ class PG
 		else return 0;
 	}
 	
-
 	public function addMedal($what,$dater)
 	{
 		$pgID = $this->ID;
@@ -710,7 +692,6 @@ class PG
 	{
 		$res = mysql_query("SELECT 1 FROM pg_users_bios WHERE valid = 2 AND pgID = '".$this->ID."'");
 		return (mysql_affected_rows()) ? 1 : 0;
-
 	}
 
 	public function getStatsRecord(){
@@ -723,7 +704,6 @@ class PG
 			$acts[$reA['type']] = $reA['cnt'];
 
 		$stats['AZIONI'] = $acts;
-
 
 		$reA=mysql_fetch_assoc(mysql_query("SELECT COUNT(*) as cnt FROM fed_food WHERE presenter IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $pgID))"));
 		$reB=mysql_fetch_assoc(mysql_query("SELECT COUNT(*) as cnt FROM fed_food_replications WHERE user IN (SELECT pgID FROM pg_users WHERE mainPG = (SELECT mainPG FROM pg_users WHERE pgID = $pgID))"));
@@ -743,10 +723,9 @@ class PG
 
 		$stats['HOLO'] = array('Holosessions (questo PG)'=>$HOLOa['cnt'], 'Holosessions (tutti i PG)'=>$HOLOb['cnt']);
 
-
 		return $stats;
-
 	}
+
 	public function getPlayRecord($days=15,$type=Null){
 
 			$rpr = array();
@@ -772,7 +751,6 @@ class PG
 				}
 				else
 				{
-
 					mysql_query("SELECT 1 FROM federation_chat WHERE sender = ".$this->ID." AND time BETWEEN $startMid AND $endMid");
 					if(mysql_affected_rows()){ 
 						$played = 1;
@@ -788,10 +766,8 @@ class PG
 							$connected=1;
 							$syn="Ha loggato in gioco";
 						}
-
 					}
 				}
-
 				$rpr[$k] = array('kk'=>$k.' giorni fa:'.$syn,'played'=>$played,'mastered'=>$mastered, 'connected'=>$connected);
 			}
 			return $rpr;
@@ -799,8 +775,7 @@ class PG
 
 	public function getCTS()
 	{
-		$ara=array('Comando e Strategia' => 'cts_com.css','Comando e Navigazione' => 'cts_com.css', 'Ingegneria e Operazioni' => 'cts_ing.css','Tattica e Sicurezza' => 'cts_ing.css', 'Scientifica e Medica' => 
-'cts_scimed.css','Scientifica' => 'cts_scimed.css','Medica' => 'cts_scimed.css', 'Navigazione' => 'cts_nav.css', 'Difesa e Sicurezza' => 'cts_dif.css','Ingegneria' => 'cts_ing.css');
+		$ara=array('Comando e Strategia' => 'cts_com.css','Comando e Navigazione' => 'cts_com.css', 'Ingegneria e Operazioni' => 'cts_ing.css','Tattica e Sicurezza' => 'cts_ing.css', 'Scientifica e Medica' => 'cts_scimed.css','Scientifica' => 'cts_scimed.css','Medica' => 'cts_scimed.css', 'Navigazione' => 'cts_nav.css', 'Difesa e Sicurezza' => 'cts_dif.css','Ingegneria' => 'cts_ing.css');
 
 		return ( (array_key_exists($this->pgSezione, $ara)) ? $ara[$this->pgSezione] : 0 );
 	}
@@ -879,8 +854,6 @@ class PG
 			mysql_query("UPDATE pg_users SET pgUpgradePoints = $val WHERE pgID = $id");
 	}
 
-
-
 	public static function getSomething($id,$var)
 	{
 
@@ -928,7 +901,6 @@ class PG
 				$re = mysql_fetch_array($res);
 				if((int)$re['iscriDate'] < 1492383822)
 					$re['iscriDiff'] = $re['iscriDiff']-26;
-				  
 			}
 			
 			else $re = NULL;
@@ -1053,14 +1025,6 @@ class PG
 			$resA=mysql_fetch_array($res);
 			return $resA;
 		}	
-		
-		/*
-		else if($var == "pgUnit")
-		{
-			$res = mysql_query("SELECT placeName FROM pg_places,pg_users WHERE placeID = pgAssign AND pgID = ".$id);
-			$resA=mysql_fetch_array($res);
-			return $resA['placeName'];
-		}*/
 	}
 	
 	public static function isOnline($id)
@@ -1109,8 +1073,6 @@ class PG
 		if ($actual == "SM" && $requested == "G") return true;
 		if ($actual == "M" && $requested == "G") return true;
 		if ($actual == "SL" && $requested == "G") return true;
-
-
 	
 		if ($actual == $requested) return true;
 		
@@ -1145,7 +1107,6 @@ class PG
 		
 		return "()"; 
 	}
-	
 }
 
 class timeHandler
@@ -1158,18 +1119,17 @@ class timeHandler
 			$tYear=(date("Y",$time)+379);
 			if($tYear < 2395) {$tYear = $tYear - 11;}
 			return date("d/m",$time)."/".$tYear." ".self::extrapolateHour($time);
-
 		}
 	} 
 	
 	public static function extrapolateDay  ($time)
 	{
-	return date("d/m",$time)."/".(date("Y",$time)+379);
+		return date("d/m",$time)."/".(date("Y",$time)+379);
 	}
 	
 	public static function extrapolateDayHour($time)
 	{
-	return date("d/m",$time)."/".(date("Y",$time)+379)." ".self::extrapolateHour($time,false);
+		return date("d/m",$time)."/".(date("Y",$time)+379)." ".self::extrapolateHour($time,false);
 	}
 	
 	public static function extrapolateHour($time,$secs=true)
@@ -1192,17 +1152,18 @@ class timeHandler
 class Mailer
 {
 	public static function emergencyMailer($text,$refU){
-	$string = "TimeStamp: ".date('d/m/Y ore H:i:s',time())."\n TENTATIVO FALLITO DI VIOLAZIONE\n\n".$text."\n\n"."REFERENZE: User:".$refU->pgUser." IP:".$_SERVER['REMOTE_ADDR'];
-	mail("moreno@stfederation.it","[FED] Violazione di Sicurezza",$string,"From:emergency@stfederation.it");
+		$string = "TimeStamp: ".date('d/m/Y ore H:i:s',time())."\n TENTATIVO FALLITO DI VIOLAZIONE\n\n".$text."\n\n"."REFERENZE: User:".$refU->pgUser." IP:".$_SERVER['REMOTE_ADDR'];
+		mail("moreno@stfederation.it","[FED] Violazione di Sicurezza",$string,"From:emergency@stfederation.it");
 	}
-	
+
 	public static function notificationMail($text,$refU){
 		$string = "TimeStamp: ".date('d/m/Y ore H:i:s',time())."\n MODIFICA CRITICA ESEGUITA\n\n".$text."\n\n"."REFERENZE: User:".$refU->pgUser;
 
-		foreach (array(3,1892) as $pgAdmin){
+		foreach (array(3,1892) as $pgAdmin)
+		{
 			$u=new PG($pgAdmin);
-			$u->sendNotification("Modifica Critica di".$refU->pgUser,date('d/m/Y H:i:s',time()).' '.$text,$refU->ID,$refU->pgAvatarSquare,'');	
+			$u->sendNotification("Modifica Critica di ".$refU->pgUser,date('d/m/Y H:i:s',time()).' '.$text,$refU->ID,$refU->pgAvatarSquare,'');	
+			}
 		}
-	}
 }
 ?>

@@ -39,7 +39,6 @@ if($mode == 'newP')
 	
 	$titolo = htmlentities($_POST['titolo'],ENT_COMPAT, 'UTF-8');
 	$testo = htmlentities($_POST['testo'],ENT_COMPAT, 'UTF-8');
-	$testo = $_POST['testo'];
 	
 
 	if(trim($titolo=="")) $titolo= "NESSUN OGGETTO";

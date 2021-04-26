@@ -32,6 +32,7 @@ if (!PG::mapPermissions('G',$currentUser->pgAuthOMA)){header('Location:scheda.ph
 $mode = (isSet($_GET['s'])) ? $_GET['s'] : '';
 
 if($mode == 'closeSession'){
+	if (!PG::mapPermissions('SM',$currentUser->pgAuthOMA)) exit;
 
 	$vali = new validator();
 	$rec = $vali->numberOnly($_GET['ida']); 
@@ -1094,7 +1095,7 @@ $template->prestigioLabels = $prestigioLabels;
 	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
 	{
 
-		$template->sessions = Ambient::getLastSessions(150);
+		$template->sessions = Ambient::getLastSessions(150,'AD');
 		/**/
 		$images = glob('TEMPLATES/img/maps/*.jpg');
 		$shipIMG=mysql_query("SELECT placeMap1, placeMap2, placeMap3 FROM pg_places WHERE placeType IN ('Nave','Navetta','Stazione')");

@@ -72,7 +72,7 @@
  			</tr>
  			<tr tal:repeat="conn conns">
  				<td tal:content="php: date('d-m-y H:i:s',conn['time'])"> Timestamp</td>
- 				<td tal:content="conn/IP"> IP </td>
+ 				<td> <span tal:content="conn/IP" /> <a class="interfaceLinkRed" tal:attributes="href string:https://www.ipqualityscore.com/free-ip-lookup-proxy-vpn-test/lookup/${conn/IP}"> [?] </a></td>
  				<td tal:content="conn/notes"> Host </td>
  			</tr>
  		</table>

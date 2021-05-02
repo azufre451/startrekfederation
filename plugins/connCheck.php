@@ -50,8 +50,8 @@ function getIPConfictsOfUser($pgID){
 				$doppi[$logQA['IP']] = array();
 
 			
-
-			$doppi[$logQA['IP']][] = $PGs[$pgg['pgID']];
+			
+			$doppi[$logQA['IP']][$pgg['pgID']] = $PGs[$pgg['pgID']];
 		}
 	}
 

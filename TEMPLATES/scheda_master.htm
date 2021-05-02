@@ -155,17 +155,22 @@ Template: <select type="text" class="neon" name="alloType"><optgroup tal:repeat=
 <div tal:condition="exists:bonusSM" style="border:1px solid #888; margin-left:20px; margin-right:20px; padding:5px; margin-top:10px; text-align:left;">
 	<p class="sectionTitle gray"> Controllo IP </p>
 
-	<div tal:condition="exists:IPCHECK" tal:repeat="doubleIP IPCHECK/doppi"  style="margin:10px;">
+	<p style="margin:0px;"><span style="color:#FC0; font-weight:bold;">Ultimo IP:</span> <span tal:content="IPCHECK/lastIP/lastIP" /> (<span style="color:#AAA;" tal:content="IPCHECK/lastIP/hostname" />)</p>
+	<p style="margin:0px;"><span style="color:#FC0; font-weight:bold;">Ultimo Login:</span> <span tal:content="IPCHECK/lastIP/lastLogin" /></p>
+	<hr />
 
-		<p style="margin:0px;"><span style="color:#FC0; font-weight:bold;">Ultimo IP:</span> <span tal:content="IPCHECK/lastIP/lastIP" /> (<span style="color:#AAA;" tal:content="IPCHECK/lastIP/hostname" />)</p>
-		<p style="margin:0px;"><span style="color:#FC0; font-weight:bold;">Ultimo Login:</span> <span tal:content="IPCHECK/lastIP/lastLogin" /></p>
-		<hr />
+	<a href="javascript:void(0);" onclick="jQuery('#ipList').toggle()" class="interfaceLinkBlue"> &raquo; Vedi Altri IP</a>
+	<div style="display:none" id="ipList">
+		<div tal:condition="exists:IPCHECK" tal:repeat="doubleIP IPCHECK/doppi"  style="margin:10px;">
 
-		<p> Ha usato lo stesso IP (<span style="color:#FC0" tal:content="repeat/doubleIP/key" />) con: </p>
-		<p tal:repeat="pg doubleIP" style="margin: 0px; margin-left:15px;">
-			<img style="vertical-align: middle;" tal:attributes="src string:TEMPLATES/img/ranks/${pg/ordinaryUniform}.png" />
-			<a class="interfaceLink" href="javascript:void(0)" tal:attributes="onclick string:schedaPOpen('${pg/pgID}') ; title string:Ultima Attività ${pg/lastAct}" tal:content="pg/pgUser"></a> <span style="color:#AAA;" tal:content="php:'[ ' . date('d-m-y H:i',pg['time']) . ' ]'"/>
-		</p>
+			
+
+			<p> Ha usato lo stesso IP (<span style="color:#FC0" tal:content="repeat/doubleIP/key" />) con: </p>
+			<p tal:repeat="pg doubleIP" style="margin: 0px; margin-left:15px;">
+				<img style="vertical-align: middle;" tal:attributes="src string:TEMPLATES/img/ranks/${pg/ordinaryUniform}.png" />
+				<a class="interfaceLink" href="javascript:void(0)" tal:attributes="onclick string:schedaPOpen('${pg/pgID}') ; title string:Ultima Attività ${pg/lastAct}" tal:content="pg/pgUser"></a> <span style="color:#AAA;" tal:content="php:'[ ' . date('d-m-y H:i',pg['time']) . ' ]'"/>
+			</p>
+		</div>
 	</div>
 </div>
 

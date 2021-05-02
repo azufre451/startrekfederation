@@ -47,8 +47,11 @@
 	<script tal:condition="php:(masterPanel)">
 		function removeDotazione(whater,ider,pgi)
 		{	
-			if(confirm('Conferma eliminazione?'))
-			window.location.href="scheda.php?s=remDotazione&type="+whater+"&ider="+ider+'&pgID='+pgi;
+			if(confirm('Conferma eliminazione?')){
+				window.location.href="scheda.php?s=remDotazione&type="+whater+"&ider="+ider+'&pgID='+pgi;
+				return false;
+			}
+
 		}
 	</script>
 	
@@ -113,7 +116,7 @@
 			</table> 
 	
 			<div class="accessoryDiv_e " tal:condition="php:(count(commendations['MEDAL']))">
-				<img tal:repeat="op commendations/MEDAL" tal:attributes="src string:TEMPLATES/img/ruolini/medaglie/${op/icon} ; title op/alt ; ondblclick php:(adminPanel== true) ? 'javascript:removeDotazione(\'medal\',' . op['recID'] . ',' . selectedUser . ')':''" class="tooltip" style="margin-left:2px; margin-top:2px;" />
+				<img tal:repeat="op commendations/MEDAL" tal:attributes="src string:TEMPLATES/img/ruolini/medaglie/${op/icon} ; title op/alt ; onclick php:(op['PLink'] != 0 ? 'cdbOpenToTopic(\''. op['PLink'] .'&page=1\')' : '') ; oncontextmenu php:(adminPanel== true) ? 'return removeDotazione(\'medal\',' . op['recID'] . ',' . selectedUser . ')':'' ; style php:((op['PLink'] != 0) ? 'margin-left:2px;; margin-top:2px;; cursor:pointer' : 'margin-left:2px;; margin-top:2px;;') " class="tooltip" />
 				
 
 				 

@@ -2036,14 +2036,14 @@ else
 
 	$res = mysql_query("
 
-		(SELECT medImage as icon,medName as alt1,medDescript as alt2,recID,doatazioneType, medPrio as orderf, dotazioneAlt as yearD FROM pgDotazioni LEFT JOIN pg_medals ON dotazioneIcon = medID WHERE doatazioneType='MEDAL' AND pgID = $selectedUser ORDER BY medPrio ASC)
+		(SELECT medImage as icon,medName as alt1,medDescript as alt2,recID,doatazioneType, medPrio as orderf, dotazioneAlt as yearD, medLink as PLink FROM pgDotazioni LEFT JOIN pg_medals ON dotazioneIcon = medID WHERE doatazioneType='MEDAL' AND pgID = $selectedUser ORDER BY medPrio ASC)
 
 		UNION
-		(SELECT dotazioneIcon as icon, dotazioneAlt as alt1, '-' as alt2, recID,doatazioneType, recID as orderf, '-' as yearD  FROM pgDotazioni WHERE doatazioneType IN ('LAUR','NOTA') AND pgID = $selectedUser )
+		(SELECT dotazioneIcon as icon, dotazioneAlt as alt1, '-' as alt2, recID,doatazioneType, recID as orderf, '-' as yearD, '' as PLink  FROM pgDotazioni WHERE doatazioneType IN ('LAUR','NOTA') AND pgID = $selectedUser )
 
 		UNION 
 
-		(SELECT image as icon, text as alt1, '' as alt2, recID, 'BREV' as doatazioneType, timer as orderf,  YEAR(timer) as yearD FROM pg_service_stories WHERE type='EXAM' AND image <> 'starfleet_brev.png' AND owner = $selectedUser)");
+		(SELECT image as icon, text as alt1, '' as alt2, recID, 'BREV' as doatazioneType, timer as orderf,  YEAR(timer) as yearD, '' as PLink FROM pg_service_stories WHERE type='EXAM' AND image <> 'starfleet_brev.png' AND owner = $selectedUser)");
 
 		$commendations['LAUR']=array(); 
 		$commendations['NOTA']=array(); 

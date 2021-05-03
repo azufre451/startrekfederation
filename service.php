@@ -492,7 +492,10 @@ else if(isSet($_GET['coorArriveTo']))
 		
 		
 	}
-		header('Location:padd.php?s=sh');
+		if(isSet($_GET['fromCharts']))
+			header('Location:chart.php');
+		else
+			header('Location:padd.php?s=sh');
 		exit;
 }
 

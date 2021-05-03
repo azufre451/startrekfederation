@@ -55,11 +55,14 @@ $vali = new validator();
 		$ele = explode(';',$coords[1]);
 		$markersOrder[] = array($ele[0],$ele[1],$type);
 	}
-
 	
 	$template->markers = json_encode($markersOrder);
 	$template->gameOptions = $gameOptions;
 	$template->subChart=$subChart;
+
+	if( PG::mapPermissions('M',PG::getOMA($pgID)))
+		$template->isMaster = 1;
+
 	try 
 	{
 		echo $template->execute();

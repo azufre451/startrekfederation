@@ -55,6 +55,8 @@
 	</div>
 
 	<script tal:content="structure string:jQuery(function(){addMarkersFromJSon('${markers}')});" />
+	<input tal:condition="exists:isMaster" type="hidden" id="isMaster" />
+	
 
 </body>
 </html>

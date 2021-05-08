@@ -176,13 +176,25 @@ elseif($mode == 'mySessions')
 
 	$template = new PHPTAL('TEMPLATES/scheda_mysessions.htm');
 
-	$sessions = mysql_query("SELECT DISTINCT federation_sessions_participation.sessionID,sessionPlace,sessionStart,sessionLabel,sessionMaster,sessionPrivate,sessionPlace,locName,placeName, placeLogo, placeID, kind FROM federation_sessions_participation,federation_sessions,fed_ambient,pg_places  WHERE sessionPlace = locID AND placeID = ambientLocation AND federation_sessions.sessionID = federation_sessions_participation.sessionID AND pgID = $selectedUser ORDER BY sessionID");
+	$sessions = mysql_query("
+	SELECT DISTINCT federation_sessions_participation.sessionID,sessionPlace,sessionStart,sessionLabel,sessionMaster,sessionPrivate,sessionPlace,locName,placeName, placeLogo, placeID, kind
+	FROM federation_sessions_participation JOIN federation_sessions ON federation_sessions.sessionID = federation_sessions_participation.sessionID 
+	LEFT JOIN fed_ambient ON sessionPlace = locID 
+	LEFT JOIN pg_places  ON placeID = ambientLocation
+	WHERE pgID = $selectedUser  
+	ORDER BY fed_ambient.locName ASC");
 
 	$mst=0;
 	$sessionsRes=array();
 	$sessionMaster=array();
 	while($res=mysql_fetch_assoc($sessions))
 	{
+		if (!$res['placeID']){
+			$res['placeID'] = 'DELE';
+			$res['placeName'] = 'Chat Eliminate';
+			$res['placeLogo'] = 'logo_empty.png';
+		}
+
 		if ($res['kind'] == 'MASTER'){
 			$mst+=1;
 			$sessionMaster[$res['sessionID']] = 1;
@@ -208,7 +220,10 @@ elseif($mode == 'mySessions')
 		}
 	} 
 
-	function cmp($a, $b) { return (count($a['sessions']) < count($b['sessions']));}
+	function cmp($a, $b) {
+		if ($a['placeName'] == 'Chat Eliminate') return 1;
+		else return (count($a['sessions']) < count($b['sessions'])) ? 1 : -1;
+	}
 
 	uasort($sessionsRes,'cmp');
 	$template->sessionsRes = $sessionsRes;

@@ -135,10 +135,16 @@ if ($tedelete)
 	$SITA .= "> Cancello questi <span style=\"font-weight:bold;color:#096bd0\">$tedelete</span> PG iscritti bloccati da più di sette giorni:<p style=\"margin:15px;\">$SITAcanc<br />.";
 
 
+$res= mysql_query("DELETE FROM pg_visualized_elements WHERE type <> 'CDB' AND time <= $twoMonth");
+$SITA .= "> Cancello <span style=\"font-weight:bold;color:#096bd0\">".mysql_affected_rows()."</span> notifiche automatiche più vecchie di due mesi<br /><br />";
 
 
+$res= mysql_query("DELETE FROM pg_visualized_elements WHERE type = 'CDB' AND time <= $twoMonth AND pgID IN (SELECT pgID FROM pg_users WHERE pgAuthOMA == 'BAN' or png = 1)" );
+$SITA .= "> Cancello <span style=\"font-weight:bold;color:#096bd0\">".mysql_affected_rows()."</span> visualized_elements del CDB più vecchi di due mesi<br /><br />";
 
 
+$res= mysql_query("DELETE FROM pg_personal_notifications WHERE time <= $eightMonth");
+$SITA .= "> Cancello <span style=\"font-weight:bold;color:#096bd0\">".mysql_affected_rows()."</span> notifiche personali vecchie di oltre otto mesi<br /><br />";
 
 
 $res= mysql_query("SELECT pgID FROM pg_users WHERE pgAuthOMA <> 'BAN' AND png = 0 AND pgPoints < 30 AND pgLastAct < $twentydays");

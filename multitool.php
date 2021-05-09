@@ -169,19 +169,20 @@ if($mode == "preapproveBackground")
 	$usera = $currentUser->pgUser;
 	$userTarget = $targetUser->pgUser;
 	$userTargetID = $targetUser->ID;
+
+	if ($currentUser->pgAuthOMA != 'A'){
 	
-	$targetUser->sendNotification("Preapprovazione BG: ".$userTarget,"$usera ha pre-approvato il background che ora è in attesa di approvazione Admin!",$_SESSION['pgID'],"TEMPLATES/img/interface/index/blevinrevin_02.png",'schedaOpen');
+		$targetUser->sendNotification("Preapprovazione BG: ".$userTarget,"$usera ha pre-approvato il background che ora è in attesa di approvazione 
+Admin!",$_SESSION['pgID'],"TEMPLATES/img/interface/index/blevinrevin_02.png",'schedaOpen');
 
-	while($rea = mysql_fetch_assoc($real))
-	{
-		$tp = new PG($rea['pgID']);
-		
-
-		$tp->sendNotification("GreenLight Guide: ".$userTarget,"$usera ha pre-approvato il background che è in attesa di approvazione",$_SESSION['pgID'],"TEMPLATES/img/interface/index/blevinrevin_02.png",'masterShadow');
-
+		while($rea = mysql_fetch_assoc($real))
+		{
+			$tp = new PG($rea['pgID']);
+			$tp->sendNotification("GreenLight Guide: ".$userTarget,"$usera ha pre-approvato il background che è in attesa di 
+approvazione",$_SESSION['pgID'],"TEMPLATES/img/interface/index/blevinrevin_02.png",'masterShadow');
+		}
+		exec($svr_home.'/tools/miniconda3/bin/python '.$svr_home.'/public_html/utils/slack_notifier.py pre-approval '.$pgID.' '.$currentUser->ID);
 	}
-
-	exec($svr_home.'/tools/miniconda3/bin/python '.$svr_home.'/public_html/utils/slack_notifier.py pre-approval '.$pgID.' '.$currentUser->ID);
 
 	header("Location:multitool.php?viewApprovals=true");
 
@@ -543,7 +544,7 @@ if($mode == 'switch')
 
 		
 		mysql_query("UPDATE pg_users SET mainPG = $mycoNEWIDD WHERE mainPG = $mycoOLDIDD;");
-		mysql_query("UPDATE pg_users SET mainPG = $mycoNEWIDD, pgType='OLD' WHERE pgID = $mycoOLDIDD;");
+		mysql_query("UPDATE pg_users SET mainPG = $mycoNEWIDD, pgType='OLD', pgAuthOMA='BAN' WHERE pgID = $mycoOLDIDD;");
 		mysql_query("UPDATE pg_users SET mainPG = $mycoNEWIDD, pgType='MAIN' WHERE pgID = $mycoNEWIDD;");
 
 		mysql_query("DELETE FROM pg_users_pointStory WHERE owner = $mycoNEWIDD;");

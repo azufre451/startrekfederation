@@ -2071,8 +2071,15 @@ else
 
 		while ($resA = mysql_fetch_array($res))
 		{
-			if($resA['doatazioneType'] == 'MEDAL')
+			if($resA['doatazioneType'] == 'MEDAL'){
 				$resA['alt'] = $resA['alt1'].' <span class="yearDSpan">'.$resA['yearD'].'</span><hr/> '.$resA['alt2'];
+				
+				if($resA['PLink']){
+					$plink = explode(':',$resA['PLink']);
+					$resA['PFunc'] = ($plink[0] == 'C') ? 'cdbOpenToTopic' : 'dbOpenToTopic';
+					$resA['PArg'] = ($plink[0] == 'C') ? $plink[1].'&page=1' : $plink[1];
+				}
+			}
 			elseif($resA['doatazioneType'] == 'BREV')
 				$resA['alt'] = $resA['alt1'] . ' <span class="yearDSpan">'.$resA['yearD'].'</span>'; 
 			else

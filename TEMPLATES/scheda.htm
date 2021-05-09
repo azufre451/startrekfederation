@@ -116,10 +116,7 @@
 			</table> 
 	
 			<div class="accessoryDiv_e " tal:condition="php:(count(commendations['MEDAL']))">
-				<img tal:repeat="op commendations/MEDAL" tal:attributes="src string:TEMPLATES/img/ruolini/medaglie/${op/icon} ; title op/alt ; onclick php:(op['PLink'] != 0 ? 'cdbOpenToTopic(\''. op['PLink'] .'&page=1\')' : '') ; oncontextmenu php:(adminPanel== true) ? 'return removeDotazione(\'medal\',' . op['recID'] . ',' . selectedUser . ')':'' ; style php:((op['PLink'] != 0) ? 'margin-left:2px;; margin-top:2px;; cursor:pointer' : 'margin-left:2px;; margin-top:2px;;') " class="tooltip" />
-				
-
-				 
+				<img tal:repeat="op commendations/MEDAL" tal:attributes="src string:TEMPLATES/img/ruolini/medaglie/${op/icon} ; title op/alt ; onclick php:(op['PLink'] ? op['PFunc'] . '(\'' . op['PArg'] . '\')' : '') ; oncontextmenu php:(adminPanel== true) ? 'return removeDotazione(\'medal\',' . op['recID'] . ',' . selectedUser . ')':'' ; style php:((op['PLink'] != 0) ? 'margin-left:2px;; margin-top:2px;; cursor:pointer' : 'margin-left:2px;; margin-top:2px;;') " class="tooltip" />		
 
 			</div>
 			

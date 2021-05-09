@@ -110,13 +110,7 @@ include('includes/validate_class.php');
 			else if($food == 348) mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','bibbia',".time().",'AUDIO')");
 			else if($food == 368) mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','tumancia',".time().",'AUDIO')");
 			else if($food == 494) mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','stap',".time().",'AUDIO')");
-			
-
-
-
-
-			
-
+			else if($food == 590) mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','otpsr',".time().",'AUDIO')");
 			else mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$amb','voy_replicator',".time().",'AUDIO')");
 		}
 		 

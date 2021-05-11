@@ -7,6 +7,8 @@ include('includes/app_include.php');
 include('includes/validate_class.php');
  		
 		$string= str_replace("\xE2\x80\x8B", "", trim(preg_replace('/[\n\r]/','',htmlentities(addslashes(($_POST['chatLine'])),ENT_COMPAT, 'UTF-8'))));
+
+		$realLen = min(5000,strlen(str_replace("\xE2\x80\x8B", "", trim(preg_replace('/[\n\r]/','', $_POST['chatLine'])))));
 		
 		$amb= addslashes($_POST['amb']);
 
@@ -14,17 +16,7 @@ include('includes/validate_class.php');
 		
 		if($user->pgLock || $user->pgAuthOMA == 'BAN') exit; 
 		if ($string == '' || $string == '+' || $string == '-' || $string == '@' || $string == '#') exit;
-		
-
-		else if($string == '*mst::sounder**')
-		{
-			
-			$string = str_replace('-','',$string); 
-			$string = '<div style="position:relative;" class="auxAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Azione automatica di risposta ad un giocatore per aver consultato il computer di bordo o premuto un tasto automatizzato (luci, replicatori, biolettini etc.)." /> Comando Utente</div>Il sensore della porta suona, emettendo il suo inconfondibile squillo</div>'; 
-			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'MASTER',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
-			
-			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','voy_door_chime',".time().",'AUDIO',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
-		} 
+		 
 		else if($string[0] == '-')
 		{ 
 			$ambient = Ambient::getAmbient($amb);
@@ -257,9 +249,7 @@ include('includes/validate_class.php');
 		$stag=strtoupper(addslashes($_POST['chatTag']));
 		$tag = ($_POST['chatTag'] == '') ? '' : '<span class="chatTag">['.$stag.']</span>';
 		
-		$stringe = strtolower($string); 
-		$realLen = strlen($string); 
- 		
+		$stringe = strtolower($string);  		
 
 		$quotes_from_array = array('&lt;','&gt;','[',']');
 		$quotes_to_array = array(' <span class="chatQuotation">&laquo;','&raquo;</span> ',' <span class="chatQuotation">&laquo;','&raquo;</span> ');

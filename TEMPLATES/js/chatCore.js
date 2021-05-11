@@ -444,7 +444,7 @@ function sX(e)
 	jQuery('#counter').css('color','hsl('+color+',93%,50%)');
 }
 
-function dlindlon(ambient){jQuery.post('ajax_sendChatLineU.php', {amb: ambient, chatLine: '*mst::sounder**'}, noti);}
+function dlindlon(){jQuery.post('ajax_sendChatEvents.php', {amb: jQuery('#locID').prop('value'),chatLine: '', mode:4}, noti);}
 
 function doRedirectToMona(ida) {
 	

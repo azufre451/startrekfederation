@@ -310,7 +310,7 @@ elseif(isSet($_GET['equi']))
 else if(isSet($_GET['prest']))
 {
 		$template = new PHPTAL('TEMPLATES/cdb_prestavolto.htm');
-		$reiss = mysql_query("SELECT pgID,pgOffAvatarC,pgOffAvatarN,pgUser FROM pg_users WHERE pgOffAvatarC <> '' AND pgOffAvatarN <> '' AND pgAuthOMA <> 'BAN' ORDER BY pgOffAvatarC");
+		$reiss = mysql_query("SELECT pgID,pgOffAvatarC,pgOffAvatarN,pgUser FROM pg_users WHERE pgOffAvatarC <> '' AND pgOffAvatarN <> '' AND (pgAuthOMA <> 'BAN' OR png=1) ORDER BY pgOffAvatarC");
 		$pg = array();
 		
 		while($reissA = mysql_fetch_array($reiss))

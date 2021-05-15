@@ -222,7 +222,7 @@ $template->user = $currentUser;
 $template->currentStarDate = $currentStarDate;
 $template->leastOlo = (PG::mapPermissions("O",$currentUser->pgAuthOMA)) ? true : false;
 
-if (PG::mapPermissions('G',$currentUser->pgAuthOMA)){ 
+if (PG::mapPermissions('G',$currentUser->pgAuthOMA) && !$currentUser->png){ 
 	$template->isStaff = true;
 
 	mysql_query("SELECT 1 FROM pg_users_presence WHERE pgID = ".$currentUser->ID." AND value <> 0");

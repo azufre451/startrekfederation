@@ -144,14 +144,14 @@ else if (isSet($_GET['adiDo']))
 {
 	if(!PG::verifyOMA($_SESSION['pgID'],'A')){header('Location:db.php'); exit;}	
 	
-	$IDF = addslashes($_POST['IDF']);
-	$tag = addslashes($_POST['tag']);
-	$title = addslashes($_POST['title']);
-	$content = addslashes($_POST['content']);
-	$entryType = addslashes($_POST['entryType']);
-	$formatType = addslashes($_POST['formatType']);
-	$crossLink = $vali->numberOnly(addslashes($_POST['crossLink']));
-	$catID = $vali->numberOnly(addslashes($_POST['catID']));
+	$IDF = stf_real_escape($_POST['IDF']);
+	$tag = stf_real_escape($_POST['tag']);
+	$title = stf_real_escape($_POST['title']);
+	$content = stf_real_escape($_POST['content']);
+	$entryType = stf_real_escape($_POST['entryType']);
+	$formatType = stf_real_escape($_POST['formatType']);
+	$crossLink = $vali->numberOnly(stf_real_escape($_POST['crossLink']));
+	$catID = $vali->numberOnly(stf_real_escape($_POST['catID']));
 
 
 	$sBB = '0'; $eMD = '0';
@@ -179,15 +179,15 @@ else if (isSet($_GET['adiDo']))
 else if (isSet($_GET['ediDo']))
 {
 	if(!PG::verifyOMA($_SESSION['pgID'],'SM')){header('Location:db.php'); exit;}	
-	$ID = $vali->numberOnly(addslashes($_GET['ediDo']));
-	$IDF = addslashes($_POST['IDF']);
-	$tag = addslashes($_POST['tag']);
-	$title = addslashes($_POST['title']);
-	$content = addslashes($_POST['content']);
-	$entryType = addslashes($_POST['entryType']);
-	$formatType = addslashes($_POST['formatType']);
-	$crossLink = $vali->numberOnly(addslashes($_POST['crossLink']));
-	$catID = $vali->numberOnly(addslashes($_POST['catID']));
+	$ID = $vali->numberOnly(stf_real_escape($_GET['ediDo']));
+	$IDF = stf_real_escape($_POST['IDF']);
+	$tag = stf_real_escape($_POST['tag']);
+	$title = stf_real_escape($_POST['title']);
+	$content = stf_real_escape($_POST['content']);
+	$entryType = stf_real_escape($_POST['entryType']);
+	$formatType = stf_real_escape($_POST['formatType']);
+	$crossLink = $vali->numberOnly(stf_real_escape($_POST['crossLink']));
+	$catID = $vali->numberOnly(stf_real_escape($_POST['catID']));
 
 	$refsToAssign=array();
 	foreach($_POST as $postVarID=>$postVar){
@@ -204,10 +204,10 @@ else if (isSet($_GET['ediDo']))
 
 			if($refData['role'] == 'SOURCES'){
 				$pgID = "'6'";
-				$auxcontent="'".addslashes($refData['val'])."'";
+				$auxcontent="'".stf_real_escape($refData['val'])."'";
 			}
 			else{
-				$pgID= "(SELECT pgID FROM pg_users WHERE pgUser = '".addslashes($refData['val'])."')";
+				$pgID= "(SELECT pgID FROM pg_users WHERE pgUser = '".stf_real_escape($refData['val'])."')";
 				$auxcontent="''";
 			}
 
@@ -237,7 +237,7 @@ else if(isSet($_GET['delelement'])){
 
 
 	if(!isSet($_SESSION['pgID']) || !PG::verifyOMA($_SESSION['pgID'],'A')){header('Location:db.php'); exit;}	
-	$ID = $vali->numberOnly(addslashes($_GET['delelement']));
+	$ID = $vali->numberOnly(stf_real_escape($_GET['delelement']));
 
 	mysql_query("UPDATE db_elements SET IDF = '', catID = '9999' WHERE ID = '$ID'");
 
@@ -265,7 +265,7 @@ else if(isSet($_GET['neuelement'])){
 
 else if(isSet($_GET['edielement'])){
 	
-	$id = addslashes($_GET['edielement']);
+	$id = stf_real_escape($_GET['edielement']);
 
 
 
@@ -304,7 +304,7 @@ else if(isSet($_GET['element']) || isSet($_GET['litref']))
 	$id = (isSet($_GET['element'])) ? $_GET['element'] : ( isSet($_GET['litref']) ? $_GET['litref'] : '');
 	$idf = (isSet($_GET['element'])) ? 'ID' : ( isSet($_GET['litref']) ? 'IDF' : '');
 
-	$id = addslashes($id);
+	$id = stf_real_escape($id);
 
 	$cat = mysql_query("SELECT db_cats.catID,catName,ID,catImage,title,content,skipBB,crosslink,totallink,enableMD FROM db_cats,db_elements WHERE db_cats.catID = db_elements.catID AND $idf = '$id'");
 
@@ -368,7 +368,7 @@ else if(isSet($_GET['searcher']))
 if(!isSet($_SESSION['pgID'])) header('Location:db.php');
 $mode=$_POST['mode'];
 $sectionFilter = isSet($_POST['section']) ? $sectionFilter = "AND catID = ".$vali->numberOnly($_POST['section']): '';
-$keyer = addslashes(str_replace(array('+','-'),array('',''),$_POST['key']));
+$keyer = stf_real_escape(str_replace(array('+','-'),array('',''),$_POST['key']));
 if($mode==0){$qstring = $keyer;}
 if($mode==2){$qstring = '"'.$keyer.'"';}
 if($mode==1){

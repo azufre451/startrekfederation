@@ -26,7 +26,7 @@ if(isSet($_GET['ajax']) && isSet($currentUser))
 	foreach($_POST['payload'] as $abv)
 	{
 
-		$abil=addslashes($abv[0]);
+		$abil=stf_real_escape($abv[0]);
 		$abilV=(int)($abv[1]);		
 		if(is_numeric($abil)){
 			
@@ -49,7 +49,7 @@ if(isSet($_GET['ajax']) && isSet($currentUser))
 elseif(isSet($_GET['abSearch']) && isSet($currentUser))
 {
 
-	$term = trim(addslashes($_GET['term']));
+	$term = trim(stf_real_escape($_GET['term']));
 
 	$res = mysql_query("SELECT abName as value,abID,abImage,abClass,abDescription FROM pg_abilita WHERE abName LIKE '%$term%' ORDER BY abDiff ASC");
 	$aar = array();

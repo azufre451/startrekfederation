@@ -5,7 +5,7 @@ if (!isSet($_SESSION['pgID'])){exit;}
 include('includes/app_include.php');
 include('includes/validate_class.php');
 		
-		$ambientID= addslashes($_POST['amb']);
+		$ambientID= stf_real_escape($_POST['amb']);
 		
  		$user = new PG($_SESSION['pgID']); 
 
@@ -33,8 +33,8 @@ include('includes/validate_class.php');
 			
 			Ambient::closeSession($ambientID); 
 			$master = ((int)($_POST['master'] && PG::mapPermissions('M',$user->pgAuthOMA)))  ? 1 : 0; 
-			$label = addslashes($_POST['label']);
-			$descript = addslashes($_POST['descript']);
+			$label = stf_real_escape($_POST['label']);
+			$descript = stf_real_escape($_POST['descript']);
 			
 			$vali = new validator();
 			
@@ -223,7 +223,7 @@ include('includes/validate_class.php');
 				$masterPenalty = array_key_exists($sl,$penalties) ? round($penalties[$sl],2) : 0;
 				$endpointarray = round($pointarray[$owner] - $masterPenalty);
 				
-				$master_expl = addslashes("Per la sessione appena conclusa sono stati assegnati i seguenti punti per le attività di gioco e mastering:
+				$master_expl = stf_real_escape("Per la sessione appena conclusa sono stati assegnati i seguenti punti per le attività di gioco e mastering:
 				
 				> Media dei punti assegnati in giocata (senza penalità): $avgpointarray_s FP / giocatore,
 				> Numero di azioni fuori-tempo: $offTargetACTS,
@@ -246,7 +246,7 @@ include('includes/validate_class.php');
  
 
 				$pta =  max(0,round($playerResult - $playPenalty));
-				$sessionLabel = addslashes($sectionsOngoing['session']['sessionLabel']);
+				$sessionLabel = stf_real_escape($sectionsOngoing['session']['sessionLabel']);
 				$log.=$sectionsOngoing['session']['sessionID'] . "\t\t".$playerLabels[$playerID]."\t\t\t\tPOINTS_TOTAL\t".round($playerResult,2). " - ".round($playPenalty,2)."\t".$pta."\t\n";
 
 				if ($pta > -1){

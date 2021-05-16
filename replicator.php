@@ -11,8 +11,8 @@ $availableUCs = array('&#129347;','&#129367;','&#127836;','&#127863;','&#129384;
 
 if(isSet($_GET['term']) && isSet($_GET['lookSpecie']))
 { 
-		$call = addslashes($_GET['term']);
-		$lookSpecie = addslashes($_GET['lookSpecie']);
+		$call = stf_real_escape($_GET['term']);
+		$lookSpecie = stf_real_escape($_GET['lookSpecie']);
 		$res = mysql_query("SELECT DISTINCT foodSpecie FROM fed_food WHERE active = 1 AND foodSpecie LIKE '%$call%'"); 
 		$arec = array(); 
 		while($reA = mysql_fetch_assoc($res)) $arec[] = $reA['foodSpecie'];
@@ -21,7 +21,7 @@ if(isSet($_GET['term']) && isSet($_GET['lookSpecie']))
 
 elseif(isSet($_GET['term']))
 { 
-		$call = addslashes($_GET['term']);
+		$call = stf_real_escape($_GET['term']);
 		$res = mysql_query("SELECT foodName FROM fed_food WHERE active = 1 AND foodName LIKE '%$call%' OR foodSpecie LIKE '%$call%'"); 
 		$arec = array();
 		while($reA = mysql_fetch_assoc($res)) $arec[] = $reA['foodName'];
@@ -30,13 +30,13 @@ elseif(isSet($_GET['term']))
 
 elseif(isSet($_GET['propose']))
 { 
-		$prop_foodTitle = addslashes($_POST['prop_foodTitle']);
-		$prop_foodDescript = addslashes($_POST['prop_foodDescript']);
-		$prop_foodSpecie = addslashes($_POST['prop_foodSpecie']);
-		$prop_foodImage = addslashes($_POST['prop_foodImage']);
-		$prop_foodType = addslashes($_POST['prop_foodType']);
+		$prop_foodTitle = stf_real_escape($_POST['prop_foodTitle']);
+		$prop_foodDescript = stf_real_escape($_POST['prop_foodDescript']);
+		$prop_foodSpecie = stf_real_escape($_POST['prop_foodSpecie']);
+		$prop_foodImage = stf_real_escape($_POST['prop_foodImage']);
+		$prop_foodType = stf_real_escape($_POST['prop_foodType']);
 
-		$prop_foodIcon = addslashes($_POST['prop_foodUC']);
+		$prop_foodIcon = stf_real_escape($_POST['prop_foodUC']);
 		$usr = $_SESSION['pgID'];
 	
 		mysql_query("INSERT INTO fed_food (foodName,foodImage,foodDescription,foodSpecie,active,presenter,foodType,iconUC) VALUES ('$prop_foodTitle','$prop_foodImage','$prop_foodDescript','$prop_foodSpecie',0,$usr,'$prop_foodType','$prop_foodIcon')");
@@ -44,7 +44,7 @@ elseif(isSet($_GET['propose']))
 		$p2 = new PG(5);
 		$toUser = $currentUser->pgUser;
 		
-		$cString = addslashes("L'utente $toUser a appena inserito in replicatore un cibo degli $prop_foodSpecie:<br /><br /><p style='text-align:center'><span style='font-weight:bold'>$prop_foodTitle</span><br /><img src='$prop_foodImage' style='border:1px solid #AAA; padding:5px; width:150px;' /> Accedi al tool admin replicatore per approvare o modificare.</p><br /> $prop_foodDescript");
+		$cString = stf_real_escape("L'utente $toUser a appena inserito in replicatore un cibo degli $prop_foodSpecie:<br /><br /><p style='text-align:center'><span style='font-weight:bold'>$prop_foodTitle</span><br /><img src='$prop_foodImage' style='border:1px solid #AAA; padding:5px; width:150px;' /> Accedi al tool admin replicatore per approvare o modificare.</p><br /> $prop_foodDescript");
 		 
 		$p1->sendNotification("Nuovo cibo Replicatore","$toUser ha appena inserito in replicatore un cibo degli $prop_foodSpecie",$_SESSION['pgID'],$prop_foodImage,'repliOpen');
 		$p2->sendNotification("Nuovo cibo Replicatore","$toUser ha appena inserito in replicatore un cibo degli $prop_foodSpecie",$_SESSION['pgID'],$prop_foodImage,'repliOpen');
@@ -65,7 +65,7 @@ elseif(isSet($_GET['ajaxCall']))
 { 
 		$call = $_GET['ajaxCall'];
 		if (is_numeric($call)) $qu = "SELECT foodID,foodName, foodImage, foodDescription,iconUC FROM fed_food WHERE active = 1 AND foodID = $call";
-		else $qu = "SELECT foodID,foodName, foodImage, foodDescription,iconUC FROM fed_food WHERE active = 1 AND foodName = '".addslashes($call)."'";
+		else $qu = "SELECT foodID,foodName, foodImage, foodDescription,iconUC FROM fed_food WHERE active = 1 AND foodName = '".stf_real_escape($call)."'";
 		
 		$res = mysql_query($qu);
 		$reA = mysql_fetch_assoc($res);
@@ -208,12 +208,12 @@ elseif(isSet($_GET['approval']))
 	
 	if($mode == 'confirmRevise')
 	{ 
-		$prop_foodTitle = addslashes($_POST['editName']);
-		$prop_foodDescript = addslashes($_POST['editDescr']);
-		$prop_foodSpecie = addslashes($_POST['editSpecie']);
-		$prop_foodImage = addslashes($_POST['editImage']);
-		$prop_foodType = addslashes($_POST['editTipo']);
-		$prop_foodIcon = addslashes($_POST['prop_foodUC']);
+		$prop_foodTitle = stf_real_escape($_POST['editName']);
+		$prop_foodDescript = stf_real_escape($_POST['editDescr']);
+		$prop_foodSpecie = stf_real_escape($_POST['editSpecie']);
+		$prop_foodImage = stf_real_escape($_POST['editImage']);
+		$prop_foodType = stf_real_escape($_POST['editTipo']);
+		$prop_foodIcon = stf_real_escape($_POST['prop_foodUC']);
 
 		
 		mysql_query("UPDATE fed_food SET foodName='$prop_foodTitle',foodImage='$prop_foodImage',foodDescription='$prop_foodDescript',foodSpecie='$prop_foodSpecie',foodType='$prop_foodType',iconUC='$prop_foodIcon' WHERE foodID = $foodID");

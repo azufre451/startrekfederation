@@ -7,7 +7,7 @@ class abilDescriptor
 	
 	
 	public static function translate($t){return self::$transArray[$t];}
-	public static function getAbil($id){ $ide=addslashes($id); $res = mysql_fetch_assoc(mysql_query("SELECT * FROM pg_abilita WHERE abID = '$ide' LIMIT 1")); if(!mysql_error()) return $res; }
+	public static function getAbil($id){ $ide=stf_real_escape($id); $res = mysql_fetch_assoc(mysql_query("SELECT * FROM pg_abilita WHERE abID = '$ide' LIMIT 1")); if(!mysql_error()) return $res; }
 	public static function getAllAbil(){
 		$res = mysql_query("SELECT * FROM pg_abilita ORDER BY abName");
 		$r=array();

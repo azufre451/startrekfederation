@@ -4,6 +4,7 @@ function mysql_fetch_array($q){return mysqli_fetch_array($q);}
 function mysql_fetch_assoc($q){return mysqli_fetch_assoc($q);}
 function mysql_error(){return mysqli_error(Database::$link);}
 function mysql_affected_rows(){return mysqli_affected_rows(Database::$link);}
+function stf_real_escape($s){return mysqli_real_escape_string(Database::$link,$s);}
 
 class Database
 { 
@@ -162,7 +163,7 @@ class Ambient
 		foreach ($splitted as $elemet)
 		{	
 			$kilo = true; 
-			$to = addslashes(trim($elemet)); 
+			$to = stf_real_escape(trim($elemet)); 
 			if ($to==NULL) continue;
 			$idR = mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$to'"));
 			$idA = $idR['pgID'];
@@ -463,8 +464,8 @@ class PG
 		$myID = $this->ID;
 		$curTime = time();
 
-		$textE=addslashes($text);
-		$textS=addslashes($subtext);
+		$textE=stf_real_escape($text);
+		$textS=stf_real_escape($subtext);
 		mysql_query("INSERT INTO pg_personal_notifications (owner,text,image,time,linker,URI,subtext) VALUES ($myID,'$textE','$image',$curTime,'$linker','$uri','$textS')");
  
 	}
@@ -487,8 +488,8 @@ class PG
 		if($paddType == 1)
 			$paddClass="offPadd";
 
-		$textE=addslashes($text);
-		$subjectE=addslashes($subject);
+		$textE=stf_real_escape($text);
+		$subjectE=stf_real_escape($subject);
 		mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,paddType) VALUES ($from,$myID,'$subjectE','<div class=\"paddMessage $paddClass\">$textE</div>',$curTime,0,$paddType)");
 		if(mysql_error()){echo mysql_error();exit;}
 		if(!isSet($this->paddMail)){
@@ -562,9 +563,9 @@ class PG
 		$me = $this->ID;
 		$curTime = time();
 		
-		$causaTitle = addslashes($causaTitle);
-		$reason = addslashes($reason);
-		$causa = addslashes($causa);
+		$causaTitle = stf_real_escape($causaTitle);
+		$reason = stf_real_escape($reason);
+		$causa = stf_real_escape($causa);
 		
 		$pointsPre = $pointsPre = PG::getSomething($me,'totalPoints');
 		mysql_query("UPDATE pg_users SET pgPoints = pgPoints+$p WHERE pgID = $me");
@@ -576,8 +577,8 @@ class PG
 			{
 				mysql_query("UPDATE pg_users SET pgUpgradePoints = pgUpgradePoints+1 WHERE pgID = $me");
 				
-				$cString = addslashes("Congratulazioni!!<br />Hai ottenuto 1 Upgrade Point!<br /><br /><p style='text-align:center'><span style='font-weight:bold'>Puoi usarli per aumentare le tue caratteristiche nella Scheda PG!</span></p><br />Il Team di Star Trek: Federation");
-				$eString = addslashes("Upgrade Points!::Hai ottenuto un Upgrade Point!"); 
+				$cString = stf_real_escape("Congratulazioni!!<br />Hai ottenuto 1 Upgrade Point!<br /><br /><p style='text-align:center'><span style='font-weight:bold'>Puoi usarli per aumentare le tue caratteristiche nella Scheda PG!</span></p><br />Il Team di Star Trek: Federation");
+				$eString = stf_real_escape("Upgrade Points!::Hai ottenuto un Upgrade Point!"); 
 				
 				mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField,paddType) VALUES (518,$me,'OFF: Upgrade Points!','$cString',$curTime,0,'',2),(518,$me,'::special::achiev','$eString',$curTime,0,'TEMPLATES/img/interface/personnelInterface/starIcon.png',2)");
 			}
@@ -589,8 +590,8 @@ class PG
 			{
 				mysql_query("UPDATE pg_users SET pgSpecialistPoints = pgSpecialistPoints+1 WHERE pgID = $me");
 				
-				$cString = addslashes("Congratulazioni!!<br />Hai ottenuto 1 Punto Fortuna Critica!<br /><br /><p style='text-align:center'><span style='font-weight:bold'>Puoi usarlo per ottenere un successo critico a tua discrezione su qualunque dado!</span></p><br />Il Team di Star Trek: Federation");
-				$eString = addslashes("Lucky Point!::Hai ottenuto un punto Fortuna Critica!"); 
+				$cString = stf_real_escape("Congratulazioni!!<br />Hai ottenuto 1 Punto Fortuna Critica!<br /><br /><p style='text-align:center'><span style='font-weight:bold'>Puoi usarlo per ottenere un successo critico a tua discrezione su qualunque dado!</span></p><br />Il Team di Star Trek: Federation");
+				$eString = stf_real_escape("Lucky Point!::Hai ottenuto un punto Fortuna Critica!"); 
 				
 				mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField,paddType) VALUES (518,$me,'OFF: Fortuna Critica!','$cString',$curTime,0,'',2),(518,$me,'::special::achiev','$eString',$curTime,0,'TEMPLATES/img/interface/personnelInterface/starIcon.png',2)");
 				$this->sendNotification("Lucky Point","Hai ottenuto un Lucky Point!",$_SESSION['pgID'],"TEMPLATES/img/interface/index/blevinrevin_02.png",'schedaOpen');
@@ -681,7 +682,7 @@ class PG
 	public function addNote($what,$from=518,$reg=false)
 	{
 		$thisID = $this->ID;
-		$thisString = addslashes($what);
+		$thisString = stf_real_escape($what);
 		$regS = ($reg) ? '1' : '0';
 		
 		$curTime = time();

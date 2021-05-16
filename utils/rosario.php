@@ -71,8 +71,8 @@ while($ra = mysql_fetch_array($res))
 	$tolist+=1;
 	mysql_query("UPDATE federation_sessions SET sessionStatus='CLOSED' WHERE sessionID = ".$ra['sessionID']);
 	$pig = new PG($ra['sessionOwner']);
-	$seTitle = addslashes($ra['sessionLabel']);
-	$seNow = addslashes( ((time()-(int)($ra['sessionStart']))/3600) );
+	$seTitle = stf_real_escape($ra['sessionLabel']);
+	$seNow = stf_real_escape( ((time()-(int)($ra['sessionStart']))/3600) );
 	$pig->sendPadd('OFF: Chiusura Sessione',"Una procedura automatica ha chiuso la tua sessione: $seTitle dopo <b>$seNow ore</b> di inattività. Non sono stati assegnati punti per questa sessione.");
 
 	$SITALIST .= '<span style="font-weight:bold;" class="interfaceLink" href="#">'.$ra['sessionLabel'].'</span> ('.$ra['sessionPlace'].') di <a onclick="javascript:schedaPOpen('.$ra['sessionOwner'].');" style="font-weight:bold;" class="interfaceLink" href="#">'.$ra['pgUser'].'</a><br />';

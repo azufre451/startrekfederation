@@ -11,9 +11,9 @@ include("includes/PHPTAL/PHPTAL.php"); //NEW
 
 
 
-$term = addslashes($_POST['stringer']);
+$term = stf_real_escape($_POST['stringer']);
 $format = $_POST['format'];
-$rapType = addslashes($_POST['rapType']);
+$rapType = stf_real_escape($_POST['rapType']);
 
 
 $etos=mysql_fetch_assoc(mysql_query("SELECT * FROM cdb_templates WHERE ref = '$rapType'"));

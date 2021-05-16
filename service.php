@@ -15,12 +15,12 @@ if(isSet($_GET['registerUser']))
 	$vali = new validator();
 	
 	
-	$pgName= ucfirst(addslashes(($_POST['select_cognome'])));
-	$pgNameFirst= ucfirst(addslashes(($_POST['select_nome'])));
+	$pgName= ucfirst(stf_real_escape(($_POST['select_cognome'])));
+	$pgNameFirst= ucfirst(stf_real_escape(($_POST['select_nome'])));
 
-	$emai= (htmlentities(addslashes(($_POST['select_email'])),ENT_COMPAT, 'UTF-8'));
+	$emai= (htmlentities(stf_real_escape(($_POST['select_email'])),ENT_COMPAT, 'UTF-8'));
 	
-	$pgSpecie= (htmlentities(addslashes(($_POST['select_razza'])),ENT_COMPAT, 'UTF-8'));
+	$pgSpecie= (htmlentities(stf_real_escape(($_POST['select_razza'])),ENT_COMPAT, 'UTF-8'));
 
 	$abil = array(
 		'HT'=>$vali->numberOnly($_POST['select_ht']),
@@ -36,8 +36,8 @@ if(isSet($_GET['registerUser']))
 	$pgTarget= explode('_',$_POST['select_grado']);
 	$pgRealTarget= $vali->numberOnly($pgTarget[0]);
 	
-	$pgSesso= strtoupper(htmlentities(addslashes(($_POST['select_sesso'])),ENT_COMPAT, 'UTF-8'));
-	$pgAuth= (htmlentities(addslashes(($_POST['pgAuth'])),ENT_COMPAT, 'UTF-8'));
+	$pgSesso= strtoupper(htmlentities(stf_real_escape(($_POST['select_sesso'])),ENT_COMPAT, 'UTF-8'));
+	$pgAuth= (htmlentities(stf_real_escape(($_POST['pgAuth'])),ENT_COMPAT, 'UTF-8'));
 
     //832 : tenente JG COM-Strat
 
@@ -181,7 +181,7 @@ if(isSet($_GET['addCallComment']))
 {
 $vali = new validator();
 $callID = $vali->numberOnly($_POST['callID']);
-$type = (addslashes($_POST['testoComm']));
+$type = (stf_real_escape($_POST['testoComm']));
 $type = substr($type,0,255);
 if(trim($type) != '') mysql_query("INSERT INTO cdb_calls_comments(owner,callID,text,timer) VALUES(".$_SESSION['pgID'].",$callID,'$type',".time().")");
 header("Location:cdb.php?callView=$callID");
@@ -201,7 +201,7 @@ if (isSet($_GET['setAlert']))
 		exit;
 
 	$g = $_GET['setAlert'];
-	$place = addslashes($_GET['place']);
+	$place = stf_real_escape($_GET['place']);
 	
 	if($g == 'red' || $g=='intruder' || $g == 'yellow' || $g == 'blue' || $g == 'green' || $g == 'grey' || $g == 'quarantine')
 	{
@@ -286,8 +286,8 @@ else if (isSet($_GET['updateStatus']))
 	$statu = "";
 	if(isSet($_GET['place']) && isSet($_POST['note']))
 	{
-	$place = addslashes($_GET['place']);
-	$doki = addslashes($_POST['note']);
+	$place = stf_real_escape($_GET['place']);
+	$doki = stf_real_escape($_POST['note']);
 	str_replace(array('<iframe>','<frame>','<object>','<embed>','<img>','<script>'),array('iframe','frame','object','embed','img','script'),$doki);
 	
 	for($i = 0; $i<12;$i++)
@@ -308,17 +308,17 @@ else if(isSet($_GET['comm']))
 	if($currentUser->pgLock){header('Location:comm.php'); exit;}
 	if ($type=='ppl')
 	{
-		$to = (htmlentities(addslashes(($_POST['to'])),ENT_COMPAT, 'UTF-8'));
-		$row = (htmlentities(addslashes(($_POST['rowSend'])),ENT_COMPAT, 'UTF-8'));
+		$to = (htmlentities(stf_real_escape(($_POST['to'])),ENT_COMPAT, 'UTF-8'));
+		$row = (htmlentities(stf_real_escape(($_POST['rowSend'])),ENT_COMPAT, 'UTF-8'));
 		
 		if($to != 0)
 		{
 			$toQ = mysql_query('SELECT pgUser, pgRoom FROM pg_users WHERE pgID = '.$to);
 			$toQE = mysql_fetch_array($toQ);
 			$toRoom = $toQE['pgRoom'];
-			$toPg = addslashes($toQE['pgUser']);
+			$toPg = stf_real_escape($toQE['pgUser']);
 			
-			$string = '<p class="commMessage">'.date('H:i').' <span class="commPreamble">'.addslashes($currentUser->pgUser)." a $toPg:</span> ".$row.'</p>';
+			$string = '<p class="commMessage">'.date('H:i').' <span class="commPreamble">'.stf_real_escape($currentUser->pgUser)." a $toPg:</span> ".$row.'</p>';
 			if($toRoom != $currentUser->pgRoom) mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'".$currentUser->pgRoom."','$string',".time().",'ACTION')");
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','$string',".time().",'ACTION')");
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$toRoom','commbadge',".time().",'AUDIO')");
@@ -328,7 +328,7 @@ else if(isSet($_GET['comm']))
 		{
 			$allAmb = mysql_query("SELECT locID FROM fed_ambient,pg_places WHERE placeID = ambientLocation AND (ambientLocation = '".$currentUser->pgLocation."' OR attracco = '".$currentUser->pgLocation."') AND locID <> '".$currentUser->pgLocation."'");
 			
-			$string = '<p class="commMessage">'.date('H:i').' <span class="commPreamble">'.addslashes($currentUser->pgUser)." a tutto il personale:</span> ".$row.'</p>';
+			$string = '<p class="commMessage">'.date('H:i').' <span class="commPreamble">'.stf_real_escape($currentUser->pgUser)." a tutto il personale:</span> ".$row.'</p>';
 			
 			while($rea = mysql_fetch_array($allAmb))
 			{
@@ -341,14 +341,14 @@ else if(isSet($_GET['comm']))
 	
 	/*else if ($type=='sendCommDeck')
 	{
-		$to = addslashes($_POST['deckTo']);
+		$to = stf_real_escape($_POST['deckTo']);
 		
 		
-		$row = (htmlentities(addslashes(($_POST['rowSend'])),ENT_COMPAT, 'UTF-8'));
+		$row = (htmlentities(stf_real_escape(($_POST['rowSend'])),ENT_COMPAT, 'UTF-8'));
 		
 		$allAmb = mysql_query('SELECT locID FROM fed_ambient WHERE ambientLocation = \''.$currentUser->pgLocation.'\' AND ambientLevel_deck = \''.$to.'\' AND locID <> \''.$currentUser->pgLocation.'\'');
 			
-			$string = '<p class="commMessage">'.date('H:i').' <span class="commPreamble">'.addslashes($currentUser->pgUser)." a PONTE $to:</span> ".$row.'</p>';
+			$string = '<p class="commMessage">'.date('H:i').' <span class="commPreamble">'.stf_real_escape($currentUser->pgUser)." a PONTE $to:</span> ".$row.'</p>';
 			//mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'".$currentUser->pgRoom."','$string',".time().",'ACTION')");
 			
 			while($rea = mysql_fetch_array($allAmb))
@@ -361,12 +361,12 @@ else if(isSet($_GET['comm']))
 	
 	else if ($type=='pla')
 	{
-		$to = (htmlentities(addslashes(($_POST['to'])),ENT_COMPAT, 'UTF-8'));
-		$row = (htmlentities(addslashes(($_POST['rowSend'])),ENT_COMPAT, 'UTF-8'));
+		$to = (htmlentities(stf_real_escape(($_POST['to'])),ENT_COMPAT, 'UTF-8'));
+		$row = (htmlentities(stf_real_escape(($_POST['rowSend'])),ENT_COMPAT, 'UTF-8'));
 		
 		if(!$ambientName = Ambient::getAmbientName($to)) exit;
 		
-		$string = '<p class="commMessage">'.date('H:i').' <span class="commPreamble">'.addslashes($currentUser->pgUser)." a $ambientName:</span> ".$row.'</p>';
+		$string = '<p class="commMessage">'.date('H:i').' <span class="commPreamble">'.stf_real_escape($currentUser->pgUser)." a $ambientName:</span> ".$row.'</p>';
 			
 		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$to','$string',".time().",'ACTION')");
 		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type) VALUES(".$_SESSION['pgID'].",'$to','commbadge',".time().",'AUDIO')");
@@ -380,8 +380,8 @@ else if(isSet($_GET['comm']))
 else if(isSet($_GET['warpSpeed']))
 {
 		if(isSet($_POST['factor'])){
-		$place = addslashes($_GET['warpSpeed']);
-		$fact = addslashes($_POST['factor']);
+		$place = stf_real_escape($_GET['warpSpeed']);
+		$fact = stf_real_escape($_POST['factor']);
 		$fact = str_replace(',','.',$fact);
 		
 		if(PG::mapPermissions('M',$currentUser->pgAuthOMA))
@@ -404,7 +404,7 @@ else if(isSet($_GET['warpSpeed']))
 
 else if(isSet($_GET['exitHangar']))
 { 
-		$place = addslashes($_GET['exitHangar']);
+		$place = stf_real_escape($_GET['exitHangar']);
 		
 		$genitrice = mysql_query("SELECT pointerL FROM pg_places WHERE placeID = (SELECT attracco FROM pg_places WHERE placeID = '$place')");
 		//echo "SELECT sector, pointer FROM pg_places WHERE placeID = (SELECT attracco FROM pg_places WHERE placeID = '$place')"; exit;
@@ -423,8 +423,8 @@ else if(isSet($_GET['hangarize']))
 { 
 	if(isSet($_POST['attracTo']) && isSet($_GET['hangarize'])){
 	
-		$place = addslashes($_GET['hangarize']);
-		$toplace = addslashes($_POST['attracTo']);
+		$place = stf_real_escape($_GET['hangarize']);
+		$toplace = stf_real_escape($_POST['attracTo']);
 		
 		$p1 = mysql_query("SELECT pointerL FROM pg_places WHERE placeID = '$place'");
 		$pa = mysql_fetch_array($p1);
@@ -445,8 +445,8 @@ else if(isSet($_GET['punctualArriveTo']))
 { 
 	if(isSet($_POST['systemSearcher']) && PG::mapPermissions('M',$currentUser->pgAuthOMA)){
 	
-		$place = addslashes($_GET['punctualArriveTo']);
-		$toplaceR = addslashes($_POST['systemSearcher']);
+		$place = stf_real_escape($_GET['punctualArriveTo']);
+		$toplaceR = stf_real_escape($_POST['systemSearcher']);
 		$toplaceS = explode(' - ',$toplaceR);
 		$toplace = $toplaceS[0];
 		$toplaceI = $toplaceS[1];
@@ -479,7 +479,7 @@ else if(isSet($_GET['coorArriveTo']))
 { 
 	if(PG::mapPermissions('M',$currentUser->pgAuthOMA)){
 	
-		$place = addslashes($_GET['coorArriveTo']);
+		$place = stf_real_escape($_GET['coorArriveTo']);
 		
 		$x = ($vali->numberOnly($_POST['coX']) != '') ? $vali->numberOnly($_POST['coX']) : 0;
 		$y = ($vali->numberOnly($_POST['coY']) != '') ? $vali->numberOnly($_POST['coY']) : 0;
@@ -505,29 +505,29 @@ else if (isSet($_GET['cPlanetCreate']))
 
 	if(!PG::mapPermissions('SM',$currentUser->pgAuthOMA)) exit;
 
-	$pName = addslashes($_POST['pName']);
-	$pID = addslashes($_POST['pID']);
-	$placeSciName = addslashes($_POST['placeSciName']);
-	$placeMotto = addslashes($placeSciName . ' - ' . $_POST['placeClass']);
-	$placePopulation = addslashes($_POST['placePopulation']);
-	$placeAlignment = addslashes($_POST['placeAlignment']);
-	$placeNote = addslashes($_POST['placeNote']);
-	$placePopulationText = addslashes($_POST['placePopulationText']);
+	$pName = stf_real_escape($_POST['pName']);
+	$pID = stf_real_escape($_POST['pID']);
+	$placeSciName = stf_real_escape($_POST['placeSciName']);
+	$placeMotto = stf_real_escape($placeSciName . ' - ' . $_POST['placeClass']);
+	$placePopulation = stf_real_escape($_POST['placePopulation']);
+	$placeAlignment = stf_real_escape($_POST['placeAlignment']);
+	$placeNote = stf_real_escape($_POST['placeNote']);
+	$placePopulationText = stf_real_escape($_POST['placePopulationText']);
 	
 	$placeCoordSector = $_POST['placeCoordSector'];
 	$placeCoordX = $vali->numberOnly($_POST['placeCoordX']);
 	$placeCoordY = $vali->numberOnly($_POST['placeCoordY']);
-	$pointerL = addslashes($placeCoordSector).':'.$placeCoordX.';'.$placeCoordY;
-	$placeIncLogo = addslashes($_POST['placeIncLogo']);
-	$placeLocation = addslashes($_POST['placeLocation']);
-	$pMap1 = addslashes(basename($_POST['pMap1']));
-	$pMap2 = addslashes(basename($_POST['pMap2']));
-	$pMap3 = addslashes(basename($_POST['pMap3']));
-	$assignLogo = addslashes($_POST['assignLogo']);
-	$placeLogo = addslashes($_POST['placeLogo']);
+	$pointerL = stf_real_escape($placeCoordSector).':'.$placeCoordX.';'.$placeCoordY;
+	$placeIncLogo = stf_real_escape($_POST['placeIncLogo']);
+	$placeLocation = stf_real_escape($_POST['placeLocation']);
+	$pMap1 = stf_real_escape(basename($_POST['pMap1']));
+	$pMap2 = stf_real_escape(basename($_POST['pMap2']));
+	$pMap3 = stf_real_escape(basename($_POST['pMap3']));
+	$assignLogo = stf_real_escape($_POST['assignLogo']);
+	$placeLogo = stf_real_escape($_POST['placeLogo']);
 	$placeRotation = $vali->numberOnly($_POST['placeRotation']);
 	$placeRotationOffset = $vali->numberOnly($_POST['placeRotationOffset']);
-	$placeMeteo = addslashes($_POST['placeMeteo']);
+	$placeMeteo = stf_real_escape($_POST['placeMeteo']);
 	$hasCrew = isSet($_POST['hasCrew']) ? '1' : '0';
 
 
@@ -563,8 +563,8 @@ else if (isSet($_GET['cPlanetCreate']))
 
 else if (isSet($_GET['editWeather']))
 {
-	$to = addslashes($_GET['editWeather']);
-	$weatherEdit = addslashes($_POST['weatherEdit']); 
+	$to = stf_real_escape($_GET['editWeather']);
+	$weatherEdit = stf_real_escape($_POST['weatherEdit']); 
 
 	mysql_query("UPDATE pg_places SET weather = '$weatherEdit' WHERE placeID = '$to'");
 
@@ -574,16 +574,16 @@ else if (isSet($_GET['editWeather']))
 
 else if (isSet($_GET['addMapLocation']))
 {
-	$to = addslashes($_GET['addMapLocation']);
-	$name = addslashes(str_replace('\'','&apos;',$_POST['name'])); 
+	$to = stf_real_escape($_GET['addMapLocation']);
+	$name = stf_real_escape(str_replace('\'','&apos;',$_POST['name'])); 
 	$locID = strtoupper(preg_replace('/[^\x20-\x7E]/','',str_replace(array(' ','\'','&apos;'),array('_','',''),$to.'_'.$name)));
-	$desc = addslashes($_POST['descript']);
-	$icon = addslashes($_POST['icon']);
-	$ima = addslashes($_POST['internalImage']);
+	$desc = stf_real_escape($_POST['descript']);
+	$icon = stf_real_escape($_POST['icon']);
+	$ima = stf_real_escape($_POST['internalImage']);
 	
 	if($icon == '') $icon = 'https://oscar.stfederation.it/imaLocation/i_generic.png';
 	if($ima == '') $ima = 'https://oscar.stfederation.it/imaLocation/c_generic.png';
-	$map = ($vali->numberOnly(addslashes($_POST['mappNo'])));
+	$map = ($vali->numberOnly(stf_real_escape($_POST['mappNo'])));
 	
 	if(PG::mapPermissions('JM',$currentUser->pgAuthOMA))
 		mysql_query("INSERT INTO fed_ambient (locID,locName,ambientLocation,descrizione,planetSub,icon,image,ambientType) VALUES ('$locID','$name','$to','$desc','$map','$icon','$ima','NORMAL')");
@@ -594,17 +594,17 @@ else if (isSet($_GET['addMapLocation']))
 
 else if (isSet($_GET['editMapLocation']))
 {
-	$locID = addslashes($_GET['editMapLocation']);
-	$name = addslashes($_POST['name']);
-	$desc = addslashes($_POST['descript']);
-	$icon = addslashes($_POST['icon']);
-	$ima = addslashes($_POST['internalImage']);
-	$typer = addslashes($_POST['typer']);
+	$locID = stf_real_escape($_GET['editMapLocation']);
+	$name = stf_real_escape($_POST['name']);
+	$desc = stf_real_escape($_POST['descript']);
+	$icon = stf_real_escape($_POST['icon']);
+	$ima = stf_real_escape($_POST['internalImage']);
+	$typer = stf_real_escape($_POST['typer']);
 	
 	if($icon == '') $icon = 'https://oscar.stfederation.it/imaLocation/i_generic.png';
 	if($ima == '') $ima = 'https://oscar.stfederation.it/imaLocation/c_generic.png';
-	$map = ($vali->numberOnly(addslashes($_POST['mappNo'])));
-	$deck = addslashes($_POST['pontNo']);
+	$map = ($vali->numberOnly(stf_real_escape($_POST['mappNo'])));
+	$deck = stf_real_escape($_POST['pontNo']);
 	
 	if(PG::mapPermissions('M',$currentUser->pgAuthOMA))
 		mysql_query("UPDATE fed_ambient SET locName='$name', ambientType='$typer', planetSub='$map', ambientLevel_deck='$deck', descrizione='$desc', icon='$icon',image='$ima' WHERE locID='$locID'");
@@ -614,7 +614,7 @@ else if (isSet($_GET['editMapLocation']))
 
 else if (isSet($_GET['purifyAlloggi']))
 {
-	$to = addslashes($_GET['purifyAlloggi']);
+	$to = stf_real_escape($_GET['purifyAlloggi']);
 	
 	mysql_query("DELETE FROM pg_alloggi WHERE alloggio IN (SELECT locID FROM fed_ambient WHERE locID LIKE 'ALL%' AND ambientType = 'ALLOGGIO' AND ambientLocation = '$to')");
 	mysql_query("DELETE FROM fed_ambient WHERE locID LIKE 'ALL%' AND ambientType = 'ALLOGGIO' AND ambientLocation = '$to'");

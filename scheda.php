@@ -131,7 +131,7 @@ elseif($mode == 'bvadd')
 		$template->resUPoints = $resUPoints;
 		if(isSet($_GET['absel'])){
 			
-			$abilSet = abilDescriptor::getAbil(addslashes($_GET['absel']));
+			$abilSet = abilDescriptor::getAbil(stf_real_escape($_GET['absel']));
 			$template->openedCategory = $abilSet['abClass'];
 			$template->openedAbil = $abilSet['abID'];
 
@@ -150,7 +150,7 @@ elseif($mode == 'bvadd')
 
 elseif($mode == 'addPointCar'){
 
-	$car = addslashes($_POST['dcar']);
+	$car = stf_real_escape($_POST['dcar']);
 	$abil = mysql_fetch_assoc(mysql_query("SELECT abClass FROM pg_abilita WHERE abID = '$car'"));
 
 	if( mysql_affected_rows()){
@@ -423,20 +423,20 @@ elseif($mode == 'addssto' || $mode == 'addexam' || $mode == 'editsstoDo')
 	$dateM = str_pad($vali->numberOnly($_POST['dataM']),2,'0',STR_PAD_LEFT);
 	$dateA = $vali->numberOnly($_POST['dataA']);
 	$dateDef = $dateA.'-'.$dateM.'-'.$dateG;
-	$what = addslashes(($_POST['what']));
+	$what = stf_real_escape(($_POST['what']));
 	
 	if($mode == 'addssto')
 	{
-		$cross = addslashes(($_POST['cross']));
-		$placer = addslashes(($_POST['placer']));
+		$cross = stf_real_escape(($_POST['cross']));
+		$placer = stf_real_escape(($_POST['placer']));
 		$query = "INSERT INTO pg_service_stories (owner,timer,text,placer,postLink,type) VALUES ($selectedUser,'$dateDef','$what','$placer','$cross','SERVICE')";
 		$padTit = 'Update Stato di Servizio';
 		$paddTex = "È stato aggiunto nella tua scheda PG un nuovo elemento allo stato di servizio";
 	}
 	elseif($mode == 'editsstoDo')
 	{
-		$cross = addslashes(($_POST['cross']));
-		$placer = addslashes(($_POST['placer']));
+		$cross = stf_real_escape(($_POST['cross']));
+		$placer = stf_real_escape(($_POST['placer']));
 		$recID = $vali->numberOnly($_POST['recordID']);
 
 		$query = "UPDATE pg_service_stories SET timer = '$dateDef', text = '$what', placer = '$placer', postLink = '$cross' WHERE recID = '$recID' AND type = 'SERVICE'";
@@ -544,14 +544,14 @@ else if ($mode == 'meAdd')
 {
 	$id = $vali->numberOnly($_GET['pgID']);
 	 
-	$medicName = isSet($_POST['medicName']) ?  addslashes($_POST['medicName']) : addslashes($currentUser->pgGrado.' '.$currentUser->pgUser);
-	$medicCode = isSet($_POST['medicCode']) ? addslashes($_POST['medicCode']) : '';
-	$medicAnamnesi = isSet($_POST['medicAnamnesi']) ?  addslashes($_POST['medicAnamnesi']) : '';
-	$medicVisi = isSet($_POST['medicVisi']) ?  addslashes($_POST['medicVisi']) : '';
-	$medicStrum = isSet($_POST['medicStrum']) ?  addslashes($_POST['medicStrum']) : '';
-	$medicDiagnos = isSet($_POST['medicDiagnos']) ?  addslashes($_POST['medicDiagnos']) : '';
-	$medicTerap = isSet($_POST['medicTerap']) ?  addslashes($_POST['medicTerap']) : '';
-	$medicDecorso = isSet($_POST['medicDecorso']) ?  addslashes($_POST['medicDecorso']) : '';
+	$medicName = isSet($_POST['medicName']) ?  stf_real_escape($_POST['medicName']) : stf_real_escape($currentUser->pgGrado.' '.$currentUser->pgUser);
+	$medicCode = isSet($_POST['medicCode']) ? stf_real_escape($_POST['medicCode']) : '';
+	$medicAnamnesi = isSet($_POST['medicAnamnesi']) ?  stf_real_escape($_POST['medicAnamnesi']) : '';
+	$medicVisi = isSet($_POST['medicVisi']) ?  stf_real_escape($_POST['medicVisi']) : '';
+	$medicStrum = isSet($_POST['medicStrum']) ?  stf_real_escape($_POST['medicStrum']) : '';
+	$medicDiagnos = isSet($_POST['medicDiagnos']) ?  stf_real_escape($_POST['medicDiagnos']) : '';
+	$medicTerap = isSet($_POST['medicTerap']) ?  stf_real_escape($_POST['medicTerap']) : '';
+	$medicDecorso = isSet($_POST['medicDecorso']) ?  stf_real_escape($_POST['medicDecorso']) : '';
 	
 	$dateG = str_pad($vali->numberOnly($_POST['dataG']),2,'0',STR_PAD_LEFT);
 	$dateM = str_pad($vali->numberOnly($_POST['dataM']),2,'0',STR_PAD_LEFT);
@@ -566,7 +566,7 @@ else if ($mode == 'meAdd')
 	//if (PG::mapPermissions('SL',$currentUser->pgAuthOMA) || $currentUser->hasBrevetto(array(150))){$showPsi = true;}
 	if (in_array($tType,array('MED','rMED')) && (PG::mapPermissions('M',$currentUser->pgAuthOMA) || $currentUser->hasBrevetto(array(10))))
 		{
-		mysql_query("INSERT INTO pgMedica(pgID, medico, time, unita, type, medAnamnesi, medVisiv, medStrument, medDiagnosi, medTerapia, medDecorso, medCode,tdate) VALUES ($id,'$medicName',$curTime,'".addslashes($currentUser->pgLocation)."','$tType','$medicAnamnesi','$medicVisi','$medicStrum','$medicDiagnos','$medicTerap','$medicDecorso','$medicCode','$dateDef')");
+		mysql_query("INSERT INTO pgMedica(pgID, medico, time, unita, type, medAnamnesi, medVisiv, medStrument, medDiagnosi, medTerapia, medDecorso, medCode,tdate) VALUES ($id,'$medicName',$curTime,'".stf_real_escape($currentUser->pgLocation)."','$tType','$medicAnamnesi','$medicVisi','$medicStrum','$medicDiagnos','$medicTerap','$medicDecorso','$medicCode','$dateDef')");
 		//$selectedDUser->sendPadd('OFF: NUOVO REFERTO','Un nuovo referto medico è stato aggiunto alla tua scheda PG. Consulta la sezione "Scheda Medica" per vedere i dettagli.');
 		$selectedDUser->sendNotification("Nuovo referto medico","Un nuovo referto medico è stato aggiunto alla tua scheda PG",$_SESSION['pgID'],"https://oscar.stfederation.it/SigmaSys/logo/nl_med.r.png",'schedaMedOpen');
 
@@ -576,7 +576,7 @@ else if ($mode == 'meAdd')
 	
 	else if (in_array($tType,array('PSI','rPSI')) && (PG::mapPermissions('M',$currentUser->pgAuthOMA) || $currentUser->hasBrevetto(array(15))))
 		{
-		mysql_query("INSERT INTO pgMedica(pgID, medico, time, unita, type, medAnamnesi, medDiagnosi, medTerapia,tdate) VALUES ($id,'$medicName',$curTime,'".addslashes($currentUser->pgLocation)."','$tType','$medicAnamnesi','$medicDiagnos','$medicTerap','$dateDef')");
+		mysql_query("INSERT INTO pgMedica(pgID, medico, time, unita, type, medAnamnesi, medDiagnosi, medTerapia,tdate) VALUES ($id,'$medicName',$curTime,'".stf_real_escape($currentUser->pgLocation)."','$tType','$medicAnamnesi','$medicDiagnos','$medicTerap','$dateDef')");
 
 		$selectedDUser->sendNotification("Nuovo referto medico","Un nuovo referto psicologico è stato aggiunto alla tua scheda PG",$_SESSION['pgID'],"https://oscar.stfederation.it/SigmaSys/logo/nl_med.r.png",'schedaMedOpen');
 
@@ -604,14 +604,14 @@ else if ($mode == 'meEdiE')
 	$id = $vali->numberOnly($_POST['ediRecID']);
 	$pgID = $vali->numberOnly($_POST['pgID']);
 	
-	$medicName = isSet($_POST['medicName']) ?  addslashes($_POST['medicName']) : $currentUser->pgGrado.' '.$currentUser->pgUser;
-	$medicCode = isSet($_POST['medicCode']) ? addslashes($_POST['medicCode']) : '';
-	$medicAnamnesi = isSet($_POST['medicAnamnesi']) ?  addslashes($_POST['medicAnamnesi']) : '';
-	$medicVisi = isSet($_POST['medicVisi']) ?  addslashes($_POST['medicVisi']) : '';
-	$medicStrum = isSet($_POST['medicStrum']) ?  addslashes($_POST['medicStrum']) : '';
-	$medicDiagnos = isSet($_POST['medicDiagnos']) ?  addslashes($_POST['medicDiagnos']) : '';
-	$medicTerap = isSet($_POST['medicTerap']) ?  addslashes($_POST['medicTerap']) : '';
-	$medicDecorso = isSet($_POST['medicDecorso']) ?  addslashes($_POST['medicDecorso']) : '';
+	$medicName = isSet($_POST['medicName']) ?  stf_real_escape($_POST['medicName']) : $currentUser->pgGrado.' '.$currentUser->pgUser;
+	$medicCode = isSet($_POST['medicCode']) ? stf_real_escape($_POST['medicCode']) : '';
+	$medicAnamnesi = isSet($_POST['medicAnamnesi']) ?  stf_real_escape($_POST['medicAnamnesi']) : '';
+	$medicVisi = isSet($_POST['medicVisi']) ?  stf_real_escape($_POST['medicVisi']) : '';
+	$medicStrum = isSet($_POST['medicStrum']) ?  stf_real_escape($_POST['medicStrum']) : '';
+	$medicDiagnos = isSet($_POST['medicDiagnos']) ?  stf_real_escape($_POST['medicDiagnos']) : '';
+	$medicTerap = isSet($_POST['medicTerap']) ?  stf_real_escape($_POST['medicTerap']) : '';
+	$medicDecorso = isSet($_POST['medicDecorso']) ?  stf_real_escape($_POST['medicDecorso']) : '';
 	
 	$dateG = str_pad($vali->numberOnly($_POST['dataG']),2,'0',STR_PAD_LEFT);
 	$dateM = str_pad($vali->numberOnly($_POST['dataM']),2,'0',STR_PAD_LEFT);
@@ -641,8 +641,8 @@ elseif( $mode == 'addTempAuth'){
 		
 		$dateFrom = mktime(0,0,0,str_pad($_POST['dataM'],2,'0',STR_PAD_LEFT),str_pad($_POST['dataG'],2,'0',STR_PAD_LEFT),$_POST['dataA']);
 		$dateTo = mktime(0,0,0,str_pad($_POST['data2M'],2,'0',STR_PAD_LEFT),str_pad($_POST['data2G'],2,'0',STR_PAD_LEFT),$_POST['data2A']);
-		$authType = addslashes($_POST['authType']);
-		$textR = addslashes($_POST['textR']);
+		$authType = stf_real_escape($_POST['authType']);
+		$textR = stf_real_escape($_POST['textR']);
 
 		mysql_query("INSERT INTO pg_users_temp_auths (pgID,authStart,authEnd,authType,text,owner) VALUES ($pgID,'$dateFrom','$dateTo','$authType','$textR','".$currentUser->ID."')");
 	}
@@ -701,9 +701,9 @@ elseif($mode == 'oj')
 elseif($mode == 'addObj')
 {
 	$user = $vali->numberOnly($_POST['userSelector']);
-	$what = addslashes(($_POST['what']));
-	$image = (htmlentities(addslashes(($_POST['whatI'])),ENT_COMPAT, 'UTF-8'));
-	$description = (htmlentities(addslashes(($_POST['whatD'])),ENT_COMPAT, 'UTF-8'));
+	$what = stf_real_escape(($_POST['what']));
+	$image = (htmlentities(stf_real_escape(($_POST['whatI'])),ENT_COMPAT, 'UTF-8'));
+	$description = (htmlentities(stf_real_escape(($_POST['whatD'])),ENT_COMPAT, 'UTF-8'));
 	
 	if ($selectedUser == $_SESSION['pgID'] || PG::mapPermissions('SM',$currentUser->pgAuthOMA)){
 		mysql_query("INSERT INTO fed_objects (oName,oDesc,oImage,oType) VALUES ('$what','$description','$image','PERSONAL')");
@@ -740,7 +740,7 @@ elseif($mode == 'movObj')
 {
 	$rem = $vali->numberOnly($_POST['mover']);
 
-	$toUser = addslashes($_POST['userB']);
+	$toUser = stf_real_escape($_POST['userB']);
 	$toUserQ= mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$toUser'"));
 	$toUserID = $toUserQ['pgID'];
 	
@@ -783,8 +783,8 @@ elseif($mode == 'addStory')
 
 	$dateDef = $dateA.'-'.$dateM.'-'.$dateG;
 	
-	$what = htmlentities(addslashes(($_POST['what'])));
-	$where = addslashes(($_POST['where']));
+	$what = htmlentities(stf_real_escape(($_POST['what'])));
+	$where = stf_real_escape(($_POST['where']));
 	
 	if ($selectedUser == $_SESSION['pgID'] || $currentUser->pgAuthOMA == 'A')
 	{
@@ -1037,7 +1037,7 @@ elseif($mode=='edit_extras')
 
 	foreach($_POST as $key=>$element)
 	{
-		$key_to_add=addslashes($key); 
+		$key_to_add=stf_real_escape($key); 
 		$val_to_add = $vali->numberOnly($element);
 
 		mysql_query("SELECT 1 FROM pg_extra_values WHERE pg_extra_values.key = '$key_to_add' AND pgID = ".$_GET['pgID']);
@@ -1205,43 +1205,43 @@ elseif ($mode == 'editS')
 	$ediID = $_POST['ediID'];
 
 	
-	$ediName = addslashes($_POST['ediNome']);
-	$ediSuff = addslashes($_POST['ediSuff']);
-	$ediLuoN =addslashes($_POST['ediLuoN']);
-	$ediDataN = addslashes($_POST['ediDataN']);
-	$ediAvatar = addslashes($_POST['ediAvatar']);
-	$ediAvatarSquare = addslashes($_POST['ediAvatarSquare']);
-	$ediFis = addslashes($_POST['ediFis']);
-	$ediBack = addslashes($_POST['ediBack']);
-	$ediCarat = addslashes($_POST['ediCarat']);
-	$ediFamil = addslashes($_POST['ediFamil']);
-	$ediVarie = addslashes($_POST['ediVarie']);
-	$ediIlSegreto = addslashes($_POST['ediIlSegreto']);
-	$ediAllo = isSet($_POST['ediAllo']) ? addslashes($_POST['ediAllo']) : '';
-	$ediStaCiv = addslashes($_POST['ediStaCiv']);
-	$pgOffAvatarN = addslashes($_POST['pgOffAvatarN']);
-	$pgOffAvatarC = addslashes($_POST['pgOffAvatarC']);
+	$ediName = stf_real_escape($_POST['ediNome']);
+	$ediSuff = stf_real_escape($_POST['ediSuff']);
+	$ediLuoN =stf_real_escape($_POST['ediLuoN']);
+	$ediDataN = stf_real_escape($_POST['ediDataN']);
+	$ediAvatar = stf_real_escape($_POST['ediAvatar']);
+	$ediAvatarSquare = stf_real_escape($_POST['ediAvatarSquare']);
+	$ediFis = stf_real_escape($_POST['ediFis']);
+	$ediBack = stf_real_escape($_POST['ediBack']);
+	$ediCarat = stf_real_escape($_POST['ediCarat']);
+	$ediFamil = stf_real_escape($_POST['ediFamil']);
+	$ediVarie = stf_real_escape($_POST['ediVarie']);
+	$ediIlSegreto = stf_real_escape($_POST['ediIlSegreto']);
+	$ediAllo = isSet($_POST['ediAllo']) ? stf_real_escape($_POST['ediAllo']) : '';
+	$ediStaCiv = stf_real_escape($_POST['ediStaCiv']);
+	$pgOffAvatarN = stf_real_escape($_POST['pgOffAvatarN']);
+	$pgOffAvatarC = stf_real_escape($_POST['pgOffAvatarC']);
 	$audioEnableSet = (isSet($_POST['audioextEnableSet']) && isSet($_POST['audioEnableSet'])) ? 2 : (isSet($_POST['audioEnableSet']) ? 1 : 0);
 	$paddMail = isSet($_POST['ediMailVali']) ? 1 : 0;
 	$audioEnvEnableSet = isSet($_POST['audioEnvEnableSet']) ? 1 : 0;
 	
 	//CustomCSS
-	$parlatCSS = $vali->numberOnly($_POST['parlatCSSFontSize']).';'.addslashes($_POST['parlatCSSFontColor']).';'.addslashes($_POST['parlatCSSFontColorEscape']);
+	$parlatCSS = $vali->numberOnly($_POST['parlatCSSFontSize']).';'.stf_real_escape($_POST['parlatCSSFontColor']).';'.stf_real_escape($_POST['parlatCSSFontColorEscape']);
 
 	$concatFields = array($vali->numberOnly($_POST['otherCSSSizeUser']),
 	$vali->numberOnly($_POST['otherCSSSizeMaster']),
 	$vali->numberOnly($_POST['otherCSSSizeComm']),
-	addslashes($_POST['otherCSSColorUser']),
-	addslashes($_POST['otherCSSColorCommUser']),
-	addslashes($_POST['otherCSSColorCommText']),
+	stf_real_escape($_POST['otherCSSColorUser']),
+	stf_real_escape($_POST['otherCSSColorCommUser']),
+	stf_real_escape($_POST['otherCSSColorCommText']),
 	$vali->numberOnly($_POST['otherCSSSizeTag']),
-	addslashes($_POST['otherCSSColorTag']),
-	addslashes($_POST['otherCSSColorMaster']),
-	addslashes($_POST['otherCSSColorMasterBorder']),
-	addslashes($_POST['otherCSSColorSpecMaster']),
-	addslashes($_POST['otherCSSColorSpecMasterBorder']),
-	addslashes($_POST['otherCSSColorMasterQuote']),
-	addslashes($_POST['otherCSSColorSpecMasterQuote']));
+	stf_real_escape($_POST['otherCSSColorTag']),
+	stf_real_escape($_POST['otherCSSColorMaster']),
+	stf_real_escape($_POST['otherCSSColorMasterBorder']),
+	stf_real_escape($_POST['otherCSSColorSpecMaster']),
+	stf_real_escape($_POST['otherCSSColorSpecMasterBorder']),
+	stf_real_escape($_POST['otherCSSColorMasterQuote']),
+	stf_real_escape($_POST['otherCSSColorSpecMasterQuote']));
 
 
 	$otherCSS = implode(';',$concatFields);
@@ -1334,7 +1334,7 @@ elseif ($mode == 'png')
 elseif ($mode == 'setSalute')
 {
 	$pgID = $vali->numberOnly($_GET['pgID']);
-	$sal = addslashes($_POST['medStatus']);
+	$sal = stf_real_escape($_POST['medStatus']);
 	if (PG::mapPermissions('M',$currentUser->pgAuthOMA))
 		mysql_query("UPDATE pg_users SET pgSalute = '$sal' WHERE pgID = $pgID");
 	if(!mysql_error()) 
@@ -1351,7 +1351,7 @@ elseif ($mode == 'setSalute')
 elseif ($mode == 'setAsCommanderOf')
 {
 	$pgID = $vali->numberOnly($_GET['pgID']);
-	$placeID = addslashes($_POST['placeID']);
+	$placeID = stf_real_escape($_POST['placeID']);
 
 	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA)){
 		mysql_query("UPDATE pg_places SET placeCommander = '$pgID' WHERE placeID = '$placeID' OR attracco = '$placeID'");
@@ -1385,7 +1385,7 @@ elseif ($mode == 'document')
 
 elseif ($mode == 'deleteAllo')
 {
-	$alloLocation = addslashes($_GET['loc']);
+	$alloLocation = stf_real_escape($_GET['loc']);
 	$pgID = $vali->numberOnly($_GET['pgID']);
 	if (PG::mapPermissions('SL',$currentUser->pgAuthOMA))
 	{
@@ -1397,7 +1397,7 @@ elseif ($mode == 'deleteAllo')
 }
 elseif ($mode == 'setDefAllo')
 {
-	$alloLocation = addslashes($_GET['loc']);
+	$alloLocation = stf_real_escape($_GET['loc']);
 	$pgID = $vali->numberOnly($_GET['pgID']);
 	if (PG::mapPermissions('SL',$currentUser->pgAuthOMA))
 	{
@@ -1411,8 +1411,8 @@ elseif ($mode == 'setDefAllo')
 elseif ($mode == 'creAllo')
 {
 	$pgID = $vali->numberOnly($_GET['pgID']);
-	$alloLocation = addslashes($_POST['alloLocation']);
-	$alloDeck = addslashes($_POST['alloDeck']);
+	$alloLocation = stf_real_escape($_POST['alloLocation']);
+	$alloDeck = stf_real_escape($_POST['alloDeck']);
 	$num = $vali->numberOnly($_POST['alloNum']);
 	$alloType = $vali->numberOnly($_POST['alloType']);
 
@@ -1439,10 +1439,10 @@ elseif ($mode == 'creAllo')
 					if ($rasA['ploidy'] > 1)
 						$alloName = "Alloggio $num - Ponte $alloDeck";
 					else
-						$alloName = addslashes("Alloggio  $num - ".PG::getSomething($pgID,'username'));
+						$alloName = stf_real_escape("Alloggio  $num - ".PG::getSomething($pgID,'username'));
 
-					$alloDescript=addslashes($rasA['alloDescript']);
-					$alloImage='TEMPLATES/img/ambients/alloggi/' . addslashes($rasA['alloImage']);
+					$alloDescript=stf_real_escape($rasA['alloDescript']);
+					$alloImage='TEMPLATES/img/ambients/alloggi/' . stf_real_escape($rasA['alloImage']);
 
 					mysql_query("INSERT INTO fed_ambient (locID,locName,ambientLocation,ambientLevel_deck,ambientType,ambientNumber,image,locationable,descrizione) VALUES ('$locID','$alloName', '$alloLocation', '$alloDeck','ALLOGGIO',$num,'$alloImage',0,'$alloDescript')");
 					
@@ -1521,13 +1521,13 @@ elseif ($mode == 'setIncarico')
 {
 	$pgID = $vali->numberOnly($_GET['pgID']);
 	$incMain = (isSet($_POST['incMain'])) ? 1 : 0; 
-	$assegnazione = addslashes($_POST['assegnazione']);
-	$incIncarico = addslashes($_POST['incIncarico']);
-	$incDivisione = addslashes($_POST['incDivisione']);
-	$incSezione = addslashes($_POST['incSezione']);
+	$assegnazione = stf_real_escape($_POST['assegnazione']);
+	$incIncarico = stf_real_escape($_POST['incIncarico']);
+	$incDivisione = stf_real_escape($_POST['incDivisione']);
+	$incSezione = stf_real_escape($_POST['incSezione']);
 	
-	$incDipartimento = addslashes($_POST['incDipartimento']);
-	$incGroup = addslashes($_POST['incGroup']);
+	$incDipartimento = stf_real_escape($_POST['incDipartimento']);
+	$incGroup = stf_real_escape($_POST['incGroup']);
 
 	 
 	$dateDef = $bounceYear+date('Y',$curTime).'-'.date('n',$curTime).'-'.date('j',$curTime);
@@ -1549,8 +1549,8 @@ elseif ($mode == 'setIncarico')
 elseif ($mode == 'spesex')
 {
 	$pgID = $vali->numberOnly($_GET['pgID']);
-	$sesso = addslashes($_POST['sesso']);
-	$specie = addslashes($_POST['specie']);
+	$sesso = stf_real_escape($_POST['sesso']);
+	$specie = stf_real_escape($_POST['specie']);
 	
 	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
 		mysql_query("UPDATE pg_users SET pgSpecie = '$specie', pgSesso = '$sesso' WHERE pgID ='$pgID'");
@@ -1561,9 +1561,9 @@ elseif ($mode == 'spesex')
 elseif ($mode == 'addDotazione')
 {
 	$pgID = $vali->numberOnly($_GET['pgID']);
-	$tipologia = addslashes($_POST['tipologia']);
-	$ima = addslashes($_POST['image']);
-	$text = addslashes($_POST['testo']);
+	$tipologia = stf_real_escape($_POST['tipologia']);
+	$ima = stf_real_escape($_POST['image']);
+	$text = stf_real_escape($_POST['testo']);
 	
 	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
 		mysql_query("INSERT INTO pgDotazioni (pgID,dotazioneIcon,doatazioneType,dotazioneAlt) VALUES ($pgID,'$ima','$tipologia','$text')");
@@ -1711,7 +1711,7 @@ elseif ($mode == 'refirst')
 elseif ($mode == 'setAutoma')
 {
 	$pgID = $vali->numberOnly($_GET['pgID']);
-	$aut = addslashes($_POST['aut']);
+	$aut = stf_real_escape($_POST['aut']);
 	
 	if($aut == 'A'){ $selectedDUser->sendPadd('OFF: BECCATO!',"Allarmi! Allarmi! Un admin verrà avvisato della violazione!"); exit;}
 
@@ -1738,7 +1738,7 @@ elseif ($mode == 'setAutoma')
 elseif ($mode == 'setLocation')
 {
 	$pgID = $vali->numberOnly($_GET['pgID']);
-	$loc = addslashes($_POST['location']);
+	$loc = stf_real_escape($_POST['location']);
 	
 	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
 		mysql_query("UPDATE pg_users SET pgLocation = '$loc', pgRoom = '$loc' WHERE pgID ='$pgID'");
@@ -1749,7 +1749,7 @@ elseif ($mode == 'setLocation')
 elseif ($mode == 'setUsername')
 {
 	$pgID = $vali->numberOnly($_GET['pgID']);
-	$user = addslashes($_POST['username']);
+	$user = stf_real_escape($_POST['username']);
 	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
 		{
 			mysql_query("UPDATE pg_users SET pgUser = '$user' WHERE pgID ='$pgID'");
@@ -1778,8 +1778,8 @@ elseif ($mode == 'setSeclar')
 elseif ($mode == 'setGrado')
 {
 	$pgID = $vali->numberOnly($_GET['pgID']);
-	$grado = addslashes($_POST['grado']);
-	$sezione = addslashes($_POST['sezione']);
+	$grado = stf_real_escape($_POST['grado']);
+	$sezione = stf_real_escape($_POST['sezione']);
 	
 	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
 	{
@@ -1862,8 +1862,8 @@ elseif ($mode == 'setSpecialistPoints')
 elseif ($mode == 'setMainPG')
 {
 	$pgID = $vali->numberOnly($_GET['pgID']);
-	$targetPG = addslashes($_POST['targetPGID']);
-	$pgIDRole = addslashes($_POST['pgIDRole']);
+	$targetPG = stf_real_escape($_POST['targetPGID']);
+	$pgIDRole = stf_real_escape($_POST['pgIDRole']);
 
 
 	if (PG::mapPermissions('A',$currentUser->pgAuthOMA))
@@ -1887,7 +1887,7 @@ elseif ($mode == 'setPrestige')
 {
 	$pgID = $vali->numberOnly($_GET['pgID']);
 	$points = $vali->numberOnly($_POST['points']);
-	$reason = addslashes($_POST['reason']);
+	$reason = stf_real_escape($_POST['reason']);
 
 if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
 	{
@@ -1938,8 +1938,8 @@ else if($mode== 'assignAchi')
 		$Descri =$resA['aText'];
 		$ima =$resA['aImage'];
 		
-		$cString = addslashes("Congratulazioni!!<br />Hai sbloccato un nuovo achievement!<br /><br /><p style='text-align:center'><img src='TEMPLATES/img/interface/personnelInterface/$ima' /><br /><span style='font-weight:bold'>$Descri</span></p><br />Il Team di Star Trek: Federation");
-		$eString = addslashes("Hai un nuovo achievement!::$Descri");
+		$cString = stf_real_escape("Congratulazioni!!<br />Hai sbloccato un nuovo achievement!<br /><br /><p style='text-align:center'><img src='TEMPLATES/img/interface/personnelInterface/$ima' /><br /><span style='font-weight:bold'>$Descri</span></p><br />Il Team di Star Trek: Federation");
+		$eString = stf_real_escape("Hai un nuovo achievement!::$Descri");
 		
 		mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,paddType) VALUES (".$_SESSION['pgID'].",$pgID,'OFF: Nuovo Achievement!','$cString',".time().",0,1)");
 	 
@@ -1959,7 +1959,7 @@ elseif ($mode == 'addPoints')
 {
 	$pgID = $vali->numberOnly($_GET['pgID']);
 	$code = $vali->killChars($_POST['addPoints']);
-	$pointDetail = addslashes($_POST['pointDetail']);
+	$pointDetail = stf_real_escape($_POST['pointDetail']);
 
 	$p=0;
 	$l="A";

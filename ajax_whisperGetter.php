@@ -6,9 +6,9 @@ if (!isSet($_SESSION['pgID'])){header('Location:login.php');
 
 //if($_SESSION['pgID'] == '1005') session_destroy();
 mysql_query('SET NAMES utf8mb4');
-$last = addslashes($_POST['lastID']);
-$vinculum = addslashes($_POST['vinculum']);
-$focused = isSet($_POST['focused']) ? addslashes($_POST['focused']) : 0;
+$last = stf_real_escape($_POST['lastID']);
+$vinculum = stf_real_escape($_POST['vinculum']);
+$focused = isSet($_POST['focused']) ? stf_real_escape($_POST['focused']) : 0;
 
 $aar = array();
 

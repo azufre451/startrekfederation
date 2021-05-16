@@ -49,11 +49,11 @@ if(isSet($_POST['cdbCartellaCreate']))
 {
 	if (PG::mapPermissions("SM",$currentUser->pgAuthOMA)) //ALMENO UN MASTER
 	{
-		$title = 		  $vali->killChars(strtoupper(addslashes($_POST['cdbCartellaCreate'])));
-		$colorExtension = $vali->killChars(htmlentities(addslashes($_POST['cdbColor'])));
+		$title = 		  $vali->killChars(strtoupper(stf_real_escape($_POST['cdbCartellaCreate'])));
+		$colorExtension = $vali->killChars(htmlentities(stf_real_escape($_POST['cdbColor'])));
 		$seclar = $vali->numberOnly($_POST['cdbSeclar']);
 		//$order = $vali->numberOnly($_POST['cdbOrder']);
-		$type = ($_POST['cdbType'] == '') ? 'N' : strtoupper($vali->killChars(htmlentities(addslashes($_POST['cdbType']))));
+		$type = ($_POST['cdbType'] == '') ? 'N' : strtoupper($vali->killChars(htmlentities(stf_real_escape($_POST['cdbType']))));
 		$type = str_replace('IMPORTANTI','I',$type);
 		$cat = $vali->numberOnly($_POST['catCode']);
 		
@@ -65,7 +65,7 @@ if(isSet($_POST['cdbCartellaCreate']))
 	
 	else  //ALMENO UN MASTER
 	{
-		$title = $vali->killChars((addslashes($_POST['cdbCartellaCreate'])));
+		$title = $vali->killChars((stf_real_escape($_POST['cdbCartellaCreate'])));
 		$seclar = ($vali->numberOnly($_POST['cdbSeclar']) > $currentUser->pgSeclar) ? ($currentUser->pgSeclar) : ($vali->numberOnly($_POST['cdbSeclar']));
 		$cat = $vali->numberOnly($_POST['catCode']); //TODO - SEC.P
 		
@@ -89,19 +89,19 @@ else if(isSet($_GET['topicEe']))
 	$nan = $vali->numberOnly($_POST['cdbID']);
 	if (PG::mapPermissions("SM",$currentUser->pgAuthOMA))
 	{
-		$title = 		  $vali->killChars((addslashes($_POST['cdbTitle'])));
-		$colorExtension = $vali->killChars((addslashes($_POST['cdbColor'])));
-		$GlobalUserSecBypass = $vali->killChars((addslashes($_POST['GlobalUserSecBypass'])));
+		$title = 		  $vali->killChars((stf_real_escape($_POST['cdbTitle'])));
+		$colorExtension = $vali->killChars((stf_real_escape($_POST['cdbColor'])));
+		$GlobalUserSecBypass = $vali->killChars((stf_real_escape($_POST['GlobalUserSecBypass'])));
 		
 		$seclar = $vali->numberOnly($_POST['cdbSeclar']);
-		$type = ($_POST['cdbType'] == '') ? 'N' : strtoupper( $vali->killChars((addslashes($_POST['cdbType']))));
+		$type = ($_POST['cdbType'] == '') ? 'N' : strtoupper( $vali->killChars((stf_real_escape($_POST['cdbType']))));
 		$type = str_replace('IMPORTANTI','I',$type);
 		$topicID = $vali->numberOnly($_POST['cdbID']);
 		
 	mysql_query("UPDATE cdb_topics SET lastTopicEvent='CREATE',topicTitle = '$title', topicType = '$type', topicSeclar = $seclar, topicColorExt = '$colorExtension', topicLastTime = (SELECT GREATEST(time,lastEdit) FROM cdb_posts WHERE topicID = $nan ORDER BY time DESC LIMIT 1), topicLastUser = IFNULL((SELECT owner FROM cdb_posts WHERE topicID = $nan ORDER BY time DESC LIMIT 1), ".$_SESSION['pgID'].") WHERE topicID = $topicID");
 	mysql_query("UPDATE cdb_posts SET postSeclar = $seclar WHERE topicID = $topicID AND postSeclar < $seclar");
 
-	$k3 = explode(',',addslashes($_POST['GlobalUserSecBypass']));
+	$k3 = explode(',',stf_real_escape($_POST['GlobalUserSecBypass']));
 		foreach ($k3 as $k3a){
 			$k3a = trim($k3a);
 			if($k3a != '')
@@ -116,7 +116,7 @@ else if(isSet($_GET['topicEe']))
 				}
 			}
 
-		$k4 = explode(',',addslashes($_POST['GlobalUserSecBypassRemove']));
+		$k4 = explode(',',stf_real_escape($_POST['GlobalUserSecBypassRemove']));
 		foreach ($k4 as $k4a){
 			$k4a = trim($k4a);
 			if($k4a != '')
@@ -394,7 +394,7 @@ else if(isSet($_GET['dia']))
 		$resI = mysql_fetch_array($res);
 		$lastI = $resI['topicID']+1;
 		
-		$name = strtoupper(addslashes($currentUser->pgNomeC." ".$currentUser->pgUser ." ".$currentUser->pgNomeSuff));
+		$name = strtoupper(stf_real_escape($currentUser->pgNomeC." ".$currentUser->pgUser ." ".$currentUser->pgNomeSuff));
 		
 		$destination = ($currentUser->pgSpecie == 'Romulana') ? 42 : 14;
 		mysql_query("INSERT INTO cdb_topics (topicID,topicTitle, topicLastTime, topicLastUser, topicCat, topicSeclar) VALUES ($lastI,'DIARIO DI $name',".time().",".$_SESSION['pgID'].",$destination,5)");
@@ -409,9 +409,9 @@ else if (isSet($_GET['addPost']))
 {
 	if($currentUser->pgLock || $currentUser->pgBavo){exit;}
 	
-	$title = $vali->killChars(addslashes($_POST['postTitolo']));
+	$title = $vali->killChars(stf_real_escape($_POST['postTitolo']));
 	$seclar = $vali->numberOnly($_POST['postSeclar']);
-	$content = addslashes($_POST['postContent']);
+	$content = stf_real_escape($_POST['postContent']);
 	if(strpos($content,'[SECLAR=') !== false)
 	{
 		$content_subseclar = 1;
@@ -426,7 +426,7 @@ else if (isSet($_GET['addPost']))
 	
 
 	$topicCode = $vali->numberOnly($_POST['topicID']);
-	$notes = $vali->killChars(addslashes($_POST['postNote']));
+	$notes = $vali->killChars(stf_real_escape($_POST['postNote']));
 
 
 	$resSec = mysql_query("SELECT pgID,IF((COUNT(*))=(SELECT COUNT(*) FROM cdb_posts WHERE topicID = $topicCode), 1, 0) as hx,COUNT(*) as cnn FROM cdb_posts RIGHT OUTER JOIN cdb_posts_seclarExceptions ON postID = ID WHERE topicID = $topicCode GROUP BY pgID HAVING hx = 1");
@@ -437,7 +437,7 @@ else if (isSet($_GET['addPost']))
 	
 	if (PG::mapPermissions("M",$currentUser->pgAuthOMA) && ($_POST['usersMaster'] != ""))
 	{
-	$usersMaster = addslashes($_POST['usersMaster']);
+	$usersMaster = stf_real_escape($_POST['usersMaster']);
 	$usersMasterID = mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$usersMaster' AND png=1");
 	if(mysql_affected_rows())
 		{ $ider = mysql_fetch_assoc($usersMasterID);
@@ -447,7 +447,7 @@ else if (isSet($_GET['addPost']))
 			$departmentString = ($masterPnG->pgDipartimento != '') ? '<br />Dipartimento '.$masterPnG->pgDipartimento : '';
 			
 			$tipoFirma = ($_POST['postFirma'] == "corta") ? "<hr align=\"center\" size=\"1\" width=\"230\" color=\"#999\" />".$masterPnG->pgGrado." ".$masterPnG->pgUser : "<hr align=\"center\" size=\"1\" width=\"230\" color=\"#999\" />".$masterPnG->pgGrado." ".$masterPnG->pgNomeC." ".$masterPnG->pgUser ." ".$masterPnG->pgNomeSuff."<br />".$masterPnG->pgIncarico."$departmentString<br />".(PG::getLocationName($masterPnG->pgAssign));
-			$firma=addslashes($tipoFirma);
+			$firma=stf_real_escape($tipoFirma);
 			mysql_query("INSERT INTO cdb_posts(title,content,owner,coOwner,time,topicID,postSeclar,postNotes,signature) VALUES('$title','$content',".$masterPnG->ID.",".$_SESSION['pgID'].",".time().",$topicCode,$seclar,'$notes','$firma')");
 			mysql_query("UPDATE cdb_topics SET lastTopicEvent='CREATE',topicLastUser = ".$masterPnG->ID.", topicLastTime = ".time()." WHERE topicID = $topicCode");
 		}
@@ -466,7 +466,7 @@ else if (isSet($_GET['addPost']))
 
 			$departmentString = ($rese['pngDipartimento'] != '') ? '<br />Dipartimento '.$rese['pngDipartimento']  : '';
 			$tipoFirma = ($_POST['postFirma'] == "corta") ? "<hr align=\"center\" size=\"1\" width=\"230\" color=\"#999\" />$rank $pngSurname" : "<hr align=\"center\" size=\"1\" width=\"230\" color=\"#999\" />$rank $pngName $pngSurname<br />$pngIncarico $departmentString<br />$pngplaceName";
-			$firma=addslashes($tipoFirma);
+			$firma=stf_real_escape($tipoFirma);
 
 			mysql_query("INSERT INTO cdb_posts(title,content,owner,coOwner,time,topicID,postSeclar,postNotes,signature) VALUES('$title','$content',".$_SESSION['pgID'].",".$_SESSION['pgID'].",".time().",$topicCode,$seclar,'$notes','$firma')");
 			mysql_query("UPDATE cdb_topics SET lastTopicEvent='CREATE',topicLastUser = ".$_SESSION['pgID'].", topicLastTime = ".time()." WHERE topicID = $topicCode");
@@ -477,7 +477,7 @@ else if (isSet($_GET['addPost']))
 	$currentUser->getIncarichi();
 	$departmentString = ($currentUser->pgDipartimento != '') ? '<br />Dipartimento '.$currentUser->pgDipartimento : '';
 	$tipoFirma = ($_POST['postFirma'] == "corta") ? "<hr align=\"center\" size=\"1\" width=\"230\" color=\"#999\" />".$currentUser->pgGrado." ".$currentUser->pgUser : "<hr align=\"center\" size=\"1\" width=\"230\" color=\"#999\" />".$currentUser->pgGrado." ".$currentUser->pgNomeC." ".$currentUser->pgUser ." ".$currentUser->pgNomeSuff."<br />".$currentUser->pgIncarico."$departmentString<br />".(PG::getLocationName($currentUser->pgAssign));
-	$firma=addslashes($tipoFirma);
+	$firma=stf_real_escape($tipoFirma);
 	mysql_query("INSERT INTO cdb_posts(title,content,owner,time,topicID,postSeclar,postNotes,signature) VALUES('$title','$content',".$_SESSION['pgID'].",".time().",$topicCode,$seclar,'$notes','$firma')");
 	mysql_query("UPDATE cdb_topics SET lastTopicEvent='CREATE', topicLastUser = ".$_SESSION['pgID'].", topicLastTime = ".time()." WHERE topicID = $topicCode");
 	}
@@ -515,7 +515,7 @@ else if (isSet($_GET['addPost']))
 				$to=trim($to);
 				if($to!="") 
 				{	
-					$ids=mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '".addslashes($to)."'");
+					$ids=mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '".stf_real_escape($to)."'");
 					if (mysql_affected_rows())
 					{
 
@@ -548,7 +548,7 @@ else if (isSet($_GET['addPost']))
 				}
 
 					
-			$smallTitle = addslashes(substr($title,0,50));
+			$smallTitle = stf_real_escape(substr($title,0,50));
 
 			mysql_query( "INSERT INTO pg_personal_notifications (owner,text,subtext,image,time,URI,linker) VALUES (".$toP->ID.",'<b>Sei stato citato in CDB</b>: $smallTitle','[ - <span class=\"$seclarClass;\"> SECLAR $seclar</span> - ]','".$currentUser->pgAvatarSquare."',$curTime,'$topicCode#$postIDCo','cdbOpenToTopic')"); 
 		} 
@@ -571,9 +571,9 @@ else if (isSet($_GET['editPost']))
 	if($_GET['m']=='14') //if($currentUser->pgAuthOMA == "A" || ($postOwner == $_SESSION['pgID']) || ($postCoOwner == $_SESSION['pgID']))
 	{ 
 		$postSeclar = $vali->numberOnly($_POST['postSeclar']);
-		$title = $vali->killChars(addslashes($_POST['postTitolo']));
-		$note = addslashes($vali->killChars($_POST['postNote'])); 
-		$content = addslashes($_POST['postContent']);
+		$title = $vali->killChars(stf_real_escape($_POST['postTitolo']));
+		$note = stf_real_escape($vali->killChars($_POST['postNote'])); 
+		$content = stf_real_escape($_POST['postContent']);
 		
 		mysql_query("UPDATE cdb_topics SET lastTopicEvent='EDIT', topicLastUser = ".$_SESSION['pgID'].", topicLastTime = $curTime WHERE topicID = $topicID AND topicLock = 0");
 		if(mysql_affected_rows()){
@@ -587,15 +587,15 @@ else if (isSet($_GET['editPost']))
 	{
 		if($_POST['userOwner'] != '')
 		{
-			$k1 = addslashes(str_replace(',','',trim($_POST['userOwner'])));
+			$k1 = stf_real_escape(str_replace(',','',trim($_POST['userOwner'])));
 
 			$k1_res = ($k1 != '') ? mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$k1'")) : NULL;
 			
-			$k2 = addslashes(str_replace(',','',trim($_POST['userCoOwner'])));
+			$k2 = stf_real_escape(str_replace(',','',trim($_POST['userCoOwner'])));
 
 			$k2_res = ($k2 != '') ? mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$k2'")) : NULL;
 			
-			$k3 = explode(',',addslashes($_POST['userSecBypass']));
+			$k3 = explode(',',stf_real_escape($_POST['userSecBypass']));
 			mysql_query("DELETE FROM cdb_posts_seclarExceptions WHERE postID = $pID");
 
 			foreach ($k3 as $k3a){
@@ -712,7 +712,7 @@ else if(isSet($_GET['addPointsReport']) && isSet($_GET['page']) && isSet($_GET['
 	$addomRapID = "Rap:".$res['topicID'].'#'.$res['ID'];
 	$rese = mysql_query("SELECT 1 FROM pg_users_pointStory WHERE causeM = '$addomRapID'");
 	if(!mysql_affected_rows() && ($pgID != $_SESSION['pgID'] || PG::mapPermissions("A",$currentUser->pgAuthOMA)))
-		$targetPG->addPoints(2,'R',$addomRapID,'Rapporto: '.addslashes($res['title']),$_SESSION['pgID']); 
+		$targetPG->addPoints(2,'R',$addomRapID,'Rapporto: '.stf_real_escape($res['title']),$_SESSION['pgID']); 
 	}
 	header("Location:cdb.php?topic=$toTopic&page=$toPage#$postID"); exit;
 }
@@ -721,7 +721,7 @@ else if(isSet($_POST['searchKey']))
 {
 	if($_POST['searchKey']=="") { header("Location:cdb.php"); exit;}
 	
-	$searchKey = addslashes(str_replace(array('+','-','%'),array('','',''),$vali->killChars($_POST['searchKey'])));
+	$searchKey = stf_real_escape(str_replace(array('+','-','%'),array('','',''),$vali->killChars($_POST['searchKey'])));
 	$reachPattern = $_POST['searchPattern'];
 	$s=false;
 
@@ -852,9 +852,9 @@ else if(isSet($_GET['meSearch']))
 	
 	if($_GET['meSearch'] == 1) $query="SELECT ID as postID, cdb_posts.topicID, content, time, postSeclar,postNotes,title,signature,pgUser,pgID, topicTitle, topicType, topicColorExt FROM cdb_posts,pg_users,cdb_topics,cdb_cats WHERE topicCat = catCode AND  cdb_posts.topicID = cdb_topics.topicID AND owner = pgID AND restrictions = 'N' AND pgID =".$_SESSION['pgID'].' ORDER BY time DESC';
 	
-	elseif($_GET['meSearch'] == 2 && strpos($currentUser->pgUser,'\'')) $query="SELECT ID as postID, cdb_posts.topicID, content, time, postSeclar,postNotes,title,signature,pgUser,pgID, topicTitle, topicType, topicColorExt FROM cdb_posts,pg_users,cdb_topics,cdb_cats WHERE owner <> ".$_SESSION['pgID']." AND topicCat = catCode AND  cdb_posts.topicID = cdb_topics.topicID AND  owner = pgID AND restrictions = 'N' AND content LIKE '%".addslashes($currentUser->pgUser)."%' ORDER BY time DESC"; 
+	elseif($_GET['meSearch'] == 2 && strpos($currentUser->pgUser,'\'')) $query="SELECT ID as postID, cdb_posts.topicID, content, time, postSeclar,postNotes,title,signature,pgUser,pgID, topicTitle, topicType, topicColorExt FROM cdb_posts,pg_users,cdb_topics,cdb_cats WHERE owner <> ".$_SESSION['pgID']." AND topicCat = catCode AND  cdb_posts.topicID = cdb_topics.topicID AND  owner = pgID AND restrictions = 'N' AND content LIKE '%".stf_real_escape($currentUser->pgUser)."%' ORDER BY time DESC"; 
 	
-	elseif($_GET['meSearch'] == 2) $query="SELECT ID as postID, cdb_posts.topicID, content, time, postSeclar,postNotes,title,signature,pgUser,pgID, topicTitle, topicType, topicColorExt FROM cdb_posts,pg_users,cdb_topics,cdb_cats WHERE owner <> ".$_SESSION['pgID']." AND topicCat = catCode AND  cdb_posts.topicID = cdb_topics.topicID AND  owner = pgID AND restrictions = 'N' AND  MATCH (content) AGAINST ('".addslashes($currentUser->pgUser)."' IN BOOLEAN MODE) ORDER BY time DESC"; 
+	elseif($_GET['meSearch'] == 2) $query="SELECT ID as postID, cdb_posts.topicID, content, time, postSeclar,postNotes,title,signature,pgUser,pgID, topicTitle, topicType, topicColorExt FROM cdb_posts,pg_users,cdb_topics,cdb_cats WHERE owner <> ".$_SESSION['pgID']." AND topicCat = catCode AND  cdb_posts.topicID = cdb_topics.topicID AND  owner = pgID AND restrictions = 'N' AND  MATCH (content) AGAINST ('".stf_real_escape($currentUser->pgUser)."' IN BOOLEAN MODE) ORDER BY time DESC"; 
 	 
 		$posts = array();
 		$topics = array();
@@ -1193,9 +1193,9 @@ elseif(isSet($_GET['insertMasterEvent']))
 {
 
 	if (!PG::mapPermissions('M',$currentUser->pgAuthOMA)) exit;
-	$eventTitle = addslashes($_POST['eventTitle']);
-	$eventText = addslashes($_POST['eventText']);
-	$place = addslashes($_POST['place']);
+	$eventTitle = stf_real_escape($_POST['eventTitle']);
+	$eventText = stf_real_escape($_POST['eventText']);
+	$place = stf_real_escape($_POST['place']);
 	$time = time();
 	
 	mysql_query("INSERT INTO fed_master_news (title,content,time,place) VALUES ('$eventTitle','$eventText',$time,'$place')");

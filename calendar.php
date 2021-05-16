@@ -21,11 +21,11 @@ $vali = new validator();
 
 if(isSet($_POST['event']))
 {
-	$event = (htmlentities(addslashes(($_POST['event'])),ENT_COMPAT, 'UTF-8'));
+	$event = (htmlentities(stf_real_escape(($_POST['event'])),ENT_COMPAT, 'UTF-8'));
 	$preDate = explode("/",$_POST['calDate']);
 	$preDateM = explode(":",$_POST['calDateM']);
 	$date = mktime($vali->numberOnly($preDateM[0]),$vali->numberOnly($preDateM[1]),0,$vali->numberOnly($preDate[1]),$vali->numberOnly($preDate[0]),$vali->numberOnly($preDate[2]));
-	$place = (htmlentities(addslashes(($_POST['place'])),ENT_COMPAT, 'UTF-8'));
+	$place = (htmlentities(stf_real_escape(($_POST['place'])),ENT_COMPAT, 'UTF-8'));
 	$user = $_SESSION['pgID'];
 	
 	mysql_query("INSERT INTO calendar_events(event,date,sender,place) VALUES('$event',$date, $user,'$place')");

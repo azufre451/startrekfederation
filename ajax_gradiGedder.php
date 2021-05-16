@@ -5,7 +5,7 @@ if (!isSet($_SESSION['pgID'])){header("Location:login.php"); exit;}
 include('includes/app_include.php');
 include('includes/validate_class.php');
 
-$term = trim(addslashes($_POST['term']));
+$term = trim(stf_real_escape($_POST['term']));
 $desiredPar=$_POST['desiredPar'];
 
 
@@ -16,23 +16,23 @@ $selected_div = ($desiredPar != 'divisioni') ? $_POST['div']: '';
 $selected_group = ($desiredPar != 'gruppi') ? $_POST['group']: '';
 $selected_incarico = ($desiredPar != 'incarichi') ? $_POST['incarico']: '';
 
-$ctlPG_place = ($selected_place != '') ? " AND pgPlace = '". addslashes($selected_place)."'" : '';
-$ctlPNG_place = ($selected_place != '') ? " AND pngPlace = '". addslashes($selected_place)."'" : '';
+$ctlPG_place = ($selected_place != '') ? " AND pgPlace = '". stf_real_escape($selected_place)."'" : '';
+$ctlPNG_place = ($selected_place != '') ? " AND pngPlace = '". stf_real_escape($selected_place)."'" : '';
 
-$ctlPG_section = ($selected_section != '') ? " AND incSezione = '". addslashes($selected_section)."'" : '';
-$ctlPNG_section = ($selected_section != '') ? " AND pngSezione = '". addslashes($selected_section)."'" : '';
+$ctlPG_section = ($selected_section != '') ? " AND incSezione = '". stf_real_escape($selected_section)."'" : '';
+$ctlPNG_section = ($selected_section != '') ? " AND pngSezione = '". stf_real_escape($selected_section)."'" : '';
 
-$ctlPG_div = ($selected_div != '') ? " AND incDivisione = '". addslashes($selected_div)."'" : '';
-$ctlPNG_div = ($selected_div != '') ? " AND pngDivisione = '". addslashes($selected_div)."'" : '';
+$ctlPG_div = ($selected_div != '') ? " AND incDivisione = '". stf_real_escape($selected_div)."'" : '';
+$ctlPNG_div = ($selected_div != '') ? " AND pngDivisione = '". stf_real_escape($selected_div)."'" : '';
 
-$ctlPG_dep = ($selected_dep != '') ? " AND incDipartimento = '". addslashes($selected_dep)."'" : '';
-$ctlPNG_dep = ($selected_dep != '') ? " AND pngDipartimento = '". addslashes($selected_dep)."'" : '';
+$ctlPG_dep = ($selected_dep != '') ? " AND incDipartimento = '". stf_real_escape($selected_dep)."'" : '';
+$ctlPNG_dep = ($selected_dep != '') ? " AND pngDipartimento = '". stf_real_escape($selected_dep)."'" : '';
 
-$ctlPG_group = ($selected_group != '') ? " AND incGroup = '". addslashes($selected_group)."'" : '';
-$ctlPNG_group = ($selected_group != '') ? " AND pngIncGroup = '". addslashes($selected_group)."'" : '';
+$ctlPG_group = ($selected_group != '') ? " AND incGroup = '". stf_real_escape($selected_group)."'" : '';
+$ctlPNG_group = ($selected_group != '') ? " AND pngIncGroup = '". stf_real_escape($selected_group)."'" : '';
 
-$ctlPG_incarico = ($selected_incarico != '') ? " AND incIncarico = '". addslashes($selected_incarico)."'" : '';
-$ctlPNG_incarico = ($selected_incarico != '') ? " AND pngIncarico = '". addslashes($selected_incarico)."'" : '';
+$ctlPG_incarico = ($selected_incarico != '') ? " AND incIncarico = '". stf_real_escape($selected_incarico)."'" : '';
+$ctlPNG_incarico = ($selected_incarico != '') ? " AND pngIncarico = '". stf_real_escape($selected_incarico)."'" : '';
 
 
 $ctlPG = $ctlPG_place . $ctlPG_section . $ctlPG_div . $ctlPG_dep . $ctlPG_group . $ctlPG_incarico;

@@ -4,8 +4,8 @@ if (!isSet($_SESSION['pgID'])){exit;}
 
 include('includes/app_include.php');
 include('includes/validate_class.php');
-		$person= (htmlentities(addslashes(($_POST['person'])),ENT_COMPAT, 'UTF-8'));	
-		$whatwrite= ($_POST['whatassign'] == 'norank') ? '' : (htmlentities(addslashes(($_POST['whatassign'])),ENT_COMPAT, 'UTF-8'));	
+		$person= (htmlentities(stf_real_escape(($_POST['person'])),ENT_COMPAT, 'UTF-8'));	
+		$whatwrite= ($_POST['whatassign'] == 'norank') ? '' : (htmlentities(stf_real_escape(($_POST['whatassign'])),ENT_COMPAT, 'UTF-8'));	
 		
 		//$user = new PG($_SESSION['pgID']);
 		//$userN = $user->pgUser;

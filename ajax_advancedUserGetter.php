@@ -6,7 +6,7 @@ include('includes/app_include.php');
 include('includes/validate_class.php');
 include("includes/PHPTAL/PHPTAL.php"); //NEW 
 
-$term = addslashes($_GET['term']);
+$term = stf_real_escape($_GET['term']);
 
 $res = mysql_query("SELECT pgUser,pgAvatar,pgIncarico,placeName FROM pg_users,pg_places WHERE pgAssign = placeID AND pgUser LIKE '$term%'");
 

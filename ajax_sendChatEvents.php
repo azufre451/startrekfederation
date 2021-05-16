@@ -10,17 +10,17 @@ include('includes/validate_class.php');
 		$vali = new validator();
 		$mode = $vali->numberOnly($_POST['mode']);
 			
-		$amb= addslashes($_POST['amb']);
+		$amb= stf_real_escape($_POST['amb']);
 		$ambient = Ambient::getAmbient($amb);
 		
 	if($mode == 0)
-	{	$string= (htmlentities(addslashes(($_POST['chatLine'])),ENT_COMPAT, 'UTF-8'));	
+	{	$string= (htmlentities(stf_real_escape(($_POST['chatLine'])),ENT_COMPAT, 'UTF-8'));	
 		if($ambient['ambientType'] != 'ALLOGGIO' && $ambient['ambientType'] != 'REPLICATORE') exit;
 		else 
 		
 		{
 			$user = new PG($_SESSION['pgID']);
-			$userN = addslashes($user->pgUser);
+			$userN = stf_real_escape($user->pgUser);
 			$string = '<div style="position:relative;" class="auxAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Azione automatica di risposta ad un giocatore per aver consultato il computer di bordo o premuto un tasto automatizzato (luci, replicatori, biolettini etc.)." /> Comando Utente</div>'.$userN.' ha ordinato '.$string.'. Si materializza l\\\'ordinazione&nbsp;&nbsp;&nbsp;<img src="TEMPLATES/img/interface/replicatore_x.gif" style="vertical-align:middle;" alt="replicatore" /></div>';   
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'NORMAL',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 			
@@ -28,7 +28,7 @@ include('includes/validate_class.php');
 		}
 	}
 	if($mode == 1)
-	{	$string= (htmlentities(addslashes(($_POST['chatLine'])),ENT_COMPAT, 'UTF-8'));	
+	{	$string= (htmlentities(stf_real_escape(($_POST['chatLine'])),ENT_COMPAT, 'UTF-8'));	
 
 		if($ambient['ambientType'] != 'INFERMERIA') exit;
 		else 
@@ -38,7 +38,7 @@ include('includes/validate_class.php');
 		}
 	}
 	if($mode == 2)
-	{	$string= (htmlentities(addslashes(($_POST['chatLine'])),ENT_COMPAT, 'UTF-8'));	
+	{	$string= (htmlentities(stf_real_escape(($_POST['chatLine'])),ENT_COMPAT, 'UTF-8'));	
 
 		if($ambient['ambientType'] != 'INFERMERIA') exit;
 		else 
@@ -66,11 +66,11 @@ include('includes/validate_class.php');
 					
 					$fLen = (strlen($foodDes) > 300) ? '<span>'.substr($foodDes,0,300).'<a href="javascript:void(0);" class="interfaceLink" onclick="repliOpenP('.$food.')"> [...] </a></span>' : '<span>'.$foodDes.'</span>';
 			  
-					$string = addslashes('<div style="position:relative;" class="auxAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Azione automatica di risposta ad un giocatore per aver consultato il computer di bordo o premuto un tasto automatizzato (luci, replicatori, biolettini etc.)." /> Comando Utente: Replicatore</div><div class="repliLine"><p class="repliLeft"><img src="'.$foodImage.'"></img></p><p class="repliRight">'.$user->pgUser.' ordina '.$label.'<br/>'.$fLen.'</p></div></div>');  
+					$string = stf_real_escape('<div style="position:relative;" class="auxAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Azione automatica di risposta ad un giocatore per aver consultato il computer di bordo o premuto un tasto automatizzato (luci, replicatori, biolettini etc.)." /> Comando Utente: Replicatore</div><div class="repliLine"><p class="repliLeft"><img src="'.$foodImage.'"></img></p><p class="repliRight">'.$user->pgUser.' ordina '.$label.'<br/>'.$fLen.'</p></div></div>');  
 				}
 			}
 			else
-				$string = addslashes('<div style="position:relative;" class="auxAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Azione automatica di risposta ad un giocatore per aver consultato il computer di bordo o premuto un tasto automatizzato (luci, replicatori, biolettini etc.)." /> Comando Utente: Replicatore</div>'.$user->pgUser.' ordina '.$label.'</div>'); 
+				$string = stf_real_escape('<div style="position:relative;" class="auxAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Azione automatica di risposta ad un giocatore per aver consultato il computer di bordo o premuto un tasto automatizzato (luci, replicatori, biolettini etc.)." /> Comando Utente: Replicatore</div>'.$user->pgUser.' ordina '.$label.'</div>'); 
 			
 			
 			
@@ -91,8 +91,8 @@ include('includes/validate_class.php');
     	            $Descri =$qresA['aText'];
     	            $ima =$qresA['aImage'];
     	
-    	            $cString = addslashes("Congratulazioni!!<br />Hai sbloccato un nuovo achievement!<br /><br /><p style='text-align:center'><img src='TEMPLATES/img/interface/personnelInterface/$ima' /><br /><span style='font-weight:bold'>$Descri</span></p><br />Il Team di Star Trek: Federation");
-    	            $eString = addslashes("Hai un nuovo achievement!::$Descri");
+    	            $cString = stf_real_escape("Congratulazioni!!<br />Hai sbloccato un nuovo achievement!<br /><br /><p style='text-align:center'><img src='TEMPLATES/img/interface/personnelInterface/$ima' /><br /><span style='font-weight:bold'>$Descri</span></p><br />Il Team di Star Trek: Federation");
+    	            $eString = stf_real_escape("Hai un nuovo achievement!::$Descri");
     	
     	            mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,paddType) VALUES (518,".$_SESSION['pgID'].",'OFF: Nuovo Achievement!','$cString',".time().",0,1)"); 
      
@@ -121,7 +121,7 @@ include('includes/validate_class.php');
 		$targetpgID = $vali->numberOnly($_POST['chatLine']);
 		if ($targetpgID == $_SESSION['pgID'] || PG::mapPermissions("SM",$user->pgAuthOMA))
 		{
-			$stringC = "<p data-timecode=\"$curTime\" class=\"directiveRemove\">".addslashes(PG::getSomething($targetpgID,'username'))."</p>";
+			$stringC = "<p data-timecode=\"$curTime\" class=\"directiveRemove\">".stf_real_escape(PG::getSomething($targetpgID,'username'))."</p>";
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$stringC',".time().",'OFF',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 		}
 		 

@@ -2,7 +2,7 @@
 chdir('../');
 include('includes/app_include.php');
 
-$to=addslashes($_GET['pgID']);
+$to=stf_real_escape($_GET['pgID']);
 
 
 

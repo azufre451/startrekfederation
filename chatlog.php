@@ -8,7 +8,7 @@ include("includes/PHPTAL/PHPTAL.php"); //NEW
 $vali = new validator();  
 $template = new PHPTAL('TEMPLATES/chatLog.htm');
 $currentUser = new PG($_SESSION['pgID']);
-$ambient = (isSet($_GET['amb'])) ? $vali->killchars(htmlentities(addslashes($_GET['amb']))) : NULL;
+$ambient = (isSet($_GET['amb'])) ? $vali->killchars(htmlentities(stf_real_escape($_GET['amb']))) : NULL;
 //$currentUser->setPresenceIntoChat($ambient);
 
 //$currentLocation = PG::getLocation($currentUser->pgLocation);

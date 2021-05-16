@@ -28,7 +28,7 @@ if ($_GET['action'] == 'rollDeliver'){
 
 
 
-	$amb = addslashes($_POST['amb']);
+	$amb = stf_real_escape($_POST['amb']);
 
 	$t = json_decode($_POST['lister']);
 
@@ -47,7 +47,7 @@ if ($_GET['action'] == 'rollDeliver'){
 
 		if ($modi == -99)
 		{
-			$otp .= '<div class="ND"><p class="bar"></p>'.addslashes(PG::getSomething($rea['sender'],'username')).': <img src="TEMPLATES/img/interface/personnelInterface/abilita/'.$launched_abil['abImage'].'" title="'.$launched_abil['abName'].'"><br />Soglia: - <br />Dado: '.$rea['dicerOutcome'].' <p class="label"></p></div>';
+			$otp .= '<div class="ND"><p class="bar"></p>'.stf_real_escape(PG::getSomething($rea['sender'],'username')).': <img src="TEMPLATES/img/interface/personnelInterface/abilita/'.$launched_abil['abImage'].'" title="'.$launched_abil['abName'].'"><br />Soglia: - <br />Dado: '.$rea['dicerOutcome'].' <p class="label"></p></div>';
 
 			mysql_query("UPDATE federation_chat SET dicerAbil = '' WHERE IDE = $recID");
 
@@ -60,7 +60,7 @@ if ($_GET['action'] == 'rollDeliver'){
 		echo $rea['dicerOutcome'];
 
 
-		$otp .= '<div class="'.$outcome['outcome'].'"><p class="bar"></p>'.addslashes(PG::getSomething($rea['sender'],'username')).': <img src="TEMPLATES/img/interface/personnelInterface/abilita/'.$launched_abil['abImage'].'" title="'.$launched_abil['abName'].'"><br />Soglia: '.$outcome['threshold'].' <span class="bmal">'.$modi.'</span> <br />Dado: '.$outcome['v'].' <p class="label"></p></div>';
+		$otp .= '<div class="'.$outcome['outcome'].'"><p class="bar"></p>'.stf_real_escape(PG::getSomething($rea['sender'],'username')).': <img src="TEMPLATES/img/interface/personnelInterface/abilita/'.$launched_abil['abImage'].'" title="'.$launched_abil['abName'].'"><br />Soglia: '.$outcome['threshold'].' <span class="bmal">'.$modi.'</span> <br />Dado: '.$outcome['v'].' <p class="label"></p></div>';
 		
 		mysql_query("UPDATE federation_chat SET dicerAbil = '' WHERE IDE = $recID");
 
@@ -88,7 +88,7 @@ if ($_GET['action'] == 'rollDeliver'){
 
 if ($_GET['action'] == 'rollRecompute'){
 
-	$focus = addslashes($_POST['abID']);
+	$focus = stf_real_escape($_POST['abID']);
 	$valor = $vali->numberOnly($_POST['valor']);
 	$pgID = $vali->numberOnly($_POST['pgID']);
 	$mod = (is_numeric($_POST['mod']) ? $_POST['mod'] : 0 );
@@ -122,8 +122,8 @@ if ($_GET['action'] == 'rollRecompute'){
 
 if ($_GET['action'] == 'roll'){
 	if($currentUser->pgLock || $currentUser->pgAuthOMA == 'BAN') {echo json_encode(array('sta'=>'ok')); exit; }
-	$focus = addslashes($_POST['abID']);
-	$amb = addslashes($_POST['amb']);
+	$focus = stf_real_escape($_POST['abID']);
+	$amb = stf_real_escape($_POST['amb']);
 
 	
 	$lucky = isSet($_POST['luckypoint']) ? (($_POST['luckypoint'] == 'true') ? 1 : 0) : 0;
@@ -152,11 +152,11 @@ if ($_GET['action'] == 'roll'){
 		$luckyOutcome = ($lucky) ? 99 : $outcome['v'];
 		$luckyOutcomeL = ($lucky) ? "*" : $outcome['v'];
 
-		$string = '<div style="position:relative;" class="specificMasterAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Esito del lancio di un dado" /> Dado Abilità</div>'.addslashes($currentUser->pgUser).' lancia un dado su '.$a->abilDict[$focus]['abName'].' | Esito: '.$luckyOutcomeL.'/20, soglia: '.$outcome['threshold'].'</div>'; 
+		$string = '<div style="position:relative;" class="specificMasterAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Esito del lancio di un dado" /> Dado Abilità</div>'.stf_real_escape($currentUser->pgUser).' lancia un dado su '.$a->abilDict[$focus]['abName'].' | Esito: '.$luckyOutcomeL.'/20, soglia: '.$outcome['threshold'].'</div>'; 
 		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,specReceiver,privateAction,dicerOutcome,dicerAbil) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'DICERSPEC',$userSpecific,IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0),'".$luckyOutcome."','".$a->abilDict[$focus]['abID']."')"); 
 	}
 	else{
-		$string = '<div style="position:relative;" class="auxAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Esito del lancio di un dado" /> Dado Abilità</div> <img style="width:30px; vertical-align:middle;" src="TEMPLATES/img/interface/personnelInterface/abilita/'.$a->abilDict[$focus]['abImage'].'" title="'.$a->abilDict[$focus]['abName'].'" />  '.addslashes($currentUser->pgUser).' lancia un dado su '.$a->abilDict[$focus]['abName'].' | Esito: '.$locale[$outcome['outcome']].' ('.$outcome['v'] .'/20, soglia: '.$outcome['threshold'].') </div>'; 
+		$string = '<div style="position:relative;" class="auxAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Esito del lancio di un dado" /> Dado Abilità</div> <img style="width:30px; vertical-align:middle;" src="TEMPLATES/img/interface/personnelInterface/abilita/'.$a->abilDict[$focus]['abImage'].'" title="'.$a->abilDict[$focus]['abName'].'" />  '.stf_real_escape($currentUser->pgUser).' lancia un dado su '.$a->abilDict[$focus]['abName'].' | Esito: '.$locale[$outcome['outcome']].' ('.$outcome['v'] .'/20, soglia: '.$outcome['threshold'].') </div>'; 
 		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$string',".time().",'DICE',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
  	}
 

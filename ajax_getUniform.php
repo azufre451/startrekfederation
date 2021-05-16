@@ -4,7 +4,7 @@ if (!isSet($_SESSION['pgID'])){header("Location:login.php"); exit;}
 
 include('includes/app_include.php');
 
-$emo = addslashes($_POST['term']);
+$emo = stf_real_escape($_POST['term']);
 $id = $_SESSION['pgID'];
 $user = new PG($_SESSION['pgID']);
 

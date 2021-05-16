@@ -4,7 +4,7 @@ if (!isSet($_SESSION['pgID'])){header("Location:login.php"); exit;}
 
 include('includes/app_include.php');
 
-$term = addslashes($_POST['amb']);
+$term = stf_real_escape($_POST['amb']);
 
 $resPgPresenti = mysql_query("SELECT pgID, pgUser, pgAvatarSquare as miniAvatar FROM pg_users WHERE pgRoom = '".$term."' AND pgLastAct >= ".($curTime-1800)." ORDER BY pgUser");
 	

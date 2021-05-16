@@ -174,8 +174,8 @@ elseif(isSet($_GET['getDot']))
 elseif(isSet($_GET['setMos']))
 {
 	$emo = $_POST['emoSel'];
-	$civDetail = addslashes($_POST['civDetail']);
-	$civimage = addslashes($_POST['civimage']);
+	$civDetail = stf_real_escape($_POST['civDetail']);
+	$civimage = stf_real_escape($_POST['civimage']);
 
 
 	$id = $_SESSION['pgID'];

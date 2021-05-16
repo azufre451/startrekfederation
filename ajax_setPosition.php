@@ -7,7 +7,7 @@ include('includes/markerClass.php');
 
 $x = $_POST['x'];
 $y = $_POST['y'];
-$ambID = addslashes($_POST['ambID']);
+$ambID = stf_real_escape($_POST['ambID']);
 $pos = $x.';'.$y;
 
 $re = mysql_query("UPDATE pg_users SET pgCoord = '$pos' WHERE pgID = ".$_SESSION['pgID']);

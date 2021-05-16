@@ -39,8 +39,8 @@ if($mode == 'closeSession'){
 
 	$ree  = mysql_fetch_assoc(mysql_query("SELECT sessionOwner,sessionLabel,sessionStart FROM federation_sessions WHERE sessionID = '$rec'"));
 	$pig = new PG($ree['sessionOwner']);
-	$seTitle = addslashes($ree['sessionLabel']);
-	$seNow = addslashes( ((time()-(int)($ree['sessionStart']))/3600) );
+	$seTitle = stf_real_escape($ree['sessionLabel']);
+	$seNow = stf_real_escape( ((time()-(int)($ree['sessionStart']))/3600) );
 	$pig->sendPadd('OFF: Chiusura Sessione',"Un admin ha chiuso la tua sessione: $seTitle dopo <b>$seNow ore</b> di inattività. Non sono stati assegnati punti per questa sessione.");
 	
 	mysql_query("UPDATE federation_sessions SET sessionEnd = $curTime, sessionStatus = 'CLOSED' WHERE sessionID = '$rec'");
@@ -90,7 +90,7 @@ if($mode == 'setMyPresence')
 
 	foreach(range(0, 6, 1) as $p)
 	{
-		$ptp=addslashes($_POST['ppres_'.$p]); 
+		$ptp=stf_real_escape($_POST['ppres_'.$p]); 
 		
 		mysql_query( "INSERT INTO pg_users_presence(pgID,day,value) VALUES ('$me','$p','$ptp')" );
 		
@@ -117,8 +117,8 @@ if($mode == "achiAssignBackground")
 	$Descri =$resA['aText'];
 	$ima =$resA['aImage'];
 	
-	$cString = addslashes("Congratulazioni!!<br />Hai sbloccato un nuovo achievement!<br /><br /><p style='text-align:center'><img src='TEMPLATES/img/interface/personnelInterface/$ima' /><br /><span style='font-weight:bold'>$Descri</span></p><br />Il Team di Star Trek: Federation");
-	$eString = addslashes("Hai un nuovo achievement!::$Descri");
+	$cString = stf_real_escape("Congratulazioni!!<br />Hai sbloccato un nuovo achievement!<br /><br /><p style='text-align:center'><img src='TEMPLATES/img/interface/personnelInterface/$ima' /><br /><span style='font-weight:bold'>$Descri</span></p><br />Il Team di Star Trek: Federation");
+	$eString = stf_real_escape("Hai un nuovo achievement!::$Descri");
 	
 	mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead) VALUES (".$_SESSION['pgID'].",$pgID,'OFF: Nuovo Achievement!','$cString',".time().",0)");
 	if(mysql_error()) {echo mysql_error();exit;}
@@ -229,7 +229,7 @@ if($mode == "blockBulk")
 	
 	$lisOuser="";
 	foreach ($sel as $auth)
-		if($auth!='') $lisOuser .= "'".trim(addslashes($auth))."',";
+		if($auth!='') $lisOuser .= "'".trim(stf_real_escape($auth))."',";
 	
 	$lisOuser = substr(trim($lisOuser),0,-1);
 	$res = mysql_query("UPDATE pg_users SET pgLock=1 WHERE pgUser IN ($lisOuser)");
@@ -244,7 +244,7 @@ if($mode == "reassignBulk")
 	$placeLocReassign = $_POST['placeAssign'];
 	$lisOuser="";
 	foreach ($sel as $auth)
-		if($auth!='') $lisOuser .= "'".trim(addslashes($auth))."',";
+		if($auth!='') $lisOuser .= "'".trim(stf_real_escape($auth))."',";
 	
 	$lisOuser = substr(trim($lisOuser),0,-1);
 	$res = mysql_query("UPDATE pg_users SET pgLocation='$placeLocReassign',pgRoom = '$placeLocReassign' WHERE pgUser IN ($lisOuser)");
@@ -261,13 +261,13 @@ if($mode == 'addsstoBulk')
 	$lisOuser="";
 
 
-	$cross = addslashes(($_POST['cross']));
-	$placer = addslashes(($_POST['placer']));
+	$cross = stf_real_escape(($_POST['cross']));
+	$placer = stf_real_escape(($_POST['placer']));
 	$dateG = str_pad($vali->numberOnly($_POST['dataG']),2,'0',STR_PAD_LEFT);
 	$dateM = str_pad($vali->numberOnly($_POST['dataM']),2,'0',STR_PAD_LEFT);
 	$dateA = $vali->numberOnly($_POST['dataA']);
 	$dateDef = $dateA.'-'.$dateM.'-'.$dateG;
-	$what = addslashes(($_POST['what']));
+	$what = stf_real_escape(($_POST['what']));
 
 	$padTit = 'Update Stato di Servizio';
 	$paddTex = "È stato aggiunto nella tua scheda PG un nuovo elemento allo stato di servizio";
@@ -275,7 +275,7 @@ if($mode == 'addsstoBulk')
 	foreach ($sel as $auth)
 		if(trim($auth)!='')
 		{	
-			$tUser = trim(addslashes($auth));
+			$tUser = trim(stf_real_escape($auth));
 			$rea = mysql_fetch_array(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$tUser'"));
 			$pgID = $vali->numberOnly($rea['pgID']);
 			$selectedDUser = new PG($pgID);
@@ -290,7 +290,7 @@ if($mode == "getProfilingPadds")
 {
 
 	if (!PG::mapPermissions('G',$currentUser->pgAuthOMA)) exit;
-	$ider = addslashes($_POST['ider']);
+	$ider = stf_real_escape($_POST['ider']);
 
 	$padder=array();
 
@@ -321,7 +321,7 @@ if($mode == "setSeclar")
 	
 	$lisOuser="";
 	foreach ($sel as $auth)
-		if($auth!='') $lisOuser .= "'".trim(addslashes($auth))."',";
+		if($auth!='') $lisOuser .= "'".trim(stf_real_escape($auth))."',";
 	
 	$lisOuser = substr(trim($lisOuser),0,-1);
 	$res = mysql_query("UPDATE pg_users SET pgSeclar=$seclar WHERE pgUser IN ($lisOuser)");
@@ -344,7 +344,7 @@ if($mode == "addMedals")
 	foreach ($sel as $auth)
 		if(trim($auth)!='')
 		{	
-			$tUser = trim(addslashes($auth));
+			$tUser = trim(stf_real_escape($auth));
 			$rea = mysql_fetch_array(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$tUser'"));
 			$pgID = $vali->numberOnly($rea['pgID']);
 			$selectedDUser = new PG($pgID);
@@ -364,14 +364,14 @@ if($mode == "setPrestige")
 	if (!PG::mapPermissions('SM',$currentUser->pgAuthOMA)) exit;
 	$sel=explode(',',$_POST['listof']);
 	$points = $vali->numberOnly($_POST['prestigeLevel']);
-	$reason = addslashes($_POST['reason']);
+	$reason = stf_real_escape($_POST['reason']);
 	
 	$lisOuser="";
 
 
 	foreach ($sel as $auth)
 	{
-		$auth = addslashes(trim($auth));
+		$auth = stf_real_escape(trim($auth));
 		if($auth!='')
 		{
 			$myco =  mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$auth' LIMIT 1"));
@@ -411,7 +411,7 @@ if($mode == "addServiceObj")
 
 	foreach ($sel as $auth)
 	{
-		$auth = addslashes(trim($auth));
+		$auth = stf_real_escape(trim($auth));
 		if($auth!='')
 		{
 			$myco =  mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$auth' LIMIT 1"));
@@ -435,7 +435,7 @@ if($mode == "removeServiceObj")
 	$lisOuser="";
 	foreach ($sel as $auth)
 	{
-		$auth = addslashes(trim($auth));
+		$auth = stf_real_escape(trim($auth));
 		if($auth!='')
 		{
 			$myco =  mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$auth' LIMIT 1"));
@@ -459,7 +459,7 @@ if($mode == 'delete' || $mode == 'bavosize')
 
 	foreach ($sel as $auth)
 		{
-			$auth = addslashes(trim($auth));
+			$auth = stf_real_escape(trim($auth));
 			if($auth!='')
 			{
 				$myco =  mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$auth' LIMIT 1"));
@@ -491,7 +491,7 @@ if($mode == 'group')
 
 	foreach ($sel as $auth)
 		{
-			$auth = addslashes(trim($auth));
+			$auth = stf_real_escape(trim($auth));
 			if($auth!='')
 			{
 				$myco =  mysql_fetch_assoc(mysql_query("SELECT pgID,iscriDate FROM pg_users WHERE pgUser = '$auth' LIMIT 1"));
@@ -530,8 +530,8 @@ if($mode == 'switch')
 		$affectedList=array();
 		$minIscriDate=$curTime;
 
-		$OLDPGU=addslashes(trim($sel[0]));
-		$NEWPGU=addslashes(trim($sel[1]));
+		$OLDPGU=stf_real_escape(trim($sel[0]));
+		$NEWPGU=stf_real_escape(trim($sel[1]));
 
 		$mycoOLD =  mysql_fetch_assoc(mysql_query("SELECT pgID,pgPoints,pgSpecialistPoints,iscriDate FROM pg_users WHERE pgUser = '$OLDPGU' LIMIT 1"));
 		$mycoNEW =  mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$NEWPGU' LIMIT 1"));
@@ -595,19 +595,19 @@ if($mode == "setIncarico")
 {
 	if (!PG::mapPermissions('SM',$currentUser->pgAuthOMA)) exit;
 	$sel=explode(',',$_POST['listof']);
-	$assegnazione = addslashes($_POST['assegnazione']);
-	$incarico = addslashes($_POST['incarico']);
-	$dipartimento = addslashes($_POST['dipartimento']);
-	$divisione = addslashes($_POST['divisione']);
+	$assegnazione = stf_real_escape($_POST['assegnazione']);
+	$incarico = stf_real_escape($_POST['incarico']);
+	$dipartimento = stf_real_escape($_POST['dipartimento']);
+	$divisione = stf_real_escape($_POST['divisione']);
 
 
 	$lisOuser="";
 	foreach ($sel as $auth)
 		{
-			$auth = addslashes(trim($auth));
+			$auth = stf_real_escape(trim($auth));
 			if($auth!='')
 			{	
-				$auth=addslashes($auth);
+				$auth=stf_real_escape($auth);
 				$adNote = 'Piallatura Incarico e Assegnazione: '.$incarico;
 				$myco =  mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$auth' LIMIT 1"));
 				$pgID=$myco['pgID'];
@@ -634,7 +634,7 @@ if($mode == "addNote")
 
 	foreach ($sel as $auth)
 	{
-		$auth = addslashes(trim($auth));
+		$auth = stf_real_escape(trim($auth));
 		if($auth!=''){
 			$myco =  mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$auth' LIMIT 1"));
 			$pgID=$myco['pgID'];
@@ -823,7 +823,7 @@ if($mode == "setMostrina")
 	$mostrina = $vali->numberOnly($_POST['mostrina']);
 	foreach ($sel as $auth)
 		if($auth!=''){	
-						$tUser = trim(addslashes($auth));
+						$tUser = trim(stf_real_escape($auth));
 						PG::setMostrinaL($tUser,$mostrina);
 						Mailer::notificationMail("Il PG $sel e' stato promosso o degradato a $mostrina",$currentUser);
 		}
@@ -834,11 +834,11 @@ if($mode == "setMostrina")
 {
 	if (!PG::mapPermissions('MM',$currentUser->pgAuthOMA)) exit;
 	$sel=explode(',',$_POST['listof']);
-	$moder = addslashes($_POST['moder']);
+	$moder = stf_real_escape($_POST['moder']);
 	foreach ($sel as $auth)
 		if($auth!='')
 		{	
-						$tUser = trim(addslashes($auth));
+						$tUser = trim(stf_real_escape($auth));
 						PG::sendModerationL($tUser,$moder);
 		}
 	echo json_encode(array('stat'=>true)); exit;	
@@ -848,11 +848,11 @@ if($mode == "setSalute")
 {
 	if (!PG::mapPermissions('M',$currentUser->pgAuthOMA)) exit;
 	$sel=explode(',',$_POST['listof']);
-	$sal = htmlentities(addslashes(($_POST['salute'])));
+	$sal = htmlentities(stf_real_escape(($_POST['salute'])));
 	
 	$lisOuser="";
 	foreach ($sel as $auth)
-		if($auth!='') $lisOuser .= "'".trim(addslashes($auth))."',";
+		if($auth!='') $lisOuser .= "'".trim(stf_real_escape($auth))."',";
 	
 	$lisOuser = substr(trim($lisOuser),0,-1);
 	//echo "UPDATE pg_users SET pgSalute = '$sal' WHERE pgUser IN ($lisOuser)";
@@ -862,7 +862,7 @@ if($mode == "setSalute")
 	{
 	foreach ($sel as $auth)
 		if($auth!=''){	
-						$tUser = trim(addslashes($auth));
+						$tUser = trim(stf_real_escape($auth));
 						mysql_query("INSERT INTO fed_pad (paddFrom, paddTo, paddTitle, paddText, paddTime, paddRead) VALUES (".$_SESSION['pgID'].",(SELECT pgID FROM pg_users WHERE pgUser = '$tUser'), 'Modifica Salute', 'Ciao!\nIl tuo stato di salute e\' stato modificato in: $sal. Questo messaggio e\' stato generato automaticamente. Buon gioco!',".time().",0)");
 		}
 	}
@@ -877,7 +877,7 @@ if($mode == "addPoints")
 	if (!PG::mapPermissions('SL',$currentUser->pgAuthOMA)) exit;
 	$sel=explode(',',$_POST['listof']);
 	$code = $vali->killChars($_POST['code']);
-	$detail = addslashes($_POST['detail']);
+	$detail = stf_real_escape($_POST['detail']);
 	
 	$p=0;$l="A";
 if($code == "a1"){$p=1;$little="Q1";$mex = "Partecipazione Giocata";$l="SL";}
@@ -900,7 +900,7 @@ elseif($code == "aa11"){$p=$vali->numberOnly($_POST['points']);$little="Q00";$me
 
 	$lisOuser="";
 	foreach ($sel as $auth)
-		if($auth!='') $lisOuser .= "'".trim(addslashes($auth))."',";
+		if($auth!='') $lisOuser .= "'".trim(stf_real_escape($auth))."',";
 	
 	$lisOuser = substr(trim($lisOuser),0,-1);
 	
@@ -909,7 +909,7 @@ elseif($code == "aa11"){$p=$vali->numberOnly($_POST['points']);$little="Q00";$me
 		
 		foreach ($sel as $auth)
 			if(trim($auth)!=''){	
-						$tUser = trim(addslashes($auth));
+						$tUser = trim(stf_real_escape($auth));
 						if($tUser != $currentUser->pgUser || $currentUser->pgAuthOMA != 'A')
 						{
 							$rea = mysql_fetch_array(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '$tUser'"));

@@ -48,7 +48,7 @@ if($mode == 'newP')
 		
 		if (empty($to) || $to == " " || $to == NULL) continue;
 		
-		$to = addslashes(trim($to)); 
+		$to = stf_real_escape(trim($to)); 
 
 		if (startsWith($to,"Gruppo"))
 		{
@@ -246,7 +246,7 @@ else if($mode == 'seR')
 	$template = new  PHPTAL('TEMPLATES/padd_send_custom.htm');
 	
 
-	$template->to = htmlentities($_GET['to']);
+	$template->to = $_GET['to'];
 	
 
 	if(isSet($_GET['sub']))
@@ -254,7 +254,7 @@ else if($mode == 'seR')
 		if(strstr($_GET['sub'],'Re: '))
 	 		$sub = $_GET['sub'];
 	 	else
-	 		$sub = 'Re: '.addslashes($_GET['sub']);
+	 		$sub = 'Re: '.stf_real_escape($_GET['sub']);
 	}
 	else
 		$sub = '';
@@ -327,8 +327,8 @@ else if ($mode == 'delNote')
 
 else if ($mode == 'newNote')
 {
-	$title = ($_POST['titolo'] == '') ? 'Nessun Titolo' : addslashes($_POST['titolo']);
-	$testo= (htmlentities(addslashes(($_POST['testo'])),ENT_COMPAT, 'UTF-8'));
+	$title = ($_POST['titolo'] == '') ? 'Nessun Titolo' : stf_real_escape($_POST['titolo']);
+	$testo= (htmlentities(stf_real_escape(($_POST['testo'])),ENT_COMPAT, 'UTF-8'));
 	mysql_query("INSERT INTO pg_notes (owner,title,text) VALUES (".$currentUser->ID.",'$title','$testo')");
 	header('Location:padd.php?s=no');
 	exit;
@@ -336,8 +336,8 @@ else if ($mode == 'newNote')
 
 else if ($mode == 'ediNote')
 {
-	$title = addslashes($_POST['titolo']);
-	$testo= (htmlentities(addslashes(($_POST['testo'])),ENT_COMPAT, 'UTF-8'));
+	$title = stf_real_escape($_POST['titolo']);
+	$testo= (htmlentities(stf_real_escape(($_POST['testo'])),ENT_COMPAT, 'UTF-8'));
 	$id= $vali->numberOnly($_POST['ID']);
 	mysql_query("UPDATE pg_notes SET title = '$title', text = '$testo' WHERE noteID = $id AND owner =".$currentUser->ID);
 	header('Location:padd.php?s=readNote&ID='.$id);
@@ -366,8 +366,8 @@ else if ($mode == 'savePad')
 	$ID = $vali->numberOnly($_GET['paddID']);
 	$raInfo = mysql_query("SELECT paddTitle,paddText FROM fed_pad WHERE padID = $ID");
 	$raInfoS = mysql_fetch_array($raInfo);
-	$ratitle = "[PADD SALVATO] ".addslashes($raInfoS['paddTitle']);
-	$raText = addslashes($raInfoS['paddText']);
+	$ratitle = "[PADD SALVATO] ".stf_real_escape($raInfoS['paddTitle']);
+	$raText = stf_real_escape($raInfoS['paddText']);
 		
 	$ra = mysql_query("INSERT INTO pg_notes (owner,title,text) VALUES (".$currentUser->ID.",'$ratitle','$raText')");
 	header('Location:padd.php?s=no');exit;
@@ -375,11 +375,11 @@ else if ($mode == 'savePad')
 
 else if($mode == 'newH')
 {
-	$titolo = addslashes($_POST['titolo']);
-	$sottotitolo = addslashes($_POST['sottotitolo']);
-	$testo = addslashes($_POST['testo']);
-	$categ =  isSet($_POST['aleXX']) ? addslashes($_POST['aleXX']) : 'FED';
-	$tolink = ($categ != "FED") ? addslashes($_POST['sottotitolo']) : '';
+	$titolo = stf_real_escape($_POST['titolo']);
+	$sottotitolo = stf_real_escape($_POST['sottotitolo']);
+	$testo = stf_real_escape($_POST['testo']);
+	$categ =  isSet($_POST['aleXX']) ? stf_real_escape($_POST['aleXX']) : 'FED';
+	$tolink = ($categ != "FED") ? stf_real_escape($_POST['sottotitolo']) : '';
 	
 	if( trim($titolo)!="" && trim($testo)!="" && (PG::mapPermissions('M',$currentUser->pgAuthOMA) || $currentUser->hasBrevetto(array(19) ) ))
 	{
@@ -397,7 +397,7 @@ else if($mode == 'newH')
 				mysql_query("INSERT INTO fed_pad (paddFrom, paddTo, paddTitle, paddText, paddTime, paddRead) VALUES (1610, $idA, 'Tychonian Eagle: $titolo', 'E\' stata inserita una nuova News nel Tychonian Eagle<br /><p style=\"text-align:center;\"><span style=\"font-size:20px;\">$titolo</span><br />$sottotitolo</p><br /><br /> <br /><a href=\"padd.php?s=readTribune&newsID=$newsID\" class=\"interfaceLinkBlue\">Clicca qui</a> per leggerla!',$curTime,0)");
 			} 
 
-			$string = addslashes("<p class=\"auxActionMaster\">Nuova News inserita nel Tychonian Eagle<br /><a class=\"interfaceLinkBlue\" href=\"javascript:void(0);\" onclick=\"window.open ('padd.php?s=readTribune&newsID=$newsID','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');\">$titolo</a></p>");
+			$string = stf_real_escape("<p class=\"auxActionMaster\">Nuova News inserita nel Tychonian Eagle<br /><a class=\"interfaceLinkBlue\" href=\"javascript:void(0);\" onclick=\"window.open ('padd.php?s=readTribune&newsID=$newsID','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');\">$titolo</a></p>");
 			mysql_query('INSERT INTO fed_sussurri (susFrom,susTo,time,chat,reade) VALUES('.$_SESSION['pgID'].",0,$curTime,'$string',0)");
 
 		}
@@ -429,7 +429,7 @@ else if($mode == 'readTribune')
 else if($mode == 'not')
 {
 	$template = new  PHPTAL('TEMPLATES/padd_notify.htm');
-	$name = addslashes($currentUser->pgUser);
+	$name = stf_real_escape($currentUser->pgUser);
 	
 	$res = mysql_query("SELECT ID,title,content,owner,topicColorExt,topicType,cdb_topics.topicID,topicTitle,time FROM cdb_topics,cdb_posts WHERE cdb_topics.topicID = cdb_posts.topicID AND owner <> ".$_SESSION['pgID']." AND content LIKE '%$name%' ORDER BY time DESC LIMIT 20");
 	

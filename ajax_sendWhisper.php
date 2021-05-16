@@ -13,7 +13,7 @@ include('includes/validate_class.php');
 mysql_query('SET NAMES utf8mb4');
 
 		
-		$string= str_replace("\xE2\x80\x8B", "", htmlentities(addslashes(($_POST['chatLine'])),ENT_COMPAT, 'UTF-8'));
+		$string= str_replace("\xE2\x80\x8B", "", htmlentities(stf_real_escape(($_POST['chatLine'])),ENT_COMPAT, 'UTF-8'));
 
 		if (!is_numeric($_POST['chatTo'])) exit;
 		else $chatTo = $_POST['chatTo'];
@@ -67,8 +67,8 @@ mysql_query('SET NAMES utf8mb4');
 		if($chatTo != 0 && $chatTo != 7)
 		{
 			
-			$fromUser = addslashes($user->pgUser);
-			$toUser = addslashes(PG::getSomething($chatTo,'username'));
+			$fromUser = stf_real_escape($user->pgUser);
+			$toUser = stf_real_escape(PG::getSomething($chatTo,'username'));
 
 			$Col=stringToColorCode($fromUser);
 
@@ -76,7 +76,7 @@ mysql_query('SET NAMES utf8mb4');
 		
 		}
 		else 
-		{		$fromUser = addslashes($user->pgUser);
+		{		$fromUser = stf_real_escape($user->pgUser);
 
 				if (!$user->png && PG::mapPermissions('A',$user->pgAuthOMA))
 					$classer='susChatMPUserA'; 
@@ -94,22 +94,11 @@ mysql_query('SET NAMES utf8mb4');
 		
 		if(strpos(strtolower($string), 'telegram') !== false && PG::mapPermissions('G',$user->pgAuthOMA))
 		{
-		        $toUser = addslashes(PG::getSomething($_SESSION['pgID'],'username'));
+		        $toUser = stf_real_escape(PG::getSomething($_SESSION['pgID'],'username'));
 		    	$stringk = '<p class="susChat"><span class=\"susPrivate\">'.date('H:i',$time)."</span> <span class=\"susChatMPUserO\">Kavanagh</span> <span style=\"color:$Col\"; class=\"susChatMPSeparator\">--&gt;</span>  <span class=\"susChatMPUserO\">$toUser:</span> <span class=\"susPrivate\">L\'amministrazione ricorda allo staff che l\'utilizzo di strumenti esterni a STF per la gestione dei contatti con l\'utenza non è consigliata (ed è generalmente disincentivata).</span></p>";
 		
 		    mysql_query('INSERT INTO fed_sussurri (susFrom,susTo,time,chat,reade) VALUES(394,'.$_SESSION['pgID'].",$time,'$stringk',0)"); 
 		}
-		   
-
-	/*	if(strpos(strtolower($string), 'domanda') !== false && $chatTo == 1)
-		{
-		        $toUser = addslashes(PG::getSomething($_SESSION['pgID'],'username'));
-		    	$stringk = '<p class="susChat"><span class=\"susPrivate\">'.date('H:i',$time)."</span> <span class=\"susChatMPUserO\">Rezaei</span> <span style=\"color:$Col\"; class=\"susChatMPSeparator\">--&gt;</span>  <span class=\"susChatMPUserO\">$toUser:</span> <span class=\"susPrivate\">Certo $toUser, dimmi pure!</span></p>";
-		
-		    	mysql_query('INSERT INTO fed_sussurri (susFrom,susTo,time,chat,reade) VALUES(394,'.$_SESSION['pgID'].",$time,'$stringk',0)"); 
-		}*/
-		   
-
 		     
 		PG::updatePresence($_SESSION['pgID']);
 		

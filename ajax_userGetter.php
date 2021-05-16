@@ -5,7 +5,7 @@ if (!isSet($_SESSION['pgID'])){header("Location:login.php"); exit;}
 include('includes/app_include.php');
 include('includes/validate_class.php');
 
-$term = addslashes($_GET['term']);
+$term = stf_real_escape($_GET['term']);
  
 
 if (isSet($_GET['extGropus'])) $q="(SELECT pgUser FROM pg_users WHERE pgUser LIKE '$term%') UNION (SELECT groupLabel as pgUser FROM pg_groups WHERE groupLabel LIKE '%$term%')";

@@ -19,7 +19,7 @@ $vali = new validator();
 
 	if (isSet($_GET['coords']) && (str_contains($_GET['coords'],':')) &&  (str_contains($_GET['coords'],';')))
 	{
-		$coords = explode(':',addslashes($_GET['coords']));
+		$coords = explode(':',stf_real_escape($_GET['coords']));
 		// take 0th element of coords (just need first char ;))
 		$subChart = $coords[0][0];
 	}

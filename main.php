@@ -12,7 +12,7 @@ include("includes/PHPTAL/PHPTAL.php"); //NEW
 $template = new PHPTAL('TEMPLATES/main.htm'); 
 $currentUser = new PG($_SESSION['pgID']);
 if ($currentUser->pgAuthOMA == 'BAN'){header("Location:http://www.youtube.com/watch?v=wZZ7oFKsKzY"); exit;}
-$toLocation= (isSet($_GET['l']) && !$currentUser->pgBavo) ? addslashes($_GET['l']) : $currentUser->pgLocation;
+$toLocation= (isSet($_GET['l']) && !$currentUser->pgBavo) ? stf_real_escape($_GET['l']) : $currentUser->pgLocation;
 if($toLocation == '') $toLocation = 'BAVO';
 $currentUser->setPresenceInto($toLocation);
 
@@ -39,7 +39,7 @@ if($currentLocation['placeType'] == 'Pianeta')
 
 	while ($locar = mysql_fetch_array($loca))
 	{
-		$locationsPlanet[$locar['planetSub']][] = array ('locID' => $locar['locID'], 'locName' => addslashes($locar['locName']), 'icon' => $locar['icon'],'counterPG' => $locar['counterPG']);
+		$locationsPlanet[$locar['planetSub']][] = array ('locID' => $locar['locID'], 'locName' => stf_real_escape($locar['locName']), 'icon' => $locar['icon'],'counterPG' => $locar['counterPG']);
 	}
 	
 	$a = $currentLocation['placeRotationTime'];

@@ -90,18 +90,18 @@ else if (isSet($_GET['amendPNG']))
 	if(!PG::mapPermissions('M',$currentUser->pgAuthOMA)) exit;
 	if ($mode == 'add')
 	{
-		$pngIncarico = addslashes($_POST['pgIncarico']);
-		$pngSezione = addslashes($_POST['pgSezione']);
-		$pngDivisione = addslashes($_POST['pgDivisione']);
-		$pngDipartimento = addslashes($_POST['pgDipartimento']);
-		$pngIncGroup = addslashes($_POST['incGroup']);
-		$pngPlace = addslashes($_POST['assegnazione']);
+		$pngIncarico = stf_real_escape($_POST['pgIncarico']);
+		$pngSezione = stf_real_escape($_POST['pgSezione']);
+		$pngDivisione = stf_real_escape($_POST['pgDivisione']);
+		$pngDipartimento = stf_real_escape($_POST['pgDipartimento']);
+		$pngIncGroup = stf_real_escape($_POST['incGroup']);
+		$pngPlace = stf_real_escape($_POST['assegnazione']);
 		$pngID = $vali->numberOnly($_POST['pngID']);
 
 		$pre=mysql_fetch_assoc(mysql_query(("SELECT pngName,pngSurname,pngRank,pngSesso,pngSpecie FROM png_incarichi WHERE pngID = $pngID")));
 		if(mysql_affected_rows())
 
-			mysql_query("INSERT INTO png_incarichi (pngName,pngSurname,pngRank,pngIncarico,pngSezione,pngDivisione,pngDipartimento,pngIncGroup,pngPlace,pngSesso,pngSpecie) VALUES ('".addslashes($pre['pngName'])."','".addslashes($pre['pngSurname'])."',".addslashes($pre['pngRank']).",'$pngIncarico','$pngSezione','$pngDivisione','$pngDipartimento','$pngIncGroup','$pngPlace','".addslashes($pre['pngSesso'])."','".addslashes($pre['pngSpecie'])."') ");
+			mysql_query("INSERT INTO png_incarichi (pngName,pngSurname,pngRank,pngIncarico,pngSezione,pngDivisione,pngDipartimento,pngIncGroup,pngPlace,pngSesso,pngSpecie) VALUES ('".stf_real_escape($pre['pngName'])."','".stf_real_escape($pre['pngSurname'])."',".stf_real_escape($pre['pngRank']).",'$pngIncarico','$pngSezione','$pngDivisione','$pngDipartimento','$pngIncGroup','$pngPlace','".stf_real_escape($pre['pngSesso'])."','".stf_real_escape($pre['pngSpecie'])."') ");
 		
 		header('Location:crew.php?editAssign='.$pngID.'&equia='.$equi);
 		exit;
@@ -109,12 +109,12 @@ else if (isSet($_GET['amendPNG']))
 	if ($mode == 'edit')
 	{
 		if(!PG::mapPermissions('M',$currentUser->pgAuthOMA)) exit;
-		$pngIncarico = addslashes($_POST['pgIncarico']);
-		$pngSezione = addslashes($_POST['pgSezione']);
-		$pngDivisione = addslashes($_POST['pgDivisione']);
-		$pngDipartimento = addslashes($_POST['pgDipartimento']);
-		$pngIncGroup = addslashes($_POST['incGroup']);
-		$pngPlace = addslashes($_POST['assegnazione']);
+		$pngIncarico = stf_real_escape($_POST['pgIncarico']);
+		$pngSezione = stf_real_escape($_POST['pgSezione']);
+		$pngDivisione = stf_real_escape($_POST['pgDivisione']);
+		$pngDipartimento = stf_real_escape($_POST['pgDipartimento']);
+		$pngIncGroup = stf_real_escape($_POST['incGroup']);
+		$pngPlace = stf_real_escape($_POST['assegnazione']);
 		$pngID = $vali->numberOnly($_POST['pngID']);
 
 		mysql_query("UPDATE png_incarichi SET pngIncarico = '$pngIncarico', pngSezione='$pngSezione', pngDivisione='$pngDivisione', pngDipartimento='$pngDipartimento',pngIncGroup='$pngIncGroup',pngPlace='$pngPlace' WHERE pngID = '$pngID'");
@@ -124,17 +124,17 @@ else if (isSet($_GET['amendPNG']))
 
 	elseif ($mode == 'editPerson')
 	{
-		$pngSurname=addslashes($_POST['pgSurname']);
-		$pngName=addslashes($_POST['pgName']);
-		$pngSpecie=addslashes($_POST['pgSpecie']);
-		$pngSesso=addslashes($_POST['pgSesso']);
+		$pngSurname=stf_real_escape($_POST['pgSurname']);
+		$pngName=stf_real_escape($_POST['pgName']);
+		$pngSpecie=stf_real_escape($_POST['pgSpecie']);
+		$pngSesso=stf_real_escape($_POST['pgSesso']);
 		$rankCode=$vali->numberOnly($_POST['rankCode']);
 		$pngID = $vali->numberOnly($_POST['pngID']);
 
 		$pre=mysql_fetch_assoc(mysql_query("SELECT pngName,pngSurname FROM png_incarichi WHERE pngID = $pngID"));
 		if(mysql_affected_rows())
 		{
-			mysql_query("UPDATE png_incarichi SET pngName = '$pngName', pngSurname='$pngSurname', pngSpecie='$pngSpecie', pngSesso='$pngSesso',pngRank='$rankCode' WHERE pngName = '".addslashes($pre['pngName'])."' AND pngSurname = '".addslashes($pre['pngSurname'])."'");
+			mysql_query("UPDATE png_incarichi SET pngName = '$pngName', pngSurname='$pngSurname', pngSpecie='$pngSpecie', pngSesso='$pngSesso',pngRank='$rankCode' WHERE pngName = '".stf_real_escape($pre['pngName'])."' AND pngSurname = '".stf_real_escape($pre['pngSurname'])."'");
 		}
 		header("Location:crew.php?editAssign=$pngID&equia=$equi");
 		exit;
@@ -152,7 +152,7 @@ else if (isSet($_GET['amendPNG']))
 		$ida = $vali->numberOnly($_GET['pngID']);
 		$pre=mysql_fetch_assoc(mysql_query("SELECT pngName,pngSurname FROM png_incarichi WHERE pngID = $ida"));
 		
-		mysql_query("DELETE FROM png_incarichi WHERE pngName = '".addslashes($pre['pngName'])."' AND pngSurname = '".addslashes($pre['pngSurname'])."'");
+		mysql_query("DELETE FROM png_incarichi WHERE pngName = '".stf_real_escape($pre['pngName'])."' AND pngSurname = '".stf_real_escape($pre['pngSurname'])."'");
 	}
 
 	elseif($mode == 'togglePriority')
@@ -187,8 +187,8 @@ elseif(isSet($_GET['editAssign']))
 
 	$rus = mysql_fetch_assoc(mysql_query("SELECT * FROM png_incarichi,pg_ranks WHERE prio = pngRank AND pngID = $ida"));
 
-	$pngName = addslashes($rus['pngName']);
-	$pngSurname = addslashes($rus['pngSurname']);
+	$pngName = stf_real_escape($rus['pngName']);
+	$pngSurname = stf_real_escape($rus['pngSurname']);
 	$rusOthers = mysql_query("SELECT ordinaryUniform,placeName,png_incarichi.* FROM png_incarichi,pg_ranks,pg_places WHERE pngPlace=placeID AND prio = pngRank AND pngName = '$pngName' AND pngSurname = '$pngSurname'");
 	
 	if (mysql_affected_rows())
@@ -207,7 +207,7 @@ elseif(isSet($_GET['editAssign']))
 elseif(isSet($_GET['equi']))
 {		
 
-		$equi = addslashes($vali->killchars($_GET['equi']));
+		$equi = stf_real_escape($vali->killchars($_GET['equi']));
 
 		$rtp = mysql_fetch_assoc(mysql_query("SELECT hasCrew FROM pg_places WHERE placeID = '$equi'"));
 		if($rtp['hasCrew'] > 1)
@@ -321,20 +321,20 @@ else if(isSet($_GET['prest']))
 else if (isSet($_GET['createPNG']))
 {
 
-	$pgName = addslashes($_POST['pgName']);
-	$pgSurname = addslashes($_POST['pgSurname']);
-	$pgSpecie = htmlentities(addslashes(($_POST['pgSpecie'])),ENT_COMPAT, 'UTF-8');
-	$pgSesso = htmlentities(addslashes(($_POST['pgSesso'])),ENT_COMPAT, 'UTF-8');
-	$pgIncarico = addslashes($_POST['pgIncarico']);
-	$pgSezione = addslashes($_POST['pgSezione']);
-	$pgDivisione = addslashes($_POST['pgDivisione']);
-	$pgDipartimento = addslashes($_POST['pgDipartimento']);
-	$pgIncGroup = addslashes($_POST['incGroup']);
+	$pgName = stf_real_escape($_POST['pgName']);
+	$pgSurname = stf_real_escape($_POST['pgSurname']);
+	$pgSpecie = htmlentities(stf_real_escape(($_POST['pgSpecie'])),ENT_COMPAT, 'UTF-8');
+	$pgSesso = htmlentities(stf_real_escape(($_POST['pgSesso'])),ENT_COMPAT, 'UTF-8');
+	$pgIncarico = stf_real_escape($_POST['pgIncarico']);
+	$pgSezione = stf_real_escape($_POST['pgSezione']);
+	$pgDivisione = stf_real_escape($_POST['pgDivisione']);
+	$pgDipartimento = stf_real_escape($_POST['pgDipartimento']);
+	$pgIncGroup = stf_real_escape($_POST['incGroup']);
 	
 	$pngRankCode = $vali->numberOnly($_POST['rankCode']);
-	$assegnazione = addslashes($_POST['assegnazione']);
+	$assegnazione = stf_real_escape($_POST['assegnazione']);
 
-	$equi = addslashes($_GET['equia']);
+	$equi = stf_real_escape($_GET['equia']);
 
 	if(!isSet($_POST['creaScheda']))
 	{
@@ -346,7 +346,7 @@ else if (isSet($_GET['createPNG']))
 		
 		if(!PG::mapPermissions('SM',$currentUser->pgAuthOMA)) exit;
 
-		$passy = addslashes($_POST['passScheda']);
+		$passy = stf_real_escape($_POST['passScheda']);
 
 		$emai= 'png@stfederation.it';
 		

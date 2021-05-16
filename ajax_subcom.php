@@ -5,11 +5,11 @@ if (!isSet($_SESSION['pgID'])){exit;}
 include('includes/app_include.php');
 include('includes/validate_class.php');
  		
-		$string= (htmlentities(addslashes(($_POST['chatLine'])),ENT_COMPAT, 'UTF-8'));
+		$string= (htmlentities(stf_real_escape(($_POST['chatLine'])),ENT_COMPAT, 'UTF-8'));
 		if ($string == '' || $string == '+' || string == '-' || string == '@' || string == '#') exit;
 	
-		$ambientFrom= addslashes($_POST['amb']);
-		$to= addslashes($_POST['to']);
+		$ambientFrom= stf_real_escape($_POST['amb']);
+		$to= stf_real_escape($_POST['to']);
 			
 		$sor = mysql_query("SELECT placeName FROM pg_places WHERE placeID = (SELECT ambientLocation FROM fed_ambient WHERE locID = '$ambientFrom')");
 		$sorE = mysql_fetch_array($sor);

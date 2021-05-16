@@ -8,9 +8,9 @@ include('includes/validate_class.php');
 $vali = new validator();
 
 
-$unit = addslashes($_POST['a_unit']);
-$yearQ = addslashes($_POST['a_year']);
-$pgid = addslashes($_POST['a_pgid']);
+$unit = stf_real_escape($_POST['a_unit']);
+$yearQ = stf_real_escape($_POST['a_year']);
+$pgid = stf_real_escape($_POST['a_pgid']);
 $aar = array();
 
 foreach (explode('#',$yearQ) as $year)

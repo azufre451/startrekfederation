@@ -6,11 +6,11 @@ if (!isSet($_SESSION['pgID'])){exit;}
 include('includes/app_include.php');
 include('includes/validate_class.php');
  		
-		$string= str_replace("\xE2\x80\x8B", "", trim(preg_replace('/[\n\r]/','',htmlentities(addslashes(($_POST['chatLine'])),ENT_COMPAT, 'UTF-8'))));
+		$string= str_replace("\xE2\x80\x8B", "", trim(preg_replace('/[\n\r]/','',htmlentities(stf_real_escape(($_POST['chatLine'])),ENT_COMPAT, 'UTF-8'))));
 
 		$realLen = min(5000,strlen(str_replace("\xE2\x80\x8B", "", trim(preg_replace('/[\n\r]/','', $_POST['chatLine'])))));
 		
-		$amb= addslashes($_POST['amb']);
+		$amb= stf_real_escape($_POST['amb']);
 
 		$user = new PG($_SESSION['pgID']);
 		
@@ -29,11 +29,11 @@ include('includes/validate_class.php');
 				$vali=new validator();
 				$userSpecific= (isSet($_POST['userSpecific'])) ? $vali->numberOnly($_POST['userSpecific']): 0;
 				
-				$stag= strtoupper(addslashes($_POST['chatTag']));
-				$tag = ($_POST['chatTag'] == '') ? '' : '<span class="chatTag">['.strtoupper(addslashes($_POST['chatTag'])).']</span>';
+				$stag= strtoupper(stf_real_escape($_POST['chatTag']));
+				$tag = ($_POST['chatTag'] == '') ? '' : '<span class="chatTag">['.strtoupper(stf_real_escape($_POST['chatTag'])).']</span>';
 			
 				//$string[0] = '';
-				$sended = addslashes(PG::getSomething($_SESSION['pgID'],'username'));
+				$sended = stf_real_escape(PG::getSomething($_SESSION['pgID'],'username'));
 
 				$quotes_from_array = array('&lt;','&gt;','[',']');
 				$quotes_to_array = array(' <span class="chatQuotation">&laquo;','&raquo;</span> ',' <span class="chatQuotation">&laquo;','&raquo;</span> ');
@@ -42,7 +42,7 @@ include('includes/validate_class.php');
 				 
 				if($userSpecific != 0){
 				$masSpec = 'MASTERSPEC';
-				$received = addslashes(PG::getSomething($userSpecific,'username')); 
+				$received = stf_real_escape(PG::getSomething($userSpecific,'username')); 
 				$string = '<div style="position:relative;" class="specificMasterAction">
 				<div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Inviata da: '.$sended.' ('.date('H:i').')\nResponso di un Master o Junior Master alle azioni di un singolo personaggio, la visione di questo responso &egrave; riservata al master ed al giocatore del personaggio selezionato. Indica elementi di cui solo il personaggio sembra accorgersi come consolle personali, impressioni sensoriali, stati fisici e mentali"/> Responso Master: '.$received.'</div>'.$MString.'</div>';
 				}
@@ -57,7 +57,7 @@ include('includes/validate_class.php');
 			elseif($ambient['ambientType'] == 'SALA_OLO' && PG::mapPermissions('O',PG::getOMA($_SESSION['pgID'])) )
 			{
 
-				$sended = addslashes(PG::getSomething($_SESSION['pgID'],'username'));
+				$sended = stf_real_escape(PG::getSomething($_SESSION['pgID'],'username'));
 
 
 				$string = '<div style="position:relative;" class="oloMasterAction">
@@ -93,14 +93,14 @@ include('includes/validate_class.php');
 				$vali=new validator();
 				$userSpecific= (isSet($_POST['userSpecific'])) ? $vali->numberOnly($_POST['userSpecific']): 0;
 				
-				$stag= strtoupper(addslashes($_POST['chatTag']));
-				$tag = ($_POST['chatTag'] == '') ? '' : '<span class="chatTag">['.strtoupper(addslashes($_POST['chatTag'])).']</span>';
+				$stag= strtoupper(stf_real_escape($_POST['chatTag']));
+				$tag = ($_POST['chatTag'] == '') ? '' : '<span class="chatTag">['.strtoupper(stf_real_escape($_POST['chatTag'])).']</span>';
 			
-				$sended = addslashes(PG::getSomething($_SESSION['pgID'],'username'));
+				$sended = stf_real_escape(PG::getSomething($_SESSION['pgID'],'username'));
 				 
 				if($userSpecific != 0){
 				$masSpec = 'MASTERSPEC';
-				$received = addslashes(PG::getSomething($userSpecific,'username')); 
+				$received = stf_real_escape(PG::getSomething($userSpecific,'username')); 
 				$string = '<p class="imageAction"><img  style="border:1px solid #FFCC00" src="'.$image.'" alt="'.$image.'"/></p>';
 			
 				}
@@ -177,7 +177,7 @@ include('includes/validate_class.php');
 		{
 			
 			$string = substr ($string,1);
-			$sended = addslashes(PG::getSomething($_SESSION['pgID'],'username'));
+			$sended = stf_real_escape(PG::getSomething($_SESSION['pgID'],'username'));
 			$string = '<div style="position:relative;" class="globalAction"><div class="blackOpacity"><img src="TEMPLATES/img/interface/personnelInterface/info.png" title="Inviata da: '.$sended.' ('.date('H:i').')\nEvento che un Master estende a pi&ugrave; location di gioco. Quando inserito esso &egrave; visibile in tutte le location dell\\\'unit&agrave;." /> Evento Globale</div>'.ucfirst(ltrim($string)).'</div>';
 			
 			$locations = mysql_query("SELECT locID FROM fed_ambient WHERE ambientLocation = (SELECT ambientLocation FROM fed_ambient WHERE locID = '$amb')");
@@ -224,9 +224,9 @@ include('includes/validate_class.php');
 		
 		else
 		{
-		$userN = addslashes($user->pgUser);
+		$userN = stf_real_escape($user->pgUser);
 		$pgID=$_SESSION['pgID'];
-		$grado = addslashes($user->pgGrado);
+		$grado = stf_real_escape($user->pgGrado);
 		$mostrina = $user->pgMostrina;
 		$sezione = $user->pgSezione;
 		$specie = $user->pgSpecie;
@@ -242,11 +242,11 @@ include('includes/validate_class.php');
 			}
 		} 
 
-		$ima1 = ($olomostrina) ? addslashes("<div style=\"width:70px; margin-left:5px; text-align:left; margin-right:4.5px; margin-top:2.5px; background-repeat:no-repeat; height:15px; background-image:url('TEMPLATES/img/ranks/$mostrina.png'); float:left;\"  title=\"$grado - Sezione $sezione\"><img onmouseover=\"javascript:getDotazione(this,$pgID);\" src=\"TEMPLATES/img/interface/3little_holoicon.png\" title=\"Mostrina Olografica\"></img></div>") : addslashes("<img style=\"vertical-align:middle;\" onmouseover=\"javascript:getDotazione(this,$pgID);\" src=\"TEMPLATES/img/ranks/$mostrina.png\" title=\"$grado - Sezione $sezione\"></img>");
+		$ima1 = ($olomostrina) ? stf_real_escape("<div style=\"width:70px; margin-left:5px; text-align:left; margin-right:4.5px; margin-top:2.5px; background-repeat:no-repeat; height:15px; background-image:url('TEMPLATES/img/ranks/$mostrina.png'); float:left;\"  title=\"$grado - Sezione $sezione\"><img onmouseover=\"javascript:getDotazione(this,$pgID);\" src=\"TEMPLATES/img/interface/3little_holoicon.png\" title=\"Mostrina Olografica\"></img></div>") : stf_real_escape("<img style=\"vertical-align:middle;\" onmouseover=\"javascript:getDotazione(this,$pgID);\" src=\"TEMPLATES/img/ranks/$mostrina.png\" title=\"$grado - Sezione $sezione\"></img>");
 
  
 		$ima2 = ($user->pgSesso == 'M') ? "<img style=\"vertical-align:middle;\" src=\"TEMPLATES/img/specie/".$specie."_m.png\" alt='' title=\"$specie - Maschio\"></img>" : (($user->pgSesso == 'F') ? "<img style=\"vertical-align:middle;\" src=\"TEMPLATES/img/specie/".$specie."_f.png\" title=\"$specie - Femmina\" alt=''></img>" : "<img style=\"vertical-align:middle;\" src=\"TEMPLATES/img/specie/".$specie."_t.png\" alt='' title=\"$specie - Sconosciuto\"></img>");
-		$stag=strtoupper(addslashes($_POST['chatTag']));
+		$stag=strtoupper(stf_real_escape($_POST['chatTag']));
 		$tag = ($_POST['chatTag'] == '') ? '' : '<span class="chatTag">['.$stag.']</span>';
 		
 		$stringe = strtolower($string);  		
@@ -254,7 +254,7 @@ include('includes/validate_class.php');
 		$quotes_from_array = array('&lt;','&gt;','[',']');
 		$quotes_to_array = array(' <span class="chatQuotation">&laquo;','&raquo;</span> ',' <span class="chatQuotation">&laquo;','&raquo;</span> ');
 		
- 		$string = ($olomostrina) ? '<div style="margin-top:4px"><div class="chatDirect" style="float:left;">'.date('H:i')."</div> $ima1 ".addslashes($ima2)." <span onclick=\'javascript:schedaPOpen($pgID);\' class=\'chatUser chatDirect\' onmouseover=\"javascript:selectOccur(\'$userN\');\" onmouseout=\"deselectOccur();\">$userN</span> <span class=\"chatDirect\">$tag ".str_replace($quotes_from_array,$quotes_to_array,$string)."</span></div>" : '<p class="chatDirect">'.date('H:i')." $ima1 ".addslashes($ima2)." <span onclick=\'javascript:schedaPOpen($pgID);\' class=\'chatUser chatDirect\' onmouseover=\"javascript:selectOccur(\'$userN\');\" onmouseout=\"deselectOccur();\" data-timecode=\"$curTime\">$userN</span> $tag ".str_replace($quotes_from_array,$quotes_to_array,$string)."</p>";
+ 		$string = ($olomostrina) ? '<div style="margin-top:4px"><div class="chatDirect" style="float:left;">'.date('H:i')."</div> $ima1 ".stf_real_escape($ima2)." <span onclick=\'javascript:schedaPOpen($pgID);\' class=\'chatUser chatDirect\' onmouseover=\"javascript:selectOccur(\'$userN\');\" onmouseout=\"deselectOccur();\">$userN</span> <span class=\"chatDirect\">$tag ".str_replace($quotes_from_array,$quotes_to_array,$string)."</span></div>" : '<p class="chatDirect">'.date('H:i')." $ima1 ".stf_real_escape($ima2)." <span onclick=\'javascript:schedaPOpen($pgID);\' class=\'chatUser chatDirect\' onmouseover=\"javascript:selectOccur(\'$userN\');\" onmouseout=\"deselectOccur();\" data-timecode=\"$curTime\">$userN</span> $tag ".str_replace($quotes_from_array,$quotes_to_array,$string)."</p>";
 
 
 		mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,realLen,privateAction) VALUES($pgID,'$amb','$string',".time().",'DIRECT',$realLen,IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");

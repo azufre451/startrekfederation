@@ -24,7 +24,7 @@ if ($currentUser->pgBavo)
 else{
 
 	if ($currentUser->pgAuthOMA == 'BAN'){header("Location:http://www.youtube.com/watch?v=wZZ7oFKsKzY"); exit;}
-	$ambient = (isSet($_GET['amb'])) ? $vali->killchars(htmlentities(addslashes($_GET['amb']))) : NULL;
+	$ambient = (isSet($_GET['amb'])) ? $vali->killchars(htmlentities(stf_real_escape($_GET['amb']))) : NULL;
 }
 
 $currentUser->setPresenceIntoChat($ambient);

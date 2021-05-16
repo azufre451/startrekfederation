@@ -5,7 +5,7 @@ if (!isSet($_SESSION['pgID'])){header("Location:login.php"); exit;}
 include('includes/app_include.php');
 include('includes/validate_class.php');
 $vali = new validator();
-$amb = addslashes($_POST['ambient']);
+$amb = stf_real_escape($_POST['ambient']);
 $userN = PG::getSomething($_SESSION['pgID'],"username");
 	$user = new PG($_SESSION['pgID']);
 	if($user->pgLock || $user->pgAuthOMA == 'BAN') exit;
@@ -31,14 +31,14 @@ else
 
 else if(isSet($_GET['lightSet']))
 {
-$color = addslashes($_POST['color']);
+$color = stf_real_escape($_POST['color']);
 $res = mysql_query("UPDATE fed_ambient SET ambientLightColor='$color' WHERE locID='$amb'");
 
 }
 else{
 $li = $vali->numberOnly($_POST['light']);
 $te = $vali->numberOnly($_POST['temperature']);
-$color = addslashes($_POST['color']);
+$color = stf_real_escape($_POST['color']);
 if($te > 40) $te = 40;
 $res = mysql_query("UPDATE fed_ambient SET ambientLightColor='$color', ambientLight = '$li', ambientTemperature = '$te' WHERE locID='$amb'");
 

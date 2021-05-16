@@ -33,7 +33,7 @@ $action = $_GET['action'];
 
 if($action == 'get-step'){ 
 	$to = $vali->numberOnly($_POST['to']);
-	$what = strtoupper(addslashes($_POST['what']));
+	$what = strtoupper(stf_real_escape($_POST['what']));
 	
 	$res = array('prev' =>  getCost($what,$to,$to-1,$a),'cost' =>  getCost($what,$to-1,$to,$a),'next' =>  getCost($what,$to,$to+1,$a));
 	echo json_encode($res);

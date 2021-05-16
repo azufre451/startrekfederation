@@ -10,7 +10,7 @@ $template = new PHPTAL('TEMPLATES/mod_chatLog.htm');
 $currentUser = new PG($_SESSION['pgID']);
 if (!PG::mapPermissions("M",$currentUser->pgAuthOMA)) header("Location:index.php");
 
-$Sambient = (isSet($_POST['place'])) ? $vali->killchars(htmlentities(addslashes($_POST['place']))) : $currentUser->pgLocation;
+$Sambient = (isSet($_POST['place'])) ? $vali->killchars(htmlentities(stf_real_escape($_POST['place']))) : $currentUser->pgLocation;
 //$currentUser->setPresenceIntoChat($ambient);
 
 //$currentLocation = PG::getLocation($currentUser->pgLocation);

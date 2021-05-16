@@ -5,7 +5,7 @@ if (!isSet($_SESSION['pgID'])){header("Location:login.php"); exit;}
 include('includes/app_include.php');
 
 $disc=(isSet($_GET['filter'])) ? $_GET['filter'] : '';
-$term = addslashes(@$_GET['term']);
+$term = stf_real_escape(@$_GET['term']);
 $aar = array();
 
 if($disc=="PID"){
@@ -86,7 +86,7 @@ else {
     if($disc=="PNG")
     $res = mysql_query("SELECT pgUser FROM pg_users WHERE png=1 AND pgUser LIKE '$term%' LIMIT 20");
     
-    else if($disc == "PREST") $res= mysql_query("SELECT pgUser FROM pg_users WHERE pgID <> '".($_SESSION['pgID'])."' AND LOWER(pgOffAvatarC) = '".addslashes(strtolower($_POST['term2']))."' AND LOWER(pgOffAvatarN) = '".addslashes(strtolower($_POST['term1']))."'");
+    else if($disc == "PREST") $res= mysql_query("SELECT pgUser FROM pg_users WHERE pgID <> '".($_SESSION['pgID'])."' AND LOWER(pgOffAvatarC) = '".stf_real_escape(strtolower($_POST['term2']))."' AND LOWER(pgOffAvatarN) = '".stf_real_escape(strtolower($_POST['term1']))."'");
     
     else $res = mysql_query("SELECT pgUser FROM pg_users WHERE pgUser LIKE '$term%' LIMIT 20");
     while ($row = mysql_fetch_array($res)) {

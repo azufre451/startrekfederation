@@ -12,7 +12,7 @@ $vali = new validator();
 
 if ($action == "doLogin")
 {
-	$user = ucfirst(addslashes($_POST['loginUser']));
+	$user = ucfirst(stf_real_escape($_POST['loginUser']));
 	
 
 	$pass = md5($_POST['loginPass']); 
@@ -73,7 +73,7 @@ else if($action == "changePWD")
 else if($action == "recoverPWD")
 {	
 	
-	$emailrecupero = addslashes($_POST['emailrecupero']);
+	$emailrecupero = stf_real_escape($_POST['emailrecupero']);
 	$passer = createRandomPassword();
 	$pwd = md5($passer);
 	
@@ -101,7 +101,7 @@ else if($action == "recoverPWD")
 
 else if($action == 'ajax')
 {
-	$user = ucfirst(strtolower($vali->killChars(addslashes($_POST['usr']))));
+	$user = ucfirst(strtolower($vali->killChars(stf_real_escape($_POST['usr']))));
 	$pass = md5($_POST['pwd']);
 	$res = mysql_query("SELECT pgID,pgUser FROM pg_users WHERE pgUser = '$user' AND pgPass = '$pass' AND pgAuthOMA <> 'BAN'");
 	

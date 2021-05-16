@@ -3,7 +3,7 @@ session_start();
 if (!isSet($_SESSION['pgID'])){header("Location:login.php"); exit;}
 
 include('includes/app_include.php');
-$term = addslashes($_POST['term']);
+$term = stf_real_escape($_POST['term']);
 
  $res= mysql_query("SELECT * FROM pg_ranks WHERE aggregation = '$term' ORDER BY rankerprio ASC");
  //echo "SELECT * FROM pg_ranks WHERE aggregation = '$term' ORDER BY rankerprio ASC";

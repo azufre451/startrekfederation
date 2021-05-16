@@ -6,7 +6,7 @@ include('includes/app_include.php');
 include('includes/validate_class.php');
  		
 		
-	$term = addslashes($_GET['term']);
+	$term = stf_real_escape($_GET['term']);
 	$res = mysql_query("SELECT image,descript FROM pg_brevetti WHERE descript LIKE '%$term%'");   
 	$arr = array();
 	while($rea=mysql_fetch_array($res)) $arr[]=$rea['descript'];

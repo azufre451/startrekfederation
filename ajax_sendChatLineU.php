@@ -6,8 +6,7 @@ if (!isSet($_SESSION['pgID'])){exit;}
 include('includes/app_include.php');
 include('includes/validate_class.php');
  		
-		$string= str_replace("\xE2\x80\x8B", "", trim(preg_replace('/[\n\r]/','',htmlentities(stf_real_escape(($_POST['chatLine'])),ENT_COMPAT, 'UTF-8'))));
-
+		$string = str_replace(array('\n','\r','\xE2','\x80','\x8B'),"",stf_real_escape(htmlentities($_POST['chatLine'],ENT_COMPAT, 'UTF-8' )));
 		$realLen = min(5000,strlen(str_replace("\xE2\x80\x8B", "", trim(preg_replace('/[\n\r]/','', $_POST['chatLine'])))));
 		
 		$amb= stf_real_escape($_POST['amb']);
@@ -217,6 +216,7 @@ include('includes/validate_class.php');
 		
 		else if ($string[0] == '$' && PG::mapPermissions('G',PG::getOMA($_SESSION['pgID'])))
 		{
+
 			$stringc = "<p data-timecode=\"$curTime\" class=\"directiveRemove\">".str_replace('$','',$string)."</p>";
 			mysql_query("INSERT INTO federation_chat (sender,ambient,chat,time,type,privateAction) VALUES(".$_SESSION['pgID'].",'$amb','$stringc',".time().",'OFF',IF((SELECT chatPwd FROM fed_ambient WHERE locID = '$amb' AND chatPwd > 0) > 0,1,0))");
 			exit; 

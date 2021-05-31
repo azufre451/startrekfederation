@@ -1506,6 +1506,18 @@ elseif ($mode == 'toggle_bavosize'){
 
 }
 
+elseif ($mode == 'reBindIncaricoToSSTo'){
+
+	$recID = $vali->numberOnly($_GET['recID']);
+	$pgID = $vali->numberOnly($_GET['pgID']);
+	$dateDef = $bounceYear+date('Y',$curTime).'-'.date('n',$curTime).'-'.date('j',$curTime);
+	if (PG::mapPermissions('SM',$currentUser->pgAuthOMA))
+		mysql_query("INSERT INTO pg_user_stories (pgID,rankImage,dater,what,wherer,rankName) VALUES ('$pgID',(SELECT ordinaryUniform FROM pg_ranks,pg_users WHERE prio = rankCode AND pgID = '$pgID'),'$dateDef', (SELECT incIncarico FROM pg_incarichi WHERE recID = '$recID') ,(SELECT placeName FROM pg_places,pg_incarichi WHERE pgPlace = placeID AND recID = '$recID'),(SELECT Note FROM pg_ranks,pg_users WHERE prio = rankCode AND pgID = '$pgID'))");
+
+	header("Location:scheda.php?pgID=$pgID&s=master#setIncarichi");
+	exit;
+}
+
 elseif ($mode == 'toggleActIncarico'){
 
 	$recID = $vali->numberOnly($_GET['recID']);

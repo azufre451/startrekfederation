@@ -224,6 +224,7 @@
 <div metal:use-macro="TEMPLATES/metal.htm/versionBox" tal:condition="php:(isSet(debug) && debug==true)" />
 <div metal:use-macro="TEMPLATES/metal_special.htm/melial_pointBox" tal:condition="exists:melialPoints" />
 <div metal:use-macro="TEMPLATES/metal_panels.htm/remindStaffPresence" tal:condition="exists:presenceForce" />
+<div metal:use-macro="TEMPLATES/metal_panels.htm/remindGDPR" tal:condition="exists:requireGDPR" />
 
 <div metal:use-macro="TEMPLATES/metal_panels.htm/PGsearchPanel" />
 </body>

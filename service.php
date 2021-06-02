@@ -65,11 +65,12 @@ if(isSet($_GET['registerUser']))
 	
 	$curTimeLL = $curTime - 1801;	  
 	 
-	mysql_query("INSERT INTO pg_users(pgUser,pgNomeC, pgPass, pgGrado, pgSezione, pgAssign, pgSeclar, pgAuth, pgLocation, pgRoom, pgAuthOMA, pgSpecie, pgSesso, pgMostrina, rankCode, email,pgLock,pgFirst,iscriDate,pgPoints,audioEnable,pgMatricola,pgIncarico,pgLastAct,pgUpgradePoints,paddMail) VALUES ('$pgName','$pgNameFirst','$pwd','Civile','Nessuna','$assignTOSHIP',1,'$pgAuth','$assignTOSHIP','$assignTOSHIP','N','$pgSpecie','$pgSesso','CIV',1,'$emai',1,1,$curTime,10,1,'$matri','In attesa di assegnazione',$curTimeLL,700,0)");
+	mysql_query("INSERT INTO pg_users(pgUser,pgNomeC, pgPass, pgGrado, pgSezione, pgAssign, pgSeclar, pgAuth, pgLocation, pgRoom, pgAuthOMA, pgSpecie, pgSesso, pgMostrina, rankCode, email,pgLock,pgFirst,iscriDate,pgPoints,audioEnable,pgMatricola,pgIncarico,pgLastAct,pgUpgradePoints,paddMail,pgGDPR) VALUES ('$pgName','$pgNameFirst','$pwd','Civile','Nessuna','$assignTOSHIP',1,'$pgAuth','$assignTOSHIP','$assignTOSHIP','N','$pgSpecie','$pgSesso','CIV',1,'$emai',1,1,$curTime,10,1,'$matri','In attesa di assegnazione',$curTimeLL,700,0,1)");
 	
 
 	$pipo = mysql_fetch_assoc(mysql_query("SELECT pgID FROM pg_users WHERE pgUser = '".$pgName."'"));
 	$pgNew = new PG($pipo['pgID'],2);
+	$pgNew->addNote('Approvazione GDPR');
 	$pgNewID = $pgNew->ID;
 
 

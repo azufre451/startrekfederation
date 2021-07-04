@@ -65,7 +65,7 @@
 			//jQuery('#departmentWhat').autocomplete({source: "ajax_gradiGedder.php?dipartimenti=do",	minLength: 2});
 			//jQuery('#divisionWhat').autocomplete({source: "ajax_gradiGedder.php?divisioni=do",	minLength: 2});
 			//jQuery('#groupWhat').autocomplete({source: "ajax_gradiGedder.php?gruppi=do",	minLength: 2});
-
+			window.onresize = function(){resizeOnDemand('cdb');};
 
 			jQuery('#sectionWhat').autocomplete({source: searchIncarichiFunction('sezioni'),minLength: 2, appendTo: '#newPNG'});
 			jQuery('#departmentWhat').autocomplete({source: searchIncarichiFunction('dipartimenti'),minLength: 2, appendTo: '#newPNG'});

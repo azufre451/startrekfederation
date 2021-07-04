@@ -21,7 +21,11 @@
 	<!-- <script type="text/javascript" src="TEMPLATES/js/lazyload.js"></script> -->
 	<title>STAR TREK FEDERATION - CDB</title>
 
-	<script type="text/javascript">	jQuery(function(){
+		<script type="text/javascript">
+		jQuery(function(){
+		
+		window.onresize = function(){resizeOnDemand('cdb');};
+
 		jQuery('#calDate').datepicker(
 		{
 		dateFormat:'dd/mm/yy',

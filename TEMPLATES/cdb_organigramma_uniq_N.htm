@@ -54,6 +54,8 @@
 				}
 			
 		jQuery(function(){
+			window.onresize = function(){resizeOnDemand('cdb');};
+
 			jQuery('#sectionWhat').autocomplete({source: searchIncarichiFunction('sezioni'),minLength: 2, appendTo: '#newPNG'});
 			jQuery('#departmentWhat').autocomplete({source: searchIncarichiFunction('dipartimenti'),minLength: 2, appendTo: '#newPNG'});
 			jQuery('#divisionWhat').autocomplete({source: searchIncarichiFunction('divisioni'),	minLength: 2, appendTo: '#newPNG'});		

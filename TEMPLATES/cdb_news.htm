@@ -8,11 +8,18 @@
 	<link tal:condition="php:user.getCTS()" tal:attributes="href php:'TEMPLATES/css/' . user.getCTS() . '?v=' . gameOptions['numericVersion'] " rel="stylesheet" type="text/css" />	
 	<link href="TEMPLATES/css/cdb.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
 	<link href="TEMPLATES/css/interface.css?v=${gameOptions/numericVersion}" rel="stylesheet" type="text/css" />
+
 	<script type="text/javascript" src="TEMPLATES/js/jquery-3.6.0.min.js" />
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
+
 	<!--<script type="text/javascript" src="TEMPLATES/js/JQueryHelper.js" />-->
 
 	<title>STAR TREK FEDERATION - CDB NEWS</title>
-	
+	<script type="text/javascript">
+		jQuery(function(){
+			window.onresize = function(){resizeOnDemand('cdb');};
+		});
+	</script>
 </head>
 
 <body style="background-repeat:no-repeat; background-color:black; background-position:top center;">

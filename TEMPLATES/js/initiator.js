@@ -1,3 +1,4 @@
+
 var windowSizes = 
 		{
 			'scheda':
@@ -95,20 +96,14 @@ var windowSizes =
 
 	/* Custom user-triggered resize handler (with +10w/+30h offset)*/
 	function resizeOnDemand(ida) {
+
 		oriSize = getSizeOf(ida);
 
-		prevWidth = parseInt(oriSize['w']); 
-		prevHeight = parseInt(oriSize['h']);
+		oriWidth = parseInt(oriSize['w']); 
+		oriHeight = parseInt(oriSize['h']);
 
-		curWidth =  parseInt(prevWidth * window.devicePixelRatio)
-		curHeight = parseInt(prevHeight * window.devicePixelRatio)
-
-		if (curWidth != prevWidth){
-			window.resizeTo(curWidth+10,curHeight+30);
-		}
-
-		if(window.devicePixelRatio == 1){
-			window.resizeTo(prevWidth+10,prevHeight+30);
+		if(window.devicePixelRatio != 1) {
+        	window.resizeTo(oriWidth+10,oriHeight+30);
 		}
 	}
 

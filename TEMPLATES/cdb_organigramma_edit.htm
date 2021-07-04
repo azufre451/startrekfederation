@@ -58,6 +58,8 @@
 
 
 		jQuery(function(){
+
+			window.onresize = function(){resizeOnDemand('cdb');};
 			//console.log(jQuery('.AsectionWhat'));
 			jQuery('#addInca .sectionWhat').autocomplete({source: searchIncarichiFunction('sezioni','#addInca'),minLength: 2, appendTo: '#addInca'});
 			jQuery('#addInca .departmentWhat').autocomplete({source: searchIncarichiFunction('dipartimenti','#addInca'),minLength: 2, appendTo: '#addInca'});

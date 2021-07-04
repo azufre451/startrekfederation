@@ -19,8 +19,10 @@
 
 	<title>STAR TREK FEDERATION - CDB</title>
 	<script>
-
-		jQuery(function(){ jQuery('.tooltip').tooltip({content: function () {return $(this).prop('title');}}); });
+		jQuery(function(){
+			window.onresize = function(){resizeOnDemand('cdb');};
+ 			jQuery('.tooltip').tooltip({content: function () {return $(this).prop('title');}});
+ 		});
 		function setView(ida){
 		jQuery('.topicTable:visible').fadeOut(0);
 		jQuery('#'+ida).fadeIn(200);

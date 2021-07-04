@@ -28,6 +28,7 @@
 
 	</style>
 	<script>jQuery(function(){
+			window.onresize = function(){resizeOnDemand('scheda');};
 			jQuery('.tooltip').tooltip({
           			content: function (){
           						return $(this).prop('title');

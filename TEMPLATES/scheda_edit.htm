@@ -19,6 +19,7 @@
 	<script type="text/javascript">
 	function paddOpen(who){window.open ('padd.php?s=seR&to='+who+'&sub=','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}	
 	jQuery(function(){
+			window.onresize = function(){resizeOnDemand('scheda');};
 			jQuery('#mirko').button();
 			jQuery('#toOff').button();
 			jQuery('.cambiaPWD').button();

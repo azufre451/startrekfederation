@@ -15,6 +15,12 @@
 
 	<title>STAR TREK FEDERATION - SCHEDA</title>
 	<script type="text/javascript">
+
+
+	jQuery(function(){
+			window.onresize = function(){resizeOnDemand('scheda');};
+	});
+
 	function paddOpen(who){window.open ('padd.php?s=seR&to='+who+'&sub=','padd', config='scrollbars=no,status=no,location=no,resizable=no,resizale=0,top=140,left=500,width=655,height=403');}
 	
 	function toggleVisit(ida)

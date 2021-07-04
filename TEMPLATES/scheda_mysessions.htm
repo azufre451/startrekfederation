@@ -49,6 +49,10 @@
 		
 	</style>
 	<script>
+		jQuery(function(){
+			window.onresize = function(){resizeOnDemand('scheda');};
+		});
+		
 		function setview(ida){
 			jQuery('#dtx_'+ida).toggle(120,function(){
 

@@ -33,9 +33,11 @@
 				return true;
 			}
 	}
+
 	
-	
-	 jQuery(function() { jQuery('.tooltip, img').tooltip({
+	 jQuery(function() {
+			window.onresize = function(){resizeOnDemand('scheda');};
+	 		jQuery('.tooltip, img').tooltip({
           content: function () {
               return jQuery(this).prop('title');
           }

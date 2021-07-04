@@ -17,7 +17,9 @@
 
 	<title>STAR TREK FEDERATION - SCHEDA</title>				
 	<script> 
-
+	jQuery(function(){ 
+			window.onresize = function(){resizeOnDemand('scheda');};
+		});
 	function tug(ide)
 	{
 		jQuery('#'+ide).toggle();

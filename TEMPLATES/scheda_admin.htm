@@ -10,6 +10,7 @@
 	<link href="TEMPLATES/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 
 	<script type="text/javascript" src="TEMPLATES/js/personnel.js?v=${gameOptions/numericVersion}" /> 
+	<script type="text/javascript" src="TEMPLATES/js/initiator.js?v=${gameOptions/numericVersion}"/>
 	<script type="text/javascript" src="TEMPLATES/js/jquery-3.6.0.min.js" /> 
 	<script type="text/javascript" src="TEMPLATES/js/JU.js" />
 	
@@ -47,7 +48,8 @@
 
 
 		jQuery(function(){
-
+			window.onresize = function(){resizeOnDemand('scheda');};
+	
 			$( "#userSearch" ).autocomplete({
 			source: "ajax_UserSearch.php",
 			minLength: 2,

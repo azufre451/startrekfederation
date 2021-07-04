@@ -22,6 +22,7 @@
 	<script type="text/javascript" src="TEMPLATES/js/google.js"></script>
 	<script type="text/javascript">
 		jQuery(function(){
+
 			jQuery('button').button();
 		
 		jQuery('.tooltip').tooltip({
@@ -29,6 +30,10 @@
           						return $(this).prop('title');
           					}
 		});
+
+
+		window.onresize = function(){resizeOnDemand('db');};
+	});
 	</script>
 
 

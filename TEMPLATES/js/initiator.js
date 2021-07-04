@@ -1,3 +1,5 @@
+const delay = 100; // anti-rebound for 500ms
+let lastExecution = 0;
 
 var windowSizes = 
 		{
@@ -102,8 +104,9 @@ var windowSizes =
 		oriWidth = parseInt(oriSize['w']); 
 		oriHeight = parseInt(oriSize['h']);
 
-		if(window.devicePixelRatio != 1) {
-        	window.resizeTo(oriWidth+10,oriHeight+30);
+		if ((lastExecution + delay) < Date.now()){
+			window.resizeTo(oriWidth+10,oriHeight+30);
+			lastExecution = Date.now();
 		}
 	}
 

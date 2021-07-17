@@ -1256,11 +1256,11 @@ elseif ($mode == 'editS')
 	}
 	else{
 		$validBG = PG::getSomething($ediID,"BG");
-		if ($validBG != NULL && $validBG['pgBiometrics'] == stripslashes($ediFis) && $validBG['pgIlSegreto'] == stripslashes($ediIlSegreto) && $validBG['pgBackground'] == stripslashes($ediBack) && $validBG['pgCarattere'] == stripslashes($ediCarat) && $validBG['pgFamily'] == stripslashes($ediFamil) && $validBG['pgVarie'] == stripslashes($ediVarie))
+		
+		if ($validBG != NULL && stf_real_escape($validBG['pgBiometrics']) == $ediFis && stf_real_escape($validBG['pgIlSegreto']) == $ediIlSegreto && stf_real_escape($validBG['pgBackground']) == $ediBack && stf_real_escape($validBG['pgCarattere']) == $ediCarat && stf_real_escape($validBG['pgFamily']) == $ediFamil && stf_real_escape($validBG['pgVarie']) == $ediVarie)
 		{
 			$validity=2;	
 			mysql_query("DELETE FROM pg_users_bios WHERE valid = 2 AND pgID = '$ediID'");
-
 		}
 		else
 		{

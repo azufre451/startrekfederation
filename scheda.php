@@ -1949,13 +1949,13 @@ else if($mode== 'assignAchi')
 		$resA = mysql_fetch_array($res);
 		$Descri =$resA['aText'];
 		$ima =$resA['aImage'];
-		
-		$cString = stf_real_escape("Congratulazioni!!<br />Hai sbloccato un nuovo achievement!<br /><br /><p style='text-align:center'><img src='TEMPLATES/img/interface/personnelInterface/$ima' /><br /><span style='font-weight:bold'>$Descri</span></p><br />Il Team di Star Trek: Federation");
+		 
 		$eString = stf_real_escape("Hai un nuovo achievement!::$Descri");
-		
-		mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,paddType) VALUES (".$_SESSION['pgID'].",$pgID,'OFF: Nuovo Achievement!','$cString',".time().",0,1)");
 	 
 		mysql_query("INSERT INTO fed_pad (paddFrom,paddTo,paddTitle,paddText,paddTime,paddRead,extraField) VALUES (".$_SESSION['pgID'].",$pgID,'::special::achiev','$eString',".time().",0,'TEMPLATES/img/interface/personnelInterface/$ima')");
+
+		$toP = new PG($vali->numberOnly($pgID),2);
+		$toP->sendPadd("Nuovo Achievement!","Congratulazioni!!<br />Hai sbloccato un nuovo achievement!<br /><br /><p style='text-align:center'><img src='TEMPLATES/img/interface/personnelInterface/$ima' /><br /><span style='font-weight:bold'>$Descri</span></p><br />Il Team di Star Trek: Federation",$_SESSION['pgID'],2);
 		
 		}
 		else{
